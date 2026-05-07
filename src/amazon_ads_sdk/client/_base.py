@@ -3,12 +3,15 @@
 from __future__ import annotations
 
 import asyncio
+from collections.abc import Awaitable, Callable
 from typing import TYPE_CHECKING, Any
 
 import httpx
 
 if TYPE_CHECKING:
     from amazon_ads_sdk.config import AmazonAdsConfig
+
+_RequestMethod = Callable[..., Awaitable[httpx.Response]]
 
 
 class _AmazonAdsClientBase:

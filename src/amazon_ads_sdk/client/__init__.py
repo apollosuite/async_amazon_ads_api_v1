@@ -6,7 +6,12 @@ from typing import Any
 
 from amazon_ads_sdk.config import AmazonAdsConfig
 
+from ._ad_extensions import AdExtensions
+from ._ad_groups import AdGroups
+from ._ads import Ads
 from ._base import _AmazonAdsClientBase
+from ._campaigns import Campaigns
+from ._targets import Targets
 
 
 class AmazonAdsClient(_AmazonAdsClientBase):
@@ -16,7 +21,20 @@ class AmazonAdsClient(_AmazonAdsClientBase):
     ----------
     config : AmazonAdsConfig
         Client configuration (auth, region, timeouts, retries).
+
+    示例
+    ----
+    >>> config = AmazonAdsConfig(access_token="...", region=Region.NA)
+    >>> async with AmazonAdsClient(config) as client:
+    ...     resp = await client.campaign.query({"stateFilter": {"include": ["enabled"]}})
+    ...     print(resp.json())
     """
+
+    _campaign: Campaigns | None = None
+    _ad_group: AdGroups | None = None
+    _ad: Ads | None = None
+    _target: Targets | None = None
+    _ad_extension: AdExtensions | None = None
 
     def __init__(self, config: AmazonAdsConfig) -> None:
         self.config = config
@@ -28,69 +46,37 @@ class AmazonAdsClient(_AmazonAdsClientBase):
     async def __aexit__(self, *args: Any) -> None:
         await self.close()
 
-    # ─── Campaigns ────────────────────────────────────────────────────────────
+    @property
+    def campaign(self) -> Campaigns:
+        """广告活动资源。"""
+        if self._campaign is None:
+            self._campaign = Campaigns(self._request)
+        return self._campaign
 
-    async def create_campaigns(self, campaigns: list[dict[str, Any]]) -> Any:
-        return await self._request("POST", "/adsApi/v1/create/campaigns", json={"campaigns": campaigns})
+    @property
+    def ad_group(self) -> AdGroups:
+        """广告组资源。"""
+        if self._ad_group is None:
+            self._ad_group = AdGroups(self._request)
+        return self._ad_group
 
-    async def query_campaigns(self, body: dict[str, Any]) -> Any:
-        return await self._request("POST", "/adsApi/v1/query/campaigns", json=body)
+    @property
+    def ad(self) -> Ads:
+        """广告资源。"""
+        if self._ad is None:
+            self._ad = Ads(self._request)
+        return self._ad
 
-    async def update_campaigns(self, campaigns: list[dict[str, Any]]) -> Any:
-        return await self._request("POST", "/adsApi/v1/update/campaigns", json={"campaigns": campaigns})
+    @property
+    def target(self) -> Targets:
+        """投放目标资源。"""
+        if self._target is None:
+            self._target = Targets(self._request)
+        return self._target
 
-    async def delete_campaigns(self, campaign_ids: list[str]) -> Any:
-        return await self._request("POST", "/adsApi/v1/delete/campaigns", json={"campaignIds": campaign_ids})
-
-    # ─── AdGroups ─────────────────────────────────────────────────────────────
-
-    async def create_ad_groups(self, ad_groups: list[dict[str, Any]]) -> Any:
-        return await self._request("POST", "/adsApi/v1/create/adGroups", json={"adGroups": ad_groups})
-
-    async def query_ad_groups(self, body: dict[str, Any]) -> Any:
-        return await self._request("POST", "/adsApi/v1/query/adGroups", json=body)
-
-    async def update_ad_groups(self, ad_groups: list[dict[str, Any]]) -> Any:
-        return await self._request("POST", "/adsApi/v1/update/adGroups", json={"adGroups": ad_groups})
-
-    async def delete_ad_groups(self, ad_group_ids: list[str]) -> Any:
-        return await self._request("POST", "/adsApi/v1/delete/adGroups", json={"adGroupIds": ad_group_ids})
-
-    # ─── Ads ─────────────────────────────────────────────────────────────────
-
-    async def create_ads(self, ads: list[dict[str, Any]]) -> Any:
-        return await self._request("POST", "/adsApi/v1/create/ads", json={"ads": ads})
-
-    async def query_ads(self, body: dict[str, Any]) -> Any:
-        return await self._request("POST", "/adsApi/v1/query/ads", json=body)
-
-    async def update_ads(self, ads: list[dict[str, Any]]) -> Any:
-        return await self._request("POST", "/adsApi/v1/update/ads", json={"ads": ads})
-
-    async def delete_ads(self, ad_ids: list[str]) -> Any:
-        return await self._request("POST", "/adsApi/v1/delete/ads", json={"adIds": ad_ids})
-
-    # ─── Targets ─────────────────────────────────────────────────────────────
-
-    async def create_targets(self, targets: list[dict[str, Any]]) -> Any:
-        return await self._request("POST", "/adsApi/v1/create/targets", json={"targets": targets})
-
-    async def query_targets(self, body: dict[str, Any]) -> Any:
-        return await self._request("POST", "/adsApi/v1/query/targets", json=body)
-
-    async def update_targets(self, targets: list[dict[str, Any]]) -> Any:
-        return await self._request("POST", "/adsApi/v1/update/targets", json={"targets": targets})
-
-    async def delete_targets(self, target_ids: list[str]) -> Any:
-        return await self._request("POST", "/adsApi/v1/delete/targets", json={"targetIds": target_ids})
-
-    # ─── AdExtensions ────────────────────────────────────────────────────────
-
-    async def create_ad_extensions(self, ad_extensions: list[dict[str, Any]]) -> Any:
-        return await self._request("POST", "/adsApi/v1/create/adExtensions", json={"adExtensions": ad_extensions})
-
-    async def query_ad_extensions(self, body: dict[str, Any]) -> Any:
-        return await self._request("POST", "/adsApi/v1/query/adExtensions", json=body)
-
-    async def update_ad_extensions(self, ad_extensions: list[dict[str, Any]]) -> Any:
-        return await self._request("POST", "/adsApi/v1/update/adExtensions", json={"adExtensions": ad_extensions})
+    @property
+    def ad_extension(self) -> AdExtensions:
+        """广告扩展资源。"""
+        if self._ad_extension is None:
+            self._ad_extension = AdExtensions(self._request)
+        return self._ad_extension
