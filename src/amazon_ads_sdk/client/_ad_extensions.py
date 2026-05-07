@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 from amazon_ads_sdk.models import (
     SPAdExtensionCreate,
@@ -10,10 +10,8 @@ from amazon_ads_sdk.models import (
     SPAdExtensionUpdate,
 )
 
+from ._context import ClientContext
 from ._resource import _ResourceBase
-
-if TYPE_CHECKING:
-    from ._context import ClientContext
 
 
 class AdExtensions(_ResourceBase):

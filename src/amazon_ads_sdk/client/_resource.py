@@ -4,13 +4,12 @@ from __future__ import annotations
 
 import asyncio
 import random
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import Any, TypeVar
 
 import httpx
 from pydantic import BaseModel
 
-if TYPE_CHECKING:
-    from ._context import ClientContext
+from ._context import ClientContext
 
 _T = TypeVar("_T", bound=BaseModel)
 

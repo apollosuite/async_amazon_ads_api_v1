@@ -2,13 +2,12 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, TypeVar
+from typing import TypeVar
 
 import httpx
 from pydantic import BaseModel
 
-if TYPE_CHECKING:
-    from amazon_ads_sdk.config import AmazonAdsConfig
+from amazon_ads_sdk.config import AmazonAdsConfig
 
 _T = TypeVar("_T", bound=BaseModel)
 
