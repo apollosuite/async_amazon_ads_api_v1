@@ -4,19 +4,17 @@ from __future__ import annotations
 
 from typing import Any
 
-import httpx
-
 from amazon_ads_sdk.config import AmazonAdsConfig
 
 from ._ad_extensions import AdExtensions
 from ._ad_groups import AdGroups
 from ._ads import Ads
-from ._base import _AmazonAdsClientBase
 from ._campaigns import Campaigns
+from ._context import ClientContext
 from ._targets import Targets
 
 
-class AmazonAdsClient(_AmazonAdsClientBase):
+class AmazonAdsClient:
     """Async HTTP client for the Amazon Ads API.
 
     Parameters
@@ -34,9 +32,7 @@ class AmazonAdsClient(_AmazonAdsClientBase):
     """
 
     def __init__(self, config: AmazonAdsConfig) -> None:
-        self.config = config
-        self._client: httpx.AsyncClient | None = None
-        self._cached_profile_header: dict[str, str] | None = None
+        self._ctx = ClientContext(config)
         self.__campaign: Campaigns | None = None
         self.__ad_group: AdGroups | None = None
         self.__ad: Ads | None = None
@@ -49,37 +45,43 @@ class AmazonAdsClient(_AmazonAdsClientBase):
     async def __aexit__(self, *args: Any) -> None:
         await self.close()
 
+    async def close(self) -> None:
+        """Close the underlying HTTP client."""
+        if self._ctx._client is not None:
+            await self._ctx._client.aclose()
+            self._ctx._client = None
+
     @property
     def campaign(self) -> Campaigns:
         """广告活动资源。"""
         if self.__campaign is None:
-            self.__campaign = Campaigns(self)
+            self.__campaign = Campaigns(self._ctx)
         return self.__campaign
 
     @property
     def ad_group(self) -> AdGroups:
         """广告组资源。"""
         if self.__ad_group is None:
-            self.__ad_group = AdGroups(self)
+            self.__ad_group = AdGroups(self._ctx)
         return self.__ad_group
 
     @property
     def ad(self) -> Ads:
         """广告资源。"""
         if self.__ad is None:
-            self.__ad = Ads(self)
+            self.__ad = Ads(self._ctx)
         return self.__ad
 
     @property
     def target(self) -> Targets:
         """投放目标资源。"""
         if self.__target is None:
-            self.__target = Targets(self)
+            self.__target = Targets(self._ctx)
         return self.__target
 
     @property
     def ad_extension(self) -> AdExtensions:
         """广告扩展资源。"""
         if self.__ad_extension is None:
-            self.__ad_extension = AdExtensions(self)
+            self.__ad_extension = AdExtensions(self._ctx)
         return self.__ad_extension

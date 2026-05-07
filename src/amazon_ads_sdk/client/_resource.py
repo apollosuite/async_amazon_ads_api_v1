@@ -1,4 +1,4 @@
-"""Client base — shared HTTP layer."""
+"""Base class for all API resource classes."""
 
 from __future__ import annotations
 
@@ -10,45 +10,32 @@ import httpx
 from pydantic import BaseModel
 
 if TYPE_CHECKING:
-    from amazon_ads_sdk.config import AmazonAdsConfig
+    from ._context import ClientContext
 
 _T = TypeVar("_T", bound=BaseModel)
 
 
-class _AmazonAdsClientBase:
-    _client: httpx.AsyncClient | None
-    config: AmazonAdsConfig
-    _cached_profile_header: dict[str, str] | None
+class _ResourceBase:
+    """Base class providing shared HTTP operations for resource classes."""
 
-    @property
-    def _profile_header(self) -> dict[str, str]:
-        if self._cached_profile_header is None:
-            if self.config.profile_id is not None:
-                self._cached_profile_header = {
-                    "Amazon-Advertising-API-ProfileId": str(self.config.profile_id)
-                }
-            else:
-                self._cached_profile_header = {}
-        return self._cached_profile_header
+    __slots__ = ("_ctx",)
+
+    def __init__(self, ctx: ClientContext) -> None:
+        self._ctx: ClientContext = ctx
 
     async def _get_client(self, accept_async: bool = False) -> httpx.AsyncClient:
-        if self._client is None:
+        if self._ctx._client is None:
             accept = "vnd.createasyncrequestresults.v3+json" if accept_async else "json"
-            self._client = httpx.AsyncClient(
-                base_url=self.config.region.value,
-                timeout=httpx.Timeout(self.config.timeout),
+            self._ctx._client = httpx.AsyncClient(
+                base_url=self._ctx.config.region.value,
+                timeout=httpx.Timeout(self._ctx.config.timeout),
                 headers={
-                    "Authorization": f"Bearer {self.config.access_token}",
+                    "Authorization": f"Bearer {self._ctx.config.access_token}",
                     "Content-Type": "application/json",
                     "Accept": f"application/{accept}",
                 },
             )
-        return self._client
-
-    async def close(self) -> None:
-        if self._client is not None:
-            await self._client.aclose()
-            self._client = None
+        return self._ctx._client
 
     async def _request(
         self,
@@ -60,8 +47,8 @@ class _AmazonAdsClientBase:
         accept_async: bool = False,
     ) -> httpx.Response:
         client = await self._get_client(accept_async)
-        headers = self._profile_header
-        for attempt in range(self.config.max_retries):
+        headers = self._ctx.profile_header
+        for attempt in range(self._ctx.config.max_retries):
             try:
                 resp = await client.request(
                     method=method,
@@ -74,16 +61,25 @@ class _AmazonAdsClientBase:
                 return resp
             except httpx.HTTPStatusError as exc:
                 if exc.response.status_code in (429, 503, 504):
-                    if attempt < self.config.max_retries - 1:
+                    if attempt < self._ctx.config.max_retries - 1:
                         await asyncio.sleep(2**attempt + random.uniform(0, 1))
                         continue
                 raise
             except httpx.ConnectError:
-                if attempt < self.config.max_retries - 1:
+                if attempt < self._ctx.config.max_retries - 1:
                     await asyncio.sleep(2**attempt + random.uniform(0, 1))
                     continue
                 raise
         raise RuntimeError("Retry loop exited unexpectedly")
 
     def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
-        return model_cls.model_validate_json(resp.content)
+        return self._ctx._response(model_cls, resp)
+
+    def _validate(self, items: list[Any], model_cls: type[BaseModel]) -> list[dict[str, Any]]:
+        result: list[dict[str, Any]] = []
+        for item in items:
+            if isinstance(item, model_cls):
+                result.append(item.model_dump())
+            else:
+                result.append(model_cls(**item).model_dump())
+        return result
