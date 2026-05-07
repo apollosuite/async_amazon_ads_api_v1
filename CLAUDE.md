@@ -12,12 +12,30 @@ Pure async Python SDK for the Amazon Advertising API (Sponsored Products).
 ├── pyproject.toml                      # uv 项目配置
 ├── uv.lock                             # 依赖锁定文件（提交）
 ├── scripts/
-│   └── generate_models.py              # 从 JSON Schema 生成 models.py
+│   └── generate_models.py              # 从 JSON Schema 生成 models/
 └── src/amazon_ads_sdk/
     ├── __init__.py                     # 公开 API 导出
     ├── config.py                       # AmazonAdsConfig / Region
-    ├── client.py                       # 异步 HTTP 客户端（httpx）
-    └── models.py                       # 208 个 Pydantic v2 模型（自动生成）
+    ├── client/                          # 异步 HTTP 客户端
+    │   ├── __init__.py                 # AmazonAdsClient 主类
+    │   ├── _base.py                    # 共享 HTTP 层（_request）
+    │   ├── _campaigns.py               # Campaigns 资源
+    │   ├── _ad_groups.py               # AdGroups 资源
+    │   ├── _ads.py                     # Ads 资源
+    │   ├── _targets.py                 # Targets 资源
+    │   └── _ad_extensions.py           # AdExtensions 资源
+    └── models/                          # Pydantic v2 模型（自动生成）
+        ├── __init__.py                 # 导出全部模型
+        ├── _enums.py                   # 枚举（ErrorCode, SPState 等）
+        ├── _campaigns.py
+        ├── _ad_groups.py
+        ├── _ads.py
+        ├── _targets.py
+        ├── _ad_extensions.py
+        ├── _filters.py
+        ├── _requests.py
+        ├── _responses.py
+        └── _shared.py
 ```
 
 ## 项目概述
@@ -56,10 +74,14 @@ Pure async Python SDK for the Amazon Advertising API (Sponsored Products).
 
 ## 代码生成
 
-`scripts/generate_models.py` 从 `AmazonAdsAPISPMerged_prod_3p.json` 自动生成 `src/amazon_ads_sdk/models.py`。
+`scripts/generate_models.py` 从 `AmazonAdsAPISPMerged_prod_3p.json` 自动生成 `src/amazon_ads_sdk/models/`。
+
+```bash
+uv run python scripts/generate_models.py --output-dir src/amazon_ads_sdk/models/
+uv run ruff check --fix src/
+```
 
 - 每次修改上游 JSON Schema 后，重新运行生成脚本
-- 生成后执行 `uv run ruff check --fix src/amazon_ads_sdk/models.py`
 - 枚举使用 `StrEnum`，可选字段使用 Python 3.14 `X | None` 语法
 
 ## 环境变量
@@ -82,6 +104,7 @@ config = AmazonAdsConfig(
 )
 
 async with AmazonAdsClient(config) as client:
-    resp = await client.query_campaigns({"stateFilter": {"include": ["enabled"]}})
+    # 嵌套式 API：client.<resource>.<operation>()
+    resp = await client.campaign.query({"stateFilter": {"include": ["enabled"]}})
     print(resp.json())
 ```

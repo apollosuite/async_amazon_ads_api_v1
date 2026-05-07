@@ -21,8 +21,20 @@ async def main():
         region=Region.NA,
     )
     async with AmazonAdsClient(config) as client:
-        resp = await client.query_campaigns({"stateFilter": {"include": ["enabled"]}})
+        resp = await client.campaign.query({"stateFilter": {"include": ["enabled"]}})
         print(resp.json())
 
 asyncio.run(main())
 ```
+
+## API Reference
+
+`AmazonAdsClient` 通过嵌套 property 暴露各资源：
+
+| 资源 | 方法 |
+|---|---|
+| `client.campaign` | `create()`, `query()`, `update()`, `delete()` |
+| `client.ad_group` | `create()`, `query()`, `update()`, `delete()` |
+| `client.ad` | `create()`, `query()`, `update()`, `delete()` |
+| `client.target` | `create()`, `query()`, `update()`, `delete()` |
+| `client.ad_extension` | `create()`, `query()`, `update()` |
