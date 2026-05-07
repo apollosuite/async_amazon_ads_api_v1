@@ -9,9 +9,9 @@ from enum import StrEnum
 class Region(StrEnum):
     """Amazon Ads API region endpoints."""
 
-    NA = "https://advertising-api.amazon.com"       # North America
-    EU = "https://advertising-api-eu.amazon.com"    # Europe
-    FE = "https://advertising-api-fe.amazon.com"     # Far East
+    NA = "https://advertising-api.amazon.com"  # North America
+    EU = "https://advertising-api-eu.amazon.com"  # Europe
+    FE = "https://advertising-api-fe.amazon.com"  # Far East
 
 
 class AmazonAdsConfig:

@@ -356,7 +356,14 @@ def main(*, output_dir: Path | None = None) -> None:
         for section, names in [
             ("# ── Enums ──", groups["_enums.py"]),
             ("\n# ── Filters ──", groups["_filters.py"]),
-            ("\n# ── Entity Models ──", groups["_campaigns.py"] + groups["_ad_groups.py"] + groups["_ads.py"] + groups["_targets.py"] + groups["_ad_extensions.py"]),
+            (
+                "\n# ── Entity Models ──",
+                groups["_campaigns.py"]
+                + groups["_ad_groups.py"]
+                + groups["_ads.py"]
+                + groups["_targets.py"]
+                + groups["_ad_extensions.py"],
+            ),
             ("\n# ── Request Bodies ──", groups["_requests.py"]),
             ("\n# ── Response Bodies ──", groups["_responses.py"]),
             ("\n# ── Other Schemas ──", groups["_shared.py"]),

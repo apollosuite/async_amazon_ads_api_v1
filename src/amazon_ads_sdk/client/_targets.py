@@ -23,9 +23,7 @@ class Targets:
         targets : list[dict[str, Any]]
             目标列表，每项包含 adGroupId、targetType、bid、state 等字段。
         """
-        return await self._request(
-            "POST", "/adsApi/v1/create/targets", json={"targets": targets}
-        )
+        return await self._request("POST", "/adsApi/v1/create/targets", json={"targets": targets})
 
     async def query(self, body: dict[str, Any]) -> httpx.Response:
         """查询投放目标。
@@ -46,9 +44,7 @@ class Targets:
         targets : list[dict[str, Any]]
             目标更新列表，每项需包含 targetId。
         """
-        return await self._request(
-            "POST", "/adsApi/v1/update/targets", json={"targets": targets}
-        )
+        return await self._request("POST", "/adsApi/v1/update/targets", json={"targets": targets})
 
     async def delete(self, target_ids: list[str]) -> httpx.Response:
         """删除投放目标。

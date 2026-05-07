@@ -53,7 +53,7 @@ Pure async Python SDK for the Amazon Advertising API (Sponsored Products).
 
 ## 代码质量 (MUST)
 
-- **格式化**: 必须使用 `ruff` 格式化代码，保持风格一致。
+- **格式化**: 必须使用 `black` 格式化代码。
 - **静态检查**: 必须使用 `ruff check --fix` 移除未使用的 imports/variables。
 - 保存前执行这两条命令。
 
@@ -70,6 +70,7 @@ Pure async Python SDK for the Amazon Advertising API (Sponsored Products).
 - 执行脚本: `uv run python <script>` — **禁止**直接使用 `python3` / `python` 调用 Python
 - 测试: `uv run pytest`
 - Lint: `uv run ruff check --fix src/`
+- 格式化: `uv run black src/ scripts/`
 - 类型检查: `uv run mypy src/`
 
 ## 代码生成
@@ -82,6 +83,7 @@ uv run ruff check --fix src/
 ```
 
 - 每次修改上游 JSON Schema 后，重新运行生成脚本
+- 生成后执行 `uv run black src/`
 - 枚举使用 `StrEnum`，可选字段使用 Python 3.14 `X | None` 语法
 
 ## 环境变量

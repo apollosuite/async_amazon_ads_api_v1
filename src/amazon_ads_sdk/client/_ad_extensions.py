@@ -38,9 +38,7 @@ class AdExtensions:
             查询条件，包含 adExtensionIdFilter、adExtensionTypeFilter 等。
             支持 nextToken 分页。
         """
-        return await self._request(
-            "POST", "/adsApi/v1/query/adExtensions", json=body
-        )
+        return await self._request("POST", "/adsApi/v1/query/adExtensions", json=body)
 
     async def update(self, ad_extensions: list[dict[str, Any]]) -> httpx.Response:
         """更新广告扩展。

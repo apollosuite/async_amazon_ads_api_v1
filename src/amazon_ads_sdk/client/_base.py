@@ -65,12 +65,12 @@ class _AmazonAdsClientBase:
             except httpx.HTTPStatusError as exc:
                 if exc.response.status_code in (429, 503, 504):
                     if attempt < self.config.max_retries - 1:
-                        await asyncio.sleep(2 ** attempt)
+                        await asyncio.sleep(2**attempt)
                         continue
                 raise
             except httpx.ConnectError:
                 if attempt < self.config.max_retries - 1:
-                    await asyncio.sleep(2 ** attempt)
+                    await asyncio.sleep(2**attempt)
                     continue
                 raise
         raise RuntimeError("Retry loop exited unexpectedly")
