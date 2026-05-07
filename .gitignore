@@ -1,0 +1,28 @@
+# Claude Code settings（本地，不提交）
+.claude/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# uv.lock 由 uv 管理，需提交
+
+# OS
+.DS_Store
+*.swp
+*.swo
+
+# Distribution / build
+*.egg-info/
+dist/
+build/
