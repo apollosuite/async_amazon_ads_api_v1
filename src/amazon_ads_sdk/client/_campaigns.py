@@ -11,7 +11,7 @@ from amazon_ads_sdk.models import (
     SPCampaignUpdate,
 )
 
-from ._base import _RequestMethod, _ResponseMethod
+from ._base import _RequestMethod, _ResponseMethod, resource
 
 
 class Campaigns:
@@ -21,73 +21,47 @@ class Campaigns:
         self._request = request
         self._response = response
 
+    @resource(
+        "POST",
+        "/adsApi/v1/create/campaigns",
+        response=SPCampaignSuccessResponse,
+        wrap="campaigns",
+        request_model=SPCampaignCreate,
+    )
     async def create(
         self, campaigns: list[dict[str, Any] | SPCampaignCreate]
     ) -> SPCampaignSuccessResponse:
-        """创建广告活动。
+        """创建广告活动。"""
+        return campaigns  # type: ignore[return-value]
 
-        参数
-        -----
-        campaigns : list[dict | SPCampaignCreate]
-            广告活动列表，每项包含 name、state、budgets 等字段。
-        """
-        validated = [
-            (
-                c.model_dump()
-                if isinstance(c, SPCampaignCreate)
-                else SPCampaignCreate(**c).model_dump()
-            )
-            for c in campaigns
-        ]
-        resp = await self._request(
-            "POST", "/adsApi/v1/create/campaigns", json={"campaigns": validated}
-        )
-        return self._response(SPCampaignSuccessResponse, resp)  # type: ignore[return-value]
-
+    @resource(
+        "POST",
+        "/adsApi/v1/query/campaigns",
+        response=SPCampaignSuccessResponse,
+    )
     async def query(self, body: dict[str, Any]) -> SPCampaignSuccessResponse:
-        """查询广告活动。
+        """查询广告活动，支持 nextToken 分页。"""
+        return body  # type: ignore[return-value]
 
-        参数
-        -----
-        body : dict
-            查询条件，包含 stateFilter、campaignIdFilter 等过滤条件。
-            支持 nextToken 分页。
-        """
-        resp = await self._request("POST", "/adsApi/v1/query/campaigns", json=body)
-        return self._response(SPCampaignSuccessResponse, resp)  # type: ignore[return-value]
-
+    @resource(
+        "POST",
+        "/adsApi/v1/update/campaigns",
+        response=SPCampaignMultiStatusResponse,
+        wrap="campaigns",
+        request_model=SPCampaignUpdate,
+    )
     async def update(
         self, campaigns: list[dict[str, Any] | SPCampaignUpdate]
     ) -> SPCampaignMultiStatusResponse:
-        """更新广告活动。
+        """更新广告活动。"""
+        return campaigns  # type: ignore[return-value]
 
-        参数
-        -----
-        campaigns : list[dict | SPCampaignUpdate]
-            广告活动更新列表，每项需包含 campaignId。
-        """
-        validated = [
-            (
-                c.model_dump()
-                if isinstance(c, SPCampaignUpdate)
-                else SPCampaignUpdate(**c).model_dump()
-            )
-            for c in campaigns
-        ]
-        resp = await self._request(
-            "POST", "/adsApi/v1/update/campaigns", json={"campaigns": validated}
-        )
-        return self._response(SPCampaignMultiStatusResponse, resp)  # type: ignore[return-value]
-
+    @resource(
+        "POST",
+        "/adsApi/v1/delete/campaigns",
+        response=SPCampaignMultiStatusResponse,
+        wrap="campaignIds",
+    )
     async def delete(self, campaign_ids: list[str]) -> SPCampaignMultiStatusResponse:
-        """删除广告活动。
-
-        参数
-        -----
-        campaign_ids : list[str]
-            要删除的广告活动 ID 列表。
-        """
-        resp = await self._request(
-            "POST", "/adsApi/v1/delete/campaigns", json={"campaignIds": campaign_ids}
-        )
-        return self._response(SPCampaignMultiStatusResponse, resp)  # type: ignore[return-value]
+        """删除广告活动。"""
+        return campaign_ids  # type: ignore[return-value]

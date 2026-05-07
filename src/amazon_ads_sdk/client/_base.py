@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 from collections.abc import Awaitable, Callable
+from functools import wraps
 from typing import TYPE_CHECKING, Any, Protocol, TypeVar
 
 import httpx
@@ -15,6 +16,59 @@ if TYPE_CHECKING:
 _T = TypeVar("_T", bound=BaseModel)
 
 _RequestMethod = Callable[..., Awaitable[httpx.Response]]
+
+
+def _validate(items: list[Any], model_cls: type[BaseModel]) -> list[dict[str, Any]]:
+    return [
+        item.model_dump() if isinstance(item, model_cls) else model_cls(**item).model_dump()
+        for item in items
+    ]
+
+
+def resource[T](
+    method: str,
+    path: str,
+    *,
+    response: type[T],
+    wrap: str | None = None,
+    request_model: type[BaseModel] | None = None,
+) -> Callable[
+    [Callable[..., Awaitable[Any]]],
+    Callable[..., Awaitable[T]],
+]:
+    """Decorator that handles request validation and response parsing.
+
+    Parameters
+    ----------
+    method
+        HTTP method (e.g. "POST").
+    path
+        API endpoint path.
+    response
+        Pydantic response model class.
+    wrap
+        If set, wraps the method's return value in {wrap: value} before sending.
+    request_model
+        If set, validates each item in the wrapped list using this model.
+    """
+
+    def decorator(fn: Callable[..., Awaitable[Any]]) -> Callable[..., Awaitable[T]]:
+        @wraps(fn)
+        async def wrapper(self: Any, *args: Any, **kwargs: Any) -> T:
+            result = await fn(self, *args, **kwargs)
+            if wrap is not None and request_model is not None:
+                validated = _validate(result, request_model)
+                json_body = {wrap: validated}
+            elif wrap is not None:
+                json_body = {wrap: result}
+            else:
+                json_body = result
+            resp = await self._request(method, path, json=json_body)
+            return self._response(response, resp)  # type: ignore[no-any-return]
+
+        return wrapper
+
+    return decorator
 
 
 class _ResponseMethod(Protocol):
@@ -85,13 +139,4 @@ class _AmazonAdsClientBase:
         raise RuntimeError("Retry loop exited unexpectedly")
 
     def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
-        """Parse JSON response into a Pydantic model.
-
-        Parameters
-        ----------
-        model_cls
-            Target Pydantic model class.
-        resp
-            httpx response with JSON body.
-        """
         return model_cls.model_validate_json(resp.content)
