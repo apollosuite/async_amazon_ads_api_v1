@@ -26,8 +26,9 @@ class AmazonAdsClient(_AmazonAdsClientBase):
     ----
     >>> config = AmazonAdsConfig(access_token="...", region=Region.NA)
     >>> async with AmazonAdsClient(config) as client:
-    ...     resp = await client.campaign.query({"stateFilter": {"include": ["enabled"]}})
-    ...     print(resp.json())
+    ...     result = await client.campaign.query({"stateFilter": {"include": ["enabled"]}})
+    ...     for campaign in result.campaigns:
+    ...         print(campaign.get("campaignId"))
     """
 
     _campaign: Campaigns | None = None
@@ -50,33 +51,33 @@ class AmazonAdsClient(_AmazonAdsClientBase):
     def campaign(self) -> Campaigns:
         """广告活动资源。"""
         if self._campaign is None:
-            self._campaign = Campaigns(self._request)
+            self._campaign = Campaigns(self._request, self._response)
         return self._campaign
 
     @property
     def ad_group(self) -> AdGroups:
         """广告组资源。"""
         if self._ad_group is None:
-            self._ad_group = AdGroups(self._request)
+            self._ad_group = AdGroups(self._request, self._response)
         return self._ad_group
 
     @property
     def ad(self) -> Ads:
         """广告资源。"""
         if self._ad is None:
-            self._ad = Ads(self._request)
+            self._ad = Ads(self._request, self._response)
         return self._ad
 
     @property
     def target(self) -> Targets:
         """投放目标资源。"""
         if self._target is None:
-            self._target = Targets(self._request)
+            self._target = Targets(self._request, self._response)
         return self._target
 
     @property
     def ad_extension(self) -> AdExtensions:
         """广告扩展资源。"""
         if self._ad_extension is None:
-            self._ad_extension = AdExtensions(self._request)
+            self._ad_extension = AdExtensions(self._request, self._response)
         return self._ad_extension

@@ -4,14 +4,23 @@ from __future__ import annotations
 
 import asyncio
 from collections.abc import Awaitable, Callable
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Protocol, TypeVar
 
 import httpx
+from pydantic import BaseModel
 
 if TYPE_CHECKING:
     from amazon_ads_sdk.config import AmazonAdsConfig
 
+_T = TypeVar("_T", bound=BaseModel)
+
 _RequestMethod = Callable[..., Awaitable[httpx.Response]]
+
+
+class _ResponseMethod(Protocol):
+    """Protocol for the _response method signature."""
+
+    def __call__(self, model_cls: type[BaseModel], resp: httpx.Response) -> BaseModel: ...
 
 
 class _AmazonAdsClientBase:
@@ -74,3 +83,15 @@ class _AmazonAdsClientBase:
                     continue
                 raise
         raise RuntimeError("Retry loop exited unexpectedly")
+
+    def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
+        """Parse JSON response into a Pydantic model.
+
+        Parameters
+        ----------
+        model_cls
+            Target Pydantic model class.
+        resp
+            httpx response with JSON body.
+        """
+        return model_cls.model_validate_json(resp.content)
