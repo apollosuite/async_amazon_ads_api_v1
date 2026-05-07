@@ -19,9 +19,6 @@ class AmazonAdsClient:
         Client configuration (auth, region, timeouts, retries).
     """
 
-    BASE_URL: str = "https://advertising-api.amazon.com"
-    API_VERSION: str = "v1"
-
     def __init__(self, config: AmazonAdsConfig) -> None:
         self.config = config
         self._client: httpx.AsyncClient | None = None

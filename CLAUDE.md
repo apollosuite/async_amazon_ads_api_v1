@@ -49,7 +49,7 @@ Pure async Python SDK for the Amazon Advertising API (Sponsored Products).
 
 - 同步环境: `uv sync`
 - 添加依赖: `uv add <package>`
-- 执行脚本: `uv run python <script>`
+- 执行脚本: `uv run python <script>` — **禁止**直接使用 `python3` / `python` 调用 Python
 - 测试: `uv run pytest`
 - Lint: `uv run ruff check --fix src/`
 - 类型检查: `uv run mypy src/`

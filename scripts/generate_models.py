@@ -9,7 +9,6 @@ OUT_PATH = Path(__file__).parent.parent / "src" / "amazon_ads_sdk" / "models.py"
 
 def _clean_description(desc: str) -> str:
     """Strip markdown table syntax from descriptions."""
-    import re
     # Remove table header rows: | col | col |
     # Remove separator rows: | --- | --- |
     # Remove leading/trailing pipes: | value | → value
