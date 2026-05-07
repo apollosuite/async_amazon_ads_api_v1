@@ -27,6 +27,7 @@ class Targets:
         response=SPTargetSuccessResponse,
         wrap="targets",
         request_model=SPTargetCreate,
+        accept_async=True,
     )
     async def create(
         self, targets: list[dict[str, Any] | SPTargetCreate]
@@ -49,6 +50,7 @@ class Targets:
         response=SPTargetMultiStatusResponse,
         wrap="targets",
         request_model=SPTargetUpdate,
+        accept_async=True,
     )
     async def update(
         self, targets: list[dict[str, Any] | SPTargetUpdate]
@@ -61,6 +63,7 @@ class Targets:
         "/adsApi/v1/delete/targets",
         response=SPTargetMultiStatusResponse,
         wrap="targetIds",
+        accept_async=True,
     )
     async def delete(self, target_ids: list[str]) -> SPTargetMultiStatusResponse:
         """删除投放目标。"""

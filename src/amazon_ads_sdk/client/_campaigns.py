@@ -27,6 +27,7 @@ class Campaigns:
         response=SPCampaignSuccessResponse,
         wrap="campaigns",
         request_model=SPCampaignCreate,
+        accept_async=True,
     )
     async def create(
         self, campaigns: list[dict[str, Any] | SPCampaignCreate]
@@ -49,6 +50,7 @@ class Campaigns:
         response=SPCampaignMultiStatusResponse,
         wrap="campaigns",
         request_model=SPCampaignUpdate,
+        accept_async=True,
     )
     async def update(
         self, campaigns: list[dict[str, Any] | SPCampaignUpdate]
@@ -61,6 +63,7 @@ class Campaigns:
         "/adsApi/v1/delete/campaigns",
         response=SPCampaignMultiStatusResponse,
         wrap="campaignIds",
+        accept_async=True,
     )
     async def delete(self, campaign_ids: list[str]) -> SPCampaignMultiStatusResponse:
         """删除广告活动。"""

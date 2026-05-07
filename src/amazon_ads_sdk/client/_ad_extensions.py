@@ -26,6 +26,7 @@ class AdExtensions:
         response=SPAdExtensionSuccessResponse,
         wrap="adExtensions",
         request_model=SPAdExtensionCreate,
+        accept_async=True,
     )
     async def create(
         self,
@@ -49,6 +50,7 @@ class AdExtensions:
         response=SPAdExtensionSuccessResponse,
         wrap="adExtensions",
         request_model=SPAdExtensionUpdate,
+        accept_async=True,
     )
     async def update(
         self,

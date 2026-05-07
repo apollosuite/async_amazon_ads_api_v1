@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
+import httpx
+
 from amazon_ads_sdk.config import AmazonAdsConfig
 
 from ._ad_extensions import AdExtensions
@@ -31,15 +33,15 @@ class AmazonAdsClient(_AmazonAdsClientBase):
     ...         print(campaign.get("campaignId"))
     """
 
-    _campaign: Campaigns | None = None
-    _ad_group: AdGroups | None = None
-    _ad: Ads | None = None
-    _target: Targets | None = None
-    _ad_extension: AdExtensions | None = None
-
     def __init__(self, config: AmazonAdsConfig) -> None:
         self.config = config
-        self._client: Any = None
+        self._client: httpx.AsyncClient | None = None
+        self._cached_profile_header: dict[str, str] | None = None
+        self.__campaign: Campaigns | None = None
+        self.__ad_group: AdGroups | None = None
+        self.__ad: Ads | None = None
+        self.__target: Targets | None = None
+        self.__ad_extension: AdExtensions | None = None
 
     async def __aenter__(self) -> AmazonAdsClient:
         return self
@@ -50,34 +52,34 @@ class AmazonAdsClient(_AmazonAdsClientBase):
     @property
     def campaign(self) -> Campaigns:
         """广告活动资源。"""
-        if self._campaign is None:
-            self._campaign = Campaigns(self._request, self._response)
-        return self._campaign
+        if self.__campaign is None:
+            self.__campaign = Campaigns(self._request, self._response)
+        return self.__campaign
 
     @property
     def ad_group(self) -> AdGroups:
         """广告组资源。"""
-        if self._ad_group is None:
-            self._ad_group = AdGroups(self._request, self._response)
-        return self._ad_group
+        if self.__ad_group is None:
+            self.__ad_group = AdGroups(self._request, self._response)
+        return self.__ad_group
 
     @property
     def ad(self) -> Ads:
         """广告资源。"""
-        if self._ad is None:
-            self._ad = Ads(self._request, self._response)
-        return self._ad
+        if self.__ad is None:
+            self.__ad = Ads(self._request, self._response)
+        return self.__ad
 
     @property
     def target(self) -> Targets:
         """投放目标资源。"""
-        if self._target is None:
-            self._target = Targets(self._request, self._response)
-        return self._target
+        if self.__target is None:
+            self.__target = Targets(self._request, self._response)
+        return self.__target
 
     @property
     def ad_extension(self) -> AdExtensions:
         """广告扩展资源。"""
-        if self._ad_extension is None:
-            self._ad_extension = AdExtensions(self._request, self._response)
-        return self._ad_extension
+        if self.__ad_extension is None:
+            self.__ad_extension = AdExtensions(self._request, self._response)
+        return self.__ad_extension

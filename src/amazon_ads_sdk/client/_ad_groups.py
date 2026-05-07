@@ -27,6 +27,7 @@ class AdGroups:
         response=SPAdGroupSuccessResponse,
         wrap="adGroups",
         request_model=SPAdGroupCreate,
+        accept_async=True,
     )
     async def create(
         self, ad_groups: list[dict[str, Any] | SPAdGroupCreate]
@@ -49,6 +50,7 @@ class AdGroups:
         response=SPAdGroupMultiStatusResponse,
         wrap="adGroups",
         request_model=SPAdGroupUpdate,
+        accept_async=True,
     )
     async def update(
         self, ad_groups: list[dict[str, Any] | SPAdGroupUpdate]
@@ -61,6 +63,7 @@ class AdGroups:
         "/adsApi/v1/delete/adGroups",
         response=SPAdGroupMultiStatusResponse,
         wrap="adGroupIds",
+        accept_async=True,
     )
     async def delete(self, ad_group_ids: list[str]) -> SPAdGroupMultiStatusResponse:
         """删除广告组。"""

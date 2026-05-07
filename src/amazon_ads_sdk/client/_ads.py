@@ -27,6 +27,7 @@ class Ads:
         response=SPAdSuccessResponse,
         wrap="ads",
         request_model=SPAdCreate,
+        accept_async=True,
     )
     async def create(self, ads: list[dict[str, Any] | SPAdCreate]) -> SPAdSuccessResponse:
         """创建广告。"""
@@ -47,6 +48,7 @@ class Ads:
         response=SPAdMultiStatusResponse,
         wrap="ads",
         request_model=SPAdUpdate,
+        accept_async=True,
     )
     async def update(self, ads: list[dict[str, Any] | SPAdUpdate]) -> SPAdMultiStatusResponse:
         """更新广告。"""
@@ -57,6 +59,7 @@ class Ads:
         "/adsApi/v1/delete/ads",
         response=SPAdMultiStatusResponse,
         wrap="adIds",
+        accept_async=True,
     )
     async def delete(self, ad_ids: list[str]) -> SPAdMultiStatusResponse:
         """删除广告。"""
