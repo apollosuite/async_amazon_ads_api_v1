@@ -4,9 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import random
-from collections.abc import Awaitable, Callable
-from functools import wraps
-from typing import TYPE_CHECKING, Any, Protocol, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
 
 import httpx
 from pydantic import BaseModel
@@ -15,74 +13,6 @@ if TYPE_CHECKING:
     from amazon_ads_sdk.config import AmazonAdsConfig
 
 _T = TypeVar("_T", bound=BaseModel)
-
-_RequestMethod = Callable[..., Awaitable[httpx.Response]]
-
-
-def _validate(items: list[Any], model_cls: type[BaseModel]) -> list[dict[str, Any]]:
-    result: list[dict[str, Any]] = []
-    for item in items:
-        if isinstance(item, model_cls):
-            result.append(item.model_dump())
-        else:
-            result.append(model_cls(**item).model_dump())
-    return result
-
-
-def resource[T](
-    method: str,
-    path: str,
-    *,
-    response: type[T],
-    wrap: str | None = None,
-    request_model: type[BaseModel] | None = None,
-    accept_async: bool = False,
-) -> Callable[
-    [Callable[..., Awaitable[Any]]],
-    Callable[..., Awaitable[T]],
-]:
-    """Decorator that handles request validation and response parsing.
-
-    Parameters
-    ----------
-    method
-        HTTP method (e.g. "POST").
-    path
-        API endpoint path.
-    response
-        Pydantic response model class.
-    wrap
-        If set, wraps the method's return value in {wrap: value} before sending.
-    request_model
-        If set, validates each item in the wrapped list using this model.
-    accept_async
-        If True, sets Accept header to request polling mode (v3+json).
-        Should be True only for create/update/delete operations that may return async.
-    """
-
-    def decorator(fn: Callable[..., Awaitable[Any]]) -> Callable[..., Awaitable[T]]:
-        @wraps(fn)
-        async def wrapper(self: Any, *args: Any, **kwargs: Any) -> T:
-            result = await fn(self, *args, **kwargs)
-            if wrap is not None and request_model is not None:
-                validated = _validate(result, request_model)
-                json_body = {wrap: validated}
-            elif wrap is not None:
-                json_body = {wrap: result}
-            else:
-                json_body = result
-            resp = await self._request(method, path, json=json_body, accept_async=accept_async)
-            return self._response(response, resp)  # type: ignore[no-any-return]
-
-        return wrapper
-
-    return decorator
-
-
-class _ResponseMethod(Protocol):
-    """Protocol for the _response method signature."""
-
-    def __call__(self, model_cls: type[BaseModel], resp: httpx.Response) -> BaseModel: ...
 
 
 class _AmazonAdsClientBase:

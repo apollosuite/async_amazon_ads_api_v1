@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from amazon_ads_sdk.models import (
     SPAdGroupCreate,
@@ -11,60 +11,62 @@ from amazon_ads_sdk.models import (
     SPAdGroupUpdate,
 )
 
-from ._base import _RequestMethod, _ResponseMethod, resource
+if TYPE_CHECKING:
+    from amazon_ads_sdk.client import AmazonAdsClient
 
 
 class AdGroups:
     """AdGroup 广告组资源操作。"""
 
-    def __init__(self, request: _RequestMethod, response: _ResponseMethod) -> None:
-        self._request = request
-        self._response = response
+    def __init__(self, client: AmazonAdsClient) -> None:
+        self._client = client
 
-    @resource(
-        "POST",
-        "/adsApi/v1/create/adGroups",
-        response=SPAdGroupSuccessResponse,
-        wrap="adGroups",
-        request_model=SPAdGroupCreate,
-        accept_async=True,
-    )
+    def _validate(self, items: list[Any], model_cls: type[Any]) -> list[dict[str, Any]]:
+        result: list[dict[str, Any]] = []
+        for item in items:
+            if isinstance(item, model_cls):
+                result.append(item.model_dump())
+            else:
+                result.append(model_cls(**item).model_dump())
+        return result
+
     async def create(
         self, ad_groups: list[dict[str, Any] | SPAdGroupCreate]
     ) -> SPAdGroupSuccessResponse:
         """创建广告组。"""
-        return ad_groups  # type: ignore[return-value]
+        validated = self._validate(ad_groups, SPAdGroupCreate)
+        resp = await self._client._request(
+            "POST",
+            "/adsApi/v1/create/adGroups",
+            json={"adGroups": validated},
+            accept_async=True,
+        )
+        return self._client._response(SPAdGroupSuccessResponse, resp)
 
-    @resource(
-        "POST",
-        "/adsApi/v1/query/adGroups",
-        response=SPAdGroupSuccessResponse,
-    )
     async def query(self, body: dict[str, Any]) -> SPAdGroupSuccessResponse:
         """查询广告组，支持 nextToken 分页。"""
-        return body  # type: ignore[return-value]
+        resp = await self._client._request("POST", "/adsApi/v1/query/adGroups", json=body)
+        return self._client._response(SPAdGroupSuccessResponse, resp)
 
-    @resource(
-        "POST",
-        "/adsApi/v1/update/adGroups",
-        response=SPAdGroupMultiStatusResponse,
-        wrap="adGroups",
-        request_model=SPAdGroupUpdate,
-        accept_async=True,
-    )
     async def update(
         self, ad_groups: list[dict[str, Any] | SPAdGroupUpdate]
     ) -> SPAdGroupMultiStatusResponse:
         """更新广告组。"""
-        return ad_groups  # type: ignore[return-value]
+        validated = self._validate(ad_groups, SPAdGroupUpdate)
+        resp = await self._client._request(
+            "POST",
+            "/adsApi/v1/update/adGroups",
+            json={"adGroups": validated},
+            accept_async=True,
+        )
+        return self._client._response(SPAdGroupMultiStatusResponse, resp)
 
-    @resource(
-        "POST",
-        "/adsApi/v1/delete/adGroups",
-        response=SPAdGroupMultiStatusResponse,
-        wrap="adGroupIds",
-        accept_async=True,
-    )
     async def delete(self, ad_group_ids: list[str]) -> SPAdGroupMultiStatusResponse:
         """删除广告组。"""
-        return ad_group_ids  # type: ignore[return-value]
+        resp = await self._client._request(
+            "POST",
+            "/adsApi/v1/delete/adGroups",
+            json={"adGroupIds": ad_group_ids},
+            accept_async=True,
+        )
+        return self._client._response(SPAdGroupMultiStatusResponse, resp)
