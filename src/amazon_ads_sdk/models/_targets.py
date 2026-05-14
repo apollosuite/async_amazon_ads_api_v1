@@ -9,7 +9,6 @@ from pydantic import BaseModel, ConfigDict
 
 if TYPE_CHECKING:
     from ._ad_groups import SPTargetAdGroupIdFilter
-    from ._ads import SPCreateProductValue, SPProductValue
     from ._campaigns import SPTargetCampaignIdFilter
     from ._enums import (
         SPAdProduct,
@@ -30,7 +29,8 @@ if TYPE_CHECKING:
         SPThemeMatchType,
         SPUpdateState,
     )
-    from ._shared import ErrorsIndex, SPCreateTag, SPStatus, SPTag
+    from ._errors import ErrorsIndex
+    from ._shared import SPCreateTag, SPStatus, SPTag
 
 
 class SPCreateKeywordTarget(BaseModel):
@@ -104,6 +104,14 @@ class SPCreateProductTarget(BaseModel):
     matchType: SPProductMatchType
     product: SPCreateProductValue
     productIdType: SPProductIdType
+
+
+class SPCreateProductValue(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    productId: str  # The product identifier. Either the product id or the marketplace settings should always be specified
 
 
 class SPCreateTargetBid(BaseModel):
@@ -225,6 +233,14 @@ class SPProductTarget(BaseModel):
     matchType: SPProductMatchType
     product: SPProductValue
     productIdType: SPProductIdType
+
+
+class SPProductValue(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    productId: str  # The product identifier. Either the product id or the marketplace settings should always be specified
 
 
 class SPQueryTargetRequest(BaseModel):

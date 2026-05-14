@@ -1,4 +1,4 @@
-"""response models."""
+"""error and HTTP response models."""
 
 from __future__ import annotations
 
@@ -19,6 +19,15 @@ class BadGatewayResponseContent(BaseModel):
     message: str
 
 
+class BadRequestResponseContent(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    code: ErrorCode
+    message: str
+
+
 class ContentTooLargeResponseContent(BaseModel):
     """"""
 
@@ -26,6 +35,25 @@ class ContentTooLargeResponseContent(BaseModel):
 
     code: ErrorCode
     message: str
+
+
+class Error(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    code: ErrorCode
+    fieldLocation: str | None = None
+    message: str
+
+
+class ErrorsIndex(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    errors: list[Error]
+    index: int
 
 
 class ForbiddenResponseContent(BaseModel):
@@ -70,6 +98,15 @@ class ServiceUnavailableErrorResponseContent(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     code: str
+    message: str
+
+
+class TooManyRequestsResponseContent(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    code: ErrorCode
     message: str
 
 

@@ -28,7 +28,46 @@ from enum import StrEnum
 
 MODULE_IMPORTS = {
     "_enums.py": ENUMS_IMPORT,
+    "_errors.py": '''"""error and HTTP response models."""
 
+from __future__ import annotations
+
+from typing import Any
+
+from pydantic import BaseModel, ConfigDict
+''',
+    "_shared.py": '''"""shared models."""
+
+from __future__ import annotations
+
+from typing import Any
+
+from pydantic import BaseModel, ConfigDict
+''',
+    "_bids.py": '''"""bid adjustment models."""
+
+from __future__ import annotations
+
+from typing import Any
+
+from pydantic import BaseModel, ConfigDict
+''',
+    "_creatives.py": '''"""creative models."""
+
+from __future__ import annotations
+
+from typing import Any
+
+from pydantic import BaseModel, ConfigDict
+''',
+    "_budgets.py": '''"""budget models."""
+
+from __future__ import annotations
+
+from typing import Any
+
+from pydantic import BaseModel, ConfigDict
+''',
     "_campaigns.py": '''"""campaign models."""
 
 from __future__ import annotations
@@ -74,76 +113,72 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict
 ''',
-    "_requests.py": '''"""request models."""
-
-from __future__ import annotations
-
-from typing import Any
-
-from pydantic import BaseModel, ConfigDict
-''',
-    "_responses.py": '''"""response models."""
-
-from __future__ import annotations
-
-from typing import Any
-
-from pydantic import BaseModel, ConfigDict
-''',
-    "_shared.py": '''"""shared models."""
-
-from __future__ import annotations
-
-from typing import Any
-
-from pydantic import BaseModel, ConfigDict
-''',
 }
 
 # ── Entity model grouping ───────────────────────────────────────────────────
 
 CAMPAIGN_NAMES = {
     "SPCampaign",
+    "SPCampaignAdProductFilter",
+    "SPCampaignCampaignIdFilter",
     "SPCampaignCreate",
-    "SPCampaignUpdate",
+    "SPCampaignMultiStatusResponse",
     "SPCampaignMultiStatusSuccess",
+    "SPCampaignNameFilter",
     "SPCampaignOptimizations",
+    "SPCampaignPortfolioIdFilter",
+    "SPCampaignStateFilter",
+    "SPCampaignSuccessResponse",
+    "SPCampaignUpdate",
+    "SPCreateCampaignOptimizations",
+    "SPUpdateCampaignOptimizations",
+    "SPCreateCampaignRequest",
+    "SPDeleteCampaignRequest",
+    "SPQueryCampaignRequest",
+    "SPUpdateCampaignRequest",
+    # cross-resource filter models
+    "SPAdCampaignIdFilter",
+    "SPTargetCampaignIdFilter",
 }
 
 AD_GROUP_NAMES = {
     "SPAdGroup",
-    "SPAdGroupCreate",
-    "SPAdGroupUpdate",
-    "SPAdGroupMultiStatusSuccess",
+    "SPAdGroupAdGroupIdFilter",
+    "SPAdGroupAdProductFilter",
     "SPAdGroupBid",
+    "SPAdGroupCampaignIdFilter",
+    "SPAdGroupCreate",
+    "SPAdGroupMultiStatusResponse",
+    "SPAdGroupMultiStatusSuccess",
+    "SPAdGroupNameFilter",
+    "SPAdGroupStateFilter",
+    "SPAdGroupSuccessResponse",
+    "SPAdGroupUpdate",
     "SPCreateAdGroupBid",
     "SPUpdateAdGroupBid",
+    "SPCreateAdGroupRequest",
+    "SPDeleteAdGroupRequest",
+    "SPQueryAdGroupRequest",
+    "SPUpdateAdGroupRequest",
+    # cross-resource filter models
+    "SPAdAdGroupIdFilter",
+    "SPTargetAdGroupIdFilter",
 }
 
 AD_NAMES = {
     "SPAd",
+    "SPAdAdIdFilter",
+    "SPAdAdProductFilter",
     "SPAdCreate",
-    "SPAdUpdate",
+    "SPAdMultiStatusResponse",
     "SPAdMultiStatusSuccess",
-    "SPAdvertisedProducts",
-    "SPCreateAdvertisedProducts",
-    "SPProductCreative",
-    "SPProductCreativeSettings",
-    "SPCreateProductCreative",
-    "SPCreateProductCreativeSettings",
-    "SPCreateProductValue",
-    "SPProductValue",
-    "SPVideo",
-    "SPCreateVideo",
-    "SPCreateSpotlightVideoSettings",
-    "SPSpotlightVideoSettings",
-    "SPVideoExtension",
-    "SPCreateVideoExtension",
-    "SPAudienceBidAdjustment",
-    "SPCreateAudienceBidAdjustment",
-    "SPCreateCreative",
-    "SPCreateCreativeBidAdjustment",
-    "SPCreativeBidAdjustment",
+    "SPAdStateFilter",
+    "SPAdSuccessResponse",
+    "SPAdUpdate",
+    "SPCreateAdRequest",
+    "SPDeleteAdRequest",
+    "SPQueryAdRequest",
+    "SPUpdateAdRequest",
 }
 
 TARGET_NAMES = {
@@ -170,17 +205,120 @@ TARGET_NAMES = {
     "SPCreateThemeTarget",
     "SPProductTarget",
     "SPCreateProductTarget",
+    "SPProductValue",
+    "SPCreateProductValue",
+    "SPTargetAdProductFilter",
+    "SPTargetKeywordFilter",
+    "SPTargetMatchTypeFilter",
+    "SPTargetMultiStatusResponse",
+    "SPTargetNegativeFilter",
+    "SPTargetProductIdFilter",
+    "SPTargetStateFilter",
+    "SPTargetSuccessResponse",
+    "SPTargetTargetIdFilter",
+    "SPTargetTargetTypeFilter",
+    "SPCreateTargetRequest",
+    "SPDeleteTargetRequest",
+    "SPQueryTargetRequest",
+    "SPUpdateTargetRequest",
 }
 
 AD_EXTENSION_NAMES = {
     "SPAdExtension",
+    "SPAdExtensionAdExtensionIdFilter",
+    "SPAdExtensionAdExtensionStatusFilter",
+    "SPAdExtensionAdExtensionTypeFilter",
+    "SPAdExtensionAdGroupIdFilter",
+    "SPAdExtensionAdIdFilter",
+    "SPAdExtensionAdProductFilter",
     "SPAdExtensionCreate",
-    "SPAdExtensionUpdate",
+    "SPAdExtensionMultiStatusResponse",
     "SPAdExtensionMultiStatusSuccess",
     "SPAdExtensionSettings",
+    "SPAdExtensionStateFilter",
+    "SPAdExtensionSuccessResponse",
+    "SPAdExtensionUpdate",
+    "SPCreateAdExtensionRequest",
     "SPCreateAdExtensionSettings",
-    "SPPromptExtension",
     "SPCreatePromptExtension",
+    "SPCreateVideoExtension",
+    "SPPromptExtension",
+    "SPQueryAdExtensionRequest",
+    "SPUpdateAdExtensionRequest",
+    "SPVideoExtension",
+}
+
+ERROR_NAMES = {
+    "BadGatewayResponseContent",
+    "BadRequestResponseContent",
+    "ContentTooLargeResponseContent",
+    "Error",
+    "ErrorsIndex",
+    "ForbiddenResponseContent",
+    "GatewayTimeoutResponseContent",
+    "InternalServerErrorResponseContent",
+    "NotFoundResponseContent",
+    "ServiceUnavailableErrorResponseContent",
+    "TooManyRequestsResponseContent",
+    "UnauthorizedResponseContent",
+}
+
+BID_NAMES = {
+    "SPAudienceBidAdjustment",
+    "SPBidAdjustments",
+    "SPBidSettings",
+    "SPCreateAudienceBidAdjustment",
+    "SPCreateBidAdjustments",
+    "SPCreateBidSettings",
+    "SPCreateCreativeBidAdjustment",
+    "SPCreatePlacementBidAdjustment",
+    "SPCreativeBidAdjustment",
+    "SPPlacementBidAdjustment",
+    "SPUpdateBidAdjustments",
+    "SPUpdateBidSettings",
+}
+
+CREATIVE_NAMES = {
+    "SPAdvertisedProducts",
+    "SPCreateAdvertisedProducts",
+    "SPCreateCreative",
+    "SPCreateGlobalStoreSettings",
+    "SPCreateProductCreative",
+    "SPCreateProductCreativeSettings",
+    "SPCreateSpotlightVideoSettings",
+    "SPCreateVideo",
+    "SPCreative",
+    "SPGlobalStoreSettings",
+    "SPProductCreative",
+    "SPProductCreativeSettings",
+    "SPSpotlightVideoSettings",
+    "SPUpdateCreative",
+    "SPUpdateProductCreative",
+    "SPUpdateProductCreativeSettings",
+    "SPUpdateSpotlightVideoSettings",
+    "SPVideo",
+}
+
+BUDGET_NAMES = {
+    "SPBudget",
+    "SPBudgetSettings",
+    "SPBudgetValue",
+    "SPCreateBudget",
+    "SPCreateBudgetSettings",
+    "SPCreateBudgetValue",
+    "SPCreateMonetaryBudget",
+    "SPCreateMonetaryBudgetValue",
+    "SPMonetaryBudget",
+    "SPMonetaryBudgetValue",
+    "SPUpdateBudgetSettings",
+}
+
+SHARED_NAMES = {
+    "SPAutoCreationSettings",
+    "SPCreateAutoCreationSettings",
+    "SPStatus",
+    "SPTag",
+    "SPCreateTag",
 }
 
 ENTITY_GROUPS = [
@@ -189,6 +327,11 @@ ENTITY_GROUPS = [
     ("_ads.py", AD_NAMES),
     ("_targets.py", TARGET_NAMES),
     ("_ad_extensions.py", AD_EXTENSION_NAMES),
+    ("_errors.py", ERROR_NAMES),
+    ("_bids.py", BID_NAMES),
+    ("_creatives.py", CREATIVE_NAMES),
+    ("_budgets.py", BUDGET_NAMES),
+    ("_shared.py", SHARED_NAMES),
 ]
 
 _ENTITY_KEYWORDS: list[tuple[str, str]] = [
@@ -196,7 +339,7 @@ _ENTITY_KEYWORDS: list[tuple[str, str]] = [
     ("AdGroup", "_ad_groups.py"),
     ("Campaign", "_campaigns.py"),
     ("Target", "_targets.py"),
-    ("Ad", "_ads.py"),  # last — false-positive check for "Adjust" inline
+    ("Ad", "_ads.py"),
 ]
 
 
@@ -320,7 +463,7 @@ def _group_entity(name: str) -> str | None:
     for filename, names in ENTITY_GROUPS:
         if name in names:
             return filename
-    return None  # falls through to _shared.py
+    return None
 
 
 def _classify(schemas: dict[str, dict]) -> dict[str, list[str]]:
@@ -330,9 +473,11 @@ def _classify(schemas: dict[str, dict]) -> dict[str, list[str]]:
     ads: list[str] = []
     targets: list[str] = []
     ad_extensions: list[str] = []
-    requests: list[str] = []
-    responses: list[str] = []
+    errors: list[str] = []
     shared: list[str] = []
+    bids: list[str] = []
+    creatives: list[str] = []
+    budgets: list[str] = []
 
     for name in sorted(schemas):
         s = schemas[name]
@@ -349,6 +494,16 @@ def _classify(schemas: dict[str, dict]) -> dict[str, list[str]]:
                 targets.append(name)
             elif g == "_ad_extensions.py":
                 ad_extensions.append(name)
+            elif g == "_errors.py":
+                errors.append(name)
+            elif g == "_shared.py":
+                shared.append(name)
+            elif g == "_bids.py":
+                bids.append(name)
+            elif g == "_creatives.py":
+                creatives.append(name)
+            elif g == "_budgets.py":
+                budgets.append(name)
         elif g := _match_entity_keyword(name):
             if g == "_campaigns.py":
                 campaigns.append(name)
@@ -360,13 +515,6 @@ def _classify(schemas: dict[str, dict]) -> dict[str, list[str]]:
                 targets.append(name)
             elif g == "_ad_extensions.py":
                 ad_extensions.append(name)
-        elif "Filter" in name:
-            # all filter models now captured by entity keyword match above
-            pass
-        elif "Request" in name:
-            requests.append(name)
-        elif "Response" in name or "SuccessResponse" in name:
-            responses.append(name)
         else:
             shared.append(name)
 
@@ -377,8 +525,10 @@ def _classify(schemas: dict[str, dict]) -> dict[str, list[str]]:
         "_ads.py": ads,
         "_targets.py": targets,
         "_ad_extensions.py": ad_extensions,
-        "_requests.py": requests,
-        "_responses.py": responses,
+        "_errors.py": errors,
+        "_bids.py": bids,
+        "_creatives.py": creatives,
+        "_budgets.py": budgets,
         "_shared.py": shared,
     }
 
@@ -452,7 +602,6 @@ def main(*, output_dir: Path | None = None) -> None:
         for n in names:
             refs = _ext_refs_from_schema(n, schemas[n], schemas, schema_module)
             mod_refs.update(refs)
-        # Remove self-module refs
         mod_refs = {r for r in mod_refs if schema_module.get(r) != mod}
         ext_refs[mod] = mod_refs
 
@@ -469,17 +618,16 @@ def main(*, output_dir: Path | None = None) -> None:
 
         for section, names in [
             ("# ── Enums ──", groups["_enums.py"]),
-            (
-                "\n# ── Entity Models ──",
-                groups["_campaigns.py"]
-                + groups["_ad_groups.py"]
-                + groups["_ads.py"]
-                + groups["_targets.py"]
-                + groups["_ad_extensions.py"],
-            ),
-            ("\n# ── Request Bodies ──", groups["_requests.py"]),
-            ("\n# ── Response Bodies ──", groups["_responses.py"]),
-            ("\n# ── Other Schemas ──", groups["_shared.py"]),
+            ("\n# ── Campaigns ──", groups["_campaigns.py"]),
+            ("\n# ── Ad Groups ──", groups["_ad_groups.py"]),
+            ("\n# ── Ads ──", groups["_ads.py"]),
+            ("\n# ── Targets ──", groups["_targets.py"]),
+            ("\n# ── Ad Extensions ──", groups["_ad_extensions.py"]),
+            ("\n# ── Errors ──", groups["_errors.py"]),
+            ("\n# ── Bids ──", groups["_bids.py"]),
+            ("\n# ── Creatives ──", groups["_creatives.py"]),
+            ("\n# ── Budgets ──", groups["_budgets.py"]),
+            ("\n# ── Shared ──", groups["_shared.py"]),
         ]:
             parts.append(section)
             for n in names:
@@ -539,7 +687,6 @@ def main(*, output_dir: Path | None = None) -> None:
         refs = ext_refs.get(filename, set())
         imports = _build_import_block(filename, refs, schema_module)
         if refs:
-            # Add TYPE_CHECKING to typing imports
             if "TYPE_CHECKING" not in header:
                 header = header.replace(
                     "from typing import Any", "from typing import TYPE_CHECKING, Any"

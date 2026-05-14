@@ -8,6 +8,14 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel, ConfigDict
 
 if TYPE_CHECKING:
+    from ._bids import SPBidSettings, SPCreateBidSettings, SPUpdateBidSettings
+    from ._budgets import (
+        SPBudget,
+        SPBudgetSettings,
+        SPCreateBudget,
+        SPCreateBudgetSettings,
+        SPUpdateBudgetSettings,
+    )
     from ._enums import (
         SPAdProduct,
         SPAutoScaleGlobalCampaignSetting,
@@ -20,21 +28,13 @@ if TYPE_CHECKING:
         SPState,
         SPUpdateState,
     )
+    from ._errors import ErrorsIndex
     from ._shared import (
-        ErrorsIndex,
         SPAutoCreationSettings,
-        SPBidSettings,
-        SPBudget,
-        SPBudgetSettings,
         SPCreateAutoCreationSettings,
-        SPCreateBidSettings,
-        SPCreateBudget,
-        SPCreateBudgetSettings,
         SPCreateTag,
         SPStatus,
         SPTag,
-        SPUpdateBidSettings,
-        SPUpdateBudgetSettings,
     )
 
 

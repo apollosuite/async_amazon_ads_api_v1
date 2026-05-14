@@ -18,7 +18,8 @@ if TYPE_CHECKING:
         SPState,
         SPUpdateState,
     )
-    from ._shared import ErrorsIndex, SPCreateTag, SPStatus, SPTag
+    from ._errors import ErrorsIndex
+    from ._shared import SPCreateTag, SPStatus, SPTag
 
 
 class SPAdAdGroupIdFilter(BaseModel):

@@ -8,7 +8,6 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel, ConfigDict
 
 if TYPE_CHECKING:
-    from ._ads import SPCreateVideoExtension, SPVideoExtension
     from ._enums import (
         SPAdExtensionStatus,
         SPAdExtensionType,
@@ -18,8 +17,10 @@ if TYPE_CHECKING:
         SPMarketplaceScope,
         SPState,
         SPUpdateState,
+        SPVideoType,
     )
-    from ._shared import ErrorsIndex, SPStatus
+    from ._errors import ErrorsIndex
+    from ._shared import SPStatus
 
 
 class SPAdExtension(BaseModel):
@@ -200,6 +201,12 @@ class SPCreatePromptExtension(BaseModel):
     promptText: str  # The prompt text rendered in the ads
 
 
+class SPCreateVideoExtension(BaseModel):
+    """Video Ad Extension"""
+
+    model_config = ConfigDict(extra="forbid")
+
+
 class SPPromptExtension(BaseModel):
     """Prompts Ad Extension"""
 
@@ -230,3 +237,15 @@ class SPUpdateAdExtensionRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adExtensions: list[SPAdExtensionUpdate] | None = None
+
+
+class SPVideoExtension(BaseModel):
+    """Video Ad Extension"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    renderedAssetId: str | None = None  # The video asset ID rendered in the ad.
+    renderedCoverImageUrl: str | None = (
+        None  # The image displayed over the video player before the video is played.
+    )
+    videoType: SPVideoType
