@@ -12,15 +12,15 @@ import httpx
 
 HERE = Path(__file__).parent
 
-# TODO: Fill in the actual URL(s) to download.
-# Example:
-#   SP_URL = "https://example.com/path/to/AmazonAdsAPISPMerged_prod_3p.json"
-#   SB_URL = "https://example.com/path/to/AmazonAdsAPISBMerged_prod_3p.json"
-#   SD_URL = "https://example.com/path/to/AmazonAdsAPISDMerged_prod_3p.json"
-
-SP_URL: str = ""
-SB_URL: str = ""
-SD_URL: str = ""
+SP_URL: str = (
+    "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISPMerged_prod_3p.json"
+)
+SB_URL: str = (
+    "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBMerged_prod_3p.json"
+)
+SD_URL: str = (
+    "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISDMerged_prod_3p.json"
+)
 
 
 def download(url: str, dest: Path) -> None:

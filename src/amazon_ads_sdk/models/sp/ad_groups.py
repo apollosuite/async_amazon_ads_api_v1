@@ -29,6 +29,7 @@ class SPAdGroup(BaseModel):
 
     adGroupId: str  # The unique identifier of the ad group.
     adProduct: SPAdProduct
+    adSettings: SPAdSettings | None = None
     bid: SPAdGroupBid
     campaignId: str  # The unique identifier of the campaign the ad group belongs to.
     creationDateTime: datetime  # The date time that the ad group was created.
@@ -89,6 +90,7 @@ class SPAdGroupCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adProduct: SPAdProduct
+    adSettings: SPCreateAdSettings | None = None
     bid: SPCreateAdGroupBid
     campaignId: str  # The unique identifier of the campaign the ad group belongs to.
     name: str  # The name of the ad group.
@@ -160,11 +162,22 @@ class SPAdGroupUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The unique identifier of the ad group.
+    adSettings: SPUpdateAdSettings | None = None
     bid: SPUpdateAdGroupBid | None = None
     name: str | None = None  # The name of the ad group.
     state: SPUpdateState | None = None
     tags: list[SPCreateTag] | None = (
         None  # Open ended labels with a key value pair applied to the ad group
+    )
+
+
+class SPAdSettings(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    productAttributeSetRefinementConfigurationId: str | None = (
+        None  # Identifier for the product attribute configuration set associated with this ad group.
     )
 
 
@@ -182,6 +195,16 @@ class SPCreateAdGroupRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SPAdGroupCreate] | None = None
+
+
+class SPCreateAdSettings(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    productAttributeSetRefinementConfigurationId: str | None = (
+        None  # Identifier for the product attribute configuration set associated with this ad group.
+    )
 
 
 class SPDeleteAdGroupRequest(BaseModel):
@@ -222,3 +245,13 @@ class SPUpdateAdGroupRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SPAdGroupUpdate] | None = None
+
+
+class SPUpdateAdSettings(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    productAttributeSetRefinementConfigurationId: str | None = (
+        None  # Identifier for the product attribute configuration set associated with this ad group.
+    )
