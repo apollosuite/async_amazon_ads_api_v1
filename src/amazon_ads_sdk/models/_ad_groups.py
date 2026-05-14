@@ -37,7 +37,7 @@ class SPAdGroup(BaseModel):
     marketplaceScope: SPMarketplaceScope
     marketplaces: list[
         SPMarketplace
-    ]  # The list of country codes representing amazon marketplaces in which the global a
+    ]  # The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign
     name: str  # The name of the ad group.
     state: SPState
     status: SPStatus | None = None
@@ -52,9 +52,7 @@ class SPAdGroupBid(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     currencyCode: SPCurrencyCode
-    defaultBid: (
-        float  # The default maximum bid for ads and targets in the ad group. This is used in spo
-    )
+    defaultBid: float  # The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.
 
 
 class SPAdGroupCreate(BaseModel):
@@ -100,9 +98,7 @@ class SPCreateAdGroupBid(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    defaultBid: (
-        float  # The default maximum bid for ads and targets in the ad group. This is used in spo
-    )
+    defaultBid: float  # The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.
 
 
 class SPUpdateAdGroupBid(BaseModel):
@@ -111,5 +107,5 @@ class SPUpdateAdGroupBid(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     defaultBid: float | None = (
-        None  # The default maximum bid for ads and targets in the ad group. This is used in spo
+        None  # The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.
     )

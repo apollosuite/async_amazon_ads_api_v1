@@ -48,7 +48,7 @@ class SPAd(BaseModel):
     marketplaceScope: SPMarketplaceScope
     marketplaces: list[
         SPMarketplace
-    ]  # The list of country codes representing amazon marketplaces in which the global a
+    ]  # The list of country codes representing amazon marketplaces in which the global ad is applicable. The marketplaces included should either be same as or subset of parent ad group
     state: SPState
     status: SPStatus | None = None
     tags: list[SPTag] | None = None  # Open ended labels with a key value pair applied to the ad
@@ -100,7 +100,7 @@ class SPAdvertisedProducts(BaseModel):
     productId: str  # The identifier of the advertised product.
     productIdType: SPProductIdType
     resolvedProductId: str | None = (
-        None  # The identifier of product associated with the advertised product. It's a read-on
+        None  # The identifier of product associated with the advertised product. It's a read-only field.
     )
     resolvedProductIdType: SPProductIdType | None = None
 
@@ -111,9 +111,7 @@ class SPAudienceBidAdjustment(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     audienceId: str  # The unique identifier of the Audience to apply bid adjustment.
-    percentage: (
-        int  # The selection of the percentage change associated with a given audience and bid
-    )
+    percentage: int  # The selection of the percentage change associated with a given audience and bid adjustment settings.
 
 
 class SPCreateAdvertisedProducts(BaseModel):
@@ -132,9 +130,7 @@ class SPCreateAudienceBidAdjustment(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     audienceId: str  # The unique identifier of the Audience to apply bid adjustment.
-    percentage: (
-        int  # The selection of the percentage change associated with a given audience and bid
-    )
+    percentage: int  # The selection of the percentage change associated with a given audience and bid adjustment settings.
 
 
 class SPCreateCreative(BaseModel):
@@ -151,9 +147,7 @@ class SPCreateCreativeBidAdjustment(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     creativeType: SPCreativeBidAdjustmentType | None = None
-    percentage: (
-        int  # The selection of the percentage change associated with the creative type and bid
-    )
+    percentage: int  # The selection of the percentage change associated with the creative type and bid adjustment settings.
 
 
 class SPCreateProductCreative(BaseModel):
@@ -179,9 +173,7 @@ class SPCreateProductValue(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    productId: (
-        str  # The product identifier. Either the product id or the marketplace settings should
-    )
+    productId: str  # The product identifier. Either the product id or the marketplace settings should always be specified
 
 
 class SPCreateSpotlightVideoSettings(BaseModel):
@@ -218,9 +210,7 @@ class SPCreativeBidAdjustment(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     creativeType: SPCreativeBidAdjustmentType | None = None
-    percentage: (
-        int  # The selection of the percentage change associated with the creative type and bid
-    )
+    percentage: int  # The selection of the percentage change associated with the creative type and bid adjustment settings.
 
 
 class SPProductCreative(BaseModel):
@@ -246,9 +236,7 @@ class SPProductValue(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    productId: (
-        str  # The product identifier. Either the product id or the marketplace settings should
-    )
+    productId: str  # The product identifier. Either the product id or the marketplace settings should always be specified
 
 
 class SPSpotlightVideoSettings(BaseModel):

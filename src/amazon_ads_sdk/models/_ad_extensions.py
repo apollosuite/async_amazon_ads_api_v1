@@ -41,7 +41,7 @@ class SPAdExtension(BaseModel):
     marketplaceScope: SPMarketplaceScope
     marketplaces: list[
         SPMarketplace
-    ]  # The list of marketplace in which the global ad_extension is applicable. The mark
+    ]  # The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad
     state: SPState
     status: SPStatus | None = None
 
@@ -62,7 +62,7 @@ class SPAdExtensionCreate(BaseModel):
     marketplaceScope: SPMarketplaceScope
     marketplaces: list[
         SPMarketplace
-    ]  # The list of marketplace in which the global ad_extension is applicable. The mark
+    ]  # The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad
     state: SPCreateState
 
 

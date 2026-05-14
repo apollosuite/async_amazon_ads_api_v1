@@ -22,20 +22,6 @@ class _ResourceBase:
     def __init__(self, ctx: ClientContext) -> None:
         self._ctx: ClientContext = ctx
 
-    async def _get_client(self, accept_async: bool = False) -> httpx.AsyncClient:
-        if self._ctx._client is None:
-            accept = "vnd.createasyncrequestresults.v3+json" if accept_async else "json"
-            self._ctx._client = httpx.AsyncClient(
-                base_url=self._ctx.config.region.value,
-                timeout=httpx.Timeout(self._ctx.config.timeout),
-                headers={
-                    "Authorization": f"Bearer {self._ctx.config.access_token}",
-                    "Content-Type": "application/json",
-                    "Accept": f"application/{accept}",
-                },
-            )
-        return self._ctx._client
-
     async def _request(
         self,
         method: str,
@@ -45,7 +31,7 @@ class _ResourceBase:
         json: dict[str, Any] | None = None,
         accept_async: bool = False,
     ) -> httpx.Response:
-        client = await self._get_client(accept_async)
+        client = await self._ctx.get_client(accept_async)
         headers = self._ctx.profile_header
         for attempt in range(self._ctx.config.max_retries):
             try:
@@ -74,7 +60,7 @@ class _ResourceBase:
     def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
         return self._ctx._response(model_cls, resp)
 
-    def _validate(self, items: list[Any], model_cls: type[BaseModel]) -> list[dict[str, Any]]:
+    def _validate(self, items: list[Any], model_cls: type[_T]) -> list[dict[str, Any]]:
         result: list[dict[str, Any]] = []
         for item in items:
             if isinstance(item, model_cls):

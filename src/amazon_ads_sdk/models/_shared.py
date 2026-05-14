@@ -54,9 +54,7 @@ class SPAutoCreationSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    autoCreateTargets: (
-        bool  # Gives Amazon permission to automatically create targets associated with the camp
-    )
+    autoCreateTargets: bool  # Gives Amazon permission to automatically create targets associated with the campaign based on the products being advertised.
     autoManageCampaign: bool | None = (
         None  # Flag that allows Amazon to manage the lifecycle of your Campaign.
     )
@@ -71,7 +69,7 @@ class SPBidAdjustments(BaseModel):
         None  # Bid Adjustments based on the audiences
     )
     creativeBidAdjustments: list[SPCreativeBidAdjustment] | None = (
-        None  # Bid Adjustments based on ads being shown as a creative. Range of bid adjustment
+        None  # Bid Adjustments based on ads being shown as a creative. Range of bid adjustment value would be 0:900
     )
     placementBidAdjustments: list[SPPlacementBidAdjustment] | None = (
         None  # Bid adjustments based on ad placements.
@@ -119,9 +117,7 @@ class SPCreateAutoCreationSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    autoCreateTargets: (
-        bool  # Gives Amazon permission to automatically create targets associated with the camp
-    )
+    autoCreateTargets: bool  # Gives Amazon permission to automatically create targets associated with the campaign based on the products being advertised.
     autoManageCampaign: bool | None = (
         None  # Flag that allows Amazon to manage the lifecycle of your Campaign.
     )
@@ -136,7 +132,7 @@ class SPCreateBidAdjustments(BaseModel):
         None  # Bid Adjustments based on the audiences
     )
     creativeBidAdjustments: list[SPCreateCreativeBidAdjustment] | None = (
-        None  # Bid Adjustments based on ads being shown as a creative. Range of bid adjustment
+        None  # Bid Adjustments based on ads being shown as a creative. Range of bid adjustment value would be 0:900
     )
     placementBidAdjustments: list[SPCreatePlacementBidAdjustment] | None = (
         None  # Bid adjustments based on ad placements.
@@ -216,9 +212,7 @@ class SPCreatePlacementBidAdjustment(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    percentage: (
-        int  # The selection of the percentage change associated with a given placement and bid
-    )
+    percentage: int  # The selection of the percentage change associated with a given placement and bid adjustment settings.
     placement: SPPlacement
 
 
@@ -272,9 +266,7 @@ class SPPlacementBidAdjustment(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    percentage: (
-        int  # The selection of the percentage change associated with a given placement and bid
-    )
+    percentage: int  # The selection of the percentage change associated with a given placement and bid adjustment settings.
     placement: SPPlacement
 
 
@@ -307,7 +299,7 @@ class SPUpdateBidAdjustments(BaseModel):
         None  # Bid Adjustments based on the audiences
     )
     creativeBidAdjustments: list[SPCreateCreativeBidAdjustment] | None = (
-        None  # Bid Adjustments based on ads being shown as a creative. Range of bid adjustment
+        None  # Bid Adjustments based on ads being shown as a creative. Range of bid adjustment value would be 0:900
     )
     placementBidAdjustments: list[SPCreatePlacementBidAdjustment] | None = (
         None  # Bid adjustments based on ad placements.

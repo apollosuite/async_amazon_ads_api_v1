@@ -19,8 +19,15 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict
 '''
 
+ENUMS_IMPORT = '''"""Auto-generated Pydantic models from Amazon Ads API schema."""
+
+from __future__ import annotations
+
+from enum import StrEnum
+'''
+
 MODULE_IMPORTS = {
-    "_enums.py": HEADER,
+    "_enums.py": ENUMS_IMPORT,
     "_filters.py": '''"""filter models."""
 
 from __future__ import annotations
@@ -261,7 +268,7 @@ def generate_model(name: str, schema: dict, schemas: dict | None = None) -> str:
             if variant.get("type") == "object" and variant.get("properties"):
                 for fname, fschema in variant["properties"].items():
                     typ = openapi_to_python_type(fschema, schemas)
-                    desc = _clean_description(fschema.get("description", "")).strip()[:80].rstrip()
+                    desc = _clean_description(fschema.get("description", "")).strip().rstrip()
                     comment = f"  # {desc}" if desc else ""
                     fields.append(f"    {fname}: {typ} | None = None{comment}")
         field_block = "\n".join(fields) if fields else "    pass"
@@ -285,7 +292,7 @@ def generate_model(name: str, schema: dict, schemas: dict | None = None) -> str:
         default = "" if is_required else " = None"
         if not is_required and typ not in ("Any",):
             typ = f"{typ} | None"
-        desc = _clean_description(fschema.get("description", "")).strip()[:80].rstrip()
+        desc = _clean_description(fschema.get("description", "")).strip().rstrip()
         comment = f"  # {desc}" if desc else ""
         fields.append(f"    {fname}: {typ}{default}{comment}")
     field_block = "\n".join(fields)
@@ -486,11 +493,12 @@ def main(*, output_dir: Path | None = None) -> None:
             "# Resolve cross-module forward references",
             "_ns: dict[str, typing.Any] = dict(sys.modules[__name__].__dict__)",
             "for _name, _obj in list(_ns.items()):",
-            "    if isinstance(_obj, type) and hasattr(_obj, 'model_rebuild'):",
-            "        try:",
-            "            _obj.model_rebuild(_types_namespace=_ns)",
-            "        except Exception:",
-            "            pass",
+            "    if (",
+            "        isinstance(_obj, type)",
+            "        and hasattr(_obj, 'model_rebuild')",
+            "        and getattr(_obj, '__module__', '').startswith('amazon_ads_sdk.models')",
+            "    ):",
+            "        _obj.model_rebuild(_types_namespace=_ns)",
         ]
     )
     (output_dir / "__init__.py").write_text("\n".join(init_parts) + "\n")

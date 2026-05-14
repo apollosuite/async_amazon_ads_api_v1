@@ -16,16 +16,18 @@ Pure async Python SDK for the Amazon Advertising API (Sponsored Products).
 └── src/amazon_ads_sdk/
     ├── __init__.py                     # 公开 API 导出
     ├── config.py                       # AmazonAdsConfig / Region
+    ├── py.typed                        # PEP 561 类型标记
     ├── client/                          # 异步 HTTP 客户端
     │   ├── __init__.py                 # AmazonAdsClient 主类
-    │   ├── _base.py                    # 共享 HTTP 层（_request）
+    │   ├── _context.py                 # ClientContext（共享 HTTP 状态）
+    │   ├── _resource.py                # _ResourceBase（HTTP 重试、序列化）
     │   ├── _campaigns.py               # Campaigns 资源
     │   ├── _ad_groups.py               # AdGroups 资源
     │   ├── _ads.py                     # Ads 资源
     │   ├── _targets.py                 # Targets 资源
     │   └── _ad_extensions.py           # AdExtensions 资源
     └── models/                          # Pydantic v2 模型（自动生成）
-        ├── __init__.py                 # 导出全部模型
+        ├── __init__.py                 # 导出全部模型 + model_rebuild
         ├── _enums.py                   # 枚举（ErrorCode, SPState 等）
         ├── _campaigns.py
         ├── _ad_groups.py
@@ -46,10 +48,10 @@ Pure async Python SDK for the Amazon Advertising API (Sponsored Products).
 
 - **环境管理**: **必须**使用 `uv` 进行依赖管理、虚拟环境创建及任务执行。
 - **Python 版本**:
-    - 最小支持版本为 **Python 3.13**。
+    - 最小支持版本为 **Python 3.14**。
     - **优先兼容 Python 3.14+** 及后续更高版本。
     - **禁止**考虑对 Python 3.12 及以下版本的向后兼容性。
-- **特性使用**: 鼓励使用 Python 3.13/3.14 引入的新特性。
+- **特性使用**: 鼓励使用 Python 3.14 引入的新特性。
 
 ## 代码质量 (MUST)
 
@@ -80,10 +82,10 @@ Pure async Python SDK for the Amazon Advertising API (Sponsored Products).
 ```bash
 uv run python scripts/generate_models.py --output-dir src/amazon_ads_sdk/models/
 uv run ruff check --fix src/
+uv run black src/
 ```
 
 - 每次修改上游 JSON Schema 后，重新运行生成脚本
-- 生成后执行 `uv run black src/`
 - 枚举使用 `StrEnum`，可选字段使用 Python 3.14 `X | None` 语法
 
 ## 环境变量
@@ -108,5 +110,5 @@ config = AmazonAdsConfig(
 async with AmazonAdsClient(config) as client:
     # 嵌套式 API：client.<resource>.<operation>()
     resp = await client.campaign.query({"stateFilter": {"include": ["enabled"]}})
-    print(resp.json())
+    print(resp.model_dump_json(indent=2))
 ```

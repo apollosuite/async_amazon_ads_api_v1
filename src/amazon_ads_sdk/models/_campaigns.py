@@ -44,10 +44,10 @@ class SPCampaign(BaseModel):
     autoScaleGlobalCampaign: SPAutoScaleGlobalCampaignSetting | None = None
     budgets: list[
         SPBudget
-    ]  # The object containing budget details for the campaign (for campaigns that suppor
+    ]  # The object containing budget details for the campaign (for campaigns that support multiple budgets).
     campaignId: str  # A unique identifier for a campaign.
     countries: list[SPCountryCode] | None = (
-        None  # This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sp
+        None  # This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.
     )
     creationDateTime: datetime  # The date time that the campaign was created.
     endDateTime: datetime | None = None  # The end date time for the campaign.
@@ -57,7 +57,7 @@ class SPCampaign(BaseModel):
     lastUpdatedDateTime: datetime  # The date time that the campaign was last updated.
     marketplaceScope: SPMarketplaceScope
     marketplaces: list[SPMarketplace] | None = (
-        None  # This represent retail domains such as Amazon.com, Amazon.co.uk, Amazon.mx, etc,
+        None  # This represent retail domains such as Amazon.com, Amazon.co.uk, Amazon.mx, etc, that represent a country that an Amazon customer can shop.
     )
     name: str  # The name of the campaign.
     optimizations: SPCampaignOptimizations | None = None
@@ -80,14 +80,14 @@ class SPCampaignCreate(BaseModel):
     autoCreationSettings: SPCreateAutoCreationSettings
     budgets: list[
         SPCreateBudget
-    ]  # The object containing budget details for the campaign (for campaigns that suppor
+    ]  # The object containing budget details for the campaign (for campaigns that support multiple budgets).
     countries: list[SPCountryCode] | None = (
-        None  # This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sp
+        None  # This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.
     )
     endDateTime: datetime | None = None  # The end date time for the campaign.
     marketplaceScope: SPMarketplaceScope
     marketplaces: list[SPMarketplace] | None = (
-        None  # This represent retail domains such as Amazon.com, Amazon.co.uk, Amazon.mx, etc,
+        None  # This represent retail domains such as Amazon.com, Amazon.co.uk, Amazon.mx, etc, that represent a country that an Amazon customer can shop.
     )
     name: str  # The name of the campaign.
     optimizations: SPCreateCampaignOptimizations | None = None
@@ -124,7 +124,7 @@ class SPCampaignUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     budgets: list[SPCreateBudget] | None = (
-        None  # The object containing budget details for the campaign (for campaigns that suppor
+        None  # The object containing budget details for the campaign (for campaigns that support multiple budgets).
     )
     campaignId: str  # A unique identifier for a campaign.
     endDateTime: datetime | None = None  # The end date time for the campaign.

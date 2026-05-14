@@ -59,19 +59,19 @@ class SPCreateProductCategoryRefinement(BaseModel):
     productCategoryId: str | None = None  # The product category ID to target.
     productGenreId: str | None = None  # The product genre ID to target.
     productPriceGreaterThan: float | None = (
-        None  # Refinement to target products with a price greater than the value within the pro
+        None  # Refinement to target products with a price greater than the value within the product category.
     )
     productPriceLessThan: float | None = (
-        None  # Refinement to target products with a price less than the value within the produc
+        None  # Refinement to target products with a price less than the value within the product category.
     )
     productPrimeShippingEligible: bool | None = (
         None  # Target based on if a product is Prime-shipping eligible.
     )
     productRatingGreaterThan: float | None = (
-        None  # Refinement to target products with a rating greater than the value within the pr
+        None  # Refinement to target products with a rating greater than the value within the product category.
     )
     productRatingLessThan: float | None = (
-        None  # Refinement to target products with a rating less than the value within the produ
+        None  # Refinement to target products with a rating less than the value within the product category.
     )
 
 
@@ -164,19 +164,19 @@ class SPProductCategoryRefinement(BaseModel):
     productGenreId: str | None = None  # The product genre ID to target.
     productGenreIdResolved: str | None = None  # The resolved product genre to target.
     productPriceGreaterThan: float | None = (
-        None  # Refinement to target products with a price greater than the value within the pro
+        None  # Refinement to target products with a price greater than the value within the product category.
     )
     productPriceLessThan: float | None = (
-        None  # Refinement to target products with a price less than the value within the produc
+        None  # Refinement to target products with a price less than the value within the product category.
     )
     productPrimeShippingEligible: bool | None = (
         None  # Target based on if a product is Prime-shipping eligible.
     )
     productRatingGreaterThan: float | None = (
-        None  # Refinement to target products with a rating greater than the value within the pr
+        None  # Refinement to target products with a rating greater than the value within the product category.
     )
     productRatingLessThan: float | None = (
-        None  # Refinement to target products with a rating less than the value within the produ
+        None  # Refinement to target products with a rating less than the value within the product category.
     )
 
 
@@ -212,12 +212,12 @@ class SPTarget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str | None = (
-        None  # A unique identifier for the ad group associated with the target. Only used for a
+        None  # A unique identifier for the ad group associated with the target. Only used for ad-group level targets.
     )
     adProduct: SPAdProduct
     bid: SPTargetBid | None = None
     campaignId: str | None = (
-        None  # A unique identifier for the campaign associated with the target. Only used for c
+        None  # A unique identifier for the campaign associated with the target. Only used for campaign-level targets.
     )
     creationDateTime: datetime  # The date time the target was created.
     globalTargetId: str | None = (
@@ -227,7 +227,7 @@ class SPTarget(BaseModel):
     marketplaceScope: SPMarketplaceScope
     marketplaces: list[
         SPMarketplace
-    ]  # The list of marketplace in which the global target is applicable. The marketplac
+    ]  # The list of marketplace in which the global target is applicable. The marketplaces included should either be same as or subset of parent campaign/ad group
     negative: bool  # Indicates whether the target is negative or not.
     state: SPState
     status: SPStatus | None = None
@@ -253,12 +253,12 @@ class SPTargetCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str | None = (
-        None  # A unique identifier for the ad group associated with the target. Only used for a
+        None  # A unique identifier for the ad group associated with the target. Only used for ad-group level targets.
     )
     adProduct: SPAdProduct
     bid: SPCreateTargetBid | None = None
     campaignId: str | None = (
-        None  # A unique identifier for the campaign associated with the target. Only used for c
+        None  # A unique identifier for the campaign associated with the target. Only used for campaign-level targets.
     )
     negative: bool  # Indicates whether the target is negative or not.
     state: SPCreateState

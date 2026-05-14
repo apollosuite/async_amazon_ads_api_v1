@@ -70,7 +70,7 @@ class SPAdExtensionAdExtensionStatusFilter(BaseModel):
 
     include: list[
         SPAdExtensionStatus
-    ]  # AdExtensionStatus Description `OPTED_OUT` If the advertiser has opted out of thi
+    ]  # AdExtensionStatus Description `OPTED_OUT` If the advertiser has opted out of this Ad Extension.
 
 
 class SPAdExtensionAdExtensionTypeFilter(BaseModel):
@@ -80,7 +80,7 @@ class SPAdExtensionAdExtensionTypeFilter(BaseModel):
 
     include: list[
         SPAdExtensionType
-    ]  # AdExtensionType Description `PROMPTS` Enables Prompt based Ad Extension. `VIDEO`
+    ]  # AdExtensionType Description `PROMPTS` Enables Prompt based Ad Extension. `VIDEO` Enables Video based Ad Extension.
 
 
 class SPAdExtensionAdGroupIdFilter(BaseModel):
@@ -116,7 +116,7 @@ class SPAdExtensionStateFilter(BaseModel):
 
     include: list[
         SPState
-    ]  # State Description `ENABLED` The object is set active by user and eligible for de
+    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SPAdGroupAdGroupIdFilter(BaseModel):
@@ -161,7 +161,7 @@ class SPAdGroupStateFilter(BaseModel):
 
     include: list[
         SPState
-    ]  # State Description `ENABLED` The object is set active by user and eligible for de
+    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SPAdStateFilter(BaseModel):
@@ -171,7 +171,7 @@ class SPAdStateFilter(BaseModel):
 
     include: list[
         SPState
-    ]  # State Description `ENABLED` The object is set active by user and eligible for de
+    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SPCampaignAdProductFilter(BaseModel):
@@ -216,7 +216,7 @@ class SPCampaignStateFilter(BaseModel):
 
     include: list[
         SPState
-    ]  # State Description `ENABLED` The object is set active by user and eligible for de
+    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SPTargetAdGroupIdFilter(BaseModel):
@@ -261,7 +261,7 @@ class SPTargetMatchTypeFilter(BaseModel):
 
     include: list[
         SPMatchType
-    ]  # MatchType Description `KEYWORDS_RELATED_TO_GIFTS` Search terms related to gifts.
+    ]  # MatchType Description `KEYWORDS_RELATED_TO_GIFTS` Search terms related to gifts. `KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY` Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically. `PRODUCT_SIMILAR` Products similar to the specified product. `BROAD` Broad match search terms. This expands matching on user intent beyond PHRASE. `EXACT` Exact match search terms. `KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY` Search terms shoppers often use to search for products in the same category as the products you're advertising. `KEYWORDS_RELATED_TO_YOUR_BRAND` Search terms related to your brand. `PRODUCT_SUBSTITUTES` Products that can be substituted for advertised product. `KEYWORDS_LOOSE_MATCH` Search terms loosely matching advertised product. `PHRASE` Phrase match search terms. This expands matching on user intent beyond EXACT. `KEYWORDS_CLOSE_MATCH` Search terms closely matching advertised product. `PRODUCT_COMPLEMENTS` Products that complement advertised product. `PRODUCT_EXACT` Products exactly matching the specified product. `KEYWORDS_RELATED_TO_PRIME_DAY` Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like "prime day", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day.
 
 
 class SPTargetNegativeFilter(BaseModel):
@@ -288,7 +288,7 @@ class SPTargetStateFilter(BaseModel):
 
     include: list[
         SPState
-    ]  # State Description `ENABLED` The object is set active by user and eligible for de
+    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SPTargetTargetIdFilter(BaseModel):
@@ -306,4 +306,4 @@ class SPTargetTargetTypeFilter(BaseModel):
 
     include: list[
         SPTargetType
-    ]  # TargetType Description `KEYWORD` Target based on customer search terms. `PRODUCT
+    ]  # TargetType Description `KEYWORD` Target based on customer search terms. `PRODUCT` Target based on a specific product. `PRODUCT_CATEGORY` Target based on a product category. `LOCATION` Target based on geographic location. `THEME` Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
