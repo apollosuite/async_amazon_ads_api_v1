@@ -10,43 +10,27 @@ from amazon_ads_sdk.models import (
     SPAdExtensionUpdate,
 )
 
-from ._context import ClientContext
-from ._resource import _ResourceBase
+from ._resource import _ResourceBase, _ResourceSpec
 
 
 class AdExtensions(_ResourceBase):
     """AdExtension 广告扩展资源操作。"""
 
-    def __init__(self, ctx: ClientContext) -> None:
-        super().__init__(ctx)
+    _spec = _ResourceSpec(
+        name="adExtensions",
+        create_model=SPAdExtensionCreate,
+        update_model=SPAdExtensionUpdate,
+    )
 
     async def create(
         self, ad_extensions: list[dict[str, Any] | SPAdExtensionCreate]
     ) -> SPAdExtensionSuccessResponse:
-        """创建广告扩展。"""
-        validated = self._validate(ad_extensions, SPAdExtensionCreate)
-        resp = await self._request(
-            "POST",
-            "/adsApi/v1/create/adExtensions",
-            json={"adExtensions": validated},
-            accept_async=True,
-        )
-        return self._response(SPAdExtensionSuccessResponse, resp)
+        return await self._create(ad_extensions, self._spec, SPAdExtensionSuccessResponse)
 
     async def query(self, body: dict[str, Any]) -> SPAdExtensionSuccessResponse:
-        """查询广告扩展，支持 nextToken 分页。"""
-        resp = await self._request("POST", "/adsApi/v1/query/adExtensions", json=body)
-        return self._response(SPAdExtensionSuccessResponse, resp)
+        return await self._query(body, self._spec, SPAdExtensionSuccessResponse)
 
     async def update(
         self, ad_extensions: list[dict[str, Any] | SPAdExtensionUpdate]
     ) -> SPAdExtensionSuccessResponse:
-        """更新广告扩展。"""
-        validated = self._validate(ad_extensions, SPAdExtensionUpdate)
-        resp = await self._request(
-            "POST",
-            "/adsApi/v1/update/adExtensions",
-            json={"adExtensions": validated},
-            accept_async=True,
-        )
-        return self._response(SPAdExtensionSuccessResponse, resp)
+        return await self._update(ad_extensions, self._spec, SPAdExtensionSuccessResponse)

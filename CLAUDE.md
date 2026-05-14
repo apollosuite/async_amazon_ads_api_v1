@@ -12,6 +12,7 @@ Pure async Python SDK for the Amazon Advertising API (Sponsored Products).
 ├── pyproject.toml                      # uv 项目配置
 ├── uv.lock                             # 依赖锁定文件（提交）
 ├── scripts/
+│   ├── generate_file_structure.py      # OpenAPI schema 分类器（无硬编码）
 │   └── generate_models.py              # 从 JSON Schema 生成 models/
 └── src/amazon_ads_sdk/
     ├── __init__.py                     # 公开 API 导出
@@ -20,8 +21,8 @@ Pure async Python SDK for the Amazon Advertising API (Sponsored Products).
     ├── client/                          # 异步 HTTP 客户端
     │   ├── __init__.py                 # AmazonAdsClient 主类
     │   ├── _context.py                 # ClientContext（共享 HTTP 状态）
-    │   ├── _resource.py                # _ResourceBase（HTTP 重试、序列化）
-    │   ├── _campaigns.py               # Campaigns 资源
+    │   ├── _resource.py                # _ResourceBase + _ResourceSpec
+    │   ├── _campaigns.py               # Campaigns 资源（继承 _ResourceBase）
     │   ├── _ad_groups.py               # AdGroups 资源
     │   ├── _ads.py                     # Ads 资源
     │   ├── _targets.py                 # Targets 资源
@@ -29,14 +30,13 @@ Pure async Python SDK for the Amazon Advertising API (Sponsored Products).
     └── models/                          # Pydantic v2 模型（自动生成）
         ├── __init__.py                 # 导出全部模型 + model_rebuild
         ├── _enums.py                   # 枚举（ErrorCode, SPState 等）
-        ├── _campaigns.py               # + 自身 Filter/Request/Response 模型
-        ├── _ad_groups.py               # + 自身 Filter/Request/Response 模型
-        ├── _ads.py                     # + 自身 Filter/Request/Response 模型
-        ├── _targets.py                 # + 自身 Filter/Request/Response 模型
-        ├── _ad_extensions.py           # + 自身 Filter/Request/Response 模型
-        ├── _requests.py                # 仅通用 HTTP 请求错误模型
-        ├── _responses.py               # 仅通用 HTTP 响应错误模型
-        └── _shared.py
+        ├── _campaigns.py               # Campaign 模型
+        ├── _ad_groups.py               # AdGroup 模型
+        ├── _ads.py                     # Ad 模型
+        ├── _targets.py                 # Target 模型
+        ├── _ad_extensions.py           # AdExtension 模型
+        ├── _errors.py                  # HTTP 错误响应模型
+        └── _shared.py                  # 跨资源共用模型
 ```
 
 ## 项目概述
@@ -76,7 +76,7 @@ Pure async Python SDK for the Amazon Advertising API (Sponsored Products).
 
 ## 代码生成
 
-`scripts/generate_models.py` 从 `AmazonAdsAPISPMerged_prod_3p.json` 自动生成 `src/amazon_ads_sdk/models/`。
+`scripts/generate_models.py` 从 `AmazonAdsAPISPMerged_prod_3p.json` 自动生成 `src/amazon_ads_sdk/models/`（内部调用 `generate_file_structure.py` 完成 schema 分类）。
 
 ```bash
 uv run python scripts/generate_models.py --output-dir src/amazon_ads_sdk/models/

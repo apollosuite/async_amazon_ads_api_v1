@@ -11,53 +11,31 @@ from amazon_ads_sdk.models import (
     SPTargetUpdate,
 )
 
-from ._context import ClientContext
-from ._resource import _ResourceBase
+from ._resource import _ResourceBase, _ResourceSpec
 
 
 class Targets(_ResourceBase):
     """Target 投放目标资源操作。"""
 
-    def __init__(self, ctx: ClientContext) -> None:
-        super().__init__(ctx)
+    _spec = _ResourceSpec(
+        name="targets",
+        create_model=SPTargetCreate,
+        update_model=SPTargetUpdate,
+        delete_key="targetIds",
+    )
 
     async def create(
         self, targets: list[dict[str, Any] | SPTargetCreate]
     ) -> SPTargetSuccessResponse:
-        """创建投放目标。"""
-        validated = self._validate(targets, SPTargetCreate)
-        resp = await self._request(
-            "POST",
-            "/adsApi/v1/create/targets",
-            json={"targets": validated},
-            accept_async=True,
-        )
-        return self._response(SPTargetSuccessResponse, resp)
+        return await self._create(targets, self._spec, SPTargetSuccessResponse)
 
     async def query(self, body: dict[str, Any]) -> SPTargetSuccessResponse:
-        """查询投放目标，支持 nextToken 分页。"""
-        resp = await self._request("POST", "/adsApi/v1/query/targets", json=body)
-        return self._response(SPTargetSuccessResponse, resp)
+        return await self._query(body, self._spec, SPTargetSuccessResponse)
 
     async def update(
         self, targets: list[dict[str, Any] | SPTargetUpdate]
     ) -> SPTargetMultiStatusResponse:
-        """更新投放目标。"""
-        validated = self._validate(targets, SPTargetUpdate)
-        resp = await self._request(
-            "POST",
-            "/adsApi/v1/update/targets",
-            json={"targets": validated},
-            accept_async=True,
-        )
-        return self._response(SPTargetMultiStatusResponse, resp)
+        return await self._update(targets, self._spec, SPTargetMultiStatusResponse)
 
     async def delete(self, target_ids: list[str]) -> SPTargetMultiStatusResponse:
-        """删除投放目标。"""
-        resp = await self._request(
-            "POST",
-            "/adsApi/v1/delete/targets",
-            json={"targetIds": target_ids},
-            accept_async=True,
-        )
-        return self._response(SPTargetMultiStatusResponse, resp)
+        return await self._delete(target_ids, self._spec, SPTargetMultiStatusResponse)

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import random
+from dataclasses import dataclass
 from typing import Any, TypeVar
 
 import httpx
@@ -12,6 +13,16 @@ from pydantic import BaseModel
 from ._context import ClientContext
 
 _T = TypeVar("_T", bound=BaseModel)
+
+
+@dataclass
+class _ResourceSpec:
+    """Metadata for a REST resource (campaigns, adGroups, etc)."""
+
+    name: str
+    create_model: type[BaseModel]
+    update_model: type[BaseModel]
+    delete_key: str | None = None
 
 
 class _ResourceBase:
@@ -73,3 +84,37 @@ class _ResourceBase:
             else:
                 result.append(model_cls(**item).model_dump())
         return result
+
+    async def _create(self, items: list[Any], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
+        validated = self._validate(items, spec.create_model)
+        resp = await self._request(
+            "POST",
+            f"/adsApi/v1/create/{spec.name}",
+            json={spec.name: validated},
+            accept_async=True,
+        )
+        return self._response(response_cls, resp)
+
+    async def _update(self, items: list[Any], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
+        validated = self._validate(items, spec.update_model)
+        resp = await self._request(
+            "POST",
+            f"/adsApi/v1/update/{spec.name}",
+            json={spec.name: validated},
+            accept_async=True,
+        )
+        return self._response(response_cls, resp)
+
+    async def _delete(self, ids: list[str], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
+        assert spec.delete_key is not None, f"{spec.name} has no delete operation"
+        resp = await self._request(
+            "POST",
+            f"/adsApi/v1/delete/{spec.name}",
+            json={spec.delete_key: ids},
+            accept_async=True,
+        )
+        return self._response(response_cls, resp)
+
+    async def _query(self, body: dict[str, Any], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
+        resp = await self._request("POST", f"/adsApi/v1/query/{spec.name}", json=body)
+        return self._response(response_cls, resp)
