@@ -1,4 +1,4 @@
-"""ad models."""
+"""Auto-generated Pydantic models for sp from Amazon Ads API schema."""
 
 from __future__ import annotations
 
@@ -9,7 +9,8 @@ from pydantic import BaseModel, ConfigDict
 from enum import StrEnum
 
 if TYPE_CHECKING:
-    from ._enums import (
+    from amazon_ads_sdk.errors import ErrorsIndex
+    from .enums import (
         SPAdProduct,
         SPCreateState,
         SPMarketplace,
@@ -18,7 +19,7 @@ if TYPE_CHECKING:
         SPState,
         SPUpdateState,
     )
-    from ._shared import ErrorsIndex, SPCreateTag, SPStatus, SPTag
+    from .shared import SPCreateTag, SPStatus, SPTag
 
 
 class SPAd(BaseModel):

@@ -1,4 +1,4 @@
-"""Base class for all API resource classes."""
+"""Shared HTTP session and base resource class for all API resource classes."""
 
 from __future__ import annotations
 
@@ -10,9 +10,49 @@ from typing import Any, TypeVar
 import httpx
 from pydantic import BaseModel
 
-from ._context import ClientContext
+from .config import AmazonAdsConfig
 
 _T = TypeVar("_T", bound=BaseModel)
+
+
+class ClientContext:
+    """Shared HTTP state for all resource instances.
+
+    Lazily creates and caches the ``httpx.AsyncClient`` on first use.
+    """
+
+    __slots__ = ("config", "_client", "_profile_header")
+
+    def __init__(self, config: AmazonAdsConfig) -> None:
+        self.config: AmazonAdsConfig = config
+        self._client: httpx.AsyncClient | None = None
+        self._profile_header: dict[str, str] | None = None
+
+    @property
+    def profile_header(self) -> dict[str, str]:
+        if self._profile_header is None:
+            if self.config.profile_id is not None:
+                self._profile_header = {
+                    "Amazon-Advertising-API-ProfileId": str(self.config.profile_id)
+                }
+            else:
+                self._profile_header = {}
+        return self._profile_header
+
+    async def get_client(self) -> httpx.AsyncClient:
+        if self._client is None:
+            self._client = httpx.AsyncClient(
+                base_url=self.config.region.value,
+                timeout=httpx.Timeout(self.config.timeout),
+                headers={
+                    "Authorization": f"Bearer {self.config.access_token}",
+                    "Content-Type": "application/json",
+                },
+            )
+        return self._client
+
+    def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
+        return model_cls.model_validate_json(resp.content)
 
 
 @dataclass
@@ -21,8 +61,9 @@ class _ResourceSpec:
 
     name: str
     create_model: type[BaseModel]
-    update_model: type[BaseModel]
+    update_model: type[BaseModel] | None = None
     delete_key: str | None = None
+    path_suffix: str = ""
 
 
 class _ResourceBase:
@@ -89,17 +130,18 @@ class _ResourceBase:
         validated = self._validate(items, spec.create_model)
         resp = await self._request(
             "POST",
-            f"/adsApi/v1/create/{spec.name}",
+            f"/adsApi/v1/create/{spec.name}{spec.path_suffix}",
             json={spec.name: validated},
             accept_async=True,
         )
         return self._response(response_cls, resp)
 
     async def _update(self, items: list[Any], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
+        assert spec.update_model is not None, f"{spec.name} has no update model"
         validated = self._validate(items, spec.update_model)
         resp = await self._request(
             "POST",
-            f"/adsApi/v1/update/{spec.name}",
+            f"/adsApi/v1/update/{spec.name}{spec.path_suffix}",
             json={spec.name: validated},
             accept_async=True,
         )
@@ -109,12 +151,14 @@ class _ResourceBase:
         assert spec.delete_key is not None, f"{spec.name} has no delete operation"
         resp = await self._request(
             "POST",
-            f"/adsApi/v1/delete/{spec.name}",
+            f"/adsApi/v1/delete/{spec.name}{spec.path_suffix}",
             json={spec.delete_key: ids},
             accept_async=True,
         )
         return self._response(response_cls, resp)
 
     async def _query(self, body: dict[str, Any], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
-        resp = await self._request("POST", f"/adsApi/v1/query/{spec.name}", json=body)
+        resp = await self._request(
+            "POST", f"/adsApi/v1/query/{spec.name}{spec.path_suffix}", json=body
+        )
         return self._response(response_cls, resp)

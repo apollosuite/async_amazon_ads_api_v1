@@ -4,14 +4,13 @@ from __future__ import annotations
 
 from typing import Any
 
-from amazon_ads_sdk.models import (
+from amazon_ads_sdk._base import _ResourceBase, _ResourceSpec
+from amazon_ads_sdk.models.sp import (
     SPCampaignCreate,
     SPCampaignMultiStatusResponse,
     SPCampaignSuccessResponse,
     SPCampaignUpdate,
 )
-
-from ._resource import _ResourceBase, _ResourceSpec
 
 
 class Campaigns(_ResourceBase):

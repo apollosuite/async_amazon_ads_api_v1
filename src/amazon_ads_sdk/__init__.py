@@ -1,7 +1,8 @@
-"""Amazon Ads API SDK — Sponsored Products (pure async)."""
+"""Amazon Ads API SDK — Sponsored Products & Sponsored Brands (pure async)."""
 
-from amazon_ads_sdk.client import AmazonAdsClient
+from amazon_ads_sdk.client.sb import SBClient
+from amazon_ads_sdk.client.sp import SPClient
 from amazon_ads_sdk.config import AmazonAdsConfig, Region
 
-__all__ = ["AmazonAdsClient", "AmazonAdsConfig", "Region"]
-__version__ = "0.1.0"
+__all__ = ["AmazonAdsConfig", "Region", "SPClient", "SBClient"]
+__version__ = "0.2.0"

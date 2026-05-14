@@ -9,9 +9,9 @@ from enum import StrEnum
 class Region(StrEnum):
     """Amazon Ads API region endpoints."""
 
-    NA = "https://advertising-api.amazon.com"  # North America
-    EU = "https://advertising-api-eu.amazon.com"  # Europe
-    FE = "https://advertising-api-fe.amazon.com"  # Far East
+    NA = "https://advertising-api.amazon.com"
+    EU = "https://advertising-api-eu.amazon.com"
+    FE = "https://advertising-api-fe.amazon.com"
 
 
 class AmazonAdsConfig:
@@ -54,13 +54,6 @@ class AmazonAdsConfig:
 
     @classmethod
     def from_env(cls) -> AmazonAdsConfig:
-        """Instantiate config from environment variables.
-
-        Expected variables:
-        - ``AMAZON_ACCESS_TOKEN`` — OAuth bearer token
-        - ``AMAZON_REGION`` — one of: ``na``, ``eu``, ``fe`` (default: ``na``)
-        - ``AMAZON_PROFILE_ID`` — optional numeric profile ID
-        """
         access_token = os.environ.get("AMAZON_ACCESS_TOKEN")
         if not access_token:
             raise OSError("AMAZON_ACCESS_TOKEN environment variable is not set")

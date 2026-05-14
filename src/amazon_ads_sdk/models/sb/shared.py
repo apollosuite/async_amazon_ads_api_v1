@@ -1,4 +1,4 @@
-"""shared models."""
+"""Auto-generated Pydantic models for sb from Amazon Ads API schema."""
 
 from __future__ import annotations
 
@@ -8,29 +8,20 @@ from pydantic import BaseModel, ConfigDict
 from enum import StrEnum
 
 if TYPE_CHECKING:
-    from ._enums import ErrorCode
+    from .enums import SBAdvertisingDealPriceType, SBCurrencyCode
 
 
-class Error(BaseModel):
+class SBAdvertisingDealPrice(BaseModel):
     """"""
 
     model_config = ConfigDict(extra="forbid")
 
-    code: ErrorCode
-    fieldLocation: str | None = None
-    message: str
+    currencyCode: SBCurrencyCode
+    priceType: SBAdvertisingDealPriceType
+    value: float  # The monetary amount of the price in the given currency.
 
 
-class ErrorsIndex(BaseModel):
-    """"""
-
-    model_config = ConfigDict(extra="forbid")
-
-    errors: list[Error]
-    index: int
-
-
-class SPCreateTag(BaseModel):
+class SBCreateTag(BaseModel):
     """"""
 
     model_config = ConfigDict(extra="forbid")
@@ -39,10 +30,11 @@ class SPCreateTag(BaseModel):
     value: str  # A custom key value pair entered by the advertiser.
 
 
-class SPDeliveryReason(StrEnum):
+class SBDeliveryReason(StrEnum):
     """| DeliveryReason | Description |
     |------|------|
     | `ADVERTISER_ARCHIVED` |  |
+    | `ADVERTISER_INELIGIBLE` |  |
     | `ADVERTISER_OUT_OF_BUDGET` | Indicates that an advertiser is out of budget for Sponsored Products campaigns for sellers. |
     | `ADVERTISER_OUT_OF_POSTPAY_CREDIT_LIMIT` | Indicates that a postpay advertiser is out of credit limit for all Sponsored Ads campaigns. |
     | `ADVERTISER_OUT_OF_POSTPAY_MONTHLY_BUDGET` | Indicates that a postpay advertiser is out of monthly budget for all Sponsored Ads campaigns. |
@@ -54,10 +46,6 @@ class SPDeliveryReason(StrEnum):
     | `AD_ARCHIVED` |  |
     | `AD_CREATION_FAILED` |  |
     | `AD_CREATION_IN_PROGRESS` |  |
-    | `AD_EXTENSION_ARCHIVED` |  |
-    | `AD_EXTENSION_PAUSED` |  |
-    | `AD_EXTENSION_POLICING_PENDING_REVIEW` |  |
-    | `AD_EXTENSION_POLICING_SUSPENDED` |  |
     | `AD_GROUP_ARCHIVED` |  |
     | `AD_GROUP_INCOMPLETE` |  |
     | `AD_GROUP_LOW_BID` |  |
@@ -86,37 +74,12 @@ class SPDeliveryReason(StrEnum):
     | `CREATIVE_REJECTED` |  |
     | `LANDING_PAGE_INELIGIBLE` |  |
     | `LANDING_PAGE_NOT_AVAILABLE` |  |
-    | `MODERATION_ADULT_NOVELTY_POLICY_VIOLATION` |  |
-    | `MODERATION_ADULT_PRODUCT_POLICY_VIOLATION` |  |
-    | `MODERATION_ADULT_SOFTLINES_POLICY_VIOLATION` |  |
-    | `MODERATION_CLAIM_WEIGHTLOSS_POLICY_VIOLATION` |  |
-    | `MODERATION_CONTENT_NUDITY_POLICY_VIOLATION` |  |
-    | `MODERATION_CONTENT_PROVOCATIVE_POLICY_VIOLATION` |  |
-    | `MODERATION_CONTENT_SMOKING_POLICY_VIOLATION` |  |
-    | `MODERATION_CRITICAL_EVENTS_POLICY_VIOLATION` |  |
-    | `MODERATION_ERROR_404` |  |
-    | `MODERATION_GRAPHICAL_SEXUAL_IMAGES_POLICY_VIOLATION` |  |
-    | `MODERATION_HFSS_PRODUCT_POLICY_VIOLATION` |  |
-    | `MODERATION_LANGUAGE_OFFENSIVE_POLICY_VIOLATION` |  |
-    | `MODERATION_NOT_COMPLIANT_TO_AD_POLICY` |  |
-    | `MODERATION_SMOKING_RELATED_POLICY_VIOLATION` |  |
-    | `NOT_BUYABLE` |  |
-    | `NOT_IN_BUYBOX` |  |
-    | `NOT_IN_POLICY` |  |
-    | `NO_INVENTORY` |  |
-    | `NO_PURCHASABLE_OFFER` |  |
     | `OTHER` |  |
-    | `OUT_OF_REWARD_BUDGET` |  |
-    | `OUT_OF_STOCK` |  |
-    | `PIR_RULE_EXCLUDED` |  |
     | `PORTFOLIO_ARCHIVED` |  |
     | `PORTFOLIO_END_DATE_REACHED` |  |
     | `PORTFOLIO_OUT_OF_BUDGET` |  |
     | `PORTFOLIO_PAUSED` |  |
     | `PORTFOLIO_PENDING_START_DATE` |  |
-    | `SECURITY_SCAN_PENDING_REVIEW` |  |
-    | `SECURITY_SCAN_REJECTED` |  |
-    | `SPEND_LIMIT_EXCEEDED` |  |
     | `STATUS_UNAVAILABLE` |  |
     | `TARGET_ARCHIVED` |  |
     | `TARGET_BLOCKED` |  |
@@ -125,6 +88,7 @@ class SPDeliveryReason(StrEnum):
     """
 
     ADVERTISER_ARCHIVED = "ADVERTISER_ARCHIVED"
+    ADVERTISER_INELIGIBLE = "ADVERTISER_INELIGIBLE"
     ADVERTISER_OUT_OF_BUDGET = "ADVERTISER_OUT_OF_BUDGET"
     ADVERTISER_OUT_OF_POSTPAY_CREDIT_LIMIT = "ADVERTISER_OUT_OF_POSTPAY_CREDIT_LIMIT"
     ADVERTISER_OUT_OF_POSTPAY_MONTHLY_BUDGET = "ADVERTISER_OUT_OF_POSTPAY_MONTHLY_BUDGET"
@@ -136,10 +100,6 @@ class SPDeliveryReason(StrEnum):
     AD_ARCHIVED = "AD_ARCHIVED"
     AD_CREATION_FAILED = "AD_CREATION_FAILED"
     AD_CREATION_IN_PROGRESS = "AD_CREATION_IN_PROGRESS"
-    AD_EXTENSION_ARCHIVED = "AD_EXTENSION_ARCHIVED"
-    AD_EXTENSION_PAUSED = "AD_EXTENSION_PAUSED"
-    AD_EXTENSION_POLICING_PENDING_REVIEW = "AD_EXTENSION_POLICING_PENDING_REVIEW"
-    AD_EXTENSION_POLICING_SUSPENDED = "AD_EXTENSION_POLICING_SUSPENDED"
     AD_GROUP_ARCHIVED = "AD_GROUP_ARCHIVED"
     AD_GROUP_INCOMPLETE = "AD_GROUP_INCOMPLETE"
     AD_GROUP_LOW_BID = "AD_GROUP_LOW_BID"
@@ -168,43 +128,12 @@ class SPDeliveryReason(StrEnum):
     CREATIVE_REJECTED = "CREATIVE_REJECTED"
     LANDING_PAGE_INELIGIBLE = "LANDING_PAGE_INELIGIBLE"
     LANDING_PAGE_NOT_AVAILABLE = "LANDING_PAGE_NOT_AVAILABLE"
-    MODERATION_ADULT_NOVELTY_POLICY_VIOLATION = "MODERATION_ADULT_NOVELTY_POLICY_VIOLATION"
-    MODERATION_ADULT_PRODUCT_POLICY_VIOLATION = "MODERATION_ADULT_PRODUCT_POLICY_VIOLATION"
-    MODERATION_ADULT_SOFTLINES_POLICY_VIOLATION = "MODERATION_ADULT_SOFTLINES_POLICY_VIOLATION"
-    MODERATION_CLAIM_WEIGHTLOSS_POLICY_VIOLATION = "MODERATION_CLAIM_WEIGHTLOSS_POLICY_VIOLATION"
-    MODERATION_CONTENT_NUDITY_POLICY_VIOLATION = "MODERATION_CONTENT_NUDITY_POLICY_VIOLATION"
-    MODERATION_CONTENT_PROVOCATIVE_POLICY_VIOLATION = (
-        "MODERATION_CONTENT_PROVOCATIVE_POLICY_VIOLATION"
-    )
-    MODERATION_CONTENT_SMOKING_POLICY_VIOLATION = "MODERATION_CONTENT_SMOKING_POLICY_VIOLATION"
-    MODERATION_CRITICAL_EVENTS_POLICY_VIOLATION = "MODERATION_CRITICAL_EVENTS_POLICY_VIOLATION"
-    MODERATION_ERROR_404 = "MODERATION_ERROR_404"
-    MODERATION_GRAPHICAL_SEXUAL_IMAGES_POLICY_VIOLATION = (
-        "MODERATION_GRAPHICAL_SEXUAL_IMAGES_POLICY_VIOLATION"
-    )
-    MODERATION_HFSS_PRODUCT_POLICY_VIOLATION = "MODERATION_HFSS_PRODUCT_POLICY_VIOLATION"
-    MODERATION_LANGUAGE_OFFENSIVE_POLICY_VIOLATION = (
-        "MODERATION_LANGUAGE_OFFENSIVE_POLICY_VIOLATION"
-    )
-    MODERATION_NOT_COMPLIANT_TO_AD_POLICY = "MODERATION_NOT_COMPLIANT_TO_AD_POLICY"
-    MODERATION_SMOKING_RELATED_POLICY_VIOLATION = "MODERATION_SMOKING_RELATED_POLICY_VIOLATION"
-    NOT_BUYABLE = "NOT_BUYABLE"
-    NOT_IN_BUYBOX = "NOT_IN_BUYBOX"
-    NOT_IN_POLICY = "NOT_IN_POLICY"
-    NO_INVENTORY = "NO_INVENTORY"
-    NO_PURCHASABLE_OFFER = "NO_PURCHASABLE_OFFER"
     OTHER = "OTHER"
-    OUT_OF_REWARD_BUDGET = "OUT_OF_REWARD_BUDGET"
-    OUT_OF_STOCK = "OUT_OF_STOCK"
-    PIR_RULE_EXCLUDED = "PIR_RULE_EXCLUDED"
     PORTFOLIO_ARCHIVED = "PORTFOLIO_ARCHIVED"
     PORTFOLIO_END_DATE_REACHED = "PORTFOLIO_END_DATE_REACHED"
     PORTFOLIO_OUT_OF_BUDGET = "PORTFOLIO_OUT_OF_BUDGET"
     PORTFOLIO_PAUSED = "PORTFOLIO_PAUSED"
     PORTFOLIO_PENDING_START_DATE = "PORTFOLIO_PENDING_START_DATE"
-    SECURITY_SCAN_PENDING_REVIEW = "SECURITY_SCAN_PENDING_REVIEW"
-    SECURITY_SCAN_REJECTED = "SECURITY_SCAN_REJECTED"
-    SPEND_LIMIT_EXCEEDED = "SPEND_LIMIT_EXCEEDED"
     STATUS_UNAVAILABLE = "STATUS_UNAVAILABLE"
     TARGET_ARCHIVED = "TARGET_ARCHIVED"
     TARGET_BLOCKED = "TARGET_BLOCKED"
@@ -212,7 +141,7 @@ class SPDeliveryReason(StrEnum):
     TARGET_POLICING_SUSPENDED = "TARGET_POLICING_SUSPENDED"
 
 
-class SPDeliveryStatus(StrEnum):
+class SBDeliveryStatus(StrEnum):
     """| DeliveryStatus | Description |
     |------|------|
     | `DELIVERING` | Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces |
@@ -225,18 +154,18 @@ class SPDeliveryStatus(StrEnum):
     UNAVAILABLE = "UNAVAILABLE"
 
 
-class SPStatus(BaseModel):
+class SBStatus(BaseModel):
     """"""
 
     model_config = ConfigDict(extra="forbid")
 
-    deliveryReasons: list[SPDeliveryReason] | None = (
+    deliveryReasons: list[SBDeliveryReason] | None = (
         None  # This is the list of reasons behind the delivery status.
     )
-    deliveryStatus: SPDeliveryStatus
+    deliveryStatus: SBDeliveryStatus
 
 
-class SPTag(BaseModel):
+class SBTag(BaseModel):
     """"""
 
     model_config = ConfigDict(extra="forbid")

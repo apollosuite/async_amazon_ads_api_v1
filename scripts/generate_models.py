@@ -10,116 +10,48 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from generate_file_structure import classify
 
-SCHEMA_PATH = Path(__file__).parent / "AmazonAdsAPISPMerged_prod_3p.json"
+HERE = Path(__file__).parent
+PROJECT = HERE.parent / "src" / "amazon_ads_sdk"
 
-HEADER = '''"""Auto-generated Pydantic models from Amazon Ads API schema."""
-
-from __future__ import annotations
-
-from datetime import datetime
-from enum import StrEnum
-from typing import Any
-
-from pydantic import BaseModel, ConfigDict
-'''
-
-ENUMS_IMPORT = '''"""Auto-generated Pydantic models from Amazon Ads API schema."""
-
-from __future__ import annotations
-
-from enum import StrEnum
-'''
-
-MODULE_IMPORTS = {
-    "_enums.py": ENUMS_IMPORT,
-    "_errors.py": '''"""error and HTTP response models."""
-
-from __future__ import annotations
-
-from typing import Any
-
-from pydantic import BaseModel, ConfigDict
-''',
-    "_shared.py": '''"""shared models."""
-
-from __future__ import annotations
-
-from typing import Any
-
-from pydantic import BaseModel, ConfigDict
-''',
-    "_bids.py": '''"""bid adjustment models."""
-
-from __future__ import annotations
-
-from typing import Any
-
-from pydantic import BaseModel, ConfigDict
-''',
-    "_creatives.py": '''"""creative models."""
-
-from __future__ import annotations
-
-from typing import Any
-
-from pydantic import BaseModel, ConfigDict
-''',
-    "_budgets.py": '''"""budget models."""
-
-from __future__ import annotations
-
-from typing import Any
-
-from pydantic import BaseModel, ConfigDict
-''',
-    "_campaigns.py": '''"""campaign models."""
-
-from __future__ import annotations
-
-from datetime import datetime
-from typing import Any
-
-from pydantic import BaseModel, ConfigDict
-''',
-    "_ad_groups.py": '''"""ad_group models."""
-
-from __future__ import annotations
-
-from datetime import datetime
-from typing import Any
-
-from pydantic import BaseModel, ConfigDict
-''',
-    "_ads.py": '''"""ad models."""
-
-from __future__ import annotations
-
-from datetime import datetime
-from typing import Any
-
-from pydantic import BaseModel, ConfigDict
-''',
-    "_targets.py": '''"""target models."""
-
-from __future__ import annotations
-
-from datetime import datetime
-from typing import Any
-
-from pydantic import BaseModel, ConfigDict
-''',
-    "_ad_extensions.py": '''"""ad_extension models."""
-
-from __future__ import annotations
-
-from datetime import datetime
-from typing import Any
-
-from pydantic import BaseModel, ConfigDict
-''',
+SPECS: dict[str, Path] = {
+    "sp": HERE / "AmazonAdsAPISPMerged_prod_3p.json",
+    "sb": HERE / "AmazonAdsAPISBMerged_prod_3p.json",
 }
 
-_DEFAULT_MODULE_HEADER = '''"""Auto-generated Pydantic models from Amazon Ads API schema."""
+SHARED_ERROR_SCHEMAS: set[str] = {
+    "BadGatewayResponseContent",
+    "BadRequestResponseContent",
+    "ContentTooLargeResponseContent",
+    "Error",
+    "ErrorCode",
+    "ErrorsIndex",
+    "ForbiddenResponseContent",
+    "GatewayTimeoutResponseContent",
+    "InternalServerErrorResponseContent",
+    "NotFoundResponseContent",
+    "ServiceUnavailableErrorResponseContent",
+    "TooManyRequestsResponseContent",
+    "UnauthorizedResponseContent",
+}
+
+MODULE_HEADER = '''"""Auto-generated Pydantic models for {product} from Amazon Ads API schema."""
+
+from __future__ import annotations
+
+from datetime import datetime
+from typing import Any
+
+from pydantic import BaseModel, ConfigDict
+'''
+
+ENUMS_HEADER = '''"""Auto-generated Pydantic models for {product} from Amazon Ads API schema."""
+
+from __future__ import annotations
+
+from enum import StrEnum
+'''
+
+SHARED_HEADER = '''"""shared models for {product}."""
 
 from __future__ import annotations
 
@@ -131,7 +63,6 @@ from pydantic import BaseModel, ConfigDict
 
 
 def _clean_description(desc: str) -> str:
-    """Strip markdown table syntax from descriptions."""
     lines = desc.splitlines()
     result_lines = []
     for line in lines:
@@ -149,7 +80,6 @@ def _clean_description(desc: str) -> str:
 
 
 def openapi_to_python_type(schema: dict, schemas: dict | None = None) -> str:
-    # Resolve $ref to the referenced schema name
     if "$ref" in schema:
         ref_name = schema["$ref"].split("/")[-1]
         return ref_name
@@ -192,7 +122,6 @@ def generate_model(name: str, schema: dict, schemas: dict | None = None) -> str:
     doc = schema.get("description", "")
     required: set[str] = set(schema.get("required", []))
 
-    # Handle oneOf — extract variant properties as optional fields
     if not schema.get("properties") and schema.get("oneOf"):
         fields = []
         for variant in schema["oneOf"]:
@@ -242,7 +171,6 @@ def emit(schema: dict, name: str, schemas: dict | None = None) -> str:
 
 
 def _ext_refs_from_schema(name: str, schema: dict, schemas: dict, schema_module: dict) -> set[str]:
-    """Return set of type names referenced by this schema that belong to other modules."""
     refs: set[str] = set()
     seen: set[str] = set()
 
@@ -271,7 +199,6 @@ def _ext_refs_from_schema(name: str, schema: dict, schemas: dict, schema_module:
 
 
 def _build_import_block(module_filename: str, refs: set[str], schema_module: dict) -> str:
-    """Build a TYPE_CHECKING import block for types coming from other modules."""
     grouped: dict[str, list[str]] = {}
     for ref in sorted(refs):
         src = schema_module[ref]
@@ -281,18 +208,56 @@ def _build_import_block(module_filename: str, refs: set[str], schema_module: dic
     lines: list[str] = ["if TYPE_CHECKING:"]
     for src in sorted(grouped):
         names = sorted(grouped[src])
-        lines.append(f"    from .{src.removesuffix('.py')} import {', '.join(names)}")
+        if src == "_core.errors":
+            lines.append(f"    from amazon_ads_sdk.errors import {', '.join(names)}")
+        else:
+            lines.append(f"    from .{src.removesuffix('.py')} import {', '.join(names)}")
     return "\n".join(lines) + "\n\n"
 
 
-def main(*, output_dir: Path | None = None) -> None:
-    with open(SCHEMA_PATH) as f:
+def _strip_prefix(filename: str) -> str:
+    """Remove leading underscore from filename."""
+    if filename.startswith("_"):
+        return filename[1:]
+    return filename
+
+
+def main(*, output_dir: Path | None = None, product: str | None = None) -> None:
+    if product is None or product not in ("sp", "sb"):
+        print("Error: --product must be 'sp' or 'sb'", file=sys.stderr)
+        sys.exit(1)
+
+    spec_path = SPECS[product]
+    with open(spec_path) as f:
         data = json.load(f)
     schemas = data["components"]["schemas"]
 
     result = classify(data)
-    groups = result["files"]
-    schema_module = result["classification"]
+    groups: dict[str, list[str]] = result["files"]
+    schema_module: dict[str, str] = result["classification"]
+
+    # Map shared error schemas to _core.errors so TYPE_CHECKING imports resolve
+    for name in SHARED_ERROR_SCHEMAS:
+        if name in schema_module:
+            schema_module[name] = "_core.errors"
+
+    # Remap file names: strip _ prefix
+    def _remap_filename(old: str) -> str:
+        return _strip_prefix(old)
+
+    groups = {_remap_filename(k): v for k, v in groups.items()}
+    schema_module = {
+        k: _remap_filename(v) if v != "_core.errors" else v for k, v in schema_module.items()
+    }
+
+    # Remove shared error schemas from all groups (after ref collection)
+    for name in SHARED_ERROR_SCHEMAS:
+        for mod in list(groups):
+            if name in groups[mod]:
+                groups[mod].remove(name)
+
+    # Remove empty groups
+    groups = {k: v for k, v in groups.items() if v}
 
     # First pass: collect external type refs per module
     ext_refs: dict[str, set[str]] = {}
@@ -304,47 +269,12 @@ def main(*, output_dir: Path | None = None) -> None:
         mod_refs = {r for r in mod_refs if schema_module.get(r) != mod}
         ext_refs[mod] = mod_refs
 
-    if output_dir is None:
-        # Legacy single-file output
-        parts = [HEADER]
-        done: set[str] = set()
-
-        def emit_one(name: str) -> str:
-            if name in done:
-                return ""
-            done.add(name)
-            return emit(schemas[name], name, schemas)
-
-        for section, names in [
-            ("# ── Enums ──", groups["_enums.py"]),
-            ("\n# ── Campaigns ──", groups["_campaigns.py"]),
-            ("\n# ── Ad Groups ──", groups["_ad_groups.py"]),
-            ("\n# ── Ads ──", groups["_ads.py"]),
-            ("\n# ── Targets ──", groups["_targets.py"]),
-            ("\n# ── Ad Extensions ──", groups["_ad_extensions.py"]),
-            ("\n# ── Errors ──", groups["_errors.py"]),
-            ("\n# ── Bids ──", groups["_bids.py"]),
-            ("\n# ── Creatives ──", groups["_creatives.py"]),
-            ("\n# ── Budgets ──", groups["_budgets.py"]),
-            ("\n# ── Shared ──", groups["_shared.py"]),
-        ]:
-            parts.append(section)
-            for n in names:
-                out = emit_one(n)
-                if out:
-                    parts.append(out)
-
-        legacy_out = SCHEMA_PATH.parent / "src" / "amazon_ads_sdk" / "models.py"
-        legacy_out.write_text("\n".join(parts) + "\n")
-        print(f"Wrote {legacy_out}")
-        return
-
-    # Multi-file output
+    # Write files
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # __init__.py — re-export all generated modules + rebuild models
+    # __init__.py
     init_parts = [
-        '"""Auto-generated Pydantic models from Amazon Ads API schema."""',
+        f'"""Auto-generated Pydantic models for {product.upper()} from Amazon Ads API schema."""',
         "",
         "from __future__ import annotations",
         "",
@@ -358,8 +288,12 @@ def main(*, output_dir: Path | None = None) -> None:
     init_parts.extend(
         [
             "",
+            "# Include shared error types for forward reference resolution",
+            "import amazon_ads_sdk.errors as _core_errors",
+            "",
             "# Resolve cross-module forward references",
             "_ns: dict[str, typing.Any] = dict(sys.modules[__name__].__dict__)",
+            "_ns.update(vars(_core_errors))",
             "for _name, _obj in list(_ns.items()):",
             "    if (",
             "        isinstance(_obj, type)",
@@ -370,6 +304,7 @@ def main(*, output_dir: Path | None = None) -> None:
         ]
     )
     (output_dir / "__init__.py").write_text("\n".join(init_parts) + "\n")
+    print(f"Wrote {output_dir / '__init__.py'}")
 
     done: set[str] = set()
 
@@ -381,8 +316,12 @@ def main(*, output_dir: Path | None = None) -> None:
         if out:
             buf.append(out)
 
-    for filename, names in groups.items():
-        header = MODULE_IMPORTS.get(filename, _DEFAULT_MODULE_HEADER)
+    for filename, names in sorted(groups.items()):
+        # Determine header based on content
+        if filename == "enums.py":
+            header = ENUMS_HEADER.format(product=product)
+        else:
+            header = MODULE_HEADER.format(product=product)
 
         # Ensure StrEnum import if file contains enums
         if any(is_enum(schemas[n]) and schemas[n].get("enum") for n in names):
@@ -408,10 +347,16 @@ def main(*, output_dir: Path | None = None) -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate Pydantic models from OpenAPI schema.")
     parser.add_argument(
+        "--product",
+        required=True,
+        choices=["sp", "sb"],
+        help="Product type: sp (Sponsored Products) or sb (Sponsored Brands)",
+    )
+    parser.add_argument(
         "--output-dir",
         type=Path,
-        default=None,
-        help="Output directory for multi-file mode. Omit for legacy single-file output.",
+        required=True,
+        help="Output directory (e.g. src/amazon_ads_sdk/models/sp)",
     )
     args = parser.parse_args()
-    main(output_dir=args.output_dir)
+    main(output_dir=args.output_dir, product=args.product)
