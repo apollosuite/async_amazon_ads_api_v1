@@ -1,47 +1,41 @@
-# Amazon Ads SDK — Sponsored Products
+# Amazon Ads SDK
 
-Pure async Python SDK for the Amazon Advertising API (Sponsored Products).
+Pure async Python SDK for the Amazon Advertising API — Sponsored Products / Sponsored Brands / Sponsored Display.
 
 ## 项目结构
 
 ```
 .
-├── AmazonAdsAPISPMerged_prod_3p.json   # 原始 OpenAPI 规范（不修改）
-├── CLAUDE.md                           # 本文件
-├── README.md
-├── pyproject.toml                      # uv 项目配置
-├── uv.lock                             # 依赖锁定文件（提交）
 ├── scripts/
-│   ├── generate_file_structure.py      # OpenAPI schema 分类器（无硬编码）
-│   └── generate_models.py              # 从 JSON Schema 生成 models/
+│   ├── AmazonAdsAPISPMerged_prod_3p.json   # SP OpenAPI 规范（不修改）
+│   ├── AmazonAdsAPISBMerged_prod_3p.json   # SB OpenAPI 规范
+│   ├── AmazonAdsAPISDMerged_prod_3p.json   # SD OpenAPI 规范
+│   ├── generate_file_structure.py          # 通用 schema 分类器（无硬编码）
+│   └── generate_models.py                  # 从 JSON Schema 生成 Pydantic 模型
+├── README.md
+├── CLAUDE.md                               # 本文件
+├── pyproject.toml                          # uv 项目配置
+├── uv.lock                                 # 依赖锁定
 └── src/amazon_ads_sdk/
-    ├── __init__.py                     # 公开 API 导出
-    ├── config.py                       # AmazonAdsConfig / Region
-    ├── py.typed                        # PEP 561 类型标记
-    ├── client/                          # 异步 HTTP 客户端
-    │   ├── __init__.py                 # AmazonAdsClient 主类
-    │   ├── _context.py                 # ClientContext（共享 HTTP 状态）
-    │   ├── _resource.py                # _ResourceBase + _ResourceSpec
-    │   ├── _campaigns.py               # Campaigns 资源（继承 _ResourceBase）
-    │   ├── _ad_groups.py               # AdGroups 资源
-    │   ├── _ads.py                     # Ads 资源
-    │   ├── _targets.py                 # Targets 资源
-    │   └── _ad_extensions.py           # AdExtensions 资源
-    └── models/                          # Pydantic v2 模型（自动生成）
-        ├── __init__.py                 # 导出全部模型 + model_rebuild
-        ├── _enums.py                   # 枚举（ErrorCode, SPState 等）
-        ├── _campaigns.py               # Campaign 模型
-        ├── _ad_groups.py               # AdGroup 模型
-        ├── _ads.py                     # Ad 模型
-        ├── _targets.py                 # Target 模型
-        ├── _ad_extensions.py           # AdExtension 模型
-        ├── _errors.py                  # HTTP 错误响应模型
-        └── _shared.py                  # 跨资源共用模型
+    ├── __init__.py                         # 导出 AmazonAdsConfig, Region, SPClient, SBClient, SDClient
+    ├── config.py                           # AmazonAdsConfig / Region
+    ├── errors.py                           # 共享 HTTP 错误模型 (ErrorCode, Error, ErrorsIndex ...)
+    ├── _base.py                            # ClientContext + _ResourceBase + _ResourceSpec
+    ├── py.typed                            # PEP 561 类型标记
+    ├── models/
+    │   ├── __init__.py
+    │   ├── sp/                             # SP 模型（自动生成，8 文件 / 195 模型）
+    │   ├── sb/                             # SB 模型（自动生成，14 文件 / 294 模型）
+    │   └── sd/                             # SD 模型（自动生成，6 文件 / 165 模型）
+    └── client/
+        ├── sp/                             # SPClient + 5 资源类
+        ├── sb/                             # SBClient + 11 资源类
+        └── sd/                             # SDClient + 4 资源类
 ```
 
 ## 项目概述
 
-核心使用 **httpx** 构建 Amazon Ads API 纯异步 SDK，必须遵守最简必要规则，避免过度设计。
+核心使用 **httpx** 构建 Amazon Ads API 纯异步 SDK，支持三种广告产品。
 
 ## 核心环境要求 (CRITICAL)
 
@@ -76,14 +70,17 @@ Pure async Python SDK for the Amazon Advertising API (Sponsored Products).
 
 ## 代码生成
 
-`scripts/generate_models.py` 从 `AmazonAdsAPISPMerged_prod_3p.json` 自动生成 `src/amazon_ads_sdk/models/`（内部调用 `generate_file_structure.py` 完成 schema 分类）。
+模型基于 OpenAPI 规范自动生成：
 
 ```bash
-uv run python scripts/generate_models.py --output-dir src/amazon_ads_sdk/models/
+uv run python scripts/generate_models.py --product sp --output-dir src/amazon_ads_sdk/models/sp/
+uv run python scripts/generate_models.py --product sb --output-dir src/amazon_ads_sdk/models/sb/
+uv run python scripts/generate_models.py --product sd --output-dir src/amazon_ads_sdk/models/sd/
 uv run ruff check --fix src/
 uv run black src/
 ```
 
+- `generate_file_structure.py` 提供通用的图分类算法，不依赖硬编码
 - 每次修改上游 JSON Schema 后，重新运行生成脚本
 - 枚举使用 `StrEnum`，可选字段使用 Python 3.14 `X | None` 语法
 
@@ -98,16 +95,18 @@ AMAZON_PROFILE_ID     # 可选，数字类型
 ## 使用示例
 
 ```python
-from amazon_ads_sdk import AmazonAdsClient, Region
-from amazon_ads_sdk.config import AmazonAdsConfig
+from amazon_ads_sdk import AmazonAdsConfig, Region, SPClient, SBClient, SDClient
 
-config = AmazonAdsConfig(
-    access_token="YOUR_ACCESS_TOKEN",
-    region=Region.NA,
-)
+config = AmazonAdsConfig(access_token="...", region=Region.NA)
 
-async with AmazonAdsClient(config) as client:
-    # 嵌套式 API：client.<resource>.<operation>()
-    resp = await client.campaign.query({"stateFilter": {"include": ["enabled"]}})
+async with SPClient(config) as sp:
+    resp = await sp.campaigns.query({"stateFilter": {"include": ["enabled"]}})
     print(resp.model_dump_json(indent=2))
+
+async with SBClient(config) as sb:
+    resp = await sb.campaigns.query({...})
+    resp = await sb.advertising_deals.query({...})
+
+async with SDClient(config) as sd:
+    resp = await sd.campaigns.query({...})
 ```
