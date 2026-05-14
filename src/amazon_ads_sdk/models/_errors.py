@@ -37,25 +37,6 @@ class ContentTooLargeResponseContent(BaseModel):
     message: str
 
 
-class Error(BaseModel):
-    """"""
-
-    model_config = ConfigDict(extra="forbid")
-
-    code: ErrorCode
-    fieldLocation: str | None = None
-    message: str
-
-
-class ErrorsIndex(BaseModel):
-    """"""
-
-    model_config = ConfigDict(extra="forbid")
-
-    errors: list[Error]
-    index: int
-
-
 class ForbiddenResponseContent(BaseModel):
     """"""
 

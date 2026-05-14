@@ -6,21 +6,18 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
+from enum import StrEnum
 
 if TYPE_CHECKING:
     from ._enums import (
-        SPAdExtensionStatus,
-        SPAdExtensionType,
         SPAdProduct,
         SPCreateState,
         SPMarketplace,
         SPMarketplaceScope,
         SPState,
         SPUpdateState,
-        SPVideoType,
     )
-    from ._errors import ErrorsIndex
-    from ._shared import SPStatus
+    from ._shared import ErrorsIndex, SPStatus
 
 
 class SPAdExtension(BaseModel):
@@ -158,6 +155,17 @@ class SPAdExtensionStateFilter(BaseModel):
     ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
+class SPAdExtensionStatus(StrEnum):
+    """Ad Extension Status.
+
+    | AdExtensionStatus | Description |
+    |------|------|
+    | `OPTED_OUT` | If the advertiser has opted out of this Ad Extension. |
+    """
+
+    OPTED_OUT = "OPTED_OUT"
+
+
 class SPAdExtensionSuccessResponse(BaseModel):
     """"""
 
@@ -165,6 +173,19 @@ class SPAdExtensionSuccessResponse(BaseModel):
 
     adExtensions: list[SPAdExtension] | None = None
     nextToken: str | None = None
+
+
+class SPAdExtensionType(StrEnum):
+    """Ad Extension Type.
+
+    | AdExtensionType | Description |
+    |------|------|
+    | `PROMPTS` | Enables Prompt based Ad Extension. |
+    | `VIDEO` | Enables Video based Ad Extension. |
+    """
+
+    PROMPTS = "PROMPTS"
+    VIDEO = "VIDEO"
 
 
 class SPAdExtensionUpdate(BaseModel):
@@ -249,3 +270,14 @@ class SPVideoExtension(BaseModel):
         None  # The image displayed over the video player before the video is played.
     )
     videoType: SPVideoType
+
+
+class SPVideoType(StrEnum):
+    """Video Type: Video type of the asset added in the ad extension and its rendering form.
+
+    | VideoType | Description |
+    |------|------|
+    | `SPOTLIGHT` | SPOTLIGHT Video Asset. |
+    """
+
+    SPOTLIGHT = "SPOTLIGHT"

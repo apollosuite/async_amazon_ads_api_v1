@@ -6,31 +6,20 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
+from enum import StrEnum
 
 if TYPE_CHECKING:
-    from ._ad_groups import SPTargetAdGroupIdFilter
-    from ._campaigns import SPTargetCampaignIdFilter
     from ._enums import (
         SPAdProduct,
         SPCreateState,
         SPCurrencyCode,
-        SPKeywordMatchType,
-        SPLanguageLocale,
         SPMarketplace,
         SPMarketplaceScope,
-        SPMatchType,
         SPProductIdType,
-        SPProductMatchType,
         SPState,
-        SPTargetKeywordFilterType,
-        SPTargetLevel,
-        SPTargetProductIdFilterType,
-        SPTargetType,
-        SPThemeMatchType,
         SPUpdateState,
     )
-    from ._errors import ErrorsIndex
-    from ._shared import SPCreateTag, SPStatus, SPTag
+    from ._shared import ErrorsIndex, SPCreateTag, SPStatus, SPTag
 
 
 class SPCreateKeywordTarget(BaseModel):
@@ -158,6 +147,19 @@ class SPDeleteTargetRequest(BaseModel):
     targetIds: list[str] | None = None
 
 
+class SPKeywordMatchType(StrEnum):
+    """| KeywordMatchType | Description |
+    |------|------|
+    | `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE. |
+    | `EXACT` | Exact match search terms. |
+    | `PHRASE` | Phrase match search terms. This expands matching on user intent beyond EXACT. |
+    """
+
+    BROAD = "BROAD"
+    EXACT = "EXACT"
+    PHRASE = "PHRASE"
+
+
 class SPKeywordTarget(BaseModel):
     """Targets a specific customer search term."""
 
@@ -171,12 +173,60 @@ class SPKeywordTarget(BaseModel):
     nativeLanguageLocale: SPLanguageLocale | None = None
 
 
+class SPLanguageLocale(StrEnum):
+    """A combination of ISO-639 standard for language code and ISO-3166 for country code.
+
+    | LanguageLocale | Description |
+    |------|------|
+    | `zh_CN` | Chinese (China). |
+    """
+
+    zh_CN = "zh_CN"
+
+
 class SPLocationTarget(BaseModel):
     """Target based on geographic location."""
 
     model_config = ConfigDict(extra="forbid")
 
     locationId: str  # The ID of the geographic location to target.
+
+
+class SPMatchType(StrEnum):
+    """| MatchType | Description |
+    | --- | --- |
+    | `KEYWORDS_RELATED_TO_GIFTS` | Search terms related to gifts. |
+    | `KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY` | Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically. |
+    | `PRODUCT_SIMILAR` | Products similar to the specified product. |
+    | `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE.  |
+    | `EXACT` | Exact match search terms. |
+    | `KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY` | Search terms shoppers often use to search for products in the same category as the products you're advertising. |
+    | `KEYWORDS_RELATED_TO_YOUR_BRAND` | Search terms related to your brand. |
+    | `PRODUCT_SUBSTITUTES` | Products that can be substituted for advertised product. |
+    | `KEYWORDS_LOOSE_MATCH` | Search terms loosely matching advertised product. |
+    | `PHRASE` | Phrase match search terms. This expands matching on user intent beyond EXACT. |
+    | `KEYWORDS_CLOSE_MATCH` | Search terms closely matching advertised product. |
+    | `PRODUCT_COMPLEMENTS` | Products that complement advertised product. |
+    | `PRODUCT_EXACT` | Products exactly matching the specified product. |
+    | `KEYWORDS_RELATED_TO_PRIME_DAY` | Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like "prime day", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day. |
+    """
+
+    BROAD = "BROAD"
+    EXACT = "EXACT"
+    KEYWORDS_CLOSE_MATCH = "KEYWORDS_CLOSE_MATCH"
+    KEYWORDS_LOOSE_MATCH = "KEYWORDS_LOOSE_MATCH"
+    KEYWORDS_RELATED_TO_GIFTS = "KEYWORDS_RELATED_TO_GIFTS"
+    KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY = (
+        "KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY"
+    )
+    KEYWORDS_RELATED_TO_PRIME_DAY = "KEYWORDS_RELATED_TO_PRIME_DAY"
+    KEYWORDS_RELATED_TO_YOUR_BRAND = "KEYWORDS_RELATED_TO_YOUR_BRAND"
+    KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY = "KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY"
+    PHRASE = "PHRASE"
+    PRODUCT_COMPLEMENTS = "PRODUCT_COMPLEMENTS"
+    PRODUCT_EXACT = "PRODUCT_EXACT"
+    PRODUCT_SIMILAR = "PRODUCT_SIMILAR"
+    PRODUCT_SUBSTITUTES = "PRODUCT_SUBSTITUTES"
 
 
 class SPProductCategoryRefinement(BaseModel):
@@ -223,6 +273,17 @@ class SPProductCategoryTarget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     productCategoryRefinement: SPProductCategoryRefinementValue
+
+
+class SPProductMatchType(StrEnum):
+    """| ProductMatchType | Description |
+    |------|------|
+    | `PRODUCT_EXACT` | Products exactly matching the specified product. |
+    | `PRODUCT_SIMILAR` | Products similar to the specified product. |
+    """
+
+    PRODUCT_EXACT = "PRODUCT_EXACT"
+    PRODUCT_SIMILAR = "PRODUCT_SIMILAR"
 
 
 class SPProductTarget(BaseModel):
@@ -294,6 +355,14 @@ class SPTarget(BaseModel):
     targetType: SPTargetType
 
 
+class SPTargetAdGroupIdFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str]
+
+
 class SPTargetAdProductFilter(BaseModel):
     """"""
 
@@ -311,6 +380,14 @@ class SPTargetBid(BaseModel):
 
     bid: float | None = None  # The maximum bid for a target.
     currencyCode: SPCurrencyCode
+
+
+class SPTargetCampaignIdFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str]
 
 
 class SPTargetCreate(BaseModel):
@@ -354,6 +431,27 @@ class SPTargetKeywordFilter(BaseModel):
 
     include: list[str]
     queryTermMatchType: SPTargetKeywordFilterType
+
+
+class SPTargetKeywordFilterType(StrEnum):
+    """| TargetKeywordFilterType | Description |
+    | --- | --- |
+    | `EXACT_MATCH` | Filter by exact match. |
+    | `BROAD_MATCH` | Filter by broad match. |"""
+
+    BROAD_MATCH = "BROAD_MATCH"
+    EXACT_MATCH = "EXACT_MATCH"
+
+
+class SPTargetLevel(StrEnum):
+    """| TargetLevel | Description |
+    |------|------|
+    | `AD_GROUP` | Target applied at the ad group level. |
+    | `CAMPAIGN` | Target applied at the campaign level. |
+    """
+
+    AD_GROUP = "AD_GROUP"
+    CAMPAIGN = "CAMPAIGN"
 
 
 class SPTargetMatchTypeFilter(BaseModel):
@@ -401,6 +499,16 @@ class SPTargetProductIdFilter(BaseModel):
     queryTermMatchType: SPTargetProductIdFilterType
 
 
+class SPTargetProductIdFilterType(StrEnum):
+    """| TargetProductIdFilterType | Description |
+    | --- | --- |
+    | `EXACT_MATCH` | Filter by exact match. |
+    | `BROAD_MATCH` | Filter by broad match. |"""
+
+    BROAD_MATCH = "BROAD_MATCH"
+    EXACT_MATCH = "EXACT_MATCH"
+
+
 class SPTargetStateFilter(BaseModel):
     """"""
 
@@ -438,6 +546,23 @@ class SPTargetTargetTypeFilter(BaseModel):
     ]  # TargetType Description `KEYWORD` Target based on customer search terms. `PRODUCT` Target based on a specific product. `PRODUCT_CATEGORY` Target based on a product category. `LOCATION` Target based on geographic location. `THEME` Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
 
 
+class SPTargetType(StrEnum):
+    """| TargetType | Description |
+    |------|------|
+    | `KEYWORD` | Target based on customer search terms. |
+    | `LOCATION` | Target based on geographic location. |
+    | `PRODUCT_CATEGORY` | Target based on a product category. |
+    | `PRODUCT` | Target based on a specific product. |
+    | `THEME` | Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products. |
+    """
+
+    KEYWORD = "KEYWORD"
+    LOCATION = "LOCATION"
+    PRODUCT = "PRODUCT"
+    PRODUCT_CATEGORY = "PRODUCT_CATEGORY"
+    THEME = "THEME"
+
+
 class SPTargetUpdate(BaseModel):
     """"""
 
@@ -449,6 +574,33 @@ class SPTargetUpdate(BaseModel):
         None  # Open ended labels with a key value pair applied to the target
     )
     targetId: str  # A unique identifier for the target.
+
+
+class SPThemeMatchType(StrEnum):
+    """| ThemeMatchType | Description |
+    |------|------|
+    | `KEYWORDS_CLOSE_MATCH` | Search terms closely matching advertised product. |
+    | `KEYWORDS_LOOSE_MATCH` | Search terms loosely matching advertised product. |
+    | `KEYWORDS_RELATED_TO_GIFTS` | Search terms related to gifts. |
+    | `KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY` | Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically. |
+    | `KEYWORDS_RELATED_TO_PRIME_DAY` | Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like "prime day", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day. |
+    | `KEYWORDS_RELATED_TO_YOUR_BRAND` | Search terms related to your brand. |
+    | `KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY` | Search terms shoppers often use to search for products in the same category as the products you're advertising. |
+    | `PRODUCT_COMPLEMENTS` | Products that complement advertised product. |
+    | `PRODUCT_SUBSTITUTES` | Products that can be substituted for advertised product. |
+    """
+
+    KEYWORDS_CLOSE_MATCH = "KEYWORDS_CLOSE_MATCH"
+    KEYWORDS_LOOSE_MATCH = "KEYWORDS_LOOSE_MATCH"
+    KEYWORDS_RELATED_TO_GIFTS = "KEYWORDS_RELATED_TO_GIFTS"
+    KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY = (
+        "KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY"
+    )
+    KEYWORDS_RELATED_TO_PRIME_DAY = "KEYWORDS_RELATED_TO_PRIME_DAY"
+    KEYWORDS_RELATED_TO_YOUR_BRAND = "KEYWORDS_RELATED_TO_YOUR_BRAND"
+    KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY = "KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY"
+    PRODUCT_COMPLEMENTS = "PRODUCT_COMPLEMENTS"
+    PRODUCT_SUBSTITUTES = "PRODUCT_SUBSTITUTES"
 
 
 class SPThemeTarget(BaseModel):

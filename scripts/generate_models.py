@@ -4,9 +4,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
-SCHEMA_PATH = Path(__file__).parent.parent / "AmazonAdsAPISPMerged_prod_3p.json"
+sys.path.insert(0, str(Path(__file__).parent))
+from generate_file_structure import classify
+
+SCHEMA_PATH = Path(__file__).parent / "AmazonAdsAPISPMerged_prod_3p.json"
 
 HEADER = '''"""Auto-generated Pydantic models from Amazon Ads API schema."""
 
@@ -115,243 +119,15 @@ from pydantic import BaseModel, ConfigDict
 ''',
 }
 
-# ── Entity model grouping ───────────────────────────────────────────────────
+_DEFAULT_MODULE_HEADER = '''"""Auto-generated Pydantic models from Amazon Ads API schema."""
 
-CAMPAIGN_NAMES = {
-    "SPCampaign",
-    "SPCampaignAdProductFilter",
-    "SPCampaignCampaignIdFilter",
-    "SPCampaignCreate",
-    "SPCampaignMultiStatusResponse",
-    "SPCampaignMultiStatusSuccess",
-    "SPCampaignNameFilter",
-    "SPCampaignOptimizations",
-    "SPCampaignPortfolioIdFilter",
-    "SPCampaignStateFilter",
-    "SPCampaignSuccessResponse",
-    "SPCampaignUpdate",
-    "SPCreateCampaignOptimizations",
-    "SPUpdateCampaignOptimizations",
-    "SPCreateCampaignRequest",
-    "SPDeleteCampaignRequest",
-    "SPQueryCampaignRequest",
-    "SPUpdateCampaignRequest",
-    # cross-resource filter models
-    "SPAdCampaignIdFilter",
-    "SPTargetCampaignIdFilter",
-}
+from __future__ import annotations
 
-AD_GROUP_NAMES = {
-    "SPAdGroup",
-    "SPAdGroupAdGroupIdFilter",
-    "SPAdGroupAdProductFilter",
-    "SPAdGroupBid",
-    "SPAdGroupCampaignIdFilter",
-    "SPAdGroupCreate",
-    "SPAdGroupMultiStatusResponse",
-    "SPAdGroupMultiStatusSuccess",
-    "SPAdGroupNameFilter",
-    "SPAdGroupStateFilter",
-    "SPAdGroupSuccessResponse",
-    "SPAdGroupUpdate",
-    "SPCreateAdGroupBid",
-    "SPUpdateAdGroupBid",
-    "SPCreateAdGroupRequest",
-    "SPDeleteAdGroupRequest",
-    "SPQueryAdGroupRequest",
-    "SPUpdateAdGroupRequest",
-    # cross-resource filter models
-    "SPAdAdGroupIdFilter",
-    "SPTargetAdGroupIdFilter",
-}
+from datetime import datetime
+from typing import Any
 
-AD_NAMES = {
-    "SPAd",
-    "SPAdAdIdFilter",
-    "SPAdAdProductFilter",
-    "SPAdCreate",
-    "SPAdMultiStatusResponse",
-    "SPAdMultiStatusSuccess",
-    "SPAdStateFilter",
-    "SPAdSuccessResponse",
-    "SPAdUpdate",
-    "SPCreateAdRequest",
-    "SPDeleteAdRequest",
-    "SPQueryAdRequest",
-    "SPUpdateAdRequest",
-}
-
-TARGET_NAMES = {
-    "SPTarget",
-    "SPTargetCreate",
-    "SPTargetUpdate",
-    "SPTargetMultiStatusSuccess",
-    "SPTargetBid",
-    "SPCreateTargetBid",
-    "SPUpdateTargetBid",
-    "SPTargetDetails",
-    "SPCreateTargetDetails",
-    "SPKeywordTarget",
-    "SPCreateKeywordTarget",
-    "SPLocationTarget",
-    "SPCreateLocationTarget",
-    "SPProductCategoryTarget",
-    "SPCreateProductCategoryTarget",
-    "SPProductCategoryRefinement",
-    "SPCreateProductCategoryRefinement",
-    "SPProductCategoryRefinementValue",
-    "SPCreateProductCategoryRefinementValue",
-    "SPThemeTarget",
-    "SPCreateThemeTarget",
-    "SPProductTarget",
-    "SPCreateProductTarget",
-    "SPProductValue",
-    "SPCreateProductValue",
-    "SPTargetAdProductFilter",
-    "SPTargetKeywordFilter",
-    "SPTargetMatchTypeFilter",
-    "SPTargetMultiStatusResponse",
-    "SPTargetNegativeFilter",
-    "SPTargetProductIdFilter",
-    "SPTargetStateFilter",
-    "SPTargetSuccessResponse",
-    "SPTargetTargetIdFilter",
-    "SPTargetTargetTypeFilter",
-    "SPCreateTargetRequest",
-    "SPDeleteTargetRequest",
-    "SPQueryTargetRequest",
-    "SPUpdateTargetRequest",
-}
-
-AD_EXTENSION_NAMES = {
-    "SPAdExtension",
-    "SPAdExtensionAdExtensionIdFilter",
-    "SPAdExtensionAdExtensionStatusFilter",
-    "SPAdExtensionAdExtensionTypeFilter",
-    "SPAdExtensionAdGroupIdFilter",
-    "SPAdExtensionAdIdFilter",
-    "SPAdExtensionAdProductFilter",
-    "SPAdExtensionCreate",
-    "SPAdExtensionMultiStatusResponse",
-    "SPAdExtensionMultiStatusSuccess",
-    "SPAdExtensionSettings",
-    "SPAdExtensionStateFilter",
-    "SPAdExtensionSuccessResponse",
-    "SPAdExtensionUpdate",
-    "SPCreateAdExtensionRequest",
-    "SPCreateAdExtensionSettings",
-    "SPCreatePromptExtension",
-    "SPCreateVideoExtension",
-    "SPPromptExtension",
-    "SPQueryAdExtensionRequest",
-    "SPUpdateAdExtensionRequest",
-    "SPVideoExtension",
-}
-
-ERROR_NAMES = {
-    "BadGatewayResponseContent",
-    "BadRequestResponseContent",
-    "ContentTooLargeResponseContent",
-    "Error",
-    "ErrorsIndex",
-    "ForbiddenResponseContent",
-    "GatewayTimeoutResponseContent",
-    "InternalServerErrorResponseContent",
-    "NotFoundResponseContent",
-    "ServiceUnavailableErrorResponseContent",
-    "TooManyRequestsResponseContent",
-    "UnauthorizedResponseContent",
-}
-
-BID_NAMES = {
-    "SPAudienceBidAdjustment",
-    "SPBidAdjustments",
-    "SPBidSettings",
-    "SPCreateAudienceBidAdjustment",
-    "SPCreateBidAdjustments",
-    "SPCreateBidSettings",
-    "SPCreateCreativeBidAdjustment",
-    "SPCreatePlacementBidAdjustment",
-    "SPCreativeBidAdjustment",
-    "SPPlacementBidAdjustment",
-    "SPUpdateBidAdjustments",
-    "SPUpdateBidSettings",
-}
-
-CREATIVE_NAMES = {
-    "SPAdvertisedProducts",
-    "SPCreateAdvertisedProducts",
-    "SPCreateCreative",
-    "SPCreateGlobalStoreSettings",
-    "SPCreateProductCreative",
-    "SPCreateProductCreativeSettings",
-    "SPCreateSpotlightVideoSettings",
-    "SPCreateVideo",
-    "SPCreative",
-    "SPGlobalStoreSettings",
-    "SPProductCreative",
-    "SPProductCreativeSettings",
-    "SPSpotlightVideoSettings",
-    "SPUpdateCreative",
-    "SPUpdateProductCreative",
-    "SPUpdateProductCreativeSettings",
-    "SPUpdateSpotlightVideoSettings",
-    "SPVideo",
-}
-
-BUDGET_NAMES = {
-    "SPBudget",
-    "SPBudgetSettings",
-    "SPBudgetValue",
-    "SPCreateBudget",
-    "SPCreateBudgetSettings",
-    "SPCreateBudgetValue",
-    "SPCreateMonetaryBudget",
-    "SPCreateMonetaryBudgetValue",
-    "SPMonetaryBudget",
-    "SPMonetaryBudgetValue",
-    "SPUpdateBudgetSettings",
-}
-
-SHARED_NAMES = {
-    "SPAutoCreationSettings",
-    "SPCreateAutoCreationSettings",
-    "SPStatus",
-    "SPTag",
-    "SPCreateTag",
-}
-
-ENTITY_GROUPS = [
-    ("_campaigns.py", CAMPAIGN_NAMES),
-    ("_ad_groups.py", AD_GROUP_NAMES),
-    ("_ads.py", AD_NAMES),
-    ("_targets.py", TARGET_NAMES),
-    ("_ad_extensions.py", AD_EXTENSION_NAMES),
-    ("_errors.py", ERROR_NAMES),
-    ("_bids.py", BID_NAMES),
-    ("_creatives.py", CREATIVE_NAMES),
-    ("_budgets.py", BUDGET_NAMES),
-    ("_shared.py", SHARED_NAMES),
-]
-
-_ENTITY_KEYWORDS: list[tuple[str, str]] = [
-    ("AdExtension", "_ad_extensions.py"),
-    ("AdGroup", "_ad_groups.py"),
-    ("Campaign", "_campaigns.py"),
-    ("Target", "_targets.py"),
-    ("Ad", "_ads.py"),
-]
-
-
-def _match_entity_keyword(name: str) -> str | None:
-    """Match entity keyword in schema name, accounting for false positives."""
-    for kw, mod in _ENTITY_KEYWORDS:
-        if kw not in name:
-            continue
-        if kw == "Ad" and "Adjust" in name:
-            continue
-        return mod
-    return None
+from pydantic import BaseModel, ConfigDict
+'''
 
 
 def _clean_description(desc: str) -> str:
@@ -459,80 +235,6 @@ def generate_model(name: str, schema: dict, schemas: dict | None = None) -> str:
 '''
 
 
-def _group_entity(name: str) -> str | None:
-    for filename, names in ENTITY_GROUPS:
-        if name in names:
-            return filename
-    return None
-
-
-def _classify(schemas: dict[str, dict]) -> dict[str, list[str]]:
-    enums: list[str] = []
-    campaigns: list[str] = []
-    ad_groups: list[str] = []
-    ads: list[str] = []
-    targets: list[str] = []
-    ad_extensions: list[str] = []
-    errors: list[str] = []
-    shared: list[str] = []
-    bids: list[str] = []
-    creatives: list[str] = []
-    budgets: list[str] = []
-
-    for name in sorted(schemas):
-        s = schemas[name]
-        if is_enum(s) and s.get("enum"):
-            enums.append(name)
-        elif g := _group_entity(name):
-            if g == "_campaigns.py":
-                campaigns.append(name)
-            elif g == "_ad_groups.py":
-                ad_groups.append(name)
-            elif g == "_ads.py":
-                ads.append(name)
-            elif g == "_targets.py":
-                targets.append(name)
-            elif g == "_ad_extensions.py":
-                ad_extensions.append(name)
-            elif g == "_errors.py":
-                errors.append(name)
-            elif g == "_shared.py":
-                shared.append(name)
-            elif g == "_bids.py":
-                bids.append(name)
-            elif g == "_creatives.py":
-                creatives.append(name)
-            elif g == "_budgets.py":
-                budgets.append(name)
-        elif g := _match_entity_keyword(name):
-            if g == "_campaigns.py":
-                campaigns.append(name)
-            elif g == "_ad_groups.py":
-                ad_groups.append(name)
-            elif g == "_ads.py":
-                ads.append(name)
-            elif g == "_targets.py":
-                targets.append(name)
-            elif g == "_ad_extensions.py":
-                ad_extensions.append(name)
-        else:
-            shared.append(name)
-
-    return {
-        "_enums.py": enums,
-        "_campaigns.py": campaigns,
-        "_ad_groups.py": ad_groups,
-        "_ads.py": ads,
-        "_targets.py": targets,
-        "_ad_extensions.py": ad_extensions,
-        "_errors.py": errors,
-        "_bids.py": bids,
-        "_creatives.py": creatives,
-        "_budgets.py": budgets,
-        "_shared.py": shared,
-    }
-
-
 def emit(schema: dict, name: str, schemas: dict | None = None) -> str:
     if is_enum(schema) and schema.get("enum"):
         return generate_enum(name, schema)
@@ -587,13 +289,10 @@ def main(*, output_dir: Path | None = None) -> None:
     with open(SCHEMA_PATH) as f:
         data = json.load(f)
     schemas = data["components"]["schemas"]
-    groups = _classify(schemas)
 
-    # Build reverse map: schema_name -> module_filename
-    schema_module: dict[str, str] = {}
-    for mod, names in groups.items():
-        for n in names:
-            schema_module[n] = mod
+    result = classify(data)
+    groups = result["files"]
+    schema_module = result["classification"]
 
     # First pass: collect external type refs per module
     ext_refs: dict[str, set[str]] = {}
@@ -683,16 +382,19 @@ def main(*, output_dir: Path | None = None) -> None:
             buf.append(out)
 
     for filename, names in groups.items():
-        header = MODULE_IMPORTS[filename]
+        header = MODULE_IMPORTS.get(filename, _DEFAULT_MODULE_HEADER)
+
+        # Ensure StrEnum import if file contains enums
+        if any(is_enum(schemas[n]) and schemas[n].get("enum") for n in names):
+            if "from enum import StrEnum" not in header:
+                header = header.rstrip() + "\nfrom enum import StrEnum\n"
+
         refs = ext_refs.get(filename, set())
         imports = _build_import_block(filename, refs, schema_module)
         if refs:
             if "TYPE_CHECKING" not in header:
                 header = header.replace(
                     "from typing import Any", "from typing import TYPE_CHECKING, Any"
-                )
-                header = header.replace(
-                    "from typing import Any\n", "from typing import TYPE_CHECKING, Any\n"
                 )
         buf = [header, imports] if imports else [header]
         for n in names:

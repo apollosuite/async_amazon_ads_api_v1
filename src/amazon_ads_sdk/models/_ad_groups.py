@@ -6,10 +6,10 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
+from enum import StrEnum
 
 if TYPE_CHECKING:
     from ._enums import (
-        SPAdGroupNameFilterType,
         SPAdProduct,
         SPCreateState,
         SPCurrencyCode,
@@ -18,16 +18,7 @@ if TYPE_CHECKING:
         SPState,
         SPUpdateState,
     )
-    from ._errors import ErrorsIndex
-    from ._shared import SPCreateTag, SPStatus, SPTag
-
-
-class SPAdAdGroupIdFilter(BaseModel):
-    """"""
-
-    model_config = ConfigDict(extra="forbid")
-
-    include: list[str]
+    from ._shared import ErrorsIndex, SPCreateTag, SPStatus, SPTag
 
 
 class SPAdGroup(BaseModel):
@@ -133,6 +124,16 @@ class SPAdGroupNameFilter(BaseModel):
     queryTermMatchType: SPAdGroupNameFilterType
 
 
+class SPAdGroupNameFilterType(StrEnum):
+    """| AdGroupNameFilterType | Description |
+    | --- | --- |
+    | `EXACT_MATCH` | Filter by exact match. |
+    | `BROAD_MATCH` | Filter by broad match. |"""
+
+    BROAD_MATCH = "BROAD_MATCH"
+    EXACT_MATCH = "EXACT_MATCH"
+
+
 class SPAdGroupStateFilter(BaseModel):
     """"""
 
@@ -202,14 +203,6 @@ class SPQueryAdGroupRequest(BaseModel):
     nameFilter: SPAdGroupNameFilter | None = None
     nextToken: str | None = None
     stateFilter: SPAdGroupStateFilter | None = None
-
-
-class SPTargetAdGroupIdFilter(BaseModel):
-    """"""
-
-    model_config = ConfigDict(extra="forbid")
-
-    include: list[str]
 
 
 class SPUpdateAdGroupBid(BaseModel):
