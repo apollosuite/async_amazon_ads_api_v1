@@ -31,8 +31,13 @@ class _ResourceBase:
         json: dict[str, Any] | None = None,
         accept_async: bool = False,
     ) -> httpx.Response:
-        client = await self._ctx.get_client(accept_async)
-        headers = self._ctx.profile_header
+        client = await self._ctx.get_client()
+        accept = (
+            "application/vnd.createasyncrequestresults.v3+json"
+            if accept_async
+            else "application/json"
+        )
+        headers = {"Accept": accept, **self._ctx.profile_header}
         for attempt in range(self._ctx.config.max_retries):
             try:
                 resp = await client.request(

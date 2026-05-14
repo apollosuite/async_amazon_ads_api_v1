@@ -66,7 +66,11 @@ class AmazonAdsConfig:
             raise OSError("AMAZON_ACCESS_TOKEN environment variable is not set")
         region_str = os.environ.get("AMAZON_REGION", "na").lower()
         region_map = {"na": Region.NA, "eu": Region.EU, "fe": Region.FE}
-        region = region_map.get(region_str, Region.NA)
+        region = region_map.get(region_str)
+        if region is None:
+            raise ValueError(
+                f"Unsupported AMAZON_REGION: {region_str!r}. Expected one of: {', '.join(region_map)}"
+            )
         profile_id = os.environ.get("AMAZON_PROFILE_ID")
         return cls(
             access_token=access_token,
