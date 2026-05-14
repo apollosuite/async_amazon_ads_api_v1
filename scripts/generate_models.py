@@ -16,6 +16,7 @@ PROJECT = HERE.parent / "src" / "amazon_ads_sdk"
 SPECS: dict[str, Path] = {
     "sp": HERE / "AmazonAdsAPISPMerged_prod_3p.json",
     "sb": HERE / "AmazonAdsAPISBMerged_prod_3p.json",
+    "sd": HERE / "AmazonAdsAPISDMerged_prod_3p.json",
 }
 
 SHARED_ERROR_SCHEMAS: set[str] = {
@@ -223,8 +224,8 @@ def _strip_prefix(filename: str) -> str:
 
 
 def main(*, output_dir: Path | None = None, product: str | None = None) -> None:
-    if product is None or product not in ("sp", "sb"):
-        print("Error: --product must be 'sp' or 'sb'", file=sys.stderr)
+    if product is None or product not in ("sp", "sb", "sd"):
+        print("Error: --product must be 'sp', 'sb', or 'sd'", file=sys.stderr)
         sys.exit(1)
 
     spec_path = SPECS[product]
@@ -349,7 +350,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--product",
         required=True,
-        choices=["sp", "sb"],
+        choices=["sp", "sb", "sd"],
         help="Product type: sp (Sponsored Products) or sb (Sponsored Brands)",
     )
     parser.add_argument(

@@ -43,6 +43,7 @@ ignore = ["E501"]
 "src/amazon_ads_sdk/errors.py" = ["N815"]
 "src/amazon_ads_sdk/models/sp/*" = ["F403", "F821", "I001", "N815", "UP042"]
 "src/amazon_ads_sdk/models/sb/*" = ["F403", "F821", "I001", "N815", "UP042"]
+"src/amazon_ads_sdk/models/sd/*" = ["F403", "F821", "I001", "N815", "UP042"]
 
 [tool.mypy]
 python_version = "3.14"
