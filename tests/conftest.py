@@ -1,0 +1,56 @@
+from __future__ import annotations
+
+from collections.abc import AsyncGenerator
+from unittest.mock import AsyncMock, MagicMock
+
+import httpx
+import pytest
+import pytest_asyncio
+
+from amazon_ads_sdk._base import ClientContext
+from amazon_ads_sdk.config import AmazonAdsConfig, Region
+
+
+@pytest.fixture
+def config() -> AmazonAdsConfig:
+    return AmazonAdsConfig(access_token="test-token", region=Region.NA)
+
+
+@pytest_asyncio.fixture
+async def ctx(config: AmazonAdsConfig) -> AsyncGenerator[ClientContext]:
+    context = ClientContext(config)
+    yield context
+    if context._client is not None:
+        await context._client.aclose()
+
+
+@pytest.fixture
+def mock_async_client() -> MagicMock:
+    client = MagicMock(spec=httpx.AsyncClient)
+    client.request = AsyncMock()
+    return client
+
+
+@pytest.fixture
+def mock_response() -> MagicMock:
+    resp = MagicMock(spec=httpx.Response)
+    resp.status_code = 200
+    resp.content = b'{"dummy": "ok"}'
+    return resp
+
+
+def make_config(
+    access_token: str = "test-token",
+    region: Region = Region.NA,
+    *,
+    profile_id: int | None = None,
+    timeout: float = 60.0,
+    max_retries: int = 3,
+) -> AmazonAdsConfig:
+    return AmazonAdsConfig(
+        access_token=access_token,
+        region=region,
+        profile_id=profile_id,
+        timeout=timeout,
+        max_retries=max_retries,
+    )

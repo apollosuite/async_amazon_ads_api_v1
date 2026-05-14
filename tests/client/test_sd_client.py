@@ -1,0 +1,65 @@
+from __future__ import annotations
+
+import pytest
+
+from amazon_ads_sdk.client.sd import SDClient
+from amazon_ads_sdk.client.sd.ad_groups import AdGroups
+from amazon_ads_sdk.client.sd.ads import Ads
+from amazon_ads_sdk.client.sd.campaigns import Campaigns
+from amazon_ads_sdk.client.sd.targets import Targets
+from amazon_ads_sdk.config import AmazonAdsConfig, Region
+
+
+class TestSDClient:
+    @pytest.fixture
+    def config(self) -> AmazonAdsConfig:
+        return AmazonAdsConfig(access_token="test-token", region=Region.NA)
+
+    @pytest.mark.asyncio
+    async def test_context_manager(self, config: AmazonAdsConfig) -> None:
+        async with SDClient(config) as client:
+            assert isinstance(client, SDClient)
+
+    @pytest.mark.asyncio
+    async def test_close_without_client(self, config: AmazonAdsConfig) -> None:
+        client = SDClient(config)
+        await client.close()
+
+    @pytest.mark.asyncio
+    async def test_close_cleans_up(self, config: AmazonAdsConfig) -> None:
+        async with SDClient(config) as client:
+            ctx = client._ctx
+            await ctx.get_client()
+            assert ctx._client is not None
+        assert ctx._client is None
+
+    def test_properties_lazy_init(self, config: AmazonAdsConfig) -> None:
+        client = SDClient(config)
+        assert client._SDClient__campaign is None
+        assert client._SDClient__ad_group is None
+        assert client._SDClient__ad is None
+        assert client._SDClient__target is None
+
+    def test_campaigns_property(self, config: AmazonAdsConfig) -> None:
+        client = SDClient(config)
+        c = client.campaigns
+        assert isinstance(c, Campaigns)
+        assert client.campaigns is c
+
+    def test_ad_groups_property(self, config: AmazonAdsConfig) -> None:
+        client = SDClient(config)
+        ag = client.ad_groups
+        assert isinstance(ag, AdGroups)
+        assert client.ad_groups is ag
+
+    def test_ads_property(self, config: AmazonAdsConfig) -> None:
+        client = SDClient(config)
+        ad = client.ads
+        assert isinstance(ad, Ads)
+        assert client.ads is ad
+
+    def test_targets_property(self, config: AmazonAdsConfig) -> None:
+        client = SDClient(config)
+        t = client.targets
+        assert isinstance(t, Targets)
+        assert client.targets is t
