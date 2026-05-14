@@ -210,16 +210,21 @@ def _clean_description(desc: str) -> str:
     return " ".join(result_lines).strip()
 
 
-def openapi_to_python_type(schema: dict) -> str:
+def openapi_to_python_type(schema: dict, schemas: dict | None = None) -> str:
+    # Resolve $ref to the referenced schema name
+    if "$ref" in schema:
+        ref_name = schema["$ref"].split("/")[-1]
+        return ref_name
+
     t = schema.get("type", "object")
     fmt = schema.get("format", "")
     if t == "array":
         items = schema.get("items", {})
-        inner = openapi_to_python_type(items)
+        inner = openapi_to_python_type(items, schemas)
         return f"list[{inner}]"
     if t == "object":
         if schema.get("additionalProperties"):
-            val = openapi_to_python_type(schema["additionalProperties"])
+            val = openapi_to_python_type(schema["additionalProperties"], schemas)
             return f"dict[str, {val}]"
         return "dict[str, Any]"
     if t == "string":
@@ -245,10 +250,29 @@ def generate_enum(name: str, schema: dict) -> str:
 '''
 
 
-def generate_model(name: str, schema: dict) -> str:
+def generate_model(name: str, schema: dict, schemas: dict | None = None) -> str:
     doc = schema.get("description", "")
-    props = schema.get("properties", {})
     required: set[str] = set(schema.get("required", []))
+
+    # Handle oneOf — extract variant properties as optional fields
+    if not schema.get("properties") and schema.get("oneOf"):
+        fields = []
+        for variant in schema["oneOf"]:
+            if variant.get("type") == "object" and variant.get("properties"):
+                for fname, fschema in variant["properties"].items():
+                    typ = openapi_to_python_type(fschema, schemas)
+                    desc = _clean_description(fschema.get("description", "")).strip()[:80].rstrip()
+                    comment = f"  # {desc}" if desc else ""
+                    fields.append(f"    {fname}: {typ} | None = None{comment}")
+        field_block = "\n".join(fields) if fields else "    pass"
+        return f'''class {name}(BaseModel):
+    """{doc}"""
+    model_config = ConfigDict(extra="forbid")
+
+{field_block}
+'''
+
+    props = schema.get("properties", {})
     if not props:
         return f'''class {name}(BaseModel):
     """{doc}"""
@@ -256,7 +280,7 @@ def generate_model(name: str, schema: dict) -> str:
 '''
     fields = []
     for fname, fschema in props.items():
-        typ = openapi_to_python_type(fschema)
+        typ = openapi_to_python_type(fschema, schemas)
         is_required = fname in required
         default = "" if is_required else " = None"
         if not is_required and typ not in ("Any",):
@@ -330,10 +354,54 @@ def _classify(schemas: dict[str, dict]) -> dict[str, list[str]]:
     }
 
 
-def emit(schema: dict, name: str) -> str:
+def emit(schema: dict, name: str, schemas: dict | None = None) -> str:
     if is_enum(schema) and schema.get("enum"):
         return generate_enum(name, schema)
-    return generate_model(name, schema)
+    return generate_model(name, schema, schemas)
+
+
+def _ext_refs_from_schema(name: str, schema: dict, schemas: dict, schema_module: dict) -> set[str]:
+    """Return set of type names referenced by this schema that belong to other modules."""
+    refs: set[str] = set()
+    seen: set[str] = set()
+
+    def walk(s: dict) -> None:
+        if "$ref" in s:
+            rname = s["$ref"].split("/")[-1]
+            if (
+                rname not in seen
+                and schema_module.get(rname)
+                and schema_module[rname] != schema_module[name]
+            ):
+                refs.add(rname)
+            seen.add(rname)
+        elif s.get("type") == "array":
+            walk(s.get("items", {}))
+        elif s.get("type") == "object" and s.get("additionalProperties"):
+            walk(s["additionalProperties"])
+
+    for fname, fschema in schema.get("properties", {}).items():
+        walk(fschema)
+    for variant in schema.get("oneOf", []):
+        if variant.get("type") == "object" and variant.get("properties"):
+            for fname, fschema in variant["properties"].items():
+                walk(fschema)
+    return refs
+
+
+def _build_import_block(module_filename: str, refs: set[str], schema_module: dict) -> str:
+    """Build a TYPE_CHECKING import block for types coming from other modules."""
+    grouped: dict[str, list[str]] = {}
+    for ref in sorted(refs):
+        src = schema_module[ref]
+        grouped.setdefault(src, []).append(ref)
+    if not grouped:
+        return ""
+    lines: list[str] = ["if TYPE_CHECKING:"]
+    for src in sorted(grouped):
+        names = sorted(grouped[src])
+        lines.append(f"    from .{src.removesuffix('.py')} import {', '.join(names)}")
+    return "\n".join(lines) + "\n\n"
 
 
 def main(*, output_dir: Path | None = None) -> None:
@@ -341,6 +409,23 @@ def main(*, output_dir: Path | None = None) -> None:
         data = json.load(f)
     schemas = data["components"]["schemas"]
     groups = _classify(schemas)
+
+    # Build reverse map: schema_name -> module_filename
+    schema_module: dict[str, str] = {}
+    for mod, names in groups.items():
+        for n in names:
+            schema_module[n] = mod
+
+    # First pass: collect external type refs per module
+    ext_refs: dict[str, set[str]] = {}
+    for mod, names in groups.items():
+        mod_refs: set[str] = set()
+        for n in names:
+            refs = _ext_refs_from_schema(n, schemas[n], schemas, schema_module)
+            mod_refs.update(refs)
+        # Remove self-module refs
+        mod_refs = {r for r in mod_refs if schema_module.get(r) != mod}
+        ext_refs[mod] = mod_refs
 
     if output_dir is None:
         # Legacy single-file output
@@ -351,7 +436,7 @@ def main(*, output_dir: Path | None = None) -> None:
             if name in done:
                 return ""
             done.add(name)
-            return emit(schemas[name], name)
+            return emit(schemas[name], name, schemas)
 
         for section, names in [
             ("# ── Enums ──", groups["_enums.py"]),
@@ -381,7 +466,34 @@ def main(*, output_dir: Path | None = None) -> None:
 
     # Multi-file output
     output_dir.mkdir(parents=True, exist_ok=True)
-    (output_dir / "__init__.py").write_text(HEADER + "\n")
+
+    # __init__.py — re-export all generated modules + rebuild models
+    init_parts = [
+        '"""Auto-generated Pydantic models from Amazon Ads API schema."""',
+        "",
+        "from __future__ import annotations",
+        "",
+        "import sys",
+        "import typing",
+        "",
+    ]
+    for module_file in sorted(groups):
+        mod = module_file.removesuffix(".py")
+        init_parts.append(f"from .{mod} import *")
+    init_parts.extend(
+        [
+            "",
+            "# Resolve cross-module forward references",
+            "_ns: dict[str, typing.Any] = dict(sys.modules[__name__].__dict__)",
+            "for _name, _obj in list(_ns.items()):",
+            "    if isinstance(_obj, type) and hasattr(_obj, 'model_rebuild'):",
+            "        try:",
+            "            _obj.model_rebuild(_types_namespace=_ns)",
+            "        except Exception:",
+            "            pass",
+        ]
+    )
+    (output_dir / "__init__.py").write_text("\n".join(init_parts) + "\n")
 
     done: set[str] = set()
 
@@ -389,12 +501,24 @@ def main(*, output_dir: Path | None = None) -> None:
         if name in done:
             return
         done.add(name)
-        out = emit(schemas[name], name)
+        out = emit(schemas[name], name, schemas)
         if out:
             buf.append(out)
 
     for filename, names in groups.items():
-        buf = [MODULE_IMPORTS[filename]]
+        header = MODULE_IMPORTS[filename]
+        refs = ext_refs.get(filename, set())
+        imports = _build_import_block(filename, refs, schema_module)
+        if refs:
+            # Add TYPE_CHECKING to typing imports
+            if "TYPE_CHECKING" not in header:
+                header = header.replace(
+                    "from typing import Any", "from typing import TYPE_CHECKING, Any"
+                )
+                header = header.replace(
+                    "from typing import Any\n", "from typing import TYPE_CHECKING, Any\n"
+                )
+        buf = [header, imports] if imports else [header]
         for n in names:
             emit_to_file(buf, n)
         (output_dir / filename).write_text("".join(buf) + "\n")

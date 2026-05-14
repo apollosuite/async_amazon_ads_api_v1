@@ -9,6 +9,10 @@ __pycache__/
 # Caches
 .mypy_cache/
 .ruff_cache/
+.pytest_cache/
+
+# IDE
+.idea/
 
 # Virtual environments
 .venv/

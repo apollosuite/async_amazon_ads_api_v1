@@ -3,9 +3,29 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
+
+if TYPE_CHECKING:
+    from ._ads import SPCreateProductValue, SPProductValue
+    from ._enums import (
+        SPAdProduct,
+        SPCreateState,
+        SPCurrencyCode,
+        SPKeywordMatchType,
+        SPLanguageLocale,
+        SPMarketplace,
+        SPMarketplaceScope,
+        SPProductIdType,
+        SPProductMatchType,
+        SPState,
+        SPTargetLevel,
+        SPTargetType,
+        SPThemeMatchType,
+        SPUpdateState,
+    )
+    from ._shared import SPCreateTag, SPStatus, SPTag
 
 
 class SPCreateKeywordTarget(BaseModel):
@@ -14,11 +34,11 @@ class SPCreateKeywordTarget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     keyword: str  # The customer search term or text to target
-    matchType: dict[str, Any]
+    matchType: SPKeywordMatchType
     nativeLanguageKeyword: str | None = (
         None  # The unlocalized keyword text in the preferred locale of the advertiser.
     )
-    nativeLanguageLocale: dict[str, Any] | None = None
+    nativeLanguageLocale: SPLanguageLocale | None = None
 
 
 class SPCreateLocationTarget(BaseModel):
@@ -60,7 +80,7 @@ class SPCreateProductCategoryRefinementValue(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    productCategoryRefinement: dict[str, Any]
+    productCategoryRefinement: SPCreateProductCategoryRefinement
 
 
 class SPCreateProductCategoryTarget(BaseModel):
@@ -68,7 +88,7 @@ class SPCreateProductCategoryTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    productCategoryRefinement: dict[str, Any]
+    productCategoryRefinement: SPCreateProductCategoryRefinementValue
 
 
 class SPCreateProductTarget(BaseModel):
@@ -76,9 +96,9 @@ class SPCreateProductTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    matchType: dict[str, Any]
-    product: dict[str, Any]
-    productIdType: dict[str, Any]
+    matchType: SPProductMatchType
+    product: SPCreateProductValue
+    productIdType: SPProductIdType
 
 
 class SPCreateTargetBid(BaseModel):
@@ -94,13 +114,19 @@ class SPCreateTargetDetails(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
+    keywordTarget: SPCreateKeywordTarget | None = None
+    productTarget: SPCreateProductTarget | None = None
+    productCategoryTarget: SPCreateProductCategoryTarget | None = None
+    locationTarget: SPCreateLocationTarget | None = None
+    themeTarget: SPCreateThemeTarget | None = None
+
 
 class SPCreateThemeTarget(BaseModel):
     """Theme targets let advertisers select high-performing targets based on a common theme."""
 
     model_config = ConfigDict(extra="forbid")
 
-    matchType: dict[str, Any]
+    matchType: SPThemeMatchType
 
 
 class SPKeywordTarget(BaseModel):
@@ -109,11 +135,11 @@ class SPKeywordTarget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     keyword: str  # The customer search term or text to target
-    matchType: dict[str, Any]
+    matchType: SPKeywordMatchType
     nativeLanguageKeyword: str | None = (
         None  # The unlocalized keyword text in the preferred locale of the advertiser.
     )
-    nativeLanguageLocale: dict[str, Any] | None = None
+    nativeLanguageLocale: SPLanguageLocale | None = None
 
 
 class SPLocationTarget(BaseModel):
@@ -159,7 +185,7 @@ class SPProductCategoryRefinementValue(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    productCategoryRefinement: dict[str, Any]
+    productCategoryRefinement: SPProductCategoryRefinement
 
 
 class SPProductCategoryTarget(BaseModel):
@@ -167,7 +193,7 @@ class SPProductCategoryTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    productCategoryRefinement: dict[str, Any]
+    productCategoryRefinement: SPProductCategoryRefinementValue
 
 
 class SPProductTarget(BaseModel):
@@ -175,9 +201,9 @@ class SPProductTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    matchType: dict[str, Any]
-    product: dict[str, Any]
-    productIdType: dict[str, Any]
+    matchType: SPProductMatchType
+    product: SPProductValue
+    productIdType: SPProductIdType
 
 
 class SPTarget(BaseModel):
@@ -188,8 +214,8 @@ class SPTarget(BaseModel):
     adGroupId: str | None = (
         None  # A unique identifier for the ad group associated with the target. Only used for a
     )
-    adProduct: dict[str, Any]
-    bid: dict[str, Any] | None = None
+    adProduct: SPAdProduct
+    bid: SPTargetBid | None = None
     campaignId: str | None = (
         None  # A unique identifier for the campaign associated with the target. Only used for c
     )
@@ -198,20 +224,18 @@ class SPTarget(BaseModel):
         None  # The global target identifier that manages this marketplace target.
     )
     lastUpdatedDateTime: datetime  # The date time the target was last updated.
-    marketplaceScope: dict[str, Any]
+    marketplaceScope: SPMarketplaceScope
     marketplaces: list[
-        dict[str, Any]
+        SPMarketplace
     ]  # The list of marketplace in which the global target is applicable. The marketplac
     negative: bool  # Indicates whether the target is negative or not.
-    state: dict[str, Any]
-    status: dict[str, Any] | None = None
-    tags: list[dict[str, Any]] | None = (
-        None  # Open ended labels with a key value pair applied to the target
-    )
-    targetDetails: dict[str, Any]
+    state: SPState
+    status: SPStatus | None = None
+    tags: list[SPTag] | None = None  # Open ended labels with a key value pair applied to the target
+    targetDetails: SPTargetDetails
     targetId: str  # A unique identifier for the target.
-    targetLevel: dict[str, Any]
-    targetType: dict[str, Any]
+    targetLevel: SPTargetLevel
+    targetType: SPTargetType
 
 
 class SPTargetBid(BaseModel):
@@ -220,7 +244,7 @@ class SPTargetBid(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     bid: float | None = None  # The maximum bid for a target.
-    currencyCode: dict[str, Any]
+    currencyCode: SPCurrencyCode
 
 
 class SPTargetCreate(BaseModel):
@@ -231,24 +255,30 @@ class SPTargetCreate(BaseModel):
     adGroupId: str | None = (
         None  # A unique identifier for the ad group associated with the target. Only used for a
     )
-    adProduct: dict[str, Any]
-    bid: dict[str, Any] | None = None
+    adProduct: SPAdProduct
+    bid: SPCreateTargetBid | None = None
     campaignId: str | None = (
         None  # A unique identifier for the campaign associated with the target. Only used for c
     )
     negative: bool  # Indicates whether the target is negative or not.
-    state: dict[str, Any]
-    tags: list[dict[str, Any]] | None = (
+    state: SPCreateState
+    tags: list[SPCreateTag] | None = (
         None  # Open ended labels with a key value pair applied to the target
     )
-    targetDetails: dict[str, Any]
-    targetType: dict[str, Any]
+    targetDetails: SPCreateTargetDetails
+    targetType: SPTargetType
 
 
 class SPTargetDetails(BaseModel):
     """"""
 
     model_config = ConfigDict(extra="forbid")
+
+    keywordTarget: SPKeywordTarget | None = None
+    locationTarget: SPLocationTarget | None = None
+    productCategoryTarget: SPProductCategoryTarget | None = None
+    productTarget: SPProductTarget | None = None
+    themeTarget: SPThemeTarget | None = None
 
 
 class SPTargetMultiStatusSuccess(BaseModel):
@@ -257,7 +287,7 @@ class SPTargetMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     index: int
-    target: dict[str, Any]
+    target: SPTarget
 
 
 class SPTargetUpdate(BaseModel):
@@ -265,9 +295,9 @@ class SPTargetUpdate(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    bid: dict[str, Any] | None = None
-    state: dict[str, Any] | None = None
-    tags: list[dict[str, Any]] | None = (
+    bid: SPUpdateTargetBid | None = None
+    state: SPUpdateState | None = None
+    tags: list[SPCreateTag] | None = (
         None  # Open ended labels with a key value pair applied to the target
     )
     targetId: str  # A unique identifier for the target.
@@ -278,7 +308,7 @@ class SPThemeTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    matchType: dict[str, Any]
+    matchType: SPThemeMatchType
 
 
 class SPUpdateTargetBid(BaseModel):

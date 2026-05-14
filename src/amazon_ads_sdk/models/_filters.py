@@ -2,9 +2,23 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
+
+if TYPE_CHECKING:
+    from ._enums import (
+        SPAdExtensionStatus,
+        SPAdExtensionType,
+        SPAdGroupNameFilterType,
+        SPAdProduct,
+        SPCampaignNameFilterType,
+        SPMatchType,
+        SPState,
+        SPTargetKeywordFilterType,
+        SPTargetProductIdFilterType,
+        SPTargetType,
+    )
 
 
 class SPAdAdGroupIdFilter(BaseModel):
@@ -29,7 +43,7 @@ class SPAdAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        dict[str, Any]
+        SPAdProduct
     ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
@@ -55,7 +69,7 @@ class SPAdExtensionAdExtensionStatusFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        dict[str, Any]
+        SPAdExtensionStatus
     ]  # AdExtensionStatus Description `OPTED_OUT` If the advertiser has opted out of thi
 
 
@@ -65,7 +79,7 @@ class SPAdExtensionAdExtensionTypeFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        dict[str, Any]
+        SPAdExtensionType
     ]  # AdExtensionType Description `PROMPTS` Enables Prompt based Ad Extension. `VIDEO`
 
 
@@ -91,7 +105,7 @@ class SPAdExtensionAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        dict[str, Any]
+        SPAdProduct
     ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
@@ -101,7 +115,7 @@ class SPAdExtensionStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        dict[str, Any]
+        SPState
     ]  # State Description `ENABLED` The object is set active by user and eligible for de
 
 
@@ -119,7 +133,7 @@ class SPAdGroupAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        dict[str, Any]
+        SPAdProduct
     ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
@@ -137,7 +151,7 @@ class SPAdGroupNameFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
-    queryTermMatchType: dict[str, Any]
+    queryTermMatchType: SPAdGroupNameFilterType
 
 
 class SPAdGroupStateFilter(BaseModel):
@@ -146,7 +160,7 @@ class SPAdGroupStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        dict[str, Any]
+        SPState
     ]  # State Description `ENABLED` The object is set active by user and eligible for de
 
 
@@ -156,7 +170,7 @@ class SPAdStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        dict[str, Any]
+        SPState
     ]  # State Description `ENABLED` The object is set active by user and eligible for de
 
 
@@ -166,7 +180,7 @@ class SPCampaignAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        dict[str, Any]
+        SPAdProduct
     ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
@@ -184,7 +198,7 @@ class SPCampaignNameFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
-    queryTermMatchType: dict[str, Any]
+    queryTermMatchType: SPCampaignNameFilterType
 
 
 class SPCampaignPortfolioIdFilter(BaseModel):
@@ -201,7 +215,7 @@ class SPCampaignStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        dict[str, Any]
+        SPState
     ]  # State Description `ENABLED` The object is set active by user and eligible for de
 
 
@@ -219,7 +233,7 @@ class SPTargetAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        dict[str, Any]
+        SPAdProduct
     ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
@@ -237,7 +251,7 @@ class SPTargetKeywordFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
-    queryTermMatchType: dict[str, Any]
+    queryTermMatchType: SPTargetKeywordFilterType
 
 
 class SPTargetMatchTypeFilter(BaseModel):
@@ -246,7 +260,7 @@ class SPTargetMatchTypeFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        dict[str, Any]
+        SPMatchType
     ]  # MatchType Description `KEYWORDS_RELATED_TO_GIFTS` Search terms related to gifts.
 
 
@@ -264,7 +278,7 @@ class SPTargetProductIdFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
-    queryTermMatchType: dict[str, Any]
+    queryTermMatchType: SPTargetProductIdFilterType
 
 
 class SPTargetStateFilter(BaseModel):
@@ -273,7 +287,7 @@ class SPTargetStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        dict[str, Any]
+        SPState
     ]  # State Description `ENABLED` The object is set active by user and eligible for de
 
 
@@ -291,5 +305,5 @@ class SPTargetTargetTypeFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        dict[str, Any]
+        SPTargetType
     ]  # TargetType Description `KEYWORD` Target based on customer search terms. `PRODUCT

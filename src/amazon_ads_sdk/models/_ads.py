@@ -3,9 +3,32 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
+
+if TYPE_CHECKING:
+    from ._enums import (
+        SPAdProduct,
+        SPAdType,
+        SPCreateState,
+        SPCreativeBidAdjustmentType,
+        SPMarketplace,
+        SPMarketplaceScope,
+        SPProductIdType,
+        SPState,
+        SPUpdateState,
+        SPVideoType,
+    )
+    from ._shared import (
+        SPCreateGlobalStoreSettings,
+        SPCreateTag,
+        SPCreative,
+        SPGlobalStoreSettings,
+        SPStatus,
+        SPTag,
+        SPUpdateCreative,
+    )
 
 
 class SPAd(BaseModel):
@@ -15,22 +38,20 @@ class SPAd(BaseModel):
 
     adGroupId: str  # The ad group associated with the ad.
     adId: str  # The identifier of the ad.
-    adProduct: dict[str, Any]
-    adType: dict[str, Any]
+    adProduct: SPAdProduct
+    adType: SPAdType
     campaignId: str  # The campaign associated with the ad. It's a read-only field.
     creationDateTime: datetime  # The date time that the ad was created.
-    creative: dict[str, Any]
+    creative: SPCreative
     globalAdId: str | None = None  # The global ad identifier that manages this marketplace ad.
     lastUpdatedDateTime: datetime  # The date time that the ad was last updated.
-    marketplaceScope: dict[str, Any]
+    marketplaceScope: SPMarketplaceScope
     marketplaces: list[
-        dict[str, Any]
+        SPMarketplace
     ]  # The list of country codes representing amazon marketplaces in which the global a
-    state: dict[str, Any]
-    status: dict[str, Any] | None = None
-    tags: list[dict[str, Any]] | None = (
-        None  # Open ended labels with a key value pair applied to the ad
-    )
+    state: SPState
+    status: SPStatus | None = None
+    tags: list[SPTag] | None = None  # Open ended labels with a key value pair applied to the ad
 
 
 class SPAdCreate(BaseModel):
@@ -39,11 +60,11 @@ class SPAdCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The ad group associated with the ad.
-    adProduct: dict[str, Any]
-    adType: dict[str, Any]
-    creative: dict[str, Any]
-    state: dict[str, Any]
-    tags: list[dict[str, Any]] | None = (
+    adProduct: SPAdProduct
+    adType: SPAdType
+    creative: SPCreateCreative
+    state: SPCreateState
+    tags: list[SPCreateTag] | None = (
         None  # Open ended labels with a key value pair applied to the ad
     )
 
@@ -53,7 +74,7 @@ class SPAdMultiStatusSuccess(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    ad: dict[str, Any]
+    ad: SPAd
     index: int
 
 
@@ -63,9 +84,9 @@ class SPAdUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adId: str  # The identifier of the ad.
-    creative: dict[str, Any] | None = None
-    state: dict[str, Any] | None = None
-    tags: list[dict[str, Any]] | None = (
+    creative: SPUpdateCreative | None = None
+    state: SPUpdateState | None = None
+    tags: list[SPCreateTag] | None = (
         None  # Open ended labels with a key value pair applied to the ad
     )
 
@@ -75,13 +96,13 @@ class SPAdvertisedProducts(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    globalStoreSetting: dict[str, Any] | None = None
+    globalStoreSetting: SPGlobalStoreSettings | None = None
     productId: str  # The identifier of the advertised product.
-    productIdType: dict[str, Any]
+    productIdType: SPProductIdType
     resolvedProductId: str | None = (
         None  # The identifier of product associated with the advertised product. It's a read-on
     )
-    resolvedProductIdType: dict[str, Any] | None = None
+    resolvedProductIdType: SPProductIdType | None = None
 
 
 class SPAudienceBidAdjustment(BaseModel):
@@ -100,9 +121,9 @@ class SPCreateAdvertisedProducts(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    globalStoreSetting: dict[str, Any] | None = None
+    globalStoreSetting: SPCreateGlobalStoreSettings | None = None
     productId: str  # The identifier of the advertised product.
-    productIdType: dict[str, Any]
+    productIdType: SPProductIdType
 
 
 class SPCreateAudienceBidAdjustment(BaseModel):
@@ -121,13 +142,15 @@ class SPCreateCreative(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
+    productCreative: SPCreateProductCreative | None = None
+
 
 class SPCreateCreativeBidAdjustment(BaseModel):
     """"""
 
     model_config = ConfigDict(extra="forbid")
 
-    creativeType: dict[str, Any] | None = None
+    creativeType: SPCreativeBidAdjustmentType | None = None
     percentage: (
         int  # The selection of the percentage change associated with the creative type and bid
     )
@@ -138,7 +161,7 @@ class SPCreateProductCreative(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    productCreativeSettings: dict[str, Any]
+    productCreativeSettings: SPCreateProductCreativeSettings
 
 
 class SPCreateProductCreativeSettings(BaseModel):
@@ -146,9 +169,9 @@ class SPCreateProductCreativeSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    advertisedProduct: dict[str, Any]
+    advertisedProduct: SPCreateAdvertisedProducts
     headline: str | None = None  # The headline/custom text associated with the ad creative.
-    spotlightVideos: dict[str, Any] | None = None
+    spotlightVideos: SPCreateSpotlightVideoSettings | None = None
 
 
 class SPCreateProductValue(BaseModel):
@@ -169,7 +192,7 @@ class SPCreateSpotlightVideoSettings(BaseModel):
     optimizeText: (
         bool  # If the advertiser wants text they provided to be optimized by Amazon or not.
     )
-    videos: list[dict[str, Any]]  # The video asset(s) to use for the Sponsored Product experience.
+    videos: list[SPCreateVideo]  # The video asset(s) to use for the Sponsored Product experience.
 
 
 class SPCreateVideo(BaseModel):
@@ -194,7 +217,7 @@ class SPCreativeBidAdjustment(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    creativeType: dict[str, Any] | None = None
+    creativeType: SPCreativeBidAdjustmentType | None = None
     percentage: (
         int  # The selection of the percentage change associated with the creative type and bid
     )
@@ -205,7 +228,7 @@ class SPProductCreative(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    productCreativeSettings: dict[str, Any]
+    productCreativeSettings: SPProductCreativeSettings
 
 
 class SPProductCreativeSettings(BaseModel):
@@ -213,9 +236,9 @@ class SPProductCreativeSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    advertisedProduct: dict[str, Any]
+    advertisedProduct: SPAdvertisedProducts
     headline: str | None = None  # The headline/custom text associated with the ad creative.
-    spotlightVideos: dict[str, Any] | None = None
+    spotlightVideos: SPSpotlightVideoSettings | None = None
 
 
 class SPProductValue(BaseModel):
@@ -236,7 +259,7 @@ class SPSpotlightVideoSettings(BaseModel):
     optimizeText: (
         bool  # If the advertiser wants text they provided to be optimized by Amazon or not.
     )
-    videos: list[dict[str, Any]]  # The video asset(s) to use for the Sponsored Product experience.
+    videos: list[SPVideo]  # The video asset(s) to use for the Sponsored Product experience.
 
 
 class SPVideo(BaseModel):
@@ -259,4 +282,4 @@ class SPVideoExtension(BaseModel):
     renderedCoverImageUrl: str | None = (
         None  # The image displayed over the video player before the video is played.
     )
-    videoType: dict[str, Any]
+    videoType: SPVideoType

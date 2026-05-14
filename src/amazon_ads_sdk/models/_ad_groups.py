@@ -3,9 +3,21 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
+
+if TYPE_CHECKING:
+    from ._enums import (
+        SPAdProduct,
+        SPCreateState,
+        SPCurrencyCode,
+        SPMarketplace,
+        SPMarketplaceScope,
+        SPState,
+        SPUpdateState,
+    )
+    from ._shared import SPCreateTag, SPStatus, SPTag
 
 
 class SPAdGroup(BaseModel):
@@ -14,22 +26,22 @@ class SPAdGroup(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The unique identifier of the ad group.
-    adProduct: dict[str, Any]
-    bid: dict[str, Any]
+    adProduct: SPAdProduct
+    bid: SPAdGroupBid
     campaignId: str  # The unique identifier of the campaign the ad group belongs to.
     creationDateTime: datetime  # The date time that the ad group was created.
     globalAdGroupId: str | None = (
         None  # The global adGroup identifier that manages this marketplace adGroup.
     )
     lastUpdatedDateTime: datetime  # The date time that the ad group was last updated.
-    marketplaceScope: dict[str, Any]
+    marketplaceScope: SPMarketplaceScope
     marketplaces: list[
-        dict[str, Any]
+        SPMarketplace
     ]  # The list of country codes representing amazon marketplaces in which the global a
     name: str  # The name of the ad group.
-    state: dict[str, Any]
-    status: dict[str, Any] | None = None
-    tags: list[dict[str, Any]] | None = (
+    state: SPState
+    status: SPStatus | None = None
+    tags: list[SPTag] | None = (
         None  # Open ended labels with a key value pair applied to the ad group
     )
 
@@ -39,7 +51,7 @@ class SPAdGroupBid(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    currencyCode: dict[str, Any]
+    currencyCode: SPCurrencyCode
     defaultBid: (
         float  # The default maximum bid for ads and targets in the ad group. This is used in spo
     )
@@ -50,12 +62,12 @@ class SPAdGroupCreate(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    adProduct: dict[str, Any]
-    bid: dict[str, Any]
+    adProduct: SPAdProduct
+    bid: SPCreateAdGroupBid
     campaignId: str  # The unique identifier of the campaign the ad group belongs to.
     name: str  # The name of the ad group.
-    state: dict[str, Any]
-    tags: list[dict[str, Any]] | None = (
+    state: SPCreateState
+    tags: list[SPCreateTag] | None = (
         None  # Open ended labels with a key value pair applied to the ad group
     )
 
@@ -65,7 +77,7 @@ class SPAdGroupMultiStatusSuccess(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    adGroup: dict[str, Any]
+    adGroup: SPAdGroup
     index: int
 
 
@@ -75,10 +87,10 @@ class SPAdGroupUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The unique identifier of the ad group.
-    bid: dict[str, Any] | None = None
+    bid: SPUpdateAdGroupBid | None = None
     name: str | None = None  # The name of the ad group.
-    state: dict[str, Any] | None = None
-    tags: list[dict[str, Any]] | None = (
+    state: SPUpdateState | None = None
+    tags: list[SPCreateTag] | None = (
         None  # Open ended labels with a key value pair applied to the ad group
     )
 

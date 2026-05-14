@@ -2,9 +2,32 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
+
+if TYPE_CHECKING:
+    from ._ads import (
+        SPAudienceBidAdjustment,
+        SPCreateAudienceBidAdjustment,
+        SPCreateCreativeBidAdjustment,
+        SPCreateVideo,
+        SPCreativeBidAdjustment,
+        SPProductCreative,
+    )
+    from ._enums import (
+        ErrorCode,
+        SPBidStrategy,
+        SPBudgetType,
+        SPCurrencyCode,
+        SPDeliveryReason,
+        SPDeliveryStatus,
+        SPMarketplace,
+        SPMarketplaceBudgetAllocation,
+        SPOffAmazonBudgetControlStrategy,
+        SPPlacement,
+        SPRecurrence,
+    )
 
 
 class Error(BaseModel):
@@ -12,7 +35,7 @@ class Error(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    code: dict[str, Any]
+    code: ErrorCode
     fieldLocation: str | None = None
     message: str
 
@@ -22,7 +45,7 @@ class ErrorsIndex(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    errors: list[dict[str, Any]]
+    errors: list[Error]
     index: int
 
 
@@ -44,13 +67,13 @@ class SPBidAdjustments(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    audienceBidAdjustments: list[dict[str, Any]] | None = (
+    audienceBidAdjustments: list[SPAudienceBidAdjustment] | None = (
         None  # Bid Adjustments based on the audiences
     )
-    creativeBidAdjustments: list[dict[str, Any]] | None = (
+    creativeBidAdjustments: list[SPCreativeBidAdjustment] | None = (
         None  # Bid Adjustments based on ads being shown as a creative. Range of bid adjustment
     )
-    placementBidAdjustments: list[dict[str, Any]] | None = (
+    placementBidAdjustments: list[SPPlacementBidAdjustment] | None = (
         None  # Bid adjustments based on ad placements.
     )
 
@@ -60,8 +83,8 @@ class SPBidSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    bidAdjustments: dict[str, Any] | None = None
-    bidStrategy: dict[str, Any] | None = None
+    bidAdjustments: SPBidAdjustments | None = None
+    bidStrategy: SPBidStrategy | None = None
 
 
 class SPBudget(BaseModel):
@@ -69,9 +92,9 @@ class SPBudget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    budgetType: dict[str, Any]
-    budgetValue: dict[str, Any]
-    recurrenceTimePeriod: dict[str, Any]
+    budgetType: SPBudgetType
+    budgetValue: SPBudgetValue
+    recurrenceTimePeriod: SPRecurrence
 
 
 class SPBudgetSettings(BaseModel):
@@ -79,14 +102,16 @@ class SPBudgetSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    marketplaceBudgetAllocation: dict[str, Any] | None = None
-    offAmazonBudgetControlStrategy: dict[str, Any] | None = None
+    marketplaceBudgetAllocation: SPMarketplaceBudgetAllocation | None = None
+    offAmazonBudgetControlStrategy: SPOffAmazonBudgetControlStrategy | None = None
 
 
 class SPBudgetValue(BaseModel):
     """"""
 
     model_config = ConfigDict(extra="forbid")
+
+    monetaryBudgetValue: SPMonetaryBudgetValue | None = None
 
 
 class SPCreateAutoCreationSettings(BaseModel):
@@ -107,13 +132,13 @@ class SPCreateBidAdjustments(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    audienceBidAdjustments: list[dict[str, Any]] | None = (
+    audienceBidAdjustments: list[SPCreateAudienceBidAdjustment] | None = (
         None  # Bid Adjustments based on the audiences
     )
-    creativeBidAdjustments: list[dict[str, Any]] | None = (
+    creativeBidAdjustments: list[SPCreateCreativeBidAdjustment] | None = (
         None  # Bid Adjustments based on ads being shown as a creative. Range of bid adjustment
     )
-    placementBidAdjustments: list[dict[str, Any]] | None = (
+    placementBidAdjustments: list[SPCreatePlacementBidAdjustment] | None = (
         None  # Bid adjustments based on ad placements.
     )
 
@@ -123,8 +148,8 @@ class SPCreateBidSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    bidAdjustments: dict[str, Any] | None = None
-    bidStrategy: dict[str, Any] | None = None
+    bidAdjustments: SPCreateBidAdjustments | None = None
+    bidStrategy: SPBidStrategy | None = None
 
 
 class SPCreateBudget(BaseModel):
@@ -132,9 +157,9 @@ class SPCreateBudget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    budgetType: dict[str, Any]
-    budgetValue: dict[str, Any]
-    recurrenceTimePeriod: dict[str, Any]
+    budgetType: SPBudgetType
+    budgetValue: SPCreateBudgetValue
+    recurrenceTimePeriod: SPRecurrence
 
 
 class SPCreateBudgetSettings(BaseModel):
@@ -142,7 +167,7 @@ class SPCreateBudgetSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    offAmazonBudgetControlStrategy: dict[str, Any] | None = None
+    offAmazonBudgetControlStrategy: SPOffAmazonBudgetControlStrategy | None = None
 
 
 class SPCreateBudgetValue(BaseModel):
@@ -150,14 +175,16 @@ class SPCreateBudgetValue(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
+    monetaryBudgetValue: SPCreateMonetaryBudgetValue | None = None
+
 
 class SPCreateCampaignOptimizations(BaseModel):
     """"""
 
     model_config = ConfigDict(extra="forbid")
 
-    bidSettings: dict[str, Any] | None = None
-    budgetSettings: dict[str, Any] | None = None
+    bidSettings: SPCreateBidSettings | None = None
+    budgetSettings: SPCreateBudgetSettings | None = None
 
 
 class SPCreateGlobalStoreSettings(BaseModel):
@@ -165,7 +192,7 @@ class SPCreateGlobalStoreSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    catalogSourceMarketplace: dict[str, Any] | None = None
+    catalogSourceMarketplace: SPMarketplace | None = None
 
 
 class SPCreateMonetaryBudget(BaseModel):
@@ -181,7 +208,7 @@ class SPCreateMonetaryBudgetValue(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    monetaryBudget: dict[str, Any]
+    monetaryBudget: SPCreateMonetaryBudget
 
 
 class SPCreatePlacementBidAdjustment(BaseModel):
@@ -192,7 +219,7 @@ class SPCreatePlacementBidAdjustment(BaseModel):
     percentage: (
         int  # The selection of the percentage change associated with a given placement and bid
     )
-    placement: dict[str, Any]
+    placement: SPPlacement
 
 
 class SPCreateTag(BaseModel):
@@ -209,13 +236,15 @@ class SPCreative(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
+    productCreative: SPProductCreative | None = None
+
 
 class SPGlobalStoreSettings(BaseModel):
     """"""
 
     model_config = ConfigDict(extra="forbid")
 
-    catalogSourceMarketplace: dict[str, Any] | None = None
+    catalogSourceMarketplace: SPMarketplace | None = None
 
 
 class SPMonetaryBudget(BaseModel):
@@ -223,7 +252,7 @@ class SPMonetaryBudget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    currencyCode: dict[str, Any]
+    currencyCode: SPCurrencyCode
     ruleValue: float | None = (
         None  # The monetary amount of the budget when a budget rule is applied.
     )
@@ -235,7 +264,7 @@ class SPMonetaryBudgetValue(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    monetaryBudget: dict[str, Any]
+    monetaryBudget: SPMonetaryBudget
 
 
 class SPPlacementBidAdjustment(BaseModel):
@@ -246,7 +275,7 @@ class SPPlacementBidAdjustment(BaseModel):
     percentage: (
         int  # The selection of the percentage change associated with a given placement and bid
     )
-    placement: dict[str, Any]
+    placement: SPPlacement
 
 
 class SPStatus(BaseModel):
@@ -254,10 +283,10 @@ class SPStatus(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    deliveryReasons: list[dict[str, Any]] | None = (
+    deliveryReasons: list[SPDeliveryReason] | None = (
         None  # This is the list of reasons behind the delivery status.
     )
-    deliveryStatus: dict[str, Any]
+    deliveryStatus: SPDeliveryStatus
 
 
 class SPTag(BaseModel):
@@ -274,13 +303,13 @@ class SPUpdateBidAdjustments(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    audienceBidAdjustments: list[dict[str, Any]] | None = (
+    audienceBidAdjustments: list[SPCreateAudienceBidAdjustment] | None = (
         None  # Bid Adjustments based on the audiences
     )
-    creativeBidAdjustments: list[dict[str, Any]] | None = (
+    creativeBidAdjustments: list[SPCreateCreativeBidAdjustment] | None = (
         None  # Bid Adjustments based on ads being shown as a creative. Range of bid adjustment
     )
-    placementBidAdjustments: list[dict[str, Any]] | None = (
+    placementBidAdjustments: list[SPCreatePlacementBidAdjustment] | None = (
         None  # Bid adjustments based on ad placements.
     )
 
@@ -290,8 +319,8 @@ class SPUpdateBidSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    bidAdjustments: dict[str, Any] | None = None
-    bidStrategy: dict[str, Any] | None = None
+    bidAdjustments: SPUpdateBidAdjustments | None = None
+    bidStrategy: SPBidStrategy | None = None
 
 
 class SPUpdateBudgetSettings(BaseModel):
@@ -299,7 +328,7 @@ class SPUpdateBudgetSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    offAmazonBudgetControlStrategy: dict[str, Any] | None = None
+    offAmazonBudgetControlStrategy: SPOffAmazonBudgetControlStrategy | None = None
 
 
 class SPUpdateCampaignOptimizations(BaseModel):
@@ -307,8 +336,8 @@ class SPUpdateCampaignOptimizations(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    bidSettings: dict[str, Any] | None = None
-    budgetSettings: dict[str, Any] | None = None
+    bidSettings: SPUpdateBidSettings | None = None
+    budgetSettings: SPUpdateBudgetSettings | None = None
 
 
 class SPUpdateCreative(BaseModel):
@@ -316,13 +345,15 @@ class SPUpdateCreative(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
+    productCreative: SPUpdateProductCreative | None = None
+
 
 class SPUpdateProductCreative(BaseModel):
     """"""
 
     model_config = ConfigDict(extra="forbid")
 
-    productCreativeSettings: dict[str, Any] | None = None
+    productCreativeSettings: SPUpdateProductCreativeSettings | None = None
 
 
 class SPUpdateProductCreativeSettings(BaseModel):
@@ -330,7 +361,7 @@ class SPUpdateProductCreativeSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    spotlightVideos: dict[str, Any] | None = None
+    spotlightVideos: SPUpdateSpotlightVideoSettings | None = None
 
 
 class SPUpdateSpotlightVideoSettings(BaseModel):
@@ -341,6 +372,6 @@ class SPUpdateSpotlightVideoSettings(BaseModel):
     optimizeText: bool | None = (
         None  # If the advertiser wants text they provided to be optimized by Amazon or not.
     )
-    videos: list[dict[str, Any]] | None = (
+    videos: list[SPCreateVideo] | None = (
         None  # The video asset(s) to use for the Sponsored Product experience.
     )

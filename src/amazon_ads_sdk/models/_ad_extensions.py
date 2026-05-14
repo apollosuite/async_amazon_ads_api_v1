@@ -3,9 +3,23 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
+
+if TYPE_CHECKING:
+    from ._ads import SPCreateVideoExtension, SPVideoExtension
+    from ._enums import (
+        SPAdExtensionStatus,
+        SPAdExtensionType,
+        SPAdProduct,
+        SPCreateState,
+        SPMarketplace,
+        SPMarketplaceScope,
+        SPState,
+        SPUpdateState,
+    )
+    from ._shared import SPStatus
 
 
 class SPAdExtension(BaseModel):
@@ -14,22 +28,22 @@ class SPAdExtension(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adExtensionId: str  # A unique identifier for the ad_extension.
-    adExtensionSettings: dict[str, Any]
-    adExtensionStatus: dict[str, Any] | None = None
-    adExtensionType: dict[str, Any]
+    adExtensionSettings: SPAdExtensionSettings
+    adExtensionStatus: SPAdExtensionStatus | None = None
+    adExtensionType: SPAdExtensionType
     adGroupId: str | None = (
         None  # A unique identifier for the ad group associated with the ad_extension.
     )
     adId: str | None = None  # A unique identifier for the ad associated with the ad_extension.
-    adProduct: dict[str, Any]
+    adProduct: SPAdProduct
     creationDateTime: datetime  # The date time the ad_extension was created.
     lastUpdatedDateTime: datetime  # The date time the ad_extension was last updated.
-    marketplaceScope: dict[str, Any]
+    marketplaceScope: SPMarketplaceScope
     marketplaces: list[
-        dict[str, Any]
+        SPMarketplace
     ]  # The list of marketplace in which the global ad_extension is applicable. The mark
-    state: dict[str, Any]
-    status: dict[str, Any] | None = None
+    state: SPState
+    status: SPStatus | None = None
 
 
 class SPAdExtensionCreate(BaseModel):
@@ -37,19 +51,19 @@ class SPAdExtensionCreate(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    adExtensionSettings: dict[str, Any]
-    adExtensionStatus: dict[str, Any] | None = None
-    adExtensionType: dict[str, Any]
+    adExtensionSettings: SPCreateAdExtensionSettings
+    adExtensionStatus: SPAdExtensionStatus | None = None
+    adExtensionType: SPAdExtensionType
     adGroupId: str | None = (
         None  # A unique identifier for the ad group associated with the ad_extension.
     )
     adId: str | None = None  # A unique identifier for the ad associated with the ad_extension.
-    adProduct: dict[str, Any]
-    marketplaceScope: dict[str, Any]
+    adProduct: SPAdProduct
+    marketplaceScope: SPMarketplaceScope
     marketplaces: list[
-        dict[str, Any]
+        SPMarketplace
     ]  # The list of marketplace in which the global ad_extension is applicable. The mark
-    state: dict[str, Any]
+    state: SPCreateState
 
 
 class SPAdExtensionMultiStatusSuccess(BaseModel):
@@ -57,7 +71,7 @@ class SPAdExtensionMultiStatusSuccess(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    adExtension: dict[str, Any]
+    adExtension: SPAdExtension
     index: int
 
 
@@ -66,6 +80,9 @@ class SPAdExtensionSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
+    promptExtension: SPPromptExtension | None = None
+    videoExtension: SPVideoExtension | None = None
+
 
 class SPAdExtensionUpdate(BaseModel):
     """"""
@@ -73,13 +90,16 @@ class SPAdExtensionUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adExtensionId: str  # A unique identifier for the ad_extension.
-    state: dict[str, Any] | None = None
+    state: SPUpdateState | None = None
 
 
 class SPCreateAdExtensionSettings(BaseModel):
     """"""
 
     model_config = ConfigDict(extra="forbid")
+
+    promptExtension: SPCreatePromptExtension | None = None
+    videoExtension: SPCreateVideoExtension | None = None
 
 
 class SPCreatePromptExtension(BaseModel):
