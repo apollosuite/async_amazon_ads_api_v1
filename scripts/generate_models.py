@@ -28,14 +28,7 @@ from enum import StrEnum
 
 MODULE_IMPORTS = {
     "_enums.py": ENUMS_IMPORT,
-    "_filters.py": '''"""filter models."""
 
-from __future__ import annotations
-
-from typing import Any
-
-from pydantic import BaseModel, ConfigDict
-''',
     "_campaigns.py": '''"""campaign models."""
 
 from __future__ import annotations
@@ -198,6 +191,25 @@ ENTITY_GROUPS = [
     ("_ad_extensions.py", AD_EXTENSION_NAMES),
 ]
 
+_ENTITY_KEYWORDS: list[tuple[str, str]] = [
+    ("AdExtension", "_ad_extensions.py"),
+    ("AdGroup", "_ad_groups.py"),
+    ("Campaign", "_campaigns.py"),
+    ("Target", "_targets.py"),
+    ("Ad", "_ads.py"),  # last — false-positive check for "Adjust" inline
+]
+
+
+def _match_entity_keyword(name: str) -> str | None:
+    """Match entity keyword in schema name, accounting for false positives."""
+    for kw, mod in _ENTITY_KEYWORDS:
+        if kw not in name:
+            continue
+        if kw == "Ad" and "Adjust" in name:
+            continue
+        return mod
+    return None
+
 
 def _clean_description(desc: str) -> str:
     """Strip markdown table syntax from descriptions."""
@@ -313,7 +325,6 @@ def _group_entity(name: str) -> str | None:
 
 def _classify(schemas: dict[str, dict]) -> dict[str, list[str]]:
     enums: list[str] = []
-    filters: list[str] = []
     campaigns: list[str] = []
     ad_groups: list[str] = []
     ads: list[str] = []
@@ -327,12 +338,6 @@ def _classify(schemas: dict[str, dict]) -> dict[str, list[str]]:
         s = schemas[name]
         if is_enum(s) and s.get("enum"):
             enums.append(name)
-        elif "Filter" in name:
-            filters.append(name)
-        elif "Request" in name:
-            requests.append(name)
-        elif "Response" in name or "SuccessResponse" in name:
-            responses.append(name)
         elif g := _group_entity(name):
             if g == "_campaigns.py":
                 campaigns.append(name)
@@ -344,12 +349,29 @@ def _classify(schemas: dict[str, dict]) -> dict[str, list[str]]:
                 targets.append(name)
             elif g == "_ad_extensions.py":
                 ad_extensions.append(name)
+        elif g := _match_entity_keyword(name):
+            if g == "_campaigns.py":
+                campaigns.append(name)
+            elif g == "_ad_groups.py":
+                ad_groups.append(name)
+            elif g == "_ads.py":
+                ads.append(name)
+            elif g == "_targets.py":
+                targets.append(name)
+            elif g == "_ad_extensions.py":
+                ad_extensions.append(name)
+        elif "Filter" in name:
+            # all filter models now captured by entity keyword match above
+            pass
+        elif "Request" in name:
+            requests.append(name)
+        elif "Response" in name or "SuccessResponse" in name:
+            responses.append(name)
         else:
             shared.append(name)
 
     return {
         "_enums.py": enums,
-        "_filters.py": filters,
         "_campaigns.py": campaigns,
         "_ad_groups.py": ad_groups,
         "_ads.py": ads,
@@ -447,7 +469,6 @@ def main(*, output_dir: Path | None = None) -> None:
 
         for section, names in [
             ("# ── Enums ──", groups["_enums.py"]),
-            ("\n# ── Filters ──", groups["_filters.py"]),
             (
                 "\n# ── Entity Models ──",
                 groups["_campaigns.py"]

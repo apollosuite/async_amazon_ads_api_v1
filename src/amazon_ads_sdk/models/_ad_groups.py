@@ -9,6 +9,7 @@ from pydantic import BaseModel, ConfigDict
 
 if TYPE_CHECKING:
     from ._enums import (
+        SPAdGroupNameFilterType,
         SPAdProduct,
         SPCreateState,
         SPCurrencyCode,
@@ -17,7 +18,15 @@ if TYPE_CHECKING:
         SPState,
         SPUpdateState,
     )
-    from ._shared import SPCreateTag, SPStatus, SPTag
+    from ._shared import ErrorsIndex, SPCreateTag, SPStatus, SPTag
+
+
+class SPAdAdGroupIdFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str]
 
 
 class SPAdGroup(BaseModel):
@@ -46,6 +55,24 @@ class SPAdGroup(BaseModel):
     )
 
 
+class SPAdGroupAdGroupIdFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str]
+
+
+class SPAdGroupAdProductFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[
+        SPAdProduct
+    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+
+
 class SPAdGroupBid(BaseModel):
     """"""
 
@@ -53,6 +80,14 @@ class SPAdGroupBid(BaseModel):
 
     currencyCode: SPCurrencyCode
     defaultBid: float  # The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.
+
+
+class SPAdGroupCampaignIdFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str]
 
 
 class SPAdGroupCreate(BaseModel):
@@ -70,6 +105,15 @@ class SPAdGroupCreate(BaseModel):
     )
 
 
+class SPAdGroupMultiStatusResponse(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    error: list[ErrorsIndex] | None = None
+    success: list[SPAdGroupMultiStatusSuccess] | None = None
+
+
 class SPAdGroupMultiStatusSuccess(BaseModel):
     """"""
 
@@ -77,6 +121,34 @@ class SPAdGroupMultiStatusSuccess(BaseModel):
 
     adGroup: SPAdGroup
     index: int
+
+
+class SPAdGroupNameFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str]
+    queryTermMatchType: SPAdGroupNameFilterType
+
+
+class SPAdGroupStateFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[
+        SPState
+    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
+
+
+class SPAdGroupSuccessResponse(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    adGroups: list[SPAdGroup] | None = None
+    nextToken: str | None = None
 
 
 class SPAdGroupUpdate(BaseModel):
@@ -101,6 +173,44 @@ class SPCreateAdGroupBid(BaseModel):
     defaultBid: float  # The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.
 
 
+class SPCreateAdGroupRequest(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    adGroups: list[SPAdGroupCreate] | None = None
+
+
+class SPDeleteAdGroupRequest(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    adGroupIds: list[str] | None = None
+
+
+class SPQueryAdGroupRequest(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    adGroupIdFilter: SPAdGroupAdGroupIdFilter | None = None
+    adProductFilter: SPAdGroupAdProductFilter
+    campaignIdFilter: SPAdGroupCampaignIdFilter | None = None
+    maxResults: int | None = None
+    nameFilter: SPAdGroupNameFilter | None = None
+    nextToken: str | None = None
+    stateFilter: SPAdGroupStateFilter | None = None
+
+
+class SPTargetAdGroupIdFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str]
+
+
 class SPUpdateAdGroupBid(BaseModel):
     """"""
 
@@ -109,3 +219,11 @@ class SPUpdateAdGroupBid(BaseModel):
     defaultBid: float | None = (
         None  # The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.
     )
+
+
+class SPUpdateAdGroupRequest(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    adGroups: list[SPAdGroupUpdate] | None = None

@@ -174,15 +174,6 @@ class SPCreateBudgetValue(BaseModel):
     monetaryBudgetValue: SPCreateMonetaryBudgetValue | None = None
 
 
-class SPCreateCampaignOptimizations(BaseModel):
-    """"""
-
-    model_config = ConfigDict(extra="forbid")
-
-    bidSettings: SPCreateBidSettings | None = None
-    budgetSettings: SPCreateBudgetSettings | None = None
-
-
 class SPCreateGlobalStoreSettings(BaseModel):
     """"""
 
@@ -321,15 +312,6 @@ class SPUpdateBudgetSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     offAmazonBudgetControlStrategy: SPOffAmazonBudgetControlStrategy | None = None
-
-
-class SPUpdateCampaignOptimizations(BaseModel):
-    """"""
-
-    model_config = ConfigDict(extra="forbid")
-
-    bidSettings: SPUpdateBidSettings | None = None
-    budgetSettings: SPUpdateBudgetSettings | None = None
 
 
 class SPUpdateCreative(BaseModel):

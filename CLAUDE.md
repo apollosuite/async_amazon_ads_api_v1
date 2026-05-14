@@ -29,14 +29,13 @@ Pure async Python SDK for the Amazon Advertising API (Sponsored Products).
     └── models/                          # Pydantic v2 模型（自动生成）
         ├── __init__.py                 # 导出全部模型 + model_rebuild
         ├── _enums.py                   # 枚举（ErrorCode, SPState 等）
-        ├── _campaigns.py
-        ├── _ad_groups.py
-        ├── _ads.py
-        ├── _targets.py
-        ├── _ad_extensions.py
-        ├── _filters.py
-        ├── _requests.py
-        ├── _responses.py
+        ├── _campaigns.py               # + 自身 Filter/Request/Response 模型
+        ├── _ad_groups.py               # + 自身 Filter/Request/Response 模型
+        ├── _ads.py                     # + 自身 Filter/Request/Response 模型
+        ├── _targets.py                 # + 自身 Filter/Request/Response 模型
+        ├── _ad_extensions.py           # + 自身 Filter/Request/Response 模型
+        ├── _requests.py                # 仅通用 HTTP 请求错误模型
+        ├── _responses.py               # 仅通用 HTTP 响应错误模型
         └── _shared.py
 ```
 

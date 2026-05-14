@@ -11,6 +11,7 @@ if TYPE_CHECKING:
     from ._enums import (
         SPAdProduct,
         SPAutoScaleGlobalCampaignSetting,
+        SPCampaignNameFilterType,
         SPCountryCode,
         SPCreateState,
         SPMarketplace,
@@ -20,18 +21,29 @@ if TYPE_CHECKING:
         SPUpdateState,
     )
     from ._shared import (
+        ErrorsIndex,
         SPAutoCreationSettings,
         SPBidSettings,
         SPBudget,
         SPBudgetSettings,
         SPCreateAutoCreationSettings,
+        SPCreateBidSettings,
         SPCreateBudget,
-        SPCreateCampaignOptimizations,
+        SPCreateBudgetSettings,
         SPCreateTag,
         SPStatus,
         SPTag,
-        SPUpdateCampaignOptimizations,
+        SPUpdateBidSettings,
+        SPUpdateBudgetSettings,
     )
+
+
+class SPAdCampaignIdFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str]
 
 
 class SPCampaign(BaseModel):
@@ -71,6 +83,24 @@ class SPCampaign(BaseModel):
     )
 
 
+class SPCampaignAdProductFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[
+        SPAdProduct
+    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+
+
+class SPCampaignCampaignIdFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str]
+
+
 class SPCampaignCreate(BaseModel):
     """"""
 
@@ -100,6 +130,15 @@ class SPCampaignCreate(BaseModel):
     )
 
 
+class SPCampaignMultiStatusResponse(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    error: list[ErrorsIndex] | None = None
+    success: list[SPCampaignMultiStatusSuccess] | None = None
+
+
 class SPCampaignMultiStatusSuccess(BaseModel):
     """"""
 
@@ -109,6 +148,15 @@ class SPCampaignMultiStatusSuccess(BaseModel):
     index: int
 
 
+class SPCampaignNameFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str]
+    queryTermMatchType: SPCampaignNameFilterType
+
+
 class SPCampaignOptimizations(BaseModel):
     """"""
 
@@ -116,6 +164,33 @@ class SPCampaignOptimizations(BaseModel):
 
     bidSettings: SPBidSettings | None = None
     budgetSettings: SPBudgetSettings | None = None
+
+
+class SPCampaignPortfolioIdFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str]
+
+
+class SPCampaignStateFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[
+        SPState
+    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
+
+
+class SPCampaignSuccessResponse(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    campaigns: list[SPCampaign] | None = None
+    nextToken: str | None = None
 
 
 class SPCampaignUpdate(BaseModel):
@@ -137,3 +212,67 @@ class SPCampaignUpdate(BaseModel):
     tags: list[SPCreateTag] | None = (
         None  # Open ended labels with a key value pair applied to the campaign
     )
+
+
+class SPCreateCampaignOptimizations(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    bidSettings: SPCreateBidSettings | None = None
+    budgetSettings: SPCreateBudgetSettings | None = None
+
+
+class SPCreateCampaignRequest(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    campaigns: list[SPCampaignCreate] | None = None
+
+
+class SPDeleteCampaignRequest(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    campaignIds: list[str] | None = None
+
+
+class SPQueryCampaignRequest(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    adProductFilter: SPCampaignAdProductFilter
+    campaignIdFilter: SPCampaignCampaignIdFilter | None = None
+    maxResults: int | None = None
+    nameFilter: SPCampaignNameFilter | None = None
+    nextToken: str | None = None
+    portfolioIdFilter: SPCampaignPortfolioIdFilter | None = None
+    stateFilter: SPCampaignStateFilter | None = None
+
+
+class SPTargetCampaignIdFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str]
+
+
+class SPUpdateCampaignOptimizations(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    bidSettings: SPUpdateBidSettings | None = None
+    budgetSettings: SPUpdateBudgetSettings | None = None
+
+
+class SPUpdateCampaignRequest(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    campaigns: list[SPCampaignUpdate] | None = None

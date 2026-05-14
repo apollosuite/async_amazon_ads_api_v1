@@ -19,7 +19,7 @@ if TYPE_CHECKING:
         SPState,
         SPUpdateState,
     )
-    from ._shared import SPStatus
+    from ._shared import ErrorsIndex, SPStatus
 
 
 class SPAdExtension(BaseModel):
@@ -46,6 +46,60 @@ class SPAdExtension(BaseModel):
     status: SPStatus | None = None
 
 
+class SPAdExtensionAdExtensionIdFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str]
+
+
+class SPAdExtensionAdExtensionStatusFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[
+        SPAdExtensionStatus
+    ]  # AdExtensionStatus Description `OPTED_OUT` If the advertiser has opted out of this Ad Extension.
+
+
+class SPAdExtensionAdExtensionTypeFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[
+        SPAdExtensionType
+    ]  # AdExtensionType Description `PROMPTS` Enables Prompt based Ad Extension. `VIDEO` Enables Video based Ad Extension.
+
+
+class SPAdExtensionAdGroupIdFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str]
+
+
+class SPAdExtensionAdIdFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str]
+
+
+class SPAdExtensionAdProductFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[
+        SPAdProduct
+    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+
+
 class SPAdExtensionCreate(BaseModel):
     """"""
 
@@ -66,6 +120,15 @@ class SPAdExtensionCreate(BaseModel):
     state: SPCreateState
 
 
+class SPAdExtensionMultiStatusResponse(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    error: list[ErrorsIndex] | None = None
+    success: list[SPAdExtensionMultiStatusSuccess] | None = None
+
+
 class SPAdExtensionMultiStatusSuccess(BaseModel):
     """"""
 
@@ -84,6 +147,25 @@ class SPAdExtensionSettings(BaseModel):
     videoExtension: SPVideoExtension | None = None
 
 
+class SPAdExtensionStateFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[
+        SPState
+    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
+
+
+class SPAdExtensionSuccessResponse(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    adExtensions: list[SPAdExtension] | None = None
+    nextToken: str | None = None
+
+
 class SPAdExtensionUpdate(BaseModel):
     """"""
 
@@ -91,6 +173,14 @@ class SPAdExtensionUpdate(BaseModel):
 
     adExtensionId: str  # A unique identifier for the ad_extension.
     state: SPUpdateState | None = None
+
+
+class SPCreateAdExtensionRequest(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    adExtensions: list[SPAdExtensionCreate] | None = None
 
 
 class SPCreateAdExtensionSettings(BaseModel):
@@ -116,3 +206,27 @@ class SPPromptExtension(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     promptText: str  # The prompt text rendered in the ads
+
+
+class SPQueryAdExtensionRequest(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    adExtensionIdFilter: SPAdExtensionAdExtensionIdFilter | None = None
+    adExtensionStatusFilter: SPAdExtensionAdExtensionStatusFilter | None = None
+    adExtensionTypeFilter: SPAdExtensionAdExtensionTypeFilter | None = None
+    adGroupIdFilter: SPAdExtensionAdGroupIdFilter | None = None
+    adIdFilter: SPAdExtensionAdIdFilter | None = None
+    adProductFilter: SPAdExtensionAdProductFilter | None = None
+    maxResults: int | None = None
+    nextToken: str | None = None
+    stateFilter: SPAdExtensionStateFilter | None = None
+
+
+class SPUpdateAdExtensionRequest(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    adExtensions: list[SPAdExtensionUpdate] | None = None

@@ -8,6 +8,8 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel, ConfigDict
 
 if TYPE_CHECKING:
+    from ._ad_groups import SPAdAdGroupIdFilter
+    from ._campaigns import SPAdCampaignIdFilter
     from ._enums import (
         SPAdProduct,
         SPAdType,
@@ -21,6 +23,7 @@ if TYPE_CHECKING:
         SPVideoType,
     )
     from ._shared import (
+        ErrorsIndex,
         SPCreateGlobalStoreSettings,
         SPCreateTag,
         SPCreative,
@@ -54,6 +57,24 @@ class SPAd(BaseModel):
     tags: list[SPTag] | None = None  # Open ended labels with a key value pair applied to the ad
 
 
+class SPAdAdIdFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str]
+
+
+class SPAdAdProductFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[
+        SPAdProduct
+    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+
+
 class SPAdCreate(BaseModel):
     """"""
 
@@ -69,6 +90,15 @@ class SPAdCreate(BaseModel):
     )
 
 
+class SPAdMultiStatusResponse(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    error: list[ErrorsIndex] | None = None
+    success: list[SPAdMultiStatusSuccess] | None = None
+
+
 class SPAdMultiStatusSuccess(BaseModel):
     """"""
 
@@ -76,6 +106,25 @@ class SPAdMultiStatusSuccess(BaseModel):
 
     ad: SPAd
     index: int
+
+
+class SPAdStateFilter(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[
+        SPState
+    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
+
+
+class SPAdSuccessResponse(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    ads: list[SPAd] | None = None
+    nextToken: str | None = None
 
 
 class SPAdUpdate(BaseModel):
@@ -112,6 +161,14 @@ class SPAudienceBidAdjustment(BaseModel):
 
     audienceId: str  # The unique identifier of the Audience to apply bid adjustment.
     percentage: int  # The selection of the percentage change associated with a given audience and bid adjustment settings.
+
+
+class SPCreateAdRequest(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    ads: list[SPAdCreate] | None = None
 
 
 class SPCreateAdvertisedProducts(BaseModel):
@@ -213,6 +270,14 @@ class SPCreativeBidAdjustment(BaseModel):
     percentage: int  # The selection of the percentage change associated with the creative type and bid adjustment settings.
 
 
+class SPDeleteAdRequest(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    adIds: list[str] | None = None
+
+
 class SPProductCreative(BaseModel):
     """"""
 
@@ -239,6 +304,20 @@ class SPProductValue(BaseModel):
     productId: str  # The product identifier. Either the product id or the marketplace settings should always be specified
 
 
+class SPQueryAdRequest(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    adGroupIdFilter: SPAdAdGroupIdFilter | None = None
+    adIdFilter: SPAdAdIdFilter | None = None
+    adProductFilter: SPAdAdProductFilter
+    campaignIdFilter: SPAdCampaignIdFilter | None = None
+    maxResults: int | None = None
+    nextToken: str | None = None
+    stateFilter: SPAdStateFilter | None = None
+
+
 class SPSpotlightVideoSettings(BaseModel):
     """An ad with a creative built with spotlight videos."""
 
@@ -248,6 +327,14 @@ class SPSpotlightVideoSettings(BaseModel):
         bool  # If the advertiser wants text they provided to be optimized by Amazon or not.
     )
     videos: list[SPVideo]  # The video asset(s) to use for the Sponsored Product experience.
+
+
+class SPUpdateAdRequest(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    ads: list[SPAdUpdate] | None = None
 
 
 class SPVideo(BaseModel):

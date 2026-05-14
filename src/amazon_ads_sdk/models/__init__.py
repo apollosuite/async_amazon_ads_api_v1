@@ -10,7 +10,6 @@ from ._ad_groups import *
 from ._ads import *
 from ._campaigns import *
 from ._enums import *
-from ._filters import *
 from ._requests import *
 from ._responses import *
 from ._shared import *
