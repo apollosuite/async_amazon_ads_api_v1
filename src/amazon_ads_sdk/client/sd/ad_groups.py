@@ -10,6 +10,7 @@ from amazon_ads_sdk.models.sd import (
     SDAdGroupMultiStatusResponse,
     SDAdGroupSuccessResponse,
     SDAdGroupUpdate,
+    SDQueryAdGroupRequest,
 )
 
 
@@ -26,7 +27,7 @@ class AdGroups(_ResourceBase):
     ) -> SDAdGroupSuccessResponse:
         return await self._create(ad_groups, self._spec, SDAdGroupSuccessResponse)
 
-    async def query(self, body: dict[str, Any]) -> SDAdGroupSuccessResponse:
+    async def query(self, body: dict[str, Any] | SDQueryAdGroupRequest) -> SDAdGroupSuccessResponse:
         return await self._query(body, self._spec, SDAdGroupSuccessResponse)
 
     async def update(

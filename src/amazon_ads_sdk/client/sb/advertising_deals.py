@@ -10,6 +10,7 @@ from amazon_ads_sdk.models.sb import (
     SBAdvertisingDealMultiStatusResponse,
     SBAdvertisingDealSuccessResponse,
     SBAdvertisingDealUpdate,
+    SBQueryAdvertisingDealRequest,
 )
 
 
@@ -27,7 +28,9 @@ class AdvertisingDeals(_ResourceBase):
     ) -> SBAdvertisingDealSuccessResponse:
         return await self._create(items, self._spec, SBAdvertisingDealSuccessResponse)
 
-    async def query(self, body: dict[str, Any]) -> SBAdvertisingDealSuccessResponse:
+    async def query(
+        self, body: dict[str, Any] | SBQueryAdvertisingDealRequest
+    ) -> SBAdvertisingDealSuccessResponse:
         return await self._query(body, self._spec, SBAdvertisingDealSuccessResponse)
 
     async def update(

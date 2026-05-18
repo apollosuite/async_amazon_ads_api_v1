@@ -14,7 +14,7 @@ from amazon_ads_sdk.config import AmazonAdsConfig, Region
 class TestSPClient:
     @pytest.fixture
     def config(self) -> AmazonAdsConfig:
-        return AmazonAdsConfig(access_token="test-token", region=Region.NA)
+        return AmazonAdsConfig(access_token="test-token", client_id="test-client", region=Region.NA)
 
     @pytest.mark.asyncio
     async def test_context_manager(self, config: AmazonAdsConfig) -> None:

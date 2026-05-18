@@ -10,6 +10,7 @@ from amazon_ads_sdk.models.sp import (
     SPCampaignMultiStatusResponse,
     SPCampaignSuccessResponse,
     SPCampaignUpdate,
+    SPQueryCampaignRequest,
 )
 
 
@@ -28,7 +29,9 @@ class Campaigns(_ResourceBase):
     ) -> SPCampaignSuccessResponse:
         return await self._create(campaigns, self._spec, SPCampaignSuccessResponse)
 
-    async def query(self, body: dict[str, Any]) -> SPCampaignSuccessResponse:
+    async def query(
+        self, body: dict[str, Any] | SPQueryCampaignRequest
+    ) -> SPCampaignSuccessResponse:
         return await self._query(body, self._spec, SPCampaignSuccessResponse)
 
     async def update(

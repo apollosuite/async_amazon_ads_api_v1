@@ -21,23 +21,17 @@ class ClientContext:
     Lazily creates and caches the ``httpx.AsyncClient`` on first use.
     """
 
-    __slots__ = ("config", "_client", "_profile_header")
+    __slots__ = ("config", "_client")
 
     def __init__(self, config: AmazonAdsConfig) -> None:
         self.config: AmazonAdsConfig = config
         self._client: httpx.AsyncClient | None = None
-        self._profile_header: dict[str, str] | None = None
 
     @property
     def profile_header(self) -> dict[str, str]:
-        if self._profile_header is None:
-            if self.config.profile_id is not None:
-                self._profile_header = {
-                    "Amazon-Advertising-API-ProfileId": str(self.config.profile_id)
-                }
-            else:
-                self._profile_header = {}
-        return self._profile_header
+        if self.config.profile_id is not None:
+            return {"Amazon-Advertising-API-Scope": str(self.config.profile_id)}
+        return {}
 
     async def get_client(self) -> httpx.AsyncClient:
         if self._client is None:
@@ -46,6 +40,7 @@ class ClientContext:
                 timeout=httpx.Timeout(self.config.timeout),
                 headers={
                     "Authorization": f"Bearer {self.config.access_token}",
+                    "Amazon-Ads-ClientId": self.config.client_id,
                     "Content-Type": "application/json",
                 },
             )
@@ -89,7 +84,11 @@ class _ResourceBase:
             if accept_async
             else "application/json"
         )
-        headers = {"Accept": accept, **self._ctx.profile_header}
+        headers = {
+            "Accept": accept,
+            "Amazon-Ads-ClientId": self._ctx.config.client_id,
+            **self._ctx.profile_header,
+        }
         for attempt in range(self._ctx.config.max_retries):
             try:
                 resp = await client.request(
@@ -157,7 +156,11 @@ class _ResourceBase:
         )
         return self._response(response_cls, resp)
 
-    async def _query(self, body: dict[str, Any], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
+    async def _query(
+        self, body: dict[str, Any] | BaseModel, spec: _ResourceSpec, response_cls: type[_T]
+    ) -> _T:
+        if isinstance(body, BaseModel):
+            body = body.model_dump()
         resp = await self._request(
             "POST", f"/adsApi/v1/query/{spec.name}{spec.path_suffix}", json=body
         )

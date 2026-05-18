@@ -10,6 +10,7 @@ from amazon_ads_sdk.models.sb import (
     SBAdExtensionMultiStatusResponse,
     SBAdExtensionSuccessResponse,
     SBAdExtensionUpdate,
+    SBQueryAdExtensionRequest,
 )
 
 
@@ -25,7 +26,9 @@ class AdExtensions(_ResourceBase):
     ) -> SBAdExtensionSuccessResponse:
         return await self._create(ad_extensions, self._spec, SBAdExtensionSuccessResponse)
 
-    async def query(self, body: dict[str, Any]) -> SBAdExtensionSuccessResponse:
+    async def query(
+        self, body: dict[str, Any] | SBQueryAdExtensionRequest
+    ) -> SBAdExtensionSuccessResponse:
         return await self._query(body, self._spec, SBAdExtensionSuccessResponse)
 
     async def update(

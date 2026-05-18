@@ -10,6 +10,7 @@ from amazon_ads_sdk.models.sp import (
     SPAdGroupMultiStatusResponse,
     SPAdGroupSuccessResponse,
     SPAdGroupUpdate,
+    SPQueryAdGroupRequest,
 )
 
 
@@ -28,7 +29,7 @@ class AdGroups(_ResourceBase):
     ) -> SPAdGroupSuccessResponse:
         return await self._create(ad_groups, self._spec, SPAdGroupSuccessResponse)
 
-    async def query(self, body: dict[str, Any]) -> SPAdGroupSuccessResponse:
+    async def query(self, body: dict[str, Any] | SPQueryAdGroupRequest) -> SPAdGroupSuccessResponse:
         return await self._query(body, self._spec, SPAdGroupSuccessResponse)
 
     async def update(

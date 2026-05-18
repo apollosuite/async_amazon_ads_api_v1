@@ -38,7 +38,7 @@ from amazon_ads_sdk.config import AmazonAdsConfig
 
 @pytest.fixture
 def config() -> AmazonAdsConfig:
-    return AmazonAdsConfig(access_token="test-token", region="na")  # type: ignore[arg-type]
+    return AmazonAdsConfig(access_token="test-token", client_id="test-client", region="na")  # type: ignore[arg-type]
 
 
 @pytest.fixture

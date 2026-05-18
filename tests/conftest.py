@@ -13,7 +13,7 @@ from amazon_ads_sdk.config import AmazonAdsConfig, Region
 
 @pytest.fixture
 def config() -> AmazonAdsConfig:
-    return AmazonAdsConfig(access_token="test-token", region=Region.NA)
+    return AmazonAdsConfig(access_token="test-token", client_id="test-client-id", region=Region.NA)
 
 
 @pytest_asyncio.fixture
@@ -41,14 +41,16 @@ def mock_response() -> MagicMock:
 
 def make_config(
     access_token: str = "test-token",
+    client_id: str = "test-client-id",
     region: Region = Region.NA,
     *,
-    profile_id: int | None = None,
+    profile_id: str | None = None,
     timeout: float = 60.0,
     max_retries: int = 3,
 ) -> AmazonAdsConfig:
     return AmazonAdsConfig(
         access_token=access_token,
+        client_id=client_id,
         region=region,
         profile_id=profile_id,
         timeout=timeout,

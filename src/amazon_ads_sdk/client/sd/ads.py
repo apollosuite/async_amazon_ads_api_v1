@@ -10,6 +10,7 @@ from amazon_ads_sdk.models.sd import (
     SDAdMultiStatusResponse,
     SDAdSuccessResponse,
     SDAdUpdate,
+    SDQueryAdRequest,
 )
 
 
@@ -24,7 +25,7 @@ class Ads(_ResourceBase):
     async def create(self, ads: list[dict[str, Any] | SDAdCreate]) -> SDAdSuccessResponse:
         return await self._create(ads, self._spec, SDAdSuccessResponse)
 
-    async def query(self, body: dict[str, Any]) -> SDAdSuccessResponse:
+    async def query(self, body: dict[str, Any] | SDQueryAdRequest) -> SDAdSuccessResponse:
         return await self._query(body, self._spec, SDAdSuccessResponse)
 
     async def update(self, ads: list[dict[str, Any] | SDAdUpdate]) -> SDAdMultiStatusResponse:

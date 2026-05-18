@@ -27,13 +27,13 @@ class TestClientContext:
     def test_profile_header_with_profile(self, config: AmazonAdsConfig) -> None:
         config.profile_id = 42
         ctx = ClientContext(config)
-        assert ctx.profile_header == {"Amazon-Advertising-API-ProfileId": "42"}
+        assert ctx.profile_header == {"Amazon-Advertising-API-Scope": "42"}
 
-    def test_profile_header_cached(self, config: AmazonAdsConfig) -> None:
+    def test_profile_header_realtime(self, config: AmazonAdsConfig) -> None:
         ctx = ClientContext(config)
-        h1 = ctx.profile_header
-        h2 = ctx.profile_header
-        assert h1 is h2
+        assert ctx.profile_header == {}
+        config.profile_id = "42"
+        assert ctx.profile_header == {"Amazon-Advertising-API-Scope": "42"}
 
     @pytest.mark.asyncio
     async def test_get_client_lazy_init(self, config: AmazonAdsConfig) -> None:
@@ -134,7 +134,8 @@ class TestResourceBase:
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
             await resource._request("GET", "/test")
         call_kwargs = mock_async_client.request.call_args[1]
-        assert call_kwargs["headers"]["Amazon-Advertising-API-ProfileId"] == "1"
+        assert call_kwargs["headers"]["Amazon-Ads-ClientId"] == "test-client-id"
+        assert call_kwargs["headers"]["Amazon-Advertising-API-Scope"] == "1"
 
     @pytest.mark.asyncio
     async def test_request_retry_on_429(

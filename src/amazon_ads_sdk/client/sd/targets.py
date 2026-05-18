@@ -6,6 +6,7 @@ from typing import Any
 
 from amazon_ads_sdk._base import _ResourceBase, _ResourceSpec
 from amazon_ads_sdk.models.sd import (
+    SDQueryTargetRequest,
     SDTargetCreate,
     SDTargetMultiStatusResponse,
     SDTargetSuccessResponse,
@@ -26,7 +27,7 @@ class Targets(_ResourceBase):
     ) -> SDTargetSuccessResponse:
         return await self._create(targets, self._spec, SDTargetSuccessResponse)
 
-    async def query(self, body: dict[str, Any]) -> SDTargetSuccessResponse:
+    async def query(self, body: dict[str, Any] | SDQueryTargetRequest) -> SDTargetSuccessResponse:
         return await self._query(body, self._spec, SDTargetSuccessResponse)
 
     async def update(

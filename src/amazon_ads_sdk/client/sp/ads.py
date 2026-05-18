@@ -10,6 +10,7 @@ from amazon_ads_sdk.models.sp import (
     SPAdMultiStatusResponse,
     SPAdSuccessResponse,
     SPAdUpdate,
+    SPQueryAdRequest,
 )
 
 
@@ -26,7 +27,7 @@ class Ads(_ResourceBase):
     async def create(self, ads: list[dict[str, Any] | SPAdCreate]) -> SPAdSuccessResponse:
         return await self._create(ads, self._spec, SPAdSuccessResponse)
 
-    async def query(self, body: dict[str, Any]) -> SPAdSuccessResponse:
+    async def query(self, body: dict[str, Any] | SPQueryAdRequest) -> SPAdSuccessResponse:
         return await self._query(body, self._spec, SPAdSuccessResponse)
 
     async def update(self, ads: list[dict[str, Any] | SPAdUpdate]) -> SPAdMultiStatusResponse:

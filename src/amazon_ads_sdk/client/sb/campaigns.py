@@ -10,6 +10,7 @@ from amazon_ads_sdk.models.sb import (
     SBCampaignMultiStatusResponse,
     SBCampaignSuccessResponse,
     SBCampaignUpdate,
+    SBQueryCampaignRequest,
 )
 
 
@@ -26,7 +27,9 @@ class Campaigns(_ResourceBase):
     ) -> SBCampaignSuccessResponse:
         return await self._create(campaigns, self._spec, SBCampaignSuccessResponse)
 
-    async def query(self, body: dict[str, Any]) -> SBCampaignSuccessResponse:
+    async def query(
+        self, body: dict[str, Any] | SBQueryCampaignRequest
+    ) -> SBCampaignSuccessResponse:
         return await self._query(body, self._spec, SBCampaignSuccessResponse)
 
     async def update(

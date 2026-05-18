@@ -9,6 +9,7 @@ from amazon_ads_sdk.models.sp import (
     SPAdExtensionCreate,
     SPAdExtensionSuccessResponse,
     SPAdExtensionUpdate,
+    SPQueryAdExtensionRequest,
 )
 
 
@@ -26,7 +27,9 @@ class AdExtensions(_ResourceBase):
     ) -> SPAdExtensionSuccessResponse:
         return await self._create(ad_extensions, self._spec, SPAdExtensionSuccessResponse)
 
-    async def query(self, body: dict[str, Any]) -> SPAdExtensionSuccessResponse:
+    async def query(
+        self, body: dict[str, Any] | SPQueryAdExtensionRequest
+    ) -> SPAdExtensionSuccessResponse:
         return await self._query(body, self._spec, SPAdExtensionSuccessResponse)
 
     async def update(
