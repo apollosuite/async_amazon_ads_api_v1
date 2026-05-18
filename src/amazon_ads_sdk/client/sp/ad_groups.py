@@ -21,6 +21,7 @@ class AdGroups(_ResourceBase):
         name="adGroups",
         create_model=SPAdGroupCreate,
         update_model=SPAdGroupUpdate,
+        query_model=SPQueryAdGroupRequest,
         delete_key="adGroupIds",
     )
 

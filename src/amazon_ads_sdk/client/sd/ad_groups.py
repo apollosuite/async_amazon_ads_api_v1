@@ -19,6 +19,7 @@ class AdGroups(_ResourceBase):
         name="adGroups",
         create_model=SDAdGroupCreate,
         update_model=SDAdGroupUpdate,
+        query_model=SDQueryAdGroupRequest,
         delete_key="adGroupIds",
     )
 

@@ -21,6 +21,7 @@ class Ads(_ResourceBase):
         name="ads",
         create_model=SPAdCreate,
         update_model=SPAdUpdate,
+        query_model=SPQueryAdRequest,
         delete_key="adIds",
     )
 

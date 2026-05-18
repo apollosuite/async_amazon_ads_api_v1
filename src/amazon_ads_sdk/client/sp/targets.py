@@ -21,6 +21,7 @@ class Targets(_ResourceBase):
         name="targets",
         create_model=SPTargetCreate,
         update_model=SPTargetUpdate,
+        query_model=SPQueryTargetRequest,
         delete_key="targetIds",
     )
 

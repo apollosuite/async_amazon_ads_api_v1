@@ -19,6 +19,7 @@ class Targets(_ResourceBase):
         name="targets",
         create_model=SBTargetCreate,
         update_model=SBTargetUpdate,
+        query_model=SBQueryTargetRequest,
         delete_key="targetIds",
     )
 

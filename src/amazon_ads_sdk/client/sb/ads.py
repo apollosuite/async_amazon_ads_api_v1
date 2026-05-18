@@ -19,6 +19,7 @@ class Ads(_ResourceBase):
         name="ads",
         create_model=SBAdCreate,
         update_model=SBAdUpdate,
+        query_model=SBQueryAdRequest,
         delete_key="adIds",
     )
 

@@ -57,6 +57,7 @@ class _ResourceSpec:
     name: str
     create_model: type[BaseModel]
     update_model: type[BaseModel] | None = None
+    query_model: type[BaseModel] | None = None
     delete_key: str | None = None
     path_suffix: str = ""
 
@@ -159,7 +160,10 @@ class _ResourceBase:
     async def _query(
         self, body: dict[str, Any] | BaseModel, spec: _ResourceSpec, response_cls: type[_T]
     ) -> _T:
-        if isinstance(body, BaseModel):
+        if isinstance(body, dict):
+            if spec.query_model is not None:
+                body = spec.query_model(**body).model_dump()
+        else:
             body = body.model_dump()
         resp = await self._request(
             "POST", f"/adsApi/v1/query/{spec.name}{spec.path_suffix}", json=body

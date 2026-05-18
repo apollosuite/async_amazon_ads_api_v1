@@ -19,6 +19,7 @@ class AdExtensions(_ResourceBase):
         name="adExtensions",
         create_model=SBAdExtensionCreate,
         update_model=SBAdExtensionUpdate,
+        query_model=SBQueryAdExtensionRequest,
     )
 
     async def create(

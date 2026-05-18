@@ -19,6 +19,7 @@ class AdvertisingDeals(_ResourceBase):
         name="advertisingDeals",
         create_model=SBAdvertisingDealCreate,
         update_model=SBAdvertisingDealUpdate,
+        query_model=SBQueryAdvertisingDealRequest,
         delete_key="advertisingDealIds",
         path_suffix="/sb",
     )

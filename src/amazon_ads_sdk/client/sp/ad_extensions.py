@@ -20,6 +20,7 @@ class AdExtensions(_ResourceBase):
         name="adExtensions",
         create_model=SPAdExtensionCreate,
         update_model=SPAdExtensionUpdate,
+        query_model=SPQueryAdExtensionRequest,
     )
 
     async def create(

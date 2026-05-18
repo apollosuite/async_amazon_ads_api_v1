@@ -19,6 +19,7 @@ class AdGroups(_ResourceBase):
         name="adGroups",
         create_model=SBAdGroupCreate,
         update_model=SBAdGroupUpdate,
+        query_model=SBQueryAdGroupRequest,
         delete_key="adGroupIds",
     )
 

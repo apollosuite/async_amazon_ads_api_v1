@@ -15,6 +15,7 @@ class RecommendationTypes(_ResourceBase):
     _spec = _ResourceSpec(
         name="recommendationTypes",
         create_model=SBRecommendationTypeSuccessResponse,
+        query_model=SBQueryRecommendationTypeRequest,
         path_suffix="/sb",
     )
 

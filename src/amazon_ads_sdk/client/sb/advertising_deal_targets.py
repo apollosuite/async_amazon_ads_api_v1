@@ -17,6 +17,7 @@ class AdvertisingDealTargets(_ResourceBase):
     _spec = _ResourceSpec(
         name="advertisingDealTargets",
         create_model=SBAdvertisingDealTargetCreate,
+        query_model=SBQueryAdvertisingDealTargetRequest,
         delete_key="advertisingDealTargetIds",
         path_suffix="/sb",
     )

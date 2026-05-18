@@ -19,6 +19,7 @@ class Targets(_ResourceBase):
         name="targets",
         create_model=SDTargetCreate,
         update_model=SDTargetUpdate,
+        query_model=SDQueryTargetRequest,
         delete_key="targetIds",
     )
 

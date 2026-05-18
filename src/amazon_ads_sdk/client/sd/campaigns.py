@@ -19,6 +19,7 @@ class Campaigns(_ResourceBase):
         name="campaigns",
         create_model=SDCampaignCreate,
         update_model=SDCampaignUpdate,
+        query_model=SDQueryCampaignRequest,
         delete_key="campaignIds",
     )
 

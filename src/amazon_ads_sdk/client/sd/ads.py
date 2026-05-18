@@ -19,6 +19,7 @@ class Ads(_ResourceBase):
         name="ads",
         create_model=SDAdCreate,
         update_model=SDAdUpdate,
+        query_model=SDQueryAdRequest,
         delete_key="adIds",
     )
 

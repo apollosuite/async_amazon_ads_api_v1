@@ -21,6 +21,7 @@ class Campaigns(_ResourceBase):
         name="campaigns",
         create_model=SPCampaignCreate,
         update_model=SPCampaignUpdate,
+        query_model=SPQueryCampaignRequest,
         delete_key="campaignIds",
     )
 
