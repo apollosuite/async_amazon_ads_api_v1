@@ -33,6 +33,8 @@ class AmazonAdsConfig:
         Request timeout in seconds. Defaults to 60.
     max_retries : int
         Number of automatic retries on transient errors (429 / 5xx).
+    raw_response : bool
+        If True, returns raw JSON dict instead of Pydantic model instances.
     """
 
     def __init__(
@@ -44,6 +46,7 @@ class AmazonAdsConfig:
         profile_id: str | None = None,
         timeout: float = 60.0,
         max_retries: int = 3,
+        raw_response: bool = False,
     ) -> None:
         if not access_token:
             raise ValueError("access_token is required and cannot be empty")
@@ -59,6 +62,7 @@ class AmazonAdsConfig:
         self.profile_id = profile_id
         self.timeout = timeout
         self.max_retries = max_retries
+        self.raw_response = raw_response
 
     @classmethod
     def from_env(cls) -> AmazonAdsConfig:
