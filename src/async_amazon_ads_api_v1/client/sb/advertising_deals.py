@@ -25,12 +25,12 @@ class AdvertisingDeals(_ResourceBase):
 
     async def create(
         self, items: list[dict[str, Any] | SBAdvertisingDealCreate]
-    ) -> SBAdvertisingDealSuccessResponse:
+    ) -> SBAdvertisingDealSuccessResponse | dict[str, Any]:
         return await self._create(items, self._spec, SBAdvertisingDealSuccessResponse)
 
     async def query(
         self, body: dict[str, Any] | SBQueryAdvertisingDealRequest
-    ) -> SBAdvertisingDealSuccessResponse:
+    ) -> SBAdvertisingDealSuccessResponse | dict[str, Any]:
         if isinstance(body, dict):
             body = SBQueryAdvertisingDealRequest(**body)
         return await self._query(
@@ -39,8 +39,8 @@ class AdvertisingDeals(_ResourceBase):
 
     async def update(
         self, items: list[dict[str, Any] | SBAdvertisingDealUpdate]
-    ) -> SBAdvertisingDealMultiStatusResponse:
+    ) -> SBAdvertisingDealMultiStatusResponse | dict[str, Any]:
         return await self._update(items, self._spec, SBAdvertisingDealMultiStatusResponse)
 
-    async def delete(self, ids: list[str]) -> SBAdvertisingDealMultiStatusResponse:
+    async def delete(self, ids: list[str]) -> SBAdvertisingDealMultiStatusResponse | dict[str, Any]:
         return await self._delete(ids, self._spec, SBAdvertisingDealMultiStatusResponse)

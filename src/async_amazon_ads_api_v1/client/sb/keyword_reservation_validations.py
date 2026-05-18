@@ -20,7 +20,7 @@ class KeywordReservationValidations(_ResourceBase):
 
     async def create(
         self, items: list[dict[str, Any] | SBKeywordReservationValidationCreate]
-    ) -> SBKeywordReservationValidationMultiStatusResponse:
+    ) -> SBKeywordReservationValidationMultiStatusResponse | dict[str, Any]:
         return await self._create(
             items, self._spec, SBKeywordReservationValidationMultiStatusResponse
         )

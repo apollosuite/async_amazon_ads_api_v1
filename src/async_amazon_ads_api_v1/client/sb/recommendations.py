@@ -20,5 +20,5 @@ class Recommendations(_ResourceBase):
 
     async def create(
         self, items: list[dict[str, Any] | SBRecommendationCreate]
-    ) -> SBRecommendationMultiStatusResponse:
+    ) -> SBRecommendationMultiStatusResponse | dict[str, Any]:
         return await self._create(items, self._spec, SBRecommendationMultiStatusResponse)

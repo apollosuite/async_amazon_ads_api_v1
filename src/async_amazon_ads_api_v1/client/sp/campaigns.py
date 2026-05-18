@@ -26,20 +26,22 @@ class Campaigns(_ResourceBase):
 
     async def create(
         self, campaigns: list[dict[str, Any] | SPCampaignCreate]
-    ) -> SPCampaignSuccessResponse:
+    ) -> SPCampaignSuccessResponse | dict[str, Any]:
         return await self._create(campaigns, self._spec, SPCampaignSuccessResponse)
 
     async def query(
         self, body: dict[str, Any] | SPQueryCampaignRequest
-    ) -> SPCampaignSuccessResponse:
+    ) -> SPCampaignSuccessResponse | dict[str, Any]:
         if isinstance(body, dict):
             body = SPQueryCampaignRequest(**body)
         return await self._query(body, "/adsApi/v1/query/campaigns", SPCampaignSuccessResponse)
 
     async def update(
         self, campaigns: list[dict[str, Any] | SPCampaignUpdate]
-    ) -> SPCampaignMultiStatusResponse:
+    ) -> SPCampaignMultiStatusResponse | dict[str, Any]:
         return await self._update(campaigns, self._spec, SPCampaignMultiStatusResponse)
 
-    async def delete(self, campaign_ids: list[str]) -> SPCampaignMultiStatusResponse:
+    async def delete(
+        self, campaign_ids: list[str]
+    ) -> SPCampaignMultiStatusResponse | dict[str, Any]:
         return await self._delete(campaign_ids, self._spec, SPCampaignMultiStatusResponse)

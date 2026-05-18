@@ -24,18 +24,22 @@ class AdGroups(_ResourceBase):
 
     async def create(
         self, ad_groups: list[dict[str, Any] | SDAdGroupCreate]
-    ) -> SDAdGroupSuccessResponse:
+    ) -> SDAdGroupSuccessResponse | dict[str, Any]:
         return await self._create(ad_groups, self._spec, SDAdGroupSuccessResponse)
 
-    async def query(self, body: dict[str, Any] | SDQueryAdGroupRequest) -> SDAdGroupSuccessResponse:
+    async def query(
+        self, body: dict[str, Any] | SDQueryAdGroupRequest
+    ) -> SDAdGroupSuccessResponse | dict[str, Any]:
         if isinstance(body, dict):
             body = SDQueryAdGroupRequest(**body)
         return await self._query(body, "/adsApi/v1/query/adGroups", SDAdGroupSuccessResponse)
 
     async def update(
         self, ad_groups: list[dict[str, Any] | SDAdGroupUpdate]
-    ) -> SDAdGroupMultiStatusResponse:
+    ) -> SDAdGroupMultiStatusResponse | dict[str, Any]:
         return await self._update(ad_groups, self._spec, SDAdGroupMultiStatusResponse)
 
-    async def delete(self, ad_group_ids: list[str]) -> SDAdGroupMultiStatusResponse:
+    async def delete(
+        self, ad_group_ids: list[str]
+    ) -> SDAdGroupMultiStatusResponse | dict[str, Any]:
         return await self._delete(ad_group_ids, self._spec, SDAdGroupMultiStatusResponse)

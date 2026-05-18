@@ -24,18 +24,20 @@ class Targets(_ResourceBase):
 
     async def create(
         self, targets: list[dict[str, Any] | SBTargetCreate]
-    ) -> SBTargetSuccessResponse:
+    ) -> SBTargetSuccessResponse | dict[str, Any]:
         return await self._create(targets, self._spec, SBTargetSuccessResponse)
 
-    async def query(self, body: dict[str, Any] | SBQueryTargetRequest) -> SBTargetSuccessResponse:
+    async def query(
+        self, body: dict[str, Any] | SBQueryTargetRequest
+    ) -> SBTargetSuccessResponse | dict[str, Any]:
         if isinstance(body, dict):
             body = SBQueryTargetRequest(**body)
         return await self._query(body, "/adsApi/v1/query/targets", SBTargetSuccessResponse)
 
     async def update(
         self, targets: list[dict[str, Any] | SBTargetUpdate]
-    ) -> SBTargetMultiStatusResponse:
+    ) -> SBTargetMultiStatusResponse | dict[str, Any]:
         return await self._update(targets, self._spec, SBTargetMultiStatusResponse)
 
-    async def delete(self, target_ids: list[str]) -> SBTargetMultiStatusResponse:
+    async def delete(self, target_ids: list[str]) -> SBTargetMultiStatusResponse | dict[str, Any]:
         return await self._delete(target_ids, self._spec, SBTargetMultiStatusResponse)

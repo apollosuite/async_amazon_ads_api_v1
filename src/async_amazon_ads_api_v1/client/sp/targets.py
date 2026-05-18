@@ -26,18 +26,20 @@ class Targets(_ResourceBase):
 
     async def create(
         self, targets: list[dict[str, Any] | SPTargetCreate]
-    ) -> SPTargetSuccessResponse:
+    ) -> SPTargetSuccessResponse | dict[str, Any]:
         return await self._create(targets, self._spec, SPTargetSuccessResponse)
 
-    async def query(self, body: dict[str, Any] | SPQueryTargetRequest) -> SPTargetSuccessResponse:
+    async def query(
+        self, body: dict[str, Any] | SPQueryTargetRequest
+    ) -> SPTargetSuccessResponse | dict[str, Any]:
         if isinstance(body, dict):
             body = SPQueryTargetRequest(**body)
         return await self._query(body, "/adsApi/v1/query/targets", SPTargetSuccessResponse)
 
     async def update(
         self, targets: list[dict[str, Any] | SPTargetUpdate]
-    ) -> SPTargetMultiStatusResponse:
+    ) -> SPTargetMultiStatusResponse | dict[str, Any]:
         return await self._update(targets, self._spec, SPTargetMultiStatusResponse)
 
-    async def delete(self, target_ids: list[str]) -> SPTargetMultiStatusResponse:
+    async def delete(self, target_ids: list[str]) -> SPTargetMultiStatusResponse | dict[str, Any]:
         return await self._delete(target_ids, self._spec, SPTargetMultiStatusResponse)

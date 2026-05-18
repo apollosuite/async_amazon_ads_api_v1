@@ -20,5 +20,5 @@ class BrandedKeywordsPricings(_ResourceBase):
 
     async def create(
         self, items: list[dict[str, Any] | SBBrandedKeywordsPricingCreate]
-    ) -> SBBrandedKeywordsPricingMultiStatusResponse:
+    ) -> SBBrandedKeywordsPricingMultiStatusResponse | dict[str, Any]:
         return await self._create(items, self._spec, SBBrandedKeywordsPricingMultiStatusResponse)

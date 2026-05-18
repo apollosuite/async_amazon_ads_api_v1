@@ -20,7 +20,7 @@ class RecommendationTypes(_ResourceBase):
 
     async def query(
         self, body: dict[str, Any] | SBQueryRecommendationTypeRequest
-    ) -> SBRecommendationTypeSuccessResponse:
+    ) -> SBRecommendationTypeSuccessResponse | dict[str, Any]:
         if isinstance(body, dict):
             body = SBQueryRecommendationTypeRequest(**body)
         return await self._query(

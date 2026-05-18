@@ -6,7 +6,7 @@ import asyncio
 import logging
 import random
 from dataclasses import dataclass
-from typing import Any, TypeVar
+from typing import Any, TypeVar, cast
 
 import httpx
 from pydantic import BaseModel, ValidationError
@@ -46,7 +46,7 @@ class ClientContext:
 
     def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T | dict[str, Any]:
         if self.config.raw_response:
-            return resp.json()
+            return cast(dict[str, Any], resp.json())
         try:
             return model_cls.model_validate_json(resp.content)
         except ValidationError:

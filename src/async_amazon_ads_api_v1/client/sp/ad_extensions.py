@@ -24,12 +24,12 @@ class AdExtensions(_ResourceBase):
 
     async def create(
         self, ad_extensions: list[dict[str, Any] | SPAdExtensionCreate]
-    ) -> SPAdExtensionSuccessResponse:
+    ) -> SPAdExtensionSuccessResponse | dict[str, Any]:
         return await self._create(ad_extensions, self._spec, SPAdExtensionSuccessResponse)
 
     async def query(
         self, body: dict[str, Any] | SPQueryAdExtensionRequest
-    ) -> SPAdExtensionSuccessResponse:
+    ) -> SPAdExtensionSuccessResponse | dict[str, Any]:
         if isinstance(body, dict):
             body = SPQueryAdExtensionRequest(**body)
         return await self._query(
@@ -38,5 +38,5 @@ class AdExtensions(_ResourceBase):
 
     async def update(
         self, ad_extensions: list[dict[str, Any] | SPAdExtensionUpdate]
-    ) -> SPAdExtensionSuccessResponse:
+    ) -> SPAdExtensionSuccessResponse | dict[str, Any]:
         return await self._update(ad_extensions, self._spec, SPAdExtensionSuccessResponse)
