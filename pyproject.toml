@@ -1,12 +1,12 @@
 [project]
-name = "amazon-ads-sdk"
-version = "0.2.0"
-description = "Amazon Ads API SDK — Sponsored Products & Sponsored Brands (pure async)"
+name = "async-amazon-ads-api-v1"
+dynamic = ["version"]
+description = "Pure async Amazon Ads API v1 client — Sponsored Products, Sponsored Brands, Sponsored Display"
 readme = "README.md"
 requires-python = ">=3.14"
 license = "MIT"
 authors = [{ name = "Amazon Ads" }]
-keywords = ["amazon", "ads", "advertising", "sponsored-products", "sponsored-brands", "async"]
+keywords = ["amazon", "ads", "advertising", "sponsored-products", "sponsored-brands", "sponsored-display", "async", "api-v1"]
 
 dependencies = ["httpx>=0.28.0", "pydantic>=2.10.0"]
 
@@ -23,8 +23,11 @@ dev = [
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[tool.hatch.version]
+path = "src/async_amazon_ads_api_v1/__init__.py"
+
 [tool.hatch.build.targets.wheel]
-packages = ["src/amazon_ads_sdk"]
+packages = ["src/async_amazon_ads_api_v1"]
 
 [tool.black]
 line-length = 100
@@ -40,10 +43,10 @@ select = ["E", "F", "I", "N", "UP", "W"]
 ignore = ["E501"]
 
 [tool.ruff.lint.per-file-ignores]
-"src/amazon_ads_sdk/errors.py" = ["N815"]
-"src/amazon_ads_sdk/models/sp/*" = ["F403", "F821", "I001", "N815", "UP042"]
-"src/amazon_ads_sdk/models/sb/*" = ["F403", "F821", "I001", "N815", "UP042"]
-"src/amazon_ads_sdk/models/sd/*" = ["F403", "F821", "I001", "N815", "UP042"]
+"src/async_amazon_ads_api_v1/errors.py" = ["N815"]
+"src/async_amazon_ads_api_v1/models/sp/*" = ["F403", "F821", "I001", "N815", "UP042"]
+"src/async_amazon_ads_api_v1/models/sb/*" = ["F403", "F821", "I001", "N815", "UP042"]
+"src/async_amazon_ads_api_v1/models/sd/*" = ["F403", "F821", "I001", "N815", "UP042"]
 
 [tool.mypy]
 python_version = "3.14"
@@ -51,7 +54,7 @@ strict = true
 warn_return_any = true
 warn_unused_ignores = true
 exclude = [
-    "src/amazon_ads_sdk/models/sp/",
-    "src/amazon_ads_sdk/models/sb/",
+    "src/async_amazon_ads_api_v1/models/sp/",
+    "src/async_amazon_ads_api_v1/models/sb/",
     "scripts/",
 ]

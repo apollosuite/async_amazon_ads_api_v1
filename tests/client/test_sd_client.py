@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import pytest
 
-from amazon_ads_sdk.client.sd import SDClient
-from amazon_ads_sdk.client.sd.ad_groups import AdGroups
-from amazon_ads_sdk.client.sd.ads import Ads
-from amazon_ads_sdk.client.sd.campaigns import Campaigns
-from amazon_ads_sdk.client.sd.targets import Targets
-from amazon_ads_sdk.config import AmazonAdsConfig, Region
+from async_amazon_ads_api_v1.client.sd import SDClient
+from async_amazon_ads_api_v1.client.sd.ad_groups import AdGroups
+from async_amazon_ads_api_v1.client.sd.ads import Ads
+from async_amazon_ads_api_v1.client.sd.campaigns import Campaigns
+from async_amazon_ads_api_v1.client.sd.targets import Targets
+from async_amazon_ads_api_v1.config import AmazonAdsConfig, Region
 
 
 class TestSDClient:

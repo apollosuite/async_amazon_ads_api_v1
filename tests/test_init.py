@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from amazon_ads_sdk import (
+from async_amazon_ads_api_v1 import (
     AmazonAdsConfig,
     Region,
     SBClient,

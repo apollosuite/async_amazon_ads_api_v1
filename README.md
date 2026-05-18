@@ -1,11 +1,13 @@
-# Amazon Ads SDK
+# async-amazon-ads-api-v1
 
-Pure async Python SDK for Amazon Advertising API — Sponsored Products, Sponsored Brands, and Sponsored Display.
+Pure async Amazon Ads API v1 client — Sponsored Products, Sponsored Brands, Sponsored Display.
 
 ## Installation
 
 ```bash
-uv sync
+pip install async-amazon-ads-api-v1
+# 或
+uv add async-amazon-ads-api-v1
 ```
 
 ## Quick Start
@@ -14,7 +16,7 @@ uv sync
 
 ```python
 import asyncio
-from amazon_ads_sdk import AmazonAdsConfig, Region, SPClient
+from async_amazon_ads_api_v1 import AmazonAdsConfig, Region, SPClient
 
 async def main():
     config = AmazonAdsConfig(
@@ -34,7 +36,7 @@ asyncio.run(main())
 
 ```python
 import asyncio
-from amazon_ads_sdk import AmazonAdsConfig, Region, SPClient
+from async_amazon_ads_api_v1 import AmazonAdsConfig, Region, SPClient
 
 async def main():
     config = AmazonAdsConfig(
@@ -64,7 +66,7 @@ export AMAZON_PROFILE_ID=...        # 可选
 ```
 
 ```python
-from amazon_ads_sdk import AmazonAdsConfig, SPClient
+from async_amazon_ads_api_v1 import AmazonAdsConfig, SPClient
 
 config = AmazonAdsConfig.from_env()
 ```

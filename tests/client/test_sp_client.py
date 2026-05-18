@@ -2,13 +2,13 @@ from __future__ import annotations
 
 import pytest
 
-from amazon_ads_sdk.client.sp import SPClient
-from amazon_ads_sdk.client.sp.ad_extensions import AdExtensions
-from amazon_ads_sdk.client.sp.ad_groups import AdGroups
-from amazon_ads_sdk.client.sp.ads import Ads
-from amazon_ads_sdk.client.sp.campaigns import Campaigns
-from amazon_ads_sdk.client.sp.targets import Targets
-from amazon_ads_sdk.config import AmazonAdsConfig, Region
+from async_amazon_ads_api_v1.client.sp import SPClient
+from async_amazon_ads_api_v1.client.sp.ad_extensions import AdExtensions
+from async_amazon_ads_api_v1.client.sp.ad_groups import AdGroups
+from async_amazon_ads_api_v1.client.sp.ads import Ads
+from async_amazon_ads_api_v1.client.sp.campaigns import Campaigns
+from async_amazon_ads_api_v1.client.sp.targets import Targets
+from async_amazon_ads_api_v1.config import AmazonAdsConfig, Region
 
 
 class TestSPClient:

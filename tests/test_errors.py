@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 from pydantic import ValidationError
 
-from amazon_ads_sdk.errors import (
+from async_amazon_ads_api_v1.errors import (
     BadGatewayResponseContent,
     BadRequestResponseContent,
     ContentTooLargeResponseContent,

@@ -6,8 +6,8 @@ import httpx
 import pytest
 from pydantic import BaseModel
 
-from amazon_ads_sdk._base import ClientContext, _ResourceBase, _ResourceSpec
-from amazon_ads_sdk.config import AmazonAdsConfig
+from async_amazon_ads_api_v1._base import ClientContext, _ResourceBase, _ResourceSpec
+from async_amazon_ads_api_v1.config import AmazonAdsConfig
 
 
 class DummyModel(BaseModel):

@@ -2,19 +2,21 @@ from __future__ import annotations
 
 import pytest
 
-from amazon_ads_sdk.client.sb import SBClient
-from amazon_ads_sdk.client.sb.ad_extensions import AdExtensions
-from amazon_ads_sdk.client.sb.ad_groups import AdGroups
-from amazon_ads_sdk.client.sb.ads import Ads
-from amazon_ads_sdk.client.sb.advertising_deal_targets import AdvertisingDealTargets
-from amazon_ads_sdk.client.sb.advertising_deals import AdvertisingDeals
-from amazon_ads_sdk.client.sb.branded_keywords_pricings import BrandedKeywordsPricings
-from amazon_ads_sdk.client.sb.campaigns import Campaigns
-from amazon_ads_sdk.client.sb.keyword_reservation_validations import KeywordReservationValidations
-from amazon_ads_sdk.client.sb.recommendation_types import RecommendationTypes
-from amazon_ads_sdk.client.sb.recommendations import Recommendations
-from amazon_ads_sdk.client.sb.targets import Targets
-from amazon_ads_sdk.config import AmazonAdsConfig, Region
+from async_amazon_ads_api_v1.client.sb import SBClient
+from async_amazon_ads_api_v1.client.sb.ad_extensions import AdExtensions
+from async_amazon_ads_api_v1.client.sb.ad_groups import AdGroups
+from async_amazon_ads_api_v1.client.sb.ads import Ads
+from async_amazon_ads_api_v1.client.sb.advertising_deal_targets import AdvertisingDealTargets
+from async_amazon_ads_api_v1.client.sb.advertising_deals import AdvertisingDeals
+from async_amazon_ads_api_v1.client.sb.branded_keywords_pricings import BrandedKeywordsPricings
+from async_amazon_ads_api_v1.client.sb.campaigns import Campaigns
+from async_amazon_ads_api_v1.client.sb.keyword_reservation_validations import (
+    KeywordReservationValidations,
+)
+from async_amazon_ads_api_v1.client.sb.recommendation_types import RecommendationTypes
+from async_amazon_ads_api_v1.client.sb.recommendations import Recommendations
+from async_amazon_ads_api_v1.client.sb.targets import Targets
+from async_amazon_ads_api_v1.config import AmazonAdsConfig, Region
 
 
 class TestSBClient:

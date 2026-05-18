@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from generate_file_structure import classify
 
 HERE = Path(__file__).parent
-PROJECT = HERE.parent / "src" / "amazon_ads_sdk"
+PROJECT = HERE.parent / "src" / "async_amazon_ads_api_v1"
 
 SPECS: dict[str, Path] = {
     "sp": HERE / "AmazonAdsAPISPMerged_prod_3p.json",
@@ -210,7 +210,7 @@ def _build_import_block(module_filename: str, refs: set[str], schema_module: dic
     for src in sorted(grouped):
         names = sorted(grouped[src])
         if src == "_core.errors":
-            lines.append(f"    from amazon_ads_sdk.errors import {', '.join(names)}")
+            lines.append(f"    from async_amazon_ads_api_v1.errors import {', '.join(names)}")
         else:
             lines.append(f"    from .{src.removesuffix('.py')} import {', '.join(names)}")
     return "\n".join(lines) + "\n\n"
@@ -290,7 +290,7 @@ def main(*, output_dir: Path | None = None, product: str | None = None) -> None:
         [
             "",
             "# Include shared error types for forward reference resolution",
-            "import amazon_ads_sdk.errors as _core_errors",
+            "import async_amazon_ads_api_v1.errors as _core_errors",
             "",
             "# Resolve cross-module forward references",
             "_ns: dict[str, typing.Any] = dict(sys.modules[__name__].__dict__)",
@@ -299,7 +299,7 @@ def main(*, output_dir: Path | None = None, product: str | None = None) -> None:
             "    if (",
             "        isinstance(_obj, type)",
             "        and hasattr(_obj, 'model_rebuild')",
-            "        and getattr(_obj, '__module__', '').startswith('amazon_ads_sdk.models')",
+            "        and getattr(_obj, '__module__', '').startswith('async_amazon_ads_api_v1.models')",
             "    ):",
             "        _obj.model_rebuild(_types_namespace=_ns)",
         ]
@@ -357,7 +357,7 @@ if __name__ == "__main__":
         "--output-dir",
         type=Path,
         required=True,
-        help="Output directory (e.g. src/amazon_ads_sdk/models/sp)",
+        help="Output directory (e.g. src/async_amazon_ads_api_v1/models/sp)",
     )
     args = parser.parse_args()
     main(output_dir=args.output_dir, product=args.product)

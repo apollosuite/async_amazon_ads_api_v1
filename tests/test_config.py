@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 import pytest
 
-from amazon_ads_sdk.config import AmazonAdsConfig, Region
+from async_amazon_ads_api_v1.config import AmazonAdsConfig, Region
 
 
 class TestRegion:

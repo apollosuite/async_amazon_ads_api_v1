@@ -6,34 +6,34 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from amazon_ads_sdk._base import ClientContext
-from amazon_ads_sdk.client.sb.ad_extensions import AdExtensions as SBAdExtensions
-from amazon_ads_sdk.client.sb.ad_groups import AdGroups as SBAdGroups
-from amazon_ads_sdk.client.sb.ads import Ads as SBAds
-from amazon_ads_sdk.client.sb.advertising_deal_targets import (
+from async_amazon_ads_api_v1._base import ClientContext
+from async_amazon_ads_api_v1.client.sb.ad_extensions import AdExtensions as SBAdExtensions
+from async_amazon_ads_api_v1.client.sb.ad_groups import AdGroups as SBAdGroups
+from async_amazon_ads_api_v1.client.sb.ads import Ads as SBAds
+from async_amazon_ads_api_v1.client.sb.advertising_deal_targets import (
     AdvertisingDealTargets,
 )
-from amazon_ads_sdk.client.sb.advertising_deals import AdvertisingDeals
-from amazon_ads_sdk.client.sb.branded_keywords_pricings import (
+from async_amazon_ads_api_v1.client.sb.advertising_deals import AdvertisingDeals
+from async_amazon_ads_api_v1.client.sb.branded_keywords_pricings import (
     BrandedKeywordsPricings,
 )
-from amazon_ads_sdk.client.sb.campaigns import Campaigns as SBCampaigns
-from amazon_ads_sdk.client.sb.keyword_reservation_validations import (
+from async_amazon_ads_api_v1.client.sb.campaigns import Campaigns as SBCampaigns
+from async_amazon_ads_api_v1.client.sb.keyword_reservation_validations import (
     KeywordReservationValidations,
 )
-from amazon_ads_sdk.client.sb.recommendation_types import RecommendationTypes
-from amazon_ads_sdk.client.sb.recommendations import Recommendations
-from amazon_ads_sdk.client.sb.targets import Targets as SBTargets
-from amazon_ads_sdk.client.sd.ad_groups import AdGroups as SDAdGroups
-from amazon_ads_sdk.client.sd.ads import Ads as SDAds
-from amazon_ads_sdk.client.sd.campaigns import Campaigns as SDCampaigns
-from amazon_ads_sdk.client.sd.targets import Targets as SDTargets
-from amazon_ads_sdk.client.sp.ad_extensions import AdExtensions as SPAdExtensions
-from amazon_ads_sdk.client.sp.ad_groups import AdGroups as SPAdGroups
-from amazon_ads_sdk.client.sp.ads import Ads as SPAds
-from amazon_ads_sdk.client.sp.campaigns import Campaigns as SPCampaigns
-from amazon_ads_sdk.client.sp.targets import Targets as SPTargets
-from amazon_ads_sdk.config import AmazonAdsConfig
+from async_amazon_ads_api_v1.client.sb.recommendation_types import RecommendationTypes
+from async_amazon_ads_api_v1.client.sb.recommendations import Recommendations
+from async_amazon_ads_api_v1.client.sb.targets import Targets as SBTargets
+from async_amazon_ads_api_v1.client.sd.ad_groups import AdGroups as SDAdGroups
+from async_amazon_ads_api_v1.client.sd.ads import Ads as SDAds
+from async_amazon_ads_api_v1.client.sd.campaigns import Campaigns as SDCampaigns
+from async_amazon_ads_api_v1.client.sd.targets import Targets as SDTargets
+from async_amazon_ads_api_v1.client.sp.ad_extensions import AdExtensions as SPAdExtensions
+from async_amazon_ads_api_v1.client.sp.ad_groups import AdGroups as SPAdGroups
+from async_amazon_ads_api_v1.client.sp.ads import Ads as SPAds
+from async_amazon_ads_api_v1.client.sp.campaigns import Campaigns as SPCampaigns
+from async_amazon_ads_api_v1.client.sp.targets import Targets as SPTargets
+from async_amazon_ads_api_v1.config import AmazonAdsConfig
 
 
 @pytest.fixture

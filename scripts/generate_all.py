@@ -28,7 +28,7 @@ def run(cmd: list[str], cwd: Path | None = None) -> None:
 
 def main() -> None:
     products = ["sp", "sb", "sd"]
-    output_base = SRC / "amazon_ads_sdk" / "models"
+    output_base = SRC / "async_amazon_ads_api_v1" / "models"
 
     for product in products:
         run(

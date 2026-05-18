@@ -16,7 +16,7 @@ Pure async Python SDK for the Amazon Advertising API — Sponsored Products / Sp
 ├── CLAUDE.md                               # 本文件
 ├── pyproject.toml                          # uv 项目配置
 ├── uv.lock                                 # 依赖锁定
-└── src/amazon_ads_sdk/
+└── src/async_amazon_ads_api_v1/
     ├── __init__.py                         # 导出 AmazonAdsConfig, Region, SPClient, SBClient, SDClient
     ├── config.py                           # AmazonAdsConfig / Region
     ├── errors.py                           # 共享 HTTP 错误模型 (ErrorCode, Error, ErrorsIndex ...)
@@ -73,9 +73,9 @@ Pure async Python SDK for the Amazon Advertising API — Sponsored Products / Sp
 模型基于 OpenAPI 规范自动生成：
 
 ```bash
-uv run python scripts/generate_models.py --product sp --output-dir src/amazon_ads_sdk/models/sp/
-uv run python scripts/generate_models.py --product sb --output-dir src/amazon_ads_sdk/models/sb/
-uv run python scripts/generate_models.py --product sd --output-dir src/amazon_ads_sdk/models/sd/
+uv run python scripts/generate_models.py --product sp --output-dir src/async_amazon_ads_api_v1/models/sp/
+uv run python scripts/generate_models.py --product sb --output-dir src/async_amazon_ads_api_v1/models/sb/
+uv run python scripts/generate_models.py --product sd --output-dir src/async_amazon_ads_api_v1/models/sd/
 uv run ruff check --fix src/
 uv run black src/
 ```
@@ -95,7 +95,7 @@ AMAZON_PROFILE_ID     # 可选，数字类型
 ## 使用示例
 
 ```python
-from amazon_ads_sdk import AmazonAdsConfig, Region, SPClient, SBClient, SDClient
+from async_amazon_ads_api_v1 import AmazonAdsConfig, Region, SPClient, SBClient, SDClient
 
 config = AmazonAdsConfig(access_token="...", region=Region.NA)
 
