@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
-from enum import StrEnum
+from amazon_ads_sdk.models.base import SafeStrEnum
 
 if TYPE_CHECKING:
     from .enums import SBAdvertisingDealPriceType, SBCurrencyCode
@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 class SBAdvertisingDealPrice(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     currencyCode: SBCurrencyCode
     priceType: SBAdvertisingDealPriceType
@@ -24,13 +24,13 @@ class SBAdvertisingDealPrice(BaseModel):
 class SBCreateTag(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     key: str  # A custom key value pair entered by the advertiser.
     value: str  # A custom key value pair entered by the advertiser.
 
 
-class SBDeliveryReason(StrEnum):
+class SBDeliveryReason(SafeStrEnum):
     """| DeliveryReason | Description |
     |------|------|
     | `ADVERTISER_ARCHIVED` |  |
@@ -141,7 +141,7 @@ class SBDeliveryReason(StrEnum):
     TARGET_POLICING_SUSPENDED = "TARGET_POLICING_SUSPENDED"
 
 
-class SBDeliveryStatus(StrEnum):
+class SBDeliveryStatus(SafeStrEnum):
     """| DeliveryStatus | Description |
     |------|------|
     | `DELIVERING` | Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces |
@@ -157,7 +157,7 @@ class SBDeliveryStatus(StrEnum):
 class SBStatus(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     deliveryReasons: list[SBDeliveryReason] | None = (
         None  # This is the list of reasons behind the delivery status.
@@ -168,7 +168,7 @@ class SBStatus(BaseModel):
 class SBTag(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     key: str  # A custom key value pair entered by the advertiser.
     value: str  # A custom key value pair entered by the advertiser.

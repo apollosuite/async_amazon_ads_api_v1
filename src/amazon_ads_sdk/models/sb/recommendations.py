@@ -5,13 +5,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
-from enum import StrEnum
+from amazon_ads_sdk.models.base import SafeStrEnum
 
 if TYPE_CHECKING:
     from amazon_ads_sdk.errors import ErrorsIndex
 
 
-class SBAlternateBrandIdType(StrEnum):
+class SBAlternateBrandIdType(SafeStrEnum):
     """The type of identifier for the alternate brand identifier.
 
     | AlternateBrandIdType | Description |
@@ -25,7 +25,7 @@ class SBAlternateBrandIdType(StrEnum):
 class SBBrandAlternateId(BaseModel):
     """Other types of brand identifiers for a brand that are used with other operations."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     alternateBrandId: str  # The alternative brand identifier for the brandId.
     alternateBrandIdType: SBAlternateBrandIdType
@@ -34,7 +34,7 @@ class SBBrandAlternateId(BaseModel):
 class SBBrandedKeyword(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     brandAlternateId: SBBrandAlternateId
     keyword: str  # Branded keyword
@@ -43,7 +43,7 @@ class SBBrandedKeyword(BaseModel):
 class SBBrandedKeywordList(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     associatedBrandIds: list[str] | None = (
         None  # Brand IDs associated with the branded keyword list
@@ -56,7 +56,7 @@ class SBBrandedKeywordList(BaseModel):
 class SBBrandedKeywordRecommendationTypeDetails(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     brandAlternateId: list[SBBrandAlternateId]
     brandIds: list[str] | None = None  # The brand ID to scope branded keyword recommendations for
@@ -65,7 +65,7 @@ class SBBrandedKeywordRecommendationTypeDetails(BaseModel):
 class SBCreateBrandAlternateId(BaseModel):
     """Other types of brand identifiers for a brand that are used with other operations."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     alternateBrandId: str  # The alternative brand identifier for the brandId.
     alternateBrandIdType: SBAlternateBrandIdType
@@ -74,7 +74,7 @@ class SBCreateBrandAlternateId(BaseModel):
 class SBCreateBrandedKeywordRecommendationTypeDetails(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     brandAlternateId: list[SBCreateBrandAlternateId]
     brandIds: list[str] | None = None  # The brand ID to scope branded keyword recommendations for
@@ -83,7 +83,7 @@ class SBCreateBrandedKeywordRecommendationTypeDetails(BaseModel):
 class SBCreateRecommendationRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     recommendations: list[SBRecommendationCreate] | None = None
 
@@ -91,7 +91,7 @@ class SBCreateRecommendationRequest(BaseModel):
 class SBCreateRecommendationTypeDetails(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     brandedKeywordRecommendationTypeDetails: (
         SBCreateBrandedKeywordRecommendationTypeDetails | None
@@ -101,7 +101,7 @@ class SBCreateRecommendationTypeDetails(BaseModel):
 class SBObjectSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     brandedKeywordList: SBBrandedKeywordList | None = None
 
@@ -109,7 +109,7 @@ class SBObjectSettings(BaseModel):
 class SBRecommendation(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     recommendationId: str  # The identifier of the recommendation
     recommendationType: (
@@ -122,7 +122,7 @@ class SBRecommendation(BaseModel):
 class SBRecommendationCreate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     recommendationType: (
         str  # A unique value to indicate similar recommendations, used for internal purposes only
@@ -133,7 +133,7 @@ class SBRecommendationCreate(BaseModel):
 class SBRecommendationMultiStatusResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     error: list[ErrorsIndex] | None = None
     success: list[SBRecommendationMultiStatusSuccess] | None = None
@@ -142,7 +142,7 @@ class SBRecommendationMultiStatusResponse(BaseModel):
 class SBRecommendationMultiStatusSuccess(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     index: int
     recommendation: SBRecommendation
@@ -151,7 +151,7 @@ class SBRecommendationMultiStatusSuccess(BaseModel):
 class SBRecommendationTypeDetails(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     brandedKeywordRecommendationTypeDetails: SBBrandedKeywordRecommendationTypeDetails | None = None
 
@@ -159,6 +159,6 @@ class SBRecommendationTypeDetails(BaseModel):
 class SBRecommendedObject(BaseModel):
     """Details of the recommended object"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     recommendedObjectSettings: SBObjectSettings | None = None

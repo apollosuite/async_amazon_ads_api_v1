@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
+from amazon_ads_sdk.models.base import SafeStrEnum
 
 
-class SBAdProduct(StrEnum):
+class SBAdProduct(SafeStrEnum):
     """| AdProduct | Description |
     |------|------|
     | `SPONSORED_BRANDS` | Sponsored Brands ad product. |
@@ -14,7 +14,7 @@ class SBAdProduct(StrEnum):
     SPONSORED_BRANDS = "SPONSORED_BRANDS"
 
 
-class SBAdvertisingDealPriceType(StrEnum):
+class SBAdvertisingDealPriceType(SafeStrEnum):
     """| AdvertisingDealPriceType | Description |
     |------|------|
     | `FIXED_PRICE` | Sale price for a specific ad placement regardless of auction performance. |
@@ -23,7 +23,7 @@ class SBAdvertisingDealPriceType(StrEnum):
     FIXED_PRICE = "FIXED_PRICE"
 
 
-class SBCreateState(StrEnum):
+class SBCreateState(SafeStrEnum):
     """The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
 
     | CreateState | Description |
@@ -36,7 +36,7 @@ class SBCreateState(StrEnum):
     PAUSED = "PAUSED"
 
 
-class SBCurrencyCode(StrEnum):
+class SBCurrencyCode(SafeStrEnum):
     """| CurrencyCode | Description |
     |------|------|
     | `AED` | United Arab Emirates Dirham |
@@ -91,7 +91,7 @@ class SBCurrencyCode(StrEnum):
     ZAR = "ZAR"
 
 
-class SBMarketplace(StrEnum):
+class SBMarketplace(SafeStrEnum):
     """A list of country codes representing Amazon marketplaces
 
     | Marketplace | Description |
@@ -146,7 +146,7 @@ class SBMarketplace(StrEnum):
     ZA = "ZA"
 
 
-class SBMarketplaceScope(StrEnum):
+class SBMarketplaceScope(SafeStrEnum):
     """| MarketplaceScope | Description |
     |------|------|
     | `SINGLE_MARKETPLACE` |  |
@@ -155,7 +155,7 @@ class SBMarketplaceScope(StrEnum):
     SINGLE_MARKETPLACE = "SINGLE_MARKETPLACE"
 
 
-class SBProductIdType(StrEnum):
+class SBProductIdType(SafeStrEnum):
     """| ProductIdType | Description |
     |------|------|
     | `ASIN` | ASIN identifier type. |
@@ -164,7 +164,7 @@ class SBProductIdType(StrEnum):
     ASIN = "ASIN"
 
 
-class SBState(StrEnum):
+class SBState(SafeStrEnum):
     """The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
 
     | State | Description |
@@ -179,7 +179,7 @@ class SBState(StrEnum):
     PAUSED = "PAUSED"
 
 
-class SBUpdateState(StrEnum):
+class SBUpdateState(SafeStrEnum):
     """The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
 
     | UpdateState | Description |

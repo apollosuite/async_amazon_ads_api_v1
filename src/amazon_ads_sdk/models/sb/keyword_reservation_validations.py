@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 class SBCreateKeywordReservationValidationRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     keywordReservationValidations: list[SBKeywordReservationValidationCreate] | None = None
 
@@ -21,7 +21,7 @@ class SBCreateKeywordReservationValidationRequest(BaseModel):
 class SBKeywordReservationValidation(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     isReservable: bool  # Whether the keyword can be reserved or not.
     keyword: str  # Keyword to be validated.
@@ -34,7 +34,7 @@ class SBKeywordReservationValidation(BaseModel):
 class SBKeywordReservationValidationCreate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     keyword: str  # Keyword to be validated.
 
@@ -42,7 +42,7 @@ class SBKeywordReservationValidationCreate(BaseModel):
 class SBKeywordReservationValidationMultiStatusResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     error: list[ErrorsIndex] | None = None
     success: list[SBKeywordReservationValidationMultiStatusSuccess] | None = None
@@ -51,7 +51,7 @@ class SBKeywordReservationValidationMultiStatusResponse(BaseModel):
 class SBKeywordReservationValidationMultiStatusSuccess(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     index: int
     keywordReservationValidation: SBKeywordReservationValidation

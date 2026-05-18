@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
-from enum import StrEnum
+from amazon_ads_sdk.models.base import SafeStrEnum
 
 if TYPE_CHECKING:
     from amazon_ads_sdk.errors import ErrorsIndex
@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 class SBAdExtension(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adExtensionId: str  # A unique identifier for the ad_extension.
     adExtensionSettings: SBAdExtensionSettings
@@ -46,7 +46,7 @@ class SBAdExtension(BaseModel):
 class SBAdExtensionAdExtensionIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
 
@@ -54,7 +54,7 @@ class SBAdExtensionAdExtensionIdFilter(BaseModel):
 class SBAdExtensionAdExtensionStatusFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[
         SBAdExtensionStatus
@@ -64,7 +64,7 @@ class SBAdExtensionAdExtensionStatusFilter(BaseModel):
 class SBAdExtensionAdExtensionTypeFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[
         SBAdExtensionType
@@ -74,7 +74,7 @@ class SBAdExtensionAdExtensionTypeFilter(BaseModel):
 class SBAdExtensionAdGroupIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
 
@@ -82,7 +82,7 @@ class SBAdExtensionAdGroupIdFilter(BaseModel):
 class SBAdExtensionAdIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
 
@@ -90,7 +90,7 @@ class SBAdExtensionAdIdFilter(BaseModel):
 class SBAdExtensionAdProductFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[
         SBAdProduct
@@ -100,7 +100,7 @@ class SBAdExtensionAdProductFilter(BaseModel):
 class SBAdExtensionCreate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adExtensionSettings: SBCreateAdExtensionSettings
     adExtensionStatus: SBAdExtensionStatus | None = None
@@ -120,7 +120,7 @@ class SBAdExtensionCreate(BaseModel):
 class SBAdExtensionMultiStatusResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     error: list[ErrorsIndex] | None = None
     success: list[SBAdExtensionMultiStatusSuccess] | None = None
@@ -129,7 +129,7 @@ class SBAdExtensionMultiStatusResponse(BaseModel):
 class SBAdExtensionMultiStatusSuccess(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adExtension: SBAdExtension
     index: int
@@ -138,7 +138,7 @@ class SBAdExtensionMultiStatusSuccess(BaseModel):
 class SBAdExtensionSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     promptExtension: SBPromptExtension | None = None
 
@@ -146,14 +146,14 @@ class SBAdExtensionSettings(BaseModel):
 class SBAdExtensionStateFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[
         SBState
     ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
-class SBAdExtensionStatus(StrEnum):
+class SBAdExtensionStatus(SafeStrEnum):
     """Ad Extension Status.
 
     | AdExtensionStatus | Description |
@@ -167,13 +167,13 @@ class SBAdExtensionStatus(StrEnum):
 class SBAdExtensionSuccessResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adExtensions: list[SBAdExtension] | None = None
     nextToken: str | None = None
 
 
-class SBAdExtensionType(StrEnum):
+class SBAdExtensionType(SafeStrEnum):
     """Ad Extension Type.
 
     | AdExtensionType | Description |
@@ -187,7 +187,7 @@ class SBAdExtensionType(StrEnum):
 class SBAdExtensionUpdate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adExtensionId: str  # A unique identifier for the ad_extension.
     state: SBUpdateState | None = None
@@ -196,7 +196,7 @@ class SBAdExtensionUpdate(BaseModel):
 class SBCreateAdExtensionRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adExtensions: list[SBAdExtensionCreate] | None = None
 
@@ -204,7 +204,7 @@ class SBCreateAdExtensionRequest(BaseModel):
 class SBCreateAdExtensionSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     promptExtension: SBCreatePromptExtension | None = None
 
@@ -212,7 +212,7 @@ class SBCreateAdExtensionSettings(BaseModel):
 class SBCreatePromptExtension(BaseModel):
     """Prompts Ad Extension"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     promptText: str  # The prompt text rendered in the ads
 
@@ -220,7 +220,7 @@ class SBCreatePromptExtension(BaseModel):
 class SBPromptExtension(BaseModel):
     """Prompts Ad Extension"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     promptText: str  # The prompt text rendered in the ads
 
@@ -228,7 +228,7 @@ class SBPromptExtension(BaseModel):
 class SBQueryAdExtensionRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adExtensionIdFilter: SBAdExtensionAdExtensionIdFilter | None = None
     adExtensionStatusFilter: SBAdExtensionAdExtensionStatusFilter | None = None
@@ -244,6 +244,6 @@ class SBQueryAdExtensionRequest(BaseModel):
 class SBUpdateAdExtensionRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adExtensions: list[SBAdExtensionUpdate] | None = None

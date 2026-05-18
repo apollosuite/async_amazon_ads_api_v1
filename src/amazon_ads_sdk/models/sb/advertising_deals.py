@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
-from enum import StrEnum
+from amazon_ads_sdk.models.base import SafeStrEnum
 
 if TYPE_CHECKING:
     from amazon_ads_sdk.errors import ErrorsIndex
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 class SBAdvertisingDeal(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     advertisingDealId: str  # A unique identifier for a deal.
     endDateTime: datetime  # The end date time for the deal.
@@ -34,7 +34,7 @@ class SBAdvertisingDeal(BaseModel):
 class SBAdvertisingDealAdvertisingDealIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
 
@@ -42,7 +42,7 @@ class SBAdvertisingDealAdvertisingDealIdFilter(BaseModel):
 class SBAdvertisingDealCreate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     endDateTime: datetime  # The end date time for the deal.
     name: str  # The name of the deal.
@@ -57,7 +57,7 @@ class SBAdvertisingDealCreate(BaseModel):
 class SBAdvertisingDealMultiStatusResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     error: list[ErrorsIndex] | None = None
     success: list[SBAdvertisingDealMultiStatusSuccess] | None = None
@@ -66,7 +66,7 @@ class SBAdvertisingDealMultiStatusResponse(BaseModel):
 class SBAdvertisingDealMultiStatusSuccess(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     advertisingDeal: SBAdvertisingDeal
     index: int
@@ -75,13 +75,13 @@ class SBAdvertisingDealMultiStatusSuccess(BaseModel):
 class SBAdvertisingDealNameFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
     queryTermMatchType: SBAdvertisingDealNameFilterType
 
 
-class SBAdvertisingDealNameFilterType(StrEnum):
+class SBAdvertisingDealNameFilterType(SafeStrEnum):
     """| AdvertisingDealNameFilterType | Description |
     |------|------|
     | `BROAD_MATCH` | Filter by broad match. |
@@ -92,7 +92,7 @@ class SBAdvertisingDealNameFilterType(StrEnum):
     EXACT_MATCH = "EXACT_MATCH"
 
 
-class SBAdvertisingDealState(StrEnum):
+class SBAdvertisingDealState(SafeStrEnum):
     """| AdvertisingDealState | Description |
     |------|------|
     | `DRAFT` |  |
@@ -106,12 +106,12 @@ class SBAdvertisingDealState(StrEnum):
 class SBAdvertisingDealStatus(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     status: SBAdvertisingDealStatusEnum
 
 
-class SBAdvertisingDealStatusEnum(StrEnum):
+class SBAdvertisingDealStatusEnum(SafeStrEnum):
     """| AdvertisingDealStatusEnum | Description |
     |------|------|
     | `DRAFT` | The deal has not been submitted yet. |
@@ -127,7 +127,7 @@ class SBAdvertisingDealStatusEnum(StrEnum):
 class SBAdvertisingDealSuccessResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     advertisingDeals: list[SBAdvertisingDeal] | None = None
     nextToken: str | None = None
@@ -136,7 +136,7 @@ class SBAdvertisingDealSuccessResponse(BaseModel):
 class SBAdvertisingDealUpdate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     advertisingDealId: str  # A unique identifier for a deal.
     endDateTime: datetime | None = None  # The end date time for the deal.
@@ -152,7 +152,7 @@ class SBAdvertisingDealUpdate(BaseModel):
 class SBCreateAdvertisingDealPrice(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     priceType: SBAdvertisingDealPriceType
     value: float  # The monetary amount of the price in the given currency.
@@ -161,7 +161,7 @@ class SBCreateAdvertisingDealPrice(BaseModel):
 class SBCreateAdvertisingDealRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     advertisingDeals: list[SBAdvertisingDealCreate] | None = None
 
@@ -169,7 +169,7 @@ class SBCreateAdvertisingDealRequest(BaseModel):
 class SBDeleteAdvertisingDealRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     advertisingDealIds: list[str] | None = None
 
@@ -177,7 +177,7 @@ class SBDeleteAdvertisingDealRequest(BaseModel):
 class SBQueryAdvertisingDealRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     advertisingDealIdFilter: SBAdvertisingDealAdvertisingDealIdFilter | None = None
     maxResults: int | None = None
@@ -188,7 +188,7 @@ class SBQueryAdvertisingDealRequest(BaseModel):
 class SBUpdateAdvertisingDealPrice(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     priceType: SBAdvertisingDealPriceType | None = None
     value: float | None = None  # The monetary amount of the price in the given currency.
@@ -197,6 +197,6 @@ class SBUpdateAdvertisingDealPrice(BaseModel):
 class SBUpdateAdvertisingDealRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     advertisingDeals: list[SBAdvertisingDealUpdate] | None = None

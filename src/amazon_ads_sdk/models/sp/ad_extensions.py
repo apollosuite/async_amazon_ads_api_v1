@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
-from enum import StrEnum
+from amazon_ads_sdk.models.base import SafeStrEnum
 
 if TYPE_CHECKING:
     from amazon_ads_sdk.errors import ErrorsIndex
@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 class SPAdExtension(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adExtensionId: str  # A unique identifier for the ad_extension.
     adExtensionSettings: SPAdExtensionSettings
@@ -48,7 +48,7 @@ class SPAdExtension(BaseModel):
 class SPAdExtensionAdExtensionIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
 
@@ -56,7 +56,7 @@ class SPAdExtensionAdExtensionIdFilter(BaseModel):
 class SPAdExtensionAdExtensionStatusFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[
         SPAdExtensionStatus
@@ -66,7 +66,7 @@ class SPAdExtensionAdExtensionStatusFilter(BaseModel):
 class SPAdExtensionAdExtensionTypeFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[
         SPAdExtensionType
@@ -76,7 +76,7 @@ class SPAdExtensionAdExtensionTypeFilter(BaseModel):
 class SPAdExtensionAdGroupIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
 
@@ -84,7 +84,7 @@ class SPAdExtensionAdGroupIdFilter(BaseModel):
 class SPAdExtensionAdIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
 
@@ -92,7 +92,7 @@ class SPAdExtensionAdIdFilter(BaseModel):
 class SPAdExtensionAdProductFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[
         SPAdProduct
@@ -102,7 +102,7 @@ class SPAdExtensionAdProductFilter(BaseModel):
 class SPAdExtensionCreate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adExtensionSettings: SPCreateAdExtensionSettings
     adExtensionStatus: SPAdExtensionStatus | None = None
@@ -122,7 +122,7 @@ class SPAdExtensionCreate(BaseModel):
 class SPAdExtensionMultiStatusResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     error: list[ErrorsIndex] | None = None
     success: list[SPAdExtensionMultiStatusSuccess] | None = None
@@ -131,7 +131,7 @@ class SPAdExtensionMultiStatusResponse(BaseModel):
 class SPAdExtensionMultiStatusSuccess(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adExtension: SPAdExtension
     index: int
@@ -140,7 +140,7 @@ class SPAdExtensionMultiStatusSuccess(BaseModel):
 class SPAdExtensionSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     promptExtension: SPPromptExtension | None = None
     videoExtension: SPVideoExtension | None = None
@@ -149,14 +149,14 @@ class SPAdExtensionSettings(BaseModel):
 class SPAdExtensionStateFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[
         SPState
     ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
-class SPAdExtensionStatus(StrEnum):
+class SPAdExtensionStatus(SafeStrEnum):
     """Ad Extension Status.
 
     | AdExtensionStatus | Description |
@@ -170,13 +170,13 @@ class SPAdExtensionStatus(StrEnum):
 class SPAdExtensionSuccessResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adExtensions: list[SPAdExtension] | None = None
     nextToken: str | None = None
 
 
-class SPAdExtensionType(StrEnum):
+class SPAdExtensionType(SafeStrEnum):
     """Ad Extension Type.
 
     | AdExtensionType | Description |
@@ -192,7 +192,7 @@ class SPAdExtensionType(StrEnum):
 class SPAdExtensionUpdate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adExtensionId: str  # A unique identifier for the ad_extension.
     state: SPUpdateState | None = None
@@ -201,7 +201,7 @@ class SPAdExtensionUpdate(BaseModel):
 class SPCreateAdExtensionRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adExtensions: list[SPAdExtensionCreate] | None = None
 
@@ -209,7 +209,7 @@ class SPCreateAdExtensionRequest(BaseModel):
 class SPCreateAdExtensionSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     promptExtension: SPCreatePromptExtension | None = None
     videoExtension: SPCreateVideoExtension | None = None
@@ -218,7 +218,7 @@ class SPCreateAdExtensionSettings(BaseModel):
 class SPCreatePromptExtension(BaseModel):
     """Prompts Ad Extension"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     promptText: str  # The prompt text rendered in the ads
 
@@ -226,13 +226,13 @@ class SPCreatePromptExtension(BaseModel):
 class SPCreateVideoExtension(BaseModel):
     """Video Ad Extension"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
 
 class SPPromptExtension(BaseModel):
     """Prompts Ad Extension"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     promptText: str  # The prompt text rendered in the ads
 
@@ -240,7 +240,7 @@ class SPPromptExtension(BaseModel):
 class SPQueryAdExtensionRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adExtensionIdFilter: SPAdExtensionAdExtensionIdFilter | None = None
     adExtensionStatusFilter: SPAdExtensionAdExtensionStatusFilter | None = None
@@ -256,7 +256,7 @@ class SPQueryAdExtensionRequest(BaseModel):
 class SPUpdateAdExtensionRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adExtensions: list[SPAdExtensionUpdate] | None = None
 
@@ -264,7 +264,7 @@ class SPUpdateAdExtensionRequest(BaseModel):
 class SPVideoExtension(BaseModel):
     """Video Ad Extension"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     renderedAssetId: str | None = None  # The video asset ID rendered in the ad.
     renderedCoverImageUrl: str | None = (
@@ -273,7 +273,7 @@ class SPVideoExtension(BaseModel):
     videoType: SPVideoType
 
 
-class SPVideoType(StrEnum):
+class SPVideoType(SafeStrEnum):
     """Video Type: Video type of the asset added in the ad extension and its rendering form.
 
     | VideoType | Description |

@@ -3,14 +3,17 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 import random
 from dataclasses import dataclass
 from typing import Any, TypeVar
 
 import httpx
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from .config import AmazonAdsConfig
+
+logger = logging.getLogger(__name__)
 
 _T = TypeVar("_T", bound=BaseModel)
 
@@ -47,7 +50,16 @@ class ClientContext:
         return self._client
 
     def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
-        return model_cls.model_validate_json(resp.content)
+        try:
+            return model_cls.model_validate_json(resp.content)
+        except ValidationError:
+            logger.warning(
+                "Failed to validate response for %s (status=%s): %s",
+                model_cls.__name__,
+                resp.status_code,
+                resp.text,
+            )
+            raise
 
 
 @dataclass

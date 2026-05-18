@@ -4,10 +4,10 @@ from __future__ import annotations
 
 
 from pydantic import BaseModel, ConfigDict
-from enum import StrEnum
+from amazon_ads_sdk.models.base import SafeStrEnum
 
 
-class SDDeliveryReason(StrEnum):
+class SDDeliveryReason(SafeStrEnum):
     """| DeliveryReason | Description |
     |------|------|
     | `ADVERTISER_ARCHIVED` |  |
@@ -72,7 +72,7 @@ class SDDeliveryReason(StrEnum):
     STATUS_UNAVAILABLE = "STATUS_UNAVAILABLE"
 
 
-class SDDeliveryStatus(StrEnum):
+class SDDeliveryStatus(SafeStrEnum):
     """| DeliveryStatus | Description |
     |------|------|
     | `DELIVERING` | Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces |
@@ -88,7 +88,7 @@ class SDDeliveryStatus(StrEnum):
 class SDStatus(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     deliveryReasons: list[SDDeliveryReason] | None = (
         None  # This is the list of reasons behind the delivery status.

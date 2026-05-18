@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
-from enum import StrEnum
+from amazon_ads_sdk.models.base import SafeStrEnum
 
 if TYPE_CHECKING:
     from amazon_ads_sdk.errors import ErrorsIndex
@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 class SPAdGroup(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adGroupId: str  # The unique identifier of the ad group.
     adProduct: SPAdProduct
@@ -52,7 +52,7 @@ class SPAdGroup(BaseModel):
 class SPAdGroupAdGroupIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
 
@@ -60,7 +60,7 @@ class SPAdGroupAdGroupIdFilter(BaseModel):
 class SPAdGroupAdProductFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[
         SPAdProduct
@@ -70,7 +70,7 @@ class SPAdGroupAdProductFilter(BaseModel):
 class SPAdGroupBid(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     currencyCode: SPCurrencyCode
     defaultBid: float  # The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.
@@ -79,7 +79,7 @@ class SPAdGroupBid(BaseModel):
 class SPAdGroupCampaignIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
 
@@ -87,7 +87,7 @@ class SPAdGroupCampaignIdFilter(BaseModel):
 class SPAdGroupCreate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adProduct: SPAdProduct
     adSettings: SPCreateAdSettings | None = None
@@ -103,7 +103,7 @@ class SPAdGroupCreate(BaseModel):
 class SPAdGroupMultiStatusResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     error: list[ErrorsIndex] | None = None
     success: list[SPAdGroupMultiStatusSuccess] | None = None
@@ -112,7 +112,7 @@ class SPAdGroupMultiStatusResponse(BaseModel):
 class SPAdGroupMultiStatusSuccess(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adGroup: SPAdGroup
     index: int
@@ -121,13 +121,13 @@ class SPAdGroupMultiStatusSuccess(BaseModel):
 class SPAdGroupNameFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
     queryTermMatchType: SPAdGroupNameFilterType
 
 
-class SPAdGroupNameFilterType(StrEnum):
+class SPAdGroupNameFilterType(SafeStrEnum):
     """| AdGroupNameFilterType | Description |
     | --- | --- |
     | `EXACT_MATCH` | Filter by exact match. |
@@ -140,7 +140,7 @@ class SPAdGroupNameFilterType(StrEnum):
 class SPAdGroupStateFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[
         SPState
@@ -150,7 +150,7 @@ class SPAdGroupStateFilter(BaseModel):
 class SPAdGroupSuccessResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adGroups: list[SPAdGroup] | None = None
     nextToken: str | None = None
@@ -159,7 +159,7 @@ class SPAdGroupSuccessResponse(BaseModel):
 class SPAdGroupUpdate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adGroupId: str  # The unique identifier of the ad group.
     adSettings: SPUpdateAdSettings | None = None
@@ -174,7 +174,7 @@ class SPAdGroupUpdate(BaseModel):
 class SPAdSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productAttributeSetRefinementConfigurationId: str | None = (
         None  # Identifier for the product attribute configuration set associated with this ad group.
@@ -184,7 +184,7 @@ class SPAdSettings(BaseModel):
 class SPCreateAdGroupBid(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     defaultBid: float  # The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.
 
@@ -192,7 +192,7 @@ class SPCreateAdGroupBid(BaseModel):
 class SPCreateAdGroupRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adGroups: list[SPAdGroupCreate] | None = None
 
@@ -200,7 +200,7 @@ class SPCreateAdGroupRequest(BaseModel):
 class SPCreateAdSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productAttributeSetRefinementConfigurationId: str | None = (
         None  # Identifier for the product attribute configuration set associated with this ad group.
@@ -210,7 +210,7 @@ class SPCreateAdSettings(BaseModel):
 class SPDeleteAdGroupRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adGroupIds: list[str] | None = None
 
@@ -218,7 +218,7 @@ class SPDeleteAdGroupRequest(BaseModel):
 class SPQueryAdGroupRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adGroupIdFilter: SPAdGroupAdGroupIdFilter | None = None
     adProductFilter: SPAdGroupAdProductFilter
@@ -232,7 +232,7 @@ class SPQueryAdGroupRequest(BaseModel):
 class SPUpdateAdGroupBid(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     defaultBid: float | None = (
         None  # The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.
@@ -242,7 +242,7 @@ class SPUpdateAdGroupBid(BaseModel):
 class SPUpdateAdGroupRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adGroups: list[SPAdGroupUpdate] | None = None
 
@@ -250,7 +250,7 @@ class SPUpdateAdGroupRequest(BaseModel):
 class SPUpdateAdSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productAttributeSetRefinementConfigurationId: str | None = (
         None  # Identifier for the product attribute configuration set associated with this ad group.

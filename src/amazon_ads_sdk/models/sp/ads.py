@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
-from enum import StrEnum
+from amazon_ads_sdk.models.base import SafeStrEnum
 
 if TYPE_CHECKING:
     from amazon_ads_sdk.errors import ErrorsIndex
@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 class SPAd(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adGroupId: str  # The ad group associated with the ad.
     adId: str  # The identifier of the ad.
@@ -48,7 +48,7 @@ class SPAd(BaseModel):
 class SPAdAdGroupIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
 
@@ -56,7 +56,7 @@ class SPAdAdGroupIdFilter(BaseModel):
 class SPAdAdIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
 
@@ -64,7 +64,7 @@ class SPAdAdIdFilter(BaseModel):
 class SPAdAdProductFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[
         SPAdProduct
@@ -74,7 +74,7 @@ class SPAdAdProductFilter(BaseModel):
 class SPAdCampaignIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
 
@@ -82,7 +82,7 @@ class SPAdCampaignIdFilter(BaseModel):
 class SPAdCreate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adGroupId: str  # The ad group associated with the ad.
     adProduct: SPAdProduct
@@ -97,7 +97,7 @@ class SPAdCreate(BaseModel):
 class SPAdMultiStatusResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     error: list[ErrorsIndex] | None = None
     success: list[SPAdMultiStatusSuccess] | None = None
@@ -106,7 +106,7 @@ class SPAdMultiStatusResponse(BaseModel):
 class SPAdMultiStatusSuccess(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     ad: SPAd
     index: int
@@ -115,7 +115,7 @@ class SPAdMultiStatusSuccess(BaseModel):
 class SPAdStateFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[
         SPState
@@ -125,13 +125,13 @@ class SPAdStateFilter(BaseModel):
 class SPAdSuccessResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     ads: list[SPAd] | None = None
     nextToken: str | None = None
 
 
-class SPAdType(StrEnum):
+class SPAdType(SafeStrEnum):
     """| AdType | Description |
     |------|------|
     | `PRODUCT_AD` | A creative built based on a specified product. |
@@ -143,7 +143,7 @@ class SPAdType(StrEnum):
 class SPAdUpdate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adId: str  # The identifier of the ad.
     creative: SPUpdateCreative | None = None
@@ -156,7 +156,7 @@ class SPAdUpdate(BaseModel):
 class SPAdvertisedProducts(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     globalStoreSetting: SPGlobalStoreSettings | None = None
     productId: str  # The identifier of the advertised product.
@@ -170,7 +170,7 @@ class SPAdvertisedProducts(BaseModel):
 class SPCreateAdRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     ads: list[SPAdCreate] | None = None
 
@@ -178,7 +178,7 @@ class SPCreateAdRequest(BaseModel):
 class SPCreateAdvertisedProducts(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     globalStoreSetting: SPCreateGlobalStoreSettings | None = None
     productId: str  # The identifier of the advertised product.
@@ -188,7 +188,7 @@ class SPCreateAdvertisedProducts(BaseModel):
 class SPCreateCreative(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productCreative: SPCreateProductCreative | None = None
 
@@ -196,7 +196,7 @@ class SPCreateCreative(BaseModel):
 class SPCreateGlobalStoreSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     catalogSourceMarketplace: SPMarketplace | None = None
 
@@ -204,7 +204,7 @@ class SPCreateGlobalStoreSettings(BaseModel):
 class SPCreateProductCreative(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productCreativeSettings: SPCreateProductCreativeSettings
 
@@ -212,7 +212,7 @@ class SPCreateProductCreative(BaseModel):
 class SPCreateProductCreativeSettings(BaseModel):
     """An ad with a creative built based on the product being advertised."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     advertisedProduct: SPCreateAdvertisedProducts
     headline: str | None = None  # The headline/custom text associated with the ad creative.
@@ -222,7 +222,7 @@ class SPCreateProductCreativeSettings(BaseModel):
 class SPCreateSpotlightVideoSettings(BaseModel):
     """An ad with a creative built with spotlight videos."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     optimizeText: (
         bool  # If the advertiser wants text they provided to be optimized by Amazon or not.
@@ -233,7 +233,7 @@ class SPCreateSpotlightVideoSettings(BaseModel):
 class SPCreateVideo(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     assetId: str  # The asset library ID associated with the video asset.
     assetVersion: str  # The asset library version associated with the video asset.
@@ -244,7 +244,7 @@ class SPCreateVideo(BaseModel):
 class SPCreative(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productCreative: SPProductCreative | None = None
 
@@ -252,7 +252,7 @@ class SPCreative(BaseModel):
 class SPDeleteAdRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adIds: list[str] | None = None
 
@@ -260,7 +260,7 @@ class SPDeleteAdRequest(BaseModel):
 class SPGlobalStoreSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     catalogSourceMarketplace: SPMarketplace | None = None
 
@@ -268,7 +268,7 @@ class SPGlobalStoreSettings(BaseModel):
 class SPProductCreative(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productCreativeSettings: SPProductCreativeSettings
 
@@ -276,7 +276,7 @@ class SPProductCreative(BaseModel):
 class SPProductCreativeSettings(BaseModel):
     """An ad with a creative built based on the product being advertised."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     advertisedProduct: SPAdvertisedProducts
     headline: str | None = None  # The headline/custom text associated with the ad creative.
@@ -286,7 +286,7 @@ class SPProductCreativeSettings(BaseModel):
 class SPQueryAdRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adGroupIdFilter: SPAdAdGroupIdFilter | None = None
     adIdFilter: SPAdAdIdFilter | None = None
@@ -300,7 +300,7 @@ class SPQueryAdRequest(BaseModel):
 class SPSpotlightVideoSettings(BaseModel):
     """An ad with a creative built with spotlight videos."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     optimizeText: (
         bool  # If the advertiser wants text they provided to be optimized by Amazon or not.
@@ -311,7 +311,7 @@ class SPSpotlightVideoSettings(BaseModel):
 class SPUpdateAdRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     ads: list[SPAdUpdate] | None = None
 
@@ -319,7 +319,7 @@ class SPUpdateAdRequest(BaseModel):
 class SPUpdateCreative(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productCreative: SPUpdateProductCreative | None = None
 
@@ -327,7 +327,7 @@ class SPUpdateCreative(BaseModel):
 class SPUpdateProductCreative(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productCreativeSettings: SPUpdateProductCreativeSettings | None = None
 
@@ -335,7 +335,7 @@ class SPUpdateProductCreative(BaseModel):
 class SPUpdateProductCreativeSettings(BaseModel):
     """An ad with a creative built based on the product being advertised."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     spotlightVideos: SPUpdateSpotlightVideoSettings | None = None
 
@@ -343,7 +343,7 @@ class SPUpdateProductCreativeSettings(BaseModel):
 class SPUpdateSpotlightVideoSettings(BaseModel):
     """An ad with a creative built with spotlight videos."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     optimizeText: bool | None = (
         None  # If the advertiser wants text they provided to be optimized by Amazon or not.
@@ -356,7 +356,7 @@ class SPUpdateSpotlightVideoSettings(BaseModel):
 class SPVideo(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     assetId: str  # The asset library ID associated with the video asset.
     assetVersion: str  # The asset library version associated with the video asset.

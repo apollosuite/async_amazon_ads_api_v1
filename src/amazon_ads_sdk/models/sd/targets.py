@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
-from enum import StrEnum
+from amazon_ads_sdk.models.base import SafeStrEnum
 
 if TYPE_CHECKING:
     from amazon_ads_sdk.errors import ErrorsIndex
@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 class SDAudienceTarget(BaseModel):
     """Target based on a specified audience ID."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     audienceId: SDMarketplaceStringValue
 
@@ -32,7 +32,7 @@ class SDAudienceTarget(BaseModel):
 class SDContentCategoryTarget(BaseModel):
     """Target based on the category of content being viewed."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     contentCategoryId: str  # The content category being targeted.
 
@@ -40,7 +40,7 @@ class SDContentCategoryTarget(BaseModel):
 class SDCreateAudienceTarget(BaseModel):
     """Target based on a specified audience ID."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     audienceId: SDCreateMarketplaceStringValue
 
@@ -48,7 +48,7 @@ class SDCreateAudienceTarget(BaseModel):
 class SDCreateContentCategoryTarget(BaseModel):
     """Target based on the category of content being viewed."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     contentCategoryId: str  # The content category being targeted.
 
@@ -56,7 +56,7 @@ class SDCreateContentCategoryTarget(BaseModel):
 class SDCreateKeywordTarget(BaseModel):
     """Targets a specific customer search term."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     keyword: str  # The customer search term or text to target
     matchType: SDKeywordMatchType
@@ -69,7 +69,7 @@ class SDCreateKeywordTarget(BaseModel):
 class SDCreateLocationTarget(BaseModel):
     """Target based on geographic location."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     locationId: str  # The ID of the geographic location to target.
     locationIdResolved: str | None = None  # A human-readable location text. It's a read-only field.
@@ -78,7 +78,7 @@ class SDCreateLocationTarget(BaseModel):
 class SDCreateMarketplaceStringValue(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     defaultValue: str | None = (
         None  # The default value. Either the default value or the marketplace settings should always be specified
@@ -88,7 +88,7 @@ class SDCreateMarketplaceStringValue(BaseModel):
 class SDCreateProductAudienceTarget(BaseModel):
     """Target customers who have viewed or purchased a certain product within a specified lookback window."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     asin: SDCreateMarketplaceStringValue
     event: SDTargetEvent
@@ -99,7 +99,7 @@ class SDCreateProductAudienceTarget(BaseModel):
 class SDCreateProductCategoryRefinement(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productAgeRangeId: str | None = None  # The age range ID to target.
     productAgeRangeIdResolved: str | None = None  # The resolved age range to target.
@@ -127,7 +127,7 @@ class SDCreateProductCategoryRefinement(BaseModel):
 class SDCreateProductCategoryRefinementValue(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productCategoryRefinement: SDCreateProductCategoryRefinement | None = None
 
@@ -135,7 +135,7 @@ class SDCreateProductCategoryRefinementValue(BaseModel):
 class SDCreateProductCategoryTarget(BaseModel):
     """Targets a specific customer search term."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productCategoryRefinement: SDCreateProductCategoryRefinementValue
 
@@ -143,7 +143,7 @@ class SDCreateProductCategoryTarget(BaseModel):
 class SDCreateProductTarget(BaseModel):
     """Targets a specific product."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     matchType: SDProductMatchType
     product: SDCreateProductValue
@@ -153,7 +153,7 @@ class SDCreateProductTarget(BaseModel):
 class SDCreateProductValue(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productId: str | None = (
         None  # The product identifier. Either the product id or the marketplace settings should always be specified
@@ -163,7 +163,7 @@ class SDCreateProductValue(BaseModel):
 class SDCreateTargetBid(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     bid: float | None = None  # The maximum bid for a target.
 
@@ -171,7 +171,7 @@ class SDCreateTargetBid(BaseModel):
 class SDCreateTargetDetails(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     keywordTarget: SDCreateKeywordTarget | None = None
     productTarget: SDCreateProductTarget | None = None
@@ -186,7 +186,7 @@ class SDCreateTargetDetails(BaseModel):
 class SDCreateTargetRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     targets: list[SDTargetCreate] | None = None
 
@@ -194,7 +194,7 @@ class SDCreateTargetRequest(BaseModel):
 class SDCreateThemeTarget(BaseModel):
     """Theme targets let advertisers select high-performing targets based on a common theme."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     matchType: SDThemeMatchType
 
@@ -202,12 +202,12 @@ class SDCreateThemeTarget(BaseModel):
 class SDDeleteTargetRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     targetIds: list[str] | None = None
 
 
-class SDKeywordMatchType(StrEnum):
+class SDKeywordMatchType(SafeStrEnum):
     """| KeywordMatchType | Description |
     |------|------|
     | `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE. |
@@ -223,7 +223,7 @@ class SDKeywordMatchType(StrEnum):
 class SDKeywordTarget(BaseModel):
     """Targets a specific customer search term."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     keyword: str  # The customer search term or text to target
     matchType: SDKeywordMatchType
@@ -233,7 +233,7 @@ class SDKeywordTarget(BaseModel):
     nativeLanguageLocale: SDLanguageLocale | None = None
 
 
-class SDLanguageLocale(StrEnum):
+class SDLanguageLocale(SafeStrEnum):
     """A combination of ISO-639 standard for language code and ISO-3166 for country code.
 
     | LanguageLocale | Description |
@@ -247,13 +247,13 @@ class SDLanguageLocale(StrEnum):
 class SDLocationTarget(BaseModel):
     """Target based on geographic location."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     locationId: str  # The ID of the geographic location to target.
     locationIdResolved: str | None = None  # A human-readable location text. It's a read-only field.
 
 
-class SDLookback(StrEnum):
+class SDLookback(SafeStrEnum):
     """| Lookback | Description |
     |------|------|
     | `DAYS_14` | Two week lookback period. |
@@ -277,14 +277,14 @@ class SDLookback(StrEnum):
 class SDMarketplaceStringValue(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     defaultValue: str | None = (
         None  # The default value. Either the default value or the marketplace settings should always be specified
     )
 
 
-class SDProductAudienceMatchType(StrEnum):
+class SDProductAudienceMatchType(SafeStrEnum):
     """| ProductAudienceMatchType | Description |
     |------|------|
     | `PRODUCT_EXACT` | Products exactly matching the specified product. |
@@ -298,7 +298,7 @@ class SDProductAudienceMatchType(StrEnum):
 class SDProductAudienceTarget(BaseModel):
     """Target customers who have viewed or purchased a certain product within a specified lookback window."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     asin: SDMarketplaceStringValue
     event: SDTargetEvent
@@ -309,7 +309,7 @@ class SDProductAudienceTarget(BaseModel):
 class SDProductCategoryRefinement(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productAgeRangeId: str | None = None  # The age range ID to target.
     productAgeRangeIdResolved: str | None = None  # The resolved age range to target.
@@ -337,7 +337,7 @@ class SDProductCategoryRefinement(BaseModel):
 class SDProductCategoryRefinementValue(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productCategoryRefinement: SDProductCategoryRefinement | None = None
 
@@ -345,12 +345,12 @@ class SDProductCategoryRefinementValue(BaseModel):
 class SDProductCategoryTarget(BaseModel):
     """Targets a specific customer search term."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productCategoryRefinement: SDProductCategoryRefinementValue
 
 
-class SDProductMatchType(StrEnum):
+class SDProductMatchType(SafeStrEnum):
     """| ProductMatchType | Description |
     |------|------|
     | `PRODUCT_EXACT` | Products exactly matching the specified product. |
@@ -364,7 +364,7 @@ class SDProductMatchType(StrEnum):
 class SDProductTarget(BaseModel):
     """Targets a specific product."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     matchType: SDProductMatchType
     product: SDProductValue
@@ -374,7 +374,7 @@ class SDProductTarget(BaseModel):
 class SDProductValue(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     productId: str | None = (
         None  # The product identifier. Either the product id or the marketplace settings should always be specified
@@ -384,7 +384,7 @@ class SDProductValue(BaseModel):
 class SDQueryTargetRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adGroupIdFilter: SDTargetAdGroupIdFilter | None = None
     adProductFilter: SDTargetAdProductFilter
@@ -398,7 +398,7 @@ class SDQueryTargetRequest(BaseModel):
 class SDTarget(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adGroupId: str | None = (
         None  # A unique identifier for the ad group associated with the target. Only used for ad-group level targets.
@@ -422,7 +422,7 @@ class SDTarget(BaseModel):
 class SDTargetAdGroupIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
 
@@ -430,7 +430,7 @@ class SDTargetAdGroupIdFilter(BaseModel):
 class SDTargetAdProductFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[
         SDAdProduct
@@ -440,7 +440,7 @@ class SDTargetAdProductFilter(BaseModel):
 class SDTargetBid(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     bid: float | None = None  # The maximum bid for a target.
     currencyCode: SDCurrencyCode
@@ -449,7 +449,7 @@ class SDTargetBid(BaseModel):
 class SDTargetCampaignIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
 
@@ -457,7 +457,7 @@ class SDTargetCampaignIdFilter(BaseModel):
 class SDTargetCreate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adGroupId: str | None = (
         None  # A unique identifier for the ad group associated with the target. Only used for ad-group level targets.
@@ -476,7 +476,7 @@ class SDTargetCreate(BaseModel):
 class SDTargetDetails(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     audienceTarget: SDAudienceTarget | None = None
     contentCategoryTarget: SDContentCategoryTarget | None = None
@@ -488,7 +488,7 @@ class SDTargetDetails(BaseModel):
     themeTarget: SDThemeTarget | None = None
 
 
-class SDTargetEvent(StrEnum):
+class SDTargetEvent(SafeStrEnum):
     """| TargetEvent | Description |
     |------|------|
     | `PURCHASE` | A product purchase event. |
@@ -499,7 +499,7 @@ class SDTargetEvent(StrEnum):
     VIEW = "VIEW"
 
 
-class SDTargetLevel(StrEnum):
+class SDTargetLevel(SafeStrEnum):
     """| TargetLevel | Description |
     |------|------|
     | `AD_GROUP` | Target applied at the ad group level. |
@@ -511,7 +511,7 @@ class SDTargetLevel(StrEnum):
 class SDTargetMultiStatusResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     error: list[ErrorsIndex] | None = None
     success: list[SDTargetMultiStatusSuccess] | None = None
@@ -520,7 +520,7 @@ class SDTargetMultiStatusResponse(BaseModel):
 class SDTargetMultiStatusSuccess(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     index: int
     target: SDTarget
@@ -529,7 +529,7 @@ class SDTargetMultiStatusSuccess(BaseModel):
 class SDTargetStateFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[
         SDState
@@ -539,7 +539,7 @@ class SDTargetStateFilter(BaseModel):
 class SDTargetSuccessResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     nextToken: str | None = None
     targets: list[SDTarget] | None = None
@@ -548,12 +548,12 @@ class SDTargetSuccessResponse(BaseModel):
 class SDTargetTargetIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     include: list[str]
 
 
-class SDTargetType(StrEnum):
+class SDTargetType(SafeStrEnum):
     """| TargetType | Description |
     |------|------|
     | `AUDIENCE` | Target based on an audience segment. |
@@ -579,14 +579,14 @@ class SDTargetType(StrEnum):
 class SDTargetUpdate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     bid: SDUpdateTargetBid | None = None
     state: SDUpdateState | None = None
     targetId: str  # A unique identifier for the target.
 
 
-class SDThemeMatchType(StrEnum):
+class SDThemeMatchType(SafeStrEnum):
     """| ThemeMatchType | Description |
     |------|------|
     | `INTERESTED_AUDIENCE` | Audiences that are likely interested in the advertised product or service. |
@@ -598,7 +598,7 @@ class SDThemeMatchType(StrEnum):
 class SDThemeTarget(BaseModel):
     """Theme targets let advertisers select high-performing targets based on a common theme."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     matchType: SDThemeMatchType
 
@@ -606,7 +606,7 @@ class SDThemeTarget(BaseModel):
 class SDUpdateTargetBid(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     bid: float | None = None  # The maximum bid for a target.
 
@@ -614,6 +614,6 @@ class SDUpdateTargetBid(BaseModel):
 class SDUpdateTargetRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     targets: list[SDTargetUpdate] | None = None
