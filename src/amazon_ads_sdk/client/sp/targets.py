@@ -21,7 +21,6 @@ class Targets(_ResourceBase):
         name="targets",
         create_model=SPTargetCreate,
         update_model=SPTargetUpdate,
-        query_model=SPQueryTargetRequest,
         delete_key="targetIds",
     )
 
@@ -31,7 +30,9 @@ class Targets(_ResourceBase):
         return await self._create(targets, self._spec, SPTargetSuccessResponse)
 
     async def query(self, body: dict[str, Any] | SPQueryTargetRequest) -> SPTargetSuccessResponse:
-        return await self._query(body, self._spec, SPTargetSuccessResponse)
+        if isinstance(body, dict):
+            body = SPQueryTargetRequest(**body)
+        return await self._query(body, "/adsApi/v1/query/targets", SPTargetSuccessResponse)
 
     async def update(
         self, targets: list[dict[str, Any] | SPTargetUpdate]

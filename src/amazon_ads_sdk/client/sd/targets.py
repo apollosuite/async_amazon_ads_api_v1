@@ -19,7 +19,6 @@ class Targets(_ResourceBase):
         name="targets",
         create_model=SDTargetCreate,
         update_model=SDTargetUpdate,
-        query_model=SDQueryTargetRequest,
         delete_key="targetIds",
     )
 
@@ -29,7 +28,9 @@ class Targets(_ResourceBase):
         return await self._create(targets, self._spec, SDTargetSuccessResponse)
 
     async def query(self, body: dict[str, Any] | SDQueryTargetRequest) -> SDTargetSuccessResponse:
-        return await self._query(body, self._spec, SDTargetSuccessResponse)
+        if isinstance(body, dict):
+            body = SDQueryTargetRequest(**body)
+        return await self._query(body, "/adsApi/v1/query/targets", SDTargetSuccessResponse)
 
     async def update(
         self, targets: list[dict[str, Any] | SDTargetUpdate]

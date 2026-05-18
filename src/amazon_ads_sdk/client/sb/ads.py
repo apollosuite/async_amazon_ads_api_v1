@@ -19,7 +19,6 @@ class Ads(_ResourceBase):
         name="ads",
         create_model=SBAdCreate,
         update_model=SBAdUpdate,
-        query_model=SBQueryAdRequest,
         delete_key="adIds",
     )
 
@@ -27,7 +26,9 @@ class Ads(_ResourceBase):
         return await self._create(ads, self._spec, SBAdSuccessResponse)
 
     async def query(self, body: dict[str, Any] | SBQueryAdRequest) -> SBAdSuccessResponse:
-        return await self._query(body, self._spec, SBAdSuccessResponse)
+        if isinstance(body, dict):
+            body = SBQueryAdRequest(**body)
+        return await self._query(body, "/adsApi/v1/query/ads", SBAdSuccessResponse)
 
     async def update(self, ads: list[dict[str, Any] | SBAdUpdate]) -> SBAdMultiStatusResponse:
         return await self._update(ads, self._spec, SBAdMultiStatusResponse)

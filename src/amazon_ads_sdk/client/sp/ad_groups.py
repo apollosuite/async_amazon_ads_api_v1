@@ -21,7 +21,6 @@ class AdGroups(_ResourceBase):
         name="adGroups",
         create_model=SPAdGroupCreate,
         update_model=SPAdGroupUpdate,
-        query_model=SPQueryAdGroupRequest,
         delete_key="adGroupIds",
     )
 
@@ -31,7 +30,9 @@ class AdGroups(_ResourceBase):
         return await self._create(ad_groups, self._spec, SPAdGroupSuccessResponse)
 
     async def query(self, body: dict[str, Any] | SPQueryAdGroupRequest) -> SPAdGroupSuccessResponse:
-        return await self._query(body, self._spec, SPAdGroupSuccessResponse)
+        if isinstance(body, dict):
+            body = SPQueryAdGroupRequest(**body)
+        return await self._query(body, "/adsApi/v1/query/adGroups", SPAdGroupSuccessResponse)
 
     async def update(
         self, ad_groups: list[dict[str, Any] | SPAdGroupUpdate]

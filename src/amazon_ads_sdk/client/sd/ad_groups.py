@@ -19,7 +19,6 @@ class AdGroups(_ResourceBase):
         name="adGroups",
         create_model=SDAdGroupCreate,
         update_model=SDAdGroupUpdate,
-        query_model=SDQueryAdGroupRequest,
         delete_key="adGroupIds",
     )
 
@@ -29,7 +28,9 @@ class AdGroups(_ResourceBase):
         return await self._create(ad_groups, self._spec, SDAdGroupSuccessResponse)
 
     async def query(self, body: dict[str, Any] | SDQueryAdGroupRequest) -> SDAdGroupSuccessResponse:
-        return await self._query(body, self._spec, SDAdGroupSuccessResponse)
+        if isinstance(body, dict):
+            body = SDQueryAdGroupRequest(**body)
+        return await self._query(body, "/adsApi/v1/query/adGroups", SDAdGroupSuccessResponse)
 
     async def update(
         self, ad_groups: list[dict[str, Any] | SDAdGroupUpdate]

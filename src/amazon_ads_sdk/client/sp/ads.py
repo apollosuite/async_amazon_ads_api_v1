@@ -21,7 +21,6 @@ class Ads(_ResourceBase):
         name="ads",
         create_model=SPAdCreate,
         update_model=SPAdUpdate,
-        query_model=SPQueryAdRequest,
         delete_key="adIds",
     )
 
@@ -29,7 +28,9 @@ class Ads(_ResourceBase):
         return await self._create(ads, self._spec, SPAdSuccessResponse)
 
     async def query(self, body: dict[str, Any] | SPQueryAdRequest) -> SPAdSuccessResponse:
-        return await self._query(body, self._spec, SPAdSuccessResponse)
+        if isinstance(body, dict):
+            body = SPQueryAdRequest(**body)
+        return await self._query(body, "/adsApi/v1/query/ads", SPAdSuccessResponse)
 
     async def update(self, ads: list[dict[str, Any] | SPAdUpdate]) -> SPAdMultiStatusResponse:
         return await self._update(ads, self._spec, SPAdMultiStatusResponse)

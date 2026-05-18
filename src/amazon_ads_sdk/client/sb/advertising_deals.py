@@ -19,7 +19,6 @@ class AdvertisingDeals(_ResourceBase):
         name="advertisingDeals",
         create_model=SBAdvertisingDealCreate,
         update_model=SBAdvertisingDealUpdate,
-        query_model=SBQueryAdvertisingDealRequest,
         delete_key="advertisingDealIds",
         path_suffix="/sb",
     )
@@ -32,7 +31,11 @@ class AdvertisingDeals(_ResourceBase):
     async def query(
         self, body: dict[str, Any] | SBQueryAdvertisingDealRequest
     ) -> SBAdvertisingDealSuccessResponse:
-        return await self._query(body, self._spec, SBAdvertisingDealSuccessResponse)
+        if isinstance(body, dict):
+            body = SBQueryAdvertisingDealRequest(**body)
+        return await self._query(
+            body, "/adsApi/v1/query/advertisingDeals/sb", SBAdvertisingDealSuccessResponse
+        )
 
     async def update(
         self, items: list[dict[str, Any] | SBAdvertisingDealUpdate]

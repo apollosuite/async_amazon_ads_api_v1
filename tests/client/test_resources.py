@@ -175,13 +175,20 @@ class TestResourceMethodRouting:
             result = await obj.create([{"name": "test"}])
             assert result is mock_result
 
-    @pytest.mark.parametrize("cls", [SPCampaigns, SBCampaigns, SDCampaigns])
+    @pytest.mark.parametrize(
+        "cls,body",
+        [
+            (SPCampaigns, {"adProductFilter": {"include": ["SPONSORED_PRODUCTS"]}}),
+            (SBCampaigns, {"adProductFilter": {"include": ["SPONSORED_BRANDS"]}}),
+            (SDCampaigns, {"adProductFilter": {"include": ["SPONSORED_DISPLAY"]}}),
+        ],
+    )
     @pytest.mark.asyncio
-    async def test_query_routing(self, cls: type, config: AmazonAdsConfig) -> None:
+    async def test_query_routing(self, cls: type, body: dict, config: AmazonAdsConfig) -> None:
         obj = cls(ClientContext(config))
         mock_result = MagicMock()
         with patch.object(obj, "_query", AsyncMock(return_value=mock_result)):
-            result = await obj.query({})
+            result = await obj.query(body)
             assert result is mock_result
 
     @pytest.mark.asyncio

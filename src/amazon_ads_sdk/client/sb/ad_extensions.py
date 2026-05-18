@@ -19,7 +19,6 @@ class AdExtensions(_ResourceBase):
         name="adExtensions",
         create_model=SBAdExtensionCreate,
         update_model=SBAdExtensionUpdate,
-        query_model=SBQueryAdExtensionRequest,
     )
 
     async def create(
@@ -30,7 +29,11 @@ class AdExtensions(_ResourceBase):
     async def query(
         self, body: dict[str, Any] | SBQueryAdExtensionRequest
     ) -> SBAdExtensionSuccessResponse:
-        return await self._query(body, self._spec, SBAdExtensionSuccessResponse)
+        if isinstance(body, dict):
+            body = SBQueryAdExtensionRequest(**body)
+        return await self._query(
+            body, "/adsApi/v1/query/adExtensions", SBAdExtensionSuccessResponse
+        )
 
     async def update(
         self, ad_extensions: list[dict[str, Any] | SBAdExtensionUpdate]

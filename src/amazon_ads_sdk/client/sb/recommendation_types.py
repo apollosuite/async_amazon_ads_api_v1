@@ -15,11 +15,14 @@ class RecommendationTypes(_ResourceBase):
     _spec = _ResourceSpec(
         name="recommendationTypes",
         create_model=SBRecommendationTypeSuccessResponse,
-        query_model=SBQueryRecommendationTypeRequest,
         path_suffix="/sb",
     )
 
     async def query(
         self, body: dict[str, Any] | SBQueryRecommendationTypeRequest
     ) -> SBRecommendationTypeSuccessResponse:
-        return await self._query(body, self._spec, SBRecommendationTypeSuccessResponse)
+        if isinstance(body, dict):
+            body = SBQueryRecommendationTypeRequest(**body)
+        return await self._query(
+            body, "/adsApi/v1/query/recommendationTypes/sb", SBRecommendationTypeSuccessResponse
+        )

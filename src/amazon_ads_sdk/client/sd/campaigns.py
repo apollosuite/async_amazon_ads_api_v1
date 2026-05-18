@@ -19,7 +19,6 @@ class Campaigns(_ResourceBase):
         name="campaigns",
         create_model=SDCampaignCreate,
         update_model=SDCampaignUpdate,
-        query_model=SDQueryCampaignRequest,
         delete_key="campaignIds",
     )
 
@@ -31,7 +30,9 @@ class Campaigns(_ResourceBase):
     async def query(
         self, body: dict[str, Any] | SDQueryCampaignRequest
     ) -> SDCampaignSuccessResponse:
-        return await self._query(body, self._spec, SDCampaignSuccessResponse)
+        if isinstance(body, dict):
+            body = SDQueryCampaignRequest(**body)
+        return await self._query(body, "/adsApi/v1/query/campaigns", SDCampaignSuccessResponse)
 
     async def update(
         self, campaigns: list[dict[str, Any] | SDCampaignUpdate]

@@ -21,7 +21,6 @@ class Campaigns(_ResourceBase):
         name="campaigns",
         create_model=SPCampaignCreate,
         update_model=SPCampaignUpdate,
-        query_model=SPQueryCampaignRequest,
         delete_key="campaignIds",
     )
 
@@ -33,7 +32,9 @@ class Campaigns(_ResourceBase):
     async def query(
         self, body: dict[str, Any] | SPQueryCampaignRequest
     ) -> SPCampaignSuccessResponse:
-        return await self._query(body, self._spec, SPCampaignSuccessResponse)
+        if isinstance(body, dict):
+            body = SPQueryCampaignRequest(**body)
+        return await self._query(body, "/adsApi/v1/query/campaigns", SPCampaignSuccessResponse)
 
     async def update(
         self, campaigns: list[dict[str, Any] | SPCampaignUpdate]
