@@ -5,6 +5,9 @@ from __future__ import annotations
 import sys
 import typing
 
+# Include shared error types for forward reference resolution
+import async_amazon_ads_api_v1.errors as _core_errors
+
 from .ad_extensions import *
 from .ad_groups import *
 from .ads import *
@@ -12,9 +15,6 @@ from .campaigns import *
 from .enums import *
 from .shared import *
 from .targets import *
-
-# Include shared error types for forward reference resolution
-import async_amazon_ads_api_v1.errors as _core_errors
 
 # Resolve cross-module forward references
 _ns: dict[str, typing.Any] = dict(sys.modules[__name__].__dict__)

@@ -44,9 +44,8 @@ ignore = ["E501"]
 
 [tool.ruff.lint.per-file-ignores]
 "src/async_amazon_ads_api_v1/errors.py" = ["N815"]
-"src/async_amazon_ads_api_v1/models/sp/*" = ["F403", "F821", "I001", "N815", "UP042"]
-"src/async_amazon_ads_api_v1/models/sb/*" = ["F403", "F821", "I001", "N815", "UP042"]
-"src/async_amazon_ads_api_v1/models/sd/*" = ["F403", "F821", "I001", "N815", "UP042"]
+"src/async_amazon_ads_api_v1/models/*" = ["F403", "N815"]
+
 
 [tool.mypy]
 python_version = "3.14"
