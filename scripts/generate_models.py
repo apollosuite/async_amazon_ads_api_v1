@@ -49,7 +49,7 @@ ENUMS_HEADER = '''"""Auto-generated Pydantic models for {product} from Amazon Ad
 
 from __future__ import annotations
 
-from amazon_ads_sdk.models.base import SafeStrEnum
+from enum import StrEnum
 '''
 
 SHARED_HEADER = '''"""shared models for {product}."""
@@ -113,7 +113,7 @@ def generate_enum(name: str, schema: dict) -> str:
     doc = schema.get("description", "")
     values = schema.get("enum", [])
     members = "\n    ".join(f'{v} = "{v}"' for v in values)
-    return f'''class {name}(SafeStrEnum):
+    return f'''class {name}(StrEnum):
     """{doc}"""
     {members}
 '''
@@ -135,7 +135,7 @@ def generate_model(name: str, schema: dict, schemas: dict | None = None) -> str:
         field_block = "\n".join(fields) if fields else "    pass"
         return f'''class {name}(BaseModel):
     """{doc}"""
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
 {field_block}
 '''
@@ -144,7 +144,7 @@ def generate_model(name: str, schema: dict, schemas: dict | None = None) -> str:
     if not props:
         return f'''class {name}(BaseModel):
     """{doc}"""
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 '''
     fields = []
     for fname, fschema in props.items():
@@ -159,7 +159,7 @@ def generate_model(name: str, schema: dict, schemas: dict | None = None) -> str:
     field_block = "\n".join(fields)
     return f'''class {name}(BaseModel):
     """{doc}"""
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
 {field_block}
 '''
@@ -326,8 +326,8 @@ def main(*, output_dir: Path | None = None, product: str | None = None) -> None:
 
         # Ensure StrEnum import if file contains enums
         if any(is_enum(schemas[n]) and schemas[n].get("enum") for n in names):
-            if "SafeStrEnum" not in header:
-                header = header.rstrip() + "\nfrom amazon_ads_sdk.models.base import SafeStrEnum\n"
+            if "StrEnum" not in header:
+                header = header.rstrip() + "\nfrom enum import StrEnum\n"
 
         refs = ext_refs.get(filename, set())
         imports = _build_import_block(filename, refs, schema_module)

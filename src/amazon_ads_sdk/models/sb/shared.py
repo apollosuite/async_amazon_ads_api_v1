@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
-from amazon_ads_sdk.models.base import SafeStrEnum
+from enum import StrEnum
 
 if TYPE_CHECKING:
     from .enums import SBAdvertisingDealPriceType, SBCurrencyCode
@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 class SBAdvertisingDealPrice(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     currencyCode: SBCurrencyCode
     priceType: SBAdvertisingDealPriceType
@@ -24,13 +24,13 @@ class SBAdvertisingDealPrice(BaseModel):
 class SBCreateTag(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     key: str  # A custom key value pair entered by the advertiser.
     value: str  # A custom key value pair entered by the advertiser.
 
 
-class SBDeliveryReason(SafeStrEnum):
+class SBDeliveryReason(StrEnum):
     """| DeliveryReason | Description |
     |------|------|
     | `ADVERTISER_ARCHIVED` |  |
@@ -141,7 +141,7 @@ class SBDeliveryReason(SafeStrEnum):
     TARGET_POLICING_SUSPENDED = "TARGET_POLICING_SUSPENDED"
 
 
-class SBDeliveryStatus(SafeStrEnum):
+class SBDeliveryStatus(StrEnum):
     """| DeliveryStatus | Description |
     |------|------|
     | `DELIVERING` | Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces |
@@ -157,7 +157,7 @@ class SBDeliveryStatus(SafeStrEnum):
 class SBStatus(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     deliveryReasons: list[SBDeliveryReason] | None = (
         None  # This is the list of reasons behind the delivery status.
@@ -168,7 +168,7 @@ class SBStatus(BaseModel):
 class SBTag(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     key: str  # A custom key value pair entered by the advertiser.
     value: str  # A custom key value pair entered by the advertiser.

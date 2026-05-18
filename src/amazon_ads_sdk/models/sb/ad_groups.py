@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
-from amazon_ads_sdk.models.base import SafeStrEnum
+from enum import StrEnum
 
 if TYPE_CHECKING:
     from amazon_ads_sdk.errors import ErrorsIndex
@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 class SBAdGroup(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The unique identifier of the ad group.
     adProduct: SBAdProduct
@@ -46,7 +46,7 @@ class SBAdGroup(BaseModel):
 class SBAdGroupAdGroupIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
@@ -54,7 +54,7 @@ class SBAdGroupAdGroupIdFilter(BaseModel):
 class SBAdGroupAdProductFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[
         SBAdProduct
@@ -64,7 +64,7 @@ class SBAdGroupAdProductFilter(BaseModel):
 class SBAdGroupCampaignIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
@@ -72,7 +72,7 @@ class SBAdGroupCampaignIdFilter(BaseModel):
 class SBAdGroupCreate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adProduct: SBAdProduct
     campaignId: str  # The unique identifier of the campaign the ad group belongs to.
@@ -86,7 +86,7 @@ class SBAdGroupCreate(BaseModel):
 class SBAdGroupMultiStatusResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
     success: list[SBAdGroupMultiStatusSuccess] | None = None
@@ -95,7 +95,7 @@ class SBAdGroupMultiStatusResponse(BaseModel):
 class SBAdGroupMultiStatusSuccess(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroup: SBAdGroup
     index: int
@@ -104,13 +104,13 @@ class SBAdGroupMultiStatusSuccess(BaseModel):
 class SBAdGroupNameFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[str]
     queryTermMatchType: SBAdGroupNameFilterType
 
 
-class SBAdGroupNameFilterType(SafeStrEnum):
+class SBAdGroupNameFilterType(StrEnum):
     """| AdGroupNameFilterType | Description |
     | --- | --- |
     | `EXACT_MATCH` | Filter by exact match. |
@@ -123,7 +123,7 @@ class SBAdGroupNameFilterType(SafeStrEnum):
 class SBAdGroupStateFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[
         SBState
@@ -133,7 +133,7 @@ class SBAdGroupStateFilter(BaseModel):
 class SBAdGroupSuccessResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SBAdGroup] | None = None
     nextToken: str | None = None
@@ -142,7 +142,7 @@ class SBAdGroupSuccessResponse(BaseModel):
 class SBAdGroupUpdate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The unique identifier of the ad group.
     name: str | None = None  # The name of the ad group.
@@ -155,7 +155,7 @@ class SBAdGroupUpdate(BaseModel):
 class SBCreateAdGroupRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SBAdGroupCreate] | None = None
 
@@ -163,7 +163,7 @@ class SBCreateAdGroupRequest(BaseModel):
 class SBDeleteAdGroupRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroupIds: list[str] | None = None
 
@@ -171,7 +171,7 @@ class SBDeleteAdGroupRequest(BaseModel):
 class SBQueryAdGroupRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroupIdFilter: SBAdGroupAdGroupIdFilter | None = None
     adProductFilter: SBAdGroupAdProductFilter
@@ -185,6 +185,6 @@ class SBQueryAdGroupRequest(BaseModel):
 class SBUpdateAdGroupRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SBAdGroupUpdate] | None = None

@@ -41,11 +41,6 @@ class ClientContext:
             self._client = httpx.AsyncClient(
                 base_url=self.config.region.value,
                 timeout=httpx.Timeout(self.config.timeout),
-                headers={
-                    "Authorization": f"Bearer {self.config.access_token}",
-                    "Amazon-Ads-ClientId": self.config.client_id,
-                    "Content-Type": "application/json",
-                },
             )
         return self._client
 
@@ -98,7 +93,10 @@ class _ResourceBase:
             if accept_async
             else "application/json"
         )
+        if self._ctx.config.access_token is None and self._ctx.config.refresh_token:
+            await self._ctx.config.refresh_access_token()
         headers = {
+            "Authorization": f"Bearer {self._ctx.config.access_token}",
             "Accept": accept,
             "Amazon-Ads-ClientId": self._ctx.config.client_id,
             **self._ctx.profile_header,
@@ -115,6 +113,14 @@ class _ResourceBase:
                 resp.raise_for_status()
                 return resp
             except httpx.HTTPStatusError as exc:
+                if (
+                    exc.response.status_code == 401
+                    and self._ctx.config.refresh_token
+                    and attempt == 0
+                ):
+                    await self._ctx.config.refresh_access_token()
+                    headers["Authorization"] = f"Bearer {self._ctx.config.access_token}"
+                    continue
                 if exc.response.status_code in (429, 503, 504):
                     if attempt < self._ctx.config.max_retries - 1:
                         await asyncio.sleep(2**attempt + random.uniform(0, 1))

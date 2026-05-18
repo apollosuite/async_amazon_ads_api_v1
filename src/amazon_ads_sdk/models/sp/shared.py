@@ -4,19 +4,19 @@ from __future__ import annotations
 
 
 from pydantic import BaseModel, ConfigDict
-from amazon_ads_sdk.models.base import SafeStrEnum
+from enum import StrEnum
 
 
 class SPCreateTag(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     key: str  # A custom key value pair entered by the advertiser.
     value: str  # A custom key value pair entered by the advertiser.
 
 
-class SPDeliveryReason(SafeStrEnum):
+class SPDeliveryReason(StrEnum):
     """| DeliveryReason | Description |
     |------|------|
     | `ADVERTISER_ARCHIVED` |  |
@@ -189,7 +189,7 @@ class SPDeliveryReason(SafeStrEnum):
     TARGET_POLICING_SUSPENDED = "TARGET_POLICING_SUSPENDED"
 
 
-class SPDeliveryStatus(SafeStrEnum):
+class SPDeliveryStatus(StrEnum):
     """| DeliveryStatus | Description |
     |------|------|
     | `DELIVERING` | Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces |
@@ -205,7 +205,7 @@ class SPDeliveryStatus(SafeStrEnum):
 class SPStatus(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     deliveryReasons: list[SPDeliveryReason] | None = (
         None  # This is the list of reasons behind the delivery status.
@@ -216,7 +216,7 @@ class SPStatus(BaseModel):
 class SPTag(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     key: str  # A custom key value pair entered by the advertiser.
     value: str  # A custom key value pair entered by the advertiser.

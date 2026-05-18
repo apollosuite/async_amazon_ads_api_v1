@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from amazon_ads_sdk.models.base import SafeStrEnum
+from enum import StrEnum
 
 
-class SPAdProduct(SafeStrEnum):
+class SPAdProduct(StrEnum):
     """| AdProduct | Description |
     |------|------|
     | `SPONSORED_PRODUCTS` | Sponsored Products ad product. |
@@ -14,7 +14,7 @@ class SPAdProduct(SafeStrEnum):
     SPONSORED_PRODUCTS = "SPONSORED_PRODUCTS"
 
 
-class SPCreateState(SafeStrEnum):
+class SPCreateState(StrEnum):
     """The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
 
     | CreateState | Description |
@@ -27,7 +27,7 @@ class SPCreateState(SafeStrEnum):
     PAUSED = "PAUSED"
 
 
-class SPCurrencyCode(SafeStrEnum):
+class SPCurrencyCode(StrEnum):
     """| CurrencyCode | Description |
     |------|------|
     | `AED` | United Arab Emirates Dirham |
@@ -82,7 +82,7 @@ class SPCurrencyCode(SafeStrEnum):
     ZAR = "ZAR"
 
 
-class SPMarketplace(SafeStrEnum):
+class SPMarketplace(StrEnum):
     """A list of country codes representing Amazon marketplaces
 
     | Marketplace | Description |
@@ -137,7 +137,7 @@ class SPMarketplace(SafeStrEnum):
     ZA = "ZA"
 
 
-class SPMarketplaceScope(SafeStrEnum):
+class SPMarketplaceScope(StrEnum):
     """| MarketplaceScope | Description |
     |------|------|
     | `SINGLE_MARKETPLACE` |  |
@@ -146,7 +146,7 @@ class SPMarketplaceScope(SafeStrEnum):
     SINGLE_MARKETPLACE = "SINGLE_MARKETPLACE"
 
 
-class SPProductIdType(SafeStrEnum):
+class SPProductIdType(StrEnum):
     """| ProductIdType | Description |
     |------|------|
     | `ASIN` | ASIN identifier type. |
@@ -157,7 +157,7 @@ class SPProductIdType(SafeStrEnum):
     SKU = "SKU"
 
 
-class SPState(SafeStrEnum):
+class SPState(StrEnum):
     """The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
 
     | State | Description |
@@ -172,7 +172,7 @@ class SPState(SafeStrEnum):
     PAUSED = "PAUSED"
 
 
-class SPUpdateState(SafeStrEnum):
+class SPUpdateState(StrEnum):
     """The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
 
     | UpdateState | Description |

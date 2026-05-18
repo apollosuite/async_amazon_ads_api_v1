@@ -45,7 +45,7 @@ class TestAmazonAdsConfig:
         assert cfg.max_retries == 5
 
     def test_empty_token_raises(self) -> None:
-        with pytest.raises(ValueError, match="access_token is required"):
+        with pytest.raises(ValueError, match="access_token or both"):
             AmazonAdsConfig(access_token="", client_id="cli")
 
     def test_non_positive_timeout_raises(self) -> None:
@@ -72,7 +72,7 @@ class TestAmazonAdsConfig:
 
     def test_from_env_no_token_raises(self) -> None:
         with patch.dict(os.environ, {}, clear=True):
-            with pytest.raises(OSError, match="AMAZON_ACCESS_TOKEN"):
+            with pytest.raises(OSError, match="AMAZON_CLIENT_ID"):
                 AmazonAdsConfig.from_env()
 
     def test_from_env_invalid_region_raises(self) -> None:

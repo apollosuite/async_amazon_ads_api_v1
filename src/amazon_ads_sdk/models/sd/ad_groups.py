@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
-from amazon_ads_sdk.models.base import SafeStrEnum
+from enum import StrEnum
 
 if TYPE_CHECKING:
     from amazon_ads_sdk.errors import ErrorsIndex
@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 class SDAdGroup(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The unique identifier of the ad group.
     adProduct: SDAdProduct
@@ -47,7 +47,7 @@ class SDAdGroup(BaseModel):
 class SDAdGroupAdGroupIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
@@ -55,7 +55,7 @@ class SDAdGroupAdGroupIdFilter(BaseModel):
 class SDAdGroupAdProductFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[
         SDAdProduct
@@ -65,7 +65,7 @@ class SDAdGroupAdProductFilter(BaseModel):
 class SDAdGroupBid(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     currencyCode: SDCurrencyCode
     defaultBid: float | None = (
@@ -76,7 +76,7 @@ class SDAdGroupBid(BaseModel):
 class SDAdGroupCampaignIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
@@ -84,7 +84,7 @@ class SDAdGroupCampaignIdFilter(BaseModel):
 class SDAdGroupCreate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adProduct: SDAdProduct
     bid: SDCreateAdGroupBid | None = None
@@ -102,7 +102,7 @@ class SDAdGroupCreate(BaseModel):
 class SDAdGroupGoalSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     kpi: SDKPI | None = None
 
@@ -110,7 +110,7 @@ class SDAdGroupGoalSettings(BaseModel):
 class SDAdGroupMultiStatusResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
     success: list[SDAdGroupMultiStatusSuccess] | None = None
@@ -119,7 +119,7 @@ class SDAdGroupMultiStatusResponse(BaseModel):
 class SDAdGroupMultiStatusSuccess(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroup: SDAdGroup
     index: int
@@ -128,13 +128,13 @@ class SDAdGroupMultiStatusSuccess(BaseModel):
 class SDAdGroupNameFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[str]
     queryTermMatchType: SDAdGroupNameFilterType
 
 
-class SDAdGroupNameFilterType(SafeStrEnum):
+class SDAdGroupNameFilterType(StrEnum):
     """| AdGroupNameFilterType | Description |
     | --- | --- |
     | `EXACT_MATCH` | Filter by exact match. |
@@ -147,7 +147,7 @@ class SDAdGroupNameFilterType(SafeStrEnum):
 class SDAdGroupStateFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[
         SDState
@@ -157,7 +157,7 @@ class SDAdGroupStateFilter(BaseModel):
 class SDAdGroupSuccessResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SDAdGroup] | None = None
     nextToken: str | None = None
@@ -166,7 +166,7 @@ class SDAdGroupSuccessResponse(BaseModel):
 class SDAdGroupUpdate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The unique identifier of the ad group.
     bid: SDUpdateAdGroupBid | None = None
@@ -178,7 +178,7 @@ class SDAdGroupUpdate(BaseModel):
 class SDCreateAdGroupBid(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     defaultBid: float | None = (
         None  # The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.
@@ -188,7 +188,7 @@ class SDCreateAdGroupBid(BaseModel):
 class SDCreateAdGroupGoalSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     kpi: SDKPI | None = None
 
@@ -196,7 +196,7 @@ class SDCreateAdGroupGoalSettings(BaseModel):
 class SDCreateAdGroupRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SDAdGroupCreate] | None = None
 
@@ -204,12 +204,12 @@ class SDCreateAdGroupRequest(BaseModel):
 class SDCreateOptimization(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     goalSettings: SDCreateAdGroupGoalSettings | None = None
 
 
-class SDCreativeType(SafeStrEnum):
+class SDCreativeType(StrEnum):
     """| CreativeType | Description |
     |------|------|
     | `IMAGE` | An image creative. |
@@ -223,12 +223,12 @@ class SDCreativeType(SafeStrEnum):
 class SDDeleteAdGroupRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroupIds: list[str] | None = None
 
 
-class SDKPI(SafeStrEnum):
+class SDKPI(StrEnum):
     """| KPI | Description |
     |------|------|
     | `ADD_TO_CART` | Indicates a goal of driving improved add to cart |
@@ -264,7 +264,7 @@ class SDKPI(SafeStrEnum):
 class SDOptimization(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     goalSettings: SDAdGroupGoalSettings | None = None
 
@@ -272,7 +272,7 @@ class SDOptimization(BaseModel):
 class SDQueryAdGroupRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroupIdFilter: SDAdGroupAdGroupIdFilter | None = None
     adProductFilter: SDAdGroupAdProductFilter
@@ -286,7 +286,7 @@ class SDQueryAdGroupRequest(BaseModel):
 class SDUpdateAdGroupBid(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     defaultBid: float | None = (
         None  # The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.
@@ -296,7 +296,7 @@ class SDUpdateAdGroupBid(BaseModel):
 class SDUpdateAdGroupGoalSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     kpi: SDKPI | None = None
 
@@ -304,7 +304,7 @@ class SDUpdateAdGroupGoalSettings(BaseModel):
 class SDUpdateAdGroupRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SDAdGroupUpdate] | None = None
 
@@ -312,6 +312,6 @@ class SDUpdateAdGroupRequest(BaseModel):
 class SDUpdateOptimization(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     goalSettings: SDUpdateAdGroupGoalSettings | None = None

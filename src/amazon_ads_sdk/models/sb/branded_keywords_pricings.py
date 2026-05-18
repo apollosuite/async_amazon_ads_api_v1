@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 class SBBrandedKeywordsPricing(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     advertisingDealId: str | None = (
         None  # Identifier of the existing deal to price. Omit when pricing a new deal.
@@ -33,7 +33,7 @@ class SBBrandedKeywordsPricing(BaseModel):
 class SBBrandedKeywordsPricingCreate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     advertisingDealId: str | None = (
         None  # Identifier of the existing deal to price. Omit when pricing a new deal.
@@ -46,7 +46,7 @@ class SBBrandedKeywordsPricingCreate(BaseModel):
 class SBBrandedKeywordsPricingMultiStatusResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
     success: list[SBBrandedKeywordsPricingMultiStatusSuccess] | None = None
@@ -55,7 +55,7 @@ class SBBrandedKeywordsPricingMultiStatusResponse(BaseModel):
 class SBBrandedKeywordsPricingMultiStatusSuccess(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     brandedKeywordsPricing: SBBrandedKeywordsPricing
     index: int
@@ -64,7 +64,7 @@ class SBBrandedKeywordsPricingMultiStatusSuccess(BaseModel):
 class SBCreateBrandedKeywordsPricingRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     brandedKeywordsPricings: list[SBBrandedKeywordsPricingCreate] | None = None
 
@@ -72,7 +72,7 @@ class SBCreateBrandedKeywordsPricingRequest(BaseModel):
 class SBKeywordsPricing(BaseModel):
     """The detail of keywords pricing."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     price: SBAdvertisingDealPrice
     validKeywords: list[str]  # List of valid keywords.
@@ -81,7 +81,7 @@ class SBKeywordsPricing(BaseModel):
 class SBRejectedKeyword(BaseModel):
     """The detail of a rejected keyword."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     keyword: str  # The keyword that has been rejected.
     reason: str  # The reason keyword has been rejected for this advertiser.

@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
-from amazon_ads_sdk.models.base import SafeStrEnum
+from enum import StrEnum
 
 if TYPE_CHECKING:
     from amazon_ads_sdk.errors import ErrorsIndex
@@ -26,7 +26,7 @@ if TYPE_CHECKING:
 class SPCreateKeywordTarget(BaseModel):
     """Targets a specific customer search term."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     keyword: str  # The customer search term or text to target
     matchType: SPKeywordMatchType
@@ -39,7 +39,7 @@ class SPCreateKeywordTarget(BaseModel):
 class SPCreateLocationTarget(BaseModel):
     """Target based on geographic location."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     locationId: str  # The ID of the geographic location to target.
 
@@ -47,7 +47,7 @@ class SPCreateLocationTarget(BaseModel):
 class SPCreateProductCategoryRefinement(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     productAgeRangeId: str | None = None  # The age range ID to target.
     productBrandId: str | None = None  # The brand ID to target.
@@ -73,7 +73,7 @@ class SPCreateProductCategoryRefinement(BaseModel):
 class SPCreateProductCategoryRefinementValue(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     productCategoryRefinement: SPCreateProductCategoryRefinement
 
@@ -81,7 +81,7 @@ class SPCreateProductCategoryRefinementValue(BaseModel):
 class SPCreateProductCategoryTarget(BaseModel):
     """Targets a specific customer search term."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     productCategoryRefinement: SPCreateProductCategoryRefinementValue
 
@@ -89,7 +89,7 @@ class SPCreateProductCategoryTarget(BaseModel):
 class SPCreateProductTarget(BaseModel):
     """Targets a specific product."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     matchType: SPProductMatchType
     product: SPCreateProductValue
@@ -99,7 +99,7 @@ class SPCreateProductTarget(BaseModel):
 class SPCreateProductValue(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     productId: str  # The product identifier. Either the product id or the marketplace settings should always be specified
 
@@ -107,7 +107,7 @@ class SPCreateProductValue(BaseModel):
 class SPCreateTargetBid(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     bid: float | None = None  # The maximum bid for a target.
 
@@ -115,7 +115,7 @@ class SPCreateTargetBid(BaseModel):
 class SPCreateTargetDetails(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     keywordTarget: SPCreateKeywordTarget | None = None
     productTarget: SPCreateProductTarget | None = None
@@ -127,7 +127,7 @@ class SPCreateTargetDetails(BaseModel):
 class SPCreateTargetRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     targets: list[SPTargetCreate] | None = None
 
@@ -135,7 +135,7 @@ class SPCreateTargetRequest(BaseModel):
 class SPCreateThemeTarget(BaseModel):
     """Theme targets let advertisers select high-performing targets based on a common theme."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     matchType: SPThemeMatchType
 
@@ -143,12 +143,12 @@ class SPCreateThemeTarget(BaseModel):
 class SPDeleteTargetRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     targetIds: list[str] | None = None
 
 
-class SPKeywordMatchType(SafeStrEnum):
+class SPKeywordMatchType(StrEnum):
     """| KeywordMatchType | Description |
     |------|------|
     | `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE. |
@@ -164,7 +164,7 @@ class SPKeywordMatchType(SafeStrEnum):
 class SPKeywordTarget(BaseModel):
     """Targets a specific customer search term."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     keyword: str  # The customer search term or text to target
     matchType: SPKeywordMatchType
@@ -174,7 +174,7 @@ class SPKeywordTarget(BaseModel):
     nativeLanguageLocale: SPLanguageLocale | None = None
 
 
-class SPLanguageLocale(SafeStrEnum):
+class SPLanguageLocale(StrEnum):
     """A combination of ISO-639 standard for language code and ISO-3166 for country code.
 
     | LanguageLocale | Description |
@@ -188,12 +188,12 @@ class SPLanguageLocale(SafeStrEnum):
 class SPLocationTarget(BaseModel):
     """Target based on geographic location."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     locationId: str  # The ID of the geographic location to target.
 
 
-class SPMatchType(SafeStrEnum):
+class SPMatchType(StrEnum):
     """| MatchType | Description |
     | --- | --- |
     | `KEYWORDS_RELATED_TO_GIFTS` | Search terms related to gifts. |
@@ -233,7 +233,7 @@ class SPMatchType(SafeStrEnum):
 class SPProductCategoryRefinement(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     productAgeRangeId: str | None = None  # The age range ID to target.
     productAgeRangeIdResolved: str | None = None  # The resolved age range to target.
@@ -263,7 +263,7 @@ class SPProductCategoryRefinement(BaseModel):
 class SPProductCategoryRefinementValue(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     productCategoryRefinement: SPProductCategoryRefinement
 
@@ -271,12 +271,12 @@ class SPProductCategoryRefinementValue(BaseModel):
 class SPProductCategoryTarget(BaseModel):
     """Targets a specific customer search term."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     productCategoryRefinement: SPProductCategoryRefinementValue
 
 
-class SPProductMatchType(SafeStrEnum):
+class SPProductMatchType(StrEnum):
     """| ProductMatchType | Description |
     |------|------|
     | `PRODUCT_EXACT` | Products exactly matching the specified product. |
@@ -290,7 +290,7 @@ class SPProductMatchType(SafeStrEnum):
 class SPProductTarget(BaseModel):
     """Targets a specific product."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     matchType: SPProductMatchType
     product: SPProductValue
@@ -300,7 +300,7 @@ class SPProductTarget(BaseModel):
 class SPProductValue(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     productId: str  # The product identifier. Either the product id or the marketplace settings should always be specified
 
@@ -308,7 +308,7 @@ class SPProductValue(BaseModel):
 class SPQueryTargetRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroupIdFilter: SPTargetAdGroupIdFilter | None = None
     adProductFilter: SPTargetAdProductFilter
@@ -327,7 +327,7 @@ class SPQueryTargetRequest(BaseModel):
 class SPTarget(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroupId: str | None = (
         None  # A unique identifier for the ad group associated with the target. Only used for ad-group level targets.
@@ -359,7 +359,7 @@ class SPTarget(BaseModel):
 class SPTargetAdGroupIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
@@ -367,7 +367,7 @@ class SPTargetAdGroupIdFilter(BaseModel):
 class SPTargetAdProductFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[
         SPAdProduct
@@ -377,7 +377,7 @@ class SPTargetAdProductFilter(BaseModel):
 class SPTargetBid(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     bid: float | None = None  # The maximum bid for a target.
     currencyCode: SPCurrencyCode
@@ -386,7 +386,7 @@ class SPTargetBid(BaseModel):
 class SPTargetCampaignIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
@@ -394,7 +394,7 @@ class SPTargetCampaignIdFilter(BaseModel):
 class SPTargetCreate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroupId: str | None = (
         None  # A unique identifier for the ad group associated with the target. Only used for ad-group level targets.
@@ -416,7 +416,7 @@ class SPTargetCreate(BaseModel):
 class SPTargetDetails(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     keywordTarget: SPKeywordTarget | None = None
     locationTarget: SPLocationTarget | None = None
@@ -428,13 +428,13 @@ class SPTargetDetails(BaseModel):
 class SPTargetKeywordFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[str]
     queryTermMatchType: SPTargetKeywordFilterType
 
 
-class SPTargetKeywordFilterType(SafeStrEnum):
+class SPTargetKeywordFilterType(StrEnum):
     """| TargetKeywordFilterType | Description |
     | --- | --- |
     | `EXACT_MATCH` | Filter by exact match. |
@@ -444,7 +444,7 @@ class SPTargetKeywordFilterType(SafeStrEnum):
     EXACT_MATCH = "EXACT_MATCH"
 
 
-class SPTargetLevel(SafeStrEnum):
+class SPTargetLevel(StrEnum):
     """| TargetLevel | Description |
     |------|------|
     | `AD_GROUP` | Target applied at the ad group level. |
@@ -458,7 +458,7 @@ class SPTargetLevel(SafeStrEnum):
 class SPTargetMatchTypeFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[
         SPMatchType
@@ -468,7 +468,7 @@ class SPTargetMatchTypeFilter(BaseModel):
 class SPTargetMultiStatusResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
     success: list[SPTargetMultiStatusSuccess] | None = None
@@ -477,7 +477,7 @@ class SPTargetMultiStatusResponse(BaseModel):
 class SPTargetMultiStatusSuccess(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     index: int
     target: SPTarget
@@ -486,7 +486,7 @@ class SPTargetMultiStatusSuccess(BaseModel):
 class SPTargetNegativeFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[bool]
 
@@ -494,13 +494,13 @@ class SPTargetNegativeFilter(BaseModel):
 class SPTargetProductIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[str]
     queryTermMatchType: SPTargetProductIdFilterType
 
 
-class SPTargetProductIdFilterType(SafeStrEnum):
+class SPTargetProductIdFilterType(StrEnum):
     """| TargetProductIdFilterType | Description |
     | --- | --- |
     | `EXACT_MATCH` | Filter by exact match. |
@@ -513,7 +513,7 @@ class SPTargetProductIdFilterType(SafeStrEnum):
 class SPTargetStateFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[
         SPState
@@ -523,7 +523,7 @@ class SPTargetStateFilter(BaseModel):
 class SPTargetSuccessResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     nextToken: str | None = None
     targets: list[SPTarget] | None = None
@@ -532,7 +532,7 @@ class SPTargetSuccessResponse(BaseModel):
 class SPTargetTargetIdFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
@@ -540,14 +540,14 @@ class SPTargetTargetIdFilter(BaseModel):
 class SPTargetTargetTypeFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[
         SPTargetType
     ]  # TargetType Description `KEYWORD` Target based on customer search terms. `PRODUCT` Target based on a specific product. `PRODUCT_CATEGORY` Target based on a product category. `LOCATION` Target based on geographic location. `THEME` Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
 
 
-class SPTargetType(SafeStrEnum):
+class SPTargetType(StrEnum):
     """| TargetType | Description |
     |------|------|
     | `KEYWORD` | Target based on customer search terms. |
@@ -567,7 +567,7 @@ class SPTargetType(SafeStrEnum):
 class SPTargetUpdate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     bid: SPUpdateTargetBid | None = None
     state: SPUpdateState | None = None
@@ -577,7 +577,7 @@ class SPTargetUpdate(BaseModel):
     targetId: str  # A unique identifier for the target.
 
 
-class SPThemeMatchType(SafeStrEnum):
+class SPThemeMatchType(StrEnum):
     """| ThemeMatchType | Description |
     |------|------|
     | `KEYWORDS_CLOSE_MATCH` | Search terms closely matching advertised product. |
@@ -607,7 +607,7 @@ class SPThemeMatchType(SafeStrEnum):
 class SPThemeTarget(BaseModel):
     """Theme targets let advertisers select high-performing targets based on a common theme."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     matchType: SPThemeMatchType
 
@@ -615,7 +615,7 @@ class SPThemeTarget(BaseModel):
 class SPUpdateTargetBid(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     bid: float | None = None  # The maximum bid for a target.
 
@@ -623,6 +623,6 @@ class SPUpdateTargetBid(BaseModel):
 class SPUpdateTargetRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     targets: list[SPTargetUpdate] | None = None

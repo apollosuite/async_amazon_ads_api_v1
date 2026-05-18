@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
-from amazon_ads_sdk.models.base import SafeStrEnum
+from enum import StrEnum
 
 if TYPE_CHECKING:
     from amazon_ads_sdk.errors import ErrorsIndex
@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 class SDAd(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The ad group associated with the ad.
     adId: str  # The identifier of the ad.
@@ -47,7 +47,7 @@ class SDAd(BaseModel):
 class SDAdAdProductFilter(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     include: list[
         SDAdProduct
@@ -57,7 +57,7 @@ class SDAdAdProductFilter(BaseModel):
 class SDAdCreate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The ad group associated with the ad.
     adProduct: SDAdProduct
@@ -70,7 +70,7 @@ class SDAdCreate(BaseModel):
 class SDAdMultiStatusResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
     success: list[SDAdMultiStatusSuccess] | None = None
@@ -79,7 +79,7 @@ class SDAdMultiStatusResponse(BaseModel):
 class SDAdMultiStatusSuccess(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     ad: SDAd
     index: int
@@ -88,13 +88,13 @@ class SDAdMultiStatusSuccess(BaseModel):
 class SDAdSuccessResponse(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     ads: list[SDAd] | None = None
     nextToken: str | None = None
 
 
-class SDAdType(SafeStrEnum):
+class SDAdType(StrEnum):
     """| AdType | Description |
     |------|------|
     | `COMPONENT` | A creative that can features a collection of videos, images, and products. |
@@ -106,7 +106,7 @@ class SDAdType(SafeStrEnum):
 class SDAdUpdate(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adId: str  # The identifier of the ad.
     creative: SDUpdateCreative | None = None
@@ -116,7 +116,7 @@ class SDAdUpdate(BaseModel):
 class SDAdvertisedProducts(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     productId: str  # The identifier of the advertised product.
     productIdType: SDProductIdType
@@ -125,7 +125,7 @@ class SDAdvertisedProducts(BaseModel):
 class SDAssetBasedCreativeSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     backgrounds: list[SDBackground] | None = None  # The background which is displayed on the ad.
     enableCreativeAutoTranslation: bool | None = (
@@ -145,7 +145,7 @@ class SDAssetBasedCreativeSettings(BaseModel):
 class SDBackground(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     color: str | None = None  # The color hex code of the background.
 
@@ -153,7 +153,7 @@ class SDBackground(BaseModel):
 class SDComponentCreative(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     assetBasedCreativeSettings: SDAssetBasedCreativeSettings | None = None
     productVideoSettings: SDProductVideoSettings | None = None
@@ -163,13 +163,13 @@ class SDComponentCreative(BaseModel):
 class SDComponentLandingPage(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     landingPageType: SDComponentLandingPageType
     landingPageUrl: str  # The URL of landing page where the ad directs.
 
 
-class SDComponentLandingPageType(SafeStrEnum):
+class SDComponentLandingPageType(StrEnum):
     """| ComponentLandingPageType | Description |
     |------|------|
     | `OFF_AMAZON_LINK` | An off-Amazon landing page. |
@@ -181,7 +181,7 @@ class SDComponentLandingPageType(SafeStrEnum):
 class SDCreateAdRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     ads: list[SDAdCreate] | None = None
 
@@ -189,7 +189,7 @@ class SDCreateAdRequest(BaseModel):
 class SDCreateAdvertisedProducts(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     productId: str  # The identifier of the advertised product.
     productIdType: SDProductIdType
@@ -198,7 +198,7 @@ class SDCreateAdvertisedProducts(BaseModel):
 class SDCreateAssetBasedCreativeSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     landingPage: SDCreateComponentLandingPage
 
@@ -206,7 +206,7 @@ class SDCreateAssetBasedCreativeSettings(BaseModel):
 class SDCreateComponentCreative(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     assetBasedCreativeSettings: SDCreateAssetBasedCreativeSettings | None = None
     productVideoSettings: SDCreateProductVideoSettings | None = None
@@ -216,7 +216,7 @@ class SDCreateComponentCreative(BaseModel):
 class SDCreateComponentLandingPage(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     landingPageType: SDComponentLandingPageType
     landingPageUrl: str  # The URL of landing page where the ad directs.
@@ -225,7 +225,7 @@ class SDCreateComponentLandingPage(BaseModel):
 class SDCreateCreative(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     componentCreative: SDCreateComponentCreative | None = None
 
@@ -233,7 +233,7 @@ class SDCreateCreative(BaseModel):
 class SDCreateProductVideoSettings(BaseModel):
     """An ad with a creative that includes a video."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     landingPage: SDCreateVideoLandingPage | None = None
     products: list[SDCreateAdvertisedProducts] | None = (
@@ -244,7 +244,7 @@ class SDCreateProductVideoSettings(BaseModel):
 class SDCreateResponsiveEcommerceLandingPage(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     landingPageType: SDResponsiveEcommerceLandingPageType
     landingPageUrl: str  # The URL of landing page where the ad directs.
@@ -253,7 +253,7 @@ class SDCreateResponsiveEcommerceLandingPage(BaseModel):
 class SDCreateResponsiveEcommerceSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     landingPage: SDCreateResponsiveEcommerceLandingPage | None = None
     products: list[SDCreateAdvertisedProducts] | None = (
@@ -264,7 +264,7 @@ class SDCreateResponsiveEcommerceSettings(BaseModel):
 class SDCreateVideoLandingPage(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     landingPageType: SDVideoLandingPageType
     landingPageUrl: str  # The URL of landing page where the ad directs.
@@ -273,7 +273,7 @@ class SDCreateVideoLandingPage(BaseModel):
 class SDCreative(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     componentCreative: SDComponentCreative | None = None
 
@@ -281,7 +281,7 @@ class SDCreative(BaseModel):
 class SDCreativeStatus(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     moderationStatus: SDModerationStatus
 
@@ -289,7 +289,7 @@ class SDCreativeStatus(BaseModel):
 class SDDeleteAdRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adIds: list[str] | None = None
 
@@ -297,7 +297,7 @@ class SDDeleteAdRequest(BaseModel):
 class SDFormatProperties(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     height: int | None = None  # The height (in pixels) of the cropped image.
     left: int | None = (
@@ -312,7 +312,7 @@ class SDFormatProperties(BaseModel):
 class SDImage(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     assetId: str  # The asset library ID associated with the image asset.
     assetVersion: str  # The asset library version associated with the image asset.
@@ -321,7 +321,7 @@ class SDImage(BaseModel):
     )
 
 
-class SDModerationStatus(SafeStrEnum):
+class SDModerationStatus(StrEnum):
     """| ModerationStatus | Description |
     |------|------|
     | `PUBLISHED` | The creative passed moderation and is serving. |
@@ -337,7 +337,7 @@ class SDModerationStatus(SafeStrEnum):
 class SDProductVideoSettings(BaseModel):
     """An ad with a creative that includes a video."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     brandLogos: list[SDImage] | None = None  # The brand logo image assets to be used in the ad.
     enableCreativeAutoTranslation: bool | None = (
@@ -359,7 +359,7 @@ class SDProductVideoSettings(BaseModel):
 class SDQueryAdRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     adProductFilter: SDAdAdProductFilter
     maxResults: int | None = None
@@ -369,13 +369,13 @@ class SDQueryAdRequest(BaseModel):
 class SDResponsiveEcommerceLandingPage(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     landingPageType: SDResponsiveEcommerceLandingPageType
     landingPageUrl: str  # The URL of landing page where the ad directs.
 
 
-class SDResponsiveEcommerceLandingPageType(SafeStrEnum):
+class SDResponsiveEcommerceLandingPageType(StrEnum):
     """| ResponsiveEcommerceLandingPageType | Description |
     |------|------|
     | `MOMENT` | A moment landing page. |
@@ -389,7 +389,7 @@ class SDResponsiveEcommerceLandingPageType(SafeStrEnum):
 class SDResponsiveEcommerceSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     enableCreativeAutoTranslation: bool | None = (
         None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
@@ -408,7 +408,7 @@ class SDResponsiveEcommerceSettings(BaseModel):
 class SDUpdateAdRequest(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     ads: list[SDAdUpdate] | None = None
 
@@ -416,13 +416,13 @@ class SDUpdateAdRequest(BaseModel):
 class SDUpdateAssetBasedCreativeSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
 
 class SDUpdateComponentCreative(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     assetBasedCreativeSettings: SDUpdateAssetBasedCreativeSettings | None = None
     productVideoSettings: SDUpdateProductVideoSettings | None = None
@@ -432,7 +432,7 @@ class SDUpdateComponentCreative(BaseModel):
 class SDUpdateCreative(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     componentCreative: SDUpdateComponentCreative | None = None
 
@@ -440,19 +440,19 @@ class SDUpdateCreative(BaseModel):
 class SDUpdateProductVideoSettings(BaseModel):
     """An ad with a creative that includes a video."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
 
 class SDUpdateResponsiveEcommerceSettings(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
 
 class SDVideo(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     assetId: str  # The asset library ID associated with the video asset.
     assetVersion: str  # The asset library version associated with the video asset.
@@ -461,13 +461,13 @@ class SDVideo(BaseModel):
 class SDVideoLandingPage(BaseModel):
     """"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     landingPageType: SDVideoLandingPageType
     landingPageUrl: str  # The URL of landing page where the ad directs.
 
 
-class SDVideoLandingPageType(SafeStrEnum):
+class SDVideoLandingPageType(StrEnum):
     """| VideoLandingPageType | Description |
     |------|------|
     | `MOMENT` | A moment landing page. |
