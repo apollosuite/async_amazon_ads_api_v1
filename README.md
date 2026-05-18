@@ -10,28 +10,63 @@ uv sync
 
 ## Quick Start
 
+### 使用 Access Token（直接提供）
+
 ```python
 import asyncio
-from amazon_ads_sdk import AmazonAdsConfig, Region, SPClient, SBClient, SDClient
+from amazon_ads_sdk import AmazonAdsConfig, Region, SPClient
 
 async def main():
-    config = AmazonAdsConfig(access_token="...", region=Region.NA)
+    config = AmazonAdsConfig(
+        access_token="your-access-token",
+        client_id="your-client-id",
+        region=Region.NA,
+    )
 
-    # Sponsored Products
     async with SPClient(config) as sp:
         resp = await sp.campaigns.query({"stateFilter": {"include": ["enabled"]}})
         print(resp.model_dump_json(indent=2))
 
-    # Sponsored Brands
-    async with SBClient(config) as sb:
-        resp = await sb.campaigns.query({...})
-        resp = await sb.advertising_deals.query({...})  # SB-exclusive
+asyncio.run(main())
+```
 
-    # Sponsored Display
-    async with SDClient(config) as sd:
-        resp = await sd.campaigns.query({...})
+### 使用 Refresh Token（自动续期）
+
+```python
+import asyncio
+from amazon_ads_sdk import AmazonAdsConfig, Region, SPClient
+
+async def main():
+    config = AmazonAdsConfig(
+        access_token="your-access-token",   # 可选，提供后直接使用
+        client_id="your-client-id",
+        refresh_token="your-refresh-token", # access_token 过期后自动刷新
+        client_secret="your-client-secret",
+        region=Region.NA,
+    )
+
+    async with SPClient(config) as sp:
+        resp = await sp.campaigns.query({"stateFilter": {"include": ["enabled"]}})
+        print(resp.model_dump_json(indent=2))
 
 asyncio.run(main())
+```
+
+### 从环境变量加载
+
+```bash
+export AMAZON_ACCESS_TOKEN=...
+export AMAZON_CLIENT_ID=...
+export AMAZON_REFRESH_TOKEN=...     # 可选，用于自动续期
+export AMAZON_CLIENT_SECRET=...     # 可选，refresh_token 时需要
+export AMAZON_REGION=na             # na | eu | fe，默认 na
+export AMAZON_PROFILE_ID=...        # 可选
+```
+
+```python
+from amazon_ads_sdk import AmazonAdsConfig, SPClient
+
+config = AmazonAdsConfig.from_env()
 ```
 
 ## API Reference
