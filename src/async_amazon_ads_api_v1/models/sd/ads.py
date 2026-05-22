@@ -39,7 +39,7 @@ class SDAd(BaseModel):
     marketplaceScope: SDMarketplaceScope
     marketplaces: list[
         SDMarketplace
-    ]  # The list of country codes representing amazon marketplaces in which the global ad is applicable. The marketplaces included should either be same as or subset of parent ad group
+    ]  # The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.
     name: str | None = None  # The name of the ad.
     state: SDState
     status: SDStatus | None = None

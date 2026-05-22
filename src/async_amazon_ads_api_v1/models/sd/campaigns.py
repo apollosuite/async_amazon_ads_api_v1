@@ -69,7 +69,7 @@ class SDCampaign(BaseModel):
     lastUpdatedDateTime: datetime  # The date time that the campaign was last updated.
     marketplaceScope: SDMarketplaceScope
     marketplaces: list[SDMarketplace] | None = (
-        None  # This represent retail domains such as Amazon.com, Amazon.co.uk, Amazon.mx, etc, that represent a country that an Amazon customer can shop.
+        None  # This represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. ADSP campaigns can be created by specifying either countries or marketplaces, but at least one of these attributes must be provided. In ADSP, this field acts as an implicit filter on your inventory targets. For example, if you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties.
     )
     name: str  # The name of the campaign.
     portfolioId: str | None = None  # The ID of the portfolio associated with the campaign.
@@ -115,7 +115,7 @@ class SDCampaignCreate(BaseModel):
     endDateTime: datetime | None = None  # The end date time for the campaign.
     marketplaceScope: SDMarketplaceScope
     marketplaces: list[SDMarketplace] | None = (
-        None  # This represent retail domains such as Amazon.com, Amazon.co.uk, Amazon.mx, etc, that represent a country that an Amazon customer can shop.
+        None  # This represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. ADSP campaigns can be created by specifying either countries or marketplaces, but at least one of these attributes must be provided. In ADSP, this field acts as an implicit filter on your inventory targets. For example, if you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties.
     )
     name: str  # The name of the campaign.
     portfolioId: str | None = None  # The ID of the portfolio associated with the campaign.

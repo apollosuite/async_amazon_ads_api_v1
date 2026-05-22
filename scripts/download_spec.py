@@ -6,6 +6,7 @@ Usage:
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import httpx
@@ -28,8 +29,10 @@ def download(url: str, dest: Path) -> None:
     with httpx.Client(follow_redirects=True) as client:
         resp = client.get(url)
         resp.raise_for_status()
-    dest.write_bytes(resp.content)
-    print(f"  -> saved {dest}  ({len(resp.content)} bytes)")
+    data = resp.json()
+    content = json.dumps(data, indent=2, ensure_ascii=False).encode()
+    dest.write_bytes(content)
+    print(f"  -> saved {dest}  ({len(content)} bytes)")
 
 
 def main() -> None:
