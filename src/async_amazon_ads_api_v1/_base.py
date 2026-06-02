@@ -30,12 +30,6 @@ class ClientContext:
         self.config: AmazonAdsConfig = config
         self._client: httpx.AsyncClient | None = None
 
-    @property
-    def profile_header(self) -> dict[str, str]:
-        if self.config.profile_id is not None:
-            return {"Amazon-Advertising-API-Scope": str(self.config.profile_id)}
-        return {}
-
     async def get_client(self) -> httpx.AsyncClient:
         if self._client is None:
             self._client = httpx.AsyncClient(
@@ -99,8 +93,9 @@ class _ResourceBase:
             "Authorization": f"Bearer {self._ctx.config.access_token}",
             "Accept": accept,
             "Amazon-Ads-ClientId": self._ctx.config.client_id,
-            **self._ctx.profile_header,
         }
+        if self._ctx.config.profile_id is not None:
+            headers["Amazon-Advertising-API-Scope"] = self._ctx.config.profile_id
         for attempt in range(self._ctx.config.max_retries):
             try:
                 resp = await client.request(
@@ -123,7 +118,9 @@ class _ResourceBase:
                     continue
                 if exc.response.status_code in (429, 503, 504):
                     if attempt < self._ctx.config.max_retries - 1:
-                        await asyncio.sleep(2**attempt + random.uniform(0, 1))
+                        wait_time = 2**attempt + random.uniform(0, 1)
+                        logger.warning(f"Rate limit exceeded, retrying in %.2f seconds {exc}", wait_time)
+                        await asyncio.sleep(wait_time)
                         continue
                 raise
             except httpx.ConnectError:

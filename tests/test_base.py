@@ -20,21 +20,6 @@ class DummyResponse(BaseModel):
 
 
 class TestClientContext:
-    def test_profile_header_no_profile(self, config: AmazonAdsConfig) -> None:
-        ctx = ClientContext(config)
-        assert ctx.profile_header == {}
-
-    def test_profile_header_with_profile(self, config: AmazonAdsConfig) -> None:
-        config.profile_id = "42"
-        ctx = ClientContext(config)
-        assert ctx.profile_header == {"Amazon-Advertising-API-Scope": "42"}
-
-    def test_profile_header_realtime(self, config: AmazonAdsConfig) -> None:
-        ctx = ClientContext(config)
-        assert ctx.profile_header == {}
-        config.profile_id = "42"
-        assert ctx.profile_header == {"Amazon-Advertising-API-Scope": "42"}
-
     @pytest.mark.asyncio
     async def test_get_client_lazy_init(self, config: AmazonAdsConfig) -> None:
         ctx = ClientContext(config)
