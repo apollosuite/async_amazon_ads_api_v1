@@ -33,12 +33,12 @@ from async_amazon_ads_api_v1.client.sp.ad_groups import AdGroups as SPAdGroups
 from async_amazon_ads_api_v1.client.sp.ads import Ads as SPAds
 from async_amazon_ads_api_v1.client.sp.campaigns import Campaigns as SPCampaigns
 from async_amazon_ads_api_v1.client.sp.targets import Targets as SPTargets
-from async_amazon_ads_api_v1.config import AmazonAdsConfig
+from async_amazon_ads_api_v1.config import AmazonAdsConfig, Region
 
 
 @pytest.fixture
 def config() -> AmazonAdsConfig:
-    return AmazonAdsConfig(access_token="test-token", client_id="test-client", region="na")  # type: ignore[arg-type]
+    return AmazonAdsConfig(access_token="test-token", client_id="test-client", region=Region.NA)
 
 
 @pytest.fixture

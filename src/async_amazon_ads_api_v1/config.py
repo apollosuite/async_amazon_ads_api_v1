@@ -10,7 +10,7 @@ import httpx
 
 AMAZON_TOKEN_URL = "https://api.amazon.com/auth/o2/token"
 
-_REGION_ENDPOINTS: dict[str, str] = {
+ENDPOINT_MAP: dict[str, str] = {
     "na": "https://advertising-api.amazon.com",
     "eu": "https://advertising-api-eu.amazon.com",
     "fe": "https://advertising-api-fe.amazon.com",
@@ -18,27 +18,11 @@ _REGION_ENDPOINTS: dict[str, str] = {
 
 
 class Region(StrEnum):
-    """Amazon Ads API region identifiers.
-
-    Each region resolves to a default production endpoint, but the
-    mapping can be overridden at runtime (e.g. for local mock servers)
-    via :meth:`set_endpoint`.
-    """
+    """Amazon Ads API region identifiers."""
 
     NA = "na"
     EU = "eu"
     FE = "fe"
-
-    def resolve(self) -> str:
-        """Return the effective API base URL for this region."""
-        return _REGION_ENDPOINTS[self.value]
-
-    @classmethod
-    def set_endpoint(cls, region: Region, url: str) -> None:
-        """Override the base URL that *region* resolves to."""
-        if not url:
-            raise ValueError("url must be a non-empty string")
-        _REGION_ENDPOINTS[region.value] = url
 
 
 class AmazonAdsConfig:
@@ -46,6 +30,10 @@ class AmazonAdsConfig:
 
     Parameters
     ----------
+    endpoints : dict[str, str] | None
+        Optional mapping of region values (``"na"``, ``"eu"``, ``"fe"``)
+        to custom base URLs. Overrides the default endpoint for the
+        selected *region* (useful for local mock servers).
     access_token : str | None
         OAuth 2.0 bearer token. If not provided, ``refresh_token`` and
         ``client_secret`` must be set to obtain one automatically.
@@ -74,6 +62,7 @@ class AmazonAdsConfig:
     def __init__(
         self,
         *,
+        endpoints: dict[str, str] | None = None,
         access_token: str | None = None,
         client_id: str = "",
         region: Region = Region.NA,
@@ -94,9 +83,11 @@ class AmazonAdsConfig:
             raise ValueError("timeout must be a positive number")
         if max_retries < 0:
             raise ValueError("max_retries cannot be negative")
+
+        self.region = region
+        self.base_url = ENDPOINT_MAP[region.value] if endpoints is None else endpoints[region.value]
         self.access_token = access_token
         self.client_id = client_id
-        self.region = region
         self.profile_id = profile_id
         self.refresh_token = refresh_token
         self.client_secret = client_secret
@@ -168,14 +159,16 @@ class AmazonAdsConfig:
             raise ValueError(
                 f"Unsupported AMAZON_REGION: {region_str!r}. Expected one of: {', '.join(region_map)}"
             )
+        endpoints: dict[str, str] = {}
         for r in Region:
             env_key = f"AMAZON_ENDPOINT_{r.value.upper()}"
             if env_key in os.environ:
-                Region.set_endpoint(r, os.environ[env_key])
+                endpoints[r.value] = os.environ[env_key]
         profile_id = os.environ.get("AMAZON_PROFILE_ID")
         refresh_token = os.environ.get("AMAZON_REFRESH_TOKEN") or None
         client_secret = os.environ.get("AMAZON_CLIENT_SECRET") or None
         return cls(
+            endpoints=endpoints or None,
             access_token=access_token,
             client_id=client_id,
             region=region,
