@@ -8,7 +8,10 @@ license = "MIT"
 authors = [{ name = "Amazon Ads" }]
 keywords = ["amazon", "ads", "advertising", "sponsored-products", "sponsored-brands", "sponsored-display", "async", "api-v1"]
 
-dependencies = ["httpx>=0.28.0", "pydantic>=2.10.0"]
+dependencies = [
+    "httpx>=0.28.0",
+    "pydantic>=2.10.0",
+]
 
 [dependency-groups]
 dev = [
@@ -17,6 +20,7 @@ dev = [
     "pytest>=8.3.0",
     "pytest-asyncio>=0.25.0",
     "black>=26.3.1",
+    "pyrefly>=1.0.0",
 ]
 
 [build-system]
