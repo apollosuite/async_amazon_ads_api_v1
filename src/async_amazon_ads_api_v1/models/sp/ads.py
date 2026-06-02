@@ -21,6 +21,7 @@ if TYPE_CHECKING:
         SPUpdateState,
     )
     from .shared import SPCreateTag, SPStatus, SPTag
+del TYPE_CHECKING
 
 
 class SPAd(BaseModel):
@@ -363,3 +364,41 @@ class SPVideo(BaseModel):
     assetVersion: str  # The asset library version associated with the video asset.
     description: str | None = None  # The description of the video content.
     headline: str | None = None  # The headline/custom text associated with the video.
+
+
+__all__ = [
+    "SPAd",
+    "SPAdAdGroupIdFilter",
+    "SPAdAdIdFilter",
+    "SPAdAdProductFilter",
+    "SPAdCampaignIdFilter",
+    "SPAdCreate",
+    "SPAdMultiStatusResponse",
+    "SPAdMultiStatusSuccess",
+    "SPAdStateFilter",
+    "SPAdSuccessResponse",
+    "SPAdType",
+    "SPAdUpdate",
+    "SPAdvertisedProducts",
+    "SPCreateAdRequest",
+    "SPCreateAdvertisedProducts",
+    "SPCreateCreative",
+    "SPCreateGlobalStoreSettings",
+    "SPCreateProductCreative",
+    "SPCreateProductCreativeSettings",
+    "SPCreateSpotlightVideoSettings",
+    "SPCreateVideo",
+    "SPCreative",
+    "SPDeleteAdRequest",
+    "SPGlobalStoreSettings",
+    "SPProductCreative",
+    "SPProductCreativeSettings",
+    "SPQueryAdRequest",
+    "SPSpotlightVideoSettings",
+    "SPUpdateAdRequest",
+    "SPUpdateCreative",
+    "SPUpdateProductCreative",
+    "SPUpdateProductCreativeSettings",
+    "SPUpdateSpotlightVideoSettings",
+    "SPVideo",
+]

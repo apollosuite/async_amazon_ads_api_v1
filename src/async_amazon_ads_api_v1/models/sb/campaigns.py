@@ -21,6 +21,7 @@ if TYPE_CHECKING:
         SBUpdateState,
     )
     from .shared import SBCreateTag, SBStatus, SBTag
+del TYPE_CHECKING
 
 
 class SBAudienceBidAdjustment(BaseModel):
@@ -674,3 +675,62 @@ class SBUpdateCampaignRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     campaigns: list[SBCampaignUpdate] | None = None
+
+
+__all__ = [
+    "SBAudienceBidAdjustment",
+    "SBAutoCreationSettings",
+    "SBBidAdjustments",
+    "SBBidSettings",
+    "SBBidStrategy",
+    "SBBudget",
+    "SBBudgetType",
+    "SBBudgetValue",
+    "SBCampaign",
+    "SBCampaignAdProductFilter",
+    "SBCampaignCampaignIdFilter",
+    "SBCampaignCreate",
+    "SBCampaignGoalFilter",
+    "SBCampaignMultiStatusResponse",
+    "SBCampaignMultiStatusSuccess",
+    "SBCampaignNameFilter",
+    "SBCampaignNameFilterType",
+    "SBCampaignOptimizations",
+    "SBCampaignPortfolioIdFilter",
+    "SBCampaignStateFilter",
+    "SBCampaignSuccessResponse",
+    "SBCampaignUpdate",
+    "SBCostType",
+    "SBCountryCode",
+    "SBCreateAudienceBidAdjustment",
+    "SBCreateAutoCreationSettings",
+    "SBCreateBidAdjustments",
+    "SBCreateBidSettings",
+    "SBCreateBudget",
+    "SBCreateBudgetValue",
+    "SBCreateCampaignOptimizations",
+    "SBCreateCampaignRequest",
+    "SBCreateGoalSettings",
+    "SBCreateMonetaryBudget",
+    "SBCreateMonetaryBudgetValue",
+    "SBCreatePlacementBidAdjustment",
+    "SBCreateShopperSegmentBidAdjustment",
+    "SBDeleteCampaignRequest",
+    "SBGoal",
+    "SBGoalSettings",
+    "SBKPI",
+    "SBMonetaryBudget",
+    "SBMonetaryBudgetValue",
+    "SBPlacement",
+    "SBPlacementBidAdjustment",
+    "SBQueryCampaignRequest",
+    "SBRecurrence",
+    "SBSalesChannel",
+    "SBShopperSegment",
+    "SBShopperSegmentBidAdjustment",
+    "SBSiteRestriction",
+    "SBUpdateBidAdjustments",
+    "SBUpdateBidSettings",
+    "SBUpdateCampaignOptimizations",
+    "SBUpdateCampaignRequest",
+]

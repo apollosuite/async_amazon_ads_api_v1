@@ -30,3 +30,10 @@ class SBRecommendationTypeSuccessResponse(BaseModel):
 
     nextToken: str | None = None
     recommendationTypes: list[SBRecommendationType] | None = None
+
+
+__all__ = [
+    "SBQueryRecommendationTypeRequest",
+    "SBRecommendationType",
+    "SBRecommendationTypeSuccessResponse",
+]

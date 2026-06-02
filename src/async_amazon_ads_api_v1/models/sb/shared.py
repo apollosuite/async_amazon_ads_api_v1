@@ -9,6 +9,7 @@ from pydantic import BaseModel, ConfigDict
 
 if TYPE_CHECKING:
     from .enums import SBAdvertisingDealPriceType, SBCurrencyCode
+del TYPE_CHECKING
 
 
 class SBAdvertisingDealPrice(BaseModel):
@@ -172,3 +173,13 @@ class SBTag(BaseModel):
 
     key: str  # A custom key value pair entered by the advertiser.
     value: str  # A custom key value pair entered by the advertiser.
+
+
+__all__ = [
+    "SBAdvertisingDealPrice",
+    "SBCreateTag",
+    "SBDeliveryReason",
+    "SBDeliveryStatus",
+    "SBStatus",
+    "SBTag",
+]

@@ -11,6 +11,7 @@ if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
 
     from .shared import SBAdvertisingDealPrice
+del TYPE_CHECKING
 
 
 class SBBrandedKeywordsPricing(BaseModel):
@@ -86,3 +87,14 @@ class SBRejectedKeyword(BaseModel):
 
     keyword: str  # The keyword that has been rejected.
     reason: str  # The reason keyword has been rejected for this advertiser.
+
+
+__all__ = [
+    "SBBrandedKeywordsPricing",
+    "SBBrandedKeywordsPricingCreate",
+    "SBBrandedKeywordsPricingMultiStatusResponse",
+    "SBBrandedKeywordsPricingMultiStatusSuccess",
+    "SBCreateBrandedKeywordsPricingRequest",
+    "SBKeywordsPricing",
+    "SBRejectedKeyword",
+]

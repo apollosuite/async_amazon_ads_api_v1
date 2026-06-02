@@ -20,6 +20,7 @@ if TYPE_CHECKING:
         SBUpdateState,
     )
     from .shared import SBCreateTag, SBStatus, SBTag
+del TYPE_CHECKING
 
 
 class SBAdGroup(BaseModel):
@@ -189,3 +190,23 @@ class SBUpdateAdGroupRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SBAdGroupUpdate] | None = None
+
+
+__all__ = [
+    "SBAdGroup",
+    "SBAdGroupAdGroupIdFilter",
+    "SBAdGroupAdProductFilter",
+    "SBAdGroupCampaignIdFilter",
+    "SBAdGroupCreate",
+    "SBAdGroupMultiStatusResponse",
+    "SBAdGroupMultiStatusSuccess",
+    "SBAdGroupNameFilter",
+    "SBAdGroupNameFilterType",
+    "SBAdGroupStateFilter",
+    "SBAdGroupSuccessResponse",
+    "SBAdGroupUpdate",
+    "SBCreateAdGroupRequest",
+    "SBDeleteAdGroupRequest",
+    "SBQueryAdGroupRequest",
+    "SBUpdateAdGroupRequest",
+]

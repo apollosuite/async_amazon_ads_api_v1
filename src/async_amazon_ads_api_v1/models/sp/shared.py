@@ -220,3 +220,6 @@ class SPTag(BaseModel):
 
     key: str  # A custom key value pair entered by the advertiser.
     value: str  # A custom key value pair entered by the advertiser.
+
+
+__all__ = ["SPCreateTag", "SPDeliveryReason", "SPDeliveryStatus", "SPStatus", "SPTag"]

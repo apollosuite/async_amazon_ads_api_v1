@@ -21,6 +21,7 @@ if TYPE_CHECKING:
         SPUpdateState,
     )
     from .shared import SPCreateTag, SPStatus, SPTag
+del TYPE_CHECKING
 
 
 class SPAudienceBidAdjustment(BaseModel):
@@ -657,3 +658,61 @@ class SPUpdateCampaignRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     campaigns: list[SPCampaignUpdate] | None = None
+
+
+__all__ = [
+    "SPAudienceBidAdjustment",
+    "SPAutoCreationSettings",
+    "SPAutoScaleGlobalCampaignSetting",
+    "SPBidAdjustments",
+    "SPBidSettings",
+    "SPBidStrategy",
+    "SPBudget",
+    "SPBudgetSettings",
+    "SPBudgetType",
+    "SPBudgetValue",
+    "SPCampaign",
+    "SPCampaignAdProductFilter",
+    "SPCampaignCampaignIdFilter",
+    "SPCampaignCreate",
+    "SPCampaignMultiStatusResponse",
+    "SPCampaignMultiStatusSuccess",
+    "SPCampaignNameFilter",
+    "SPCampaignNameFilterType",
+    "SPCampaignOptimizations",
+    "SPCampaignPortfolioIdFilter",
+    "SPCampaignStateFilter",
+    "SPCampaignSuccessResponse",
+    "SPCampaignUpdate",
+    "SPCountryCode",
+    "SPCreateAudienceBidAdjustment",
+    "SPCreateAutoCreationSettings",
+    "SPCreateBidAdjustments",
+    "SPCreateBidSettings",
+    "SPCreateBudget",
+    "SPCreateBudgetSettings",
+    "SPCreateBudgetValue",
+    "SPCreateCampaignOptimizations",
+    "SPCreateCampaignRequest",
+    "SPCreateCreativeBidAdjustment",
+    "SPCreateMonetaryBudget",
+    "SPCreateMonetaryBudgetValue",
+    "SPCreatePlacementBidAdjustment",
+    "SPCreativeBidAdjustment",
+    "SPCreativeBidAdjustmentType",
+    "SPDeleteCampaignRequest",
+    "SPMarketplaceBudgetAllocation",
+    "SPMonetaryBudget",
+    "SPMonetaryBudgetValue",
+    "SPOffAmazonBudgetControlStrategy",
+    "SPPlacement",
+    "SPPlacementBidAdjustment",
+    "SPQueryCampaignRequest",
+    "SPRecurrence",
+    "SPSiteRestriction",
+    "SPUpdateBidAdjustments",
+    "SPUpdateBidSettings",
+    "SPUpdateBudgetSettings",
+    "SPUpdateCampaignOptimizations",
+    "SPUpdateCampaignRequest",
+]

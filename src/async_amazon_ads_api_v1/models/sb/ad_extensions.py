@@ -19,6 +19,7 @@ if TYPE_CHECKING:
         SBState,
         SBUpdateState,
     )
+del TYPE_CHECKING
 
 
 class SBAdExtension(BaseModel):
@@ -248,3 +249,29 @@ class SBUpdateAdExtensionRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adExtensions: list[SBAdExtensionUpdate] | None = None
+
+
+__all__ = [
+    "SBAdExtension",
+    "SBAdExtensionAdExtensionIdFilter",
+    "SBAdExtensionAdExtensionStatusFilter",
+    "SBAdExtensionAdExtensionTypeFilter",
+    "SBAdExtensionAdGroupIdFilter",
+    "SBAdExtensionAdIdFilter",
+    "SBAdExtensionAdProductFilter",
+    "SBAdExtensionCreate",
+    "SBAdExtensionMultiStatusResponse",
+    "SBAdExtensionMultiStatusSuccess",
+    "SBAdExtensionSettings",
+    "SBAdExtensionStateFilter",
+    "SBAdExtensionStatus",
+    "SBAdExtensionSuccessResponse",
+    "SBAdExtensionType",
+    "SBAdExtensionUpdate",
+    "SBCreateAdExtensionRequest",
+    "SBCreateAdExtensionSettings",
+    "SBCreatePromptExtension",
+    "SBPromptExtension",
+    "SBQueryAdExtensionRequest",
+    "SBUpdateAdExtensionRequest",
+]

@@ -25,7 +25,7 @@ class TestClientContext:
         assert ctx.profile_header == {}
 
     def test_profile_header_with_profile(self, config: AmazonAdsConfig) -> None:
-        config.profile_id = 42
+        config.profile_id = "42"
         ctx = ClientContext(config)
         assert ctx.profile_header == {"Amazon-Advertising-API-Scope": "42"}
 
@@ -129,7 +129,7 @@ class TestResourceBase:
     async def test_request_profile_header(
         self, resource: _ResourceBase, mock_async_client: MagicMock, mock_response: MagicMock
     ) -> None:
-        resource._ctx.config.profile_id = 1
+        resource._ctx.config.profile_id = "1"
         mock_async_client.request.return_value = mock_response
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
             await resource._request("GET", "/test")
@@ -204,6 +204,7 @@ class TestResourceBase:
         resp = MagicMock(spec=httpx.Response)
         resp.content = b'{"name": "x", "value": 2}'
         result = resource._response(DummyModel, resp)
+        assert isinstance(result, DummyModel)
         assert result.name == "x"
         assert result.value == 2
 
@@ -215,6 +216,7 @@ class TestResourceBase:
         mock_async_client.request.return_value = mock_resp
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
             result = await resource._create([{"name": "a", "value": 1}], spec, DummyResponse)
+        assert isinstance(result, DummyResponse)
         assert result.ok is True
         call_kwargs = mock_async_client.request.call_args[1]
         assert call_kwargs["method"] == "POST"
@@ -229,6 +231,7 @@ class TestResourceBase:
         mock_async_client.request.return_value = mock_resp
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
             result = await resource._update([DummyModel(name="a", value=1)], spec, DummyResponse)
+        assert isinstance(result, DummyResponse)
         assert result.ok is True
         call_kwargs = mock_async_client.request.call_args[1]
         assert call_kwargs["method"] == "POST"
@@ -248,6 +251,7 @@ class TestResourceBase:
         mock_async_client.request.return_value = mock_resp
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
             result = await resource._delete(["1", "2"], spec, DummyResponse)
+        assert isinstance(result, DummyResponse)
         assert result.ok is True
         call_kwargs = mock_async_client.request.call_args[1]
         assert call_kwargs["json"] == {"itemIds": ["1", "2"]}
@@ -266,6 +270,7 @@ class TestResourceBase:
         mock_async_client.request.return_value = mock_resp
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
             result = await resource._query(body, "/test/query", DummyResponse)
+        assert isinstance(result, DummyResponse)
         assert result.ok is True
         call_kwargs = mock_async_client.request.call_args[1]
         assert call_kwargs["method"] == "POST"

@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 
     from .enums import SBAdvertisingDealPriceType
     from .shared import SBAdvertisingDealPrice
+del TYPE_CHECKING
 
 
 class SBAdvertisingDeal(BaseModel):
@@ -201,3 +202,25 @@ class SBUpdateAdvertisingDealRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     advertisingDeals: list[SBAdvertisingDealUpdate] | None = None
+
+
+__all__ = [
+    "SBAdvertisingDeal",
+    "SBAdvertisingDealAdvertisingDealIdFilter",
+    "SBAdvertisingDealCreate",
+    "SBAdvertisingDealMultiStatusResponse",
+    "SBAdvertisingDealMultiStatusSuccess",
+    "SBAdvertisingDealNameFilter",
+    "SBAdvertisingDealNameFilterType",
+    "SBAdvertisingDealState",
+    "SBAdvertisingDealStatus",
+    "SBAdvertisingDealStatusEnum",
+    "SBAdvertisingDealSuccessResponse",
+    "SBAdvertisingDealUpdate",
+    "SBCreateAdvertisingDealPrice",
+    "SBCreateAdvertisingDealRequest",
+    "SBDeleteAdvertisingDealRequest",
+    "SBQueryAdvertisingDealRequest",
+    "SBUpdateAdvertisingDealPrice",
+    "SBUpdateAdvertisingDealRequest",
+]

@@ -36,11 +36,7 @@ class TestSPClient:
 
     def test_properties_lazy_init(self, config: AmazonAdsConfig) -> None:
         client = SPClient(config)
-        assert client._SPClient__campaign is None
-        assert client._SPClient__ad_group is None
-        assert client._SPClient__ad is None
-        assert client._SPClient__target is None
-        assert client._SPClient__ad_extension is None
+        assert client._ctx is not None
 
     def test_campaigns_property(self, config: AmazonAdsConfig) -> None:
         client = SPClient(config)

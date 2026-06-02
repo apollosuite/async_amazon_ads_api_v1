@@ -22,6 +22,7 @@ if TYPE_CHECKING:
         SPUpdateState,
     )
     from .shared import SPCreateTag, SPStatus, SPTag
+del TYPE_CHECKING
 
 
 class SPCreateKeywordTarget(BaseModel):
@@ -627,3 +628,57 @@ class SPUpdateTargetRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     targets: list[SPTargetUpdate] | None = None
+
+
+__all__ = [
+    "SPCreateKeywordTarget",
+    "SPCreateLocationTarget",
+    "SPCreateProductCategoryRefinement",
+    "SPCreateProductCategoryRefinementValue",
+    "SPCreateProductCategoryTarget",
+    "SPCreateProductTarget",
+    "SPCreateProductValue",
+    "SPCreateTargetBid",
+    "SPCreateTargetDetails",
+    "SPCreateTargetRequest",
+    "SPCreateThemeTarget",
+    "SPDeleteTargetRequest",
+    "SPKeywordMatchType",
+    "SPKeywordTarget",
+    "SPLanguageLocale",
+    "SPLocationTarget",
+    "SPMatchType",
+    "SPProductCategoryRefinement",
+    "SPProductCategoryRefinementValue",
+    "SPProductCategoryTarget",
+    "SPProductMatchType",
+    "SPProductTarget",
+    "SPProductValue",
+    "SPQueryTargetRequest",
+    "SPTarget",
+    "SPTargetAdGroupIdFilter",
+    "SPTargetAdProductFilter",
+    "SPTargetBid",
+    "SPTargetCampaignIdFilter",
+    "SPTargetCreate",
+    "SPTargetDetails",
+    "SPTargetKeywordFilter",
+    "SPTargetKeywordFilterType",
+    "SPTargetLevel",
+    "SPTargetMatchTypeFilter",
+    "SPTargetMultiStatusResponse",
+    "SPTargetMultiStatusSuccess",
+    "SPTargetNegativeFilter",
+    "SPTargetProductIdFilter",
+    "SPTargetProductIdFilterType",
+    "SPTargetStateFilter",
+    "SPTargetSuccessResponse",
+    "SPTargetTargetIdFilter",
+    "SPTargetTargetTypeFilter",
+    "SPTargetType",
+    "SPTargetUpdate",
+    "SPThemeMatchType",
+    "SPThemeTarget",
+    "SPUpdateTargetBid",
+    "SPUpdateTargetRequest",
+]

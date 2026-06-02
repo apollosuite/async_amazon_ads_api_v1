@@ -39,7 +39,7 @@ class ClientContext:
     async def get_client(self) -> httpx.AsyncClient:
         if self._client is None:
             self._client = httpx.AsyncClient(
-                base_url=self.config.region.value,
+                base_url=self.config.region.resolve(),
                 timeout=httpx.Timeout(self.config.timeout),
             )
         return self._client

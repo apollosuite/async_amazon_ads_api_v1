@@ -9,6 +9,7 @@ from pydantic import BaseModel, ConfigDict
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
+del TYPE_CHECKING
 
 
 class SBAlternateBrandIdType(StrEnum):
@@ -162,3 +163,23 @@ class SBRecommendedObject(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     recommendedObjectSettings: SBObjectSettings | None = None
+
+
+__all__ = [
+    "SBAlternateBrandIdType",
+    "SBBrandAlternateId",
+    "SBBrandedKeyword",
+    "SBBrandedKeywordList",
+    "SBBrandedKeywordRecommendationTypeDetails",
+    "SBCreateBrandAlternateId",
+    "SBCreateBrandedKeywordRecommendationTypeDetails",
+    "SBCreateRecommendationRequest",
+    "SBCreateRecommendationTypeDetails",
+    "SBObjectSettings",
+    "SBRecommendation",
+    "SBRecommendationCreate",
+    "SBRecommendationMultiStatusResponse",
+    "SBRecommendationMultiStatusSuccess",
+    "SBRecommendationTypeDetails",
+    "SBRecommendedObject",
+]

@@ -9,6 +9,7 @@ from pydantic import BaseModel, ConfigDict
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
+del TYPE_CHECKING
 
 
 class SBAdvertisingDealBrandedKeywordTargetDetails(BaseModel):
@@ -136,3 +137,21 @@ class SBQueryAdvertisingDealTargetRequest(BaseModel):
     advertisingDealIdFilter: SBAdvertisingDealTargetAdvertisingDealIdFilter
     maxResults: int | None = None
     nextToken: str | None = None
+
+
+__all__ = [
+    "SBAdvertisingDealBrandedKeywordTargetDetails",
+    "SBAdvertisingDealTarget",
+    "SBAdvertisingDealTargetAdvertisingDealIdFilter",
+    "SBAdvertisingDealTargetCreate",
+    "SBAdvertisingDealTargetDetails",
+    "SBAdvertisingDealTargetMultiStatusResponse",
+    "SBAdvertisingDealTargetMultiStatusSuccess",
+    "SBAdvertisingDealTargetSuccessResponse",
+    "SBAdvertisingDealTargetType",
+    "SBCreateAdvertisingDealBrandedKeywordTargetDetails",
+    "SBCreateAdvertisingDealTargetDetails",
+    "SBCreateAdvertisingDealTargetRequest",
+    "SBDeleteAdvertisingDealTargetRequest",
+    "SBQueryAdvertisingDealTargetRequest",
+]

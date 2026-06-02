@@ -21,6 +21,7 @@ if TYPE_CHECKING:
         SDUpdateState,
     )
     from .shared import SDStatus
+del TYPE_CHECKING
 
 
 class SDBudget(BaseModel):
@@ -386,3 +387,37 @@ class SDUpdateCampaignRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     campaigns: list[SDCampaignUpdate] | None = None
+
+
+__all__ = [
+    "SDBudget",
+    "SDBudgetType",
+    "SDBudgetValue",
+    "SDCampaign",
+    "SDCampaignAdProductFilter",
+    "SDCampaignCampaignIdFilter",
+    "SDCampaignCreate",
+    "SDCampaignMultiStatusResponse",
+    "SDCampaignMultiStatusSuccess",
+    "SDCampaignNameFilter",
+    "SDCampaignNameFilterType",
+    "SDCampaignPortfolioIdFilter",
+    "SDCampaignStateFilter",
+    "SDCampaignSuccessResponse",
+    "SDCampaignUpdate",
+    "SDCostType",
+    "SDCountryCode",
+    "SDCreateBudget",
+    "SDCreateBudgetValue",
+    "SDCreateCampaignRequest",
+    "SDCreateMonetaryBudget",
+    "SDCreateMonetaryBudgetValue",
+    "SDCreateTag",
+    "SDDeleteCampaignRequest",
+    "SDMonetaryBudget",
+    "SDMonetaryBudgetValue",
+    "SDQueryCampaignRequest",
+    "SDRecurrence",
+    "SDTag",
+    "SDUpdateCampaignRequest",
+]

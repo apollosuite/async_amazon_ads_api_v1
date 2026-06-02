@@ -21,6 +21,7 @@ if TYPE_CHECKING:
         SDUpdateState,
     )
     from .shared import SDStatus
+del TYPE_CHECKING
 
 
 class SDAdGroup(BaseModel):
@@ -316,3 +317,34 @@ class SDUpdateOptimization(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     goalSettings: SDUpdateAdGroupGoalSettings | None = None
+
+
+__all__ = [
+    "SDAdGroup",
+    "SDAdGroupAdGroupIdFilter",
+    "SDAdGroupAdProductFilter",
+    "SDAdGroupBid",
+    "SDAdGroupCampaignIdFilter",
+    "SDAdGroupCreate",
+    "SDAdGroupGoalSettings",
+    "SDAdGroupMultiStatusResponse",
+    "SDAdGroupMultiStatusSuccess",
+    "SDAdGroupNameFilter",
+    "SDAdGroupNameFilterType",
+    "SDAdGroupStateFilter",
+    "SDAdGroupSuccessResponse",
+    "SDAdGroupUpdate",
+    "SDCreateAdGroupBid",
+    "SDCreateAdGroupGoalSettings",
+    "SDCreateAdGroupRequest",
+    "SDCreateOptimization",
+    "SDCreativeType",
+    "SDDeleteAdGroupRequest",
+    "SDKPI",
+    "SDOptimization",
+    "SDQueryAdGroupRequest",
+    "SDUpdateAdGroupBid",
+    "SDUpdateAdGroupGoalSettings",
+    "SDUpdateAdGroupRequest",
+    "SDUpdateOptimization",
+]

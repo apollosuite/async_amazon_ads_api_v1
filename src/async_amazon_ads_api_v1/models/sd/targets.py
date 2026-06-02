@@ -20,6 +20,7 @@ if TYPE_CHECKING:
         SDUpdateState,
     )
     from .shared import SDStatus
+del TYPE_CHECKING
 
 
 class SDAudienceTarget(BaseModel):
@@ -618,3 +619,60 @@ class SDUpdateTargetRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     targets: list[SDTargetUpdate] | None = None
+
+
+__all__ = [
+    "SDAudienceTarget",
+    "SDContentCategoryTarget",
+    "SDCreateAudienceTarget",
+    "SDCreateContentCategoryTarget",
+    "SDCreateKeywordTarget",
+    "SDCreateLocationTarget",
+    "SDCreateMarketplaceStringValue",
+    "SDCreateProductAudienceTarget",
+    "SDCreateProductCategoryRefinement",
+    "SDCreateProductCategoryRefinementValue",
+    "SDCreateProductCategoryTarget",
+    "SDCreateProductTarget",
+    "SDCreateProductValue",
+    "SDCreateTargetBid",
+    "SDCreateTargetDetails",
+    "SDCreateTargetRequest",
+    "SDCreateThemeTarget",
+    "SDDeleteTargetRequest",
+    "SDKeywordMatchType",
+    "SDKeywordTarget",
+    "SDLanguageLocale",
+    "SDLocationTarget",
+    "SDLookback",
+    "SDMarketplaceStringValue",
+    "SDProductAudienceMatchType",
+    "SDProductAudienceTarget",
+    "SDProductCategoryRefinement",
+    "SDProductCategoryRefinementValue",
+    "SDProductCategoryTarget",
+    "SDProductMatchType",
+    "SDProductTarget",
+    "SDProductValue",
+    "SDQueryTargetRequest",
+    "SDTarget",
+    "SDTargetAdGroupIdFilter",
+    "SDTargetAdProductFilter",
+    "SDTargetBid",
+    "SDTargetCampaignIdFilter",
+    "SDTargetCreate",
+    "SDTargetDetails",
+    "SDTargetEvent",
+    "SDTargetLevel",
+    "SDTargetMultiStatusResponse",
+    "SDTargetMultiStatusSuccess",
+    "SDTargetStateFilter",
+    "SDTargetSuccessResponse",
+    "SDTargetTargetIdFilter",
+    "SDTargetType",
+    "SDTargetUpdate",
+    "SDThemeMatchType",
+    "SDThemeTarget",
+    "SDUpdateTargetBid",
+    "SDUpdateTargetRequest",
+]

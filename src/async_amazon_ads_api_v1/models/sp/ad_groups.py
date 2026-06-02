@@ -21,6 +21,7 @@ if TYPE_CHECKING:
         SPUpdateState,
     )
     from .shared import SPCreateTag, SPStatus, SPTag
+del TYPE_CHECKING
 
 
 class SPAdGroup(BaseModel):
@@ -256,3 +257,29 @@ class SPUpdateAdSettings(BaseModel):
     productAttributeSetRefinementConfigurationId: str | None = (
         None  # Identifier for the product attribute configuration set associated with this ad group.
     )
+
+
+__all__ = [
+    "SPAdGroup",
+    "SPAdGroupAdGroupIdFilter",
+    "SPAdGroupAdProductFilter",
+    "SPAdGroupBid",
+    "SPAdGroupCampaignIdFilter",
+    "SPAdGroupCreate",
+    "SPAdGroupMultiStatusResponse",
+    "SPAdGroupMultiStatusSuccess",
+    "SPAdGroupNameFilter",
+    "SPAdGroupNameFilterType",
+    "SPAdGroupStateFilter",
+    "SPAdGroupSuccessResponse",
+    "SPAdGroupUpdate",
+    "SPAdSettings",
+    "SPCreateAdGroupBid",
+    "SPCreateAdGroupRequest",
+    "SPCreateAdSettings",
+    "SPDeleteAdGroupRequest",
+    "SPQueryAdGroupRequest",
+    "SPUpdateAdGroupBid",
+    "SPUpdateAdGroupRequest",
+    "SPUpdateAdSettings",
+]

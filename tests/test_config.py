@@ -9,13 +9,19 @@ from async_amazon_ads_api_v1.config import AmazonAdsConfig, Region
 
 
 class TestRegion:
-    def test_values(self) -> None:
-        assert Region.NA == "https://advertising-api.amazon.com"
-        assert Region.EU == "https://advertising-api-eu.amazon.com"
-        assert Region.FE == "https://advertising-api-fe.amazon.com"
+    def test_resolve_defaults(self) -> None:
+        assert Region.NA.resolve() == "https://advertising-api.amazon.com"
+        assert Region.EU.resolve() == "https://advertising-api-eu.amazon.com"
+        assert Region.FE.resolve() == "https://advertising-api-fe.amazon.com"
 
-    def test_str_enum(self) -> None:
-        assert str(Region.NA) == "https://advertising-api.amazon.com"
+    def test_set_endpoint_override(self) -> None:
+        Region.set_endpoint(Region.NA, "http://localhost:8080")
+        assert Region.NA.resolve() == "http://localhost:8080"
+        Region.set_endpoint(Region.NA, "https://advertising-api.amazon.com")
+
+    def test_str_enum_identity(self) -> None:
+        assert str(Region.NA) == "na"
+        assert Region.NA.value == "na"
 
 
 class TestAmazonAdsConfig:

@@ -20,6 +20,7 @@ if TYPE_CHECKING:
         SPUpdateState,
     )
     from .shared import SPStatus
+del TYPE_CHECKING
 
 
 class SPAdExtension(BaseModel):
@@ -283,3 +284,32 @@ class SPVideoType(StrEnum):
     """
 
     SPOTLIGHT = "SPOTLIGHT"
+
+
+__all__ = [
+    "SPAdExtension",
+    "SPAdExtensionAdExtensionIdFilter",
+    "SPAdExtensionAdExtensionStatusFilter",
+    "SPAdExtensionAdExtensionTypeFilter",
+    "SPAdExtensionAdGroupIdFilter",
+    "SPAdExtensionAdIdFilter",
+    "SPAdExtensionAdProductFilter",
+    "SPAdExtensionCreate",
+    "SPAdExtensionMultiStatusResponse",
+    "SPAdExtensionMultiStatusSuccess",
+    "SPAdExtensionSettings",
+    "SPAdExtensionStateFilter",
+    "SPAdExtensionStatus",
+    "SPAdExtensionSuccessResponse",
+    "SPAdExtensionType",
+    "SPAdExtensionUpdate",
+    "SPCreateAdExtensionRequest",
+    "SPCreateAdExtensionSettings",
+    "SPCreatePromptExtension",
+    "SPCreateVideoExtension",
+    "SPPromptExtension",
+    "SPQueryAdExtensionRequest",
+    "SPUpdateAdExtensionRequest",
+    "SPVideoExtension",
+    "SPVideoType",
+]

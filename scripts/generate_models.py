@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from generate_file_structure import classify
+from generate_file_structure import classify  # type: ignore[import-untyped]
 
 HERE = Path(__file__).parent
 PROJECT = HERE.parent / "src" / "async_amazon_ads_api_v1"
@@ -213,6 +213,7 @@ def _build_import_block(module_filename: str, refs: set[str], schema_module: dic
             lines.append(f"    from async_amazon_ads_api_v1.errors import {', '.join(names)}")
         else:
             lines.append(f"    from .{src.removesuffix('.py')} import {', '.join(names)}")
+    lines.append("del TYPE_CHECKING")
     return "\n".join(lines) + "\n\n"
 
 
@@ -227,6 +228,7 @@ def main(*, output_dir: Path | None = None, product: str | None = None) -> None:
     if product is None or product not in ("sp", "sb", "sd"):
         print("Error: --product must be 'sp', 'sb', or 'sd'", file=sys.stderr)
         sys.exit(1)
+    assert output_dir is not None
 
     spec_path = SPECS[product]
     with open(spec_path) as f:
@@ -272,6 +274,9 @@ def main(*, output_dir: Path | None = None, product: str | None = None) -> None:
 
     # Write files
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Track model names per file for __all__
+    file_model_names: dict[str, list[str]] = {mod: list(names) for mod, names in groups.items()}
 
     # __init__.py
     init_parts = [
@@ -339,6 +344,10 @@ def main(*, output_dir: Path | None = None, product: str | None = None) -> None:
         buf = [header, imports] if imports else [header]
         for n in names:
             emit_to_file(buf, n)
+        # Add __all__ to prevent TYPE_CHECKING from being exported via star imports
+        all_models = file_model_names.get(filename, [])
+        if all_models:
+            buf.append(f"\n__all__ = [{', '.join(repr(m) for m in all_models)}]\n")
         (output_dir / filename).write_text("".join(buf) + "\n")
         print(f"Wrote {output_dir / filename}  ({len(names)} models)")
 

@@ -8,6 +8,7 @@ from pydantic import BaseModel, ConfigDict
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
+del TYPE_CHECKING
 
 
 class SBCreateKeywordReservationValidationRequest(BaseModel):
@@ -55,3 +56,12 @@ class SBKeywordReservationValidationMultiStatusSuccess(BaseModel):
 
     index: int
     keywordReservationValidation: SBKeywordReservationValidation
+
+
+__all__ = [
+    "SBCreateKeywordReservationValidationRequest",
+    "SBKeywordReservationValidation",
+    "SBKeywordReservationValidationCreate",
+    "SBKeywordReservationValidationMultiStatusResponse",
+    "SBKeywordReservationValidationMultiStatusSuccess",
+]

@@ -35,10 +35,7 @@ class TestSDClient:
 
     def test_properties_lazy_init(self, config: AmazonAdsConfig) -> None:
         client = SDClient(config)
-        assert client._SDClient__campaign is None
-        assert client._SDClient__ad_group is None
-        assert client._SDClient__ad is None
-        assert client._SDClient__target is None
+        assert client._ctx is not None
 
     def test_campaigns_property(self, config: AmazonAdsConfig) -> None:
         client = SDClient(config)

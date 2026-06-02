@@ -101,7 +101,7 @@ ACTION_VERBS: set[str] = {
 }
 
 
-def extract_resource_from_path(path: str) -> tuple[str, str] | None:
+def extract_resource_from_path(path: str) -> tuple[str | None, str] | None:
     """从路径中提取 (action, resource_name)。
 
     支持模式：

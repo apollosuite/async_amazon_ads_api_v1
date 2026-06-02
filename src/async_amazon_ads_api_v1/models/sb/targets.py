@@ -22,6 +22,7 @@ if TYPE_CHECKING:
         SBUpdateState,
     )
     from .shared import SBStatus
+del TYPE_CHECKING
 
 
 class SBCreateKeywordTarget(BaseModel):
@@ -533,3 +534,54 @@ class SBUpdateTargetRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     targets: list[SBTargetUpdate] | None = None
+
+
+__all__ = [
+    "SBCreateKeywordTarget",
+    "SBCreateProductCategoryRefinement",
+    "SBCreateProductCategoryRefinementValue",
+    "SBCreateProductCategoryTarget",
+    "SBCreateProductTarget",
+    "SBCreateProductValue",
+    "SBCreateTargetBid",
+    "SBCreateTargetDetails",
+    "SBCreateTargetRequest",
+    "SBCreateThemeTarget",
+    "SBDeleteTargetRequest",
+    "SBKeywordMatchType",
+    "SBKeywordTarget",
+    "SBLanguageLocale",
+    "SBMatchType",
+    "SBProductCategoryRefinement",
+    "SBProductCategoryRefinementValue",
+    "SBProductCategoryTarget",
+    "SBProductMatchType",
+    "SBProductTarget",
+    "SBProductValue",
+    "SBQueryTargetRequest",
+    "SBTarget",
+    "SBTargetAdGroupIdFilter",
+    "SBTargetAdProductFilter",
+    "SBTargetBid",
+    "SBTargetCampaignIdFilter",
+    "SBTargetCreate",
+    "SBTargetDetails",
+    "SBTargetKeywordFilter",
+    "SBTargetKeywordFilterType",
+    "SBTargetLanguageLocaleFilter",
+    "SBTargetLevel",
+    "SBTargetMatchTypeFilter",
+    "SBTargetMultiStatusResponse",
+    "SBTargetMultiStatusSuccess",
+    "SBTargetNegativeFilter",
+    "SBTargetStateFilter",
+    "SBTargetSuccessResponse",
+    "SBTargetTargetIdFilter",
+    "SBTargetTargetTypeFilter",
+    "SBTargetType",
+    "SBTargetUpdate",
+    "SBThemeMatchType",
+    "SBThemeTarget",
+    "SBUpdateTargetBid",
+    "SBUpdateTargetRequest",
+]
