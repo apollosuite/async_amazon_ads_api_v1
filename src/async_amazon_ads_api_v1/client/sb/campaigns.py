@@ -24,8 +24,8 @@ class Campaigns(_ResourceBase):
 
     async def create(
         self, campaigns: list[dict[str, Any] | SBCampaignCreate]
-    ) -> SBCampaignSuccessResponse | dict[str, Any]:
-        return await self._create(campaigns, self._spec, SBCampaignSuccessResponse)
+    ) -> SBCampaignMultiStatusResponse | dict[str, Any]:
+        return await self._create(campaigns, self._spec, SBCampaignMultiStatusResponse)
 
     async def query(
         self, body: dict[str, Any] | SBQueryCampaignRequest

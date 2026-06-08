@@ -24,8 +24,8 @@ class Targets(_ResourceBase):
 
     async def create(
         self, targets: list[dict[str, Any] | SDTargetCreate]
-    ) -> SDTargetSuccessResponse | dict[str, Any]:
-        return await self._create(targets, self._spec, SDTargetSuccessResponse)
+    ) -> SDTargetMultiStatusResponse | dict[str, Any]:
+        return await self._create(targets, self._spec, SDTargetMultiStatusResponse)
 
     async def query(
         self, body: dict[str, Any] | SDQueryTargetRequest

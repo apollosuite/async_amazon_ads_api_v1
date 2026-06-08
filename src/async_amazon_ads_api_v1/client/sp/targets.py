@@ -26,8 +26,8 @@ class Targets(_ResourceBase):
 
     async def create(
         self, targets: list[dict[str, Any] | SPTargetCreate]
-    ) -> SPTargetSuccessResponse | dict[str, Any]:
-        return await self._create(targets, self._spec, SPTargetSuccessResponse)
+    ) -> SPTargetMultiStatusResponse | dict[str, Any]:
+        return await self._create(targets, self._spec, SPTargetMultiStatusResponse)
 
     async def query(
         self, body: dict[str, Any] | SPQueryTargetRequest

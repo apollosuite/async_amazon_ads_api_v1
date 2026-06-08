@@ -24,8 +24,8 @@ class AdGroups(_ResourceBase):
 
     async def create(
         self, ad_groups: list[dict[str, Any] | SDAdGroupCreate]
-    ) -> SDAdGroupSuccessResponse | dict[str, Any]:
-        return await self._create(ad_groups, self._spec, SDAdGroupSuccessResponse)
+    ) -> SDAdGroupMultiStatusResponse | dict[str, Any]:
+        return await self._create(ad_groups, self._spec, SDAdGroupMultiStatusResponse)
 
     async def query(
         self, body: dict[str, Any] | SDQueryAdGroupRequest

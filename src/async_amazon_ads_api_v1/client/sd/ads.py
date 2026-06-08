@@ -24,8 +24,8 @@ class Ads(_ResourceBase):
 
     async def create(
         self, ads: list[dict[str, Any] | SDAdCreate]
-    ) -> SDAdSuccessResponse | dict[str, Any]:
-        return await self._create(ads, self._spec, SDAdSuccessResponse)
+    ) -> SDAdMultiStatusResponse | dict[str, Any]:
+        return await self._create(ads, self._spec, SDAdMultiStatusResponse)
 
     async def query(
         self, body: dict[str, Any] | SDQueryAdRequest

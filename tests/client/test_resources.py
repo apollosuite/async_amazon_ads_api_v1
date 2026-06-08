@@ -167,14 +167,34 @@ class TestResourceSpecs:
 class TestResourceMethodRouting:
     """Verify resource methods delegate to _ResourceBase with correct args."""
 
-    @pytest.mark.parametrize("cls", [SPCampaigns, SBCampaigns, SDCampaigns])
+    @pytest.mark.parametrize(
+        ("cls", "expected_response"),
+        [
+            (SPCampaigns, "SPCampaignMultiStatusResponse"),
+            (SPAdGroups, "SPAdGroupMultiStatusResponse"),
+            (SPAds, "SPAdMultiStatusResponse"),
+            (SPTargets, "SPTargetMultiStatusResponse"),
+            (SBCampaigns, "SBCampaignMultiStatusResponse"),
+            (SBAdGroups, "SBAdGroupMultiStatusResponse"),
+            (SBAds, "SBAdMultiStatusResponse"),
+            (SBTargets, "SBTargetMultiStatusResponse"),
+            (SDCampaigns, "SDCampaignMultiStatusResponse"),
+            (SDAdGroups, "SDAdGroupMultiStatusResponse"),
+            (SDAds, "SDAdMultiStatusResponse"),
+            (SDTargets, "SDTargetMultiStatusResponse"),
+        ],
+    )
     @pytest.mark.asyncio
-    async def test_create_routing(self, cls: type, config: AmazonAdsConfig) -> None:
+    async def test_create_routing(
+        self, cls: type, expected_response: str, config: AmazonAdsConfig
+    ) -> None:
         obj = cls(ClientContext(config))
         mock_result = MagicMock()
-        with patch.object(obj, "_create", AsyncMock(return_value=mock_result)):
+        with patch.object(obj, "_create", AsyncMock(return_value=mock_result)) as create_mock:
             result = await obj.create([{"name": "test"}])
             assert result is mock_result
+            create_mock.assert_awaited_once()
+            assert create_mock.await_args.args[2].__name__ == expected_response
 
     @pytest.mark.parametrize(
         "cls,body",
