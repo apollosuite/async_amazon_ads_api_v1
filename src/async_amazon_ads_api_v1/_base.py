@@ -11,7 +11,7 @@ from typing import Any, TypeVar, cast
 import httpx
 from pydantic import BaseModel, ValidationError
 
-from .config import AmazonAdsConfig
+from .config.settings import AmazonAdsConfig
 
 logger = logging.getLogger(__name__)
 

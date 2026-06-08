@@ -8,7 +8,8 @@ import pytest
 import pytest_asyncio
 
 from async_amazon_ads_api_v1._base import ClientContext
-from async_amazon_ads_api_v1.config import AmazonAdsConfig, Region
+from async_amazon_ads_api_v1.config.region import Region
+from async_amazon_ads_api_v1.config.settings import AmazonAdsConfig
 
 
 @pytest.fixture

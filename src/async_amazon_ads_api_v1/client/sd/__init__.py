@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from async_amazon_ads_api_v1._base import ClientContext
-from async_amazon_ads_api_v1.config import AmazonAdsConfig
+from async_amazon_ads_api_v1.config.settings import AmazonAdsConfig
 
 from .ad_groups import AdGroups
 from .ads import Ads

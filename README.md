@@ -66,9 +66,9 @@ export AMAZON_PROFILE_ID=...        # 可选
 ```
 
 ```python
-from async_amazon_ads_api_v1 import AmazonAdsConfig, SPClient
+from async_amazon_ads_api_v1.config.loader import from_toml
 
-config = AmazonAdsConfig.from_env()
+config = from_toml()
 ```
 
 ## API Reference

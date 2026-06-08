@@ -7,7 +7,8 @@ from async_amazon_ads_api_v1.client.sd.ad_groups import AdGroups
 from async_amazon_ads_api_v1.client.sd.ads import Ads
 from async_amazon_ads_api_v1.client.sd.campaigns import Campaigns
 from async_amazon_ads_api_v1.client.sd.targets import Targets
-from async_amazon_ads_api_v1.config import AmazonAdsConfig, Region
+from async_amazon_ads_api_v1.config.region import Region
+from async_amazon_ads_api_v1.config.settings import AmazonAdsConfig
 
 
 class TestSDClient:

@@ -8,7 +8,8 @@ from async_amazon_ads_api_v1.client.sp.ad_groups import AdGroups
 from async_amazon_ads_api_v1.client.sp.ads import Ads
 from async_amazon_ads_api_v1.client.sp.campaigns import Campaigns
 from async_amazon_ads_api_v1.client.sp.targets import Targets
-from async_amazon_ads_api_v1.config import AmazonAdsConfig, Region
+from async_amazon_ads_api_v1.config.region import Region
+from async_amazon_ads_api_v1.config.settings import AmazonAdsConfig
 
 
 class TestSPClient:

@@ -16,7 +16,8 @@ from async_amazon_ads_api_v1.client.sb.keyword_reservation_validations import (
 from async_amazon_ads_api_v1.client.sb.recommendation_types import RecommendationTypes
 from async_amazon_ads_api_v1.client.sb.recommendations import Recommendations
 from async_amazon_ads_api_v1.client.sb.targets import Targets
-from async_amazon_ads_api_v1.config import AmazonAdsConfig, Region
+from async_amazon_ads_api_v1.config.region import Region
+from async_amazon_ads_api_v1.config.settings import AmazonAdsConfig
 
 
 class TestSBClient:
