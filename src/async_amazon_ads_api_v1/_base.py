@@ -139,9 +139,9 @@ class _ResourceBase:
         result: list[dict[str, Any]] = []
         for item in items:
             if isinstance(item, model_cls):
-                result.append(item.model_dump())
+                result.append(item.model_dump(mode="json", exclude_none=True))
             else:
-                result.append(model_cls(**item).model_dump())
+                result.append(model_cls(**item).model_dump(mode="json", exclude_none=True))
         return result
 
     async def _create(
