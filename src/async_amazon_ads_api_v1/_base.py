@@ -119,7 +119,9 @@ class _ResourceBase:
                 if exc.response.status_code in (429, 503, 504):
                     if attempt < self._ctx.config.max_retries - 1:
                         wait_time = 2**attempt + random.uniform(0, 1)
-                        logger.warning(f"Rate limit exceeded, retrying in %.2f seconds {exc}", wait_time)
+                        logger.warning(
+                            f"Rate limit exceeded, retrying in %.2f seconds {exc}", wait_time
+                        )
                         await asyncio.sleep(wait_time)
                         continue
                 raise
