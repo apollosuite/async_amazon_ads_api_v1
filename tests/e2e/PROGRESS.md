@@ -19,7 +19,7 @@
 | 阶段 | 描述 | 状态 | 完成时间 | 备注 |
 |---|---|---|---|---|
 | S1 | 建立 `tests/e2e/` 文档与进度跟踪 | DONE | 2026-06-09 | 已创建 README 与 PROGRESS |
-| S2 | 创建 e2e 配置与 fixtures | PENDING |  | 健康检查、seed 配置、唯一 campaign 名称 |
+| S2 | 创建 e2e 配置与 fixtures | DONE | 2026-06-09 | 健康检查、seed 配置、唯一 campaign 名称 |
 | S3 | 实现 SP campaigns 生命周期 e2e | PENDING |  | create/query/update/delete + 归档验证 |
 | S4 | 实现 SP campaigns 负向契约测试 | PENDING |  | client id、scope、profile 访问错误 |
 | S5 | 实现 profile 隔离测试 | PENDING |  | 同 token 下不同 profile 不共享资源 |
@@ -42,6 +42,19 @@
 - 先从 SP campaigns 生命周期开始落地。
 - 后续逐步覆盖鉴权错误、profile 隔离、父子资源关系。
 - e2e 不导入服务端代码，只通过真实 HTTP 调用 `ads_v1_server`。
+
+### 2026-06-09 创建 e2e 配置与 fixtures
+
+**做了什么**：
+
+- 新增 `config.py`，集中读取 `ADS_V1_E2E_*` 环境变量，并提供 `ads_v1_server` seed 默认值。
+- 新增 `conftest.py`，提供 `/health` 健康检查、`AmazonAdsConfig`、`SPClient` 和唯一名称 fixture。
+- 服务不可用时使用 `pytest.skip`，避免本地 e2e 环境问题污染单元测试结果。
+
+**当前结论**：
+
+- e2e 默认通过 refresh token 自动换取 access token，覆盖 SDK 的 token refresh 链路。
+- 后续测试文件可直接使用 `sp_client` 与 `e2e_settings` fixture。
 
 ## 行为契约检查清单
 
