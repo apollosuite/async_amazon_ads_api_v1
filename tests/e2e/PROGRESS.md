@@ -20,7 +20,7 @@
 |---|---|---|---|---|
 | S1 | 建立 `tests/e2e/` 文档与进度跟踪 | DONE | 2026-06-09 | 已创建 README 与 PROGRESS |
 | S2 | 创建 e2e 配置与 fixtures | DONE | 2026-06-09 | 健康检查、seed 配置、唯一 campaign 名称 |
-| S3 | 实现 SP campaigns 生命周期 e2e | PENDING |  | create/query/update/delete + 归档验证 |
+| S3 | 实现 SP campaigns 生命周期 e2e | DONE | 2026-06-09 | create/query/update/delete + 归档验证 |
 | S4 | 实现 SP campaigns 负向契约测试 | PENDING |  | client id、scope、profile 访问错误 |
 | S5 | 实现 profile 隔离测试 | PENDING |  | 同 token 下不同 profile 不共享资源 |
 | S6 | 实现父子资源关系测试 | PENDING |  | adGroups 必须引用同 profile campaign |
@@ -56,13 +56,31 @@
 - e2e 默认通过 refresh token 自动换取 access token，覆盖 SDK 的 token refresh 链路。
 - 后续测试文件可直接使用 `sp_client` 与 `e2e_settings` fixture。
 
+### 2026-06-09 实现 SP campaigns 生命周期 e2e
+
+**做了什么**：
+
+- 新增 `test_sp_campaigns_lifecycle_contract`。
+- 覆盖 `sp.campaigns.create/query/update/delete` 的完整生命周期。
+- 断言 MultiStatus、`campaignId`、profile currency、query filters、update 持久化和 delete 归档语义。
+
+**验证结果**：
+
+- `uv run --frozen ruff check tests/e2e`：通过。
+- `uv run --frozen pytest tests/e2e/test_sp_campaigns.py -v`：1 passed。
+
+**当前结论**：
+
+- 当前 `ads_v1_server` 在 SP campaigns 生命周期上符合已记录的 Amazon 行为契约。
+- 未发现需要修改服务端代码的业务偏差。
+
 ## 行为契约检查清单
 
 ### OAuth 与请求上下文
 
 | 编号 | 检查项 | 状态 | 说明 |
 |---|---|---|---|
-| C-001 | refresh token 可换取 access token | PENDING | SDK 配置不传 access_token 时应自动刷新 |
+| C-001 | refresh token 可换取 access token | DONE | SDK 配置不传 access_token 时应自动刷新 |
 | C-002 | 资源请求携带 `Amazon-Ads-ClientId` | PENDING | 服务端日志或错误路径验证 |
 | C-003 | 资源请求携带 `Amazon-Advertising-API-Scope` | PENDING | scope 使用 profileId |
 | C-004 | client_id mismatch 返回 `UNAUTHORIZED` | PENDING | 验证 Amazon Ads 错误体 |
@@ -72,16 +90,16 @@
 
 | 编号 | 检查项 | 状态 | 说明 |
 |---|---|---|---|
-| C-101 | create 返回 MultiStatus | PENDING | `success/error`，成功项包含 `campaign` 与 `index` |
-| C-102 | create 响应使用 `campaignId` | PENDING | 不接受仅有通用 `id` |
-| C-103 | budget 响应补齐 profile currency | PENDING | profile `111111115` 预期 `GBP` |
-| C-104 | query 返回 `campaigns` 与 `nextToken` | PENDING | `nextToken` 当前预期为 `None` |
-| C-105 | `campaignIdFilter` 精确过滤 | PENDING | 只返回目标 campaign |
-| C-106 | `stateFilter` 按状态过滤 | PENDING | ENABLED/ARCHIVED |
-| C-107 | `adProductFilter` 按广告产品过滤 | PENDING | SPONSORED_PRODUCTS |
-| C-108 | update 返回 MultiStatus 且持久化 | PENDING | query 后字段已更新 |
-| C-109 | delete 是归档语义 | PENDING | state 变为 `ARCHIVED` |
-| C-110 | delete 后资源仍可查询 | PENDING | `stateFilter=ARCHIVED` |
+| C-101 | create 返回 MultiStatus | DONE | `success/error`，成功项包含 `campaign` 与 `index` |
+| C-102 | create 响应使用 `campaignId` | DONE | 不接受仅有通用 `id` |
+| C-103 | budget 响应补齐 profile currency | DONE | profile `111111115` 预期 `GBP` |
+| C-104 | query 返回 `campaigns` 与 `nextToken` | DONE | `nextToken` 当前预期为 `None` |
+| C-105 | `campaignIdFilter` 精确过滤 | DONE | 只返回目标 campaign |
+| C-106 | `stateFilter` 按状态过滤 | DONE | ENABLED/ARCHIVED |
+| C-107 | `adProductFilter` 按广告产品过滤 | DONE | SPONSORED_PRODUCTS |
+| C-108 | update 返回 MultiStatus 且持久化 | DONE | query 后字段已更新 |
+| C-109 | delete 是归档语义 | DONE | state 变为 `ARCHIVED` |
+| C-110 | delete 后资源仍可查询 | DONE | `stateFilter=ARCHIVED` |
 
 ### 隔离与父子关系
 
@@ -105,4 +123,5 @@
 
 | 时间 | 命令 | 结果 | 备注 |
 |---|---|---|---|
-| 2026-06-09 | 待运行 | PENDING | 等待 e2e 测试代码实现 |
+| 2026-06-09 | `uv run --frozen ruff check tests/e2e` | DONE | S3 静态检查通过 |
+| 2026-06-09 | `uv run --frozen pytest tests/e2e/test_sp_campaigns.py -v` | DONE | 1 passed |
