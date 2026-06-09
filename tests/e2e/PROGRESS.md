@@ -23,7 +23,7 @@
 | S3 | 实现 SP campaigns 生命周期 e2e | DONE | 2026-06-09 | create/query/update/delete + 归档验证 |
 | S4 | 实现 SP campaigns 负向契约测试 | DONE | 2026-06-09 | client id、scope 错误 |
 | S5 | 实现 profile 隔离测试 | DONE | 2026-06-09 | 同 token 下不同 profile 不共享资源 |
-| S6 | 实现父子资源关系测试 | PENDING |  | adGroups 必须引用同 profile campaign |
+| S6 | 实现父子资源关系测试 | DONE | 2026-06-09 | adGroups 必须引用同 profile campaign |
 | S7 | 增加 pytest marker 与运行说明 | PENDING |  | 可选：`e2e` marker |
 | S8 | 跑通并记录首次结果 | PENDING |  | `ruff` + `pytest tests/e2e -v` |
 
@@ -111,6 +111,27 @@
 - `uv run --frozen ruff check tests/e2e`：通过。
 - `uv run --frozen pytest tests/e2e/test_profile_isolation.py tests/e2e/test_sp_campaigns.py -v`：2 passed。
 
+### 2026-06-09 实现父子资源关系测试
+
+**做了什么**：
+
+- 新增 `test_sp_ad_groups_require_campaign_in_same_profile`。
+- 覆盖 adGroup 缺失 parent campaign、跨 profile parent campaign、同 profile parent campaign 三种场景。
+- 验证失败场景进入 MultiStatus `error`，不是整体 HTTP 失败。
+- 验证成功 adGroup 响应包含 parent `campaignId`、`adProduct` 和 profile currency。
+
+**当前结论**：
+
+- 首次运行发现 `ads_v1_server` adGroup success 响应缺少 `bid.currencyCode`、`marketplaceScope`、`marketplaces`，导致 SDK 无法按 OpenAPI 模型解析。
+- 已在 `ads_v1_server` 修复并提交：`b688b32 fix: fill ad group response defaults`。
+- 重启服务后，adGroups 父子关系 e2e 通过。
+
+**验证结果**：
+
+- `uv run --frozen ruff check tests/e2e`：通过。
+- 首次 `uv run --frozen pytest tests/e2e/test_sp_ad_groups.py -v`：失败，暴露服务端响应默认值缺失。
+- 修复并重启 `ads_v1_server` 后再次运行：1 passed。
+
 ## 行为契约检查清单
 
 ### OAuth 与请求上下文
@@ -143,9 +164,9 @@
 | 编号 | 检查项 | 状态 | 说明 |
 |---|---|---|---|
 | C-201 | profile 间资源隔离 | DONE | 一个 profile 创建，另一个 profile 查不到 |
-| C-202 | adGroup 缺失 parent campaign 返回 MultiStatus error | PENDING | `RESOURCE_DOES_NOT_BELONG_TO_PARENT` |
-| C-203 | adGroup 跨 profile parent 返回 MultiStatus error | PENDING | 不创建孤儿资源 |
-| C-204 | adGroup 同 profile parent 可创建成功 | PENDING | success 项含 parent campaignId |
+| C-202 | adGroup 缺失 parent campaign 返回 MultiStatus error | DONE | `RESOURCE_DOES_NOT_BELONG_TO_PARENT` |
+| C-203 | adGroup 跨 profile parent 返回 MultiStatus error | DONE | 不创建孤儿资源 |
+| C-204 | adGroup 同 profile parent 可创建成功 | DONE | success 项含 parent campaignId |
 
 ## 首次实现建议
 
@@ -166,3 +187,5 @@
 | 2026-06-09 | `uv run --frozen pytest tests/e2e/test_ads_api_context.py -v` | DONE | 3 passed |
 | 2026-06-09 | `uv run --frozen ruff check tests/e2e` | DONE | S5 静态检查通过 |
 | 2026-06-09 | `uv run --frozen pytest tests/e2e/test_profile_isolation.py tests/e2e/test_sp_campaigns.py -v` | DONE | 2 passed |
+| 2026-06-09 | `uv run --frozen ruff check tests/e2e` | DONE | S6 静态检查通过 |
+| 2026-06-09 | `uv run --frozen pytest tests/e2e/test_sp_ad_groups.py -v` | DONE | 修复服务端后 1 passed |

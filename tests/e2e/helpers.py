@@ -32,3 +32,13 @@ def campaign_query_body(campaign_id: str, *, state: str | None = None) -> dict[s
     if state is not None:
         body["stateFilter"] = {"include": [state]}
     return body
+
+
+def ad_group_payload(name: str, campaign_id: str) -> dict[str, object]:
+    return {
+        "adProduct": "SPONSORED_PRODUCTS",
+        "bid": {"defaultBid": 1.0},
+        "campaignId": campaign_id,
+        "name": name,
+        "state": "ENABLED",
+    }
