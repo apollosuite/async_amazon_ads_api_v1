@@ -21,7 +21,7 @@
 | S1 | 建立 `tests/e2e/` 文档与进度跟踪 | DONE | 2026-06-09 | 已创建 README 与 PROGRESS |
 | S2 | 创建 e2e 配置与 fixtures | DONE | 2026-06-09 | 健康检查、seed 配置、唯一 campaign 名称 |
 | S3 | 实现 SP campaigns 生命周期 e2e | DONE | 2026-06-09 | create/query/update/delete + 归档验证 |
-| S4 | 实现 SP campaigns 负向契约测试 | PENDING |  | client id、scope、profile 访问错误 |
+| S4 | 实现 SP campaigns 负向契约测试 | DONE | 2026-06-09 | client id、scope 错误 |
 | S5 | 实现 profile 隔离测试 | PENDING |  | 同 token 下不同 profile 不共享资源 |
 | S6 | 实现父子资源关系测试 | PENDING |  | adGroups 必须引用同 profile campaign |
 | S7 | 增加 pytest marker 与运行说明 | PENDING |  | 可选：`e2e` marker |
@@ -74,6 +74,25 @@
 - 当前 `ads_v1_server` 在 SP campaigns 生命周期上符合已记录的 Amazon 行为契约。
 - 未发现需要修改服务端代码的业务偏差。
 
+### 2026-06-09 实现请求上下文负向契约
+
+**做了什么**：
+
+- 新增 `access_token` fixture，直接校验 refresh token 响应中的 `token_type`、`expires_in` 和 refresh token 不轮换。
+- 新增缺失 `Amazon-Ads-ClientId` 的协议探针，验证 Amazon Ads 错误体。
+- 新增 SDK 场景：有效 access token + 错误 client id，验证 `UNAUTHORIZED`。
+- 新增 SDK 场景：有效 access token + 非数字 profile scope，验证 `BAD_REQUEST`。
+
+**当前结论**：
+
+- 当前 `ads_v1_server` 的请求上下文错误格式与已记录 Amazon 行为契约一致。
+- 缺失 client id 无法由 SDK 正常构造，因此使用裸 HTTP 作为 e2e 协议探针。
+
+**验证结果**：
+
+- `uv run --frozen ruff check tests/e2e`：通过。
+- `uv run --frozen pytest tests/e2e/test_ads_api_context.py -v`：3 passed。
+
 ## 行为契约检查清单
 
 ### OAuth 与请求上下文
@@ -81,10 +100,10 @@
 | 编号 | 检查项 | 状态 | 说明 |
 |---|---|---|---|
 | C-001 | refresh token 可换取 access token | DONE | SDK 配置不传 access_token 时应自动刷新 |
-| C-002 | 资源请求携带 `Amazon-Ads-ClientId` | PENDING | 服务端日志或错误路径验证 |
-| C-003 | 资源请求携带 `Amazon-Advertising-API-Scope` | PENDING | scope 使用 profileId |
-| C-004 | client_id mismatch 返回 `UNAUTHORIZED` | PENDING | 验证 Amazon Ads 错误体 |
-| C-005 | 非数字 scope 返回 `BAD_REQUEST` | PENDING | 验证错误 message |
+| C-002 | 资源请求携带 `Amazon-Ads-ClientId` | DONE | 通过缺失 header 错误路径验证 |
+| C-003 | 资源请求携带 `Amazon-Advertising-API-Scope` | DONE | 通过非数字 scope 错误路径验证 |
+| C-004 | client_id mismatch 返回 `UNAUTHORIZED` | DONE | 验证 Amazon Ads 错误体 |
+| C-005 | 非数字 scope 返回 `BAD_REQUEST` | DONE | 验证错误 message |
 
 ### SP campaigns
 
@@ -125,3 +144,5 @@
 |---|---|---|---|
 | 2026-06-09 | `uv run --frozen ruff check tests/e2e` | DONE | S3 静态检查通过 |
 | 2026-06-09 | `uv run --frozen pytest tests/e2e/test_sp_campaigns.py -v` | DONE | 1 passed |
+| 2026-06-09 | `uv run --frozen ruff check tests/e2e` | DONE | S4 静态检查通过 |
+| 2026-06-09 | `uv run --frozen pytest tests/e2e/test_ads_api_context.py -v` | DONE | 3 passed |

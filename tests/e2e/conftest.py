@@ -51,6 +51,30 @@ async def sp_client(amazon_ads_config: AmazonAdsConfig) -> AsyncGenerator[SPClie
         yield client
 
 
+@pytest_asyncio.fixture
+async def access_token(e2e_settings: E2ESettings) -> str:
+    async with httpx.AsyncClient(
+        base_url=e2e_settings.base_url,
+        timeout=e2e_settings.timeout,
+        trust_env=False,
+    ) as client:
+        resp = await client.post(
+            "/auth/o2/token",
+            data={
+                "grant_type": "refresh_token",
+                "refresh_token": e2e_settings.refresh_token,
+                "client_id": e2e_settings.client_id,
+                "client_secret": e2e_settings.client_secret,
+            },
+        )
+    assert resp.status_code == 200, resp.text
+    body = resp.json()
+    assert body["token_type"] == "bearer"
+    assert body["expires_in"] == 3600
+    assert body["refresh_token"] == e2e_settings.refresh_token
+    return str(body["access_token"])
+
+
 @pytest.fixture
 def unique_name() -> str:
     return f"ads-v1-e2e-{uuid4()}"
