@@ -22,7 +22,7 @@
 | S2 | 创建 e2e 配置与 fixtures | DONE | 2026-06-09 | 健康检查、seed 配置、唯一 campaign 名称 |
 | S3 | 实现 SP campaigns 生命周期 e2e | DONE | 2026-06-09 | create/query/update/delete + 归档验证 |
 | S4 | 实现 SP campaigns 负向契约测试 | DONE | 2026-06-09 | client id、scope 错误 |
-| S5 | 实现 profile 隔离测试 | PENDING |  | 同 token 下不同 profile 不共享资源 |
+| S5 | 实现 profile 隔离测试 | DONE | 2026-06-09 | 同 token 下不同 profile 不共享资源 |
 | S6 | 实现父子资源关系测试 | PENDING |  | adGroups 必须引用同 profile campaign |
 | S7 | 增加 pytest marker 与运行说明 | PENDING |  | 可选：`e2e` marker |
 | S8 | 跑通并记录首次结果 | PENDING |  | `ruff` + `pytest tests/e2e -v` |
@@ -93,6 +93,24 @@
 - `uv run --frozen ruff check tests/e2e`：通过。
 - `uv run --frozen pytest tests/e2e/test_ads_api_context.py -v`：3 passed。
 
+### 2026-06-09 实现 profile 隔离测试
+
+**做了什么**：
+
+- 新增 `helpers.py`，沉淀 SP campaign payload 与 query body。
+- 新增 `test_sp_campaigns_are_isolated_by_profile_scope`。
+- 使用同一个 refresh token 的两个 profile：默认 `111111115` 创建资源，`111111116` 查询不到该资源。
+- 测试结束时通过 owner profile delete 归档清理测试资源。
+
+**当前结论**：
+
+- 当前 `ads_v1_server` 的资源隔离符合已记录的 profile scope 行为契约。
+
+**验证结果**：
+
+- `uv run --frozen ruff check tests/e2e`：通过。
+- `uv run --frozen pytest tests/e2e/test_profile_isolation.py tests/e2e/test_sp_campaigns.py -v`：2 passed。
+
 ## 行为契约检查清单
 
 ### OAuth 与请求上下文
@@ -124,7 +142,7 @@
 
 | 编号 | 检查项 | 状态 | 说明 |
 |---|---|---|---|
-| C-201 | profile 间资源隔离 | PENDING | 一个 profile 创建，另一个 profile 查不到 |
+| C-201 | profile 间资源隔离 | DONE | 一个 profile 创建，另一个 profile 查不到 |
 | C-202 | adGroup 缺失 parent campaign 返回 MultiStatus error | PENDING | `RESOURCE_DOES_NOT_BELONG_TO_PARENT` |
 | C-203 | adGroup 跨 profile parent 返回 MultiStatus error | PENDING | 不创建孤儿资源 |
 | C-204 | adGroup 同 profile parent 可创建成功 | PENDING | success 项含 parent campaignId |
@@ -146,3 +164,5 @@
 | 2026-06-09 | `uv run --frozen pytest tests/e2e/test_sp_campaigns.py -v` | DONE | 1 passed |
 | 2026-06-09 | `uv run --frozen ruff check tests/e2e` | DONE | S4 静态检查通过 |
 | 2026-06-09 | `uv run --frozen pytest tests/e2e/test_ads_api_context.py -v` | DONE | 3 passed |
+| 2026-06-09 | `uv run --frozen ruff check tests/e2e` | DONE | S5 静态检查通过 |
+| 2026-06-09 | `uv run --frozen pytest tests/e2e/test_profile_isolation.py tests/e2e/test_sp_campaigns.py -v` | DONE | 2 passed |
