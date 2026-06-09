@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import AsyncGenerator
+from pathlib import Path
 from uuid import uuid4
 
 import httpx
@@ -11,10 +12,14 @@ from async_amazon_ads_api_v1 import AmazonAdsConfig, Region, SPClient
 
 from .config import E2ESettings, load_settings
 
+E2E_DIR = Path(__file__).parent.resolve()
+
 
 def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     for item in items:
-        item.add_marker(pytest.mark.e2e)
+        item_path = Path(str(item.fspath)).resolve()
+        if item_path == E2E_DIR or E2E_DIR in item_path.parents:
+            item.add_marker(pytest.mark.e2e)
 
 
 @pytest.fixture(scope="session")

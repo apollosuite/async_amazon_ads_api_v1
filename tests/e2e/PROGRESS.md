@@ -25,7 +25,7 @@
 | S5 | 实现 profile 隔离测试 | DONE | 2026-06-09 | 同 token 下不同 profile 不共享资源 |
 | S6 | 实现父子资源关系测试 | DONE | 2026-06-09 | adGroups 必须引用同 profile campaign |
 | S7 | 增加 pytest marker 与运行说明 | DONE | 2026-06-09 | 已支持 `pytest -m e2e` |
-| S8 | 跑通并记录首次结果 | PENDING |  | `ruff` + `pytest tests/e2e -v` |
+| S8 | 跑通并记录首次结果 | DONE | 2026-06-09 | e2e 6 passed，全量 152 passed |
 
 ## 本轮执行日志
 
@@ -143,11 +143,32 @@
 **当前结论**：
 
 - 后续可以按 marker 运行全部 e2e 行为契约测试。
+- 最终验证时发现初版 hook 会把全部测试标记为 e2e，已收紧为仅标记 `tests/e2e/` 路径下的用例。
 
 **验证结果**：
 
 - `uv run --frozen ruff check tests/e2e`：通过。
-- `uv run --frozen pytest -m e2e tests/e2e --collect-only -q`：收集到 6 个测试。
+- `uv run --frozen pytest -m e2e --collect-only -q`：6/152 tests collected，146 deselected。
+
+### 2026-06-09 首次全量验证
+
+**做了什么**：
+
+- 执行 `ads_v1` 静态检查、e2e marker 测试和完整测试集。
+- 执行 `ads_v1_server` 资源合同与 SDK 集成相关测试，验证服务端修复没有破坏既有行为。
+
+**验证结果**：
+
+- `uv run --frozen ruff check src tests`（ads_v1）：通过。
+- `uv run --frozen pytest -m e2e -v`（ads_v1）：6 passed，146 deselected。
+- `uv run --frozen pytest tests -q`（ads_v1）：152 passed。
+- `uv run --frozen pytest tests/test_ads_v1_contract.py tests/test_ads_v1_sdk_integration.py -v`（ads_v1_server）：7 passed。
+
+**当前结论**：
+
+- e2e 首批行为契约已落地并通过。
+- 本轮发现并修复 1 个服务端业务偏差：adGroup success 响应缺少 SDK/OpenAPI 必需默认字段。
+- 当前 `ads_v1` 与 `ads_v1_server` 两个工作区均可进入后续扩展阶段。
 
 ## 行为契约检查清单
 
@@ -207,4 +228,8 @@
 | 2026-06-09 | `uv run --frozen ruff check tests/e2e` | DONE | S6 静态检查通过 |
 | 2026-06-09 | `uv run --frozen pytest tests/e2e/test_sp_ad_groups.py -v` | DONE | 修复服务端后 1 passed |
 | 2026-06-09 | `uv run --frozen ruff check tests/e2e` | DONE | S7 静态检查通过 |
-| 2026-06-09 | `uv run --frozen pytest -m e2e tests/e2e --collect-only -q` | DONE | 6 tests collected |
+| 2026-06-09 | `uv run --frozen pytest -m e2e --collect-only -q` | DONE | 6/152 tests collected |
+| 2026-06-09 | `uv run --frozen ruff check src tests` | DONE | S8 ads_v1 静态检查通过 |
+| 2026-06-09 | `uv run --frozen pytest -m e2e -v` | DONE | 6 passed，146 deselected |
+| 2026-06-09 | `uv run --frozen pytest tests -q` | DONE | 152 passed |
+| 2026-06-09 | `uv run --frozen pytest tests/test_ads_v1_contract.py tests/test_ads_v1_sdk_integration.py -v` | DONE | ads_v1_server 7 passed |
