@@ -98,6 +98,12 @@ cd /Users/jack/codex/ads_v1
 uv run --frozen pytest tests/e2e -v
 ```
 
+或使用 marker：
+
+```bash
+uv run --frozen pytest -m e2e -v
+```
+
 可选环境变量：
 
 ```bash

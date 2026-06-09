@@ -51,6 +51,11 @@ ignore = ["E501"]
 "src/async_amazon_ads_api_v1/models/*" = ["F403", "N815"]
 
 
+[tool.pytest.ini_options]
+markers = [
+    "e2e: tests that call a live ads_v1_server over HTTP",
+]
+
 [tool.mypy]
 python_version = "3.14"
 strict = true

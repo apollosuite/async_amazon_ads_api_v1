@@ -12,6 +12,11 @@ from async_amazon_ads_api_v1 import AmazonAdsConfig, Region, SPClient
 from .config import E2ESettings, load_settings
 
 
+def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
+    for item in items:
+        item.add_marker(pytest.mark.e2e)
+
+
 @pytest.fixture(scope="session")
 def e2e_settings() -> E2ESettings:
     return load_settings()

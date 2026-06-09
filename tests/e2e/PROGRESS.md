@@ -24,7 +24,7 @@
 | S4 | 实现 SP campaigns 负向契约测试 | DONE | 2026-06-09 | client id、scope 错误 |
 | S5 | 实现 profile 隔离测试 | DONE | 2026-06-09 | 同 token 下不同 profile 不共享资源 |
 | S6 | 实现父子资源关系测试 | DONE | 2026-06-09 | adGroups 必须引用同 profile campaign |
-| S7 | 增加 pytest marker 与运行说明 | PENDING |  | 可选：`e2e` marker |
+| S7 | 增加 pytest marker 与运行说明 | DONE | 2026-06-09 | 已支持 `pytest -m e2e` |
 | S8 | 跑通并记录首次结果 | PENDING |  | `ruff` + `pytest tests/e2e -v` |
 
 ## 本轮执行日志
@@ -132,6 +132,23 @@
 - 首次 `uv run --frozen pytest tests/e2e/test_sp_ad_groups.py -v`：失败，暴露服务端响应默认值缺失。
 - 修复并重启 `ads_v1_server` 后再次运行：1 passed。
 
+### 2026-06-09 增加 e2e marker
+
+**做了什么**：
+
+- 在 `pyproject.toml` 注册 `e2e` marker。
+- 在 `tests/e2e/conftest.py` 中为该目录下的测试自动添加 `pytest.mark.e2e`。
+- 更新 `README.md`，补充 `uv run --frozen pytest -m e2e -v` 跑法。
+
+**当前结论**：
+
+- 后续可以按 marker 运行全部 e2e 行为契约测试。
+
+**验证结果**：
+
+- `uv run --frozen ruff check tests/e2e`：通过。
+- `uv run --frozen pytest -m e2e tests/e2e --collect-only -q`：收集到 6 个测试。
+
 ## 行为契约检查清单
 
 ### OAuth 与请求上下文
@@ -189,3 +206,5 @@
 | 2026-06-09 | `uv run --frozen pytest tests/e2e/test_profile_isolation.py tests/e2e/test_sp_campaigns.py -v` | DONE | 2 passed |
 | 2026-06-09 | `uv run --frozen ruff check tests/e2e` | DONE | S6 静态检查通过 |
 | 2026-06-09 | `uv run --frozen pytest tests/e2e/test_sp_ad_groups.py -v` | DONE | 修复服务端后 1 passed |
+| 2026-06-09 | `uv run --frozen ruff check tests/e2e` | DONE | S7 静态检查通过 |
+| 2026-06-09 | `uv run --frozen pytest -m e2e tests/e2e --collect-only -q` | DONE | 6 tests collected |
