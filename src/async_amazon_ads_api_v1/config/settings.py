@@ -2,12 +2,9 @@
 
 from __future__ import annotations
 
-import asyncio
-import time
 from enum import StrEnum
 from pathlib import Path
 
-import httpx
 from pydantic import BaseModel, PrivateAttr, model_validator
 
 from async_amazon_ads_api_v1.config.region import ENDPOINT_MAP, Region
@@ -15,8 +12,8 @@ from async_amazon_ads_api_v1.config.token_cache import (
     BaseTokenCache,
     FileTokenCache,
     RedisTokenCache,
-    _TokenData,
 )
+from async_amazon_ads_api_v1.config.token_manager import TokenCredentials, TokenManager
 
 
 class CacheBackend(StrEnum):
@@ -65,9 +62,7 @@ class AmazonAdsConfig(BaseModel):
     raw_response: bool = False
 
     # ── Runtime state (excluded from serialisation / schema) ──────────
-    _token_cache: BaseTokenCache | None = PrivateAttr(None)
-    _token_refresh_lock: asyncio.Lock = PrivateAttr(default_factory=asyncio.Lock)
-    _token_expires_at: float | None = PrivateAttr(None)
+    _token_manager: TokenManager | None = PrivateAttr(None)
 
     @model_validator(mode="after")
     def _validate_and_init(self) -> AmazonAdsConfig:
@@ -80,21 +75,33 @@ class AmazonAdsConfig(BaseModel):
         if self.max_retries < 0:
             raise ValueError("max_retries cannot be negative")
 
+        # Create token cache if configured
+        token_cache: BaseTokenCache | None = None
         if self.cache_backend == CacheBackend.REDIS:
             if not self.redis_url:
                 raise ValueError("redis_url is required when cache_backend is 'redis'")
             if self.refresh_token is not None:
-                self._token_cache = RedisTokenCache(
+                token_cache = RedisTokenCache(
                     redis_url=self.redis_url,
                     client_id=self.client_id,
                     refresh_token=self.refresh_token,
                 )
         elif self.token_cache_dir is not None and self.refresh_token is not None:
-            self._token_cache = FileTokenCache(
+            token_cache = FileTokenCache(
                 cache_dir=Path(self.token_cache_dir).expanduser(),
                 client_id=self.client_id,
                 refresh_token=self.refresh_token,
             )
+
+        # Create token manager if we have refresh credentials
+        if self.refresh_token and self.client_secret:
+            credentials = TokenCredentials(
+                client_id=self.client_id,
+                client_secret=self.client_secret,
+                refresh_token=self.refresh_token,
+                token_url=self.token_url,
+            )
+            self._token_manager = TokenManager(credentials=credentials, cache=token_cache)
         return self
 
     @property
@@ -108,12 +115,7 @@ class AmazonAdsConfig(BaseModel):
     async def refresh_access_token(self) -> str:
         """Exchange the refresh token for a new access token.
 
-        Uses ``refresh_token`` + ``client_secret`` to call the Amazon LWA
-        token endpoint and updates ``access_token`` in-place.
-
-        The token is cached in memory for the lifetime of this object, and
-        optionally persisted when a cache backend is configured so that
-        subsequent invocations can reuse it without an HTTP call.
+        Delegates to :class:`TokenManager` for the actual refresh logic.
 
         Returns
         -------
@@ -127,61 +129,8 @@ class AmazonAdsConfig(BaseModel):
         httpx.HTTPError
             If the token endpoint request fails.
         """
-        if not self.refresh_token or not self.client_secret:
+        if self._token_manager is None:
             raise RuntimeError("refresh_token and client_secret must be set to refresh the access token")
-        if await self._is_token_valid():
-            return self.access_token  # type: ignore[return-value]
-        async with self._token_refresh_lock:
-            if await self._is_token_valid():
-                return self.access_token  # type: ignore[return-value]
-            async with httpx.AsyncClient() as client:
-                resp = await client.post(
-                    self.token_url,
-                    data={
-                        "grant_type": "refresh_token",
-                        "refresh_token": self.refresh_token,
-                        "client_id": self.client_id,
-                        "client_secret": self.client_secret,
-                    },
-                )
-                resp.raise_for_status()
-                data = resp.json()
-                self.access_token = data["access_token"]
-                expires_in = data.get("expires_in", 3600)
-                self._token_expires_at = time.time() + expires_in - 60
-                if "refresh_token" in data:
-                    self.refresh_token = data["refresh_token"]
-            await self._write_token_cache()
-        return self.access_token
-
-    async def _is_token_valid(self) -> bool:
-        """Return ``True`` if a cached access token is still within its expiry window."""
-        if self.access_token is not None and self._token_expires_at is not None:
-            if time.time() < self._token_expires_at:
-                return True
-        await self._load_token_cache()
-        return (
-            self.access_token is not None
-            and self._token_expires_at is not None
-            and time.time() < self._token_expires_at
-        )
-
-    async def _load_token_cache(self) -> None:
-        if self._token_cache is None:
-            return
-        data = await self._token_cache.read()
-        if data is not None:
-            self.access_token = data.access_token
-            self._token_expires_at = data.expires_at
-            self.refresh_token = data.refresh_token
-
-    async def _write_token_cache(self) -> None:
-        if self._token_cache is None or self.access_token is None or self._token_expires_at is None:
-            return
-        await self._token_cache.write(
-            _TokenData(
-                access_token=self.access_token,
-                expires_at=self._token_expires_at,
-                refresh_token=self.refresh_token or "",
-            )
-        )
+        token = await self._token_manager.get_access_token()
+        self.access_token = token
+        return token

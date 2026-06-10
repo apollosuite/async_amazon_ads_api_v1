@@ -5,12 +5,15 @@ from __future__ import annotations
 import asyncio
 import hashlib
 import json
+import logging
 import os
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING
+
+logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
     from redis.asyncio import Redis  # type: ignore[import-not-found]
@@ -28,12 +31,14 @@ def _get_redis_client(redis_url: str) -> Redis:
             raise ImportError(
                 "Redis support requires the 'redis' extra: " "pip install async-amazon-ads-api-v1[redis]"
             ) from None
+        logger.info("Creating new Redis client for URL: %s", redis_url)
         _redis_clients[redis_url] = Redis.from_url(redis_url, decode_responses=True)
     return _redis_clients[redis_url]
 
 
 async def close_all_redis() -> None:
     """Close all cached Redis connections. Call on application shutdown."""
+    logger.info("Closing %d Redis connections", len(_redis_clients))
     for client in _redis_clients.values():
         await client.aclose()
     _redis_clients.clear()
@@ -87,13 +92,15 @@ class FileTokenCache(BaseTokenCache):
             raw = json.loads(self._cache_file.read_text(encoding="utf-8"))
             expires_at = raw.get("expires_at")
             if expires_at is not None and raw.get("access_token"):
+                logger.info("Cache hit for token")
                 return _TokenData(
                     access_token=raw["access_token"],
                     expires_at=expires_at,
                     refresh_token=raw.get("refresh_token", ""),
                 )
-        except (OSError, json.JSONDecodeError, KeyError):
-            pass
+            logger.warning("Cache entry invalid (missing access_token or expires_at)")
+        except (OSError, json.JSONDecodeError, KeyError) as e:
+            logger.warning("Failed to read token cache: %s", e)
         return None
 
     def _write_sync(self, data: _TokenData) -> None:
@@ -105,6 +112,7 @@ class FileTokenCache(BaseTokenCache):
         }
         tmp = self._cache_file.with_suffix(f".tmp.{os.getpid()}")
         try:
+            logger.info("Writing token cache to: %s", self._cache_file)
             tmp.write_text(json.dumps(payload), encoding="utf-8")
             tmp.chmod(0o600)
             tmp.rename(self._cache_file)
@@ -154,13 +162,15 @@ class RedisTokenCache(BaseTokenCache):
             data = json.loads(raw)
             expires_at = data.get("expires_at")
             if expires_at is not None and data.get("access_token"):
+                logger.info("Redis cache hit for token")
                 return _TokenData(
                     access_token=data["access_token"],
                     expires_at=expires_at,
                     refresh_token=data.get("refresh_token", ""),
                 )
-        except (json.JSONDecodeError, KeyError):
-            pass
+            logger.warning("Redis cache entry invalid")
+        except (json.JSONDecodeError, KeyError) as e:
+            logger.warning("Failed to parse Redis cache: %s", e)
         return None
 
     async def write(self, data: _TokenData) -> None:
@@ -172,6 +182,7 @@ class RedisTokenCache(BaseTokenCache):
         }
         ttl = max(0, int(data.expires_at - time.time()))
         if ttl > 0:
+            logger.info("Writing token cache to Redis with TTL: %d seconds", ttl)
             await self._client.set(self._key, json.dumps(payload), ex=ttl)
         else:
             await self._client.delete(self._key)

@@ -11,6 +11,7 @@ from async_amazon_ads_api_v1.config.token_cache import (
     RedisTokenCache,
     close_all_redis,
 )
+from async_amazon_ads_api_v1.config.token_manager import TokenCredentials, TokenManager
 
 __all__ = [
     "AmazonAdsConfig",
@@ -22,6 +23,8 @@ __all__ = [
     "SBClient",
     "SDClient",
     "SPClient",
+    "TokenCredentials",
+    "TokenManager",
     "close_all_redis",
 ]
 __version__ = "0.3.0"
