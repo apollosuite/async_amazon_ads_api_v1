@@ -17,6 +17,8 @@ ENV_MAP: dict[str, str] = {
     "profile_id": "AMAZON_PROFILE_ID",
     "token_url": "AMAZON_TOKEN_URL",
     "token_cache_dir": "AMAZON_TOKEN_CACHE_DIR",
+    "cache_backend": "AMAZON_CACHE_BACKEND",
+    "redis_url": "AMAZON_REDIS_URL",
 }
 
 
