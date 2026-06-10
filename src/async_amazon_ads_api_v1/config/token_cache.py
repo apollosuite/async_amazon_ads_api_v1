@@ -113,7 +113,7 @@ class RedisTokenCache(BaseTokenCache):
         key_prefix: str = "amazon_ads:token:",
     ) -> None:
         try:
-            from redis.asyncio import Redis  # type: ignore[import-not-found]
+            from redis.asyncio import Redis
         except ImportError:
             raise ImportError(
                 "Redis support requires the 'redis' extra: "
@@ -150,7 +150,7 @@ class RedisTokenCache(BaseTokenCache):
         }
         ttl = max(0, int(data.expires_at - time.time()))
         if ttl > 0:
-            await self._client.setex(self._key, ttl, json.dumps(payload))
+            await self._client.set(self._key, json.dumps(payload), ex=ttl)
         else:
             await self._client.delete(self._key)
 
