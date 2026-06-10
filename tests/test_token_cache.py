@@ -12,6 +12,7 @@ from async_amazon_ads_api_v1.config.token_cache import (
     FileTokenCache,
     RedisTokenCache,
     _TokenData,
+    _redis_clients,
 )
 
 REDIS_URL = os.environ.get("TEST_REDIS_URL", "redis://localhost:6379/0")
@@ -38,6 +39,8 @@ def file_cache(tmp_path: Path) -> FileTokenCache:
 
 @pytest_asyncio.fixture
 async def redis_cache() -> RedisTokenCache:
+    # Clear global pool to avoid event loop conflicts
+    _redis_clients.clear()
     cache = RedisTokenCache(
         redis_url=REDIS_URL,
         client_id="test-client",
@@ -45,7 +48,8 @@ async def redis_cache() -> RedisTokenCache:
     )
     await cache._client.flushdb()
     yield cache
-    await cache.close()
+    await cache._client.aclose()
+    _redis_clients.clear()
 
 
 @pytest.mark.asyncio
@@ -146,20 +150,19 @@ class TestRedisTokenCache:
         assert result is not None
         assert result.access_token == "token-2"
 
-    async def test_different_credentials_different_keys(self) -> None:
-        cache1 = RedisTokenCache(redis_url=REDIS_URL, client_id="c1", refresh_token="rt1")
+    async def test_different_credentials_different_keys(self, redis_cache: RedisTokenCache) -> None:
         cache2 = RedisTokenCache(redis_url=REDIS_URL, client_id="c2", refresh_token="rt2")
 
-        try:
-            await cache1._client.flushdb()
-            data = _TokenData(access_token="tok", expires_at=time.time() + 100, refresh_token="rt")
-            await cache1.write(data)
+        data = _TokenData(access_token="tok", expires_at=time.time() + 100, refresh_token="rt")
+        await redis_cache.write(data)
 
-            assert await cache1.read() is not None
-            assert await cache2.read() is None
-        finally:
-            await cache1.close()
-            await cache2.close()
+        assert await redis_cache.read() is not None
+        assert await cache2.read() is None
+
+    async def test_shared_connection(self, redis_cache: RedisTokenCache) -> None:
+        """Multiple instances with same URL share the same Redis client."""
+        cache2 = RedisTokenCache(redis_url=REDIS_URL, client_id="c2", refresh_token="rt2")
+        assert redis_cache._client is cache2._client
 
 
 class TestBaseTokenCache:

@@ -9,6 +9,7 @@ from async_amazon_ads_api_v1.config.token_cache import (
     BaseTokenCache,
     FileTokenCache,
     RedisTokenCache,
+    close_all_redis,
 )
 
 __all__ = [
@@ -21,5 +22,6 @@ __all__ = [
     "SBClient",
     "SDClient",
     "SPClient",
+    "close_all_redis",
 ]
 __version__ = "0.3.0"

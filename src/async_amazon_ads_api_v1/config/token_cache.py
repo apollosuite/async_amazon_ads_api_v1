@@ -10,6 +10,34 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from redis.asyncio import Redis  # type: ignore[import-not-found]
+
+# Global Redis client pool keyed by URL
+_redis_clients: dict[str, Redis] = {}
+
+
+def _get_redis_client(redis_url: str) -> Redis:
+    """Return a shared async Redis client for the given URL."""
+    if redis_url not in _redis_clients:
+        try:
+            from redis.asyncio import Redis
+        except ImportError:
+            raise ImportError(
+                "Redis support requires the 'redis' extra: "
+                "pip install async-amazon-ads-api-v1[redis]"
+            ) from None
+        _redis_clients[redis_url] = Redis.from_url(redis_url, decode_responses=True)
+    return _redis_clients[redis_url]
+
+
+async def close_all_redis() -> None:
+    """Close all cached Redis connections. Call on application shutdown."""
+    for client in _redis_clients.values():
+        await client.aclose()
+    _redis_clients.clear()
 
 
 @dataclass
@@ -93,6 +121,9 @@ class RedisTokenCache(BaseTokenCache):
 
         pip install async-amazon-ads-api-v1[redis]
 
+    Redis clients are shared globally per URL. Use :func:`close_all_redis`
+    to close all connections on application shutdown.
+
     Parameters
     ----------
     redis_url : str
@@ -112,15 +143,7 @@ class RedisTokenCache(BaseTokenCache):
         refresh_token: str,
         key_prefix: str = "amazon_ads:token:",
     ) -> None:
-        try:
-            from redis.asyncio import Redis
-        except ImportError:
-            raise ImportError(
-                "Redis support requires the 'redis' extra: "
-                "pip install async-amazon-ads-api-v1[redis]"
-            ) from None
-
-        self._client = Redis.from_url(redis_url, decode_responses=True)
+        self._client = _get_redis_client(redis_url)
         self._key = f"{key_prefix}{_cache_key(client_id, refresh_token)}"
 
     async def read(self) -> _TokenData | None:
@@ -153,10 +176,6 @@ class RedisTokenCache(BaseTokenCache):
             await self._client.set(self._key, json.dumps(payload), ex=ttl)
         else:
             await self._client.delete(self._key)
-
-    async def close(self) -> None:
-        """Close the underlying Redis connection."""
-        await self._client.aclose()
 
 
 def _cache_key(client_id: str, refresh_token: str) -> str:
