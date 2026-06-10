@@ -29,9 +29,7 @@ class Targets(_ResourceBase):
     ) -> SPTargetMultiStatusResponse | dict[str, Any]:
         return await self._create(targets, self._spec, SPTargetMultiStatusResponse)
 
-    async def query(
-        self, body: dict[str, Any] | SPQueryTargetRequest
-    ) -> SPTargetSuccessResponse | dict[str, Any]:
+    async def query(self, body: dict[str, Any] | SPQueryTargetRequest) -> SPTargetSuccessResponse | dict[str, Any]:
         if isinstance(body, dict):
             body = SPQueryTargetRequest(**body)
         return await self._query(body, "/adsApi/v1/query/targets", SPTargetSuccessResponse)

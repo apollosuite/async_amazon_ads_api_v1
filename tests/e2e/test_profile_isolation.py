@@ -34,26 +34,20 @@ async def test_sp_campaigns_are_isolated_by_profile_scope(
     other_config = _config_for_profile(e2e_settings, e2e_settings.other_profile_id)
 
     async with SPClient(owner_config) as owner_client:
-        create_result = await owner_client.campaigns.create(
-            [campaign_payload(unique_name, e2e_settings.marketplace)]
-        )
+        create_result = await owner_client.campaigns.create([campaign_payload(unique_name, e2e_settings.marketplace)])
         assert isinstance(create_result, SPCampaignMultiStatusResponse)
         assert create_result.error == []
         assert create_result.success is not None
         campaign_id = create_result.success[0].campaign.campaignId
 
-        owner_query = await owner_client.campaigns.query(
-            campaign_query_body(campaign_id, state="ENABLED")
-        )
+        owner_query = await owner_client.campaigns.query(campaign_query_body(campaign_id, state="ENABLED"))
         assert isinstance(owner_query, SPCampaignSuccessResponse)
         assert owner_query.campaigns is not None
         assert [item.campaignId for item in owner_query.campaigns] == [campaign_id]
 
         try:
             async with SPClient(other_config) as other_client:
-                other_query = await other_client.campaigns.query(
-                    campaign_query_body(campaign_id, state="ENABLED")
-                )
+                other_query = await other_client.campaigns.query(campaign_query_body(campaign_id, state="ENABLED"))
             assert isinstance(other_query, SPCampaignSuccessResponse)
             assert other_query.campaigns == []
         finally:

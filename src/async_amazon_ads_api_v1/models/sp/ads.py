@@ -68,9 +68,7 @@ class SPAdAdProductFilter(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    include: list[
-        SPAdProduct
-    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+    include: list[SPAdProduct]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPAdCampaignIdFilter(BaseModel):
@@ -91,9 +89,7 @@ class SPAdCreate(BaseModel):
     adType: SPAdType
     creative: SPCreateCreative
     state: SPCreateState
-    tags: list[SPCreateTag] | None = (
-        None  # Open ended labels with a key value pair applied to the ad
-    )
+    tags: list[SPCreateTag] | None = None  # Open ended labels with a key value pair applied to the ad
 
 
 class SPAdMultiStatusResponse(BaseModel):
@@ -150,9 +146,7 @@ class SPAdUpdate(BaseModel):
     adId: str  # The identifier of the ad.
     creative: SPUpdateCreative | None = None
     state: SPUpdateState | None = None
-    tags: list[SPCreateTag] | None = (
-        None  # Open ended labels with a key value pair applied to the ad
-    )
+    tags: list[SPCreateTag] | None = None  # Open ended labels with a key value pair applied to the ad
 
 
 class SPAdvertisedProducts(BaseModel):
@@ -226,9 +220,7 @@ class SPCreateSpotlightVideoSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    optimizeText: (
-        bool  # If the advertiser wants text they provided to be optimized by Amazon or not.
-    )
+    optimizeText: bool  # If the advertiser wants text they provided to be optimized by Amazon or not.
     videos: list[SPCreateVideo]  # The video asset(s) to use for the Sponsored Product experience.
 
 
@@ -304,9 +296,7 @@ class SPSpotlightVideoSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    optimizeText: (
-        bool  # If the advertiser wants text they provided to be optimized by Amazon or not.
-    )
+    optimizeText: bool  # If the advertiser wants text they provided to be optimized by Amazon or not.
     videos: list[SPVideo]  # The video asset(s) to use for the Sponsored Product experience.
 
 
@@ -347,12 +337,8 @@ class SPUpdateSpotlightVideoSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    optimizeText: bool | None = (
-        None  # If the advertiser wants text they provided to be optimized by Amazon or not.
-    )
-    videos: list[SPCreateVideo] | None = (
-        None  # The video asset(s) to use for the Sponsored Product experience.
-    )
+    optimizeText: bool | None = None  # If the advertiser wants text they provided to be optimized by Amazon or not.
+    videos: list[SPCreateVideo] | None = None  # The video asset(s) to use for the Sponsored Product experience.
 
 
 class SPVideo(BaseModel):

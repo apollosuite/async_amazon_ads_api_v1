@@ -37,7 +37,5 @@ class AdvertisingDealTargets(_ResourceBase):
             SBAdvertisingDealTargetSuccessResponse,
         )
 
-    async def delete(
-        self, ids: list[str]
-    ) -> SBAdvertisingDealTargetMultiStatusResponse | dict[str, Any]:
+    async def delete(self, ids: list[str]) -> SBAdvertisingDealTargetMultiStatusResponse | dict[str, Any]:
         return await self._delete(ids, self._spec, SBAdvertisingDealTargetMultiStatusResponse)

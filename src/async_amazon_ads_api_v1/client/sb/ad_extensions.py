@@ -31,9 +31,7 @@ class AdExtensions(_ResourceBase):
     ) -> SBAdExtensionSuccessResponse | dict[str, Any]:
         if isinstance(body, dict):
             body = SBQueryAdExtensionRequest(**body)
-        return await self._query(
-            body, "/adsApi/v1/query/adExtensions", SBAdExtensionSuccessResponse
-        )
+        return await self._query(body, "/adsApi/v1/query/adExtensions", SBAdExtensionSuccessResponse)
 
     async def update(
         self, ad_extensions: list[dict[str, Any] | SBAdExtensionUpdate]

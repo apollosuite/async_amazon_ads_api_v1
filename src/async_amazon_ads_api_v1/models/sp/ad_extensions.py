@@ -32,9 +32,7 @@ class SPAdExtension(BaseModel):
     adExtensionSettings: SPAdExtensionSettings
     adExtensionStatus: SPAdExtensionStatus | None = None
     adExtensionType: SPAdExtensionType
-    adGroupId: str | None = (
-        None  # A unique identifier for the ad group associated with the ad_extension.
-    )
+    adGroupId: str | None = None  # A unique identifier for the ad group associated with the ad_extension.
     adId: str | None = None  # A unique identifier for the ad associated with the ad_extension.
     adProduct: SPAdProduct
     creationDateTime: datetime  # The date time the ad_extension was created.
@@ -96,9 +94,7 @@ class SPAdExtensionAdProductFilter(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    include: list[
-        SPAdProduct
-    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+    include: list[SPAdProduct]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPAdExtensionCreate(BaseModel):
@@ -109,9 +105,7 @@ class SPAdExtensionCreate(BaseModel):
     adExtensionSettings: SPCreateAdExtensionSettings
     adExtensionStatus: SPAdExtensionStatus | None = None
     adExtensionType: SPAdExtensionType
-    adGroupId: str | None = (
-        None  # A unique identifier for the ad group associated with the ad_extension.
-    )
+    adGroupId: str | None = None  # A unique identifier for the ad group associated with the ad_extension.
     adId: str | None = None  # A unique identifier for the ad associated with the ad_extension.
     adProduct: SPAdProduct
     marketplaceScope: SPMarketplaceScope
@@ -269,9 +263,7 @@ class SPVideoExtension(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     renderedAssetId: str | None = None  # The video asset ID rendered in the ad.
-    renderedCoverImageUrl: str | None = (
-        None  # The image displayed over the video player before the video is played.
-    )
+    renderedCoverImageUrl: str | None = None  # The image displayed over the video player before the video is played.
     videoType: SPVideoType
 
 

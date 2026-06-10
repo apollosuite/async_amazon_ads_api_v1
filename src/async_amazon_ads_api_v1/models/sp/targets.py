@@ -32,9 +32,7 @@ class SPCreateKeywordTarget(BaseModel):
 
     keyword: str  # The customer search term or text to target
     matchType: SPKeywordMatchType
-    nativeLanguageKeyword: str | None = (
-        None  # The unlocalized keyword text in the preferred locale of the advertiser.
-    )
+    nativeLanguageKeyword: str | None = None  # The unlocalized keyword text in the preferred locale of the advertiser.
     nativeLanguageLocale: SPLanguageLocale | None = None
 
 
@@ -61,9 +59,7 @@ class SPCreateProductCategoryRefinement(BaseModel):
     productPriceLessThan: float | None = (
         None  # Refinement to target products with a price less than the value within the product category.
     )
-    productPrimeShippingEligible: bool | None = (
-        None  # Target based on if a product is Prime-shipping eligible.
-    )
+    productPrimeShippingEligible: bool | None = None  # Target based on if a product is Prime-shipping eligible.
     productRatingGreaterThan: float | None = (
         None  # Refinement to target products with a rating greater than the value within the product category.
     )
@@ -103,7 +99,9 @@ class SPCreateProductValue(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    productId: str  # The product identifier. Either the product id or the marketplace settings should always be specified
+    productId: (
+        str  # The product identifier. Either the product id or the marketplace settings should always be specified
+    )
 
 
 class SPCreateTargetBid(BaseModel):
@@ -170,9 +168,7 @@ class SPKeywordTarget(BaseModel):
 
     keyword: str  # The customer search term or text to target
     matchType: SPKeywordMatchType
-    nativeLanguageKeyword: str | None = (
-        None  # The unlocalized keyword text in the preferred locale of the advertiser.
-    )
+    nativeLanguageKeyword: str | None = None  # The unlocalized keyword text in the preferred locale of the advertiser.
     nativeLanguageLocale: SPLanguageLocale | None = None
 
 
@@ -219,9 +215,7 @@ class SPMatchType(StrEnum):
     KEYWORDS_CLOSE_MATCH = "KEYWORDS_CLOSE_MATCH"
     KEYWORDS_LOOSE_MATCH = "KEYWORDS_LOOSE_MATCH"
     KEYWORDS_RELATED_TO_GIFTS = "KEYWORDS_RELATED_TO_GIFTS"
-    KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY = (
-        "KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY"
-    )
+    KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY = "KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY"
     KEYWORDS_RELATED_TO_PRIME_DAY = "KEYWORDS_RELATED_TO_PRIME_DAY"
     KEYWORDS_RELATED_TO_YOUR_BRAND = "KEYWORDS_RELATED_TO_YOUR_BRAND"
     KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY = "KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY"
@@ -251,9 +245,7 @@ class SPProductCategoryRefinement(BaseModel):
     productPriceLessThan: float | None = (
         None  # Refinement to target products with a price less than the value within the product category.
     )
-    productPrimeShippingEligible: bool | None = (
-        None  # Target based on if a product is Prime-shipping eligible.
-    )
+    productPrimeShippingEligible: bool | None = None  # Target based on if a product is Prime-shipping eligible.
     productRatingGreaterThan: float | None = (
         None  # Refinement to target products with a rating greater than the value within the product category.
     )
@@ -304,7 +296,9 @@ class SPProductValue(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    productId: str  # The product identifier. Either the product id or the marketplace settings should always be specified
+    productId: (
+        str  # The product identifier. Either the product id or the marketplace settings should always be specified
+    )
 
 
 class SPQueryTargetRequest(BaseModel):
@@ -340,9 +334,7 @@ class SPTarget(BaseModel):
         None  # A unique identifier for the campaign associated with the target. Only used for campaign-level targets.
     )
     creationDateTime: datetime  # The date time the target was created.
-    globalTargetId: str | None = (
-        None  # The global target identifier that manages this marketplace target.
-    )
+    globalTargetId: str | None = None  # The global target identifier that manages this marketplace target.
     lastUpdatedDateTime: datetime  # The date time the target was last updated.
     marketplaceScope: SPMarketplaceScope
     marketplaces: list[
@@ -371,9 +363,7 @@ class SPTargetAdProductFilter(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    include: list[
-        SPAdProduct
-    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+    include: list[SPAdProduct]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPTargetBid(BaseModel):
@@ -408,9 +398,7 @@ class SPTargetCreate(BaseModel):
     )
     negative: bool  # Indicates whether the target is negative or not.
     state: SPCreateState
-    tags: list[SPCreateTag] | None = (
-        None  # Open ended labels with a key value pair applied to the target
-    )
+    tags: list[SPCreateTag] | None = None  # Open ended labels with a key value pair applied to the target
     targetDetails: SPCreateTargetDetails
     targetType: SPTargetType
 
@@ -573,9 +561,7 @@ class SPTargetUpdate(BaseModel):
 
     bid: SPUpdateTargetBid | None = None
     state: SPUpdateState | None = None
-    tags: list[SPCreateTag] | None = (
-        None  # Open ended labels with a key value pair applied to the target
-    )
+    tags: list[SPCreateTag] | None = None  # Open ended labels with a key value pair applied to the target
     targetId: str  # A unique identifier for the target.
 
 
@@ -596,9 +582,7 @@ class SPThemeMatchType(StrEnum):
     KEYWORDS_CLOSE_MATCH = "KEYWORDS_CLOSE_MATCH"
     KEYWORDS_LOOSE_MATCH = "KEYWORDS_LOOSE_MATCH"
     KEYWORDS_RELATED_TO_GIFTS = "KEYWORDS_RELATED_TO_GIFTS"
-    KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY = (
-        "KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY"
-    )
+    KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY = "KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY"
     KEYWORDS_RELATED_TO_PRIME_DAY = "KEYWORDS_RELATED_TO_PRIME_DAY"
     KEYWORDS_RELATED_TO_YOUR_BRAND = "KEYWORDS_RELATED_TO_YOUR_BRAND"
     KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY = "KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY"

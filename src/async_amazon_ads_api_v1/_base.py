@@ -42,7 +42,7 @@ class ClientContext:
         if self.config.raw_response:
             return cast(dict[str, Any], resp.json())
         try:
-            return model_cls.model_validate_json(resp.content)
+            return model_cls.model_validate_json(resp.content, extra="ignore")
         except ValidationError:
             logger.warning(
                 "Failed to validate response for %s (status=%s): %s",
@@ -82,11 +82,7 @@ class _ResourceBase:
         accept_async: bool = False,
     ) -> httpx.Response:
         client = await self._ctx.get_client()
-        accept = (
-            "application/vnd.createasyncrequestresults.v3+json"
-            if accept_async
-            else "application/json"
-        )
+        accept = "application/vnd.createasyncrequestresults.v3+json" if accept_async else "application/json"
         if self._ctx.config.access_token is None and self._ctx.config.refresh_token:
             await self._ctx.config.refresh_access_token()
         headers = {
@@ -108,20 +104,14 @@ class _ResourceBase:
                 resp.raise_for_status()
                 return resp
             except httpx.HTTPStatusError as exc:
-                if (
-                    exc.response.status_code == 401
-                    and self._ctx.config.refresh_token
-                    and attempt == 0
-                ):
+                if exc.response.status_code == 401 and self._ctx.config.refresh_token and attempt == 0:
                     await self._ctx.config.refresh_access_token()
                     headers["Authorization"] = f"Bearer {self._ctx.config.access_token}"
                     continue
                 if exc.response.status_code in (429, 503, 504):
                     if attempt < self._ctx.config.max_retries - 1:
                         wait_time = 2**attempt + random.uniform(0, 1)
-                        logger.warning(
-                            f"Rate limit exceeded, retrying in %.2f seconds {exc}", wait_time
-                        )
+                        logger.warning(f"Rate limit exceeded, retrying in %.2f seconds {exc}", wait_time)
                         await asyncio.sleep(wait_time)
                         continue
                 raise
@@ -144,9 +134,7 @@ class _ResourceBase:
                 result.append(model_cls(**item).model_dump(mode="json", exclude_none=True))
         return result
 
-    async def _create(
-        self, items: list[Any], spec: _ResourceSpec, response_cls: type[_T]
-    ) -> _T | dict[str, Any]:
+    async def _create(self, items: list[Any], spec: _ResourceSpec, response_cls: type[_T]) -> _T | dict[str, Any]:
         validated = self._validate(items, spec.create_model)
         resp = await self._request(
             "POST",
@@ -156,9 +144,7 @@ class _ResourceBase:
         )
         return self._response(response_cls, resp)
 
-    async def _update(
-        self, items: list[Any], spec: _ResourceSpec, response_cls: type[_T]
-    ) -> _T | dict[str, Any]:
+    async def _update(self, items: list[Any], spec: _ResourceSpec, response_cls: type[_T]) -> _T | dict[str, Any]:
         assert spec.update_model is not None, f"{spec.name} has no update model"
         validated = self._validate(items, spec.update_model)
         resp = await self._request(
@@ -169,9 +155,7 @@ class _ResourceBase:
         )
         return self._response(response_cls, resp)
 
-    async def _delete(
-        self, ids: list[str], spec: _ResourceSpec, response_cls: type[_T]
-    ) -> _T | dict[str, Any]:
+    async def _delete(self, ids: list[str], spec: _ResourceSpec, response_cls: type[_T]) -> _T | dict[str, Any]:
         assert spec.delete_key is not None, f"{spec.name} has no delete operation"
         resp = await self._request(
             "POST",
@@ -181,8 +165,6 @@ class _ResourceBase:
         )
         return self._response(response_cls, resp)
 
-    async def _query(
-        self, body: BaseModel, path: str, response_cls: type[_T]
-    ) -> _T | dict[str, Any]:
+    async def _query(self, body: BaseModel, path: str, response_cls: type[_T]) -> _T | dict[str, Any]:
         resp = await self._request("POST", path, json=body.model_dump(exclude_none=True))
         return self._response(response_cls, resp)

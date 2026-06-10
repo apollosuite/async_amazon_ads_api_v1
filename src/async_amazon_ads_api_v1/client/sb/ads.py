@@ -22,21 +22,15 @@ class Ads(_ResourceBase):
         delete_key="adIds",
     )
 
-    async def create(
-        self, ads: list[dict[str, Any] | SBAdCreate]
-    ) -> SBAdMultiStatusResponse | dict[str, Any]:
+    async def create(self, ads: list[dict[str, Any] | SBAdCreate]) -> SBAdMultiStatusResponse | dict[str, Any]:
         return await self._create(ads, self._spec, SBAdMultiStatusResponse)
 
-    async def query(
-        self, body: dict[str, Any] | SBQueryAdRequest
-    ) -> SBAdSuccessResponse | dict[str, Any]:
+    async def query(self, body: dict[str, Any] | SBQueryAdRequest) -> SBAdSuccessResponse | dict[str, Any]:
         if isinstance(body, dict):
             body = SBQueryAdRequest(**body)
         return await self._query(body, "/adsApi/v1/query/ads", SBAdSuccessResponse)
 
-    async def update(
-        self, ads: list[dict[str, Any] | SBAdUpdate]
-    ) -> SBAdMultiStatusResponse | dict[str, Any]:
+    async def update(self, ads: list[dict[str, Any] | SBAdUpdate]) -> SBAdMultiStatusResponse | dict[str, Any]:
         return await self._update(ads, self._spec, SBAdMultiStatusResponse)
 
     async def delete(self, ad_ids: list[str]) -> SBAdMultiStatusResponse | dict[str, Any]:

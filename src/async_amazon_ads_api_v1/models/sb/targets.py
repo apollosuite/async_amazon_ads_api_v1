@@ -32,9 +32,7 @@ class SBCreateKeywordTarget(BaseModel):
 
     keyword: str  # The customer search term or text to target
     matchType: SBKeywordMatchType
-    nativeLanguageKeyword: str | None = (
-        None  # The unlocalized keyword text in the preferred locale of the advertiser.
-    )
+    nativeLanguageKeyword: str | None = None  # The unlocalized keyword text in the preferred locale of the advertiser.
     nativeLanguageLocale: SBLanguageLocale | None = None
 
 
@@ -158,9 +156,7 @@ class SBKeywordTarget(BaseModel):
 
     keyword: str  # The customer search term or text to target
     matchType: SBKeywordMatchType
-    nativeLanguageKeyword: str | None = (
-        None  # The unlocalized keyword text in the preferred locale of the advertiser.
-    )
+    nativeLanguageKeyword: str | None = None  # The unlocalized keyword text in the preferred locale of the advertiser.
     nativeLanguageLocale: SBLanguageLocale | None = None
 
 
@@ -283,7 +279,9 @@ class SBTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    adGroupId: str  # A unique identifier for the ad group associated with the target. Only used for ad-group level targets.
+    adGroupId: (
+        str  # A unique identifier for the ad group associated with the target. Only used for ad-group level targets.
+    )
     adProduct: SBAdProduct
     bid: SBTargetBid | None = None
     campaignId: str | None = (
@@ -317,9 +315,7 @@ class SBTargetAdProductFilter(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    include: list[
-        SBAdProduct
-    ]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
+    include: list[SBAdProduct]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBTargetBid(BaseModel):
@@ -344,7 +340,9 @@ class SBTargetCreate(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    adGroupId: str  # A unique identifier for the ad group associated with the target. Only used for ad-group level targets.
+    adGroupId: (
+        str  # A unique identifier for the ad group associated with the target. Only used for ad-group level targets.
+    )
     adProduct: SBAdProduct
     bid: SBCreateTargetBid | None = None
     campaignId: str | None = (

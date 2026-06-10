@@ -35,9 +35,7 @@ class SPAdGroup(BaseModel):
     bid: SPAdGroupBid
     campaignId: str  # The unique identifier of the campaign the ad group belongs to.
     creationDateTime: datetime  # The date time that the ad group was created.
-    globalAdGroupId: str | None = (
-        None  # The global adGroup identifier that manages this marketplace adGroup.
-    )
+    globalAdGroupId: str | None = None  # The global adGroup identifier that manages this marketplace adGroup.
     lastUpdatedDateTime: datetime  # The date time that the ad group was last updated.
     marketplaceScope: SPMarketplaceScope
     marketplaces: list[
@@ -46,9 +44,7 @@ class SPAdGroup(BaseModel):
     name: str  # The name of the ad group.
     state: SPState
     status: SPStatus | None = None
-    tags: list[SPTag] | None = (
-        None  # Open ended labels with a key value pair applied to the ad group
-    )
+    tags: list[SPTag] | None = None  # Open ended labels with a key value pair applied to the ad group
 
 
 class SPAdGroupAdGroupIdFilter(BaseModel):
@@ -64,9 +60,7 @@ class SPAdGroupAdProductFilter(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    include: list[
-        SPAdProduct
-    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+    include: list[SPAdProduct]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPAdGroupBid(BaseModel):
@@ -97,9 +91,7 @@ class SPAdGroupCreate(BaseModel):
     campaignId: str  # The unique identifier of the campaign the ad group belongs to.
     name: str  # The name of the ad group.
     state: SPCreateState
-    tags: list[SPCreateTag] | None = (
-        None  # Open ended labels with a key value pair applied to the ad group
-    )
+    tags: list[SPCreateTag] | None = None  # Open ended labels with a key value pair applied to the ad group
 
 
 class SPAdGroupMultiStatusResponse(BaseModel):
@@ -168,9 +160,7 @@ class SPAdGroupUpdate(BaseModel):
     bid: SPUpdateAdGroupBid | None = None
     name: str | None = None  # The name of the ad group.
     state: SPUpdateState | None = None
-    tags: list[SPCreateTag] | None = (
-        None  # Open ended labels with a key value pair applied to the ad group
-    )
+    tags: list[SPCreateTag] | None = None  # Open ended labels with a key value pair applied to the ad group
 
 
 class SPAdSettings(BaseModel):

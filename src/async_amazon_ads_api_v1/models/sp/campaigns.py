@@ -30,7 +30,9 @@ class SPAudienceBidAdjustment(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     audienceId: str  # The unique identifier of the Audience to apply bid adjustment.
-    percentage: int  # The selection of the percentage change associated with a given audience and bid adjustment settings.
+    percentage: (
+        int  # The selection of the percentage change associated with a given audience and bid adjustment settings.
+    )
 
 
 class SPAutoCreationSettings(BaseModel):
@@ -39,9 +41,7 @@ class SPAutoCreationSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     autoCreateTargets: bool  # Gives Amazon permission to automatically create targets associated with the campaign based on the products being advertised.
-    autoManageCampaign: bool | None = (
-        None  # Flag that allows Amazon to manage the lifecycle of your Campaign.
-    )
+    autoManageCampaign: bool | None = None  # Flag that allows Amazon to manage the lifecycle of your Campaign.
 
 
 class SPAutoScaleGlobalCampaignSetting(StrEnum):
@@ -60,15 +60,11 @@ class SPBidAdjustments(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    audienceBidAdjustments: list[SPAudienceBidAdjustment] | None = (
-        None  # Bid Adjustments based on the audiences
-    )
+    audienceBidAdjustments: list[SPAudienceBidAdjustment] | None = None  # Bid Adjustments based on the audiences
     creativeBidAdjustments: list[SPCreativeBidAdjustment] | None = (
         None  # Bid Adjustments based on ads being shown as a creative. Range of bid adjustment value would be 0:900
     )
-    placementBidAdjustments: list[SPPlacementBidAdjustment] | None = (
-        None  # Bid adjustments based on ad placements.
-    )
+    placementBidAdjustments: list[SPPlacementBidAdjustment] | None = None  # Bid adjustments based on ad placements.
 
 
 class SPBidSettings(BaseModel):
@@ -148,9 +144,7 @@ class SPCampaign(BaseModel):
     )
     creationDateTime: datetime  # The date time that the campaign was created.
     endDateTime: datetime | None = None  # The end date time for the campaign.
-    globalCampaignId: str | None = (
-        None  # The global campaign identifier that manages this marketplace campaign.
-    )
+    globalCampaignId: str | None = None  # The global campaign identifier that manages this marketplace campaign.
     lastUpdatedDateTime: datetime  # The date time that the campaign was last updated.
     marketplaceScope: SPMarketplaceScope
     marketplaces: list[SPMarketplace] | None = (
@@ -163,9 +157,7 @@ class SPCampaign(BaseModel):
     startDateTime: datetime  # The start date time for the campaign.
     state: SPState
     status: SPStatus | None = None
-    tags: list[SPTag] | None = (
-        None  # Open ended labels with a key value pair applied to the campaign
-    )
+    tags: list[SPTag] | None = None  # Open ended labels with a key value pair applied to the campaign
 
 
 class SPCampaignAdProductFilter(BaseModel):
@@ -173,9 +165,7 @@ class SPCampaignAdProductFilter(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    include: list[
-        SPAdProduct
-    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+    include: list[SPAdProduct]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPCampaignCampaignIdFilter(BaseModel):
@@ -210,9 +200,7 @@ class SPCampaignCreate(BaseModel):
     siteRestrictions: list[SPSiteRestriction] | None = None  # Restrict the ad to a particular site
     startDateTime: datetime  # The start date time for the campaign.
     state: SPCreateState
-    tags: list[SPCreateTag] | None = (
-        None  # Open ended labels with a key value pair applied to the campaign
-    )
+    tags: list[SPCreateTag] | None = None  # Open ended labels with a key value pair applied to the campaign
 
 
 class SPCampaignMultiStatusResponse(BaseModel):
@@ -304,9 +292,7 @@ class SPCampaignUpdate(BaseModel):
     siteRestrictions: list[SPSiteRestriction] | None = None  # Restrict the ad to a particular site
     startDateTime: datetime | None = None  # The start date time for the campaign.
     state: SPUpdateState | None = None
-    tags: list[SPCreateTag] | None = (
-        None  # Open ended labels with a key value pair applied to the campaign
-    )
+    tags: list[SPCreateTag] | None = None  # Open ended labels with a key value pair applied to the campaign
 
 
 class SPCountryCode(StrEnum):
@@ -368,7 +354,9 @@ class SPCreateAudienceBidAdjustment(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     audienceId: str  # The unique identifier of the Audience to apply bid adjustment.
-    percentage: int  # The selection of the percentage change associated with a given audience and bid adjustment settings.
+    percentage: (
+        int  # The selection of the percentage change associated with a given audience and bid adjustment settings.
+    )
 
 
 class SPCreateAutoCreationSettings(BaseModel):
@@ -377,9 +365,7 @@ class SPCreateAutoCreationSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     autoCreateTargets: bool  # Gives Amazon permission to automatically create targets associated with the campaign based on the products being advertised.
-    autoManageCampaign: bool | None = (
-        None  # Flag that allows Amazon to manage the lifecycle of your Campaign.
-    )
+    autoManageCampaign: bool | None = None  # Flag that allows Amazon to manage the lifecycle of your Campaign.
 
 
 class SPCreateBidAdjustments(BaseModel):
@@ -387,9 +373,7 @@ class SPCreateBidAdjustments(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    audienceBidAdjustments: list[SPCreateAudienceBidAdjustment] | None = (
-        None  # Bid Adjustments based on the audiences
-    )
+    audienceBidAdjustments: list[SPCreateAudienceBidAdjustment] | None = None  # Bid Adjustments based on the audiences
     creativeBidAdjustments: list[SPCreateCreativeBidAdjustment] | None = (
         None  # Bid Adjustments based on ads being shown as a creative. Range of bid adjustment value would be 0:900
     )
@@ -456,7 +440,9 @@ class SPCreateCreativeBidAdjustment(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     creativeType: SPCreativeBidAdjustmentType | None = None
-    percentage: int  # The selection of the percentage change associated with the creative type and bid adjustment settings.
+    percentage: (
+        int  # The selection of the percentage change associated with the creative type and bid adjustment settings.
+    )
 
 
 class SPCreateMonetaryBudget(BaseModel):
@@ -480,7 +466,9 @@ class SPCreatePlacementBidAdjustment(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    percentage: int  # The selection of the percentage change associated with a given placement and bid adjustment settings.
+    percentage: (
+        int  # The selection of the percentage change associated with a given placement and bid adjustment settings.
+    )
     placement: SPPlacement
 
 
@@ -490,7 +478,9 @@ class SPCreativeBidAdjustment(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     creativeType: SPCreativeBidAdjustmentType | None = None
-    percentage: int  # The selection of the percentage change associated with the creative type and bid adjustment settings.
+    percentage: (
+        int  # The selection of the percentage change associated with the creative type and bid adjustment settings.
+    )
 
 
 class SPCreativeBidAdjustmentType(StrEnum):
@@ -527,9 +517,7 @@ class SPMonetaryBudget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     currencyCode: SPCurrencyCode
-    ruleValue: float | None = (
-        None  # The monetary amount of the budget when a budget rule is applied.
-    )
+    ruleValue: float | None = None  # The monetary amount of the budget when a budget rule is applied.
     value: float  # The monetary amount of the budget cap in the given currency.
 
 
@@ -572,7 +560,9 @@ class SPPlacementBidAdjustment(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    percentage: int  # The selection of the percentage change associated with a given placement and bid adjustment settings.
+    percentage: (
+        int  # The selection of the percentage change associated with a given placement and bid adjustment settings.
+    )
     placement: SPPlacement
 
 
@@ -615,9 +605,7 @@ class SPUpdateBidAdjustments(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    audienceBidAdjustments: list[SPCreateAudienceBidAdjustment] | None = (
-        None  # Bid Adjustments based on the audiences
-    )
+    audienceBidAdjustments: list[SPCreateAudienceBidAdjustment] | None = None  # Bid Adjustments based on the audiences
     creativeBidAdjustments: list[SPCreateCreativeBidAdjustment] | None = (
         None  # Bid Adjustments based on ads being shown as a creative. Range of bid adjustment value would be 0:900
     )

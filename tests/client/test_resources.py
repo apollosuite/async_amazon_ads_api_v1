@@ -185,9 +185,7 @@ class TestResourceMethodRouting:
         ],
     )
     @pytest.mark.asyncio
-    async def test_create_routing(
-        self, cls: type, expected_response: str, config: AmazonAdsConfig
-    ) -> None:
+    async def test_create_routing(self, cls: type, expected_response: str, config: AmazonAdsConfig) -> None:
         obj = cls(ClientContext(config))
         mock_result = MagicMock()
         with patch.object(obj, "_create", AsyncMock(return_value=mock_result)) as create_mock:
@@ -236,9 +234,7 @@ class TestResourceMethodRouting:
         assert not hasattr(obj, "delete")
 
     @pytest.mark.asyncio
-    async def test_keyword_reservation_validations_create_only(
-        self, config: AmazonAdsConfig
-    ) -> None:
+    async def test_keyword_reservation_validations_create_only(self, config: AmazonAdsConfig) -> None:
         obj = KeywordReservationValidations(ClientContext(config))
         assert not hasattr(obj, "query")
         assert not hasattr(obj, "update")

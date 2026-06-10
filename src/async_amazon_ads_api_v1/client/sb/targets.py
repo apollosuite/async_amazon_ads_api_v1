@@ -27,9 +27,7 @@ class Targets(_ResourceBase):
     ) -> SBTargetMultiStatusResponse | dict[str, Any]:
         return await self._create(targets, self._spec, SBTargetMultiStatusResponse)
 
-    async def query(
-        self, body: dict[str, Any] | SBQueryTargetRequest
-    ) -> SBTargetSuccessResponse | dict[str, Any]:
+    async def query(self, body: dict[str, Any] | SBQueryTargetRequest) -> SBTargetSuccessResponse | dict[str, Any]:
         if isinstance(body, dict):
             body = SBQueryTargetRequest(**body)
         return await self._query(body, "/adsApi/v1/query/targets", SBTargetSuccessResponse)

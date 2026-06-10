@@ -62,9 +62,7 @@ class SDCreateKeywordTarget(BaseModel):
 
     keyword: str  # The customer search term or text to target
     matchType: SDKeywordMatchType
-    nativeLanguageKeyword: str | None = (
-        None  # The unlocalized keyword text in the preferred locale of the advertiser.
-    )
+    nativeLanguageKeyword: str | None = None  # The unlocalized keyword text in the preferred locale of the advertiser.
     nativeLanguageLocale: SDLanguageLocale | None = None
 
 
@@ -115,9 +113,7 @@ class SDCreateProductCategoryRefinement(BaseModel):
     productPriceLessThan: float | None = (
         None  # Refinement to target products with a price less than the value within the product category.
     )
-    productPrimeShippingEligible: bool | None = (
-        None  # Target based on if a product is Prime-shipping eligible.
-    )
+    productPrimeShippingEligible: bool | None = None  # Target based on if a product is Prime-shipping eligible.
     productRatingGreaterThan: float | None = (
         None  # Refinement to target products with a rating greater than the value within the product category.
     )
@@ -229,9 +225,7 @@ class SDKeywordTarget(BaseModel):
 
     keyword: str  # The customer search term or text to target
     matchType: SDKeywordMatchType
-    nativeLanguageKeyword: str | None = (
-        None  # The unlocalized keyword text in the preferred locale of the advertiser.
-    )
+    nativeLanguageKeyword: str | None = None  # The unlocalized keyword text in the preferred locale of the advertiser.
     nativeLanguageLocale: SDLanguageLocale | None = None
 
 
@@ -325,9 +319,7 @@ class SDProductCategoryRefinement(BaseModel):
     productPriceLessThan: float | None = (
         None  # Refinement to target products with a price less than the value within the product category.
     )
-    productPrimeShippingEligible: bool | None = (
-        None  # Target based on if a product is Prime-shipping eligible.
-    )
+    productPrimeShippingEligible: bool | None = None  # Target based on if a product is Prime-shipping eligible.
     productRatingGreaterThan: float | None = (
         None  # Refinement to target products with a rating greater than the value within the product category.
     )
@@ -434,9 +426,7 @@ class SDTargetAdProductFilter(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    include: list[
-        SDAdProduct
-    ]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
+    include: list[SDAdProduct]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
 
 
 class SDTargetBid(BaseModel):

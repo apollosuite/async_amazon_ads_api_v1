@@ -104,9 +104,7 @@ class TestAmazonAdsConfig:
         return tmp.name
 
     def test_from_toml_success(self) -> None:
-        path = self._write_toml(
-            "client_id = 'tc'\nrefresh_token = 'rt'\nclient_secret = 'sc'\nregion = 'eu'"
-        )
+        path = self._write_toml("client_id = 'tc'\nrefresh_token = 'rt'\nclient_secret = 'sc'\nregion = 'eu'")
         cfg = from_toml(path)
         assert cfg.client_id == "tc"
         assert cfg.region == "eu"
@@ -120,9 +118,7 @@ class TestAmazonAdsConfig:
         Path(path).unlink()
 
     def test_from_toml_env_endpoint_override(self) -> None:
-        path = self._write_toml(
-            "client_id = 'tc'\nrefresh_token = 'rt'\nclient_secret = 'sc'\nregion = 'na'"
-        )
+        path = self._write_toml("client_id = 'tc'\nrefresh_token = 'rt'\nclient_secret = 'sc'\nregion = 'na'")
         with patch.dict(os.environ, {"AMAZON_ENDPOINT_NA": "http://localhost:9999"}, clear=False):
             cfg = from_toml(path)
         assert cfg.base_url == "http://localhost:9999"

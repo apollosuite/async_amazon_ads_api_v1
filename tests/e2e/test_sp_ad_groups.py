@@ -60,10 +60,7 @@ async def test_sp_ad_groups_require_campaign_in_same_profile(
             assert cross_profile.success == []
             assert cross_profile.error is not None
             assert cross_profile.error[0].index == 0
-            assert (
-                cross_profile.error[0].errors[0].code
-                == "RESOURCE_DOES_NOT_BELONG_TO_PARENT"
-            )
+            assert cross_profile.error[0].errors[0].code == "RESOURCE_DOES_NOT_BELONG_TO_PARENT"
 
             same_profile = await owner_client.ad_groups.create(
                 [ad_group_payload(f"{unique_name}-same-profile", campaign_id)]

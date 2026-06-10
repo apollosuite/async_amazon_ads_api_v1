@@ -178,11 +178,7 @@ def _ext_refs_from_schema(name: str, schema: dict, schemas: dict, schema_module:
     def walk(s: dict) -> None:
         if "$ref" in s:
             rname = s["$ref"].split("/")[-1]
-            if (
-                rname not in seen
-                and schema_module.get(rname)
-                and schema_module[rname] != schema_module[name]
-            ):
+            if rname not in seen and schema_module.get(rname) and schema_module[rname] != schema_module[name]:
                 refs.add(rname)
             seen.add(rname)
         elif s.get("type") == "array":
@@ -249,9 +245,7 @@ def main(*, output_dir: Path | None = None, product: str | None = None) -> None:
         return _strip_prefix(old)
 
     groups = {_remap_filename(k): v for k, v in groups.items()}
-    schema_module = {
-        k: _remap_filename(v) if v != "_core.errors" else v for k, v in schema_module.items()
-    }
+    schema_module = {k: _remap_filename(v) if v != "_core.errors" else v for k, v in schema_module.items()}
 
     # Remove shared error schemas from all groups (after ref collection)
     for name in SHARED_ERROR_SCHEMAS:
@@ -338,9 +332,7 @@ def main(*, output_dir: Path | None = None, product: str | None = None) -> None:
         imports = _build_import_block(filename, refs, schema_module)
         if refs:
             if "TYPE_CHECKING" not in header:
-                header = header.replace(
-                    "from typing import Any", "from typing import TYPE_CHECKING, Any"
-                )
+                header = header.replace("from typing import Any", "from typing import TYPE_CHECKING, Any")
         buf = [header, imports] if imports else [header]
         for n in names:
             emit_to_file(buf, n)

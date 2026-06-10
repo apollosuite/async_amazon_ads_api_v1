@@ -33,9 +33,7 @@ class AdvertisingDeals(_ResourceBase):
     ) -> SBAdvertisingDealSuccessResponse | dict[str, Any]:
         if isinstance(body, dict):
             body = SBQueryAdvertisingDealRequest(**body)
-        return await self._query(
-            body, "/adsApi/v1/query/advertisingDeals/sb", SBAdvertisingDealSuccessResponse
-        )
+        return await self._query(body, "/adsApi/v1/query/advertisingDeals/sb", SBAdvertisingDealSuccessResponse)
 
     async def update(
         self, items: list[dict[str, Any] | SBAdvertisingDealUpdate]

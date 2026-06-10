@@ -19,9 +19,7 @@ class SBBrandedKeywordsPricing(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    advertisingDealId: str | None = (
-        None  # Identifier of the existing deal to price. Omit when pricing a new deal.
-    )
+    advertisingDealId: str | None = None  # Identifier of the existing deal to price. Omit when pricing a new deal.
     brandedKeywordsPricingId: str  # A unique identifier for the branded keywords pricing.
     endDateTime: datetime  # The end date time for the deal.
     keywords: list[str]  # The list of branded keywords advertiser wants to reserve.
@@ -37,9 +35,7 @@ class SBBrandedKeywordsPricingCreate(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    advertisingDealId: str | None = (
-        None  # Identifier of the existing deal to price. Omit when pricing a new deal.
-    )
+    advertisingDealId: str | None = None  # Identifier of the existing deal to price. Omit when pricing a new deal.
     endDateTime: datetime  # The end date time for the deal.
     keywords: list[str]  # The list of branded keywords advertiser wants to reserve.
     startDateTime: datetime  # The start date time for the deal.

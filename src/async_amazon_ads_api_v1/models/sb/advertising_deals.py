@@ -25,9 +25,7 @@ class SBAdvertisingDeal(BaseModel):
     endDateTime: datetime  # The end date time for the deal.
     name: str  # The name of the deal.
     price: SBAdvertisingDealPrice | None = None
-    replacingDealId: str | None = (
-        None  # The ID of an advertising deal that this deal intends to replace.
-    )
+    replacingDealId: str | None = None  # The ID of an advertising deal that this deal intends to replace.
     startDateTime: datetime  # The start date time for the deal.
     state: SBAdvertisingDealState | None = None
     status: SBAdvertisingDealStatus
@@ -49,9 +47,7 @@ class SBAdvertisingDealCreate(BaseModel):
     endDateTime: datetime  # The end date time for the deal.
     name: str  # The name of the deal.
     price: SBCreateAdvertisingDealPrice | None = None
-    replacingDealId: str | None = (
-        None  # The ID of an advertising deal that this deal intends to replace.
-    )
+    replacingDealId: str | None = None  # The ID of an advertising deal that this deal intends to replace.
     startDateTime: datetime  # The start date time for the deal.
     state: SBAdvertisingDealState | None = None
 
@@ -144,9 +140,7 @@ class SBAdvertisingDealUpdate(BaseModel):
     endDateTime: datetime | None = None  # The end date time for the deal.
     name: str | None = None  # The name of the deal.
     price: SBUpdateAdvertisingDealPrice | None = None
-    replacingDealId: str | None = (
-        None  # The ID of an advertising deal that this deal intends to replace.
-    )
+    replacingDealId: str | None = None  # The ID of an advertising deal that this deal intends to replace.
     startDateTime: datetime | None = None  # The start date time for the deal.
     state: SBAdvertisingDealState | None = None
 

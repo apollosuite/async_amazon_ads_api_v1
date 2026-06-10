@@ -30,7 +30,9 @@ class SBAudienceBidAdjustment(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     audienceId: str  # The unique identifier of the Audience to apply bid adjustment.
-    percentage: int  # The selection of the percentage change associated with a given audience and bid adjustment settings.
+    percentage: (
+        int  # The selection of the percentage change associated with a given audience and bid adjustment settings.
+    )
 
 
 class SBAutoCreationSettings(BaseModel):
@@ -48,12 +50,8 @@ class SBBidAdjustments(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    audienceBidAdjustments: list[SBAudienceBidAdjustment] | None = (
-        None  # Bid Adjustments based on the audiences
-    )
-    placementBidAdjustments: list[SBPlacementBidAdjustment] | None = (
-        None  # Bid adjustments based on ad placements.
-    )
+    audienceBidAdjustments: list[SBAudienceBidAdjustment] | None = None  # Bid Adjustments based on the audiences
+    placementBidAdjustments: list[SBPlacementBidAdjustment] | None = None  # Bid adjustments based on ad placements.
     shopperSegmentBidAdjustments: list[SBShopperSegmentBidAdjustment] | None = (
         None  # Legacy SB field (marked for deprecation)
     )
@@ -124,9 +122,7 @@ class SBCampaign(BaseModel):
     )
     creationDateTime: datetime  # The date time that the campaign was created.
     endDateTime: datetime | None = None  # The end date time for the campaign.
-    isMultiAdGroupsEnabled: (
-        bool  # A read-only field that indicates whether a campaign supports multiple adGroups.
-    )
+    isMultiAdGroupsEnabled: bool  # A read-only field that indicates whether a campaign supports multiple adGroups.
     lastUpdatedDateTime: datetime  # The date time that the campaign was last updated.
     marketplaceScope: SBMarketplaceScope
     marketplaces: list[SBMarketplace] | None = (
@@ -140,9 +136,7 @@ class SBCampaign(BaseModel):
     startDateTime: datetime  # The start date time for the campaign.
     state: SBState
     status: SBStatus | None = None
-    tags: list[SBTag] | None = (
-        None  # Open ended labels with a key value pair applied to the campaign
-    )
+    tags: list[SBTag] | None = None  # Open ended labels with a key value pair applied to the campaign
     targetedPGDealId: str | None = None  # DealId associated with the campaign.
 
 
@@ -151,9 +145,7 @@ class SBCampaignAdProductFilter(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    include: list[
-        SBAdProduct
-    ]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
+    include: list[SBAdProduct]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBCampaignCampaignIdFilter(BaseModel):
@@ -191,9 +183,7 @@ class SBCampaignCreate(BaseModel):
     siteRestrictions: list[SBSiteRestriction] | None = None  # Restrict the ad to a particular site
     startDateTime: datetime  # The start date time for the campaign.
     state: SBCreateState
-    tags: list[SBCreateTag] | None = (
-        None  # Open ended labels with a key value pair applied to the campaign
-    )
+    tags: list[SBCreateTag] | None = None  # Open ended labels with a key value pair applied to the campaign
     targetedPGDealId: str | None = None  # DealId associated with the campaign.
 
 
@@ -295,9 +285,7 @@ class SBCampaignUpdate(BaseModel):
     portfolioId: str | None = None  # The ID of the portfolio associated with the campaign.
     startDateTime: datetime | None = None  # The start date time for the campaign.
     state: SBUpdateState | None = None
-    tags: list[SBCreateTag] | None = (
-        None  # Open ended labels with a key value pair applied to the campaign
-    )
+    tags: list[SBCreateTag] | None = None  # Open ended labels with a key value pair applied to the campaign
     targetedPGDealId: str | None = None  # DealId associated with the campaign.
 
 
@@ -375,7 +363,9 @@ class SBCreateAudienceBidAdjustment(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     audienceId: str  # The unique identifier of the Audience to apply bid adjustment.
-    percentage: int  # The selection of the percentage change associated with a given audience and bid adjustment settings.
+    percentage: (
+        int  # The selection of the percentage change associated with a given audience and bid adjustment settings.
+    )
 
 
 class SBCreateAutoCreationSettings(BaseModel):
@@ -393,9 +383,7 @@ class SBCreateBidAdjustments(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    audienceBidAdjustments: list[SBCreateAudienceBidAdjustment] | None = (
-        None  # Bid Adjustments based on the audiences
-    )
+    audienceBidAdjustments: list[SBCreateAudienceBidAdjustment] | None = None  # Bid Adjustments based on the audiences
     placementBidAdjustments: list[SBCreatePlacementBidAdjustment] | None = (
         None  # Bid adjustments based on ad placements.
     )
@@ -477,7 +465,9 @@ class SBCreatePlacementBidAdjustment(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    percentage: int  # The selection of the percentage change associated with a given placement and bid adjustment settings.
+    percentage: (
+        int  # The selection of the percentage change associated with a given placement and bid adjustment settings.
+    )
     placement: SBPlacement
 
 
@@ -534,9 +524,7 @@ class SBMonetaryBudget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     currencyCode: SBCurrencyCode
-    ruleValue: float | None = (
-        None  # The monetary amount of the budget when a budget rule is applied.
-    )
+    ruleValue: float | None = None  # The monetary amount of the budget when a budget rule is applied.
     value: float  # The monetary amount of the budget cap in the given currency.
 
 
@@ -568,7 +556,9 @@ class SBPlacementBidAdjustment(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    percentage: int  # The selection of the percentage change associated with a given placement and bid adjustment settings.
+    percentage: (
+        int  # The selection of the percentage change associated with a given placement and bid adjustment settings.
+    )
     placement: SBPlacement
 
 
@@ -641,9 +631,7 @@ class SBUpdateBidAdjustments(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    audienceBidAdjustments: list[SBCreateAudienceBidAdjustment] | None = (
-        None  # Bid Adjustments based on the audiences
-    )
+    audienceBidAdjustments: list[SBCreateAudienceBidAdjustment] | None = None  # Bid Adjustments based on the audiences
     placementBidAdjustments: list[SBCreatePlacementBidAdjustment] | None = (
         None  # Bid adjustments based on ad placements.
     )

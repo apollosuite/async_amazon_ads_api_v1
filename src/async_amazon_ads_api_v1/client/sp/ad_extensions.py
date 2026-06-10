@@ -32,9 +32,7 @@ class AdExtensions(_ResourceBase):
     ) -> SPAdExtensionSuccessResponse | dict[str, Any]:
         if isinstance(body, dict):
             body = SPQueryAdExtensionRequest(**body)
-        return await self._query(
-            body, "/adsApi/v1/query/adExtensions", SPAdExtensionSuccessResponse
-        )
+        return await self._query(body, "/adsApi/v1/query/adExtensions", SPAdExtensionSuccessResponse)
 
     async def update(
         self, ad_extensions: list[dict[str, Any] | SPAdExtensionUpdate]

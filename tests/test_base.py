@@ -118,9 +118,7 @@ class TestResourceBase:
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
             await resource._request("POST", "/test", accept_async=True)
         call_kwargs = mock_async_client.request.call_args[1]
-        assert (
-            call_kwargs["headers"]["Accept"] == "application/vnd.createasyncrequestresults.v3+json"
-        )
+        assert call_kwargs["headers"]["Accept"] == "application/vnd.createasyncrequestresults.v3+json"
 
     @pytest.mark.asyncio
     async def test_request_profile_header(
@@ -135,9 +133,7 @@ class TestResourceBase:
         assert call_kwargs["headers"]["Amazon-Advertising-API-Scope"] == "1"
 
     @pytest.mark.asyncio
-    async def test_request_retry_on_429(
-        self, resource: _ResourceBase, mock_async_client: MagicMock
-    ) -> None:
+    async def test_request_retry_on_429(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
         error_resp = MagicMock(spec=httpx.Response)
         error_resp.status_code = 429
         error_resp.raise_for_status.side_effect = httpx.HTTPStatusError(
@@ -154,9 +150,7 @@ class TestResourceBase:
         assert mock_async_client.request.call_count == 3
 
     @pytest.mark.asyncio
-    async def test_request_retry_on_connect_error(
-        self, resource: _ResourceBase, mock_async_client: MagicMock
-    ) -> None:
+    async def test_request_retry_on_connect_error(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
         mock_async_client.request.side_effect = [
             httpx.ConnectError("conn refused"),
             httpx.ConnectError("conn refused"),
@@ -168,9 +162,7 @@ class TestResourceBase:
         assert mock_async_client.request.call_count == 3
 
     @pytest.mark.asyncio
-    async def test_request_exhaust_retries(
-        self, resource: _ResourceBase, mock_async_client: MagicMock
-    ) -> None:
+    async def test_request_exhaust_retries(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
         error_resp = MagicMock(spec=httpx.Response)
         error_resp.status_code = 503
         error_resp.raise_for_status.side_effect = httpx.HTTPStatusError(
@@ -183,9 +175,7 @@ class TestResourceBase:
         assert mock_async_client.request.call_count == 3
 
     @pytest.mark.asyncio
-    async def test_request_non_retryable_status(
-        self, resource: _ResourceBase, mock_async_client: MagicMock
-    ) -> None:
+    async def test_request_non_retryable_status(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
         error_resp = MagicMock(spec=httpx.Response)
         error_resp.status_code = 400
         exc = httpx.HTTPStatusError("bad", request=MagicMock(), response=error_resp)

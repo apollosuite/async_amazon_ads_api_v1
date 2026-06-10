@@ -26,8 +26,7 @@ def _get_redis_client(redis_url: str) -> Redis:
             from redis.asyncio import Redis
         except ImportError:
             raise ImportError(
-                "Redis support requires the 'redis' extra: "
-                "pip install async-amazon-ads-api-v1[redis]"
+                "Redis support requires the 'redis' extra: " "pip install async-amazon-ads-api-v1[redis]"
             ) from None
         _redis_clients[redis_url] = Redis.from_url(redis_url, decode_responses=True)
     return _redis_clients[redis_url]

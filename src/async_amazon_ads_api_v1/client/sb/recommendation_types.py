@@ -23,6 +23,4 @@ class RecommendationTypes(_ResourceBase):
     ) -> SBRecommendationTypeSuccessResponse | dict[str, Any]:
         if isinstance(body, dict):
             body = SBQueryRecommendationTypeRequest(**body)
-        return await self._query(
-            body, "/adsApi/v1/query/recommendationTypes/sb", SBRecommendationTypeSuccessResponse
-        )
+        return await self._query(body, "/adsApi/v1/query/recommendationTypes/sb", SBRecommendationTypeSuccessResponse)

@@ -51,9 +51,7 @@ class SDAdAdProductFilter(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    include: list[
-        SDAdProduct
-    ]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
+    include: list[SDAdProduct]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
 
 
 class SDAdCreate(BaseModel):
@@ -238,9 +236,7 @@ class SDCreateProductVideoSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     landingPage: SDCreateVideoLandingPage | None = None
-    products: list[SDCreateAdvertisedProducts] | None = (
-        None  # The products featured in the video ad.
-    )
+    products: list[SDCreateAdvertisedProducts] | None = None  # The products featured in the video ad.
 
 
 class SDCreateResponsiveEcommerceLandingPage(BaseModel):
@@ -302,12 +298,8 @@ class SDFormatProperties(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     height: int | None = None  # The height (in pixels) of the cropped image.
-    left: int | None = (
-        None  # The number of pixels from the left of the image where the crop should begin.
-    )
-    top: int | None = (
-        None  # The number of pixels from the top of the image where the crop should begin.
-    )
+    left: int | None = None  # The number of pixels from the left of the image where the crop should begin.
+    top: int | None = None  # The number of pixels from the top of the image where the crop should begin.
     width: int | None = None  # The width (in pixels) of the cropped image.
 
 
@@ -352,9 +344,7 @@ class SDProductVideoSettings(BaseModel):
     moderationStatus: SDCreativeStatus | None = None
     products: list[SDAdvertisedProducts] | None = None  # The products featured in the video ad.
     untranslatedHeadlines: list[str] | None = None  # The headline entered by the advertiser.
-    untranslatedVideos: list[
-        SDVideo
-    ]  # The original video assets submitted as part of the creative.
+    untranslatedVideos: list[SDVideo]  # The original video assets submitted as part of the creative.
     videos: list[SDVideo]  # The video assets used in the ad.
 
 

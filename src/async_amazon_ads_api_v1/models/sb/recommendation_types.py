@@ -19,7 +19,9 @@ class SBRecommendationType(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    recommendationTypeId: str  # The ID of the recommendation type. Format: Either a UUID or a unique descriptive string identifier
+    recommendationTypeId: (
+        str  # The ID of the recommendation type. Format: Either a UUID or a unique descriptive string identifier
+    )
     recommendationTypeTitle: str  # Titles or short descriptions of the recommendation
 
 

@@ -46,9 +46,7 @@ class SBBrandedKeywordList(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    associatedBrandIds: list[str] | None = (
-        None  # Brand IDs associated with the branded keyword list
-    )
+    associatedBrandIds: list[str] | None = None  # Brand IDs associated with the branded keyword list
     brandedKeyword: list[SBBrandedKeyword] | None = (
         None  # Branded keywords are specific words or phrases that include a company's brand name or a registered trademark of a brand
     )
@@ -94,9 +92,7 @@ class SBCreateRecommendationTypeDetails(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    brandedKeywordRecommendationTypeDetails: (
-        SBCreateBrandedKeywordRecommendationTypeDetails | None
-    ) = None
+    brandedKeywordRecommendationTypeDetails: SBCreateBrandedKeywordRecommendationTypeDetails | None = None
 
 
 class SBObjectSettings(BaseModel):
@@ -113,9 +109,7 @@ class SBRecommendation(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     recommendationId: str  # The identifier of the recommendation
-    recommendationType: (
-        str  # A unique value to indicate similar recommendations, used for internal purposes only
-    )
+    recommendationType: str  # A unique value to indicate similar recommendations, used for internal purposes only
     recommendationTypeDetails: SBRecommendationTypeDetails | None = None
     recommendedObjects: list[SBRecommendedObject]  # The target objects of the recommendation
 
@@ -125,9 +119,7 @@ class SBRecommendationCreate(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    recommendationType: (
-        str  # A unique value to indicate similar recommendations, used for internal purposes only
-    )
+    recommendationType: str  # A unique value to indicate similar recommendations, used for internal purposes only
     recommendationTypeDetails: SBCreateRecommendationTypeDetails | None = None
 
 

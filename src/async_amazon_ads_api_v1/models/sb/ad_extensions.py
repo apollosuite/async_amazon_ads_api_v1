@@ -31,9 +31,7 @@ class SBAdExtension(BaseModel):
     adExtensionSettings: SBAdExtensionSettings
     adExtensionStatus: SBAdExtensionStatus | None = None
     adExtensionType: SBAdExtensionType
-    adGroupId: str | None = (
-        None  # A unique identifier for the ad group associated with the ad_extension.
-    )
+    adGroupId: str | None = None  # A unique identifier for the ad group associated with the ad_extension.
     adId: str | None = None  # A unique identifier for the ad associated with the ad_extension.
     adProduct: SBAdProduct
     creationDateTime: datetime  # The date time the ad_extension was created.
@@ -68,9 +66,7 @@ class SBAdExtensionAdExtensionTypeFilter(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    include: list[
-        SBAdExtensionType
-    ]  # AdExtensionType Description `PROMPTS` Enables Prompt based Ad Extension.
+    include: list[SBAdExtensionType]  # AdExtensionType Description `PROMPTS` Enables Prompt based Ad Extension.
 
 
 class SBAdExtensionAdGroupIdFilter(BaseModel):
@@ -94,9 +90,7 @@ class SBAdExtensionAdProductFilter(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    include: list[
-        SBAdProduct
-    ]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
+    include: list[SBAdProduct]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBAdExtensionCreate(BaseModel):
@@ -107,9 +101,7 @@ class SBAdExtensionCreate(BaseModel):
     adExtensionSettings: SBCreateAdExtensionSettings
     adExtensionStatus: SBAdExtensionStatus | None = None
     adExtensionType: SBAdExtensionType
-    adGroupId: str | None = (
-        None  # A unique identifier for the ad group associated with the ad_extension.
-    )
+    adGroupId: str | None = None  # A unique identifier for the ad group associated with the ad_extension.
     adId: str | None = None  # A unique identifier for the ad associated with the ad_extension.
     adProduct: SBAdProduct
     marketplaceScope: SBMarketplaceScope

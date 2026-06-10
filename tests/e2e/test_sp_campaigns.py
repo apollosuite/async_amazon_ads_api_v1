@@ -18,9 +18,7 @@ async def test_sp_campaigns_lifecycle_contract(
     e2e_settings: E2ESettings,
     unique_name: str,
 ) -> None:
-    create_result = await sp_client.campaigns.create(
-        [campaign_payload(unique_name, e2e_settings.marketplace)]
-    )
+    create_result = await sp_client.campaigns.create([campaign_payload(unique_name, e2e_settings.marketplace)])
     assert isinstance(create_result, SPCampaignMultiStatusResponse)
     assert create_result.error == []
     assert create_result.success is not None
@@ -50,18 +48,14 @@ async def test_sp_campaigns_lifecycle_contract(
     assert queried.campaigns[0].name == unique_name
 
     updated_name = f"{unique_name}-updated"
-    update_result = await sp_client.campaigns.update(
-        [{"campaignId": campaign_id, "name": updated_name}]
-    )
+    update_result = await sp_client.campaigns.update([{"campaignId": campaign_id, "name": updated_name}])
     assert isinstance(update_result, SPCampaignMultiStatusResponse)
     assert update_result.error == []
     assert update_result.success is not None
     assert update_result.success[0].campaign.campaignId == campaign_id
     assert update_result.success[0].campaign.name == updated_name
 
-    queried_after_update = await sp_client.campaigns.query(
-        campaign_query_body(campaign_id, state="ENABLED")
-    )
+    queried_after_update = await sp_client.campaigns.query(campaign_query_body(campaign_id, state="ENABLED"))
     assert isinstance(queried_after_update, SPCampaignSuccessResponse)
     assert queried_after_update.campaigns is not None
     assert [item.name for item in queried_after_update.campaigns] == [updated_name]

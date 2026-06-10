@@ -11,8 +11,8 @@ from async_amazon_ads_api_v1.config.token_cache import (
     BaseTokenCache,
     FileTokenCache,
     RedisTokenCache,
-    _TokenData,
     _redis_clients,
+    _TokenData,
 )
 
 REDIS_URL = os.environ.get("TEST_REDIS_URL", "redis://localhost:6379/0")
@@ -109,9 +109,7 @@ class TestRedisTokenCache:
         result = await redis_cache.read()
         assert result is None
 
-    async def test_write_and_read(
-        self, redis_cache: RedisTokenCache, token_data: _TokenData
-    ) -> None:
+    async def test_write_and_read(self, redis_cache: RedisTokenCache, token_data: _TokenData) -> None:
         await redis_cache.write(token_data)
         result = await redis_cache.read()
         assert result is not None

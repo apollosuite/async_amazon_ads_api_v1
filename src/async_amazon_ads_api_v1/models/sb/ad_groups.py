@@ -40,9 +40,7 @@ class SBAdGroup(BaseModel):
     name: str  # The name of the ad group.
     state: SBState
     status: SBStatus | None = None
-    tags: list[SBTag] | None = (
-        None  # Open ended labels with a key value pair applied to the ad group
-    )
+    tags: list[SBTag] | None = None  # Open ended labels with a key value pair applied to the ad group
 
 
 class SBAdGroupAdGroupIdFilter(BaseModel):
@@ -58,9 +56,7 @@ class SBAdGroupAdProductFilter(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    include: list[
-        SBAdProduct
-    ]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
+    include: list[SBAdProduct]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBAdGroupCampaignIdFilter(BaseModel):
@@ -80,9 +76,7 @@ class SBAdGroupCreate(BaseModel):
     campaignId: str  # The unique identifier of the campaign the ad group belongs to.
     name: str  # The name of the ad group.
     state: SBCreateState
-    tags: list[SBCreateTag] | None = (
-        None  # Open ended labels with a key value pair applied to the ad group
-    )
+    tags: list[SBCreateTag] | None = None  # Open ended labels with a key value pair applied to the ad group
 
 
 class SBAdGroupMultiStatusResponse(BaseModel):
@@ -149,9 +143,7 @@ class SBAdGroupUpdate(BaseModel):
     adGroupId: str  # The unique identifier of the ad group.
     name: str | None = None  # The name of the ad group.
     state: SBUpdateState | None = None
-    tags: list[SBCreateTag] | None = (
-        None  # Open ended labels with a key value pair applied to the ad group
-    )
+    tags: list[SBCreateTag] | None = None  # Open ended labels with a key value pair applied to the ad group
 
 
 class SBCreateAdGroupRequest(BaseModel):

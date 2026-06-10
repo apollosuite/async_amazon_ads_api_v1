@@ -160,9 +160,7 @@ class SBStatus(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    deliveryReasons: list[SBDeliveryReason] | None = (
-        None  # This is the list of reasons behind the delivery status.
-    )
+    deliveryReasons: list[SBDeliveryReason] | None = None  # This is the list of reasons behind the delivery status.
     deliveryStatus: SBDeliveryStatus
 
 

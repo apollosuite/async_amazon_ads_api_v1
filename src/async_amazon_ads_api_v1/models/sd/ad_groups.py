@@ -59,9 +59,7 @@ class SDAdGroupAdProductFilter(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    include: list[
-        SDAdProduct
-    ]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
+    include: list[SDAdProduct]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
 
 
 class SDAdGroupBid(BaseModel):

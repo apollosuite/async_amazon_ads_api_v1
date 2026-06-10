@@ -77,9 +77,7 @@ class SDCampaign(BaseModel):
     startDateTime: datetime  # The start date time for the campaign.
     state: SDState
     status: SDStatus | None = None
-    tags: list[SDTag] | None = (
-        None  # Open ended labels with a key value pair applied to the campaign
-    )
+    tags: list[SDTag] | None = None  # Open ended labels with a key value pair applied to the campaign
 
 
 class SDCampaignAdProductFilter(BaseModel):
@@ -87,9 +85,7 @@ class SDCampaignAdProductFilter(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    include: list[
-        SDAdProduct
-    ]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
+    include: list[SDAdProduct]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
 
 
 class SDCampaignCampaignIdFilter(BaseModel):
@@ -122,9 +118,7 @@ class SDCampaignCreate(BaseModel):
     portfolioId: str | None = None  # The ID of the portfolio associated with the campaign.
     startDateTime: datetime  # The start date time for the campaign.
     state: SDCreateState
-    tags: list[SDCreateTag] | None = (
-        None  # Open ended labels with a key value pair applied to the campaign
-    )
+    tags: list[SDCreateTag] | None = None  # Open ended labels with a key value pair applied to the campaign
 
 
 class SDCampaignMultiStatusResponse(BaseModel):
@@ -206,9 +200,7 @@ class SDCampaignUpdate(BaseModel):
     portfolioId: str | None = None  # The ID of the portfolio associated with the campaign.
     startDateTime: datetime | None = None  # The start date time for the campaign.
     state: SDUpdateState | None = None
-    tags: list[SDCreateTag] | None = (
-        None  # Open ended labels with a key value pair applied to the campaign
-    )
+    tags: list[SDCreateTag] | None = None  # Open ended labels with a key value pair applied to the campaign
 
 
 class SDCostType(StrEnum):
@@ -335,9 +327,7 @@ class SDMonetaryBudget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     currencyCode: SDCurrencyCode
-    ruleValue: float | None = (
-        None  # The monetary amount of the budget when a budget rule is applied.
-    )
+    ruleValue: float | None = None  # The monetary amount of the budget when a budget rule is applied.
     value: float  # The monetary amount of the budget cap in the given currency.
 
 

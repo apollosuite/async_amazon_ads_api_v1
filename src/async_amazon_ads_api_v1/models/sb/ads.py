@@ -69,9 +69,7 @@ class SBAdAdProductFilter(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    include: list[
-        SBAdProduct
-    ]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
+    include: list[SBAdProduct]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBAdCampaignIdFilter(BaseModel):
@@ -93,9 +91,7 @@ class SBAdCreate(BaseModel):
     creative: SBCreateCreative
     name: str  # The name of the ad.
     state: SBCreateState
-    tags: list[SBCreateTag] | None = (
-        None  # Open ended labels with a key value pair applied to the ad
-    )
+    tags: list[SBCreateTag] | None = None  # Open ended labels with a key value pair applied to the ad
 
 
 class SBAdMultiStatusResponse(BaseModel):
@@ -172,9 +168,7 @@ class SBAdUpdate(BaseModel):
     creative: SBUpdateCreative | None = None
     name: str | None = None  # The name of the ad.
     state: SBUpdateState | None = None
-    tags: list[SBCreateTag] | None = (
-        None  # Open ended labels with a key value pair applied to the ad
-    )
+    tags: list[SBCreateTag] | None = None  # Open ended labels with a key value pair applied to the ad
 
 
 class SBAdvertisedProducts(BaseModel):
@@ -191,9 +185,7 @@ class SBAutoCollectionSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    productExclusions: list[SBAdvertisedProducts] | None = (
-        None  # Products to exclude from auto collection.
-    )
+    productExclusions: list[SBAdvertisedProducts] | None = None  # Products to exclude from auto collection.
     sharedSettings: SBSharedCollectionSettings
 
 
@@ -261,9 +253,7 @@ class SBCreateAutoCollectionSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    productExclusions: list[SBCreateAdvertisedProducts] | None = (
-        None  # Products to exclude from auto collection.
-    )
+    productExclusions: list[SBCreateAdvertisedProducts] | None = None  # Products to exclude from auto collection.
     sharedSettings: SBCreateSharedCollectionSettings
 
 
@@ -312,12 +302,8 @@ class SBCreateFormatProperties(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     height: int | None = None  # The height (in pixels) of the cropped image.
-    left: int | None = (
-        None  # The number of pixels from the left of the image where the crop should begin.
-    )
-    top: int | None = (
-        None  # The number of pixels from the top of the image where the crop should begin.
-    )
+    left: int | None = None  # The number of pixels from the left of the image where the crop should begin.
+    top: int | None = None  # The number of pixels from the top of the image where the crop should begin.
     width: int | None = None  # The width (in pixels) of the cropped image.
 
 
@@ -338,9 +324,7 @@ class SBCreateLandingPageAsins(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    asins: list[
-        str
-    ]  # For landing page of type ASIN_LIST, the list of ASINs used to create the landing page.
+    asins: list[str]  # For landing page of type ASIN_LIST, the list of ASINs used to create the landing page.
 
 
 class SBCreateManualCollectionSettings(BaseModel):
@@ -394,9 +378,7 @@ class SBCreateProductVideoSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     brand: str | None = None  # The name of the brand being advertised.
-    brandLogos: list[SBCreateImage] | None = (
-        None  # The brand logo image assets to be used in the ad.
-    )
+    brandLogos: list[SBCreateImage] | None = None  # The brand logo image assets to be used in the ad.
     enableCreativeAutoTranslation: bool | None = (
         None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
     )
@@ -404,9 +386,7 @@ class SBCreateProductVideoSettings(BaseModel):
         None  # The headline submitted as part of the ad creative. During your campaign, Amazon will optimize amongst the headlines you provide to match customer intent.
     )
     landingPage: SBCreateVideoLandingPage | None = None
-    products: list[SBCreateAdvertisedProducts] | None = (
-        None  # The products featured in the video ad.
-    )
+    products: list[SBCreateAdvertisedProducts] | None = None  # The products featured in the video ad.
     videos: list[SBCreateVideo]  # The video assets used in the ad.
 
 
@@ -498,12 +478,8 @@ class SBFormatProperties(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     height: int | None = None  # The height (in pixels) of the cropped image.
-    left: int | None = (
-        None  # The number of pixels from the left of the image where the crop should begin.
-    )
-    top: int | None = (
-        None  # The number of pixels from the top of the image where the crop should begin.
-    )
+    left: int | None = None  # The number of pixels from the left of the image where the crop should begin.
+    top: int | None = None  # The number of pixels from the top of the image where the crop should begin.
     width: int | None = None  # The width (in pixels) of the cropped image.
 
 
@@ -524,9 +500,7 @@ class SBLandingPageAsins(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    asins: list[
-        str
-    ]  # For landing page of type ASIN_LIST, the list of ASINs used to create the landing page.
+    asins: list[str]  # For landing page of type ASIN_LIST, the list of ASINs used to create the landing page.
 
 
 class SBManualCollectionSettings(BaseModel):
@@ -535,9 +509,7 @@ class SBManualCollectionSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     landingPage: SBCollectionLandingPage
-    productInclusions: list[
-        SBAdvertisedProducts
-    ]  # The products featured in the ad. Required for manual collections.
+    productInclusions: list[SBAdvertisedProducts]  # The products featured in the ad. Required for manual collections.
     sharedSettings: SBSharedCollectionSettings
 
 
@@ -632,9 +604,7 @@ class SBProductVideoSettings(BaseModel):
     moderationStatus: SBCreativeStatus | None = None
     products: list[SBAdvertisedProducts] | None = None  # The products featured in the video ad.
     untranslatedHeadlines: list[str] | None = None  # The headline entered by the advertiser.
-    untranslatedVideos: list[
-        SBVideo
-    ]  # The original video assets submitted as part of the creative.
+    untranslatedVideos: list[SBVideo]  # The original video assets submitted as part of the creative.
     videos: list[SBVideo]  # The video assets used in the ad.
 
 
@@ -727,9 +697,7 @@ class SBUpdateAutoCollectionSettings(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    productExclusions: list[SBCreateAdvertisedProducts] | None = (
-        None  # Products to exclude from auto collection.
-    )
+    productExclusions: list[SBCreateAdvertisedProducts] | None = None  # Products to exclude from auto collection.
     sharedSettings: SBUpdateSharedCollectionSettings | None = None
 
 
@@ -814,9 +782,7 @@ class SBUpdateProductCollectionSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     brand: str | None = None  # The name of the brand being advertised.
-    brandLogos: list[SBCreateImage] | None = (
-        None  # The brand logo image assets to be used in the ad.
-    )
+    brandLogos: list[SBCreateImage] | None = None  # The brand logo image assets to be used in the ad.
     creativePropertiesToOptimize: list[SBProductCollectionCreativePropertiesToOptimize] | None = (
         None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
     )
@@ -837,9 +803,7 @@ class SBUpdateProductVideoSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     brand: str | None = None  # The name of the brand being advertised.
-    brandLogos: list[SBCreateImage] | None = (
-        None  # The brand logo image assets to be used in the ad.
-    )
+    brandLogos: list[SBCreateImage] | None = None  # The brand logo image assets to be used in the ad.
     enableCreativeAutoTranslation: bool | None = (
         None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
     )
@@ -847,9 +811,7 @@ class SBUpdateProductVideoSettings(BaseModel):
         None  # The headline submitted as part of the ad creative. During your campaign, Amazon will optimize amongst the headlines you provide to match customer intent.
     )
     landingPage: SBUpdateVideoLandingPage | None = None
-    products: list[SBCreateAdvertisedProducts] | None = (
-        None  # The products featured in the video ad.
-    )
+    products: list[SBCreateAdvertisedProducts] | None = None  # The products featured in the video ad.
     videos: list[SBCreateVideo] | None = None  # The video assets used in the ad.
 
 
@@ -877,9 +839,7 @@ class SBUpdateStoreSpotlightSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     brand: str | None = None  # The name of the brand being advertised.
-    brandLogos: list[SBCreateImage] | None = (
-        None  # The brand logo image assets to be used in the ad.
-    )
+    brandLogos: list[SBCreateImage] | None = None  # The brand logo image assets to be used in the ad.
     cards: list[SBCreateCardCreativeElement] | None = (
         None  # The sub-elements of the creative. Each card highlights a different ASIN associated to a brand Store.
     )

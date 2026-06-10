@@ -54,9 +54,7 @@ class SBAdvertisingDealTargetDetails(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    advertisingDealBrandedKeywordTargetDetails: (
-        SBAdvertisingDealBrandedKeywordTargetDetails | None
-    ) = None
+    advertisingDealBrandedKeywordTargetDetails: SBAdvertisingDealBrandedKeywordTargetDetails | None = None
 
 
 class SBAdvertisingDealTargetMultiStatusResponse(BaseModel):
@@ -108,9 +106,7 @@ class SBCreateAdvertisingDealTargetDetails(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    advertisingDealBrandedKeywordTargetDetails: (
-        SBCreateAdvertisingDealBrandedKeywordTargetDetails | None
-    ) = None
+    advertisingDealBrandedKeywordTargetDetails: SBCreateAdvertisingDealBrandedKeywordTargetDetails | None = None
 
 
 class SBCreateAdvertisingDealTargetRequest(BaseModel):

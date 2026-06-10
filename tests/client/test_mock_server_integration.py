@@ -113,16 +113,12 @@ async def test_sp_client_campaign_lifecycle_parses_mock_server_responses(monkeyp
             assert created.success is not None
             assert created.success[0].campaign.campaignId == CAMPAIGN_ID
 
-            queried = await sp_client.campaigns.query(
-                {"adProductFilter": {"include": ["SPONSORED_PRODUCTS"]}}
-            )
+            queried = await sp_client.campaigns.query({"adProductFilter": {"include": ["SPONSORED_PRODUCTS"]}})
             assert isinstance(queried, SPCampaignSuccessResponse)
             assert queried.campaigns is not None
             assert queried.campaigns[0].campaignId == CAMPAIGN_ID
 
-            updated = await sp_client.campaigns.update(
-                [{"campaignId": CAMPAIGN_ID, "name": "Updated campaign"}]
-            )
+            updated = await sp_client.campaigns.update([{"campaignId": CAMPAIGN_ID, "name": "Updated campaign"}])
             assert isinstance(updated, SPCampaignMultiStatusResponse)
             assert updated.success is not None
             assert updated.success[0].campaign.name == "Updated campaign"

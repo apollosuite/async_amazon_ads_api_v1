@@ -74,9 +74,7 @@ class AmazonAdsConfig(BaseModel):
         if not self.client_id:
             raise ValueError("client_id is required and cannot be empty")
         if not self.access_token and not (self.refresh_token and self.client_secret):
-            raise ValueError(
-                "Either access_token or both refresh_token and client_secret must be provided"
-            )
+            raise ValueError("Either access_token or both refresh_token and client_secret must be provided")
         if self.timeout <= 0:
             raise ValueError("timeout must be a positive number")
         if self.max_retries < 0:
@@ -130,9 +128,7 @@ class AmazonAdsConfig(BaseModel):
             If the token endpoint request fails.
         """
         if not self.refresh_token or not self.client_secret:
-            raise RuntimeError(
-                "refresh_token and client_secret must be set to refresh the access token"
-            )
+            raise RuntimeError("refresh_token and client_secret must be set to refresh the access token")
         if await self._is_token_valid():
             return self.access_token  # type: ignore[return-value]
         async with self._token_refresh_lock:
