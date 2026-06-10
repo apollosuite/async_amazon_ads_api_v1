@@ -41,10 +41,10 @@ Pure async Python SDK for the Amazon Advertising API — Sponsored Products / Sp
 
 - **环境管理**: **必须**使用 `uv` 进行依赖管理、虚拟环境创建及任务执行。
 - **Python 版本**:
-    - 最小支持版本为 **Python 3.14**。
-    - **优先兼容 Python 3.14+** 及后续更高版本。
+    - 最小支持版本为 **Python 3.13**。
+    - **优先兼容 Python 3.13+** 及后续更高版本。
     - **禁止**考虑对 Python 3.12 及以下版本的向后兼容性。
-- **特性使用**: 鼓励使用 Python 3.14 引入的新特性。
+- **特性使用**: 鼓励使用 Python 3.13+ 引入的新特性。
 
 ## 代码质量 (MUST)
 

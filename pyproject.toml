@@ -3,7 +3,7 @@ name = "async-amazon-ads-api-v1"
 dynamic = ["version"]
 description = "Pure async Amazon Ads API v1 client — Sponsored Products, Sponsored Brands, Sponsored Display"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.13"
 license = "MIT"
 authors = [{ name = "Amazon Ads" }]
 keywords = ["amazon", "ads", "advertising", "sponsored-products", "sponsored-brands", "sponsored-display", "async", "api-v1"]
@@ -35,12 +35,12 @@ packages = ["src/async_amazon_ads_api_v1"]
 
 [tool.black]
 line-length = 100
-target-version = ["py314"]
+target-version = ["py313"]
 
 [tool.ruff]
 src = ["src"]
 line-length = 100
-target-version = "py314"
+target-version = "py313"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "UP", "W"]
@@ -57,7 +57,7 @@ markers = [
 ]
 
 [tool.mypy]
-python_version = "3.14"
+python_version = "3.13"
 strict = true
 warn_return_any = true
 warn_unused_ignores = true

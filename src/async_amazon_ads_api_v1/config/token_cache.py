@@ -41,7 +41,7 @@ class TokenCache:
                     expires_at=expires_at,
                     refresh_token=data.get("refresh_token", ""),
                 )
-        except OSError, json.JSONDecodeError, KeyError:
+        except (OSError, json.JSONDecodeError, KeyError):  # fmt: skip
             pass
         return None
 
