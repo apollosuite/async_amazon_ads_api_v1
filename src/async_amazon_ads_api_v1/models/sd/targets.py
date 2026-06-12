@@ -11,14 +11,7 @@ from pydantic import BaseModel, ConfigDict
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
 
-    from .enums import (
-        SDAdProduct,
-        SDCreateState,
-        SDCurrencyCode,
-        SDProductIdType,
-        SDState,
-        SDUpdateState,
-    )
+    from .enums import SDAdProduct, SDCreateState, SDCurrencyCode, SDProductIdType, SDState, SDUpdateState
     from .shared import SDStatus
 del TYPE_CHECKING
 

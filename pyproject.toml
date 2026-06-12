@@ -7,6 +7,17 @@ requires-python = ">=3.13"
 license = "MIT"
 authors = [{ name = "Amazon Ads" }]
 keywords = ["amazon", "ads", "advertising", "sponsored-products", "sponsored-brands", "sponsored-display", "async", "api-v1"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: AsyncIO",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Typing :: Typed",
+]
 
 dependencies = [
     "httpx>=0.28.0",
@@ -24,6 +35,9 @@ dev = [
     "pytest-asyncio>=0.25.0",
     "black>=26.3.1",
     "pyrefly>=1.0.0",
+    "hatchling>=1.21.0",
+    "twine>=6.0.0",
+    "redis>=5.0.0",
 ]
 
 [build-system]

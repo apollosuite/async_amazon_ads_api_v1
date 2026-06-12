@@ -10,23 +10,32 @@ Pure async Python SDK for the Amazon Advertising API — Sponsored Products / Sp
 │   ├── AmazonAdsAPISPMerged_prod_3p.json   # SP OpenAPI 规范（不修改）
 │   ├── AmazonAdsAPISBMerged_prod_3p.json   # SB OpenAPI 规范
 │   ├── AmazonAdsAPISDMerged_prod_3p.json   # SD OpenAPI 规范
+│   ├── download_spec.py                    # 下载 OpenAPI 规范
+│   ├── generate_all.py                     # 一键生成所有产品模型
 │   ├── generate_file_structure.py          # 通用 schema 分类器（无硬编码）
 │   └── generate_models.py                  # 从 JSON Schema 生成 Pydantic 模型
 ├── README.md
-├── CLAUDE.md                               # 本文件
+├── AGENTS.md                               # 本文件
+├── LICENSE                                 # MIT 许可证
 ├── pyproject.toml                          # uv 项目配置
 ├── uv.lock                                 # 依赖锁定
 └── src/async_amazon_ads_api_v1/
-    ├── __init__.py                         # 导出 AmazonAdsConfig, Region, SPClient, SBClient, SDClient
-    ├── config.py                           # AmazonAdsConfig / Region
-    ├── errors.py                           # 共享 HTTP 错误模型 (ErrorCode, Error, ErrorsIndex ...)
+    ├── __init__.py                         # 导出所有公开 API
     ├── _base.py                            # ClientContext + _ResourceBase + _ResourceSpec
+    ├── errors.py                           # 共享 HTTP 错误模型 (ErrorCode, Error, ErrorsIndex ...)
     ├── py.typed                            # PEP 561 类型标记
-    ├── models/
+    ├── config/
     │   ├── __init__.py
-    │   ├── sp/                             # SP 模型（自动生成，8 文件 / 195 模型）
-    │   ├── sb/                             # SB 模型（自动生成，14 文件 / 294 模型）
-    │   └── sd/                             # SD 模型（自动生成，6 文件 / 165 模型）
+    │   ├── loader.py                       # from_toml() 配置加载
+    │   ├── region.py                       # Region 枚举 + ENDPOINT_MAP
+    │   ├── settings.py                     # AmazonAdsConfig / CacheBackend
+    │   ├── token_cache.py                  # BaseTokenCache / FileTokenCache / RedisTokenCache
+    │   └── token_manager.py               # TokenManager / TokenCredentials
+    ├── models/
+    │   ├── base.py
+    │   ├── sp/                             # SP 模型（自动生成）
+    │   ├── sb/                             # SB 模型（自动生成）
+    │   └── sd/                             # SD 模型（自动生成）
     └── client/
         ├── sp/                             # SPClient + 5 资源类
         ├── sb/                             # SBClient + 11 资源类
@@ -87,9 +96,19 @@ uv run black src/
 ## 环境变量
 
 ```bash
-AMAZON_ACCESS_TOKEN   # OAuth bearer token（必填）
-AMAZON_REGION         # na | eu | fe（默认 na）
-AMAZON_PROFILE_ID     # 可选，数字类型
+AMAZON_ACCESS_TOKEN     # OAuth bearer token（必填，或使用 refresh_token 自动获取）
+AMAZON_CLIENT_ID        # OAuth client ID（使用 refresh_token 时必填）
+AMAZON_REFRESH_TOKEN    # OAuth refresh token（可选，用于自动续期）
+AMAZON_CLIENT_SECRET    # OAuth client secret（使用 refresh_token 时必填）
+AMAZON_REGION           # na | eu | fe（默认 na）
+AMAZON_PROFILE_ID       # 可选，数字类型
+AMAZON_TOKEN_URL        # 可选，自定义 token 端点
+AMAZON_TOKEN_CACHE_DIR  # 可选，token 缓存目录
+AMAZON_CACHE_BACKEND    # 可选，file | redis
+AMAZON_REDIS_URL        # 可选，Redis 连接 URL（使用 redis 缓存时需要）
+AMAZON_ENDPOINT_NA      # 可选，覆盖 NA 端点
+AMAZON_ENDPOINT_EU      # 可选，覆盖 EU 端点
+AMAZON_ENDPOINT_FE      # 可选，覆盖 FE 端点
 ```
 
 ## 使用示例
@@ -109,4 +128,25 @@ async with SBClient(config) as sb:
 
 async with SDClient(config) as sd:
     resp = await sd.campaigns.query({...})
+```
+
+## 公开导出
+
+`__init__.py` 导出以下 API：
+
+```python
+from async_amazon_ads_api_v1 import (
+    AmazonAdsConfig,      # 核心配置
+    Region,               # 区域枚举 (NA/EU/FE)
+    CacheBackend,         # 缓存后端枚举 (FILE/REDIS)
+    SPClient,             # Sponsored Products 客户端
+    SBClient,             # Sponsored Brands 客户端
+    SDClient,             # Sponsored Display 客户端
+    TokenManager,         # OAuth token 生命周期管理
+    TokenCredentials,     # token 刷新凭据
+    BaseTokenCache,       # 缓存抽象基类
+    FileTokenCache,       # 文件缓存实现
+    RedisTokenCache,      # Redis 缓存实现
+    close_all_redis,      # 关闭所有 Redis 连接
+)
 ```

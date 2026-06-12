@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING
 logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
-    from redis.asyncio import Redis  # type: ignore[import-not-found]
+    from redis.asyncio import Redis
 
 # Global Redis client pool keyed by URL
 _redis_clients: dict[str, Redis] = {}

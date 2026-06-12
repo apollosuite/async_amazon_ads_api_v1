@@ -173,11 +173,4 @@ class SBTag(BaseModel):
     value: str  # A custom key value pair entered by the advertiser.
 
 
-__all__ = [
-    "SBAdvertisingDealPrice",
-    "SBCreateTag",
-    "SBDeliveryReason",
-    "SBDeliveryStatus",
-    "SBStatus",
-    "SBTag",
-]
+__all__ = ["SBAdvertisingDealPrice", "SBCreateTag", "SBDeliveryReason", "SBDeliveryStatus", "SBStatus", "SBTag"]

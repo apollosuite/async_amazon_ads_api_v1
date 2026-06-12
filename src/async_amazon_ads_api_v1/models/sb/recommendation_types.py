@@ -34,8 +34,4 @@ class SBRecommendationTypeSuccessResponse(BaseModel):
     recommendationTypes: list[SBRecommendationType] | None = None
 
 
-__all__ = [
-    "SBQueryRecommendationTypeRequest",
-    "SBRecommendationType",
-    "SBRecommendationTypeSuccessResponse",
-]
+__all__ = ["SBQueryRecommendationTypeRequest", "SBRecommendationType", "SBRecommendationTypeSuccessResponse"]
