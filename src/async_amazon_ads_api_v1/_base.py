@@ -114,6 +114,7 @@ class _ResourceBase:
                         logger.warning(f"Rate limit exceeded, retrying in %.2f seconds {exc}", wait_time)
                         await asyncio.sleep(wait_time)
                         continue
+                logger.error(f"{exc.response.status_code} {exc.response.text}")
                 raise
             except httpx.ConnectError:
                 if attempt < self._ctx.config.max_retries - 1:
