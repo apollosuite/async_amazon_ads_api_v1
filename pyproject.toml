@@ -27,6 +27,11 @@ dependencies = [
 [project.optional-dependencies]
 redis = ["redis>=5.0.0"]
 
+[project.urls]
+Homepage = "https://github.com/zhangwg4apollo/async_amazon_ads_api_v1"
+Repository = "https://github.com/zhangwg4apollo/async_amazon_ads_api_v1"
+Issues = "https://github.com/zhangwg4apollo/async_amazon_ads_api_v1/issues"
+
 [dependency-groups]
 dev = [
     "ruff>=0.9.0",
