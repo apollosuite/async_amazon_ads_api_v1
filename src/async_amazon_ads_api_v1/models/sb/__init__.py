@@ -19,6 +19,7 @@ from .enums import *
 from .keyword_reservation_validations import *
 from .recommendation_types import *
 from .recommendations import *
+from .reserved_target_pricings import *
 from .shared import *
 from .targets import *
 

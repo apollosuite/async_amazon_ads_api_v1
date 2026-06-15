@@ -189,6 +189,50 @@ class SBAutoCollectionSettings(BaseModel):
     sharedSettings: SBSharedCollectionSettings
 
 
+class SBBrandGalleryCardCreativeElement(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    customImage: SBImage
+    headline: str  # The headline used for the card.
+    landingPage: SBStoreSpotlightLandingPage
+
+
+class SBBrandGalleryCreativePropertiesToOptimize(StrEnum):
+    """| BrandGalleryCreativePropertiesToOptimize | Description |
+    |------|------|
+    | `HEADLINE` | The headline in the creative. |
+    """
+
+    HEADLINE = "HEADLINE"
+
+
+class SBBrandGallerySettings(BaseModel):
+    """An ad creative that showcases a brand and its categories and collections."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    brand: str  # The name of the brand being advertised.
+    brandLogos: list[SBImage]  # The brand logo image assets to be used in the ad.
+    cards: list[
+        SBBrandGalleryCardCreativeElement
+    ]  # The sub-elements of the creative. Each card highlights a different category associated to a brand.
+    creativePropertiesToOptimize: list[SBBrandGalleryCreativePropertiesToOptimize] | None = (
+        None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
+    )
+    customImages: list[SBImage]  # The custom images featured in the ad.
+    enableCreativeAutoTranslation: bool | None = (
+        None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
+    )
+    headlines: list[
+        str
+    ]  # The headline submitted as part of the ad creative. During your campaign, Amazon will optimize amongst the headlines you provide to match customer intent.
+    landingPage: SBStoreSpotlightLandingPage
+    moderationStatus: SBCreativeStatus | None = None
+    untranslatedHeadlines: list[str] | None = None  # The headline entered by the advertiser.
+
+
 class SBCardCreativeElement(BaseModel):
     """"""
 
@@ -225,6 +269,7 @@ class SBComponentCreative(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     autoCollectionSettings: SBAutoCollectionSettings | None = None
+    brandGallerySettings: SBBrandGallerySettings | None = None
     manualCollectionSettings: SBManualCollectionSettings | None = None
     productCollectionSettings: SBProductCollectionSettings | None = None
     productVideoSettings: SBProductVideoSettings | None = None
@@ -257,6 +302,39 @@ class SBCreateAutoCollectionSettings(BaseModel):
     sharedSettings: SBCreateSharedCollectionSettings
 
 
+class SBCreateBrandGalleryCardCreativeElement(BaseModel):
+    """"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    customImage: SBCreateImage
+    headline: str  # The headline used for the card.
+    landingPage: SBCreateStoreSpotlightLandingPage
+
+
+class SBCreateBrandGallerySettings(BaseModel):
+    """An ad creative that showcases a brand and its categories and collections."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    brand: str  # The name of the brand being advertised.
+    brandLogos: list[SBCreateImage]  # The brand logo image assets to be used in the ad.
+    cards: list[
+        SBCreateBrandGalleryCardCreativeElement
+    ]  # The sub-elements of the creative. Each card highlights a different category associated to a brand.
+    creativePropertiesToOptimize: list[SBBrandGalleryCreativePropertiesToOptimize] | None = (
+        None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
+    )
+    customImages: list[SBCreateImage]  # The custom images featured in the ad.
+    enableCreativeAutoTranslation: bool | None = (
+        None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
+    )
+    headlines: list[
+        str
+    ]  # The headline submitted as part of the ad creative. During your campaign, Amazon will optimize amongst the headlines you provide to match customer intent.
+    landingPage: SBCreateStoreSpotlightLandingPage
+
+
 class SBCreateCardCreativeElement(BaseModel):
     """"""
 
@@ -282,6 +360,7 @@ class SBCreateComponentCreative(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     autoCollectionSettings: SBCreateAutoCollectionSettings | None = None
+    brandGallerySettings: SBCreateBrandGallerySettings | None = None
     manualCollectionSettings: SBCreateManualCollectionSettings | None = None
     productCollectionSettings: SBCreateProductCollectionSettings | None = None
     productVideoSettings: SBCreateProductVideoSettings | None = None
@@ -701,6 +780,29 @@ class SBUpdateAutoCollectionSettings(BaseModel):
     sharedSettings: SBUpdateSharedCollectionSettings | None = None
 
 
+class SBUpdateBrandGallerySettings(BaseModel):
+    """An ad creative that showcases a brand and its categories and collections."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    brand: str | None = None  # The name of the brand being advertised.
+    brandLogos: list[SBCreateImage] | None = None  # The brand logo image assets to be used in the ad.
+    cards: list[SBCreateBrandGalleryCardCreativeElement] | None = (
+        None  # The sub-elements of the creative. Each card highlights a different category associated to a brand.
+    )
+    creativePropertiesToOptimize: list[SBBrandGalleryCreativePropertiesToOptimize] | None = (
+        None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
+    )
+    customImages: list[SBCreateImage] | None = None  # The custom images featured in the ad.
+    enableCreativeAutoTranslation: bool | None = (
+        None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
+    )
+    headlines: list[str] | None = (
+        None  # The headline submitted as part of the ad creative. During your campaign, Amazon will optimize amongst the headlines you provide to match customer intent.
+    )
+    landingPage: SBUpdateStoreSpotlightLandingPage | None = None
+
+
 class SBUpdateCollectionLandingPage(BaseModel):
     """"""
 
@@ -716,6 +818,7 @@ class SBUpdateComponentCreative(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     autoCollectionSettings: SBUpdateAutoCollectionSettings | None = None
+    brandGallerySettings: SBUpdateBrandGallerySettings | None = None
     manualCollectionSettings: SBUpdateManualCollectionSettings | None = None
     productCollectionSettings: SBUpdateProductCollectionSettings | None = None
     productVideoSettings: SBUpdateProductVideoSettings | None = None
@@ -910,6 +1013,9 @@ __all__ = [
     "SBAdUpdate",
     "SBAdvertisedProducts",
     "SBAutoCollectionSettings",
+    "SBBrandGalleryCardCreativeElement",
+    "SBBrandGalleryCreativePropertiesToOptimize",
+    "SBBrandGallerySettings",
     "SBCardCreativeElement",
     "SBCollectionLandingPage",
     "SBCollectionLandingPageType",
@@ -917,6 +1023,8 @@ __all__ = [
     "SBCreateAdRequest",
     "SBCreateAdvertisedProducts",
     "SBCreateAutoCollectionSettings",
+    "SBCreateBrandGalleryCardCreativeElement",
+    "SBCreateBrandGallerySettings",
     "SBCreateCardCreativeElement",
     "SBCreateCollectionLandingPage",
     "SBCreateComponentCreative",
@@ -954,6 +1062,7 @@ __all__ = [
     "SBStoreSpotlightSettings",
     "SBUpdateAdRequest",
     "SBUpdateAutoCollectionSettings",
+    "SBUpdateBrandGallerySettings",
     "SBUpdateCollectionLandingPage",
     "SBUpdateComponentCreative",
     "SBUpdateCreative",

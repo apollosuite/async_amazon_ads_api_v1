@@ -164,6 +164,16 @@ class SBProductIdType(StrEnum):
     ASIN = "ASIN"
 
 
+class SBRecommendationTypeEnum(StrEnum):
+    """The unique identifier of the recommendation type. Used to classify and group similar recommendations (e.g. 'BRANDED_KEYWORD').
+    | RecommendationTypeEnum | Description |
+    | --- | --- |
+    | `BRANDED_KEYWORD` | Suggests branded keywords for advertiser campaigns based on associated brands. Requires BrandedKeywordRecommendationTypeDetails to scope suggestions by brand alternate IDs. |
+    """
+
+    BRANDED_KEYWORD = "BRANDED_KEYWORD"
+
+
 class SBState(StrEnum):
     """The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
 
@@ -200,6 +210,7 @@ __all__ = [
     "SBMarketplace",
     "SBMarketplaceScope",
     "SBProductIdType",
+    "SBRecommendationTypeEnum",
     "SBState",
     "SBUpdateState",
 ]

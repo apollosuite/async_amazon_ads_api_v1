@@ -1736,6 +1736,115 @@
         ],
         "type": "object"
       },
+      "SBBrandGalleryCardCreativeElement": {
+        "properties": {
+          "customImage": {
+            "$ref": "#/components/schemas/SBImage"
+          },
+          "headline": {
+            "description": "The headline used for the card.",
+            "type": "string"
+          },
+          "landingPage": {
+            "$ref": "#/components/schemas/SBStoreSpotlightLandingPage"
+          }
+        },
+        "required": [
+          "customImage",
+          "headline",
+          "landingPage"
+        ],
+        "type": "object"
+      },
+      "SBBrandGalleryCreativePropertiesToOptimize": {
+        "description": "| BrandGalleryCreativePropertiesToOptimize | Description |\n|------|------|\n| `HEADLINE` | The headline in the creative. |\n",
+        "enum": [
+          "HEADLINE"
+        ],
+        "type": "string"
+      },
+      "SBBrandGallerySettings": {
+        "description": "An ad creative that showcases a brand and its categories and collections.",
+        "properties": {
+          "brand": {
+            "description": "The name of the brand being advertised.",
+            "type": "string"
+          },
+          "brandLogos": {
+            "description": "The brand logo image assets to be used in the ad.",
+            "items": {
+              "$ref": "#/components/schemas/SBImage"
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+          },
+          "cards": {
+            "description": "The sub-elements of the creative. Each card highlights a different category associated to a brand.",
+            "items": {
+              "$ref": "#/components/schemas/SBBrandGalleryCardCreativeElement"
+            },
+            "maxItems": 5,
+            "minItems": 3,
+            "type": "array"
+          },
+          "creativePropertiesToOptimize": {
+            "description": "The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.",
+            "items": {
+              "$ref": "#/components/schemas/SBBrandGalleryCreativePropertiesToOptimize"
+            },
+            "maxItems": 1,
+            "minItems": 0,
+            "type": "array"
+          },
+          "customImages": {
+            "description": "The custom images featured in the ad.",
+            "items": {
+              "$ref": "#/components/schemas/SBImage"
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+          },
+          "enableCreativeAutoTranslation": {
+            "description": "If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.",
+            "type": "boolean"
+          },
+          "headlines": {
+            "description": "The headline submitted as part of the ad creative. During your campaign, Amazon will optimize amongst the headlines you provide to match customer intent.",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+          },
+          "landingPage": {
+            "$ref": "#/components/schemas/SBStoreSpotlightLandingPage"
+          },
+          "moderationStatus": {
+            "$ref": "#/components/schemas/SBCreativeStatus"
+          },
+          "untranslatedHeadlines": {
+            "description": "The headline entered by the advertiser.",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 1,
+            "minItems": 0,
+            "type": "array"
+          }
+        },
+        "required": [
+          "brand",
+          "brandLogos",
+          "cards",
+          "customImages",
+          "headlines",
+          "landingPage"
+        ],
+        "type": "object"
+      },
       "SBBrandedKeyword": {
         "properties": {
           "brandAlternateId": {
@@ -2486,6 +2595,9 @@
           "autoCollectionSettings": {
             "$ref": "#/components/schemas/SBAutoCollectionSettings"
           },
+          "brandGallerySettings": {
+            "$ref": "#/components/schemas/SBBrandGallerySettings"
+          },
           "manualCollectionSettings": {
             "$ref": "#/components/schemas/SBManualCollectionSettings"
           },
@@ -2790,6 +2902,96 @@
         ],
         "type": "object"
       },
+      "SBCreateBrandGalleryCardCreativeElement": {
+        "properties": {
+          "customImage": {
+            "$ref": "#/components/schemas/SBCreateImage"
+          },
+          "headline": {
+            "description": "The headline used for the card.",
+            "type": "string"
+          },
+          "landingPage": {
+            "$ref": "#/components/schemas/SBCreateStoreSpotlightLandingPage"
+          }
+        },
+        "required": [
+          "customImage",
+          "headline",
+          "landingPage"
+        ],
+        "type": "object"
+      },
+      "SBCreateBrandGallerySettings": {
+        "description": "An ad creative that showcases a brand and its categories and collections.",
+        "properties": {
+          "brand": {
+            "description": "The name of the brand being advertised.",
+            "type": "string"
+          },
+          "brandLogos": {
+            "description": "The brand logo image assets to be used in the ad.",
+            "items": {
+              "$ref": "#/components/schemas/SBCreateImage"
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+          },
+          "cards": {
+            "description": "The sub-elements of the creative. Each card highlights a different category associated to a brand.",
+            "items": {
+              "$ref": "#/components/schemas/SBCreateBrandGalleryCardCreativeElement"
+            },
+            "maxItems": 5,
+            "minItems": 3,
+            "type": "array"
+          },
+          "creativePropertiesToOptimize": {
+            "description": "The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.",
+            "items": {
+              "$ref": "#/components/schemas/SBBrandGalleryCreativePropertiesToOptimize"
+            },
+            "maxItems": 1,
+            "minItems": 0,
+            "type": "array"
+          },
+          "customImages": {
+            "description": "The custom images featured in the ad.",
+            "items": {
+              "$ref": "#/components/schemas/SBCreateImage"
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+          },
+          "enableCreativeAutoTranslation": {
+            "description": "If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.",
+            "type": "boolean"
+          },
+          "headlines": {
+            "description": "The headline submitted as part of the ad creative. During your campaign, Amazon will optimize amongst the headlines you provide to match customer intent.",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+          },
+          "landingPage": {
+            "$ref": "#/components/schemas/SBCreateStoreSpotlightLandingPage"
+          }
+        },
+        "required": [
+          "brand",
+          "brandLogos",
+          "cards",
+          "customImages",
+          "headlines",
+          "landingPage"
+        ],
+        "type": "object"
+      },
       "SBCreateBrandedKeywordRecommendationTypeDetails": {
         "properties": {
           "brandAlternateId": {
@@ -2926,6 +3128,9 @@
         "properties": {
           "autoCollectionSettings": {
             "$ref": "#/components/schemas/SBCreateAutoCollectionSettings"
+          },
+          "brandGallerySettings": {
+            "$ref": "#/components/schemas/SBCreateBrandGallerySettings"
           },
           "manualCollectionSettings": {
             "$ref": "#/components/schemas/SBCreateManualCollectionSettings"
@@ -3407,6 +3612,19 @@
             "type": "object"
           }
         ]
+      },
+      "SBCreateReservedTargetPricingRequest": {
+        "properties": {
+          "reservedTargetPricings": {
+            "items": {
+              "$ref": "#/components/schemas/SBReservedTargetPricingCreate"
+            },
+            "maxItems": 10,
+            "minItems": 1,
+            "type": "array"
+          }
+        },
+        "type": "object"
       },
       "SBCreateSharedCollectionSettings": {
         "description": "Settings shared by all collection types.",
@@ -4917,6 +5135,13 @@
           }
         ]
       },
+      "SBRecommendationTypeEnum": {
+        "description": "The unique identifier of the recommendation type. Used to classify and group similar recommendations (e.g. 'BRANDED_KEYWORD').\n| RecommendationTypeEnum | Description |\n| --- | --- |\n| `BRANDED_KEYWORD` | Suggests branded keywords for advertiser campaigns based on associated brands. Requires BrandedKeywordRecommendationTypeDetails to scope suggestions by brand alternate IDs. |",
+        "enum": [
+          "BRANDED_KEYWORD"
+        ],
+        "type": "string"
+      },
       "SBRecommendationTypeSuccessResponse": {
         "properties": {
           "nextToken": {
@@ -4965,6 +5190,69 @@
         "required": [
           "keyword",
           "reason"
+        ],
+        "type": "object"
+      },
+      "SBReservedTargetPricing": {
+        "properties": {
+          "targetPricingId": {
+            "description": "A unique identifier for the reserved target pricing.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "targetPricingId"
+        ],
+        "type": "object"
+      },
+      "SBReservedTargetPricingCreate": {
+        "properties": {
+          "targetPricingId": {
+            "description": "A unique identifier for the reserved target pricing.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "targetPricingId"
+        ],
+        "type": "object"
+      },
+      "SBReservedTargetPricingMultiStatusResponse": {
+        "properties": {
+          "error": {
+            "items": {
+              "$ref": "#/components/schemas/ErrorsIndex"
+            },
+            "maxItems": 10,
+            "minItems": 0,
+            "type": "array"
+          },
+          "success": {
+            "items": {
+              "$ref": "#/components/schemas/SBReservedTargetPricingMultiStatusSuccess"
+            },
+            "maxItems": 10,
+            "minItems": 0,
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "SBReservedTargetPricingMultiStatusSuccess": {
+        "properties": {
+          "index": {
+            "format": "int32",
+            "maximum": 9,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "reservedTargetPricing": {
+            "$ref": "#/components/schemas/SBReservedTargetPricing"
+          }
+        },
+        "required": [
+          "index",
+          "reservedTargetPricing"
         ],
         "type": "object"
       },
@@ -5774,6 +6062,68 @@
         },
         "type": "object"
       },
+      "SBUpdateBrandGallerySettings": {
+        "description": "An ad creative that showcases a brand and its categories and collections.",
+        "properties": {
+          "brand": {
+            "description": "The name of the brand being advertised.",
+            "type": "string"
+          },
+          "brandLogos": {
+            "description": "The brand logo image assets to be used in the ad.",
+            "items": {
+              "$ref": "#/components/schemas/SBCreateImage"
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+          },
+          "cards": {
+            "description": "The sub-elements of the creative. Each card highlights a different category associated to a brand.",
+            "items": {
+              "$ref": "#/components/schemas/SBCreateBrandGalleryCardCreativeElement"
+            },
+            "maxItems": 5,
+            "minItems": 3,
+            "type": "array"
+          },
+          "creativePropertiesToOptimize": {
+            "description": "The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.",
+            "items": {
+              "$ref": "#/components/schemas/SBBrandGalleryCreativePropertiesToOptimize"
+            },
+            "maxItems": 1,
+            "minItems": 0,
+            "type": "array"
+          },
+          "customImages": {
+            "description": "The custom images featured in the ad.",
+            "items": {
+              "$ref": "#/components/schemas/SBCreateImage"
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+          },
+          "enableCreativeAutoTranslation": {
+            "description": "If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.",
+            "type": "boolean"
+          },
+          "headlines": {
+            "description": "The headline submitted as part of the ad creative. During your campaign, Amazon will optimize amongst the headlines you provide to match customer intent.",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+          },
+          "landingPage": {
+            "$ref": "#/components/schemas/SBUpdateStoreSpotlightLandingPage"
+          }
+        },
+        "type": "object"
+      },
       "SBUpdateCampaignOptimizations": {
         "properties": {
           "bidSettings": {
@@ -5811,6 +6161,9 @@
         "properties": {
           "autoCollectionSettings": {
             "$ref": "#/components/schemas/SBUpdateAutoCollectionSettings"
+          },
+          "brandGallerySettings": {
+            "$ref": "#/components/schemas/SBUpdateBrandGallerySettings"
           },
           "manualCollectionSettings": {
             "$ref": "#/components/schemas/SBUpdateManualCollectionSettings"
@@ -7591,6 +7944,154 @@
         ],
         "tags": [
           "Recommendations"
+        ]
+      }
+    },
+    "/adsApi/v1/create/reservedTargetPricings/sb": {
+      "post": {
+        "description": "Create reservedTarget pricing\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_edit\", \"advertiser_campaign_view\"]",
+        "operationId": "SBAdsApiv1CreateReservedTargetPricing",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AccountIdHeaderOptional"
+          },
+          {
+            "$ref": "#/components/parameters/ClientIdHeader"
+          },
+          {
+            "$ref": "#/components/parameters/ScopeHeaderOptional"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SBCreateReservedTargetPricingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "207": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SBReservedTargetPricingMultiStatusResponse"
+                }
+              }
+            },
+            "description": "SBAdsApiv1CreateReservedTargetPricing 207 response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponseContent"
+                }
+              }
+            },
+            "description": "BadRequest 400 response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponseContent"
+                }
+              }
+            },
+            "description": "Unauthorized 401 response"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponseContent"
+                }
+              }
+            },
+            "description": "Forbidden 403 response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponseContent"
+                }
+              }
+            },
+            "description": "NotFound 404 response"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentTooLargeResponseContent"
+                }
+              }
+            },
+            "description": "ContentTooLarge 413 response"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsResponseContent"
+                }
+              }
+            },
+            "description": "TooManyRequests 429 response"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponseContent"
+                }
+              }
+            },
+            "description": "InternalServerError 500 response"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadGatewayResponseContent"
+                }
+              }
+            },
+            "description": "BadGateway 502 response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceUnavailableErrorResponseContent"
+                }
+              }
+            },
+            "description": "ServiceUnavailableError 503 response"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GatewayTimeoutResponseContent"
+                }
+              }
+            },
+            "description": "GatewayTimeout 504 response"
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "advertising::campaign_management"
+            ]
+          }
+        ],
+        "tags": [
+          "ReservedTargetPricings"
         ]
       }
     },
