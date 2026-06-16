@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Any
-
 from async_amazon_ads_api_v1._base import _ResourceBase, _ResourceSpec
 from async_amazon_ads_api_v1.models.sd import (
     SDAdGroupCreate,
@@ -22,20 +20,14 @@ class AdGroups(_ResourceBase):
         delete_key="adGroupIds",
     )
 
-    async def create(
-        self, ad_groups: list[dict[str, Any] | SDAdGroupCreate]
-    ) -> SDAdGroupMultiStatusResponse | dict[str, Any]:
+    async def create(self, ad_groups: list[SDAdGroupCreate]) -> SDAdGroupMultiStatusResponse:
         return await self._create(ad_groups, self._spec, SDAdGroupMultiStatusResponse)
 
-    async def query(self, body: dict[str, Any] | SDQueryAdGroupRequest) -> SDAdGroupSuccessResponse | dict[str, Any]:
-        if isinstance(body, dict):
-            body = SDQueryAdGroupRequest(**body)
+    async def query(self, body: SDQueryAdGroupRequest) -> SDAdGroupSuccessResponse:
         return await self._query(body, "/adsApi/v1/query/adGroups", SDAdGroupSuccessResponse)
 
-    async def update(
-        self, ad_groups: list[dict[str, Any] | SDAdGroupUpdate]
-    ) -> SDAdGroupMultiStatusResponse | dict[str, Any]:
+    async def update(self, ad_groups: list[SDAdGroupUpdate]) -> SDAdGroupMultiStatusResponse:
         return await self._update(ad_groups, self._spec, SDAdGroupMultiStatusResponse)
 
-    async def delete(self, ad_group_ids: list[str]) -> SDAdGroupMultiStatusResponse | dict[str, Any]:
+    async def delete(self, ad_group_ids: list[str]) -> SDAdGroupMultiStatusResponse:
         return await self._delete(ad_group_ids, self._spec, SDAdGroupMultiStatusResponse)

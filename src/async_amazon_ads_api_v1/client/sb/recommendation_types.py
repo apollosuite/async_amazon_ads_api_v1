@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Any
-
 from async_amazon_ads_api_v1._base import _ResourceBase, _ResourceSpec
 from async_amazon_ads_api_v1.models.sb import (
     SBQueryRecommendationTypeRequest,
@@ -18,9 +16,5 @@ class RecommendationTypes(_ResourceBase):
         path_suffix="/sb",
     )
 
-    async def query(
-        self, body: dict[str, Any] | SBQueryRecommendationTypeRequest
-    ) -> SBRecommendationTypeSuccessResponse | dict[str, Any]:
-        if isinstance(body, dict):
-            body = SBQueryRecommendationTypeRequest(**body)
+    async def query(self, body: SBQueryRecommendationTypeRequest) -> SBRecommendationTypeSuccessResponse:
         return await self._query(body, "/adsApi/v1/query/recommendationTypes/sb", SBRecommendationTypeSuccessResponse)

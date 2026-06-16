@@ -90,12 +90,6 @@ class TestResourceBase:
         assert result == [{"name": "a", "value": 1}]
 
     @pytest.mark.asyncio
-    async def test_validate_with_dicts(self, resource: _ResourceBase) -> None:
-        items = [{"name": "b", "value": 2}]
-        result = resource._validate(items, DummyModel)
-        assert result == [{"name": "b", "value": 2}]
-
-    @pytest.mark.asyncio
     async def test_validate_uses_json_mode(self, resource: _ResourceBase) -> None:
         items = [DummyDateModel(startDateTime=datetime(2026, 6, 8, tzinfo=UTC))]
         result = resource._validate(items, DummyDateModel)
@@ -202,7 +196,7 @@ class TestResourceBase:
         mock_resp.content = b'{"ok": true}'
         mock_async_client.request.return_value = mock_resp
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
-            result = await resource._create([{"name": "a", "value": 1}], spec, DummyResponse)
+            result = await resource._create([DummyModel(name="a", value=1)], spec, DummyResponse)
         assert isinstance(result, DummyResponse)
         assert result.ok is True
         call_kwargs = mock_async_client.request.call_args[1]

@@ -9,8 +9,24 @@ import pytest
 from async_amazon_ads_api_v1 import AmazonAdsConfig, Region, SPClient
 from async_amazon_ads_api_v1._base import ClientContext
 from async_amazon_ads_api_v1.models.sp import (
+    SPCampaignCreate,
     SPCampaignMultiStatusResponse,
     SPCampaignSuccessResponse,
+    SPCampaignUpdate,
+    SPQueryCampaignRequest,
+)
+from async_amazon_ads_api_v1.models.sp.campaigns import (
+    SPCreateAutoCreationSettings,
+    SPCreateBudget,
+    SPCreateBudgetValue,
+    SPCreateMonetaryBudget,
+    SPCreateMonetaryBudgetValue,
+)
+from async_amazon_ads_api_v1.models.sp.enums import (
+    SPAdProduct,
+    SPCreateState,
+    SPMarketplace,
+    SPMarketplaceScope,
 )
 
 BASE = "http://mock-server"
@@ -87,38 +103,42 @@ async def test_sp_client_campaign_lifecycle_parses_mock_server_responses(monkeyp
         async with SPClient(config) as sp_client:
             created = await sp_client.campaigns.create(
                 [
-                    {
-                        "adProduct": "SPONSORED_PRODUCTS",
-                        "autoCreationSettings": {"autoCreateTargets": False},
-                        "budgets": [
-                            {
-                                "budgetType": "MONETARY",
-                                "budgetValue": {
-                                    "monetaryBudgetValue": {
-                                        "monetaryBudget": {"value": 10.0},
-                                    },
-                                },
-                                "recurrenceTimePeriod": "DAILY",
-                            },
+                    SPCampaignCreate(
+                        adProduct=SPAdProduct.SPONSORED_PRODUCTS,
+                        autoCreationSettings=SPCreateAutoCreationSettings(autoCreateTargets=False),
+                        budgets=[
+                            SPCreateBudget(
+                                budgetType="MONETARY",
+                                budgetValue=SPCreateBudgetValue(
+                                    monetaryBudgetValue=SPCreateMonetaryBudgetValue(
+                                        monetaryBudget=SPCreateMonetaryBudget(value=10.0),
+                                    ),
+                                ),
+                                recurrenceTimePeriod="DAILY",
+                            ),
                         ],
-                        "marketplaceScope": "SINGLE_MARKETPLACE",
-                        "marketplaces": ["US"],
-                        "name": "Mock campaign",
-                        "startDateTime": "2026-06-08T00:00:00Z",
-                        "state": "ENABLED",
-                    },
+                        marketplaceScope=SPMarketplaceScope.SINGLE_MARKETPLACE,
+                        marketplaces=[SPMarketplace.US],
+                        name="Mock campaign",
+                        startDateTime="2026-06-08T00:00:00Z",
+                        state=SPCreateState.ENABLED,
+                    ),
                 ]
             )
             assert isinstance(created, SPCampaignMultiStatusResponse)
             assert created.success is not None
             assert created.success[0].campaign.campaignId == CAMPAIGN_ID
 
-            queried = await sp_client.campaigns.query({"adProductFilter": {"include": ["SPONSORED_PRODUCTS"]}})
+            queried = await sp_client.campaigns.query(
+                SPQueryCampaignRequest(adProductFilter={"include": ["SPONSORED_PRODUCTS"]})
+            )
             assert isinstance(queried, SPCampaignSuccessResponse)
             assert queried.campaigns is not None
             assert queried.campaigns[0].campaignId == CAMPAIGN_ID
 
-            updated = await sp_client.campaigns.update([{"campaignId": CAMPAIGN_ID, "name": "Updated campaign"}])
+            updated = await sp_client.campaigns.update(
+                [SPCampaignUpdate(campaignId=CAMPAIGN_ID, name="Updated campaign")]
+            )
             assert isinstance(updated, SPCampaignMultiStatusResponse)
             assert updated.success is not None
             assert updated.success[0].campaign.name == "Updated campaign"

@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Any
-
 from async_amazon_ads_api_v1._base import _ResourceBase, _ResourceSpec
 from async_amazon_ads_api_v1.models.sb import (
     SBKeywordReservationValidationCreate,
@@ -19,6 +17,6 @@ class KeywordReservationValidations(_ResourceBase):
     )
 
     async def create(
-        self, items: list[dict[str, Any] | SBKeywordReservationValidationCreate]
-    ) -> SBKeywordReservationValidationMultiStatusResponse | dict[str, Any]:
+        self, items: list[SBKeywordReservationValidationCreate]
+    ) -> SBKeywordReservationValidationMultiStatusResponse:
         return await self._create(items, self._spec, SBKeywordReservationValidationMultiStatusResponse)

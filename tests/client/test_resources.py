@@ -35,6 +35,9 @@ from async_amazon_ads_api_v1.client.sp.campaigns import Campaigns as SPCampaigns
 from async_amazon_ads_api_v1.client.sp.targets import Targets as SPTargets
 from async_amazon_ads_api_v1.config.region import Region
 from async_amazon_ads_api_v1.config.settings import AmazonAdsConfig
+from async_amazon_ads_api_v1.models.sb import SBQueryCampaignRequest
+from async_amazon_ads_api_v1.models.sd import SDQueryCampaignRequest
+from async_amazon_ads_api_v1.models.sp import SPQueryCampaignRequest
 
 
 @pytest.fixture
@@ -189,7 +192,7 @@ class TestResourceMethodRouting:
         obj = cls(ClientContext(config))
         mock_result = MagicMock()
         with patch.object(obj, "_create", AsyncMock(return_value=mock_result)) as create_mock:
-            result = await obj.create([{"name": "test"}])
+            result = await obj.create([MagicMock()])
             assert result is mock_result
             create_mock.assert_awaited_once()
             assert create_mock.await_args.args[2].__name__ == expected_response
@@ -197,13 +200,13 @@ class TestResourceMethodRouting:
     @pytest.mark.parametrize(
         "cls,body",
         [
-            (SPCampaigns, {"adProductFilter": {"include": ["SPONSORED_PRODUCTS"]}}),
-            (SBCampaigns, {"adProductFilter": {"include": ["SPONSORED_BRANDS"]}}),
-            (SDCampaigns, {"adProductFilter": {"include": ["SPONSORED_DISPLAY"]}}),
+            (SPCampaigns, SPQueryCampaignRequest(adProductFilter={"include": ["SPONSORED_PRODUCTS"]})),
+            (SBCampaigns, SBQueryCampaignRequest(adProductFilter={"include": ["SPONSORED_BRANDS"]})),
+            (SDCampaigns, SDQueryCampaignRequest(adProductFilter={"include": ["SPONSORED_DISPLAY"]})),
         ],
     )
     @pytest.mark.asyncio
-    async def test_query_routing(self, cls: type, body: dict, config: AmazonAdsConfig) -> None:
+    async def test_query_routing(self, cls: type, body: object, config: AmazonAdsConfig) -> None:
         obj = cls(ClientContext(config))
         mock_result = MagicMock()
         with patch.object(obj, "_query", AsyncMock(return_value=mock_result)):

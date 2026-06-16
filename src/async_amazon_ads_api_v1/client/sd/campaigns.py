@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Any
-
 from async_amazon_ads_api_v1._base import _ResourceBase, _ResourceSpec
 from async_amazon_ads_api_v1.models.sd import (
     SDCampaignCreate,
@@ -22,20 +20,14 @@ class Campaigns(_ResourceBase):
         delete_key="campaignIds",
     )
 
-    async def create(
-        self, campaigns: list[dict[str, Any] | SDCampaignCreate]
-    ) -> SDCampaignMultiStatusResponse | dict[str, Any]:
+    async def create(self, campaigns: list[SDCampaignCreate]) -> SDCampaignMultiStatusResponse:
         return await self._create(campaigns, self._spec, SDCampaignMultiStatusResponse)
 
-    async def query(self, body: dict[str, Any] | SDQueryCampaignRequest) -> SDCampaignSuccessResponse | dict[str, Any]:
-        if isinstance(body, dict):
-            body = SDQueryCampaignRequest(**body)
+    async def query(self, body: SDQueryCampaignRequest) -> SDCampaignSuccessResponse:
         return await self._query(body, "/adsApi/v1/query/campaigns", SDCampaignSuccessResponse)
 
-    async def update(
-        self, campaigns: list[dict[str, Any] | SDCampaignUpdate]
-    ) -> SDCampaignMultiStatusResponse | dict[str, Any]:
+    async def update(self, campaigns: list[SDCampaignUpdate]) -> SDCampaignMultiStatusResponse:
         return await self._update(campaigns, self._spec, SDCampaignMultiStatusResponse)
 
-    async def delete(self, campaign_ids: list[str]) -> SDCampaignMultiStatusResponse | dict[str, Any]:
+    async def delete(self, campaign_ids: list[str]) -> SDCampaignMultiStatusResponse:
         return await self._delete(campaign_ids, self._spec, SDCampaignMultiStatusResponse)
