@@ -15,7 +15,7 @@ from async_amazon_ads_api_v1 import (
 
 class TestExports:
     def test_version(self) -> None:
-        assert __version__ == "0.3.0"
+        assert __version__ == "0.4.1"
 
     def test_all(self) -> None:
         assert set(__all__) == {
