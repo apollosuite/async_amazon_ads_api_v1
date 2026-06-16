@@ -24,22 +24,31 @@ uv add "async-amazon-ads-api-v1[redis]"
 
 ## Quick Start
 
+所有 API 方法仅接受 Pydantic model 实例，不支持 dict。
+
 ### 使用 Access Token（直接提供）
 
 ```python
 import asyncio
 from async_amazon_ads_api_v1 import AmazonAdsConfig, Region, SPClient
+from async_amazon_ads_api_v1.models.sp import SPQueryCampaignRequest
 
-async def main():
+
+async def main() -> None:
     config = AmazonAdsConfig(
         access_token="your-access-token",
         client_id="your-client-id",
         region=Region.NA,
     )
+    body = SPQueryCampaignRequest(
+        adProductFilter={"include": ["SPONSORED_PRODUCTS"]},
+        stateFilter={"include": ["ENABLED"]},
+    )
 
     async with SPClient(config) as sp:
-        resp = await sp.campaigns.query({"stateFilter": {"include": ["enabled"]}})
+        resp = await sp.campaigns.query(body)
         print(resp.model_dump_json(indent=2))
+
 
 asyncio.run(main())
 ```
@@ -49,8 +58,10 @@ asyncio.run(main())
 ```python
 import asyncio
 from async_amazon_ads_api_v1 import AmazonAdsConfig, Region, SPClient
+from async_amazon_ads_api_v1.models.sp import SPQueryCampaignRequest
 
-async def main():
+
+async def main() -> None:
     config = AmazonAdsConfig(
         access_token="your-access-token",   # 可选，提供后直接使用
         client_id="your-client-id",
@@ -58,10 +69,15 @@ async def main():
         client_secret="your-client-secret",
         region=Region.NA,
     )
+    body = SPQueryCampaignRequest(
+        adProductFilter={"include": ["SPONSORED_PRODUCTS"]},
+        stateFilter={"include": ["ENABLED"]},
+    )
 
     async with SPClient(config) as sp:
-        resp = await sp.campaigns.query({"stateFilter": {"include": ["enabled"]}})
+        resp = await sp.campaigns.query(body)
         print(resp.model_dump_json(indent=2))
+
 
 asyncio.run(main())
 ```
@@ -106,11 +122,7 @@ config = from_toml()
 SDK 内置 OAuth token 生命周期管理，支持自动续期和缓存：
 
 ```python
-from async_amazon_ads_api_v1 import (
-    AmazonAdsConfig, Region,
-    TokenManager, TokenCredentials,
-    FileTokenCache, RedisTokenCache,
-)
+from async_amazon_ads_api_v1 import AmazonAdsConfig, Region
 
 # 自动续期 + 文件缓存（默认）
 config = AmazonAdsConfig(

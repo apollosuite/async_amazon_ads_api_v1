@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import random
+from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Any, TypeVar
 
@@ -39,8 +40,6 @@ class ClientContext:
         return self._client
 
     def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
-        if self.config.raw_response:
-            return model_cls.model_validate_json(resp.content, extra="ignore")
         try:
             return model_cls.model_validate_json(resp.content, extra="ignore")
         except ValidationError:
@@ -111,7 +110,7 @@ class _ResourceBase:
                 if exc.response.status_code in (429, 503, 504):
                     if attempt < self._ctx.config.max_retries - 1:
                         wait_time = 2**attempt + random.uniform(0, 1)
-                        logger.warning(f"Rate limit exceeded, retrying in %.2f seconds {exc}", wait_time)
+                        logger.warning("Rate limit exceeded, retrying in %.2f seconds %s", wait_time, exc)
                         await asyncio.sleep(wait_time)
                         continue
                 logger.error(f"{exc.response.status_code} {exc.response.text}")
@@ -126,11 +125,11 @@ class _ResourceBase:
     def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
         return self._ctx._response(model_cls, resp)
 
-    def _validate(self, items: list[Any], model_cls: type[_T]) -> list[dict[str, Any]]:
+    def _validate(self, items: Sequence[BaseModel]) -> list[dict[str, Any]]:
         return [item.model_dump(mode="json", exclude_none=True) for item in items]
 
-    async def _create(self, items: list[Any], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
-        validated = self._validate(items, spec.create_model)
+    async def _create(self, items: Sequence[BaseModel], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
+        validated = self._validate(items)
         resp = await self._request(
             "POST",
             f"/adsApi/v1/create/{spec.name}{spec.path_suffix}",
@@ -139,9 +138,9 @@ class _ResourceBase:
         )
         return self._response(response_cls, resp)
 
-    async def _update(self, items: list[Any], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
+    async def _update(self, items: Sequence[BaseModel], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
         assert spec.update_model is not None, f"{spec.name} has no update model"
-        validated = self._validate(items, spec.update_model)
+        validated = self._validate(items)
         resp = await self._request(
             "POST",
             f"/adsApi/v1/update/{spec.name}{spec.path_suffix}",

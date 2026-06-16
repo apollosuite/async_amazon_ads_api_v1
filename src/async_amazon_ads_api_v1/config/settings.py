@@ -59,7 +59,6 @@ class AmazonAdsConfig(BaseModel):
     # ── Behaviour ─────────────────────────────────────────────────────
     timeout: float = 60.0
     max_retries: int = 3
-    raw_response: bool = False
 
     # ── Runtime state (excluded from serialisation / schema) ──────────
     _token_manager: TokenManager | None = PrivateAttr(None)
