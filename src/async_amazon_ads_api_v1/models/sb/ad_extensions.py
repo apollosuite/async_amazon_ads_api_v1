@@ -16,8 +16,6 @@ del TYPE_CHECKING
 
 
 class SBAdExtension(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adExtensionId: str  # A unique identifier for the ad_extension.
@@ -37,16 +35,12 @@ class SBAdExtension(BaseModel):
 
 
 class SBAdExtensionAdExtensionIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SBAdExtensionAdExtensionStatusFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -55,40 +49,30 @@ class SBAdExtensionAdExtensionStatusFilter(BaseModel):
 
 
 class SBAdExtensionAdExtensionTypeFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[SBAdExtensionType]  # AdExtensionType Description `PROMPTS` Enables Prompt based Ad Extension.
 
 
 class SBAdExtensionAdGroupIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SBAdExtensionAdIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SBAdExtensionAdProductFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[SBAdProduct]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBAdExtensionCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adExtensionSettings: SBCreateAdExtensionSettings
@@ -105,8 +89,6 @@ class SBAdExtensionCreate(BaseModel):
 
 
 class SBAdExtensionMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -114,8 +96,6 @@ class SBAdExtensionMultiStatusResponse(BaseModel):
 
 
 class SBAdExtensionMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adExtension: SBAdExtension
@@ -123,16 +103,12 @@ class SBAdExtensionMultiStatusSuccess(BaseModel):
 
 
 class SBAdExtensionSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     promptExtension: SBPromptExtension | None = None
 
 
 class SBAdExtensionStateFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -152,8 +128,6 @@ class SBAdExtensionStatus(StrEnum):
 
 
 class SBAdExtensionSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adExtensions: list[SBAdExtension] | None = None
@@ -172,8 +146,6 @@ class SBAdExtensionType(StrEnum):
 
 
 class SBAdExtensionUpdate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adExtensionId: str  # A unique identifier for the ad_extension.
@@ -181,16 +153,12 @@ class SBAdExtensionUpdate(BaseModel):
 
 
 class SBCreateAdExtensionRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adExtensions: list[SBAdExtensionCreate] | None = None
 
 
 class SBCreateAdExtensionSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     promptExtension: SBCreatePromptExtension | None = None
@@ -213,8 +181,6 @@ class SBPromptExtension(BaseModel):
 
 
 class SBQueryAdExtensionRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adExtensionIdFilter: SBAdExtensionAdExtensionIdFilter | None = None
@@ -229,8 +195,6 @@ class SBQueryAdExtensionRequest(BaseModel):
 
 
 class SBUpdateAdExtensionRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adExtensions: list[SBAdExtensionUpdate] | None = None

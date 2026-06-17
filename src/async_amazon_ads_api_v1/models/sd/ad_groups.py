@@ -25,8 +25,6 @@ del TYPE_CHECKING
 
 
 class SDAdGroup(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The unique identifier of the ad group.
@@ -47,24 +45,18 @@ class SDAdGroup(BaseModel):
 
 
 class SDAdGroupAdGroupIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SDAdGroupAdProductFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[SDAdProduct]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
 
 
 class SDAdGroupBid(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     currencyCode: SDCurrencyCode
@@ -74,16 +66,12 @@ class SDAdGroupBid(BaseModel):
 
 
 class SDAdGroupCampaignIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SDAdGroupCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adProduct: SDAdProduct
@@ -100,16 +88,12 @@ class SDAdGroupCreate(BaseModel):
 
 
 class SDAdGroupGoalSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     kpi: SDKPI | None = None
 
 
 class SDAdGroupMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -117,8 +101,6 @@ class SDAdGroupMultiStatusResponse(BaseModel):
 
 
 class SDAdGroupMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroup: SDAdGroup
@@ -126,8 +108,6 @@ class SDAdGroupMultiStatusSuccess(BaseModel):
 
 
 class SDAdGroupNameFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
@@ -145,8 +125,6 @@ class SDAdGroupNameFilterType(StrEnum):
 
 
 class SDAdGroupStateFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -155,8 +133,6 @@ class SDAdGroupStateFilter(BaseModel):
 
 
 class SDAdGroupSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SDAdGroup] | None = None
@@ -164,8 +140,6 @@ class SDAdGroupSuccessResponse(BaseModel):
 
 
 class SDAdGroupUpdate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The unique identifier of the ad group.
@@ -176,8 +150,6 @@ class SDAdGroupUpdate(BaseModel):
 
 
 class SDCreateAdGroupBid(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     defaultBid: float | None = (
@@ -186,24 +158,18 @@ class SDCreateAdGroupBid(BaseModel):
 
 
 class SDCreateAdGroupGoalSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     kpi: SDKPI | None = None
 
 
 class SDCreateAdGroupRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SDAdGroupCreate] | None = None
 
 
 class SDCreateOptimization(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     goalSettings: SDCreateAdGroupGoalSettings | None = None
@@ -221,8 +187,6 @@ class SDCreativeType(StrEnum):
 
 
 class SDDeleteAdGroupRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupIds: list[str] | None = None
@@ -262,16 +226,12 @@ class SDKPI(StrEnum):
 
 
 class SDOptimization(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     goalSettings: SDAdGroupGoalSettings | None = None
 
 
 class SDQueryAdGroupRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupIdFilter: SDAdGroupAdGroupIdFilter | None = None
@@ -284,8 +244,6 @@ class SDQueryAdGroupRequest(BaseModel):
 
 
 class SDUpdateAdGroupBid(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     defaultBid: float | None = (
@@ -294,24 +252,18 @@ class SDUpdateAdGroupBid(BaseModel):
 
 
 class SDUpdateAdGroupGoalSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     kpi: SDKPI | None = None
 
 
 class SDUpdateAdGroupRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SDAdGroupUpdate] | None = None
 
 
 class SDUpdateOptimization(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     goalSettings: SDUpdateAdGroupGoalSettings | None = None

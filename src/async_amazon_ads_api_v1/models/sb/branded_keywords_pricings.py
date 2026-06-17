@@ -15,8 +15,6 @@ del TYPE_CHECKING
 
 
 class SBBrandedKeywordsPricing(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDealId: str | None = None  # Identifier of the existing deal to price. Omit when pricing a new deal.
@@ -31,8 +29,6 @@ class SBBrandedKeywordsPricing(BaseModel):
 
 
 class SBBrandedKeywordsPricingCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDealId: str | None = None  # Identifier of the existing deal to price. Omit when pricing a new deal.
@@ -42,8 +38,6 @@ class SBBrandedKeywordsPricingCreate(BaseModel):
 
 
 class SBBrandedKeywordsPricingMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -51,8 +45,6 @@ class SBBrandedKeywordsPricingMultiStatusResponse(BaseModel):
 
 
 class SBBrandedKeywordsPricingMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     brandedKeywordsPricing: SBBrandedKeywordsPricing
@@ -60,8 +52,6 @@ class SBBrandedKeywordsPricingMultiStatusSuccess(BaseModel):
 
 
 class SBCreateBrandedKeywordsPricingRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     brandedKeywordsPricings: list[SBBrandedKeywordsPricingCreate] | None = None

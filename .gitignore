@@ -26,6 +26,9 @@ ENV/
 *.swp
 *.swo
 
+# MiMoCode
+.mimocode/
+
 # Distribution / build
 *.egg-info/
 dist/

@@ -8,8 +8,6 @@ from pydantic import BaseModel, ConfigDict
 
 
 class SPCreateTag(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     key: str  # A custom key value pair entered by the advertiser.
@@ -197,8 +195,6 @@ class SPDeliveryStatus(StrEnum):
 
 
 class SPStatus(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     deliveryReasons: list[SPDeliveryReason] | None = None  # This is the list of reasons behind the delivery status.
@@ -206,8 +202,6 @@ class SPStatus(BaseModel):
 
 
 class SPTag(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     key: str  # A custom key value pair entered by the advertiser.

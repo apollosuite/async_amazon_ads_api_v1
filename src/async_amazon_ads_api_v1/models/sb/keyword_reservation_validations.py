@@ -12,16 +12,12 @@ del TYPE_CHECKING
 
 
 class SBCreateKeywordReservationValidationRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     keywordReservationValidations: list[SBKeywordReservationValidationCreate] | None = None
 
 
 class SBKeywordReservationValidation(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     isReservable: bool  # Whether the keyword can be reserved or not.
@@ -33,16 +29,12 @@ class SBKeywordReservationValidation(BaseModel):
 
 
 class SBKeywordReservationValidationCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     keyword: str  # Keyword to be validated.
 
 
 class SBKeywordReservationValidationMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -50,8 +42,6 @@ class SBKeywordReservationValidationMultiStatusResponse(BaseModel):
 
 
 class SBKeywordReservationValidationMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     index: int

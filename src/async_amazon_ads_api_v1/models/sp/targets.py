@@ -45,8 +45,6 @@ class SPCreateLocationTarget(BaseModel):
 
 
 class SPCreateProductCategoryRefinement(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productAgeRangeId: str | None = None  # The age range ID to target.
@@ -69,8 +67,6 @@ class SPCreateProductCategoryRefinement(BaseModel):
 
 
 class SPCreateProductCategoryRefinementValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productCategoryRefinement: SPCreateProductCategoryRefinement
@@ -95,8 +91,6 @@ class SPCreateProductTarget(BaseModel):
 
 
 class SPCreateProductValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productId: (
@@ -105,16 +99,12 @@ class SPCreateProductValue(BaseModel):
 
 
 class SPCreateTargetBid(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bid: float | None = None  # The maximum bid for a target.
 
 
 class SPCreateTargetDetails(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     keywordTarget: SPCreateKeywordTarget | None = None
@@ -125,8 +115,6 @@ class SPCreateTargetDetails(BaseModel):
 
 
 class SPCreateTargetRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     targets: list[SPTargetCreate] | None = None
@@ -141,8 +129,6 @@ class SPCreateThemeTarget(BaseModel):
 
 
 class SPDeleteTargetRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     targetIds: list[str] | None = None
@@ -227,8 +213,6 @@ class SPMatchType(StrEnum):
 
 
 class SPProductCategoryRefinement(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productAgeRangeId: str | None = None  # The age range ID to target.
@@ -255,8 +239,6 @@ class SPProductCategoryRefinement(BaseModel):
 
 
 class SPProductCategoryRefinementValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productCategoryRefinement: SPProductCategoryRefinement
@@ -292,8 +274,6 @@ class SPProductTarget(BaseModel):
 
 
 class SPProductValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productId: (
@@ -302,8 +282,6 @@ class SPProductValue(BaseModel):
 
 
 class SPQueryTargetRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupIdFilter: SPTargetAdGroupIdFilter | None = None
@@ -321,8 +299,6 @@ class SPQueryTargetRequest(BaseModel):
 
 
 class SPTarget(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str | None = (
@@ -351,24 +327,18 @@ class SPTarget(BaseModel):
 
 
 class SPTargetAdGroupIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SPTargetAdProductFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[SPAdProduct]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPTargetBid(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bid: float | None = None  # The maximum bid for a target.
@@ -376,16 +346,12 @@ class SPTargetBid(BaseModel):
 
 
 class SPTargetCampaignIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SPTargetCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str | None = (
@@ -404,8 +370,6 @@ class SPTargetCreate(BaseModel):
 
 
 class SPTargetDetails(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     keywordTarget: SPKeywordTarget | None = None
@@ -416,8 +380,6 @@ class SPTargetDetails(BaseModel):
 
 
 class SPTargetKeywordFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
@@ -446,8 +408,6 @@ class SPTargetLevel(StrEnum):
 
 
 class SPTargetMatchTypeFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -456,8 +416,6 @@ class SPTargetMatchTypeFilter(BaseModel):
 
 
 class SPTargetMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -465,8 +423,6 @@ class SPTargetMultiStatusResponse(BaseModel):
 
 
 class SPTargetMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     index: int
@@ -474,16 +430,12 @@ class SPTargetMultiStatusSuccess(BaseModel):
 
 
 class SPTargetNegativeFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[bool]
 
 
 class SPTargetProductIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
@@ -501,8 +453,6 @@ class SPTargetProductIdFilterType(StrEnum):
 
 
 class SPTargetStateFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -511,8 +461,6 @@ class SPTargetStateFilter(BaseModel):
 
 
 class SPTargetSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     nextToken: str | None = None
@@ -520,16 +468,12 @@ class SPTargetSuccessResponse(BaseModel):
 
 
 class SPTargetTargetIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SPTargetTargetTypeFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -555,8 +499,6 @@ class SPTargetType(StrEnum):
 
 
 class SPTargetUpdate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bid: SPUpdateTargetBid | None = None
@@ -599,16 +541,12 @@ class SPThemeTarget(BaseModel):
 
 
 class SPUpdateTargetBid(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bid: float | None = None  # The maximum bid for a target.
 
 
 class SPUpdateTargetRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     targets: list[SPTargetUpdate] | None = None

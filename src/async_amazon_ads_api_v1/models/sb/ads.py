@@ -25,8 +25,6 @@ del TYPE_CHECKING
 
 
 class SBAd(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     activeCreative: SBCreative | None = None
@@ -49,40 +47,30 @@ class SBAd(BaseModel):
 
 
 class SBAdAdGroupIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SBAdAdIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SBAdAdProductFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[SBAdProduct]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBAdCampaignIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SBAdCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The ad group associated with the ad.
@@ -95,8 +83,6 @@ class SBAdCreate(BaseModel):
 
 
 class SBAdMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -104,8 +90,6 @@ class SBAdMultiStatusResponse(BaseModel):
 
 
 class SBAdMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     ad: SBAd
@@ -113,8 +97,6 @@ class SBAdMultiStatusSuccess(BaseModel):
 
 
 class SBAdNameFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
@@ -132,8 +114,6 @@ class SBAdNameFilterType(StrEnum):
 
 
 class SBAdStateFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -142,8 +122,6 @@ class SBAdStateFilter(BaseModel):
 
 
 class SBAdSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     ads: list[SBAd] | None = None
@@ -160,8 +138,6 @@ class SBAdType(StrEnum):
 
 
 class SBAdUpdate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adId: str  # The identifier of the ad.
@@ -172,8 +148,6 @@ class SBAdUpdate(BaseModel):
 
 
 class SBAdvertisedProducts(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productId: str | None = None  # The identifier of the advertised product.
@@ -190,8 +164,6 @@ class SBAutoCollectionSettings(BaseModel):
 
 
 class SBBrandGalleryCardCreativeElement(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     customImage: SBImage
@@ -234,8 +206,6 @@ class SBBrandGallerySettings(BaseModel):
 
 
 class SBCardCreativeElement(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     headline: str  # The headline used for the card.
@@ -244,8 +214,6 @@ class SBCardCreativeElement(BaseModel):
 
 
 class SBCollectionLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageType: SBCollectionLandingPageType
@@ -264,8 +232,6 @@ class SBCollectionLandingPageType(StrEnum):
 
 
 class SBComponentCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     autoCollectionSettings: SBAutoCollectionSettings | None = None
@@ -277,16 +243,12 @@ class SBComponentCreative(BaseModel):
 
 
 class SBCreateAdRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     ads: list[SBAdCreate] | None = None
 
 
 class SBCreateAdvertisedProducts(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productId: str | None = None  # The identifier of the advertised product.
@@ -303,8 +265,6 @@ class SBCreateAutoCollectionSettings(BaseModel):
 
 
 class SBCreateBrandGalleryCardCreativeElement(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     customImage: SBCreateImage
@@ -336,8 +296,6 @@ class SBCreateBrandGallerySettings(BaseModel):
 
 
 class SBCreateCardCreativeElement(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     headline: str  # The headline used for the card.
@@ -346,8 +304,6 @@ class SBCreateCardCreativeElement(BaseModel):
 
 
 class SBCreateCollectionLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageType: SBCollectionLandingPageType
@@ -355,8 +311,6 @@ class SBCreateCollectionLandingPage(BaseModel):
 
 
 class SBCreateComponentCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     autoCollectionSettings: SBCreateAutoCollectionSettings | None = None
@@ -368,16 +322,12 @@ class SBCreateComponentCreative(BaseModel):
 
 
 class SBCreateCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     componentCreative: SBCreateComponentCreative | None = None
 
 
 class SBCreateFormatProperties(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     height: int | None = None  # The height (in pixels) of the cropped image.
@@ -387,8 +337,6 @@ class SBCreateFormatProperties(BaseModel):
 
 
 class SBCreateImage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     assetId: str  # The asset library ID associated with the image asset.
@@ -399,8 +347,6 @@ class SBCreateImage(BaseModel):
 
 
 class SBCreateLandingPageAsins(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     asins: list[str]  # For landing page of type ASIN_LIST, the list of ASINs used to create the landing page.
@@ -419,8 +365,6 @@ class SBCreateManualCollectionSettings(BaseModel):
 
 
 class SBCreateProductCollectionLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageAsins: SBCreateLandingPageAsins | None = None
@@ -479,8 +423,6 @@ class SBCreateSharedCollectionSettings(BaseModel):
 
 
 class SBCreateStoreSpotlightLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageType: SBStoreSpotlightLandingPageType
@@ -510,8 +452,6 @@ class SBCreateStoreSpotlightSettings(BaseModel):
 
 
 class SBCreateVideo(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     assetId: str  # The asset library ID associated with the video asset.
@@ -519,8 +459,6 @@ class SBCreateVideo(BaseModel):
 
 
 class SBCreateVideoLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageType: SBVideoLandingPageType
@@ -528,32 +466,24 @@ class SBCreateVideoLandingPage(BaseModel):
 
 
 class SBCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     componentCreative: SBComponentCreative | None = None
 
 
 class SBCreativeStatus(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     moderationStatus: SBModerationStatus
 
 
 class SBDeleteAdRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adIds: list[str] | None = None
 
 
 class SBFormatProperties(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     height: int | None = None  # The height (in pixels) of the cropped image.
@@ -563,8 +493,6 @@ class SBFormatProperties(BaseModel):
 
 
 class SBImage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     assetId: str  # The asset library ID associated with the image asset.
@@ -575,8 +503,6 @@ class SBImage(BaseModel):
 
 
 class SBLandingPageAsins(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     asins: list[str]  # For landing page of type ASIN_LIST, the list of ASINs used to create the landing page.
@@ -619,8 +545,6 @@ class SBProductCollectionCreativePropertiesToOptimize(StrEnum):
 
 
 class SBProductCollectionLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageAsins: SBLandingPageAsins | None = None
@@ -688,8 +612,6 @@ class SBProductVideoSettings(BaseModel):
 
 
 class SBQueryAdRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupIdFilter: SBAdAdGroupIdFilter | None = None
@@ -722,8 +644,6 @@ class SBStoreSpotlightCreativePropertiesToOptimize(StrEnum):
 
 
 class SBStoreSpotlightLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageType: SBStoreSpotlightLandingPageType
@@ -764,8 +684,6 @@ class SBStoreSpotlightSettings(BaseModel):
 
 
 class SBUpdateAdRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     ads: list[SBAdUpdate] | None = None
@@ -804,8 +722,6 @@ class SBUpdateBrandGallerySettings(BaseModel):
 
 
 class SBUpdateCollectionLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageType: SBCollectionLandingPageType | None = None
@@ -813,8 +729,6 @@ class SBUpdateCollectionLandingPage(BaseModel):
 
 
 class SBUpdateComponentCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     autoCollectionSettings: SBUpdateAutoCollectionSettings | None = None
@@ -826,16 +740,12 @@ class SBUpdateComponentCreative(BaseModel):
 
 
 class SBUpdateCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     componentCreative: SBUpdateComponentCreative | None = None
 
 
 class SBUpdateImage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     assetId: str | None = None  # The asset library ID associated with the image asset.
@@ -846,8 +756,6 @@ class SBUpdateImage(BaseModel):
 
 
 class SBUpdateLandingPageAsins(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     asins: list[str] | None = (
@@ -868,8 +776,6 @@ class SBUpdateManualCollectionSettings(BaseModel):
 
 
 class SBUpdateProductCollectionLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageAsins: SBUpdateLandingPageAsins | None = None
@@ -928,8 +834,6 @@ class SBUpdateSharedCollectionSettings(BaseModel):
 
 
 class SBUpdateStoreSpotlightLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageType: SBStoreSpotlightLandingPageType | None = None
@@ -959,8 +863,6 @@ class SBUpdateStoreSpotlightSettings(BaseModel):
 
 
 class SBUpdateVideoLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageType: SBVideoLandingPageType | None = None
@@ -968,8 +870,6 @@ class SBUpdateVideoLandingPage(BaseModel):
 
 
 class SBVideo(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     assetId: str  # The asset library ID associated with the video asset.
@@ -977,8 +877,6 @@ class SBVideo(BaseModel):
 
 
 class SBVideoLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageType: SBVideoLandingPageType

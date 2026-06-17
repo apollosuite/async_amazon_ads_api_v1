@@ -25,8 +25,6 @@ del TYPE_CHECKING
 
 
 class SPAdGroup(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The unique identifier of the ad group.
@@ -48,24 +46,18 @@ class SPAdGroup(BaseModel):
 
 
 class SPAdGroupAdGroupIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SPAdGroupAdProductFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[SPAdProduct]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPAdGroupBid(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     currencyCode: SPCurrencyCode
@@ -73,16 +65,12 @@ class SPAdGroupBid(BaseModel):
 
 
 class SPAdGroupCampaignIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SPAdGroupCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adProduct: SPAdProduct
@@ -95,8 +83,6 @@ class SPAdGroupCreate(BaseModel):
 
 
 class SPAdGroupMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -104,8 +90,6 @@ class SPAdGroupMultiStatusResponse(BaseModel):
 
 
 class SPAdGroupMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroup: SPAdGroup
@@ -113,8 +97,6 @@ class SPAdGroupMultiStatusSuccess(BaseModel):
 
 
 class SPAdGroupNameFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
@@ -132,8 +114,6 @@ class SPAdGroupNameFilterType(StrEnum):
 
 
 class SPAdGroupStateFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -142,8 +122,6 @@ class SPAdGroupStateFilter(BaseModel):
 
 
 class SPAdGroupSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SPAdGroup] | None = None
@@ -151,8 +129,6 @@ class SPAdGroupSuccessResponse(BaseModel):
 
 
 class SPAdGroupUpdate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The unique identifier of the ad group.
@@ -164,8 +140,6 @@ class SPAdGroupUpdate(BaseModel):
 
 
 class SPAdSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productAttributeSetRefinementConfigurationId: str | None = (
@@ -174,24 +148,18 @@ class SPAdSettings(BaseModel):
 
 
 class SPCreateAdGroupBid(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     defaultBid: float  # The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.
 
 
 class SPCreateAdGroupRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SPAdGroupCreate] | None = None
 
 
 class SPCreateAdSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productAttributeSetRefinementConfigurationId: str | None = (
@@ -200,16 +168,12 @@ class SPCreateAdSettings(BaseModel):
 
 
 class SPDeleteAdGroupRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupIds: list[str] | None = None
 
 
 class SPQueryAdGroupRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupIdFilter: SPAdGroupAdGroupIdFilter | None = None
@@ -222,8 +186,6 @@ class SPQueryAdGroupRequest(BaseModel):
 
 
 class SPUpdateAdGroupBid(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     defaultBid: float | None = (
@@ -232,16 +194,12 @@ class SPUpdateAdGroupBid(BaseModel):
 
 
 class SPUpdateAdGroupRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SPAdGroupUpdate] | None = None
 
 
 class SPUpdateAdSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productAttributeSetRefinementConfigurationId: str | None = (

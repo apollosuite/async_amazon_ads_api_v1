@@ -25,8 +25,6 @@ del TYPE_CHECKING
 
 
 class SPAudienceBidAdjustment(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     audienceId: str  # The unique identifier of the Audience to apply bid adjustment.
@@ -36,8 +34,6 @@ class SPAudienceBidAdjustment(BaseModel):
 
 
 class SPAutoCreationSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     autoCreateTargets: bool  # Gives Amazon permission to automatically create targets associated with the campaign based on the products being advertised.
@@ -56,8 +52,6 @@ class SPAutoScaleGlobalCampaignSetting(StrEnum):
 
 
 class SPBidAdjustments(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     audienceBidAdjustments: list[SPAudienceBidAdjustment] | None = None  # Bid Adjustments based on the audiences
@@ -68,8 +62,6 @@ class SPBidAdjustments(BaseModel):
 
 
 class SPBidSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bidAdjustments: SPBidAdjustments | None = None
@@ -92,8 +84,6 @@ class SPBidStrategy(StrEnum):
 
 
 class SPBudget(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     budgetType: SPBudgetType
@@ -102,8 +92,6 @@ class SPBudget(BaseModel):
 
 
 class SPBudgetSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     marketplaceBudgetAllocation: SPMarketplaceBudgetAllocation | None = None
@@ -120,16 +108,12 @@ class SPBudgetType(StrEnum):
 
 
 class SPBudgetValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     monetaryBudgetValue: SPMonetaryBudgetValue | None = None
 
 
 class SPCampaign(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adProduct: SPAdProduct
@@ -161,24 +145,18 @@ class SPCampaign(BaseModel):
 
 
 class SPCampaignAdProductFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[SPAdProduct]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPCampaignCampaignIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SPCampaignCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adProduct: SPAdProduct
@@ -204,8 +182,6 @@ class SPCampaignCreate(BaseModel):
 
 
 class SPCampaignMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -213,8 +189,6 @@ class SPCampaignMultiStatusResponse(BaseModel):
 
 
 class SPCampaignMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     campaign: SPCampaign
@@ -222,8 +196,6 @@ class SPCampaignMultiStatusSuccess(BaseModel):
 
 
 class SPCampaignNameFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
@@ -241,8 +213,6 @@ class SPCampaignNameFilterType(StrEnum):
 
 
 class SPCampaignOptimizations(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bidSettings: SPBidSettings | None = None
@@ -250,16 +220,12 @@ class SPCampaignOptimizations(BaseModel):
 
 
 class SPCampaignPortfolioIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SPCampaignStateFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -268,8 +234,6 @@ class SPCampaignStateFilter(BaseModel):
 
 
 class SPCampaignSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     campaigns: list[SPCampaign] | None = None
@@ -277,8 +241,6 @@ class SPCampaignSuccessResponse(BaseModel):
 
 
 class SPCampaignUpdate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     budgets: list[SPCreateBudget] | None = (
@@ -349,8 +311,6 @@ class SPCountryCode(StrEnum):
 
 
 class SPCreateAudienceBidAdjustment(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     audienceId: str  # The unique identifier of the Audience to apply bid adjustment.
@@ -360,8 +320,6 @@ class SPCreateAudienceBidAdjustment(BaseModel):
 
 
 class SPCreateAutoCreationSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     autoCreateTargets: bool  # Gives Amazon permission to automatically create targets associated with the campaign based on the products being advertised.
@@ -369,8 +327,6 @@ class SPCreateAutoCreationSettings(BaseModel):
 
 
 class SPCreateBidAdjustments(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     audienceBidAdjustments: list[SPCreateAudienceBidAdjustment] | None = None  # Bid Adjustments based on the audiences
@@ -383,8 +339,6 @@ class SPCreateBidAdjustments(BaseModel):
 
 
 class SPCreateBidSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bidAdjustments: SPCreateBidAdjustments | None = None
@@ -392,8 +346,6 @@ class SPCreateBidSettings(BaseModel):
 
 
 class SPCreateBudget(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     budgetType: SPBudgetType
@@ -402,24 +354,18 @@ class SPCreateBudget(BaseModel):
 
 
 class SPCreateBudgetSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     offAmazonBudgetControlStrategy: SPOffAmazonBudgetControlStrategy | None = None
 
 
 class SPCreateBudgetValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     monetaryBudgetValue: SPCreateMonetaryBudgetValue | None = None
 
 
 class SPCreateCampaignOptimizations(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bidSettings: SPCreateBidSettings | None = None
@@ -427,16 +373,12 @@ class SPCreateCampaignOptimizations(BaseModel):
 
 
 class SPCreateCampaignRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     campaigns: list[SPCampaignCreate] | None = None
 
 
 class SPCreateCreativeBidAdjustment(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     creativeType: SPCreativeBidAdjustmentType | None = None
@@ -446,24 +388,18 @@ class SPCreateCreativeBidAdjustment(BaseModel):
 
 
 class SPCreateMonetaryBudget(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     value: float  # The monetary amount of the budget cap in the given currency.
 
 
 class SPCreateMonetaryBudgetValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     monetaryBudget: SPCreateMonetaryBudget
 
 
 class SPCreatePlacementBidAdjustment(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     percentage: (
@@ -473,8 +409,6 @@ class SPCreatePlacementBidAdjustment(BaseModel):
 
 
 class SPCreativeBidAdjustment(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     creativeType: SPCreativeBidAdjustmentType | None = None
@@ -493,8 +427,6 @@ class SPCreativeBidAdjustmentType(StrEnum):
 
 
 class SPDeleteCampaignRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     campaignIds: list[str] | None = None
@@ -512,8 +444,6 @@ class SPMarketplaceBudgetAllocation(StrEnum):
 
 
 class SPMonetaryBudget(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     currencyCode: SPCurrencyCode
@@ -522,8 +452,6 @@ class SPMonetaryBudget(BaseModel):
 
 
 class SPMonetaryBudgetValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     monetaryBudget: SPMonetaryBudget
@@ -556,8 +484,6 @@ class SPPlacement(StrEnum):
 
 
 class SPPlacementBidAdjustment(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     percentage: (
@@ -567,8 +493,6 @@ class SPPlacementBidAdjustment(BaseModel):
 
 
 class SPQueryCampaignRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adProductFilter: SPCampaignAdProductFilter
@@ -601,8 +525,6 @@ class SPSiteRestriction(StrEnum):
 
 
 class SPUpdateBidAdjustments(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     audienceBidAdjustments: list[SPCreateAudienceBidAdjustment] | None = None  # Bid Adjustments based on the audiences
@@ -615,8 +537,6 @@ class SPUpdateBidAdjustments(BaseModel):
 
 
 class SPUpdateBidSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bidAdjustments: SPUpdateBidAdjustments | None = None
@@ -624,16 +544,12 @@ class SPUpdateBidSettings(BaseModel):
 
 
 class SPUpdateBudgetSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     offAmazonBudgetControlStrategy: SPOffAmazonBudgetControlStrategy | None = None
 
 
 class SPUpdateCampaignOptimizations(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bidSettings: SPUpdateBidSettings | None = None
@@ -641,8 +557,6 @@ class SPUpdateCampaignOptimizations(BaseModel):
 
 
 class SPUpdateCampaignRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     campaigns: list[SPCampaignUpdate] | None = None

@@ -69,8 +69,6 @@ class SDCreateLocationTarget(BaseModel):
 
 
 class SDCreateMarketplaceStringValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     defaultValue: str | None = (
@@ -90,8 +88,6 @@ class SDCreateProductAudienceTarget(BaseModel):
 
 
 class SDCreateProductCategoryRefinement(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productAgeRangeId: str | None = None  # The age range ID to target.
@@ -116,8 +112,6 @@ class SDCreateProductCategoryRefinement(BaseModel):
 
 
 class SDCreateProductCategoryRefinementValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productCategoryRefinement: SDCreateProductCategoryRefinement | None = None
@@ -142,8 +136,6 @@ class SDCreateProductTarget(BaseModel):
 
 
 class SDCreateProductValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productId: str | None = (
@@ -152,16 +144,12 @@ class SDCreateProductValue(BaseModel):
 
 
 class SDCreateTargetBid(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bid: float | None = None  # The maximum bid for a target.
 
 
 class SDCreateTargetDetails(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     keywordTarget: SDCreateKeywordTarget | None = None
@@ -175,8 +163,6 @@ class SDCreateTargetDetails(BaseModel):
 
 
 class SDCreateTargetRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     targets: list[SDTargetCreate] | None = None
@@ -191,8 +177,6 @@ class SDCreateThemeTarget(BaseModel):
 
 
 class SDDeleteTargetRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     targetIds: list[str] | None = None
@@ -264,8 +248,6 @@ class SDLookback(StrEnum):
 
 
 class SDMarketplaceStringValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     defaultValue: str | None = (
@@ -296,8 +278,6 @@ class SDProductAudienceTarget(BaseModel):
 
 
 class SDProductCategoryRefinement(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productAgeRangeId: str | None = None  # The age range ID to target.
@@ -322,8 +302,6 @@ class SDProductCategoryRefinement(BaseModel):
 
 
 class SDProductCategoryRefinementValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productCategoryRefinement: SDProductCategoryRefinement | None = None
@@ -359,8 +337,6 @@ class SDProductTarget(BaseModel):
 
 
 class SDProductValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productId: str | None = (
@@ -369,8 +345,6 @@ class SDProductValue(BaseModel):
 
 
 class SDQueryTargetRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupIdFilter: SDTargetAdGroupIdFilter | None = None
@@ -383,8 +357,6 @@ class SDQueryTargetRequest(BaseModel):
 
 
 class SDTarget(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str | None = (
@@ -407,24 +379,18 @@ class SDTarget(BaseModel):
 
 
 class SDTargetAdGroupIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SDTargetAdProductFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[SDAdProduct]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
 
 
 class SDTargetBid(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bid: float | None = None  # The maximum bid for a target.
@@ -432,16 +398,12 @@ class SDTargetBid(BaseModel):
 
 
 class SDTargetCampaignIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SDTargetCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str | None = (
@@ -459,8 +421,6 @@ class SDTargetCreate(BaseModel):
 
 
 class SDTargetDetails(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     audienceTarget: SDAudienceTarget | None = None
@@ -494,8 +454,6 @@ class SDTargetLevel(StrEnum):
 
 
 class SDTargetMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -503,8 +461,6 @@ class SDTargetMultiStatusResponse(BaseModel):
 
 
 class SDTargetMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     index: int
@@ -512,8 +468,6 @@ class SDTargetMultiStatusSuccess(BaseModel):
 
 
 class SDTargetStateFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -522,8 +476,6 @@ class SDTargetStateFilter(BaseModel):
 
 
 class SDTargetSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     nextToken: str | None = None
@@ -531,8 +483,6 @@ class SDTargetSuccessResponse(BaseModel):
 
 
 class SDTargetTargetIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
@@ -562,8 +512,6 @@ class SDTargetType(StrEnum):
 
 
 class SDTargetUpdate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bid: SDUpdateTargetBid | None = None
@@ -589,16 +537,12 @@ class SDThemeTarget(BaseModel):
 
 
 class SDUpdateTargetBid(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bid: float | None = None  # The maximum bid for a target.
 
 
 class SDUpdateTargetRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     targets: list[SDTargetUpdate] | None = None

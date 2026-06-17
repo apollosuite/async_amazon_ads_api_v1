@@ -25,8 +25,6 @@ del TYPE_CHECKING
 
 
 class SPAd(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The ad group associated with the ad.
@@ -48,40 +46,30 @@ class SPAd(BaseModel):
 
 
 class SPAdAdGroupIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SPAdAdIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SPAdAdProductFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[SPAdProduct]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPAdCampaignIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SPAdCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The ad group associated with the ad.
@@ -93,8 +81,6 @@ class SPAdCreate(BaseModel):
 
 
 class SPAdMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -102,8 +88,6 @@ class SPAdMultiStatusResponse(BaseModel):
 
 
 class SPAdMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     ad: SPAd
@@ -111,8 +95,6 @@ class SPAdMultiStatusSuccess(BaseModel):
 
 
 class SPAdStateFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -121,8 +103,6 @@ class SPAdStateFilter(BaseModel):
 
 
 class SPAdSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     ads: list[SPAd] | None = None
@@ -139,8 +119,6 @@ class SPAdType(StrEnum):
 
 
 class SPAdUpdate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adId: str  # The identifier of the ad.
@@ -150,8 +128,6 @@ class SPAdUpdate(BaseModel):
 
 
 class SPAdvertisedProducts(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     globalStoreSetting: SPGlobalStoreSettings | None = None
@@ -164,16 +140,12 @@ class SPAdvertisedProducts(BaseModel):
 
 
 class SPCreateAdRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     ads: list[SPAdCreate] | None = None
 
 
 class SPCreateAdvertisedProducts(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     globalStoreSetting: SPCreateGlobalStoreSettings | None = None
@@ -182,24 +154,18 @@ class SPCreateAdvertisedProducts(BaseModel):
 
 
 class SPCreateCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productCreative: SPCreateProductCreative | None = None
 
 
 class SPCreateGlobalStoreSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     catalogSourceMarketplace: SPMarketplace | None = None
 
 
 class SPCreateProductCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productCreativeSettings: SPCreateProductCreativeSettings
@@ -225,8 +191,6 @@ class SPCreateSpotlightVideoSettings(BaseModel):
 
 
 class SPCreateVideo(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     assetId: str  # The asset library ID associated with the video asset.
@@ -236,32 +200,24 @@ class SPCreateVideo(BaseModel):
 
 
 class SPCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productCreative: SPProductCreative | None = None
 
 
 class SPDeleteAdRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adIds: list[str] | None = None
 
 
 class SPGlobalStoreSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     catalogSourceMarketplace: SPMarketplace | None = None
 
 
 class SPProductCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productCreativeSettings: SPProductCreativeSettings
@@ -278,8 +234,6 @@ class SPProductCreativeSettings(BaseModel):
 
 
 class SPQueryAdRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupIdFilter: SPAdAdGroupIdFilter | None = None
@@ -301,24 +255,18 @@ class SPSpotlightVideoSettings(BaseModel):
 
 
 class SPUpdateAdRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     ads: list[SPAdUpdate] | None = None
 
 
 class SPUpdateCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productCreative: SPUpdateProductCreative | None = None
 
 
 class SPUpdateProductCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productCreativeSettings: SPUpdateProductCreativeSettings | None = None
@@ -342,8 +290,6 @@ class SPUpdateSpotlightVideoSettings(BaseModel):
 
 
 class SPVideo(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     assetId: str  # The asset library ID associated with the video asset.

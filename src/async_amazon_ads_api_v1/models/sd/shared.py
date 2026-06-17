@@ -86,8 +86,6 @@ class SDDeliveryStatus(StrEnum):
 
 
 class SDStatus(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     deliveryReasons: list[SDDeliveryReason] | None = None  # This is the list of reasons behind the delivery status.

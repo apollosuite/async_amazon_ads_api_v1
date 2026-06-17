@@ -33,8 +33,6 @@ class SBBrandAlternateId(BaseModel):
 
 
 class SBBrandedKeyword(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     brandAlternateId: SBBrandAlternateId
@@ -42,8 +40,6 @@ class SBBrandedKeyword(BaseModel):
 
 
 class SBBrandedKeywordList(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     associatedBrandIds: list[str] | None = None  # Brand IDs associated with the branded keyword list
@@ -53,8 +49,6 @@ class SBBrandedKeywordList(BaseModel):
 
 
 class SBBrandedKeywordRecommendationTypeDetails(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     brandAlternateId: list[SBBrandAlternateId]
@@ -71,8 +65,6 @@ class SBCreateBrandAlternateId(BaseModel):
 
 
 class SBCreateBrandedKeywordRecommendationTypeDetails(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     brandAlternateId: list[SBCreateBrandAlternateId]
@@ -80,32 +72,24 @@ class SBCreateBrandedKeywordRecommendationTypeDetails(BaseModel):
 
 
 class SBCreateRecommendationRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     recommendations: list[SBRecommendationCreate] | None = None
 
 
 class SBCreateRecommendationTypeDetails(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     brandedKeywordRecommendationTypeDetails: SBCreateBrandedKeywordRecommendationTypeDetails | None = None
 
 
 class SBObjectSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     brandedKeywordList: SBBrandedKeywordList | None = None
 
 
 class SBRecommendation(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     recommendationId: str  # The identifier of the recommendation
@@ -115,8 +99,6 @@ class SBRecommendation(BaseModel):
 
 
 class SBRecommendationCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     recommendationType: str  # A unique value to indicate similar recommendations, used for internal purposes only
@@ -124,8 +106,6 @@ class SBRecommendationCreate(BaseModel):
 
 
 class SBRecommendationMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -133,8 +113,6 @@ class SBRecommendationMultiStatusResponse(BaseModel):
 
 
 class SBRecommendationMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     index: int
@@ -142,8 +120,6 @@ class SBRecommendationMultiStatusSuccess(BaseModel):
 
 
 class SBRecommendationTypeDetails(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     brandedKeywordRecommendationTypeDetails: SBBrandedKeywordRecommendationTypeDetails | None = None

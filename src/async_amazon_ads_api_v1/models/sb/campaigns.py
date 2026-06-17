@@ -25,8 +25,6 @@ del TYPE_CHECKING
 
 
 class SBAudienceBidAdjustment(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     audienceId: str  # The unique identifier of the Audience to apply bid adjustment.
@@ -36,8 +34,6 @@ class SBAudienceBidAdjustment(BaseModel):
 
 
 class SBAutoCreationSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     autoCreateTargets: bool | None = (
@@ -46,8 +42,6 @@ class SBAutoCreationSettings(BaseModel):
 
 
 class SBBidAdjustments(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     audienceBidAdjustments: list[SBAudienceBidAdjustment] | None = None  # Bid Adjustments based on the audiences
@@ -58,8 +52,6 @@ class SBBidAdjustments(BaseModel):
 
 
 class SBBidSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bidAdjustments: SBBidAdjustments | None = None
@@ -78,8 +70,6 @@ class SBBidStrategy(StrEnum):
 
 
 class SBBudget(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     budgetType: SBBudgetType
@@ -97,16 +87,12 @@ class SBBudgetType(StrEnum):
 
 
 class SBBudgetValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     monetaryBudgetValue: SBMonetaryBudgetValue | None = None
 
 
 class SBCampaign(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adProduct: SBAdProduct
@@ -141,24 +127,18 @@ class SBCampaign(BaseModel):
 
 
 class SBCampaignAdProductFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[SBAdProduct]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBCampaignCampaignIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SBCampaignCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adProduct: SBAdProduct
@@ -188,8 +168,6 @@ class SBCampaignCreate(BaseModel):
 
 
 class SBCampaignGoalFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -198,8 +176,6 @@ class SBCampaignGoalFilter(BaseModel):
 
 
 class SBCampaignMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -207,8 +183,6 @@ class SBCampaignMultiStatusResponse(BaseModel):
 
 
 class SBCampaignMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     campaign: SBCampaign
@@ -216,8 +190,6 @@ class SBCampaignMultiStatusSuccess(BaseModel):
 
 
 class SBCampaignNameFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
@@ -235,8 +207,6 @@ class SBCampaignNameFilterType(StrEnum):
 
 
 class SBCampaignOptimizations(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bidSettings: SBBidSettings | None = None
@@ -244,16 +214,12 @@ class SBCampaignOptimizations(BaseModel):
 
 
 class SBCampaignPortfolioIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SBCampaignStateFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -262,8 +228,6 @@ class SBCampaignStateFilter(BaseModel):
 
 
 class SBCampaignSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     campaigns: list[SBCampaign] | None = None
@@ -271,8 +235,6 @@ class SBCampaignSuccessResponse(BaseModel):
 
 
 class SBCampaignUpdate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     budgets: list[SBCreateBudget] | None = (
@@ -358,8 +320,6 @@ class SBCountryCode(StrEnum):
 
 
 class SBCreateAudienceBidAdjustment(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     audienceId: str  # The unique identifier of the Audience to apply bid adjustment.
@@ -369,8 +329,6 @@ class SBCreateAudienceBidAdjustment(BaseModel):
 
 
 class SBCreateAutoCreationSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     autoCreateTargets: bool | None = (
@@ -379,8 +337,6 @@ class SBCreateAutoCreationSettings(BaseModel):
 
 
 class SBCreateBidAdjustments(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     audienceBidAdjustments: list[SBCreateAudienceBidAdjustment] | None = None  # Bid Adjustments based on the audiences
@@ -393,8 +349,6 @@ class SBCreateBidAdjustments(BaseModel):
 
 
 class SBCreateBidSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bidAdjustments: SBCreateBidAdjustments | None = None
@@ -402,8 +356,6 @@ class SBCreateBidSettings(BaseModel):
 
 
 class SBCreateBudget(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     budgetType: SBBudgetType
@@ -412,16 +364,12 @@ class SBCreateBudget(BaseModel):
 
 
 class SBCreateBudgetValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     monetaryBudgetValue: SBCreateMonetaryBudgetValue | None = None
 
 
 class SBCreateCampaignOptimizations(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bidSettings: SBCreateBidSettings | None = None
@@ -429,40 +377,30 @@ class SBCreateCampaignOptimizations(BaseModel):
 
 
 class SBCreateCampaignRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     campaigns: list[SBCampaignCreate] | None = None
 
 
 class SBCreateGoalSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     kpi: SBKPI
 
 
 class SBCreateMonetaryBudget(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     value: float  # The monetary amount of the budget cap in the given currency.
 
 
 class SBCreateMonetaryBudgetValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     monetaryBudget: SBCreateMonetaryBudget
 
 
 class SBCreatePlacementBidAdjustment(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     percentage: (
@@ -472,14 +410,10 @@ class SBCreatePlacementBidAdjustment(BaseModel):
 
 
 class SBCreateShopperSegmentBidAdjustment(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
 
 class SBDeleteCampaignRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     campaignIds: list[str] | None = None
@@ -499,8 +433,6 @@ class SBGoal(StrEnum):
 
 
 class SBGoalSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     goal: SBGoal
@@ -519,8 +451,6 @@ class SBKPI(StrEnum):
 
 
 class SBMonetaryBudget(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     currencyCode: SBCurrencyCode
@@ -529,8 +459,6 @@ class SBMonetaryBudget(BaseModel):
 
 
 class SBMonetaryBudgetValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     monetaryBudget: SBMonetaryBudget
@@ -552,8 +480,6 @@ class SBPlacement(StrEnum):
 
 
 class SBPlacementBidAdjustment(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     percentage: (
@@ -563,8 +489,6 @@ class SBPlacementBidAdjustment(BaseModel):
 
 
 class SBQueryCampaignRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adProductFilter: SBCampaignAdProductFilter
@@ -609,8 +533,6 @@ class SBShopperSegment(StrEnum):
 
 
 class SBShopperSegmentBidAdjustment(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     percentage: int  # The selection of the percentage change associated with a given shopper segment and bid adjustment settings.
@@ -627,8 +549,6 @@ class SBSiteRestriction(StrEnum):
 
 
 class SBUpdateBidAdjustments(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     audienceBidAdjustments: list[SBCreateAudienceBidAdjustment] | None = None  # Bid Adjustments based on the audiences
@@ -641,8 +561,6 @@ class SBUpdateBidAdjustments(BaseModel):
 
 
 class SBUpdateBidSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bidAdjustments: SBUpdateBidAdjustments | None = None
@@ -650,16 +568,12 @@ class SBUpdateBidSettings(BaseModel):
 
 
 class SBUpdateCampaignOptimizations(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bidSettings: SBUpdateBidSettings | None = None
 
 
 class SBUpdateCampaignRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     campaigns: list[SBCampaignUpdate] | None = None

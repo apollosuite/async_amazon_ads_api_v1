@@ -6,8 +6,6 @@ from pydantic import BaseModel, ConfigDict
 
 
 class SBQueryRecommendationTypeRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     maxResults: int | None = None
@@ -15,8 +13,6 @@ class SBQueryRecommendationTypeRequest(BaseModel):
 
 
 class SBRecommendationType(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     recommendationTypeId: (
@@ -26,8 +22,6 @@ class SBRecommendationType(BaseModel):
 
 
 class SBRecommendationTypeSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     nextToken: str | None = None

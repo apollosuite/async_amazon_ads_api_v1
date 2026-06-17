@@ -13,8 +13,6 @@ del TYPE_CHECKING
 
 
 class SBAdvertisingDealPrice(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     currencyCode: SBCurrencyCode
@@ -23,8 +21,6 @@ class SBAdvertisingDealPrice(BaseModel):
 
 
 class SBCreateTag(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     key: str  # A custom key value pair entered by the advertiser.
@@ -156,8 +152,6 @@ class SBDeliveryStatus(StrEnum):
 
 
 class SBStatus(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     deliveryReasons: list[SBDeliveryReason] | None = None  # This is the list of reasons behind the delivery status.
@@ -165,8 +159,6 @@ class SBStatus(BaseModel):
 
 
 class SBTag(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     key: str  # A custom key value pair entered by the advertiser.

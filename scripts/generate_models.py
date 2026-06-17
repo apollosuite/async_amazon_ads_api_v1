@@ -113,15 +113,16 @@ def generate_enum(name: str, schema: dict) -> str:
     doc = schema.get("description", "")
     values = schema.get("enum", [])
     members = "\n    ".join(f'{v} = "{v}"' for v in values)
-    return f'''class {name}(StrEnum):
-    """{doc}"""
+    docstring = f'\n    """{doc}"""' if doc else ""
+    return f"""class {name}(StrEnum):{docstring}
     {members}
-'''
+"""
 
 
 def generate_model(name: str, schema: dict, schemas: dict | None = None) -> str:
     doc = schema.get("description", "")
     required: set[str] = set(schema.get("required", []))
+    docstring = f'\n    """{doc}"""' if doc else ""
 
     if not schema.get("properties") and schema.get("oneOf"):
         fields = []
@@ -133,19 +134,17 @@ def generate_model(name: str, schema: dict, schemas: dict | None = None) -> str:
                     comment = f"  # {desc}" if desc else ""
                     fields.append(f"    {fname}: {typ} | None = None{comment}")
         field_block = "\n".join(fields) if fields else "    pass"
-        return f'''class {name}(BaseModel):
-    """{doc}"""
+        return f"""class {name}(BaseModel):{docstring}
     model_config = ConfigDict(extra="forbid")
 
 {field_block}
-'''
+"""
 
     props = schema.get("properties", {})
     if not props:
-        return f'''class {name}(BaseModel):
-    """{doc}"""
+        return f"""class {name}(BaseModel):{docstring}
     model_config = ConfigDict(extra="forbid")
-'''
+"""
     fields = []
     for fname, fschema in props.items():
         typ = openapi_to_python_type(fschema, schemas)
@@ -157,12 +156,11 @@ def generate_model(name: str, schema: dict, schemas: dict | None = None) -> str:
         comment = f"  # {desc}" if desc else ""
         fields.append(f"    {fname}: {typ}{default}{comment}")
     field_block = "\n".join(fields)
-    return f'''class {name}(BaseModel):
-    """{doc}"""
+    return f"""class {name}(BaseModel):{docstring}
     model_config = ConfigDict(extra="forbid")
 
 {field_block}
-'''
+"""
 
 
 def emit(schema: dict, name: str, schemas: dict | None = None) -> str:

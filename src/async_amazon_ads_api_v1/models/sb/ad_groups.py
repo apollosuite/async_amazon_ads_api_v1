@@ -17,8 +17,6 @@ del TYPE_CHECKING
 
 
 class SBAdGroup(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The unique identifier of the ad group.
@@ -37,32 +35,24 @@ class SBAdGroup(BaseModel):
 
 
 class SBAdGroupAdGroupIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SBAdGroupAdProductFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[SBAdProduct]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBAdGroupCampaignIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SBAdGroupCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adProduct: SBAdProduct
@@ -73,8 +63,6 @@ class SBAdGroupCreate(BaseModel):
 
 
 class SBAdGroupMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -82,8 +70,6 @@ class SBAdGroupMultiStatusResponse(BaseModel):
 
 
 class SBAdGroupMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroup: SBAdGroup
@@ -91,8 +77,6 @@ class SBAdGroupMultiStatusSuccess(BaseModel):
 
 
 class SBAdGroupNameFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
@@ -110,8 +94,6 @@ class SBAdGroupNameFilterType(StrEnum):
 
 
 class SBAdGroupStateFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -120,8 +102,6 @@ class SBAdGroupStateFilter(BaseModel):
 
 
 class SBAdGroupSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SBAdGroup] | None = None
@@ -129,8 +109,6 @@ class SBAdGroupSuccessResponse(BaseModel):
 
 
 class SBAdGroupUpdate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The unique identifier of the ad group.
@@ -140,24 +118,18 @@ class SBAdGroupUpdate(BaseModel):
 
 
 class SBCreateAdGroupRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SBAdGroupCreate] | None = None
 
 
 class SBDeleteAdGroupRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupIds: list[str] | None = None
 
 
 class SBQueryAdGroupRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupIdFilter: SBAdGroupAdGroupIdFilter | None = None
@@ -170,8 +142,6 @@ class SBQueryAdGroupRequest(BaseModel):
 
 
 class SBUpdateAdGroupRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroups: list[SBAdGroupUpdate] | None = None

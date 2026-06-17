@@ -17,8 +17,6 @@ del TYPE_CHECKING
 
 
 class SPAdExtension(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adExtensionId: str  # A unique identifier for the ad_extension.
@@ -39,16 +37,12 @@ class SPAdExtension(BaseModel):
 
 
 class SPAdExtensionAdExtensionIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SPAdExtensionAdExtensionStatusFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -57,8 +51,6 @@ class SPAdExtensionAdExtensionStatusFilter(BaseModel):
 
 
 class SPAdExtensionAdExtensionTypeFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -67,32 +59,24 @@ class SPAdExtensionAdExtensionTypeFilter(BaseModel):
 
 
 class SPAdExtensionAdGroupIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SPAdExtensionAdIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SPAdExtensionAdProductFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[SPAdProduct]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPAdExtensionCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adExtensionSettings: SPCreateAdExtensionSettings
@@ -109,8 +93,6 @@ class SPAdExtensionCreate(BaseModel):
 
 
 class SPAdExtensionMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -118,8 +100,6 @@ class SPAdExtensionMultiStatusResponse(BaseModel):
 
 
 class SPAdExtensionMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adExtension: SPAdExtension
@@ -127,8 +107,6 @@ class SPAdExtensionMultiStatusSuccess(BaseModel):
 
 
 class SPAdExtensionSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     promptExtension: SPPromptExtension | None = None
@@ -136,8 +114,6 @@ class SPAdExtensionSettings(BaseModel):
 
 
 class SPAdExtensionStateFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -157,8 +133,6 @@ class SPAdExtensionStatus(StrEnum):
 
 
 class SPAdExtensionSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adExtensions: list[SPAdExtension] | None = None
@@ -179,8 +153,6 @@ class SPAdExtensionType(StrEnum):
 
 
 class SPAdExtensionUpdate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adExtensionId: str  # A unique identifier for the ad_extension.
@@ -188,16 +160,12 @@ class SPAdExtensionUpdate(BaseModel):
 
 
 class SPCreateAdExtensionRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adExtensions: list[SPAdExtensionCreate] | None = None
 
 
 class SPCreateAdExtensionSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     promptExtension: SPCreatePromptExtension | None = None
@@ -227,8 +195,6 @@ class SPPromptExtension(BaseModel):
 
 
 class SPQueryAdExtensionRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adExtensionIdFilter: SPAdExtensionAdExtensionIdFilter | None = None
@@ -243,8 +209,6 @@ class SPQueryAdExtensionRequest(BaseModel):
 
 
 class SPUpdateAdExtensionRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adExtensions: list[SPAdExtensionUpdate] | None = None

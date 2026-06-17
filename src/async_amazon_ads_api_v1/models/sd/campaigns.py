@@ -25,8 +25,6 @@ del TYPE_CHECKING
 
 
 class SDBudget(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     budgetType: SDBudgetType
@@ -44,16 +42,12 @@ class SDBudgetType(StrEnum):
 
 
 class SDBudgetValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     monetaryBudgetValue: SDMonetaryBudgetValue | None = None
 
 
 class SDCampaign(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adProduct: SDAdProduct
@@ -81,24 +75,18 @@ class SDCampaign(BaseModel):
 
 
 class SDCampaignAdProductFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[SDAdProduct]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
 
 
 class SDCampaignCampaignIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SDCampaignCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adProduct: SDAdProduct
@@ -122,8 +110,6 @@ class SDCampaignCreate(BaseModel):
 
 
 class SDCampaignMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -131,8 +117,6 @@ class SDCampaignMultiStatusResponse(BaseModel):
 
 
 class SDCampaignMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     campaign: SDCampaign
@@ -140,8 +124,6 @@ class SDCampaignMultiStatusSuccess(BaseModel):
 
 
 class SDCampaignNameFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
@@ -159,16 +141,12 @@ class SDCampaignNameFilterType(StrEnum):
 
 
 class SDCampaignPortfolioIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SDCampaignStateFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -177,8 +155,6 @@ class SDCampaignStateFilter(BaseModel):
 
 
 class SDCampaignSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     campaigns: list[SDCampaign] | None = None
@@ -186,8 +162,6 @@ class SDCampaignSuccessResponse(BaseModel):
 
 
 class SDCampaignUpdate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     budgets: list[SDCreateBudget] | None = (
@@ -264,8 +238,6 @@ class SDCountryCode(StrEnum):
 
 
 class SDCreateBudget(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     budgetType: SDBudgetType
@@ -273,40 +245,30 @@ class SDCreateBudget(BaseModel):
 
 
 class SDCreateBudgetValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     monetaryBudgetValue: SDCreateMonetaryBudgetValue | None = None
 
 
 class SDCreateCampaignRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     campaigns: list[SDCampaignCreate] | None = None
 
 
 class SDCreateMonetaryBudget(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     value: float  # The monetary amount of the budget cap in the given currency.
 
 
 class SDCreateMonetaryBudgetValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     monetaryBudget: SDCreateMonetaryBudget
 
 
 class SDCreateTag(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     key: str  # A custom key value pair entered by the advertiser.
@@ -314,16 +276,12 @@ class SDCreateTag(BaseModel):
 
 
 class SDDeleteCampaignRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     campaignIds: list[str] | None = None
 
 
 class SDMonetaryBudget(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     currencyCode: SDCurrencyCode
@@ -332,16 +290,12 @@ class SDMonetaryBudget(BaseModel):
 
 
 class SDMonetaryBudgetValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     monetaryBudget: SDMonetaryBudget
 
 
 class SDQueryCampaignRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adProductFilter: SDCampaignAdProductFilter
@@ -363,8 +317,6 @@ class SDRecurrence(StrEnum):
 
 
 class SDTag(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     key: str  # A custom key value pair entered by the advertiser.
@@ -372,8 +324,6 @@ class SDTag(BaseModel):
 
 
 class SDUpdateCampaignRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     campaigns: list[SDCampaignUpdate] | None = None

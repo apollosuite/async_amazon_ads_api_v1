@@ -37,8 +37,6 @@ class SBCreateKeywordTarget(BaseModel):
 
 
 class SBCreateProductCategoryRefinement(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productBrandId: str | None = None  # The brand ID to target.
@@ -58,8 +56,6 @@ class SBCreateProductCategoryRefinement(BaseModel):
 
 
 class SBCreateProductCategoryRefinementValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productCategoryRefinement: SBCreateProductCategoryRefinement | None = None
@@ -84,8 +80,6 @@ class SBCreateProductTarget(BaseModel):
 
 
 class SBCreateProductValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productId: str | None = (
@@ -94,16 +88,12 @@ class SBCreateProductValue(BaseModel):
 
 
 class SBCreateTargetBid(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bid: float  # The maximum bid for a target.
 
 
 class SBCreateTargetDetails(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     keywordTarget: SBCreateKeywordTarget | None = None
@@ -113,8 +103,6 @@ class SBCreateTargetDetails(BaseModel):
 
 
 class SBCreateTargetRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     targets: list[SBTargetCreate] | None = None
@@ -129,8 +117,6 @@ class SBCreateThemeTarget(BaseModel):
 
 
 class SBDeleteTargetRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     targetIds: list[str] | None = None
@@ -190,8 +176,6 @@ class SBMatchType(StrEnum):
 
 
 class SBProductCategoryRefinement(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productBrandId: str | None = None  # The brand ID to target.
@@ -211,8 +195,6 @@ class SBProductCategoryRefinement(BaseModel):
 
 
 class SBProductCategoryRefinementValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productCategoryRefinement: SBProductCategoryRefinement | None = None
@@ -246,8 +228,6 @@ class SBProductTarget(BaseModel):
 
 
 class SBProductValue(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productId: str | None = (
@@ -256,8 +236,6 @@ class SBProductValue(BaseModel):
 
 
 class SBQueryTargetRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupIdFilter: SBTargetAdGroupIdFilter | None = None
@@ -275,8 +253,6 @@ class SBQueryTargetRequest(BaseModel):
 
 
 class SBTarget(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: (
@@ -303,24 +279,18 @@ class SBTarget(BaseModel):
 
 
 class SBTargetAdGroupIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SBTargetAdProductFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[SBAdProduct]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBTargetBid(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bid: float  # The maximum bid for a target.
@@ -328,16 +298,12 @@ class SBTargetBid(BaseModel):
 
 
 class SBTargetCampaignIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SBTargetCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: (
@@ -355,8 +321,6 @@ class SBTargetCreate(BaseModel):
 
 
 class SBTargetDetails(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     keywordTarget: SBKeywordTarget | None = None
@@ -366,8 +330,6 @@ class SBTargetDetails(BaseModel):
 
 
 class SBTargetKeywordFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
@@ -385,8 +347,6 @@ class SBTargetKeywordFilterType(StrEnum):
 
 
 class SBTargetLanguageLocaleFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[SBLanguageLocale]  # NativeLanguageLocale Description `zh_CN` Chinese (China).
@@ -402,8 +362,6 @@ class SBTargetLevel(StrEnum):
 
 
 class SBTargetMatchTypeFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -412,8 +370,6 @@ class SBTargetMatchTypeFilter(BaseModel):
 
 
 class SBTargetMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -421,8 +377,6 @@ class SBTargetMultiStatusResponse(BaseModel):
 
 
 class SBTargetMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     index: int
@@ -430,16 +384,12 @@ class SBTargetMultiStatusSuccess(BaseModel):
 
 
 class SBTargetNegativeFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[bool]
 
 
 class SBTargetStateFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -448,8 +398,6 @@ class SBTargetStateFilter(BaseModel):
 
 
 class SBTargetSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     nextToken: str | None = None
@@ -457,16 +405,12 @@ class SBTargetSuccessResponse(BaseModel):
 
 
 class SBTargetTargetIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SBTargetTargetTypeFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[
@@ -490,8 +434,6 @@ class SBTargetType(StrEnum):
 
 
 class SBTargetUpdate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bid: SBUpdateTargetBid | None = None
@@ -519,16 +461,12 @@ class SBThemeTarget(BaseModel):
 
 
 class SBUpdateTargetBid(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     bid: float | None = None  # The maximum bid for a target.
 
 
 class SBUpdateTargetRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     targets: list[SBTargetUpdate] | None = None

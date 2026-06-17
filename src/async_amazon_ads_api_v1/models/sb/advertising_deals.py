@@ -17,8 +17,6 @@ del TYPE_CHECKING
 
 
 class SBAdvertisingDeal(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDealId: str  # A unique identifier for a deal.
@@ -32,16 +30,12 @@ class SBAdvertisingDeal(BaseModel):
 
 
 class SBAdvertisingDealAdvertisingDealIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SBAdvertisingDealCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     endDateTime: datetime  # The end date time for the deal.
@@ -53,8 +47,6 @@ class SBAdvertisingDealCreate(BaseModel):
 
 
 class SBAdvertisingDealMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -62,8 +54,6 @@ class SBAdvertisingDealMultiStatusResponse(BaseModel):
 
 
 class SBAdvertisingDealMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDeal: SBAdvertisingDeal
@@ -71,8 +61,6 @@ class SBAdvertisingDealMultiStatusSuccess(BaseModel):
 
 
 class SBAdvertisingDealNameFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
@@ -102,8 +90,6 @@ class SBAdvertisingDealState(StrEnum):
 
 
 class SBAdvertisingDealStatus(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     status: SBAdvertisingDealStatusEnum
@@ -123,8 +109,6 @@ class SBAdvertisingDealStatusEnum(StrEnum):
 
 
 class SBAdvertisingDealSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDeals: list[SBAdvertisingDeal] | None = None
@@ -132,8 +116,6 @@ class SBAdvertisingDealSuccessResponse(BaseModel):
 
 
 class SBAdvertisingDealUpdate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDealId: str  # A unique identifier for a deal.
@@ -146,8 +128,6 @@ class SBAdvertisingDealUpdate(BaseModel):
 
 
 class SBCreateAdvertisingDealPrice(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     priceType: SBAdvertisingDealPriceType
@@ -155,24 +135,18 @@ class SBCreateAdvertisingDealPrice(BaseModel):
 
 
 class SBCreateAdvertisingDealRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDeals: list[SBAdvertisingDealCreate] | None = None
 
 
 class SBDeleteAdvertisingDealRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDealIds: list[str] | None = None
 
 
 class SBQueryAdvertisingDealRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDealIdFilter: SBAdvertisingDealAdvertisingDealIdFilter | None = None
@@ -182,8 +156,6 @@ class SBQueryAdvertisingDealRequest(BaseModel):
 
 
 class SBUpdateAdvertisingDealPrice(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     priceType: SBAdvertisingDealPriceType | None = None
@@ -191,8 +163,6 @@ class SBUpdateAdvertisingDealPrice(BaseModel):
 
 
 class SBUpdateAdvertisingDealRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDeals: list[SBAdvertisingDealUpdate] | None = None

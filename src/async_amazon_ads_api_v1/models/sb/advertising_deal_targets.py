@@ -21,8 +21,6 @@ class SBAdvertisingDealBrandedKeywordTargetDetails(BaseModel):
 
 
 class SBAdvertisingDealTarget(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDealId: str  # A unique identifier for the deal associated with the target.
@@ -32,16 +30,12 @@ class SBAdvertisingDealTarget(BaseModel):
 
 
 class SBAdvertisingDealTargetAdvertisingDealIdFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
 
 
 class SBAdvertisingDealTargetCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDealId: str  # A unique identifier for the deal associated with the target.
@@ -50,16 +44,12 @@ class SBAdvertisingDealTargetCreate(BaseModel):
 
 
 class SBAdvertisingDealTargetDetails(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDealBrandedKeywordTargetDetails: SBAdvertisingDealBrandedKeywordTargetDetails | None = None
 
 
 class SBAdvertisingDealTargetMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -67,8 +57,6 @@ class SBAdvertisingDealTargetMultiStatusResponse(BaseModel):
 
 
 class SBAdvertisingDealTargetMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDealTarget: SBAdvertisingDealTarget
@@ -76,8 +64,6 @@ class SBAdvertisingDealTargetMultiStatusSuccess(BaseModel):
 
 
 class SBAdvertisingDealTargetSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDealTargets: list[SBAdvertisingDealTarget] | None = None
@@ -102,32 +88,24 @@ class SBCreateAdvertisingDealBrandedKeywordTargetDetails(BaseModel):
 
 
 class SBCreateAdvertisingDealTargetDetails(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDealBrandedKeywordTargetDetails: SBCreateAdvertisingDealBrandedKeywordTargetDetails | None = None
 
 
 class SBCreateAdvertisingDealTargetRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDealTargets: list[SBAdvertisingDealTargetCreate] | None = None
 
 
 class SBDeleteAdvertisingDealTargetRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDealTargetIds: list[str] | None = None
 
 
 class SBQueryAdvertisingDealTargetRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     advertisingDealIdFilter: SBAdvertisingDealTargetAdvertisingDealIdFilter

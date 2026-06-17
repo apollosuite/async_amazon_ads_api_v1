@@ -12,32 +12,24 @@ del TYPE_CHECKING
 
 
 class SBCreateReservedTargetPricingRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     reservedTargetPricings: list[SBReservedTargetPricingCreate] | None = None
 
 
 class SBReservedTargetPricing(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     targetPricingId: str  # A unique identifier for the reserved target pricing.
 
 
 class SBReservedTargetPricingCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     targetPricingId: str  # A unique identifier for the reserved target pricing.
 
 
 class SBReservedTargetPricingMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -45,8 +37,6 @@ class SBReservedTargetPricingMultiStatusResponse(BaseModel):
 
 
 class SBReservedTargetPricingMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     index: int

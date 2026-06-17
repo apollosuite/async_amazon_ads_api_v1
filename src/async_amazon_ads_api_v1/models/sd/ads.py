@@ -25,8 +25,6 @@ del TYPE_CHECKING
 
 
 class SDAd(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The ad group associated with the ad.
@@ -47,16 +45,12 @@ class SDAd(BaseModel):
 
 
 class SDAdAdProductFilter(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     include: list[SDAdProduct]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
 
 
 class SDAdCreate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The ad group associated with the ad.
@@ -68,8 +62,6 @@ class SDAdCreate(BaseModel):
 
 
 class SDAdMultiStatusResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     error: list[ErrorsIndex] | None = None
@@ -77,8 +69,6 @@ class SDAdMultiStatusResponse(BaseModel):
 
 
 class SDAdMultiStatusSuccess(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     ad: SDAd
@@ -86,8 +76,6 @@ class SDAdMultiStatusSuccess(BaseModel):
 
 
 class SDAdSuccessResponse(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     ads: list[SDAd] | None = None
@@ -104,8 +92,6 @@ class SDAdType(StrEnum):
 
 
 class SDAdUpdate(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adId: str  # The identifier of the ad.
@@ -114,8 +100,6 @@ class SDAdUpdate(BaseModel):
 
 
 class SDAdvertisedProducts(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productId: str  # The identifier of the advertised product.
@@ -123,8 +107,6 @@ class SDAdvertisedProducts(BaseModel):
 
 
 class SDAssetBasedCreativeSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     backgrounds: list[SDBackground] | None = None  # The background which is displayed on the ad.
@@ -143,16 +125,12 @@ class SDAssetBasedCreativeSettings(BaseModel):
 
 
 class SDBackground(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     color: str | None = None  # The color hex code of the background.
 
 
 class SDComponentCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     assetBasedCreativeSettings: SDAssetBasedCreativeSettings | None = None
@@ -161,8 +139,6 @@ class SDComponentCreative(BaseModel):
 
 
 class SDComponentLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageType: SDComponentLandingPageType
@@ -179,16 +155,12 @@ class SDComponentLandingPageType(StrEnum):
 
 
 class SDCreateAdRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     ads: list[SDAdCreate] | None = None
 
 
 class SDCreateAdvertisedProducts(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     productId: str  # The identifier of the advertised product.
@@ -196,16 +168,12 @@ class SDCreateAdvertisedProducts(BaseModel):
 
 
 class SDCreateAssetBasedCreativeSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPage: SDCreateComponentLandingPage
 
 
 class SDCreateComponentCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     assetBasedCreativeSettings: SDCreateAssetBasedCreativeSettings | None = None
@@ -214,8 +182,6 @@ class SDCreateComponentCreative(BaseModel):
 
 
 class SDCreateComponentLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageType: SDComponentLandingPageType
@@ -223,8 +189,6 @@ class SDCreateComponentLandingPage(BaseModel):
 
 
 class SDCreateCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     componentCreative: SDCreateComponentCreative | None = None
@@ -240,8 +204,6 @@ class SDCreateProductVideoSettings(BaseModel):
 
 
 class SDCreateResponsiveEcommerceLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageType: SDResponsiveEcommerceLandingPageType
@@ -249,8 +211,6 @@ class SDCreateResponsiveEcommerceLandingPage(BaseModel):
 
 
 class SDCreateResponsiveEcommerceSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPage: SDCreateResponsiveEcommerceLandingPage | None = None
@@ -260,8 +220,6 @@ class SDCreateResponsiveEcommerceSettings(BaseModel):
 
 
 class SDCreateVideoLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageType: SDVideoLandingPageType
@@ -269,32 +227,24 @@ class SDCreateVideoLandingPage(BaseModel):
 
 
 class SDCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     componentCreative: SDComponentCreative | None = None
 
 
 class SDCreativeStatus(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     moderationStatus: SDModerationStatus
 
 
 class SDDeleteAdRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adIds: list[str] | None = None
 
 
 class SDFormatProperties(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     height: int | None = None  # The height (in pixels) of the cropped image.
@@ -304,8 +254,6 @@ class SDFormatProperties(BaseModel):
 
 
 class SDImage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     assetId: str  # The asset library ID associated with the image asset.
@@ -349,8 +297,6 @@ class SDProductVideoSettings(BaseModel):
 
 
 class SDQueryAdRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     adProductFilter: SDAdAdProductFilter
@@ -359,8 +305,6 @@ class SDQueryAdRequest(BaseModel):
 
 
 class SDResponsiveEcommerceLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageType: SDResponsiveEcommerceLandingPageType
@@ -379,8 +323,6 @@ class SDResponsiveEcommerceLandingPageType(StrEnum):
 
 
 class SDResponsiveEcommerceSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     enableCreativeAutoTranslation: bool | None = (
@@ -398,22 +340,16 @@ class SDResponsiveEcommerceSettings(BaseModel):
 
 
 class SDUpdateAdRequest(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     ads: list[SDAdUpdate] | None = None
 
 
 class SDUpdateAssetBasedCreativeSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
 
 class SDUpdateComponentCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     assetBasedCreativeSettings: SDUpdateAssetBasedCreativeSettings | None = None
@@ -422,8 +358,6 @@ class SDUpdateComponentCreative(BaseModel):
 
 
 class SDUpdateCreative(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     componentCreative: SDUpdateComponentCreative | None = None
@@ -436,14 +370,10 @@ class SDUpdateProductVideoSettings(BaseModel):
 
 
 class SDUpdateResponsiveEcommerceSettings(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
 
 class SDVideo(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     assetId: str  # The asset library ID associated with the video asset.
@@ -451,8 +381,6 @@ class SDVideo(BaseModel):
 
 
 class SDVideoLandingPage(BaseModel):
-    """"""
-
     model_config = ConfigDict(extra="forbid")
 
     landingPageType: SDVideoLandingPageType
