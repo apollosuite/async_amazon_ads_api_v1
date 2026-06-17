@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from .enums import SBAdvertisingDealPriceType, SBCurrencyCode
@@ -15,8 +17,8 @@ del TYPE_CHECKING
 class SBAdvertisingDealPrice(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    currencyCode: SBCurrencyCode
-    priceType: SBAdvertisingDealPriceType
+    currencyCode: Annotated[SBCurrencyCode | str, lenient_enum(SBCurrencyCode)]
+    priceType: Annotated[SBAdvertisingDealPriceType | str, lenient_enum(SBAdvertisingDealPriceType)]
     value: float  # The monetary amount of the price in the given currency.
 
 
@@ -154,8 +156,10 @@ class SBDeliveryStatus(StrEnum):
 class SBStatus(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    deliveryReasons: list[SBDeliveryReason] | None = None  # This is the list of reasons behind the delivery status.
-    deliveryStatus: SBDeliveryStatus
+    deliveryReasons: list[Annotated[SBDeliveryReason | str, lenient_enum(SBDeliveryReason)]] | None = (
+        None  # This is the list of reasons behind the delivery status.
+    )
+    deliveryStatus: Annotated[SBDeliveryStatus | str, lenient_enum(SBDeliveryStatus)]
 
 
 class SBTag(BaseModel):

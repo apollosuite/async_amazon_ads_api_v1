@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
@@ -26,7 +28,7 @@ class SBAdvertisingDealTarget(BaseModel):
     advertisingDealId: str  # A unique identifier for the deal associated with the target.
     advertisingDealTargetId: str  # A unique identifier for a deal target.
     targetDetails: SBAdvertisingDealTargetDetails
-    targetType: SBAdvertisingDealTargetType
+    targetType: Annotated[SBAdvertisingDealTargetType | str, lenient_enum(SBAdvertisingDealTargetType)]
 
 
 class SBAdvertisingDealTargetAdvertisingDealIdFilter(BaseModel):
@@ -40,7 +42,7 @@ class SBAdvertisingDealTargetCreate(BaseModel):
 
     advertisingDealId: str  # A unique identifier for the deal associated with the target.
     targetDetails: SBCreateAdvertisingDealTargetDetails
-    targetType: SBAdvertisingDealTargetType
+    targetType: Annotated[SBAdvertisingDealTargetType | str, lenient_enum(SBAdvertisingDealTargetType)]
 
 
 class SBAdvertisingDealTargetDetails(BaseModel):

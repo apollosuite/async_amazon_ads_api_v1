@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
@@ -54,9 +56,9 @@ class SDCreateKeywordTarget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     keyword: str  # The customer search term or text to target
-    matchType: SDKeywordMatchType
+    matchType: Annotated[SDKeywordMatchType | str, lenient_enum(SDKeywordMatchType)]
     nativeLanguageKeyword: str | None = None  # The unlocalized keyword text in the preferred locale of the advertiser.
-    nativeLanguageLocale: SDLanguageLocale | None = None
+    nativeLanguageLocale: Annotated[SDLanguageLocale | str, lenient_enum(SDLanguageLocale)] | None = None
 
 
 class SDCreateLocationTarget(BaseModel):
@@ -82,9 +84,9 @@ class SDCreateProductAudienceTarget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     asin: SDCreateMarketplaceStringValue
-    event: SDTargetEvent
-    lookback: SDLookback
-    matchType: SDProductAudienceMatchType
+    event: Annotated[SDTargetEvent | str, lenient_enum(SDTargetEvent)]
+    lookback: Annotated[SDLookback | str, lenient_enum(SDLookback)]
+    matchType: Annotated[SDProductAudienceMatchType | str, lenient_enum(SDProductAudienceMatchType)]
 
 
 class SDCreateProductCategoryRefinement(BaseModel):
@@ -130,9 +132,9 @@ class SDCreateProductTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    matchType: SDProductMatchType
+    matchType: Annotated[SDProductMatchType | str, lenient_enum(SDProductMatchType)]
     product: SDCreateProductValue
-    productIdType: SDProductIdType
+    productIdType: Annotated[SDProductIdType | str, lenient_enum(SDProductIdType)]
 
 
 class SDCreateProductValue(BaseModel):
@@ -173,7 +175,7 @@ class SDCreateThemeTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    matchType: SDThemeMatchType
+    matchType: Annotated[SDThemeMatchType | str, lenient_enum(SDThemeMatchType)]
 
 
 class SDDeleteTargetRequest(BaseModel):
@@ -201,9 +203,9 @@ class SDKeywordTarget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     keyword: str  # The customer search term or text to target
-    matchType: SDKeywordMatchType
+    matchType: Annotated[SDKeywordMatchType | str, lenient_enum(SDKeywordMatchType)]
     nativeLanguageKeyword: str | None = None  # The unlocalized keyword text in the preferred locale of the advertiser.
-    nativeLanguageLocale: SDLanguageLocale | None = None
+    nativeLanguageLocale: Annotated[SDLanguageLocale | str, lenient_enum(SDLanguageLocale)] | None = None
 
 
 class SDLanguageLocale(StrEnum):
@@ -272,9 +274,9 @@ class SDProductAudienceTarget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     asin: SDMarketplaceStringValue
-    event: SDTargetEvent
-    lookback: SDLookback
-    matchType: SDProductAudienceMatchType
+    event: Annotated[SDTargetEvent | str, lenient_enum(SDTargetEvent)]
+    lookback: Annotated[SDLookback | str, lenient_enum(SDLookback)]
+    matchType: Annotated[SDProductAudienceMatchType | str, lenient_enum(SDProductAudienceMatchType)]
 
 
 class SDProductCategoryRefinement(BaseModel):
@@ -331,9 +333,9 @@ class SDProductTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    matchType: SDProductMatchType
+    matchType: Annotated[SDProductMatchType | str, lenient_enum(SDProductMatchType)]
     product: SDProductValue
-    productIdType: SDProductIdType
+    productIdType: Annotated[SDProductIdType | str, lenient_enum(SDProductIdType)]
 
 
 class SDProductValue(BaseModel):
@@ -362,7 +364,7 @@ class SDTarget(BaseModel):
     adGroupId: str | None = (
         None  # A unique identifier for the ad group associated with the target. Only used for ad-group level targets.
     )
-    adProduct: SDAdProduct
+    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
     bid: SDTargetBid | None = None
     campaignId: str | None = (
         None  # A unique identifier for the campaign associated with the target. Only used for campaign-level targets.
@@ -370,12 +372,12 @@ class SDTarget(BaseModel):
     creationDateTime: datetime  # The date time the target was created.
     lastUpdatedDateTime: datetime  # The date time the target was last updated.
     negative: bool  # Indicates whether the target is negative or not.
-    state: SDState
+    state: Annotated[SDState | str, lenient_enum(SDState)]
     status: SDStatus | None = None
     targetDetails: SDTargetDetails
     targetId: str  # A unique identifier for the target.
-    targetLevel: SDTargetLevel
-    targetType: SDTargetType
+    targetLevel: Annotated[SDTargetLevel | str, lenient_enum(SDTargetLevel)]
+    targetType: Annotated[SDTargetType | str, lenient_enum(SDTargetType)]
 
 
 class SDTargetAdGroupIdFilter(BaseModel):
@@ -387,14 +389,16 @@ class SDTargetAdGroupIdFilter(BaseModel):
 class SDTargetAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[SDAdProduct]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
+    include: list[
+        Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
+    ]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
 
 
 class SDTargetBid(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     bid: float | None = None  # The maximum bid for a target.
-    currencyCode: SDCurrencyCode
+    currencyCode: Annotated[SDCurrencyCode | str, lenient_enum(SDCurrencyCode)]
 
 
 class SDTargetCampaignIdFilter(BaseModel):
@@ -409,15 +413,15 @@ class SDTargetCreate(BaseModel):
     adGroupId: str | None = (
         None  # A unique identifier for the ad group associated with the target. Only used for ad-group level targets.
     )
-    adProduct: SDAdProduct
+    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
     bid: SDCreateTargetBid | None = None
     campaignId: str | None = (
         None  # A unique identifier for the campaign associated with the target. Only used for campaign-level targets.
     )
     negative: bool  # Indicates whether the target is negative or not.
-    state: SDCreateState
+    state: Annotated[SDCreateState | str, lenient_enum(SDCreateState)]
     targetDetails: SDCreateTargetDetails
-    targetType: SDTargetType
+    targetType: Annotated[SDTargetType | str, lenient_enum(SDTargetType)]
 
 
 class SDTargetDetails(BaseModel):
@@ -471,7 +475,7 @@ class SDTargetStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SDState
+        Annotated[SDState | str, lenient_enum(SDState)]
     ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
@@ -515,7 +519,7 @@ class SDTargetUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     bid: SDUpdateTargetBid | None = None
-    state: SDUpdateState | None = None
+    state: Annotated[SDUpdateState | str, lenient_enum(SDUpdateState)] | None = None
     targetId: str  # A unique identifier for the target.
 
 
@@ -533,7 +537,7 @@ class SDThemeTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    matchType: SDThemeMatchType
+    matchType: Annotated[SDThemeMatchType | str, lenient_enum(SDThemeMatchType)]
 
 
 class SDUpdateTargetBid(BaseModel):

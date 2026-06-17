@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
@@ -27,9 +29,9 @@ del TYPE_CHECKING
 class SDBudget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    budgetType: SDBudgetType
+    budgetType: Annotated[SDBudgetType | str, lenient_enum(SDBudgetType)]
     budgetValue: SDBudgetValue
-    recurrenceTimePeriod: SDRecurrence
+    recurrenceTimePeriod: Annotated[SDRecurrence | str, lenient_enum(SDRecurrence)]
 
 
 class SDBudgetType(StrEnum):
@@ -50,26 +52,26 @@ class SDBudgetValue(BaseModel):
 class SDCampaign(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adProduct: SDAdProduct
+    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
     budgets: list[
         SDBudget
     ]  # The object containing budget details for the campaign (for campaigns that support multiple budgets).
     campaignId: str  # A unique identifier for a campaign.
-    costType: SDCostType
-    countries: list[SDCountryCode] | None = (
+    costType: Annotated[SDCostType | str, lenient_enum(SDCostType)]
+    countries: list[Annotated[SDCountryCode | str, lenient_enum(SDCountryCode)]] | None = (
         None  # This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.
     )
     creationDateTime: datetime  # The date time that the campaign was created.
     endDateTime: datetime | None = None  # The end date time for the campaign.
     lastUpdatedDateTime: datetime  # The date time that the campaign was last updated.
-    marketplaceScope: SDMarketplaceScope
-    marketplaces: list[SDMarketplace] | None = (
+    marketplaceScope: Annotated[SDMarketplaceScope | str, lenient_enum(SDMarketplaceScope)]
+    marketplaces: list[Annotated[SDMarketplace | str, lenient_enum(SDMarketplace)]] | None = (
         None  # This represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. ADSP campaigns can be created by specifying either countries or marketplaces, but at least one of these attributes must be provided. In ADSP, this field acts as an implicit filter on your inventory targets. For example, if you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties.
     )
     name: str  # The name of the campaign.
     portfolioId: str | None = None  # The ID of the portfolio associated with the campaign.
     startDateTime: datetime  # The start date time for the campaign.
-    state: SDState
+    state: Annotated[SDState | str, lenient_enum(SDState)]
     status: SDStatus | None = None
     tags: list[SDTag] | None = None  # Open ended labels with a key value pair applied to the campaign
 
@@ -77,7 +79,9 @@ class SDCampaign(BaseModel):
 class SDCampaignAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[SDAdProduct]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
+    include: list[
+        Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
+    ]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
 
 
 class SDCampaignCampaignIdFilter(BaseModel):
@@ -89,23 +93,23 @@ class SDCampaignCampaignIdFilter(BaseModel):
 class SDCampaignCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adProduct: SDAdProduct
+    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
     budgets: list[
         SDCreateBudget
     ]  # The object containing budget details for the campaign (for campaigns that support multiple budgets).
-    costType: SDCostType
-    countries: list[SDCountryCode] | None = (
+    costType: Annotated[SDCostType | str, lenient_enum(SDCostType)]
+    countries: list[Annotated[SDCountryCode | str, lenient_enum(SDCountryCode)]] | None = (
         None  # This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.
     )
     endDateTime: datetime | None = None  # The end date time for the campaign.
-    marketplaceScope: SDMarketplaceScope
-    marketplaces: list[SDMarketplace] | None = (
+    marketplaceScope: Annotated[SDMarketplaceScope | str, lenient_enum(SDMarketplaceScope)]
+    marketplaces: list[Annotated[SDMarketplace | str, lenient_enum(SDMarketplace)]] | None = (
         None  # This represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. ADSP campaigns can be created by specifying either countries or marketplaces, but at least one of these attributes must be provided. In ADSP, this field acts as an implicit filter on your inventory targets. For example, if you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties.
     )
     name: str  # The name of the campaign.
     portfolioId: str | None = None  # The ID of the portfolio associated with the campaign.
     startDateTime: datetime  # The start date time for the campaign.
-    state: SDCreateState
+    state: Annotated[SDCreateState | str, lenient_enum(SDCreateState)]
     tags: list[SDCreateTag] | None = None  # Open ended labels with a key value pair applied to the campaign
 
 
@@ -127,7 +131,7 @@ class SDCampaignNameFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
-    queryTermMatchType: SDCampaignNameFilterType
+    queryTermMatchType: Annotated[SDCampaignNameFilterType | str, lenient_enum(SDCampaignNameFilterType)]
 
 
 class SDCampaignNameFilterType(StrEnum):
@@ -150,7 +154,7 @@ class SDCampaignStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SDState
+        Annotated[SDState | str, lenient_enum(SDState)]
     ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
@@ -168,12 +172,12 @@ class SDCampaignUpdate(BaseModel):
         None  # The object containing budget details for the campaign (for campaigns that support multiple budgets).
     )
     campaignId: str  # A unique identifier for a campaign.
-    costType: SDCostType | None = None
+    costType: Annotated[SDCostType | str, lenient_enum(SDCostType)] | None = None
     endDateTime: datetime | None = None  # The end date time for the campaign.
     name: str | None = None  # The name of the campaign.
     portfolioId: str | None = None  # The ID of the portfolio associated with the campaign.
     startDateTime: datetime | None = None  # The start date time for the campaign.
-    state: SDUpdateState | None = None
+    state: Annotated[SDUpdateState | str, lenient_enum(SDUpdateState)] | None = None
     tags: list[SDCreateTag] | None = None  # Open ended labels with a key value pair applied to the campaign
 
 
@@ -240,7 +244,7 @@ class SDCountryCode(StrEnum):
 class SDCreateBudget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    budgetType: SDBudgetType
+    budgetType: Annotated[SDBudgetType | str, lenient_enum(SDBudgetType)]
     budgetValue: SDCreateBudgetValue
 
 
@@ -284,7 +288,7 @@ class SDDeleteCampaignRequest(BaseModel):
 class SDMonetaryBudget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    currencyCode: SDCurrencyCode
+    currencyCode: Annotated[SDCurrencyCode | str, lenient_enum(SDCurrencyCode)]
     ruleValue: float | None = None  # The monetary amount of the budget when a budget rule is applied.
     value: float  # The monetary amount of the budget cap in the given currency.
 

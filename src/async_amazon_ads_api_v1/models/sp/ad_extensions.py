@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
@@ -21,18 +23,18 @@ class SPAdExtension(BaseModel):
 
     adExtensionId: str  # A unique identifier for the ad_extension.
     adExtensionSettings: SPAdExtensionSettings
-    adExtensionStatus: SPAdExtensionStatus | None = None
-    adExtensionType: SPAdExtensionType
+    adExtensionStatus: Annotated[SPAdExtensionStatus | str, lenient_enum(SPAdExtensionStatus)] | None = None
+    adExtensionType: Annotated[SPAdExtensionType | str, lenient_enum(SPAdExtensionType)]
     adGroupId: str | None = None  # A unique identifier for the ad group associated with the ad_extension.
     adId: str | None = None  # A unique identifier for the ad associated with the ad_extension.
-    adProduct: SPAdProduct
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
     creationDateTime: datetime  # The date time the ad_extension was created.
     lastUpdatedDateTime: datetime  # The date time the ad_extension was last updated.
-    marketplaceScope: SPMarketplaceScope
+    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
     marketplaces: list[
-        SPMarketplace
+        Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]
     ]  # The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad
-    state: SPState
+    state: Annotated[SPState | str, lenient_enum(SPState)]
     status: SPStatus | None = None
 
 
@@ -46,7 +48,7 @@ class SPAdExtensionAdExtensionStatusFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SPAdExtensionStatus
+        Annotated[SPAdExtensionStatus | str, lenient_enum(SPAdExtensionStatus)]
     ]  # AdExtensionStatus Description `OPTED_OUT` If the advertiser has opted out of this Ad Extension.
 
 
@@ -54,7 +56,7 @@ class SPAdExtensionAdExtensionTypeFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SPAdExtensionType
+        Annotated[SPAdExtensionType | str, lenient_enum(SPAdExtensionType)]
     ]  # AdExtensionType Description `PROMPTS` Enables Prompt based Ad Extension. `VIDEO` Enables Video based Ad Extension.
 
 
@@ -73,23 +75,25 @@ class SPAdExtensionAdIdFilter(BaseModel):
 class SPAdExtensionAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[SPAdProduct]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+    include: list[
+        Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
+    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPAdExtensionCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adExtensionSettings: SPCreateAdExtensionSettings
-    adExtensionStatus: SPAdExtensionStatus | None = None
-    adExtensionType: SPAdExtensionType
+    adExtensionStatus: Annotated[SPAdExtensionStatus | str, lenient_enum(SPAdExtensionStatus)] | None = None
+    adExtensionType: Annotated[SPAdExtensionType | str, lenient_enum(SPAdExtensionType)]
     adGroupId: str | None = None  # A unique identifier for the ad group associated with the ad_extension.
     adId: str | None = None  # A unique identifier for the ad associated with the ad_extension.
-    adProduct: SPAdProduct
-    marketplaceScope: SPMarketplaceScope
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
+    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
     marketplaces: list[
-        SPMarketplace
+        Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]
     ]  # The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad
-    state: SPCreateState
+    state: Annotated[SPCreateState | str, lenient_enum(SPCreateState)]
 
 
 class SPAdExtensionMultiStatusResponse(BaseModel):
@@ -117,7 +121,7 @@ class SPAdExtensionStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SPState
+        Annotated[SPState | str, lenient_enum(SPState)]
     ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
@@ -156,7 +160,7 @@ class SPAdExtensionUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adExtensionId: str  # A unique identifier for the ad_extension.
-    state: SPUpdateState | None = None
+    state: Annotated[SPUpdateState | str, lenient_enum(SPUpdateState)] | None = None
 
 
 class SPCreateAdExtensionRequest(BaseModel):
@@ -221,7 +225,7 @@ class SPVideoExtension(BaseModel):
 
     renderedAssetId: str | None = None  # The video asset ID rendered in the ad.
     renderedCoverImageUrl: str | None = None  # The image displayed over the video player before the video is played.
-    videoType: SPVideoType
+    videoType: Annotated[SPVideoType | str, lenient_enum(SPVideoType)]
 
 
 class SPVideoType(StrEnum):

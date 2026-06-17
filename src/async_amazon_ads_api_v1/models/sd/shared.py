@@ -3,8 +3,11 @@
 from __future__ import annotations
 
 from enum import StrEnum
+from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 
 class SDDeliveryReason(StrEnum):
@@ -88,8 +91,10 @@ class SDDeliveryStatus(StrEnum):
 class SDStatus(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    deliveryReasons: list[SDDeliveryReason] | None = None  # This is the list of reasons behind the delivery status.
-    deliveryStatus: SDDeliveryStatus
+    deliveryReasons: list[Annotated[SDDeliveryReason | str, lenient_enum(SDDeliveryReason)]] | None = (
+        None  # This is the list of reasons behind the delivery status.
+    )
+    deliveryStatus: Annotated[SDDeliveryStatus | str, lenient_enum(SDDeliveryStatus)]
 
 
 __all__ = ["SDDeliveryReason", "SDDeliveryStatus", "SDStatus"]

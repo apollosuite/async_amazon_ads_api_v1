@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
@@ -30,18 +32,18 @@ class SBAd(BaseModel):
     activeCreative: SBCreative | None = None
     adGroupId: str  # The ad group associated with the ad.
     adId: str  # The identifier of the ad.
-    adProduct: SBAdProduct
-    adType: SBAdType
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
+    adType: Annotated[SBAdType | str, lenient_enum(SBAdType)]
     campaignId: str  # The campaign associated with the ad. It's a read-only field.
     creationDateTime: datetime  # The date time that the ad was created.
     creative: SBCreative
     lastUpdatedDateTime: datetime  # The date time that the ad was last updated.
-    marketplaceScope: SBMarketplaceScope
+    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)]
     marketplaces: list[
-        SBMarketplace
+        Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]
     ]  # The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.
     name: str  # The name of the ad.
-    state: SBState
+    state: Annotated[SBState | str, lenient_enum(SBState)]
     status: SBStatus | None = None
     tags: list[SBTag] | None = None  # Open ended labels with a key value pair applied to the ad
 
@@ -61,7 +63,9 @@ class SBAdAdIdFilter(BaseModel):
 class SBAdAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[SBAdProduct]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
+    include: list[
+        Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
+    ]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBAdCampaignIdFilter(BaseModel):
@@ -74,11 +78,11 @@ class SBAdCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The ad group associated with the ad.
-    adProduct: SBAdProduct
-    adType: SBAdType
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
+    adType: Annotated[SBAdType | str, lenient_enum(SBAdType)]
     creative: SBCreateCreative
     name: str  # The name of the ad.
-    state: SBCreateState
+    state: Annotated[SBCreateState | str, lenient_enum(SBCreateState)]
     tags: list[SBCreateTag] | None = None  # Open ended labels with a key value pair applied to the ad
 
 
@@ -100,7 +104,7 @@ class SBAdNameFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
-    queryTermMatchType: SBAdNameFilterType
+    queryTermMatchType: Annotated[SBAdNameFilterType | str, lenient_enum(SBAdNameFilterType)]
 
 
 class SBAdNameFilterType(StrEnum):
@@ -117,7 +121,7 @@ class SBAdStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SBState
+        Annotated[SBState | str, lenient_enum(SBState)]
     ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
@@ -143,7 +147,7 @@ class SBAdUpdate(BaseModel):
     adId: str  # The identifier of the ad.
     creative: SBUpdateCreative | None = None
     name: str | None = None  # The name of the ad.
-    state: SBUpdateState | None = None
+    state: Annotated[SBUpdateState | str, lenient_enum(SBUpdateState)] | None = None
     tags: list[SBCreateTag] | None = None  # Open ended labels with a key value pair applied to the ad
 
 
@@ -151,7 +155,7 @@ class SBAdvertisedProducts(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     productId: str | None = None  # The identifier of the advertised product.
-    productIdType: SBProductIdType
+    productIdType: Annotated[SBProductIdType | str, lenient_enum(SBProductIdType)]
 
 
 class SBAutoCollectionSettings(BaseModel):
@@ -190,9 +194,15 @@ class SBBrandGallerySettings(BaseModel):
     cards: list[
         SBBrandGalleryCardCreativeElement
     ]  # The sub-elements of the creative. Each card highlights a different category associated to a brand.
-    creativePropertiesToOptimize: list[SBBrandGalleryCreativePropertiesToOptimize] | None = (
-        None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-    )
+    creativePropertiesToOptimize: (
+        list[
+            Annotated[
+                SBBrandGalleryCreativePropertiesToOptimize | str,
+                lenient_enum(SBBrandGalleryCreativePropertiesToOptimize),
+            ]
+        ]
+        | None
+    ) = None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
     customImages: list[SBImage]  # The custom images featured in the ad.
     enableCreativeAutoTranslation: bool | None = (
         None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
@@ -216,7 +226,7 @@ class SBCardCreativeElement(BaseModel):
 class SBCollectionLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    landingPageType: SBCollectionLandingPageType
+    landingPageType: Annotated[SBCollectionLandingPageType | str, lenient_enum(SBCollectionLandingPageType)]
     landingPageUrl: str | None = None  # The URL associated to the landing page.
 
 
@@ -252,7 +262,7 @@ class SBCreateAdvertisedProducts(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     productId: str | None = None  # The identifier of the advertised product.
-    productIdType: SBProductIdType
+    productIdType: Annotated[SBProductIdType | str, lenient_enum(SBProductIdType)]
 
 
 class SBCreateAutoCollectionSettings(BaseModel):
@@ -282,9 +292,15 @@ class SBCreateBrandGallerySettings(BaseModel):
     cards: list[
         SBCreateBrandGalleryCardCreativeElement
     ]  # The sub-elements of the creative. Each card highlights a different category associated to a brand.
-    creativePropertiesToOptimize: list[SBBrandGalleryCreativePropertiesToOptimize] | None = (
-        None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-    )
+    creativePropertiesToOptimize: (
+        list[
+            Annotated[
+                SBBrandGalleryCreativePropertiesToOptimize | str,
+                lenient_enum(SBBrandGalleryCreativePropertiesToOptimize),
+            ]
+        ]
+        | None
+    ) = None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
     customImages: list[SBCreateImage]  # The custom images featured in the ad.
     enableCreativeAutoTranslation: bool | None = (
         None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
@@ -306,7 +322,7 @@ class SBCreateCardCreativeElement(BaseModel):
 class SBCreateCollectionLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    landingPageType: SBCollectionLandingPageType
+    landingPageType: Annotated[SBCollectionLandingPageType | str, lenient_enum(SBCollectionLandingPageType)]
     landingPageUrl: str | None = None  # The URL associated to the landing page.
 
 
@@ -368,7 +384,9 @@ class SBCreateProductCollectionLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     landingPageAsins: SBCreateLandingPageAsins | None = None
-    landingPageType: SBProductCollectionLandingPageType
+    landingPageType: Annotated[
+        SBProductCollectionLandingPageType | str, lenient_enum(SBProductCollectionLandingPageType)
+    ]
     landingPageUrl: str | None = (
         None  # The URL associated to the landing page. Read only if landingPageType is ASIN_LIST
     )
@@ -381,9 +399,15 @@ class SBCreateProductCollectionSettings(BaseModel):
 
     brand: str  # The name of the brand being advertised.
     brandLogos: list[SBCreateImage]  # The brand logo image assets to be used in the ad.
-    creativePropertiesToOptimize: list[SBProductCollectionCreativePropertiesToOptimize] | None = (
-        None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-    )
+    creativePropertiesToOptimize: (
+        list[
+            Annotated[
+                SBProductCollectionCreativePropertiesToOptimize | str,
+                lenient_enum(SBProductCollectionCreativePropertiesToOptimize),
+            ]
+        ]
+        | None
+    ) = None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
     customImages: list[SBCreateImage]  # The set of custom images featured in the ad.
     enableCreativeAutoTranslation: bool | None = (
         None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
@@ -425,7 +449,7 @@ class SBCreateSharedCollectionSettings(BaseModel):
 class SBCreateStoreSpotlightLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    landingPageType: SBStoreSpotlightLandingPageType
+    landingPageType: Annotated[SBStoreSpotlightLandingPageType | str, lenient_enum(SBStoreSpotlightLandingPageType)]
     landingPageUrl: str  # The URL of landing page where the ad directs.
 
 
@@ -439,9 +463,15 @@ class SBCreateStoreSpotlightSettings(BaseModel):
     cards: list[
         SBCreateCardCreativeElement
     ]  # The sub-elements of the creative. Each card highlights a different ASIN associated to a brand Store.
-    creativePropertiesToOptimize: list[SBStoreSpotlightCreativePropertiesToOptimize] | None = (
-        None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-    )
+    creativePropertiesToOptimize: (
+        list[
+            Annotated[
+                SBStoreSpotlightCreativePropertiesToOptimize | str,
+                lenient_enum(SBStoreSpotlightCreativePropertiesToOptimize),
+            ]
+        ]
+        | None
+    ) = None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
     enableCreativeAutoTranslation: bool | None = (
         None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
     )
@@ -461,7 +491,7 @@ class SBCreateVideo(BaseModel):
 class SBCreateVideoLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    landingPageType: SBVideoLandingPageType
+    landingPageType: Annotated[SBVideoLandingPageType | str, lenient_enum(SBVideoLandingPageType)]
     landingPageUrl: str | None = None  # The URL of landing page where the ad directs.
 
 
@@ -474,7 +504,7 @@ class SBCreative(BaseModel):
 class SBCreativeStatus(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    moderationStatus: SBModerationStatus
+    moderationStatus: Annotated[SBModerationStatus | str, lenient_enum(SBModerationStatus)]
 
 
 class SBDeleteAdRequest(BaseModel):
@@ -548,7 +578,9 @@ class SBProductCollectionLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     landingPageAsins: SBLandingPageAsins | None = None
-    landingPageType: SBProductCollectionLandingPageType
+    landingPageType: Annotated[
+        SBProductCollectionLandingPageType | str, lenient_enum(SBProductCollectionLandingPageType)
+    ]
     landingPageUrl: str | None = (
         None  # The URL associated to the landing page. Read only if landingPageType is ASIN_LIST
     )
@@ -574,9 +606,15 @@ class SBProductCollectionSettings(BaseModel):
 
     brand: str  # The name of the brand being advertised.
     brandLogos: list[SBImage]  # The brand logo image assets to be used in the ad.
-    creativePropertiesToOptimize: list[SBProductCollectionCreativePropertiesToOptimize] | None = (
-        None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-    )
+    creativePropertiesToOptimize: (
+        list[
+            Annotated[
+                SBProductCollectionCreativePropertiesToOptimize | str,
+                lenient_enum(SBProductCollectionCreativePropertiesToOptimize),
+            ]
+        ]
+        | None
+    ) = None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
     customImages: list[SBImage]  # The set of custom images featured in the ad.
     enableCreativeAutoTranslation: bool | None = (
         None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
@@ -646,7 +684,7 @@ class SBStoreSpotlightCreativePropertiesToOptimize(StrEnum):
 class SBStoreSpotlightLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    landingPageType: SBStoreSpotlightLandingPageType
+    landingPageType: Annotated[SBStoreSpotlightLandingPageType | str, lenient_enum(SBStoreSpotlightLandingPageType)]
     landingPageUrl: str  # The URL of landing page where the ad directs.
 
 
@@ -669,9 +707,15 @@ class SBStoreSpotlightSettings(BaseModel):
     cards: list[
         SBCardCreativeElement
     ]  # The sub-elements of the creative. Each card highlights a different ASIN associated to a brand Store.
-    creativePropertiesToOptimize: list[SBStoreSpotlightCreativePropertiesToOptimize] | None = (
-        None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-    )
+    creativePropertiesToOptimize: (
+        list[
+            Annotated[
+                SBStoreSpotlightCreativePropertiesToOptimize | str,
+                lenient_enum(SBStoreSpotlightCreativePropertiesToOptimize),
+            ]
+        ]
+        | None
+    ) = None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
     enableCreativeAutoTranslation: bool | None = (
         None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
     )
@@ -708,9 +752,15 @@ class SBUpdateBrandGallerySettings(BaseModel):
     cards: list[SBCreateBrandGalleryCardCreativeElement] | None = (
         None  # The sub-elements of the creative. Each card highlights a different category associated to a brand.
     )
-    creativePropertiesToOptimize: list[SBBrandGalleryCreativePropertiesToOptimize] | None = (
-        None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-    )
+    creativePropertiesToOptimize: (
+        list[
+            Annotated[
+                SBBrandGalleryCreativePropertiesToOptimize | str,
+                lenient_enum(SBBrandGalleryCreativePropertiesToOptimize),
+            ]
+        ]
+        | None
+    ) = None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
     customImages: list[SBCreateImage] | None = None  # The custom images featured in the ad.
     enableCreativeAutoTranslation: bool | None = (
         None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
@@ -724,7 +774,9 @@ class SBUpdateBrandGallerySettings(BaseModel):
 class SBUpdateCollectionLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    landingPageType: SBCollectionLandingPageType | None = None
+    landingPageType: Annotated[SBCollectionLandingPageType | str, lenient_enum(SBCollectionLandingPageType)] | None = (
+        None
+    )
     landingPageUrl: str | None = None  # The URL associated to the landing page.
 
 
@@ -779,7 +831,9 @@ class SBUpdateProductCollectionLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     landingPageAsins: SBUpdateLandingPageAsins | None = None
-    landingPageType: SBProductCollectionLandingPageType | None = None
+    landingPageType: (
+        Annotated[SBProductCollectionLandingPageType | str, lenient_enum(SBProductCollectionLandingPageType)] | None
+    ) = None
     landingPageUrl: str | None = (
         None  # The URL associated to the landing page. Read only if landingPageType is ASIN_LIST
     )
@@ -792,9 +846,15 @@ class SBUpdateProductCollectionSettings(BaseModel):
 
     brand: str | None = None  # The name of the brand being advertised.
     brandLogos: list[SBCreateImage] | None = None  # The brand logo image assets to be used in the ad.
-    creativePropertiesToOptimize: list[SBProductCollectionCreativePropertiesToOptimize] | None = (
-        None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-    )
+    creativePropertiesToOptimize: (
+        list[
+            Annotated[
+                SBProductCollectionCreativePropertiesToOptimize | str,
+                lenient_enum(SBProductCollectionCreativePropertiesToOptimize),
+            ]
+        ]
+        | None
+    ) = None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
     customImages: list[SBCreateImage] | None = None  # The set of custom images featured in the ad.
     enableCreativeAutoTranslation: bool | None = (
         None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
@@ -836,7 +896,9 @@ class SBUpdateSharedCollectionSettings(BaseModel):
 class SBUpdateStoreSpotlightLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    landingPageType: SBStoreSpotlightLandingPageType | None = None
+    landingPageType: (
+        Annotated[SBStoreSpotlightLandingPageType | str, lenient_enum(SBStoreSpotlightLandingPageType)] | None
+    ) = None
     landingPageUrl: str | None = None  # The URL of landing page where the ad directs.
 
 
@@ -850,9 +912,15 @@ class SBUpdateStoreSpotlightSettings(BaseModel):
     cards: list[SBCreateCardCreativeElement] | None = (
         None  # The sub-elements of the creative. Each card highlights a different ASIN associated to a brand Store.
     )
-    creativePropertiesToOptimize: list[SBStoreSpotlightCreativePropertiesToOptimize] | None = (
-        None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-    )
+    creativePropertiesToOptimize: (
+        list[
+            Annotated[
+                SBStoreSpotlightCreativePropertiesToOptimize | str,
+                lenient_enum(SBStoreSpotlightCreativePropertiesToOptimize),
+            ]
+        ]
+        | None
+    ) = None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
     enableCreativeAutoTranslation: bool | None = (
         None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
     )
@@ -865,7 +933,7 @@ class SBUpdateStoreSpotlightSettings(BaseModel):
 class SBUpdateVideoLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    landingPageType: SBVideoLandingPageType | None = None
+    landingPageType: Annotated[SBVideoLandingPageType | str, lenient_enum(SBVideoLandingPageType)] | None = None
     landingPageUrl: str | None = None  # The URL of landing page where the ad directs.
 
 
@@ -879,7 +947,7 @@ class SBVideo(BaseModel):
 class SBVideoLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    landingPageType: SBVideoLandingPageType
+    landingPageType: Annotated[SBVideoLandingPageType | str, lenient_enum(SBVideoLandingPageType)]
     landingPageUrl: str | None = None  # The URL of landing page where the ad directs.
 
 

@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
@@ -29,36 +31,38 @@ class SDAd(BaseModel):
 
     adGroupId: str  # The ad group associated with the ad.
     adId: str  # The identifier of the ad.
-    adProduct: SDAdProduct
-    adType: SDAdType
+    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
+    adType: Annotated[SDAdType | str, lenient_enum(SDAdType)]
     campaignId: str  # The campaign associated with the ad. It's a read-only field.
     creationDateTime: datetime  # The date time that the ad was created.
     creative: SDCreative
     lastUpdatedDateTime: datetime  # The date time that the ad was last updated.
-    marketplaceScope: SDMarketplaceScope
+    marketplaceScope: Annotated[SDMarketplaceScope | str, lenient_enum(SDMarketplaceScope)]
     marketplaces: list[
-        SDMarketplace
+        Annotated[SDMarketplace | str, lenient_enum(SDMarketplace)]
     ]  # The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.
     name: str | None = None  # The name of the ad.
-    state: SDState
+    state: Annotated[SDState | str, lenient_enum(SDState)]
     status: SDStatus | None = None
 
 
 class SDAdAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[SDAdProduct]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
+    include: list[
+        Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
+    ]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
 
 
 class SDAdCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The ad group associated with the ad.
-    adProduct: SDAdProduct
-    adType: SDAdType
+    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
+    adType: Annotated[SDAdType | str, lenient_enum(SDAdType)]
     creative: SDCreateCreative
     name: str | None = None  # The name of the ad.
-    state: SDCreateState
+    state: Annotated[SDCreateState | str, lenient_enum(SDCreateState)]
 
 
 class SDAdMultiStatusResponse(BaseModel):
@@ -96,14 +100,14 @@ class SDAdUpdate(BaseModel):
 
     adId: str  # The identifier of the ad.
     creative: SDUpdateCreative | None = None
-    state: SDUpdateState | None = None
+    state: Annotated[SDUpdateState | str, lenient_enum(SDUpdateState)] | None = None
 
 
 class SDAdvertisedProducts(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     productId: str  # The identifier of the advertised product.
-    productIdType: SDProductIdType
+    productIdType: Annotated[SDProductIdType | str, lenient_enum(SDProductIdType)]
 
 
 class SDAssetBasedCreativeSettings(BaseModel):
@@ -141,7 +145,7 @@ class SDComponentCreative(BaseModel):
 class SDComponentLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    landingPageType: SDComponentLandingPageType
+    landingPageType: Annotated[SDComponentLandingPageType | str, lenient_enum(SDComponentLandingPageType)]
     landingPageUrl: str  # The URL of landing page where the ad directs.
 
 
@@ -164,7 +168,7 @@ class SDCreateAdvertisedProducts(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     productId: str  # The identifier of the advertised product.
-    productIdType: SDProductIdType
+    productIdType: Annotated[SDProductIdType | str, lenient_enum(SDProductIdType)]
 
 
 class SDCreateAssetBasedCreativeSettings(BaseModel):
@@ -184,7 +188,7 @@ class SDCreateComponentCreative(BaseModel):
 class SDCreateComponentLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    landingPageType: SDComponentLandingPageType
+    landingPageType: Annotated[SDComponentLandingPageType | str, lenient_enum(SDComponentLandingPageType)]
     landingPageUrl: str  # The URL of landing page where the ad directs.
 
 
@@ -206,7 +210,9 @@ class SDCreateProductVideoSettings(BaseModel):
 class SDCreateResponsiveEcommerceLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    landingPageType: SDResponsiveEcommerceLandingPageType
+    landingPageType: Annotated[
+        SDResponsiveEcommerceLandingPageType | str, lenient_enum(SDResponsiveEcommerceLandingPageType)
+    ]
     landingPageUrl: str  # The URL of landing page where the ad directs.
 
 
@@ -222,7 +228,7 @@ class SDCreateResponsiveEcommerceSettings(BaseModel):
 class SDCreateVideoLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    landingPageType: SDVideoLandingPageType
+    landingPageType: Annotated[SDVideoLandingPageType | str, lenient_enum(SDVideoLandingPageType)]
     landingPageUrl: str  # The URL of landing page where the ad directs.
 
 
@@ -235,7 +241,7 @@ class SDCreative(BaseModel):
 class SDCreativeStatus(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    moderationStatus: SDModerationStatus
+    moderationStatus: Annotated[SDModerationStatus | str, lenient_enum(SDModerationStatus)]
 
 
 class SDDeleteAdRequest(BaseModel):
@@ -307,7 +313,9 @@ class SDQueryAdRequest(BaseModel):
 class SDResponsiveEcommerceLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    landingPageType: SDResponsiveEcommerceLandingPageType
+    landingPageType: Annotated[
+        SDResponsiveEcommerceLandingPageType | str, lenient_enum(SDResponsiveEcommerceLandingPageType)
+    ]
     landingPageUrl: str  # The URL of landing page where the ad directs.
 
 
@@ -383,7 +391,7 @@ class SDVideo(BaseModel):
 class SDVideoLandingPage(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    landingPageType: SDVideoLandingPageType
+    landingPageType: Annotated[SDVideoLandingPageType | str, lenient_enum(SDVideoLandingPageType)]
     landingPageUrl: str  # The URL of landing page where the ad directs.
 
 

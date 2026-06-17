@@ -40,9 +40,11 @@ MODULE_HEADER = '''"""Auto-generated Pydantic models for {product} from Amazon A
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING, Annotated, Any
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 '''
 
 ENUMS_HEADER = '''"""Auto-generated Pydantic models for {product} from Amazon Ads API schema."""
@@ -57,9 +59,11 @@ SHARED_HEADER = '''"""shared models for {product}."""
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING, Annotated, Any
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 '''
 
 
@@ -83,6 +87,9 @@ def _clean_description(desc: str) -> str:
 def openapi_to_python_type(schema: dict, schemas: dict | None = None) -> str:
     if "$ref" in schema:
         ref_name = schema["$ref"].split("/")[-1]
+        ref_schema = schemas.get(ref_name, {}) if schemas else {}
+        if ref_schema.get("enum"):
+            return f"Annotated[{ref_name} | str, lenient_enum({ref_name})]"
         return ref_name
 
     t = schema.get("type", "object")
@@ -289,6 +296,9 @@ def main(*, output_dir: Path | None = None, product: str | None = None) -> None:
             "# Include shared error types for forward reference resolution",
             "import async_amazon_ads_api_v1.errors as _core_errors",
             "",
+            "# Include lenient_enum for Annotated type resolution",
+            "from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum as lenient_enum",
+            "",
             "# Resolve cross-module forward references",
             "_ns: dict[str, typing.Any] = dict(sys.modules[__name__].__dict__)",
             "_ns.update(vars(_core_errors))",
@@ -328,9 +338,6 @@ def main(*, output_dir: Path | None = None, product: str | None = None) -> None:
 
         refs = ext_refs.get(filename, set())
         imports = _build_import_block(filename, refs, schema_module)
-        if refs:
-            if "TYPE_CHECKING" not in header:
-                header = header.replace("from typing import Any", "from typing import TYPE_CHECKING, Any")
         buf = [header, imports] if imports else [header]
         for n in names:
             emit_to_file(buf, n)

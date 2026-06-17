@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
@@ -25,7 +27,7 @@ class SBAdvertisingDeal(BaseModel):
     price: SBAdvertisingDealPrice | None = None
     replacingDealId: str | None = None  # The ID of an advertising deal that this deal intends to replace.
     startDateTime: datetime  # The start date time for the deal.
-    state: SBAdvertisingDealState | None = None
+    state: Annotated[SBAdvertisingDealState | str, lenient_enum(SBAdvertisingDealState)] | None = None
     status: SBAdvertisingDealStatus
 
 
@@ -43,7 +45,7 @@ class SBAdvertisingDealCreate(BaseModel):
     price: SBCreateAdvertisingDealPrice | None = None
     replacingDealId: str | None = None  # The ID of an advertising deal that this deal intends to replace.
     startDateTime: datetime  # The start date time for the deal.
-    state: SBAdvertisingDealState | None = None
+    state: Annotated[SBAdvertisingDealState | str, lenient_enum(SBAdvertisingDealState)] | None = None
 
 
 class SBAdvertisingDealMultiStatusResponse(BaseModel):
@@ -64,7 +66,7 @@ class SBAdvertisingDealNameFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
-    queryTermMatchType: SBAdvertisingDealNameFilterType
+    queryTermMatchType: Annotated[SBAdvertisingDealNameFilterType | str, lenient_enum(SBAdvertisingDealNameFilterType)]
 
 
 class SBAdvertisingDealNameFilterType(StrEnum):
@@ -92,7 +94,7 @@ class SBAdvertisingDealState(StrEnum):
 class SBAdvertisingDealStatus(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    status: SBAdvertisingDealStatusEnum
+    status: Annotated[SBAdvertisingDealStatusEnum | str, lenient_enum(SBAdvertisingDealStatusEnum)]
 
 
 class SBAdvertisingDealStatusEnum(StrEnum):
@@ -124,13 +126,13 @@ class SBAdvertisingDealUpdate(BaseModel):
     price: SBUpdateAdvertisingDealPrice | None = None
     replacingDealId: str | None = None  # The ID of an advertising deal that this deal intends to replace.
     startDateTime: datetime | None = None  # The start date time for the deal.
-    state: SBAdvertisingDealState | None = None
+    state: Annotated[SBAdvertisingDealState | str, lenient_enum(SBAdvertisingDealState)] | None = None
 
 
 class SBCreateAdvertisingDealPrice(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    priceType: SBAdvertisingDealPriceType
+    priceType: Annotated[SBAdvertisingDealPriceType | str, lenient_enum(SBAdvertisingDealPriceType)]
     value: float  # The monetary amount of the price in the given currency.
 
 
@@ -158,7 +160,7 @@ class SBQueryAdvertisingDealRequest(BaseModel):
 class SBUpdateAdvertisingDealPrice(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    priceType: SBAdvertisingDealPriceType | None = None
+    priceType: Annotated[SBAdvertisingDealPriceType | str, lenient_enum(SBAdvertisingDealPriceType)] | None = None
     value: float | None = None  # The monetary amount of the price in the given currency.
 
 

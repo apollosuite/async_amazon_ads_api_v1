@@ -8,6 +8,9 @@ import typing
 # Include shared error types for forward reference resolution
 import async_amazon_ads_api_v1.errors as _core_errors
 
+# Include lenient_enum for Annotated type resolution
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum as lenient_enum
+
 from .ad_extensions import *
 from .ad_groups import *
 from .ads import *

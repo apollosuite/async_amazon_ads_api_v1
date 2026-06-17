@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
@@ -28,19 +30,19 @@ class SDAdGroup(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The unique identifier of the ad group.
-    adProduct: SDAdProduct
+    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
     bid: SDAdGroupBid | None = None
     campaignId: str  # The unique identifier of the campaign the ad group belongs to.
     creationDateTime: datetime  # The date time that the ad group was created.
-    creativeType: SDCreativeType | None = None
+    creativeType: Annotated[SDCreativeType | str, lenient_enum(SDCreativeType)] | None = None
     lastUpdatedDateTime: datetime  # The date time that the ad group was last updated.
-    marketplaceScope: SDMarketplaceScope
+    marketplaceScope: Annotated[SDMarketplaceScope | str, lenient_enum(SDMarketplaceScope)]
     marketplaces: list[
-        SDMarketplace
+        Annotated[SDMarketplace | str, lenient_enum(SDMarketplace)]
     ]  # The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign
     name: str  # The name of the ad group.
     optimization: SDOptimization | None = None
-    state: SDState
+    state: Annotated[SDState | str, lenient_enum(SDState)]
     status: SDStatus | None = None
 
 
@@ -53,13 +55,15 @@ class SDAdGroupAdGroupIdFilter(BaseModel):
 class SDAdGroupAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[SDAdProduct]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
+    include: list[
+        Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
+    ]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
 
 
 class SDAdGroupBid(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    currencyCode: SDCurrencyCode
+    currencyCode: Annotated[SDCurrencyCode | str, lenient_enum(SDCurrencyCode)]
     defaultBid: float | None = (
         None  # The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.
     )
@@ -74,23 +78,23 @@ class SDAdGroupCampaignIdFilter(BaseModel):
 class SDAdGroupCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adProduct: SDAdProduct
+    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
     bid: SDCreateAdGroupBid | None = None
     campaignId: str  # The unique identifier of the campaign the ad group belongs to.
-    creativeType: SDCreativeType | None = None
-    marketplaceScope: SDMarketplaceScope
+    creativeType: Annotated[SDCreativeType | str, lenient_enum(SDCreativeType)] | None = None
+    marketplaceScope: Annotated[SDMarketplaceScope | str, lenient_enum(SDMarketplaceScope)]
     marketplaces: list[
-        SDMarketplace
+        Annotated[SDMarketplace | str, lenient_enum(SDMarketplace)]
     ]  # The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign
     name: str  # The name of the ad group.
     optimization: SDCreateOptimization | None = None
-    state: SDCreateState
+    state: Annotated[SDCreateState | str, lenient_enum(SDCreateState)]
 
 
 class SDAdGroupGoalSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    kpi: SDKPI | None = None
+    kpi: Annotated[SDKPI | str, lenient_enum(SDKPI)] | None = None
 
 
 class SDAdGroupMultiStatusResponse(BaseModel):
@@ -111,7 +115,7 @@ class SDAdGroupNameFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
-    queryTermMatchType: SDAdGroupNameFilterType
+    queryTermMatchType: Annotated[SDAdGroupNameFilterType | str, lenient_enum(SDAdGroupNameFilterType)]
 
 
 class SDAdGroupNameFilterType(StrEnum):
@@ -128,7 +132,7 @@ class SDAdGroupStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SDState
+        Annotated[SDState | str, lenient_enum(SDState)]
     ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
@@ -146,7 +150,7 @@ class SDAdGroupUpdate(BaseModel):
     bid: SDUpdateAdGroupBid | None = None
     name: str | None = None  # The name of the ad group.
     optimization: SDUpdateOptimization | None = None
-    state: SDUpdateState | None = None
+    state: Annotated[SDUpdateState | str, lenient_enum(SDUpdateState)] | None = None
 
 
 class SDCreateAdGroupBid(BaseModel):
@@ -160,7 +164,7 @@ class SDCreateAdGroupBid(BaseModel):
 class SDCreateAdGroupGoalSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    kpi: SDKPI | None = None
+    kpi: Annotated[SDKPI | str, lenient_enum(SDKPI)] | None = None
 
 
 class SDCreateAdGroupRequest(BaseModel):
@@ -254,7 +258,7 @@ class SDUpdateAdGroupBid(BaseModel):
 class SDUpdateAdGroupGoalSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    kpi: SDKPI | None = None
+    kpi: Annotated[SDKPI | str, lenient_enum(SDKPI)] | None = None
 
 
 class SDUpdateAdGroupRequest(BaseModel):

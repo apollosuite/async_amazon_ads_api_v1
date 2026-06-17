@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
@@ -20,18 +22,18 @@ class SBAdExtension(BaseModel):
 
     adExtensionId: str  # A unique identifier for the ad_extension.
     adExtensionSettings: SBAdExtensionSettings
-    adExtensionStatus: SBAdExtensionStatus | None = None
-    adExtensionType: SBAdExtensionType
+    adExtensionStatus: Annotated[SBAdExtensionStatus | str, lenient_enum(SBAdExtensionStatus)] | None = None
+    adExtensionType: Annotated[SBAdExtensionType | str, lenient_enum(SBAdExtensionType)]
     adGroupId: str | None = None  # A unique identifier for the ad group associated with the ad_extension.
     adId: str | None = None  # A unique identifier for the ad associated with the ad_extension.
-    adProduct: SBAdProduct
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
     creationDateTime: datetime  # The date time the ad_extension was created.
     lastUpdatedDateTime: datetime  # The date time the ad_extension was last updated.
-    marketplaceScope: SBMarketplaceScope
+    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)]
     marketplaces: list[
-        SBMarketplace
+        Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]
     ]  # The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad
-    state: SBState
+    state: Annotated[SBState | str, lenient_enum(SBState)]
 
 
 class SBAdExtensionAdExtensionIdFilter(BaseModel):
@@ -44,14 +46,16 @@ class SBAdExtensionAdExtensionStatusFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SBAdExtensionStatus
+        Annotated[SBAdExtensionStatus | str, lenient_enum(SBAdExtensionStatus)]
     ]  # AdExtensionStatus Description `OPTED_OUT` If the advertiser has opted out of this Ad Extension.
 
 
 class SBAdExtensionAdExtensionTypeFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[SBAdExtensionType]  # AdExtensionType Description `PROMPTS` Enables Prompt based Ad Extension.
+    include: list[
+        Annotated[SBAdExtensionType | str, lenient_enum(SBAdExtensionType)]
+    ]  # AdExtensionType Description `PROMPTS` Enables Prompt based Ad Extension.
 
 
 class SBAdExtensionAdGroupIdFilter(BaseModel):
@@ -69,23 +73,25 @@ class SBAdExtensionAdIdFilter(BaseModel):
 class SBAdExtensionAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[SBAdProduct]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
+    include: list[
+        Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
+    ]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBAdExtensionCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adExtensionSettings: SBCreateAdExtensionSettings
-    adExtensionStatus: SBAdExtensionStatus | None = None
-    adExtensionType: SBAdExtensionType
+    adExtensionStatus: Annotated[SBAdExtensionStatus | str, lenient_enum(SBAdExtensionStatus)] | None = None
+    adExtensionType: Annotated[SBAdExtensionType | str, lenient_enum(SBAdExtensionType)]
     adGroupId: str | None = None  # A unique identifier for the ad group associated with the ad_extension.
     adId: str | None = None  # A unique identifier for the ad associated with the ad_extension.
-    adProduct: SBAdProduct
-    marketplaceScope: SBMarketplaceScope
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
+    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)]
     marketplaces: list[
-        SBMarketplace
+        Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]
     ]  # The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad
-    state: SBCreateState
+    state: Annotated[SBCreateState | str, lenient_enum(SBCreateState)]
 
 
 class SBAdExtensionMultiStatusResponse(BaseModel):
@@ -112,7 +118,7 @@ class SBAdExtensionStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SBState
+        Annotated[SBState | str, lenient_enum(SBState)]
     ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
@@ -149,7 +155,7 @@ class SBAdExtensionUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adExtensionId: str  # A unique identifier for the ad_extension.
-    state: SBUpdateState | None = None
+    state: Annotated[SBUpdateState | str, lenient_enum(SBUpdateState)] | None = None
 
 
 class SBCreateAdExtensionRequest(BaseModel):

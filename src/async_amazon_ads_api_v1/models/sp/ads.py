@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
@@ -29,18 +31,18 @@ class SPAd(BaseModel):
 
     adGroupId: str  # The ad group associated with the ad.
     adId: str  # The identifier of the ad.
-    adProduct: SPAdProduct
-    adType: SPAdType
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
+    adType: Annotated[SPAdType | str, lenient_enum(SPAdType)]
     campaignId: str  # The campaign associated with the ad. It's a read-only field.
     creationDateTime: datetime  # The date time that the ad was created.
     creative: SPCreative
     globalAdId: str | None = None  # The global ad identifier that manages this marketplace ad.
     lastUpdatedDateTime: datetime  # The date time that the ad was last updated.
-    marketplaceScope: SPMarketplaceScope
+    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
     marketplaces: list[
-        SPMarketplace
+        Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]
     ]  # The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.
-    state: SPState
+    state: Annotated[SPState | str, lenient_enum(SPState)]
     status: SPStatus | None = None
     tags: list[SPTag] | None = None  # Open ended labels with a key value pair applied to the ad
 
@@ -60,7 +62,9 @@ class SPAdAdIdFilter(BaseModel):
 class SPAdAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[SPAdProduct]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+    include: list[
+        Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
+    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPAdCampaignIdFilter(BaseModel):
@@ -73,10 +77,10 @@ class SPAdCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The ad group associated with the ad.
-    adProduct: SPAdProduct
-    adType: SPAdType
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
+    adType: Annotated[SPAdType | str, lenient_enum(SPAdType)]
     creative: SPCreateCreative
-    state: SPCreateState
+    state: Annotated[SPCreateState | str, lenient_enum(SPCreateState)]
     tags: list[SPCreateTag] | None = None  # Open ended labels with a key value pair applied to the ad
 
 
@@ -98,7 +102,7 @@ class SPAdStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SPState
+        Annotated[SPState | str, lenient_enum(SPState)]
     ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
@@ -123,7 +127,7 @@ class SPAdUpdate(BaseModel):
 
     adId: str  # The identifier of the ad.
     creative: SPUpdateCreative | None = None
-    state: SPUpdateState | None = None
+    state: Annotated[SPUpdateState | str, lenient_enum(SPUpdateState)] | None = None
     tags: list[SPCreateTag] | None = None  # Open ended labels with a key value pair applied to the ad
 
 
@@ -132,11 +136,11 @@ class SPAdvertisedProducts(BaseModel):
 
     globalStoreSetting: SPGlobalStoreSettings | None = None
     productId: str  # The identifier of the advertised product.
-    productIdType: SPProductIdType
+    productIdType: Annotated[SPProductIdType | str, lenient_enum(SPProductIdType)]
     resolvedProductId: str | None = (
         None  # The identifier of product associated with the advertised product. It's a read-only field.
     )
-    resolvedProductIdType: SPProductIdType | None = None
+    resolvedProductIdType: Annotated[SPProductIdType | str, lenient_enum(SPProductIdType)] | None = None
 
 
 class SPCreateAdRequest(BaseModel):
@@ -150,7 +154,7 @@ class SPCreateAdvertisedProducts(BaseModel):
 
     globalStoreSetting: SPCreateGlobalStoreSettings | None = None
     productId: str  # The identifier of the advertised product.
-    productIdType: SPProductIdType
+    productIdType: Annotated[SPProductIdType | str, lenient_enum(SPProductIdType)]
 
 
 class SPCreateCreative(BaseModel):
@@ -162,7 +166,7 @@ class SPCreateCreative(BaseModel):
 class SPCreateGlobalStoreSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    catalogSourceMarketplace: SPMarketplace | None = None
+    catalogSourceMarketplace: Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)] | None = None
 
 
 class SPCreateProductCreative(BaseModel):
@@ -214,7 +218,7 @@ class SPDeleteAdRequest(BaseModel):
 class SPGlobalStoreSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    catalogSourceMarketplace: SPMarketplace | None = None
+    catalogSourceMarketplace: Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)] | None = None
 
 
 class SPProductCreative(BaseModel):

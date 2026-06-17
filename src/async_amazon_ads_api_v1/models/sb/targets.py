@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
@@ -31,9 +33,9 @@ class SBCreateKeywordTarget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     keyword: str  # The customer search term or text to target
-    matchType: SBKeywordMatchType
+    matchType: Annotated[SBKeywordMatchType | str, lenient_enum(SBKeywordMatchType)]
     nativeLanguageKeyword: str | None = None  # The unlocalized keyword text in the preferred locale of the advertiser.
-    nativeLanguageLocale: SBLanguageLocale | None = None
+    nativeLanguageLocale: Annotated[SBLanguageLocale | str, lenient_enum(SBLanguageLocale)] | None = None
 
 
 class SBCreateProductCategoryRefinement(BaseModel):
@@ -74,9 +76,9 @@ class SBCreateProductTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    matchType: SBProductMatchType
+    matchType: Annotated[SBProductMatchType | str, lenient_enum(SBProductMatchType)]
     product: SBCreateProductValue
-    productIdType: SBProductIdType
+    productIdType: Annotated[SBProductIdType | str, lenient_enum(SBProductIdType)]
 
 
 class SBCreateProductValue(BaseModel):
@@ -113,7 +115,7 @@ class SBCreateThemeTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    matchType: SBThemeMatchType
+    matchType: Annotated[SBThemeMatchType | str, lenient_enum(SBThemeMatchType)]
 
 
 class SBDeleteTargetRequest(BaseModel):
@@ -141,9 +143,9 @@ class SBKeywordTarget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     keyword: str  # The customer search term or text to target
-    matchType: SBKeywordMatchType
+    matchType: Annotated[SBKeywordMatchType | str, lenient_enum(SBKeywordMatchType)]
     nativeLanguageKeyword: str | None = None  # The unlocalized keyword text in the preferred locale of the advertiser.
-    nativeLanguageLocale: SBLanguageLocale | None = None
+    nativeLanguageLocale: Annotated[SBLanguageLocale | str, lenient_enum(SBLanguageLocale)] | None = None
 
 
 class SBLanguageLocale(StrEnum):
@@ -222,9 +224,9 @@ class SBProductTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    matchType: SBProductMatchType
+    matchType: Annotated[SBProductMatchType | str, lenient_enum(SBProductMatchType)]
     product: SBProductValue
-    productIdType: SBProductIdType
+    productIdType: Annotated[SBProductIdType | str, lenient_enum(SBProductIdType)]
 
 
 class SBProductValue(BaseModel):
@@ -258,24 +260,24 @@ class SBTarget(BaseModel):
     adGroupId: (
         str  # A unique identifier for the ad group associated with the target. Only used for ad-group level targets.
     )
-    adProduct: SBAdProduct
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
     bid: SBTargetBid | None = None
     campaignId: str | None = (
         None  # A unique identifier for the campaign associated with the target. Only used for campaign-level targets.
     )
     creationDateTime: datetime  # The date time the target was created.
     lastUpdatedDateTime: datetime  # The date time the target was last updated.
-    marketplaceScope: SBMarketplaceScope
+    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)]
     marketplaces: list[
-        SBMarketplace
+        Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]
     ]  # The list of marketplace in which the global target is applicable. The marketplaces included should either be same as or subset of parent campaign/ad group
     negative: bool  # Indicates whether the target is negative or not.
-    state: SBState
+    state: Annotated[SBState | str, lenient_enum(SBState)]
     status: SBStatus | None = None
     targetDetails: SBTargetDetails
     targetId: str  # A unique identifier for the target.
-    targetLevel: SBTargetLevel
-    targetType: SBTargetType
+    targetLevel: Annotated[SBTargetLevel | str, lenient_enum(SBTargetLevel)]
+    targetType: Annotated[SBTargetType | str, lenient_enum(SBTargetType)]
 
 
 class SBTargetAdGroupIdFilter(BaseModel):
@@ -287,14 +289,16 @@ class SBTargetAdGroupIdFilter(BaseModel):
 class SBTargetAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[SBAdProduct]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
+    include: list[
+        Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
+    ]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBTargetBid(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     bid: float  # The maximum bid for a target.
-    currencyCode: SBCurrencyCode
+    currencyCode: Annotated[SBCurrencyCode | str, lenient_enum(SBCurrencyCode)]
 
 
 class SBTargetCampaignIdFilter(BaseModel):
@@ -309,15 +313,15 @@ class SBTargetCreate(BaseModel):
     adGroupId: (
         str  # A unique identifier for the ad group associated with the target. Only used for ad-group level targets.
     )
-    adProduct: SBAdProduct
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
     bid: SBCreateTargetBid | None = None
     campaignId: str | None = (
         None  # A unique identifier for the campaign associated with the target. Only used for campaign-level targets.
     )
     negative: bool  # Indicates whether the target is negative or not.
-    state: SBCreateState
+    state: Annotated[SBCreateState | str, lenient_enum(SBCreateState)]
     targetDetails: SBCreateTargetDetails
-    targetType: SBTargetType
+    targetType: Annotated[SBTargetType | str, lenient_enum(SBTargetType)]
 
 
 class SBTargetDetails(BaseModel):
@@ -333,7 +337,7 @@ class SBTargetKeywordFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
-    queryTermMatchType: SBTargetKeywordFilterType
+    queryTermMatchType: Annotated[SBTargetKeywordFilterType | str, lenient_enum(SBTargetKeywordFilterType)]
 
 
 class SBTargetKeywordFilterType(StrEnum):
@@ -349,7 +353,9 @@ class SBTargetKeywordFilterType(StrEnum):
 class SBTargetLanguageLocaleFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[SBLanguageLocale]  # NativeLanguageLocale Description `zh_CN` Chinese (China).
+    include: list[
+        Annotated[SBLanguageLocale | str, lenient_enum(SBLanguageLocale)]
+    ]  # NativeLanguageLocale Description `zh_CN` Chinese (China).
 
 
 class SBTargetLevel(StrEnum):
@@ -365,7 +371,7 @@ class SBTargetMatchTypeFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SBMatchType
+        Annotated[SBMatchType | str, lenient_enum(SBMatchType)]
     ]  # MatchType Description `KEYWORDS_RELATED_TO_YOUR_LANDING_PAGES` Search terms related to your landing pages. `PHRASE` Phrase match search terms. This expands matching on user intent beyond EXACT. `BROAD` Broad match search terms. This expands matching on user intent beyond PHRASE. `EXACT` Exact match search terms. `KEYWORDS_RELATED_TO_YOUR_BRAND` Search terms related to your brand. `PRODUCT_EXACT` Products exactly matching the specified product.
 
 
@@ -393,7 +399,7 @@ class SBTargetStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SBState
+        Annotated[SBState | str, lenient_enum(SBState)]
     ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
@@ -414,7 +420,7 @@ class SBTargetTargetTypeFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SBTargetType
+        Annotated[SBTargetType | str, lenient_enum(SBTargetType)]
     ]  # TargetType Description `KEYWORD` Target based on customer search terms. `PRODUCT` Target based on a specific product. `PRODUCT_CATEGORY` Target based on a product category. `THEME` Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
 
 
@@ -437,7 +443,7 @@ class SBTargetUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     bid: SBUpdateTargetBid | None = None
-    state: SBUpdateState | None = None
+    state: Annotated[SBUpdateState | str, lenient_enum(SBUpdateState)] | None = None
     targetId: str  # A unique identifier for the target.
 
 
@@ -457,7 +463,7 @@ class SBThemeTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    matchType: SBThemeMatchType
+    matchType: Annotated[SBThemeMatchType | str, lenient_enum(SBThemeMatchType)]
 
 
 class SBUpdateTargetBid(BaseModel):

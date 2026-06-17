@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
@@ -31,9 +33,9 @@ class SPCreateKeywordTarget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     keyword: str  # The customer search term or text to target
-    matchType: SPKeywordMatchType
+    matchType: Annotated[SPKeywordMatchType | str, lenient_enum(SPKeywordMatchType)]
     nativeLanguageKeyword: str | None = None  # The unlocalized keyword text in the preferred locale of the advertiser.
-    nativeLanguageLocale: SPLanguageLocale | None = None
+    nativeLanguageLocale: Annotated[SPLanguageLocale | str, lenient_enum(SPLanguageLocale)] | None = None
 
 
 class SPCreateLocationTarget(BaseModel):
@@ -85,9 +87,9 @@ class SPCreateProductTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    matchType: SPProductMatchType
+    matchType: Annotated[SPProductMatchType | str, lenient_enum(SPProductMatchType)]
     product: SPCreateProductValue
-    productIdType: SPProductIdType
+    productIdType: Annotated[SPProductIdType | str, lenient_enum(SPProductIdType)]
 
 
 class SPCreateProductValue(BaseModel):
@@ -125,7 +127,7 @@ class SPCreateThemeTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    matchType: SPThemeMatchType
+    matchType: Annotated[SPThemeMatchType | str, lenient_enum(SPThemeMatchType)]
 
 
 class SPDeleteTargetRequest(BaseModel):
@@ -153,9 +155,9 @@ class SPKeywordTarget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     keyword: str  # The customer search term or text to target
-    matchType: SPKeywordMatchType
+    matchType: Annotated[SPKeywordMatchType | str, lenient_enum(SPKeywordMatchType)]
     nativeLanguageKeyword: str | None = None  # The unlocalized keyword text in the preferred locale of the advertiser.
-    nativeLanguageLocale: SPLanguageLocale | None = None
+    nativeLanguageLocale: Annotated[SPLanguageLocale | str, lenient_enum(SPLanguageLocale)] | None = None
 
 
 class SPLanguageLocale(StrEnum):
@@ -268,9 +270,9 @@ class SPProductTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    matchType: SPProductMatchType
+    matchType: Annotated[SPProductMatchType | str, lenient_enum(SPProductMatchType)]
     product: SPProductValue
-    productIdType: SPProductIdType
+    productIdType: Annotated[SPProductIdType | str, lenient_enum(SPProductIdType)]
 
 
 class SPProductValue(BaseModel):
@@ -304,7 +306,7 @@ class SPTarget(BaseModel):
     adGroupId: str | None = (
         None  # A unique identifier for the ad group associated with the target. Only used for ad-group level targets.
     )
-    adProduct: SPAdProduct
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
     bid: SPTargetBid | None = None
     campaignId: str | None = (
         None  # A unique identifier for the campaign associated with the target. Only used for campaign-level targets.
@@ -312,18 +314,18 @@ class SPTarget(BaseModel):
     creationDateTime: datetime  # The date time the target was created.
     globalTargetId: str | None = None  # The global target identifier that manages this marketplace target.
     lastUpdatedDateTime: datetime  # The date time the target was last updated.
-    marketplaceScope: SPMarketplaceScope
+    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
     marketplaces: list[
-        SPMarketplace
+        Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]
     ]  # The list of marketplace in which the global target is applicable. The marketplaces included should either be same as or subset of parent campaign/ad group
     negative: bool  # Indicates whether the target is negative or not.
-    state: SPState
+    state: Annotated[SPState | str, lenient_enum(SPState)]
     status: SPStatus | None = None
     tags: list[SPTag] | None = None  # Open ended labels with a key value pair applied to the target
     targetDetails: SPTargetDetails
     targetId: str  # A unique identifier for the target.
-    targetLevel: SPTargetLevel
-    targetType: SPTargetType
+    targetLevel: Annotated[SPTargetLevel | str, lenient_enum(SPTargetLevel)]
+    targetType: Annotated[SPTargetType | str, lenient_enum(SPTargetType)]
 
 
 class SPTargetAdGroupIdFilter(BaseModel):
@@ -335,14 +337,16 @@ class SPTargetAdGroupIdFilter(BaseModel):
 class SPTargetAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[SPAdProduct]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+    include: list[
+        Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
+    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPTargetBid(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     bid: float | None = None  # The maximum bid for a target.
-    currencyCode: SPCurrencyCode
+    currencyCode: Annotated[SPCurrencyCode | str, lenient_enum(SPCurrencyCode)]
 
 
 class SPTargetCampaignIdFilter(BaseModel):
@@ -357,16 +361,16 @@ class SPTargetCreate(BaseModel):
     adGroupId: str | None = (
         None  # A unique identifier for the ad group associated with the target. Only used for ad-group level targets.
     )
-    adProduct: SPAdProduct
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
     bid: SPCreateTargetBid | None = None
     campaignId: str | None = (
         None  # A unique identifier for the campaign associated with the target. Only used for campaign-level targets.
     )
     negative: bool  # Indicates whether the target is negative or not.
-    state: SPCreateState
+    state: Annotated[SPCreateState | str, lenient_enum(SPCreateState)]
     tags: list[SPCreateTag] | None = None  # Open ended labels with a key value pair applied to the target
     targetDetails: SPCreateTargetDetails
-    targetType: SPTargetType
+    targetType: Annotated[SPTargetType | str, lenient_enum(SPTargetType)]
 
 
 class SPTargetDetails(BaseModel):
@@ -383,7 +387,7 @@ class SPTargetKeywordFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
-    queryTermMatchType: SPTargetKeywordFilterType
+    queryTermMatchType: Annotated[SPTargetKeywordFilterType | str, lenient_enum(SPTargetKeywordFilterType)]
 
 
 class SPTargetKeywordFilterType(StrEnum):
@@ -411,7 +415,7 @@ class SPTargetMatchTypeFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SPMatchType
+        Annotated[SPMatchType | str, lenient_enum(SPMatchType)]
     ]  # MatchType Description `KEYWORDS_RELATED_TO_GIFTS` Search terms related to gifts. `KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY` Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically. `PRODUCT_SIMILAR` Products similar to the specified product. `BROAD` Broad match search terms. This expands matching on user intent beyond PHRASE. `EXACT` Exact match search terms. `KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY` Search terms shoppers often use to search for products in the same category as the products you're advertising. `KEYWORDS_RELATED_TO_YOUR_BRAND` Search terms related to your brand. `PRODUCT_SUBSTITUTES` Products that can be substituted for advertised product. `KEYWORDS_LOOSE_MATCH` Search terms loosely matching advertised product. `PHRASE` Phrase match search terms. This expands matching on user intent beyond EXACT. `KEYWORDS_CLOSE_MATCH` Search terms closely matching advertised product. `PRODUCT_COMPLEMENTS` Products that complement advertised product. `PRODUCT_EXACT` Products exactly matching the specified product. `KEYWORDS_RELATED_TO_PRIME_DAY` Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like "prime day", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day.
 
 
@@ -439,7 +443,7 @@ class SPTargetProductIdFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
-    queryTermMatchType: SPTargetProductIdFilterType
+    queryTermMatchType: Annotated[SPTargetProductIdFilterType | str, lenient_enum(SPTargetProductIdFilterType)]
 
 
 class SPTargetProductIdFilterType(StrEnum):
@@ -456,7 +460,7 @@ class SPTargetStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SPState
+        Annotated[SPState | str, lenient_enum(SPState)]
     ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
@@ -477,7 +481,7 @@ class SPTargetTargetTypeFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SPTargetType
+        Annotated[SPTargetType | str, lenient_enum(SPTargetType)]
     ]  # TargetType Description `KEYWORD` Target based on customer search terms. `PRODUCT` Target based on a specific product. `PRODUCT_CATEGORY` Target based on a product category. `LOCATION` Target based on geographic location. `THEME` Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
 
 
@@ -502,7 +506,7 @@ class SPTargetUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     bid: SPUpdateTargetBid | None = None
-    state: SPUpdateState | None = None
+    state: Annotated[SPUpdateState | str, lenient_enum(SPUpdateState)] | None = None
     tags: list[SPCreateTag] | None = None  # Open ended labels with a key value pair applied to the target
     targetId: str  # A unique identifier for the target.
 
@@ -537,7 +541,7 @@ class SPThemeTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    matchType: SPThemeMatchType
+    matchType: Annotated[SPThemeMatchType | str, lenient_enum(SPThemeMatchType)]
 
 
 class SPUpdateTargetBid(BaseModel):

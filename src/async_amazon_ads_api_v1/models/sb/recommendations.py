@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
@@ -29,7 +31,7 @@ class SBBrandAlternateId(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     alternateBrandId: str  # The alternative brand identifier for the brandId.
-    alternateBrandIdType: SBAlternateBrandIdType
+    alternateBrandIdType: Annotated[SBAlternateBrandIdType | str, lenient_enum(SBAlternateBrandIdType)]
 
 
 class SBBrandedKeyword(BaseModel):
@@ -61,7 +63,7 @@ class SBCreateBrandAlternateId(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     alternateBrandId: str  # The alternative brand identifier for the brandId.
-    alternateBrandIdType: SBAlternateBrandIdType
+    alternateBrandIdType: Annotated[SBAlternateBrandIdType | str, lenient_enum(SBAlternateBrandIdType)]
 
 
 class SBCreateBrandedKeywordRecommendationTypeDetails(BaseModel):

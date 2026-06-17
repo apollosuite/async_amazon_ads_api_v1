@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
@@ -28,19 +30,19 @@ class SPAdGroup(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The unique identifier of the ad group.
-    adProduct: SPAdProduct
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
     adSettings: SPAdSettings | None = None
     bid: SPAdGroupBid
     campaignId: str  # The unique identifier of the campaign the ad group belongs to.
     creationDateTime: datetime  # The date time that the ad group was created.
     globalAdGroupId: str | None = None  # The global adGroup identifier that manages this marketplace adGroup.
     lastUpdatedDateTime: datetime  # The date time that the ad group was last updated.
-    marketplaceScope: SPMarketplaceScope
+    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
     marketplaces: list[
-        SPMarketplace
+        Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]
     ]  # The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign
     name: str  # The name of the ad group.
-    state: SPState
+    state: Annotated[SPState | str, lenient_enum(SPState)]
     status: SPStatus | None = None
     tags: list[SPTag] | None = None  # Open ended labels with a key value pair applied to the ad group
 
@@ -54,13 +56,15 @@ class SPAdGroupAdGroupIdFilter(BaseModel):
 class SPAdGroupAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[SPAdProduct]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+    include: list[
+        Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
+    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPAdGroupBid(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    currencyCode: SPCurrencyCode
+    currencyCode: Annotated[SPCurrencyCode | str, lenient_enum(SPCurrencyCode)]
     defaultBid: float  # The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.
 
 
@@ -73,12 +77,12 @@ class SPAdGroupCampaignIdFilter(BaseModel):
 class SPAdGroupCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adProduct: SPAdProduct
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
     adSettings: SPCreateAdSettings | None = None
     bid: SPCreateAdGroupBid
     campaignId: str  # The unique identifier of the campaign the ad group belongs to.
     name: str  # The name of the ad group.
-    state: SPCreateState
+    state: Annotated[SPCreateState | str, lenient_enum(SPCreateState)]
     tags: list[SPCreateTag] | None = None  # Open ended labels with a key value pair applied to the ad group
 
 
@@ -100,7 +104,7 @@ class SPAdGroupNameFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
-    queryTermMatchType: SPAdGroupNameFilterType
+    queryTermMatchType: Annotated[SPAdGroupNameFilterType | str, lenient_enum(SPAdGroupNameFilterType)]
 
 
 class SPAdGroupNameFilterType(StrEnum):
@@ -117,7 +121,7 @@ class SPAdGroupStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SPState
+        Annotated[SPState | str, lenient_enum(SPState)]
     ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
@@ -135,7 +139,7 @@ class SPAdGroupUpdate(BaseModel):
     adSettings: SPUpdateAdSettings | None = None
     bid: SPUpdateAdGroupBid | None = None
     name: str | None = None  # The name of the ad group.
-    state: SPUpdateState | None = None
+    state: Annotated[SPUpdateState | str, lenient_enum(SPUpdateState)] | None = None
     tags: list[SPCreateTag] | None = None  # Open ended labels with a key value pair applied to the ad group
 
 

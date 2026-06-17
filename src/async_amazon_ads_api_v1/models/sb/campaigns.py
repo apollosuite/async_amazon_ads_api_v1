@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
@@ -55,7 +57,7 @@ class SBBidSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     bidAdjustments: SBBidAdjustments | None = None
-    bidStrategy: SBBidStrategy | None = None
+    bidStrategy: Annotated[SBBidStrategy | str, lenient_enum(SBBidStrategy)] | None = None
 
 
 class SBBidStrategy(StrEnum):
@@ -72,9 +74,9 @@ class SBBidStrategy(StrEnum):
 class SBBudget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    budgetType: SBBudgetType
+    budgetType: Annotated[SBBudgetType | str, lenient_enum(SBBudgetType)]
     budgetValue: SBBudgetValue
-    recurrenceTimePeriod: SBRecurrence
+    recurrenceTimePeriod: Annotated[SBRecurrence | str, lenient_enum(SBRecurrence)]
 
 
 class SBBudgetType(StrEnum):
@@ -95,32 +97,34 @@ class SBBudgetValue(BaseModel):
 class SBCampaign(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adProduct: SBAdProduct
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
     autoCreationSettings: SBAutoCreationSettings | None = None
     brandId: str | None = None  # This is the ID of the brand that the campaign is associated with.
     budgets: list[
         SBBudget
     ]  # The object containing budget details for the campaign (for campaigns that support multiple budgets).
     campaignId: str  # A unique identifier for a campaign.
-    costType: SBCostType
-    countries: list[SBCountryCode] | None = (
+    costType: Annotated[SBCostType | str, lenient_enum(SBCostType)]
+    countries: list[Annotated[SBCountryCode | str, lenient_enum(SBCountryCode)]] | None = (
         None  # This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.
     )
     creationDateTime: datetime  # The date time that the campaign was created.
     endDateTime: datetime | None = None  # The end date time for the campaign.
     isMultiAdGroupsEnabled: bool  # A read-only field that indicates whether a campaign supports multiple adGroups.
     lastUpdatedDateTime: datetime  # The date time that the campaign was last updated.
-    marketplaceScope: SBMarketplaceScope
-    marketplaces: list[SBMarketplace] | None = (
+    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)]
+    marketplaces: list[Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]] | None = (
         None  # This represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. ADSP campaigns can be created by specifying either countries or marketplaces, but at least one of these attributes must be provided. In ADSP, this field acts as an implicit filter on your inventory targets. For example, if you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties.
     )
     name: str  # The name of the campaign.
     optimizations: SBCampaignOptimizations | None = None
     portfolioId: str | None = None  # The ID of the portfolio associated with the campaign.
-    salesChannel: SBSalesChannel | None = None
-    siteRestrictions: list[SBSiteRestriction] | None = None  # Restrict the ad to a particular site
+    salesChannel: Annotated[SBSalesChannel | str, lenient_enum(SBSalesChannel)] | None = None
+    siteRestrictions: list[Annotated[SBSiteRestriction | str, lenient_enum(SBSiteRestriction)]] | None = (
+        None  # Restrict the ad to a particular site
+    )
     startDateTime: datetime  # The start date time for the campaign.
-    state: SBState
+    state: Annotated[SBState | str, lenient_enum(SBState)]
     status: SBStatus | None = None
     tags: list[SBTag] | None = None  # Open ended labels with a key value pair applied to the campaign
     targetedPGDealId: str | None = None  # DealId associated with the campaign.
@@ -129,7 +133,9 @@ class SBCampaign(BaseModel):
 class SBCampaignAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[SBAdProduct]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
+    include: list[
+        Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
+    ]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBCampaignCampaignIdFilter(BaseModel):
@@ -141,28 +147,30 @@ class SBCampaignCampaignIdFilter(BaseModel):
 class SBCampaignCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adProduct: SBAdProduct
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
     autoCreationSettings: SBCreateAutoCreationSettings | None = None
     brandId: str | None = None  # This is the ID of the brand that the campaign is associated with.
     budgets: list[
         SBCreateBudget
     ]  # The object containing budget details for the campaign (for campaigns that support multiple budgets).
-    costType: SBCostType
-    countries: list[SBCountryCode] | None = (
+    costType: Annotated[SBCostType | str, lenient_enum(SBCostType)]
+    countries: list[Annotated[SBCountryCode | str, lenient_enum(SBCountryCode)]] | None = (
         None  # This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.
     )
     endDateTime: datetime | None = None  # The end date time for the campaign.
-    marketplaceScope: SBMarketplaceScope
-    marketplaces: list[SBMarketplace] | None = (
+    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)]
+    marketplaces: list[Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]] | None = (
         None  # This represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. ADSP campaigns can be created by specifying either countries or marketplaces, but at least one of these attributes must be provided. In ADSP, this field acts as an implicit filter on your inventory targets. For example, if you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties.
     )
     name: str  # The name of the campaign.
     optimizations: SBCreateCampaignOptimizations | None = None
     portfolioId: str | None = None  # The ID of the portfolio associated with the campaign.
-    salesChannel: SBSalesChannel | None = None
-    siteRestrictions: list[SBSiteRestriction] | None = None  # Restrict the ad to a particular site
+    salesChannel: Annotated[SBSalesChannel | str, lenient_enum(SBSalesChannel)] | None = None
+    siteRestrictions: list[Annotated[SBSiteRestriction | str, lenient_enum(SBSiteRestriction)]] | None = (
+        None  # Restrict the ad to a particular site
+    )
     startDateTime: datetime  # The start date time for the campaign.
-    state: SBCreateState
+    state: Annotated[SBCreateState | str, lenient_enum(SBCreateState)]
     tags: list[SBCreateTag] | None = None  # Open ended labels with a key value pair applied to the campaign
     targetedPGDealId: str | None = None  # DealId associated with the campaign.
 
@@ -171,7 +179,7 @@ class SBCampaignGoalFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SBGoal
+        Annotated[SBGoal | str, lenient_enum(SBGoal)]
     ]  # Goal Description `AWARENESS` Indicates a goal of driving awareness. `CONSIDERATION` Indicates a goal of driving consideration. `CONVERSIONS` Indicates a goal of driving conversions.
 
 
@@ -193,7 +201,7 @@ class SBCampaignNameFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
-    queryTermMatchType: SBCampaignNameFilterType
+    queryTermMatchType: Annotated[SBCampaignNameFilterType | str, lenient_enum(SBCampaignNameFilterType)]
 
 
 class SBCampaignNameFilterType(StrEnum):
@@ -223,7 +231,7 @@ class SBCampaignStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SBState
+        Annotated[SBState | str, lenient_enum(SBState)]
     ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
@@ -246,7 +254,7 @@ class SBCampaignUpdate(BaseModel):
     optimizations: SBUpdateCampaignOptimizations | None = None
     portfolioId: str | None = None  # The ID of the portfolio associated with the campaign.
     startDateTime: datetime | None = None  # The start date time for the campaign.
-    state: SBUpdateState | None = None
+    state: Annotated[SBUpdateState | str, lenient_enum(SBUpdateState)] | None = None
     tags: list[SBCreateTag] | None = None  # Open ended labels with a key value pair applied to the campaign
     targetedPGDealId: str | None = None  # DealId associated with the campaign.
 
@@ -352,15 +360,15 @@ class SBCreateBidSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     bidAdjustments: SBCreateBidAdjustments | None = None
-    bidStrategy: SBBidStrategy | None = None
+    bidStrategy: Annotated[SBBidStrategy | str, lenient_enum(SBBidStrategy)] | None = None
 
 
 class SBCreateBudget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    budgetType: SBBudgetType
+    budgetType: Annotated[SBBudgetType | str, lenient_enum(SBBudgetType)]
     budgetValue: SBCreateBudgetValue
-    recurrenceTimePeriod: SBRecurrence
+    recurrenceTimePeriod: Annotated[SBRecurrence | str, lenient_enum(SBRecurrence)]
 
 
 class SBCreateBudgetValue(BaseModel):
@@ -385,7 +393,7 @@ class SBCreateCampaignRequest(BaseModel):
 class SBCreateGoalSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    kpi: SBKPI
+    kpi: Annotated[SBKPI | str, lenient_enum(SBKPI)]
 
 
 class SBCreateMonetaryBudget(BaseModel):
@@ -406,7 +414,7 @@ class SBCreatePlacementBidAdjustment(BaseModel):
     percentage: (
         int  # The selection of the percentage change associated with a given placement and bid adjustment settings.
     )
-    placement: SBPlacement
+    placement: Annotated[SBPlacement | str, lenient_enum(SBPlacement)]
 
 
 class SBCreateShopperSegmentBidAdjustment(BaseModel):
@@ -435,8 +443,8 @@ class SBGoal(StrEnum):
 class SBGoalSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    goal: SBGoal
-    kpi: SBKPI
+    goal: Annotated[SBGoal | str, lenient_enum(SBGoal)]
+    kpi: Annotated[SBKPI | str, lenient_enum(SBKPI)]
 
 
 class SBKPI(StrEnum):
@@ -453,7 +461,7 @@ class SBKPI(StrEnum):
 class SBMonetaryBudget(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    currencyCode: SBCurrencyCode
+    currencyCode: Annotated[SBCurrencyCode | str, lenient_enum(SBCurrencyCode)]
     ruleValue: float | None = None  # The monetary amount of the budget when a budget rule is applied.
     value: float  # The monetary amount of the budget cap in the given currency.
 
@@ -485,7 +493,7 @@ class SBPlacementBidAdjustment(BaseModel):
     percentage: (
         int  # The selection of the percentage change associated with a given placement and bid adjustment settings.
     )
-    placement: SBPlacement
+    placement: Annotated[SBPlacement | str, lenient_enum(SBPlacement)]
 
 
 class SBQueryCampaignRequest(BaseModel):
@@ -536,7 +544,7 @@ class SBShopperSegmentBidAdjustment(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     percentage: int  # The selection of the percentage change associated with a given shopper segment and bid adjustment settings.
-    shopperSegment: SBShopperSegment
+    shopperSegment: Annotated[SBShopperSegment | str, lenient_enum(SBShopperSegment)]
 
 
 class SBSiteRestriction(StrEnum):
@@ -564,7 +572,7 @@ class SBUpdateBidSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     bidAdjustments: SBUpdateBidAdjustments | None = None
-    bidStrategy: SBBidStrategy | None = None
+    bidStrategy: Annotated[SBBidStrategy | str, lenient_enum(SBBidStrategy)] | None = None
 
 
 class SBUpdateCampaignOptimizations(BaseModel):

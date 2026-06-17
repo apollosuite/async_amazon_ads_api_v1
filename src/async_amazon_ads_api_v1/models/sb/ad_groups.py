@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
+
+from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
     from async_amazon_ads_api_v1.errors import ErrorsIndex
@@ -20,16 +22,16 @@ class SBAdGroup(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     adGroupId: str  # The unique identifier of the ad group.
-    adProduct: SBAdProduct
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
     campaignId: str  # The unique identifier of the campaign the ad group belongs to.
     creationDateTime: datetime  # The date time that the ad group was created.
     lastUpdatedDateTime: datetime  # The date time that the ad group was last updated.
-    marketplaceScope: SBMarketplaceScope
+    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)]
     marketplaces: list[
-        SBMarketplace
+        Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]
     ]  # The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign
     name: str  # The name of the ad group.
-    state: SBState
+    state: Annotated[SBState | str, lenient_enum(SBState)]
     status: SBStatus | None = None
     tags: list[SBTag] | None = None  # Open ended labels with a key value pair applied to the ad group
 
@@ -43,7 +45,9 @@ class SBAdGroupAdGroupIdFilter(BaseModel):
 class SBAdGroupAdProductFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[SBAdProduct]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
+    include: list[
+        Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
+    ]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBAdGroupCampaignIdFilter(BaseModel):
@@ -55,10 +59,10 @@ class SBAdGroupCampaignIdFilter(BaseModel):
 class SBAdGroupCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adProduct: SBAdProduct
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
     campaignId: str  # The unique identifier of the campaign the ad group belongs to.
     name: str  # The name of the ad group.
-    state: SBCreateState
+    state: Annotated[SBCreateState | str, lenient_enum(SBCreateState)]
     tags: list[SBCreateTag] | None = None  # Open ended labels with a key value pair applied to the ad group
 
 
@@ -80,7 +84,7 @@ class SBAdGroupNameFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[str]
-    queryTermMatchType: SBAdGroupNameFilterType
+    queryTermMatchType: Annotated[SBAdGroupNameFilterType | str, lenient_enum(SBAdGroupNameFilterType)]
 
 
 class SBAdGroupNameFilterType(StrEnum):
@@ -97,7 +101,7 @@ class SBAdGroupStateFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     include: list[
-        SBState
+        Annotated[SBState | str, lenient_enum(SBState)]
     ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
@@ -113,7 +117,7 @@ class SBAdGroupUpdate(BaseModel):
 
     adGroupId: str  # The unique identifier of the ad group.
     name: str | None = None  # The name of the ad group.
-    state: SBUpdateState | None = None
+    state: Annotated[SBUpdateState | str, lenient_enum(SBUpdateState)] | None = None
     tags: list[SBCreateTag] | None = None  # Open ended labels with a key value pair applied to the ad group
 
 
