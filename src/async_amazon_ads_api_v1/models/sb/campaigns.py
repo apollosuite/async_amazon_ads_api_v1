@@ -47,7 +47,9 @@ class SBBidAdjustments(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     audienceBidAdjustments: list[SBAudienceBidAdjustment] | None = None  # Bid Adjustments based on the audiences
-    placementBidAdjustments: list[SBPlacementBidAdjustment] | None = None  # Bid adjustments based on ad placements.
+    placementBidAdjustments: list[SBPlacementBidAdjustment] | None = (
+        None  # Bid adjustments based on ad placements. Not supported for Sponsored Brands campaigns using the SALES_UP_AND_DOWN bid strategy.
+    )
     shopperSegmentBidAdjustments: list[SBShopperSegmentBidAdjustment] | None = (
         None  # Legacy SB field (marked for deprecation)
     )
@@ -349,7 +351,7 @@ class SBCreateBidAdjustments(BaseModel):
 
     audienceBidAdjustments: list[SBCreateAudienceBidAdjustment] | None = None  # Bid Adjustments based on the audiences
     placementBidAdjustments: list[SBCreatePlacementBidAdjustment] | None = (
-        None  # Bid adjustments based on ad placements.
+        None  # Bid adjustments based on ad placements. Not supported for Sponsored Brands campaigns using the SALES_UP_AND_DOWN bid strategy.
     )
     shopperSegmentBidAdjustments: list[SBCreateShopperSegmentBidAdjustment] | None = (
         None  # Legacy SB field (marked for deprecation)
@@ -561,7 +563,7 @@ class SBUpdateBidAdjustments(BaseModel):
 
     audienceBidAdjustments: list[SBCreateAudienceBidAdjustment] | None = None  # Bid Adjustments based on the audiences
     placementBidAdjustments: list[SBCreatePlacementBidAdjustment] | None = (
-        None  # Bid adjustments based on ad placements.
+        None  # Bid adjustments based on ad placements. Not supported for Sponsored Brands campaigns using the SALES_UP_AND_DOWN bid strategy.
     )
     shopperSegmentBidAdjustments: list[SBCreateShopperSegmentBidAdjustment] | None = (
         None  # Legacy SB field (marked for deprecation)

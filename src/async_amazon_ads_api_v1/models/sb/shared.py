@@ -25,7 +25,7 @@ class SBAdvertisingDealPrice(BaseModel):
 class SBCreateTag(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    key: str  # A custom key value pair entered by the advertiser.
+    key: str  # A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI.
     value: str  # A custom key value pair entered by the advertiser.
 
 
@@ -165,7 +165,7 @@ class SBStatus(BaseModel):
 class SBTag(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    key: str  # A custom key value pair entered by the advertiser.
+    key: str  # A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI.
     value: str  # A custom key value pair entered by the advertiser.
 
 

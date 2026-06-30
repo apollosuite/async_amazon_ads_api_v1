@@ -60,7 +60,9 @@ class SPBidAdjustments(BaseModel):
     creativeBidAdjustments: list[SPCreativeBidAdjustment] | None = (
         None  # Bid Adjustments based on ads being shown as a creative. Range of bid adjustment value would be 0:900
     )
-    placementBidAdjustments: list[SPPlacementBidAdjustment] | None = None  # Bid adjustments based on ad placements.
+    placementBidAdjustments: list[SPPlacementBidAdjustment] | None = (
+        None  # Bid adjustments based on ad placements. Not supported for Sponsored Brands campaigns using the SALES_UP_AND_DOWN bid strategy.
+    )
 
 
 class SPBidSettings(BaseModel):
@@ -350,7 +352,7 @@ class SPCreateBidAdjustments(BaseModel):
         None  # Bid Adjustments based on ads being shown as a creative. Range of bid adjustment value would be 0:900
     )
     placementBidAdjustments: list[SPCreatePlacementBidAdjustment] | None = (
-        None  # Bid adjustments based on ad placements.
+        None  # Bid adjustments based on ad placements. Not supported for Sponsored Brands campaigns using the SALES_UP_AND_DOWN bid strategy.
     )
 
 
@@ -550,7 +552,7 @@ class SPUpdateBidAdjustments(BaseModel):
         None  # Bid Adjustments based on ads being shown as a creative. Range of bid adjustment value would be 0:900
     )
     placementBidAdjustments: list[SPCreatePlacementBidAdjustment] | None = (
-        None  # Bid adjustments based on ad placements.
+        None  # Bid adjustments based on ad placements. Not supported for Sponsored Brands campaigns using the SALES_UP_AND_DOWN bid strategy.
     )
 
 

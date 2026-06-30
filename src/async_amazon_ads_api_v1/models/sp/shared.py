@@ -13,7 +13,7 @@ from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 class SPCreateTag(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    key: str  # A custom key value pair entered by the advertiser.
+    key: str  # A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI.
     value: str  # A custom key value pair entered by the advertiser.
 
 
@@ -209,7 +209,7 @@ class SPStatus(BaseModel):
 class SPTag(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    key: str  # A custom key value pair entered by the advertiser.
+    key: str  # A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI.
     value: str  # A custom key value pair entered by the advertiser.
 
 

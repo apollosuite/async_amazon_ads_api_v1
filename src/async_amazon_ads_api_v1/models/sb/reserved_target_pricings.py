@@ -14,7 +14,7 @@ del TYPE_CHECKING
 class SBCreateReservedTargetPricingRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    reservedTargetPricings: list[SBReservedTargetPricingCreate] | None = None
+    reservedTargetPricings: list[SBReservedTargetPricingCreate]
 
 
 class SBReservedTargetPricing(BaseModel):
