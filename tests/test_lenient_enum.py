@@ -51,16 +51,12 @@ class TestLenientEnumFunction:
             SampleProductAnnotated(name="T恤", color="YELLOW", size="XXL")
 
     def test_invalid_json_string_passes_through(self) -> None:
-        p = SampleProductAnnotated.model_validate_json(
-            json.dumps({"name": "T恤", "color": "YELLOW", "size": "XXL"})
-        )
+        p = SampleProductAnnotated.model_validate_json(json.dumps({"name": "T恤", "color": "YELLOW", "size": "XXL"}))
         assert p.color == "YELLOW"
         assert p.size == "XXL"
 
     def test_valid_json_string_converts_to_enum(self) -> None:
-        p = SampleProductAnnotated.model_validate_json(
-            json.dumps({"name": "T恤", "color": "RED", "size": "M"})
-        )
+        p = SampleProductAnnotated.model_validate_json(json.dumps({"name": "T恤", "color": "RED", "size": "M"}))
         assert p.color == Color.RED
         assert p.size == Size.M
 
@@ -71,9 +67,7 @@ class TestGeneratedSDModels:
         assert f.queryTermMatchType == SDCampaignNameFilterType.BROAD_MATCH
 
     def test_valid_enum_instance_field(self) -> None:
-        f = SDCampaignNameFilter(
-            include=["abc"], queryTermMatchType=SDCampaignNameFilterType.EXACT_MATCH
-        )
+        f = SDCampaignNameFilter(include=["abc"], queryTermMatchType=SDCampaignNameFilterType.EXACT_MATCH)
         assert f.queryTermMatchType == SDCampaignNameFilterType.EXACT_MATCH
 
     def test_invalid_enum_field_raises(self) -> None:

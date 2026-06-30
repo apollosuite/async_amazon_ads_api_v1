@@ -55,7 +55,7 @@ class SDCreateKeywordTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    keyword: str  # The customer search term or text to target
+    keyword: str  # The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints).
     matchType: Annotated[SDKeywordMatchType | str, lenient_enum(SDKeywordMatchType)]
     nativeLanguageKeyword: str | None = None  # The unlocalized keyword text in the preferred locale of the advertiser.
     nativeLanguageLocale: Annotated[SDLanguageLocale | str, lenient_enum(SDLanguageLocale)] | None = None
@@ -202,7 +202,7 @@ class SDKeywordTarget(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    keyword: str  # The customer search term or text to target
+    keyword: str  # The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints).
     matchType: Annotated[SDKeywordMatchType | str, lenient_enum(SDKeywordMatchType)]
     nativeLanguageKeyword: str | None = None  # The unlocalized keyword text in the preferred locale of the advertiser.
     nativeLanguageLocale: Annotated[SDLanguageLocale | str, lenient_enum(SDLanguageLocale)] | None = None

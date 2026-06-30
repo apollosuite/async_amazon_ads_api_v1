@@ -1294,7 +1294,7 @@
             "type": "array"
           },
           "placementBidAdjustments": {
-            "description": "Bid adjustments based on ad placements.",
+            "description": "Bid adjustments based on ad placements. Not supported for Sponsored Brands campaigns using the SALES_UP_AND_DOWN bid strategy.",
             "items": {
               "$ref": "#/components/schemas/SPPlacementBidAdjustment"
             },
@@ -2008,7 +2008,7 @@
             "type": "array"
           },
           "placementBidAdjustments": {
-            "description": "Bid adjustments based on ad placements.",
+            "description": "Bid adjustments based on ad placements. Not supported for Sponsored Brands campaigns using the SALES_UP_AND_DOWN bid strategy.",
             "items": {
               "$ref": "#/components/schemas/SPCreatePlacementBidAdjustment"
             },
@@ -2141,7 +2141,7 @@
         "description": "Targets a specific customer search term.",
         "properties": {
           "keyword": {
-            "description": "The customer search term or text to target",
+            "description": "The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints).",
             "type": "string"
           },
           "matchType": {
@@ -2392,7 +2392,7 @@
       "SPCreateTag": {
         "properties": {
           "key": {
-            "description": "A custom key value pair entered by the advertiser.",
+            "description": "A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI.",
             "type": "string"
           },
           "value": {
@@ -2771,7 +2771,7 @@
         "description": "Targets a specific customer search term.",
         "properties": {
           "keyword": {
-            "description": "The customer search term or text to target",
+            "description": "The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints).",
             "type": "string"
           },
           "matchType": {
@@ -3371,7 +3371,7 @@
       "SPTag": {
         "properties": {
           "key": {
-            "description": "A custom key value pair entered by the advertiser.",
+            "description": "A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI.",
             "type": "string"
           },
           "value": {
@@ -3999,7 +3999,7 @@
             "type": "array"
           },
           "placementBidAdjustments": {
-            "description": "Bid adjustments based on ad placements.",
+            "description": "Bid adjustments based on ad placements. Not supported for Sponsored Brands campaigns using the SALES_UP_AND_DOWN bid strategy.",
             "items": {
               "$ref": "#/components/schemas/SPCreatePlacementBidAdjustment"
             },

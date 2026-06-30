@@ -166,6 +166,7 @@ class SBProductIdType(StrEnum):
 
 class SBRecommendationTypeEnum(StrEnum):
     """The unique identifier of the recommendation type. Used to classify and group similar recommendations (e.g. 'BRANDED_KEYWORD').
+    **RecommendationTypeEnum Enum:**
     | RecommendationTypeEnum | Description |
     | --- | --- |
     | `BRANDED_KEYWORD` | Suggests branded keywords for advertiser campaigns based on associated brands. Requires BrandedKeywordRecommendationTypeDetails to scope suggestions by brand alternate IDs. |

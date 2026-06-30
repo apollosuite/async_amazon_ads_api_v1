@@ -275,7 +275,7 @@ class SDCreateMonetaryBudgetValue(BaseModel):
 class SDCreateTag(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    key: str  # A custom key value pair entered by the advertiser.
+    key: str  # A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI.
     value: str  # A custom key value pair entered by the advertiser.
 
 
@@ -323,7 +323,7 @@ class SDRecurrence(StrEnum):
 class SDTag(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    key: str  # A custom key value pair entered by the advertiser.
+    key: str  # A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI.
     value: str  # A custom key value pair entered by the advertiser.
 
 
