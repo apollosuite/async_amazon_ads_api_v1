@@ -17,7 +17,7 @@ class SDOptimizationRules(_ResourceBase):
     async def list_optimization_rules(self, ad_group_id: str) -> SDListOptimizationRulesResponse:
         """获取广告组关联的优化规则列表。"""
         resp = await self._request("GET", f"/sd/adGroups/{ad_group_id}/optimizationRules")
-        return SDListOptimizationRulesResponse.model_validate_json(resp.content)
+        return SDListOptimizationRulesResponse.model_construct(**resp.json())
 
     async def disassociate_optimization_rules(
         self,

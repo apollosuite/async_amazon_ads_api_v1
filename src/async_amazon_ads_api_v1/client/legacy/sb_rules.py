@@ -33,7 +33,7 @@ class SBOptimizationRules(_ResourceBase):
             payload["nextToken"] = next_token
 
         resp = await self._request("POST", "/sb/rules/optimization/list", json=payload)
-        return SBListOptimizationRulesResponse.model_validate_json(resp.content)
+        return SBListOptimizationRulesResponse.model_construct(**resp.json())
 
     async def disassociate_optimization_rules(
         self,

@@ -28,7 +28,7 @@ class Portfolios(_ResourceBase):
         """获取投资组合列表。"""
         body = request.model_dump(exclude_none=True) if request else {}
         resp = await self._request("POST", "/portfolios/list", json=body)
-        return PortfolioListResponse.model_validate_json(resp.content)
+        return PortfolioListResponse.model_construct(**resp.json())
 
     async def update(self, portfolios: list[Portfolio]) -> PortfolioUpdateResponse:
         """批量更新投资组合。"""

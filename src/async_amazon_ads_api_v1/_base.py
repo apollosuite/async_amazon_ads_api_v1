@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from typing import Any, TypeVar
 
 import httpx
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel
 
 from .config.settings import AmazonAdsConfig
 
@@ -40,16 +40,7 @@ class ClientContext:
         return self._client
 
     def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
-        try:
-            return model_cls.model_validate_json(resp.content, extra="ignore")
-        except ValidationError:
-            logger.warning(
-                "Failed to validate response for %s (status=%s): %s",
-                model_cls.__name__,
-                resp.status_code,
-                resp.text,
-            )
-            raise
+        return model_cls.model_construct(**resp.json())
 
 
 @dataclass

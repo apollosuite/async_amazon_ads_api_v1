@@ -26,7 +26,7 @@ class BudgetRules(_ResourceBase):
         campaign_id: str,
     ) -> SPListAssociatedBudgetRulesResponse:
         resp = await self._request("GET", f"/{self._product}/campaigns/{campaign_id}/budgetRules")
-        return SPListAssociatedBudgetRulesResponse.model_validate_json(resp.content, extra="ignore")
+        return SPListAssociatedBudgetRulesResponse.model_construct(**resp.json())
 
     async def associate_to_campaign(
         self,
@@ -39,7 +39,7 @@ class BudgetRules(_ResourceBase):
             f"/{self._product}/campaigns/{campaign_id}/budgetRules",
             json=body.model_dump(exclude_none=True),
         )
-        return CreateAssociatedBudgetRulesResponse.model_validate_json(resp.content, extra="ignore")
+        return CreateAssociatedBudgetRulesResponse.model_construct(**resp.json())
 
     async def disassociate_from_campaign(
         self,
@@ -50,4 +50,4 @@ class BudgetRules(_ResourceBase):
             "DELETE",
             f"/{self._product}/campaigns/{campaign_id}/budgetRules/{budget_rule_id}",
         )
-        return DisassociateAssociatedBudgetRuleResponse.model_validate_json(resp.content, extra="ignore")
+        return DisassociateAssociatedBudgetRuleResponse.model_construct(**resp.json())
