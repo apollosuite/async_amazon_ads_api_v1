@@ -68,7 +68,7 @@ class _ResourceBase:
         path: str,
         *,
         params: dict[str, Any] | None = None,
-        json: dict[str, Any] | None = None,
+        json: dict[str, Any] | list[Any] | None = None,
         accept_async: bool = False,
         headers: dict | None = None,
     ) -> httpx.Response:
