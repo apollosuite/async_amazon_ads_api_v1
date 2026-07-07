@@ -125,26 +125,26 @@ async def test_sp_client_campaign_lifecycle_parses_mock_server_responses(monkeyp
             )
             assert isinstance(created, SPCampaignMultiStatusResponse)
             assert created.success is not None
-            assert created.success[0].campaign.campaignId == CAMPAIGN_ID
+            assert created.success[0]["campaign"]["campaignId"] == CAMPAIGN_ID
 
             queried = await sp_client.campaigns.query(
                 SPQueryCampaignRequest(adProductFilter={"include": ["SPONSORED_PRODUCTS"]})
             )
             assert isinstance(queried, SPCampaignSuccessResponse)
             assert queried.campaigns is not None
-            assert queried.campaigns[0].campaignId == CAMPAIGN_ID
+            assert queried.campaigns[0]["campaignId"] == CAMPAIGN_ID
 
             updated = await sp_client.campaigns.update(
                 [SPCampaignUpdate(campaignId=CAMPAIGN_ID, name="Updated campaign")]
             )
             assert isinstance(updated, SPCampaignMultiStatusResponse)
             assert updated.success is not None
-            assert updated.success[0].campaign.name == "Updated campaign"
+            assert updated.success[0]["campaign"]["name"] == "Updated campaign"
 
             deleted = await sp_client.campaigns.delete([CAMPAIGN_ID])
             assert isinstance(deleted, SPCampaignMultiStatusResponse)
             assert deleted.success is not None
-            assert deleted.success[0].campaign.campaignId == CAMPAIGN_ID
+            assert deleted.success[0]["campaign"]["campaignId"] == CAMPAIGN_ID
     finally:
         if not http_client.is_closed:
             await http_client.aclose()

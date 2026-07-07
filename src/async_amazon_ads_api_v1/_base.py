@@ -70,14 +70,16 @@ class _ResourceBase:
         params: dict[str, Any] | None = None,
         json: dict[str, Any] | list[Any] | None = None,
         accept_async: bool = False,
-        headers: dict | None = None,
+        headers: dict[str, Any] | None = None,
     ) -> httpx.Response:
         client = await self._ctx.get_client()
         accept = "application/vnd.createasyncrequestresults.v3+json" if accept_async else "application/json"
-        if self._ctx.config.access_token is None and self._ctx.config.refresh_token:
-            await self._ctx.config.refresh_access_token()
+        if self._ctx.config._token_manager is not None:
+            token: str = await self._ctx.config.refresh_access_token()
+        else:
+            token = self._ctx.config.access_token or ""
         headers = {
-            "Authorization": f"Bearer {self._ctx.config.access_token}",
+            "Authorization": f"Bearer {token}",
             "Accept": accept,
             "Amazon-Ads-ClientId": self._ctx.config.client_id,
             **(headers or {}),
@@ -96,9 +98,9 @@ class _ResourceBase:
                 resp.raise_for_status()
                 return resp
             except httpx.HTTPStatusError as exc:
-                if exc.response.status_code == 401 and self._ctx.config.refresh_token and attempt == 0:
-                    await self._ctx.config.refresh_access_token()
-                    headers["Authorization"] = f"Bearer {self._ctx.config.access_token}"
+                if exc.response.status_code == 401 and self._ctx.config._token_manager is not None and attempt == 0:
+                    token = await self._ctx.config.refresh_access_token()
+                    headers["Authorization"] = f"Bearer {token}"
                     continue
                 if exc.response.status_code in (429, 503, 504):
                     if attempt < self._ctx.config.max_retries - 1:
@@ -106,7 +108,7 @@ class _ResourceBase:
                         logger.warning("Rate limit exceeded, retrying in %.2f seconds %s", wait_time, exc)
                         await asyncio.sleep(wait_time)
                         continue
-                logger.error(f"{exc.response.status_code} {exc.response.text}")
+                logger.error("%s %s", exc.response.status_code, exc.response.text)
                 raise
             except httpx.ConnectError:
                 if attempt < self._ctx.config.max_retries - 1:

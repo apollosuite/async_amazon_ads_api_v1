@@ -57,7 +57,7 @@ class AmazonAdsConfig(BaseModel):
     redis_url: str | None = None
 
     # ── Behaviour ─────────────────────────────────────────────────────
-    timeout: float = 60.0
+    timeout: float = 600.0
     max_retries: int = 3
 
     # ── Runtime state (excluded from serialisation / schema) ──────────
@@ -100,7 +100,7 @@ class AmazonAdsConfig(BaseModel):
                 refresh_token=self.refresh_token,
                 token_url=self.token_url,
             )
-            self._token_manager = TokenManager(credentials=credentials, cache=token_cache)
+            self._token_manager = TokenManager(credentials=credentials, cache=token_cache, timeout=self.timeout)
         return self
 
     @property

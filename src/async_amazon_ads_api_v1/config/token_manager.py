@@ -35,16 +35,18 @@ class TokenManager:
         Optional token cache backend (file or Redis).
     """
 
-    __slots__ = ("_credentials", "_cache", "_lock", "_access_token", "_expires_at")
+    __slots__ = ("_credentials", "_cache", "_lock", "_timeout", "_access_token", "_expires_at")
 
     def __init__(
         self,
         credentials: TokenCredentials,
         cache: BaseTokenCache | None = None,
+        timeout: float = 600.0,
     ) -> None:
         self._credentials = credentials
         self._cache = cache
         self._lock = asyncio.Lock()
+        self._timeout = timeout
         self._access_token: str | None = None
         self._expires_at: float | None = None
 
@@ -83,7 +85,7 @@ class TokenManager:
 
     async def _refresh(self) -> str:
         """Exchange the refresh token for a new access token."""
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(timeout=httpx.Timeout(self._timeout)) as client:
             resp = await client.post(
                 self._credentials.token_url,
                 data={

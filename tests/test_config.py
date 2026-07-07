@@ -25,7 +25,7 @@ class TestAmazonAdsConfig:
         assert cfg.client_id == "cli"
         assert cfg.base_url == ENDPOINT_MAP["na"]
         assert cfg.profile_id is None
-        assert cfg.timeout == 60.0
+        assert cfg.timeout == 600.0
         assert cfg.max_retries == 3
 
     def test_endpoints_override(self) -> None:

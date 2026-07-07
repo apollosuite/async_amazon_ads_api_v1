@@ -50,7 +50,7 @@ class TestClientContext:
     def test_response(self, config: AmazonAdsConfig) -> None:
         ctx = ClientContext(config)
         resp = MagicMock(spec=httpx.Response)
-        resp.content = b'{"name": "test", "value": 1}'
+        resp.json.return_value = {"name": "test", "value": 1}
         result = ctx._response(DummyModel, resp)
         assert isinstance(result, DummyModel)
         assert result.name == "test"
@@ -183,7 +183,7 @@ class TestResourceBase:
     @pytest.mark.asyncio
     async def test_response(self, resource: _ResourceBase) -> None:
         resp = MagicMock(spec=httpx.Response)
-        resp.content = b'{"name": "x", "value": 2}'
+        resp.json.return_value = {"name": "x", "value": 2}
         result = resource._response(DummyModel, resp)
         assert isinstance(result, DummyModel)
         assert result.name == "x"
@@ -193,7 +193,7 @@ class TestResourceBase:
     async def test_create(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
         spec = _ResourceSpec(name="items", create_model=DummyModel)
         mock_resp = MagicMock(spec=httpx.Response)
-        mock_resp.content = b'{"ok": true}'
+        mock_resp.json.return_value = {"ok": True}
         mock_async_client.request.return_value = mock_resp
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
             result = await resource._create([DummyModel(name="a", value=1)], spec, DummyResponse)
@@ -208,7 +208,7 @@ class TestResourceBase:
     async def test_update(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
         spec = _ResourceSpec(name="items", create_model=DummyModel, update_model=DummyModel)
         mock_resp = MagicMock(spec=httpx.Response)
-        mock_resp.content = b'{"ok": true}'
+        mock_resp.json.return_value = {"ok": True}
         mock_async_client.request.return_value = mock_resp
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
             result = await resource._update([DummyModel(name="a", value=1)], spec, DummyResponse)
@@ -228,7 +228,7 @@ class TestResourceBase:
     async def test_delete(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
         spec = _ResourceSpec(name="items", create_model=DummyModel, delete_key="itemIds")
         mock_resp = MagicMock(spec=httpx.Response)
-        mock_resp.content = b'{"ok": true}'
+        mock_resp.json.return_value = {"ok": True}
         mock_async_client.request.return_value = mock_resp
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
             result = await resource._delete(["1", "2"], spec, DummyResponse)
@@ -247,7 +247,7 @@ class TestResourceBase:
     async def test_query(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
         body = DummyModel(name="test", value=1)
         mock_resp = MagicMock(spec=httpx.Response)
-        mock_resp.content = b'{"ok": true}'
+        mock_resp.json.return_value = {"ok": True}
         mock_async_client.request.return_value = mock_resp
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
             result = await resource._query(body, "/test/query", DummyResponse)
