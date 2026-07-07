@@ -58,7 +58,7 @@ class SPAdGroupAdProductFilter(BaseModel):
 
     include: list[
         Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
-    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+    ]  # **AdProduct Enum:** AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPAdGroupBid(BaseModel):
@@ -108,7 +108,8 @@ class SPAdGroupNameFilter(BaseModel):
 
 
 class SPAdGroupNameFilterType(StrEnum):
-    """| AdGroupNameFilterType | Description |
+    """**AdGroupNameFilterType Enum:**
+    | AdGroupNameFilterType | Description |
     | --- | --- |
     | `EXACT_MATCH` | Filter by exact match. |
     | `BROAD_MATCH` | Filter by broad match. |"""
@@ -122,7 +123,7 @@ class SPAdGroupStateFilter(BaseModel):
 
     include: list[
         Annotated[SPState | str, lenient_enum(SPState)]
-    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
+    ]  # **State Enum:** State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SPAdGroupSuccessResponse(BaseModel):
@@ -160,7 +161,7 @@ class SPCreateAdGroupBid(BaseModel):
 class SPCreateAdGroupRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adGroups: list[SPAdGroupCreate] | None = None
+    adGroups: list[SPAdGroupCreate]
 
 
 class SPCreateAdSettings(BaseModel):
@@ -174,7 +175,7 @@ class SPCreateAdSettings(BaseModel):
 class SPDeleteAdGroupRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adGroupIds: list[str] | None = None
+    adGroupIds: list[str]
 
 
 class SPQueryAdGroupRequest(BaseModel):
@@ -200,7 +201,7 @@ class SPUpdateAdGroupBid(BaseModel):
 class SPUpdateAdGroupRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adGroups: list[SPAdGroupUpdate] | None = None
+    adGroups: list[SPAdGroupUpdate]
 
 
 class SPUpdateAdSettings(BaseModel):

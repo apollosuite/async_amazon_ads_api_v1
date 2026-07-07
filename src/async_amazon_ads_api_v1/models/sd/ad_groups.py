@@ -57,7 +57,7 @@ class SDAdGroupAdProductFilter(BaseModel):
 
     include: list[
         Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
-    ]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
+    ]  # **AdProduct Enum:** AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
 
 
 class SDAdGroupBid(BaseModel):
@@ -119,7 +119,8 @@ class SDAdGroupNameFilter(BaseModel):
 
 
 class SDAdGroupNameFilterType(StrEnum):
-    """| AdGroupNameFilterType | Description |
+    """**AdGroupNameFilterType Enum:**
+    | AdGroupNameFilterType | Description |
     | --- | --- |
     | `EXACT_MATCH` | Filter by exact match. |
     | `BROAD_MATCH` | Filter by broad match. |"""
@@ -133,7 +134,7 @@ class SDAdGroupStateFilter(BaseModel):
 
     include: list[
         Annotated[SDState | str, lenient_enum(SDState)]
-    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
+    ]  # **State Enum:** State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SDAdGroupSuccessResponse(BaseModel):
@@ -170,7 +171,7 @@ class SDCreateAdGroupGoalSettings(BaseModel):
 class SDCreateAdGroupRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adGroups: list[SDAdGroupCreate] | None = None
+    adGroups: list[SDAdGroupCreate]
 
 
 class SDCreateOptimization(BaseModel):
@@ -180,7 +181,9 @@ class SDCreateOptimization(BaseModel):
 
 
 class SDCreativeType(StrEnum):
-    """| CreativeType | Description |
+    """**CreativeType Enum:**
+
+    | CreativeType | Description |
     |------|------|
     | `IMAGE` | An image creative. |
     | `VIDEO` | A video creative. |
@@ -193,11 +196,13 @@ class SDCreativeType(StrEnum):
 class SDDeleteAdGroupRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adGroupIds: list[str] | None = None
+    adGroupIds: list[str]
 
 
 class SDKPI(StrEnum):
-    """| KPI | Description |
+    """**KPI Enum:**
+
+    | KPI | Description |
     |------|------|
     | `ADD_TO_CART` | Indicates a goal of driving improved add to cart |
     | `APPLICATIONS` | Indicates a goal of driving applications |
@@ -264,7 +269,7 @@ class SDUpdateAdGroupGoalSettings(BaseModel):
 class SDUpdateAdGroupRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adGroups: list[SDAdGroupUpdate] | None = None
+    adGroups: list[SDAdGroupUpdate]
 
 
 class SDUpdateOptimization(BaseModel):

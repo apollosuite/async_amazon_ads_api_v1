@@ -107,7 +107,7 @@ class SBCreateTargetDetails(BaseModel):
 class SBCreateTargetRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    targets: list[SBTargetCreate] | None = None
+    targets: list[SBTargetCreate]
 
 
 class SBCreateThemeTarget(BaseModel):
@@ -121,11 +121,13 @@ class SBCreateThemeTarget(BaseModel):
 class SBDeleteTargetRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    targetIds: list[str] | None = None
+    targetIds: list[str]
 
 
 class SBKeywordMatchType(StrEnum):
-    """| KeywordMatchType | Description |
+    """**KeywordMatchType Enum:**
+
+    | KeywordMatchType | Description |
     |------|------|
     | `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE. |
     | `EXACT` | Exact match search terms. |
@@ -150,6 +152,7 @@ class SBKeywordTarget(BaseModel):
 
 class SBLanguageLocale(StrEnum):
     """A combination of ISO-639 standard for language code and ISO-3166 for country code.
+    **LanguageLocale Enum:**
 
     | LanguageLocale | Description |
     |------|------|
@@ -160,7 +163,8 @@ class SBLanguageLocale(StrEnum):
 
 
 class SBMatchType(StrEnum):
-    """| MatchType | Description |
+    """**MatchType Enum:**
+    | MatchType | Description |
     | --- | --- |
     | `KEYWORDS_RELATED_TO_YOUR_LANDING_PAGES` | Search terms related to your landing pages. |
     | `PHRASE` | Phrase match search terms. This expands matching on user intent beyond EXACT. |
@@ -211,7 +215,9 @@ class SBProductCategoryTarget(BaseModel):
 
 
 class SBProductMatchType(StrEnum):
-    """| ProductMatchType | Description |
+    """**ProductMatchType Enum:**
+
+    | ProductMatchType | Description |
     |------|------|
     | `PRODUCT_EXACT` | Products exactly matching the specified product. |
     """
@@ -291,7 +297,7 @@ class SBTargetAdProductFilter(BaseModel):
 
     include: list[
         Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
-    ]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
+    ]  # **AdProduct Enum:** AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBTargetBid(BaseModel):
@@ -341,7 +347,8 @@ class SBTargetKeywordFilter(BaseModel):
 
 
 class SBTargetKeywordFilterType(StrEnum):
-    """| TargetKeywordFilterType | Description |
+    """**TargetKeywordFilterType Enum:**
+    | TargetKeywordFilterType | Description |
     | --- | --- |
     | `EXACT_MATCH` | Filter by exact match. |
     | `BROAD_MATCH` | Filter by broad match. |"""
@@ -355,11 +362,13 @@ class SBTargetLanguageLocaleFilter(BaseModel):
 
     include: list[
         Annotated[SBLanguageLocale | str, lenient_enum(SBLanguageLocale)]
-    ]  # NativeLanguageLocale Description `zh_CN` Chinese (China).
+    ]  # **NativeLanguageLocale Enum:** NativeLanguageLocale Description `zh_CN` Chinese (China).
 
 
 class SBTargetLevel(StrEnum):
-    """| TargetLevel | Description |
+    """**TargetLevel Enum:**
+
+    | TargetLevel | Description |
     |------|------|
     | `AD_GROUP` | Target applied at the ad group level. |
     """
@@ -372,7 +381,7 @@ class SBTargetMatchTypeFilter(BaseModel):
 
     include: list[
         Annotated[SBMatchType | str, lenient_enum(SBMatchType)]
-    ]  # MatchType Description `KEYWORDS_RELATED_TO_YOUR_LANDING_PAGES` Search terms related to your landing pages. `PHRASE` Phrase match search terms. This expands matching on user intent beyond EXACT. `BROAD` Broad match search terms. This expands matching on user intent beyond PHRASE. `EXACT` Exact match search terms. `KEYWORDS_RELATED_TO_YOUR_BRAND` Search terms related to your brand. `PRODUCT_EXACT` Products exactly matching the specified product.
+    ]  # **MatchType Enum:** MatchType Description `KEYWORDS_RELATED_TO_YOUR_LANDING_PAGES` Search terms related to your landing pages. `PHRASE` Phrase match search terms. This expands matching on user intent beyond EXACT. `BROAD` Broad match search terms. This expands matching on user intent beyond PHRASE. `EXACT` Exact match search terms. `KEYWORDS_RELATED_TO_YOUR_BRAND` Search terms related to your brand. `PRODUCT_EXACT` Products exactly matching the specified product.
 
 
 class SBTargetMultiStatusResponse(BaseModel):
@@ -400,7 +409,7 @@ class SBTargetStateFilter(BaseModel):
 
     include: list[
         Annotated[SBState | str, lenient_enum(SBState)]
-    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
+    ]  # **State Enum:** State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SBTargetSuccessResponse(BaseModel):
@@ -421,11 +430,13 @@ class SBTargetTargetTypeFilter(BaseModel):
 
     include: list[
         Annotated[SBTargetType | str, lenient_enum(SBTargetType)]
-    ]  # TargetType Description `KEYWORD` Target based on customer search terms. `PRODUCT` Target based on a specific product. `PRODUCT_CATEGORY` Target based on a product category. `THEME` Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
+    ]  # **TargetType Enum:** TargetType Description `KEYWORD` Target based on customer search terms. `PRODUCT` Target based on a specific product. `PRODUCT_CATEGORY` Target based on a product category. `THEME` Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
 
 
 class SBTargetType(StrEnum):
-    """| TargetType | Description |
+    """**TargetType Enum:**
+
+    | TargetType | Description |
     |------|------|
     | `KEYWORD` | Target based on customer search terms. |
     | `PRODUCT_CATEGORY` | Target based on a product category. |
@@ -448,7 +459,9 @@ class SBTargetUpdate(BaseModel):
 
 
 class SBThemeMatchType(StrEnum):
-    """| ThemeMatchType | Description |
+    """**ThemeMatchType Enum:**
+
+    | ThemeMatchType | Description |
     |------|------|
     | `KEYWORDS_RELATED_TO_YOUR_BRAND` | Search terms related to your brand. |
     | `KEYWORDS_RELATED_TO_YOUR_LANDING_PAGES` | Search terms related to your landing pages. |
@@ -475,7 +488,7 @@ class SBUpdateTargetBid(BaseModel):
 class SBUpdateTargetRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    targets: list[SBTargetUpdate] | None = None
+    targets: list[SBTargetUpdate]
 
 
 __all__ = [

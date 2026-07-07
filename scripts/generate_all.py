@@ -42,6 +42,18 @@ def main() -> None:
             ]
         )
 
+    # Legacy model generators
+    legacy_scripts = [
+        "generate_legacy_sb_rules.py",
+        "generate_sp_budget_rules.py",
+        "generate_sb_budget_rules.py",
+        "generate_sd_budget_rules.py",
+        "generate_sd_creatives.py",
+        "generate_portfolios.py",
+    ]
+    for script in legacy_scripts:
+        run(["uv", "run", "python", str(SCRIPTS / script)])
+
     run(["uv", "run", "ruff", "check", "--fix", str(SRC)])
     run(["uv", "run", "black", str(SRC), str(SCRIPTS)])
 

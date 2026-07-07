@@ -30,7 +30,9 @@ class SBCreateTag(BaseModel):
 
 
 class SBDeliveryReason(StrEnum):
-    """| DeliveryReason | Description |
+    """**DeliveryReason Enum:**
+
+    | DeliveryReason | Description |
     |------|------|
     | `ADVERTISER_ARCHIVED` |  |
     | `ADVERTISER_INELIGIBLE` |  |
@@ -141,7 +143,9 @@ class SBDeliveryReason(StrEnum):
 
 
 class SBDeliveryStatus(StrEnum):
-    """| DeliveryStatus | Description |
+    """**DeliveryStatus Enum:**
+
+    | DeliveryStatus | Description |
     |------|------|
     | `DELIVERING` | Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces |
     | `NOT_DELIVERING` | Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces |

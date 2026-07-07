@@ -167,7 +167,7 @@ class SDCreateTargetDetails(BaseModel):
 class SDCreateTargetRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    targets: list[SDTargetCreate] | None = None
+    targets: list[SDTargetCreate]
 
 
 class SDCreateThemeTarget(BaseModel):
@@ -181,11 +181,13 @@ class SDCreateThemeTarget(BaseModel):
 class SDDeleteTargetRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    targetIds: list[str] | None = None
+    targetIds: list[str]
 
 
 class SDKeywordMatchType(StrEnum):
-    """| KeywordMatchType | Description |
+    """**KeywordMatchType Enum:**
+
+    | KeywordMatchType | Description |
     |------|------|
     | `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE. |
     | `EXACT` | Exact match search terms. |
@@ -210,6 +212,7 @@ class SDKeywordTarget(BaseModel):
 
 class SDLanguageLocale(StrEnum):
     """A combination of ISO-639 standard for language code and ISO-3166 for country code.
+    **LanguageLocale Enum:**
 
     | LanguageLocale | Description |
     |------|------|
@@ -229,7 +232,9 @@ class SDLocationTarget(BaseModel):
 
 
 class SDLookback(StrEnum):
-    """| Lookback | Description |
+    """**Lookback Enum:**
+
+    | Lookback | Description |
     |------|------|
     | `DAYS_14` | Two week lookback period. |
     | `DAYS_180` | Six month lookback period. |
@@ -258,7 +263,9 @@ class SDMarketplaceStringValue(BaseModel):
 
 
 class SDProductAudienceMatchType(StrEnum):
-    """| ProductAudienceMatchType | Description |
+    """**ProductAudienceMatchType Enum:**
+
+    | ProductAudienceMatchType | Description |
     |------|------|
     | `PRODUCT_EXACT` | Products exactly matching the specified product. |
     | `PRODUCT_SIMILAR` | Products similar to the specified product. |
@@ -318,7 +325,9 @@ class SDProductCategoryTarget(BaseModel):
 
 
 class SDProductMatchType(StrEnum):
-    """| ProductMatchType | Description |
+    """**ProductMatchType Enum:**
+
+    | ProductMatchType | Description |
     |------|------|
     | `PRODUCT_EXACT` | Products exactly matching the specified product. |
     | `PRODUCT_SIMILAR` | Products similar to the specified product. |
@@ -391,7 +400,7 @@ class SDTargetAdProductFilter(BaseModel):
 
     include: list[
         Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
-    ]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
+    ]  # **AdProduct Enum:** AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
 
 
 class SDTargetBid(BaseModel):
@@ -438,7 +447,9 @@ class SDTargetDetails(BaseModel):
 
 
 class SDTargetEvent(StrEnum):
-    """| TargetEvent | Description |
+    """**TargetEvent Enum:**
+
+    | TargetEvent | Description |
     |------|------|
     | `PURCHASE` | A product purchase event. |
     | `VIEW` | A product view event. |
@@ -449,7 +460,9 @@ class SDTargetEvent(StrEnum):
 
 
 class SDTargetLevel(StrEnum):
-    """| TargetLevel | Description |
+    """**TargetLevel Enum:**
+
+    | TargetLevel | Description |
     |------|------|
     | `AD_GROUP` | Target applied at the ad group level. |
     """
@@ -476,7 +489,7 @@ class SDTargetStateFilter(BaseModel):
 
     include: list[
         Annotated[SDState | str, lenient_enum(SDState)]
-    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
+    ]  # **State Enum:** State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SDTargetSuccessResponse(BaseModel):
@@ -493,7 +506,9 @@ class SDTargetTargetIdFilter(BaseModel):
 
 
 class SDTargetType(StrEnum):
-    """| TargetType | Description |
+    """**TargetType Enum:**
+
+    | TargetType | Description |
     |------|------|
     | `AUDIENCE` | Target based on an audience segment. |
     | `CONTENT_CATEGORY` | Target based on content category. |
@@ -524,7 +539,9 @@ class SDTargetUpdate(BaseModel):
 
 
 class SDThemeMatchType(StrEnum):
-    """| ThemeMatchType | Description |
+    """**ThemeMatchType Enum:**
+
+    | ThemeMatchType | Description |
     |------|------|
     | `INTERESTED_AUDIENCE` | Audiences that are likely interested in the advertised product or service. |
     """
@@ -549,7 +566,7 @@ class SDUpdateTargetBid(BaseModel):
 class SDUpdateTargetRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    targets: list[SDTargetUpdate] | None = None
+    targets: list[SDTargetUpdate]
 
 
 __all__ = [

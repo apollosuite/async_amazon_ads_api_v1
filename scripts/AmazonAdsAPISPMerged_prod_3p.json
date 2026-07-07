@@ -98,7 +98,7 @@
         "type": "object"
       },
       "ErrorCode": {
-        "description": "| ErrorCode | Description |\n|------|------|\n| `ACTION_NOT_SUPPORTED` | The request is not supported. |\n| `ACTIVE_RESOURCE_LIMIT_EXCEEDED` | Too many live resources. Remove resources and try again. |\n| `ARCHIVED_PARENT_CANNOT_CREATE` | New resources cannot be created within an archived parent. |\n| `ARCHIVED_PARENT_CANNOT_EDIT` | Resources within an archived parent cannot be edited. |\n| `ARCHIVED_RESOURCE_CANNOT_EDIT` | Archived resources cannot be edited. |\n| `AUTOCREATED_ENTITY_CANNOT_EDIT` | Autocreated entities cannot be edited. To complete this action, create the resource manually. |\n| `BAD_REQUEST` | The request is not valid considering the documented schema. |\n| `CONFLICT` | Operation could not be completed due to a conflict. Please retry your request. |\n| `CONTENT_TOO_LARGE` | The request is too large. Consider splitting it into multiple requests. |\n| `DATE_CANNOT_BE_IN_PAST` | Update the date to be in the future. |\n| `DATE_CANNOT_BE_NULL` | Update the date. |\n| `DATE_TOO_SOON` | Update the date to be further in the future. |\n| `DUPLICATE_FIELD_VALUE_FOUND` | Multiple resources share the non-unique field values. Remove the non-unique field value. |\n| `DUPLICATE_RESOURCE_ID_FOUND` | Multiple resources share the same ID. Remove the duplicate ID. |\n| `DURATION_TOO_SHORT` | Update the length to be within the required range. |\n| `FEATURE_DISCONTINUED` | Feature has been discontinued. |\n| `FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT` | Update the value to be within the required range. |\n| `FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT` | Update the value to be within the required range. |\n| `FIELD_SIZE_IS_OUT_OF_RANGE` | Update the value to be within the required range. |\n| `FIELD_VALUE_CANNOT_EDIT` | Field value cannot be edited. |\n| `FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_CONTAINS_INVALID_CHARACTERS` | Remove the invalid characters and try again. |\n| `FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT` | Update the value to be within the required range. |\n| `FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT` | Update the value to be within the required range. |\n| `FIELD_VALUE_IS_EMPTY` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_IS_INVALID` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_IS_NULL` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_IS_OUT_OF_RANGE` | Update the value to be within the required range. |\n| `FIELD_VALUE_MISMATCH` | Mismatch among resource field values. |\n| `FIELD_VALUE_MUST_BE_EMPTY_OR_NULL` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_NOT_FOUND` | Resource specified in the field value not found. Try again with valid value. |\n| `FIELD_VALUE_NOT_UNIQUE` | Resource field value conflicts with existing resource. Try again with an unique field value. |\n| `FORBIDDEN` | The caller is not authorized to make the given request. |\n| `GLOBAL_ATTRIBUTE_UPDATE_RESTRICTED_PORTFOLIO` | The campaign is associated with a global campaign. Portfolio association cannot be updated on a child campaign. Please perform operation on the global campaign. |\n| `GLOBAL_ATTRIBUTE_UPDATE_RESTRICTED_STATE` | The campaign is associated with a global campaign. The state on child campaign cannot be set to archived. Please perform operation on global campaign. |\n| `GLOBAL_CAMPAIGN_SINGLE_ADGROUP_LIMIT` | The campaign is associated with a global campaign. Only one ad group can be created under this campaign. |\n| `INTERNAL_ERROR` | The server encountered an unexpected condition that prevented it from fulfilling the request. |\n| `NOT_FOUND` | The requested resource does not exist. |\n| `PAYMENT_ISSUE` | Payment failed. |\n| `PRODUCT_INELIGIBLE` | Product is not eligible for advertising. Try again with a valid product. |\n| `RESOURCE_DOES_NOT_BELONG_TO_PARENT` | Resource does not belong to the specified parent. Try again with a valid parent ID. |\n| `RESOURCE_ID_NOT_FOUND` | Resource ID not found. Try again with valid ID. |\n| `RESOURCE_IS_EMPTY` | Update the request with the required information for this resource. |\n| `RESOURCE_IS_IN_TERMINAL_STATE` | Resource is in terminal state. |\n| `RESOURCE_IS_NULL` | Update the request with the required information for this resource. |\n| `TOO_MANY_REQUESTS` | There have been too many requests, please slow down your call rate. |\n| `TOTAL_RESOURCE_LIMIT_EXCEEDED` | Too many resources. Remove resources and try again. |\n| `UNAUTHORIZED` | The request lacks the necessary credentials. |\n| `UNSUPPORTED_MARKETPLACE` | Marketplace not supported. Try again with a supported marketplace. |\n",
+        "description": "**ErrorCode Enum:**\n\n| ErrorCode | Description |\n|------|------|\n| `ACTION_NOT_SUPPORTED` | The request is not supported. |\n| `ACTIVE_RESOURCE_LIMIT_EXCEEDED` | Too many live resources. Remove resources and try again. |\n| `ARCHIVED_PARENT_CANNOT_CREATE` | New resources cannot be created within an archived parent. |\n| `ARCHIVED_PARENT_CANNOT_EDIT` | Resources within an archived parent cannot be edited. |\n| `ARCHIVED_RESOURCE_CANNOT_EDIT` | Archived resources cannot be edited. |\n| `AUTOCREATED_ENTITY_CANNOT_EDIT` | Autocreated entities cannot be edited. To complete this action, create the resource manually. |\n| `BAD_REQUEST` | The request is not valid considering the documented schema. |\n| `CONFLICT` | Operation could not be completed due to a conflict. Please retry your request. |\n| `CONTENT_TOO_LARGE` | The request is too large. Consider splitting it into multiple requests. |\n| `DATE_CANNOT_BE_IN_PAST` | Update the date to be in the future. |\n| `DATE_CANNOT_BE_NULL` | Update the date. |\n| `DATE_TOO_SOON` | Update the date to be further in the future. |\n| `DUPLICATE_FIELD_VALUE_FOUND` | Multiple resources share the non-unique field values. Remove the non-unique field value. |\n| `DUPLICATE_RESOURCE_ID_FOUND` | Multiple resources share the same ID. Remove the duplicate ID. |\n| `DURATION_TOO_SHORT` | Update the length to be within the required range. |\n| `FEATURE_DISCONTINUED` | Feature has been discontinued. |\n| `FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT` | Update the value to be within the required range. |\n| `FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT` | Update the value to be within the required range. |\n| `FIELD_SIZE_IS_OUT_OF_RANGE` | Update the value to be within the required range. |\n| `FIELD_VALUE_CANNOT_EDIT` | Field value cannot be edited. |\n| `FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_CONTAINS_INVALID_CHARACTERS` | Remove the invalid characters and try again. |\n| `FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT` | Update the value to be within the required range. |\n| `FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT` | Update the value to be within the required range. |\n| `FIELD_VALUE_IS_EMPTY` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_IS_INVALID` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_IS_NULL` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_IS_OUT_OF_RANGE` | Update the value to be within the required range. |\n| `FIELD_VALUE_MISMATCH` | Mismatch among resource field values. |\n| `FIELD_VALUE_MUST_BE_EMPTY_OR_NULL` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_NOT_FOUND` | Resource specified in the field value not found. Try again with valid value. |\n| `FIELD_VALUE_NOT_UNIQUE` | Resource field value conflicts with existing resource. Try again with an unique field value. |\n| `FORBIDDEN` | The caller is not authorized to make the given request. |\n| `GLOBAL_ATTRIBUTE_UPDATE_RESTRICTED_PORTFOLIO` | The campaign is associated with a global campaign. Portfolio association cannot be updated on a child campaign. Please perform operation on the global campaign. |\n| `GLOBAL_ATTRIBUTE_UPDATE_RESTRICTED_STATE` | The campaign is associated with a global campaign. The state on child campaign cannot be set to archived. Please perform operation on global campaign. |\n| `GLOBAL_CAMPAIGN_SINGLE_ADGROUP_LIMIT` | The campaign is associated with a global campaign. Only one ad group can be created under this campaign. |\n| `INTERNAL_ERROR` | The server encountered an unexpected condition that prevented it from fulfilling the request. |\n| `NOT_FOUND` | The requested resource does not exist. |\n| `PAYMENT_ISSUE` | Payment failed. |\n| `PRODUCT_INELIGIBLE` | Product is not eligible for advertising. Try again with a valid product. |\n| `RESOURCE_DOES_NOT_BELONG_TO_PARENT` | Resource does not belong to the specified parent. Try again with a valid parent ID. |\n| `RESOURCE_ID_NOT_FOUND` | Resource ID not found. Try again with valid ID. |\n| `RESOURCE_IS_EMPTY` | Update the request with the required information for this resource. |\n| `RESOURCE_IS_IN_TERMINAL_STATE` | Resource is in terminal state. |\n| `RESOURCE_IS_NULL` | Update the request with the required information for this resource. |\n| `TOO_MANY_REQUESTS` | There have been too many requests, please slow down your call rate. |\n| `TOTAL_RESOURCE_LIMIT_EXCEEDED` | Too many resources. Remove resources and try again. |\n| `UNAUTHORIZED` | The request lacks the necessary credentials. |\n| `UNSUPPORTED_MARKETPLACE` | Marketplace not supported. Try again with a supported marketplace. |\n",
         "enum": [
           "ACTION_NOT_SUPPORTED",
           "ACTIVE_RESOURCE_LIMIT_EXCEEDED",
@@ -350,7 +350,7 @@
       "SPAdAdProductFilter": {
         "properties": {
           "include": {
-            "description": "| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_PRODUCTS` | Sponsored Products ad product. |",
+            "description": "**AdProduct Enum:**\n| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_PRODUCTS` | Sponsored Products ad product. |",
             "items": {
               "$ref": "#/components/schemas/SPAdProduct"
             },
@@ -504,7 +504,7 @@
       "SPAdExtensionAdExtensionStatusFilter": {
         "properties": {
           "include": {
-            "description": "| AdExtensionStatus | Description |\n| --- | --- |\n| `OPTED_OUT` | If the advertiser has opted out of this Ad Extension. |",
+            "description": "**AdExtensionStatus Enum:**\n| AdExtensionStatus | Description |\n| --- | --- |\n| `OPTED_OUT` | If the advertiser has opted out of this Ad Extension. |",
             "items": {
               "$ref": "#/components/schemas/SPAdExtensionStatus"
             },
@@ -521,7 +521,7 @@
       "SPAdExtensionAdExtensionTypeFilter": {
         "properties": {
           "include": {
-            "description": "| AdExtensionType | Description |\n| --- | --- |\n| `PROMPTS` | Enables Prompt based Ad Extension. |\n| `VIDEO` | Enables Video based Ad Extension. |",
+            "description": "**AdExtensionType Enum:**\n| AdExtensionType | Description |\n| --- | --- |\n| `PROMPTS` | Enables Prompt based Ad Extension. |\n| `VIDEO` | Enables Video based Ad Extension. |",
             "items": {
               "$ref": "#/components/schemas/SPAdExtensionType"
             },
@@ -570,7 +570,7 @@
       "SPAdExtensionAdProductFilter": {
         "properties": {
           "include": {
-            "description": "| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_PRODUCTS` | Sponsored Products ad product. |",
+            "description": "**AdProduct Enum:**\n| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_PRODUCTS` | Sponsored Products ad product. |",
             "items": {
               "$ref": "#/components/schemas/SPAdProduct"
             },
@@ -702,7 +702,7 @@
       "SPAdExtensionStateFilter": {
         "properties": {
           "include": {
-            "description": "| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
+            "description": "**State Enum:**\n| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
             "items": {
               "$ref": "#/components/schemas/SPState"
             },
@@ -717,7 +717,7 @@
         "type": "object"
       },
       "SPAdExtensionStatus": {
-        "description": "Ad Extension Status.\n\n| AdExtensionStatus | Description |\n|------|------|\n| `OPTED_OUT` | If the advertiser has opted out of this Ad Extension. |\n",
+        "description": "Ad Extension Status.\n**AdExtensionStatus Enum:**\n\n| AdExtensionStatus | Description |\n|------|------|\n| `OPTED_OUT` | If the advertiser has opted out of this Ad Extension. |\n",
         "enum": [
           "OPTED_OUT"
         ],
@@ -740,7 +740,7 @@
         "type": "object"
       },
       "SPAdExtensionType": {
-        "description": "Ad Extension Type.\n\n| AdExtensionType | Description |\n|------|------|\n| `PROMPTS` | Enables Prompt based Ad Extension. |\n| `VIDEO` | Enables Video based Ad Extension. |\n",
+        "description": "Ad Extension Type.\n**AdExtensionType Enum:**\n\n| AdExtensionType | Description |\n|------|------|\n| `PROMPTS` | Enables Prompt based Ad Extension. |\n| `VIDEO` | Enables Video based Ad Extension. |\n",
         "enum": [
           "PROMPTS",
           "VIDEO"
@@ -860,7 +860,7 @@
       "SPAdGroupAdProductFilter": {
         "properties": {
           "include": {
-            "description": "| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_PRODUCTS` | Sponsored Products ad product. |",
+            "description": "**AdProduct Enum:**\n| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_PRODUCTS` | Sponsored Products ad product. |",
             "items": {
               "$ref": "#/components/schemas/SPAdProduct"
             },
@@ -1008,7 +1008,7 @@
         "type": "object"
       },
       "SPAdGroupNameFilterType": {
-        "description": "| AdGroupNameFilterType | Description |\n| --- | --- |\n| `EXACT_MATCH` | Filter by exact match. |\n| `BROAD_MATCH` | Filter by broad match. |",
+        "description": "**AdGroupNameFilterType Enum:**\n| AdGroupNameFilterType | Description |\n| --- | --- |\n| `EXACT_MATCH` | Filter by exact match. |\n| `BROAD_MATCH` | Filter by broad match. |",
         "enum": [
           "BROAD_MATCH",
           "EXACT_MATCH"
@@ -1018,7 +1018,7 @@
       "SPAdGroupStateFilter": {
         "properties": {
           "include": {
-            "description": "| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
+            "description": "**State Enum:**\n| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
             "items": {
               "$ref": "#/components/schemas/SPState"
             },
@@ -1122,7 +1122,7 @@
         "type": "object"
       },
       "SPAdProduct": {
-        "description": "| AdProduct | Description |\n|------|------|\n| `SPONSORED_PRODUCTS` | Sponsored Products ad product. |\n",
+        "description": "**AdProduct Enum:**\n\n| AdProduct | Description |\n|------|------|\n| `SPONSORED_PRODUCTS` | Sponsored Products ad product. |\n",
         "enum": [
           "SPONSORED_PRODUCTS"
         ],
@@ -1141,7 +1141,7 @@
       "SPAdStateFilter": {
         "properties": {
           "include": {
-            "description": "| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
+            "description": "**State Enum:**\n| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
             "items": {
               "$ref": "#/components/schemas/SPState"
             },
@@ -1172,7 +1172,7 @@
         "type": "object"
       },
       "SPAdType": {
-        "description": "| AdType | Description |\n|------|------|\n| `PRODUCT_AD` | A creative built based on a specified product. |\n",
+        "description": "**AdType Enum:**\n\n| AdType | Description |\n|------|------|\n| `PRODUCT_AD` | A creative built based on a specified product. |\n",
         "enum": [
           "PRODUCT_AD"
         ],
@@ -1266,7 +1266,7 @@
         "type": "object"
       },
       "SPAutoScaleGlobalCampaignSetting": {
-        "description": "| AutoScaleGlobalCampaignSetting | Description |\n|------|------|\n| `AUTO` | Auto scale global campaign to new marketplaces |\n| `MANUAL` | Manually scale global campaign to new marketplaces |\n",
+        "description": "**AutoScaleGlobalCampaignSetting Enum:**\n\n| AutoScaleGlobalCampaignSetting | Description |\n|------|------|\n| `AUTO` | Auto scale global campaign to new marketplaces |\n| `MANUAL` | Manually scale global campaign to new marketplaces |\n",
         "enum": [
           "AUTO",
           "MANUAL"
@@ -1317,7 +1317,7 @@
         "type": "object"
       },
       "SPBidStrategy": {
-        "description": "| BidStrategy | Description |\n|------|------|\n| `MANUAL` | Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding. |\n| `RULE_BASED` | Applies bidding rules defined by the advertiser. |\n| `SALES_DOWN_ONLY` | Decreases your bids in real time when your ad is less likely to convert to a sale. Bids will never increase beyond your set bid. |\n| `SALES_UP_AND_DOWN` | Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale. |\n",
+        "description": "**BidStrategy Enum:**\n\n| BidStrategy | Description |\n|------|------|\n| `MANUAL` | Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding. |\n| `RULE_BASED` | Applies bidding rules defined by the advertiser. |\n| `SALES_DOWN_ONLY` | Decreases your bids in real time when your ad is less likely to convert to a sale. Bids will never increase beyond your set bid. |\n| `SALES_UP_AND_DOWN` | Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale. |\n",
         "enum": [
           "MANUAL",
           "RULE_BASED",
@@ -1357,7 +1357,6 @@
         "type": "object"
       },
       "SPBudgetType": {
-        "description": "| BudgetType | Description |\n|------|------|\n| `MONETARY` |  |\n",
         "enum": [
           "MONETARY"
         ],
@@ -1501,7 +1500,7 @@
       "SPCampaignAdProductFilter": {
         "properties": {
           "include": {
-            "description": "| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_PRODUCTS` | Sponsored Products ad product. |",
+            "description": "**AdProduct Enum:**\n| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_PRODUCTS` | Sponsored Products ad product. |",
             "items": {
               "$ref": "#/components/schemas/SPAdProduct"
             },
@@ -1683,7 +1682,7 @@
         "type": "object"
       },
       "SPCampaignNameFilterType": {
-        "description": "| CampaignNameFilterType | Description |\n| --- | --- |\n| `EXACT_MATCH` | Filter by exact match. |\n| `BROAD_MATCH` | Filter by broad match. |",
+        "description": "**CampaignNameFilterType Enum:**\n| CampaignNameFilterType | Description |\n| --- | --- |\n| `EXACT_MATCH` | Filter by exact match. |\n| `BROAD_MATCH` | Filter by broad match. |",
         "enum": [
           "BROAD_MATCH",
           "EXACT_MATCH"
@@ -1720,7 +1719,7 @@
       "SPCampaignStateFilter": {
         "properties": {
           "include": {
-            "description": "| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
+            "description": "**State Enum:**\n| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
             "items": {
               "$ref": "#/components/schemas/SPState"
             },
@@ -1816,7 +1815,6 @@
         "type": "object"
       },
       "SPCountryCode": {
-        "description": "| CountryCode | Description |\n|------|------|\n| `AE` |  |\n| `AU` |  |\n| `BE` |  |\n| `BR` |  |\n| `CA` |  |\n| `DE` |  |\n| `EG` |  |\n| `ES` |  |\n| `FR` |  |\n| `GB` |  |\n| `IE` |  |\n| `IN` |  |\n| `IT` |  |\n| `JP` |  |\n| `MX` |  |\n| `NL` |  |\n| `PL` |  |\n| `SA` |  |\n| `SE` |  |\n| `SG` |  |\n| `TR` |  |\n| `US` |  |\n| `ZA` |  |\n",
         "enum": [
           "AE",
           "AU",
@@ -1855,6 +1853,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "adExtensions"
+        ],
         "type": "object"
       },
       "SPCreateAdExtensionSettings": {
@@ -1909,6 +1910,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "adGroups"
+        ],
         "type": "object"
       },
       "SPCreateAdRequest": {
@@ -1922,6 +1926,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "ads"
+        ],
         "type": "object"
       },
       "SPCreateAdSettings": {
@@ -2095,6 +2102,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "campaigns"
+        ],
         "type": "object"
       },
       "SPCreateCreative": {
@@ -2382,7 +2392,7 @@
         "type": "object"
       },
       "SPCreateState": {
-        "description": "The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery\n\n| CreateState | Description |\n|------|------|\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n",
+        "description": "The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery\n**CreateState Enum:**\n\n| CreateState | Description |\n|------|------|\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n",
         "enum": [
           "ENABLED",
           "PAUSED"
@@ -2491,6 +2501,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "targets"
+        ],
         "type": "object"
       },
       "SPCreateThemeTarget": {
@@ -2567,14 +2580,14 @@
         "type": "object"
       },
       "SPCreativeBidAdjustmentType": {
-        "description": "| CreativeBidAdjustmentType | Description |\n|------|------|\n| `SPOTLIGHT` | SPOTLIGHT Video Asset. |\n",
+        "description": "**CreativeBidAdjustmentType Enum:**\n\n| CreativeBidAdjustmentType | Description |\n|------|------|\n| `SPOTLIGHT` | SPOTLIGHT Video Asset. |\n",
         "enum": [
           "SPOTLIGHT"
         ],
         "type": "string"
       },
       "SPCurrencyCode": {
-        "description": "| CurrencyCode | Description |\n|------|------|\n| `AED` | United Arab Emirates Dirham |\n| `AUD` | Australian Dollar |\n| `BRL` | Brazilian Real |\n| `CAD` | Canadian Dollar |\n| `CHF` | Swiss Franc |\n| `CNY` | Chinese Yuan |\n| `DKK` | Danish Krone |\n| `EGP` | Egyptian Pound |\n| `EUR` | Euro |\n| `GBP` | British Pound Sterling |\n| `INR` | Indian Rupee |\n| `JPY` | Japanese Yen |\n| `MXN` | Mexican Peso |\n| `MXP` | Mexican Peso |\n| `NGN` | Nigerian Naira |\n| `NOK` | Norwegian Krone |\n| `NZD` | New Zealand Dollar |\n| `PLN` | Polish Złoty |\n| `SAR` | Saudi Riyal |\n| `SEK` | Swedish Krona |\n| `SGD` | Singapore Dollar |\n| `TRY` | Turkish Lira |\n| `USD` | United States Dollar |\n| `ZAR` | South African Rand |\n",
+        "description": "**CurrencyCode Enum:**\n\n| CurrencyCode | Description |\n|------|------|\n| `AED` | United Arab Emirates Dirham |\n| `AUD` | Australian Dollar |\n| `BRL` | Brazilian Real |\n| `CAD` | Canadian Dollar |\n| `CHF` | Swiss Franc |\n| `CNY` | Chinese Yuan |\n| `DKK` | Danish Krone |\n| `EGP` | Egyptian Pound |\n| `EUR` | Euro |\n| `GBP` | British Pound Sterling |\n| `INR` | Indian Rupee |\n| `JPY` | Japanese Yen |\n| `MXN` | Mexican Peso |\n| `MXP` | Mexican Peso |\n| `NGN` | Nigerian Naira |\n| `NOK` | Norwegian Krone |\n| `NZD` | New Zealand Dollar |\n| `PLN` | Polish Złoty |\n| `SAR` | Saudi Riyal |\n| `SEK` | Swedish Krona |\n| `SGD` | Singapore Dollar |\n| `TRY` | Turkish Lira |\n| `USD` | United States Dollar |\n| `ZAR` | South African Rand |\n",
         "enum": [
           "AED",
           "AUD",
@@ -2614,6 +2627,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "adGroupIds"
+        ],
         "type": "object"
       },
       "SPDeleteAdRequest": {
@@ -2627,6 +2643,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "adIds"
+        ],
         "type": "object"
       },
       "SPDeleteCampaignRequest": {
@@ -2640,6 +2659,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "campaignIds"
+        ],
         "type": "object"
       },
       "SPDeleteTargetRequest": {
@@ -2653,10 +2675,13 @@
             "type": "array"
           }
         },
+        "required": [
+          "targetIds"
+        ],
         "type": "object"
       },
       "SPDeliveryReason": {
-        "description": "| DeliveryReason | Description |\n|------|------|\n| `ADVERTISER_ARCHIVED` |  |\n| `ADVERTISER_OUT_OF_BUDGET` | Indicates that an advertiser is out of budget for Sponsored Products campaigns for sellers. |\n| `ADVERTISER_OUT_OF_POSTPAY_CREDIT_LIMIT` | Indicates that a postpay advertiser is out of credit limit for all Sponsored Ads campaigns. |\n| `ADVERTISER_OUT_OF_POSTPAY_MONTHLY_BUDGET` | Indicates that a postpay advertiser is out of monthly budget for all Sponsored Ads campaigns. |\n| `ADVERTISER_OUT_OF_PREPAY_BALANCE` | Indicates that a prepay advertiser is out of prepay balance for all Sponsored Ads campaigns. |\n| `ADVERTISER_PAUSED` |  |\n| `ADVERTISER_PAYMENT_FAILURE` |  |\n| `ADVERTISER_POLICING_PENDING_REVIEW` |  |\n| `ADVERTISER_POLICING_SUSPENDED` |  |\n| `AD_ARCHIVED` |  |\n| `AD_CREATION_FAILED` |  |\n| `AD_CREATION_IN_PROGRESS` |  |\n| `AD_EXTENSION_ARCHIVED` |  |\n| `AD_EXTENSION_PAUSED` |  |\n| `AD_EXTENSION_POLICING_PENDING_REVIEW` |  |\n| `AD_EXTENSION_POLICING_SUSPENDED` |  |\n| `AD_GROUP_ARCHIVED` |  |\n| `AD_GROUP_INCOMPLETE` |  |\n| `AD_GROUP_LOW_BID` |  |\n| `AD_GROUP_PAUSED` |  |\n| `AD_GROUP_PENDING_REVIEW` |  |\n| `AD_GROUP_POLICING_PENDING_REVIEW` |  |\n| `AD_GROUP_REJECTED` |  |\n| `AD_INELIGIBLE` |  |\n| `AD_MISSING_DECORATION` |  |\n| `AD_MISSING_IMAGE` |  |\n| `AD_NOT_DELIVERING` |  |\n| `AD_PAUSED` |  |\n| `AD_POLICING_PENDING_REVIEW` |  |\n| `AD_POLICING_SUSPENDED` |  |\n| `BRAND_INELIGIBLE` |  |\n| `CAMPAIGN_ARCHIVED` |  |\n| `CAMPAIGN_END_DATE_REACHED` |  |\n| `CAMPAIGN_INCOMPLETE` |  |\n| `CAMPAIGN_OUT_OF_BUDGET` |  |\n| `CAMPAIGN_PAUSED` |  |\n| `CAMPAIGN_PENDING_REVIEW` |  |\n| `CAMPAIGN_PENDING_START_DATE` |  |\n| `CAMPAIGN_REJECTED` |  |\n| `CREATIVE_MISSING_ASSET` |  |\n| `CREATIVE_PENDING_REVIEW` |  |\n| `CREATIVE_REJECTED` |  |\n| `LANDING_PAGE_INELIGIBLE` |  |\n| `LANDING_PAGE_NOT_AVAILABLE` |  |\n| `MODERATION_ADULT_NOVELTY_POLICY_VIOLATION` |  |\n| `MODERATION_ADULT_PRODUCT_POLICY_VIOLATION` |  |\n| `MODERATION_ADULT_SOFTLINES_POLICY_VIOLATION` |  |\n| `MODERATION_CLAIM_WEIGHTLOSS_POLICY_VIOLATION` |  |\n| `MODERATION_CONTENT_NUDITY_POLICY_VIOLATION` |  |\n| `MODERATION_CONTENT_PROVOCATIVE_POLICY_VIOLATION` |  |\n| `MODERATION_CONTENT_SMOKING_POLICY_VIOLATION` |  |\n| `MODERATION_CRITICAL_EVENTS_POLICY_VIOLATION` |  |\n| `MODERATION_ERROR_404` |  |\n| `MODERATION_GRAPHICAL_SEXUAL_IMAGES_POLICY_VIOLATION` |  |\n| `MODERATION_HFSS_PRODUCT_POLICY_VIOLATION` |  |\n| `MODERATION_LANGUAGE_OFFENSIVE_POLICY_VIOLATION` |  |\n| `MODERATION_NOT_COMPLIANT_TO_AD_POLICY` |  |\n| `MODERATION_SMOKING_RELATED_POLICY_VIOLATION` |  |\n| `NOT_BUYABLE` |  |\n| `NOT_IN_BUYBOX` |  |\n| `NOT_IN_POLICY` |  |\n| `NO_INVENTORY` |  |\n| `NO_PURCHASABLE_OFFER` |  |\n| `OTHER` |  |\n| `OUT_OF_REWARD_BUDGET` |  |\n| `OUT_OF_STOCK` |  |\n| `PIR_RULE_EXCLUDED` |  |\n| `PORTFOLIO_ARCHIVED` |  |\n| `PORTFOLIO_END_DATE_REACHED` |  |\n| `PORTFOLIO_OUT_OF_BUDGET` |  |\n| `PORTFOLIO_PAUSED` |  |\n| `PORTFOLIO_PENDING_START_DATE` |  |\n| `SECURITY_SCAN_PENDING_REVIEW` |  |\n| `SECURITY_SCAN_REJECTED` |  |\n| `SPEND_LIMIT_EXCEEDED` |  |\n| `STATUS_UNAVAILABLE` |  |\n| `TARGET_ARCHIVED` |  |\n| `TARGET_BLOCKED` |  |\n| `TARGET_PAUSED` |  |\n| `TARGET_POLICING_SUSPENDED` |  |\n",
+        "description": "**DeliveryReason Enum:**\n\n| DeliveryReason | Description |\n|------|------|\n| `ADVERTISER_ARCHIVED` |  |\n| `ADVERTISER_OUT_OF_BUDGET` | Indicates that an advertiser is out of budget for Sponsored Products campaigns for sellers. |\n| `ADVERTISER_OUT_OF_POSTPAY_CREDIT_LIMIT` | Indicates that a postpay advertiser is out of credit limit for all Sponsored Ads campaigns. |\n| `ADVERTISER_OUT_OF_POSTPAY_MONTHLY_BUDGET` | Indicates that a postpay advertiser is out of monthly budget for all Sponsored Ads campaigns. |\n| `ADVERTISER_OUT_OF_PREPAY_BALANCE` | Indicates that a prepay advertiser is out of prepay balance for all Sponsored Ads campaigns. |\n| `ADVERTISER_PAUSED` |  |\n| `ADVERTISER_PAYMENT_FAILURE` |  |\n| `ADVERTISER_POLICING_PENDING_REVIEW` |  |\n| `ADVERTISER_POLICING_SUSPENDED` |  |\n| `AD_ARCHIVED` |  |\n| `AD_CREATION_FAILED` |  |\n| `AD_CREATION_IN_PROGRESS` |  |\n| `AD_EXTENSION_ARCHIVED` |  |\n| `AD_EXTENSION_PAUSED` |  |\n| `AD_EXTENSION_POLICING_PENDING_REVIEW` |  |\n| `AD_EXTENSION_POLICING_SUSPENDED` |  |\n| `AD_GROUP_ARCHIVED` |  |\n| `AD_GROUP_INCOMPLETE` |  |\n| `AD_GROUP_LOW_BID` |  |\n| `AD_GROUP_PAUSED` |  |\n| `AD_GROUP_PENDING_REVIEW` |  |\n| `AD_GROUP_POLICING_PENDING_REVIEW` |  |\n| `AD_GROUP_REJECTED` |  |\n| `AD_INELIGIBLE` |  |\n| `AD_MISSING_DECORATION` |  |\n| `AD_MISSING_IMAGE` |  |\n| `AD_NOT_DELIVERING` |  |\n| `AD_PAUSED` |  |\n| `AD_POLICING_PENDING_REVIEW` |  |\n| `AD_POLICING_SUSPENDED` |  |\n| `BRAND_INELIGIBLE` |  |\n| `CAMPAIGN_ARCHIVED` |  |\n| `CAMPAIGN_END_DATE_REACHED` |  |\n| `CAMPAIGN_INCOMPLETE` |  |\n| `CAMPAIGN_OUT_OF_BUDGET` |  |\n| `CAMPAIGN_PAUSED` |  |\n| `CAMPAIGN_PENDING_REVIEW` |  |\n| `CAMPAIGN_PENDING_START_DATE` |  |\n| `CAMPAIGN_REJECTED` |  |\n| `CREATIVE_MISSING_ASSET` |  |\n| `CREATIVE_PENDING_REVIEW` |  |\n| `CREATIVE_REJECTED` |  |\n| `LANDING_PAGE_INELIGIBLE` |  |\n| `LANDING_PAGE_NOT_AVAILABLE` |  |\n| `MODERATION_ADULT_NOVELTY_POLICY_VIOLATION` |  |\n| `MODERATION_ADULT_PRODUCT_POLICY_VIOLATION` |  |\n| `MODERATION_ADULT_SOFTLINES_POLICY_VIOLATION` |  |\n| `MODERATION_CLAIM_WEIGHTLOSS_POLICY_VIOLATION` |  |\n| `MODERATION_CONTENT_NUDITY_POLICY_VIOLATION` |  |\n| `MODERATION_CONTENT_PROVOCATIVE_POLICY_VIOLATION` |  |\n| `MODERATION_CONTENT_SMOKING_POLICY_VIOLATION` |  |\n| `MODERATION_CRITICAL_EVENTS_POLICY_VIOLATION` |  |\n| `MODERATION_ERROR_404` |  |\n| `MODERATION_GRAPHICAL_SEXUAL_IMAGES_POLICY_VIOLATION` |  |\n| `MODERATION_HFSS_PRODUCT_POLICY_VIOLATION` |  |\n| `MODERATION_LANGUAGE_OFFENSIVE_POLICY_VIOLATION` |  |\n| `MODERATION_NOT_COMPLIANT_TO_AD_POLICY` |  |\n| `MODERATION_SMOKING_RELATED_POLICY_VIOLATION` |  |\n| `NOT_BUYABLE` |  |\n| `NOT_IN_BUYBOX` |  |\n| `NOT_IN_POLICY` |  |\n| `NO_INVENTORY` |  |\n| `NO_PURCHASABLE_OFFER` |  |\n| `OTHER` |  |\n| `OUT_OF_REWARD_BUDGET` |  |\n| `OUT_OF_STOCK` |  |\n| `PIR_RULE_EXCLUDED` |  |\n| `PORTFOLIO_ARCHIVED` |  |\n| `PORTFOLIO_END_DATE_REACHED` |  |\n| `PORTFOLIO_OUT_OF_BUDGET` |  |\n| `PORTFOLIO_PAUSED` |  |\n| `PORTFOLIO_PENDING_START_DATE` |  |\n| `SECURITY_SCAN_PENDING_REVIEW` |  |\n| `SECURITY_SCAN_REJECTED` |  |\n| `SPEND_LIMIT_EXCEEDED` |  |\n| `STATUS_UNAVAILABLE` |  |\n| `TARGET_ARCHIVED` |  |\n| `TARGET_BLOCKED` |  |\n| `TARGET_PAUSED` |  |\n| `TARGET_POLICING_SUSPENDED` |  |\n",
         "enum": [
           "ADVERTISER_ARCHIVED",
           "ADVERTISER_OUT_OF_BUDGET",
@@ -2742,7 +2767,7 @@
         "type": "string"
       },
       "SPDeliveryStatus": {
-        "description": "| DeliveryStatus | Description |\n|------|------|\n| `DELIVERING` | Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces |\n| `NOT_DELIVERING` | Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces |\n| `UNAVAILABLE` | Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces |\n",
+        "description": "**DeliveryStatus Enum:**\n\n| DeliveryStatus | Description |\n|------|------|\n| `DELIVERING` | Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces |\n| `NOT_DELIVERING` | Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces |\n| `UNAVAILABLE` | Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces |\n",
         "enum": [
           "DELIVERING",
           "NOT_DELIVERING",
@@ -2759,7 +2784,7 @@
         "type": "object"
       },
       "SPKeywordMatchType": {
-        "description": "| KeywordMatchType | Description |\n|------|------|\n| `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE. |\n| `EXACT` | Exact match search terms. |\n| `PHRASE` | Phrase match search terms. This expands matching on user intent beyond EXACT. |\n",
+        "description": "**KeywordMatchType Enum:**\n\n| KeywordMatchType | Description |\n|------|------|\n| `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE. |\n| `EXACT` | Exact match search terms. |\n| `PHRASE` | Phrase match search terms. This expands matching on user intent beyond EXACT. |\n",
         "enum": [
           "BROAD",
           "EXACT",
@@ -2792,7 +2817,7 @@
         "type": "object"
       },
       "SPLanguageLocale": {
-        "description": "A combination of ISO-639 standard for language code and ISO-3166 for country code.\n\n| LanguageLocale | Description |\n|------|------|\n| `zh_CN` | Chinese (China). |\n",
+        "description": "A combination of ISO-639 standard for language code and ISO-3166 for country code.\n**LanguageLocale Enum:**\n\n| LanguageLocale | Description |\n|------|------|\n| `zh_CN` | Chinese (China). |\n",
         "enum": [
           "zh_CN"
         ],
@@ -2812,7 +2837,7 @@
         "type": "object"
       },
       "SPMarketplace": {
-        "description": "A list of country codes representing Amazon marketplaces\n\n| Marketplace | Description |\n|------|------|\n| `AE` |  |\n| `AU` |  |\n| `BE` |  |\n| `BR` |  |\n| `CA` |  |\n| `DE` |  |\n| `EG` |  |\n| `ES` |  |\n| `FR` |  |\n| `GB` |  |\n| `IE` |  |\n| `IN` |  |\n| `IT` |  |\n| `JP` |  |\n| `MX` |  |\n| `NL` |  |\n| `PL` |  |\n| `SA` |  |\n| `SE` |  |\n| `SG` |  |\n| `TR` |  |\n| `US` |  |\n| `ZA` |  |\n",
+        "description": "A list of country codes representing Amazon marketplaces\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
         "enum": [
           "AE",
           "AU",
@@ -2841,7 +2866,7 @@
         "type": "string"
       },
       "SPMarketplaceBudgetAllocation": {
-        "description": "| MarketplaceBudgetAllocation | Description |\n|------|------|\n| `AUTO` | Auto distribute global budget to marketplaces in global campaign |\n| `MANUAL` | Manually distribute global budget to marketplaces in global campaign |\n",
+        "description": "**MarketplaceBudgetAllocation Enum:**\n\n| MarketplaceBudgetAllocation | Description |\n|------|------|\n| `AUTO` | Auto distribute global budget to marketplaces in global campaign |\n| `MANUAL` | Manually distribute global budget to marketplaces in global campaign |\n",
         "enum": [
           "AUTO",
           "MANUAL"
@@ -2849,14 +2874,13 @@
         "type": "string"
       },
       "SPMarketplaceScope": {
-        "description": "| MarketplaceScope | Description |\n|------|------|\n| `SINGLE_MARKETPLACE` |  |\n",
         "enum": [
           "SINGLE_MARKETPLACE"
         ],
         "type": "string"
       },
       "SPMatchType": {
-        "description": "| MatchType | Description |\n| --- | --- |\n| `KEYWORDS_RELATED_TO_GIFTS` | Search terms related to gifts. |\n| `KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY` | Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically. |\n| `PRODUCT_SIMILAR` | Products similar to the specified product. |\n| `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE.  |\n| `EXACT` | Exact match search terms. |\n| `KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY` | Search terms shoppers often use to search for products in the same category as the products you're advertising. |\n| `KEYWORDS_RELATED_TO_YOUR_BRAND` | Search terms related to your brand. |\n| `PRODUCT_SUBSTITUTES` | Products that can be substituted for advertised product. |\n| `KEYWORDS_LOOSE_MATCH` | Search terms loosely matching advertised product. |\n| `PHRASE` | Phrase match search terms. This expands matching on user intent beyond EXACT. |\n| `KEYWORDS_CLOSE_MATCH` | Search terms closely matching advertised product. |\n| `PRODUCT_COMPLEMENTS` | Products that complement advertised product. |\n| `PRODUCT_EXACT` | Products exactly matching the specified product. |\n| `KEYWORDS_RELATED_TO_PRIME_DAY` | Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like \"prime day\", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day. |",
+        "description": "**MatchType Enum:**\n| MatchType | Description |\n| --- | --- |\n| `KEYWORDS_RELATED_TO_GIFTS` | Search terms related to gifts. |\n| `KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY` | Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically. |\n| `PRODUCT_SIMILAR` | Products similar to the specified product. |\n| `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE.  |\n| `EXACT` | Exact match search terms. |\n| `KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY` | Search terms shoppers often use to search for products in the same category as the products you're advertising. |\n| `KEYWORDS_RELATED_TO_YOUR_BRAND` | Search terms related to your brand. |\n| `PRODUCT_SUBSTITUTES` | Products that can be substituted for advertised product. |\n| `KEYWORDS_LOOSE_MATCH` | Search terms loosely matching advertised product. |\n| `PHRASE` | Phrase match search terms. This expands matching on user intent beyond EXACT. |\n| `KEYWORDS_CLOSE_MATCH` | Search terms closely matching advertised product. |\n| `PRODUCT_COMPLEMENTS` | Products that complement advertised product. |\n| `PRODUCT_EXACT` | Products exactly matching the specified product. |\n| `KEYWORDS_RELATED_TO_PRIME_DAY` | Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like \"prime day\", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day. |",
         "enum": [
           "BROAD",
           "EXACT",
@@ -2909,7 +2933,7 @@
         "type": "object"
       },
       "SPOffAmazonBudgetControlStrategy": {
-        "description": "| OffAmazonBudgetControlStrategy | Description |\n|------|------|\n| `MAXIMIZE_REACH` | Maximize the reach of off-Amazon inventory within the budget. |\n| `MINIMIZE_SPEND` | Minimize spend on off-Amazon inventory while maintaining delivery. |\n",
+        "description": "**OffAmazonBudgetControlStrategy Enum:**\n\n| OffAmazonBudgetControlStrategy | Description |\n|------|------|\n| `MAXIMIZE_REACH` | Maximize the reach of off-Amazon inventory within the budget. |\n| `MINIMIZE_SPEND` | Minimize spend on off-Amazon inventory while maintaining delivery. |\n",
         "enum": [
           "MAXIMIZE_REACH",
           "MINIMIZE_SPEND"
@@ -2917,7 +2941,7 @@
         "type": "string"
       },
       "SPPlacement": {
-        "description": "| Placement | Description |\n|------|------|\n| `PRODUCT_PAGE` | Placements on the product detail page, and all nonsearch placements such as the add-to-cart page. |\n| `REST_OF_SEARCH` | Placements on the middle or the bottom of the first-page search results. Also refers to ads on the second page of search results and beyond. |\n| `SITE_AMAZON_BUSINESS` | Amazon Business site placements. |\n| `TOP_OF_SEARCH` | Placements on the top row of the first-page search results. |\n",
+        "description": "**Placement Enum:**\n\n| Placement | Description |\n|------|------|\n| `PRODUCT_PAGE` | Placements on the product detail page, and all nonsearch placements such as the add-to-cart page. |\n| `REST_OF_SEARCH` | Placements on the middle or the bottom of the first-page search results. Also refers to ads on the second page of search results and beyond. |\n| `SITE_AMAZON_BUSINESS` | Amazon Business site placements. |\n| `TOP_OF_SEARCH` | Placements on the top row of the first-page search results. |\n",
         "enum": [
           "PRODUCT_PAGE",
           "REST_OF_SEARCH",
@@ -3058,7 +3082,7 @@
         "type": "object"
       },
       "SPProductIdType": {
-        "description": "| ProductIdType | Description |\n|------|------|\n| `ASIN` | ASIN identifier type. |\n| `SKU` | SKU identifier type. |\n",
+        "description": "**ProductIdType Enum:**\n\n| ProductIdType | Description |\n|------|------|\n| `ASIN` | ASIN identifier type. |\n| `SKU` | SKU identifier type. |\n",
         "enum": [
           "ASIN",
           "SKU"
@@ -3066,7 +3090,7 @@
         "type": "string"
       },
       "SPProductMatchType": {
-        "description": "| ProductMatchType | Description |\n|------|------|\n| `PRODUCT_EXACT` | Products exactly matching the specified product. |\n| `PRODUCT_SIMILAR` | Products similar to the specified product. |\n",
+        "description": "**ProductMatchType Enum:**\n\n| ProductMatchType | Description |\n|------|------|\n| `PRODUCT_EXACT` | Products exactly matching the specified product. |\n| `PRODUCT_SIMILAR` | Products similar to the specified product. |\n",
         "enum": [
           "PRODUCT_EXACT",
           "PRODUCT_SIMILAR"
@@ -3302,14 +3326,13 @@
         "type": "object"
       },
       "SPRecurrence": {
-        "description": "| Recurrence | Description |\n|------|------|\n| `DAILY` |  |\n",
         "enum": [
           "DAILY"
         ],
         "type": "string"
       },
       "SPSiteRestriction": {
-        "description": "| SiteRestriction | Description |\n|------|------|\n| `AMAZON_BUSINESS` | Restrict the ad to only show on Amazon Business. |\n| `AMAZON_HAUL` | Restrict the ad to only show on Amazon Haul. |\n",
+        "description": "**SiteRestriction Enum:**\n\n| SiteRestriction | Description |\n|------|------|\n| `AMAZON_BUSINESS` | Restrict the ad to only show on Amazon Business. |\n| `AMAZON_HAUL` | Restrict the ad to only show on Amazon Haul. |\n",
         "enum": [
           "AMAZON_BUSINESS",
           "AMAZON_HAUL"
@@ -3340,7 +3363,7 @@
         "type": "object"
       },
       "SPState": {
-        "description": "The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery\n\n| State | Description |\n|------|------|\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n",
+        "description": "The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery\n**State Enum:**\n\n| State | Description |\n|------|------|\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n",
         "enum": [
           "ARCHIVED",
           "ENABLED",
@@ -3494,7 +3517,7 @@
       "SPTargetAdProductFilter": {
         "properties": {
           "include": {
-            "description": "| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_PRODUCTS` | Sponsored Products ad product. |",
+            "description": "**AdProduct Enum:**\n| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_PRODUCTS` | Sponsored Products ad product. |",
             "items": {
               "$ref": "#/components/schemas/SPAdProduct"
             },
@@ -3673,7 +3696,7 @@
         "type": "object"
       },
       "SPTargetKeywordFilterType": {
-        "description": "| TargetKeywordFilterType | Description |\n| --- | --- |\n| `EXACT_MATCH` | Filter by exact match. |\n| `BROAD_MATCH` | Filter by broad match. |",
+        "description": "**TargetKeywordFilterType Enum:**\n| TargetKeywordFilterType | Description |\n| --- | --- |\n| `EXACT_MATCH` | Filter by exact match. |\n| `BROAD_MATCH` | Filter by broad match. |",
         "enum": [
           "BROAD_MATCH",
           "EXACT_MATCH"
@@ -3681,7 +3704,7 @@
         "type": "string"
       },
       "SPTargetLevel": {
-        "description": "| TargetLevel | Description |\n|------|------|\n| `AD_GROUP` | Target applied at the ad group level. |\n| `CAMPAIGN` | Target applied at the campaign level. |\n",
+        "description": "**TargetLevel Enum:**\n\n| TargetLevel | Description |\n|------|------|\n| `AD_GROUP` | Target applied at the ad group level. |\n| `CAMPAIGN` | Target applied at the campaign level. |\n",
         "enum": [
           "AD_GROUP",
           "CAMPAIGN"
@@ -3691,7 +3714,7 @@
       "SPTargetMatchTypeFilter": {
         "properties": {
           "include": {
-            "description": "| MatchType | Description |\n| --- | --- |\n| `KEYWORDS_RELATED_TO_GIFTS` | Search terms related to gifts. |\n| `KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY` | Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically. |\n| `PRODUCT_SIMILAR` | Products similar to the specified product. |\n| `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE.  |\n| `EXACT` | Exact match search terms. |\n| `KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY` | Search terms shoppers often use to search for products in the same category as the products you're advertising. |\n| `KEYWORDS_RELATED_TO_YOUR_BRAND` | Search terms related to your brand. |\n| `PRODUCT_SUBSTITUTES` | Products that can be substituted for advertised product. |\n| `KEYWORDS_LOOSE_MATCH` | Search terms loosely matching advertised product. |\n| `PHRASE` | Phrase match search terms. This expands matching on user intent beyond EXACT. |\n| `KEYWORDS_CLOSE_MATCH` | Search terms closely matching advertised product. |\n| `PRODUCT_COMPLEMENTS` | Products that complement advertised product. |\n| `PRODUCT_EXACT` | Products exactly matching the specified product. |\n| `KEYWORDS_RELATED_TO_PRIME_DAY` | Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like \"prime day\", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day. |",
+            "description": "**MatchType Enum:**\n| MatchType | Description |\n| --- | --- |\n| `KEYWORDS_RELATED_TO_GIFTS` | Search terms related to gifts. |\n| `KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY` | Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically. |\n| `PRODUCT_SIMILAR` | Products similar to the specified product. |\n| `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE.  |\n| `EXACT` | Exact match search terms. |\n| `KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY` | Search terms shoppers often use to search for products in the same category as the products you're advertising. |\n| `KEYWORDS_RELATED_TO_YOUR_BRAND` | Search terms related to your brand. |\n| `PRODUCT_SUBSTITUTES` | Products that can be substituted for advertised product. |\n| `KEYWORDS_LOOSE_MATCH` | Search terms loosely matching advertised product. |\n| `PHRASE` | Phrase match search terms. This expands matching on user intent beyond EXACT. |\n| `KEYWORDS_CLOSE_MATCH` | Search terms closely matching advertised product. |\n| `PRODUCT_COMPLEMENTS` | Products that complement advertised product. |\n| `PRODUCT_EXACT` | Products exactly matching the specified product. |\n| `KEYWORDS_RELATED_TO_PRIME_DAY` | Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like \"prime day\", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day. |",
             "items": {
               "$ref": "#/components/schemas/SPMatchType"
             },
@@ -3781,7 +3804,7 @@
         "type": "object"
       },
       "SPTargetProductIdFilterType": {
-        "description": "| TargetProductIdFilterType | Description |\n| --- | --- |\n| `EXACT_MATCH` | Filter by exact match. |\n| `BROAD_MATCH` | Filter by broad match. |",
+        "description": "**TargetProductIdFilterType Enum:**\n| TargetProductIdFilterType | Description |\n| --- | --- |\n| `EXACT_MATCH` | Filter by exact match. |\n| `BROAD_MATCH` | Filter by broad match. |",
         "enum": [
           "BROAD_MATCH",
           "EXACT_MATCH"
@@ -3791,7 +3814,7 @@
       "SPTargetStateFilter": {
         "properties": {
           "include": {
-            "description": "| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
+            "description": "**State Enum:**\n| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
             "items": {
               "$ref": "#/components/schemas/SPState"
             },
@@ -3840,7 +3863,7 @@
       "SPTargetTargetTypeFilter": {
         "properties": {
           "include": {
-            "description": "| TargetType | Description |\n| --- | --- |\n| `KEYWORD` | Target based on customer search terms. |\n| `PRODUCT` | Target based on a specific product. |\n| `PRODUCT_CATEGORY` | Target based on a product category. |\n| `LOCATION` | Target based on geographic location. |\n| `THEME` | Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products. |",
+            "description": "**TargetType Enum:**\n| TargetType | Description |\n| --- | --- |\n| `KEYWORD` | Target based on customer search terms. |\n| `PRODUCT` | Target based on a specific product. |\n| `PRODUCT_CATEGORY` | Target based on a product category. |\n| `LOCATION` | Target based on geographic location. |\n| `THEME` | Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products. |",
             "items": {
               "$ref": "#/components/schemas/SPTargetType"
             },
@@ -3855,7 +3878,7 @@
         "type": "object"
       },
       "SPTargetType": {
-        "description": "| TargetType | Description |\n|------|------|\n| `KEYWORD` | Target based on customer search terms. |\n| `LOCATION` | Target based on geographic location. |\n| `PRODUCT_CATEGORY` | Target based on a product category. |\n| `PRODUCT` | Target based on a specific product. |\n| `THEME` | Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products. |\n",
+        "description": "**TargetType Enum:**\n\n| TargetType | Description |\n|------|------|\n| `KEYWORD` | Target based on customer search terms. |\n| `LOCATION` | Target based on geographic location. |\n| `PRODUCT_CATEGORY` | Target based on a product category. |\n| `PRODUCT` | Target based on a specific product. |\n| `THEME` | Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products. |\n",
         "enum": [
           "KEYWORD",
           "LOCATION",
@@ -3893,7 +3916,7 @@
         "type": "object"
       },
       "SPThemeMatchType": {
-        "description": "| ThemeMatchType | Description |\n|------|------|\n| `KEYWORDS_CLOSE_MATCH` | Search terms closely matching advertised product. |\n| `KEYWORDS_LOOSE_MATCH` | Search terms loosely matching advertised product. |\n| `KEYWORDS_RELATED_TO_GIFTS` | Search terms related to gifts. |\n| `KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY` | Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically. |\n| `KEYWORDS_RELATED_TO_PRIME_DAY` | Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like \"prime day\", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day. |\n| `KEYWORDS_RELATED_TO_YOUR_BRAND` | Search terms related to your brand. |\n| `KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY` | Search terms shoppers often use to search for products in the same category as the products you're advertising. |\n| `PRODUCT_COMPLEMENTS` | Products that complement advertised product. |\n| `PRODUCT_SUBSTITUTES` | Products that can be substituted for advertised product. |\n",
+        "description": "**ThemeMatchType Enum:**\n\n| ThemeMatchType | Description |\n|------|------|\n| `KEYWORDS_CLOSE_MATCH` | Search terms closely matching advertised product. |\n| `KEYWORDS_LOOSE_MATCH` | Search terms loosely matching advertised product. |\n| `KEYWORDS_RELATED_TO_GIFTS` | Search terms related to gifts. |\n| `KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY` | Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically. |\n| `KEYWORDS_RELATED_TO_PRIME_DAY` | Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like \"prime day\", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day. |\n| `KEYWORDS_RELATED_TO_YOUR_BRAND` | Search terms related to your brand. |\n| `KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY` | Search terms shoppers often use to search for products in the same category as the products you're advertising. |\n| `PRODUCT_COMPLEMENTS` | Products that complement advertised product. |\n| `PRODUCT_SUBSTITUTES` | Products that can be substituted for advertised product. |\n",
         "enum": [
           "KEYWORDS_CLOSE_MATCH",
           "KEYWORDS_LOOSE_MATCH",
@@ -3930,6 +3953,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "adExtensions"
+        ],
         "type": "object"
       },
       "SPUpdateAdGroupBid": {
@@ -3953,6 +3979,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "adGroups"
+        ],
         "type": "object"
       },
       "SPUpdateAdRequest": {
@@ -3966,6 +3995,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "ads"
+        ],
         "type": "object"
       },
       "SPUpdateAdSettings": {
@@ -4051,6 +4083,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "campaigns"
+        ],
         "type": "object"
       },
       "SPUpdateCreative": {
@@ -4106,7 +4141,7 @@
         "type": "object"
       },
       "SPUpdateState": {
-        "description": "The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery\n\n| UpdateState | Description |\n|------|------|\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n",
+        "description": "The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery\n**UpdateState Enum:**\n\n| UpdateState | Description |\n|------|------|\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n",
         "enum": [
           "ENABLED",
           "PAUSED"
@@ -4136,6 +4171,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "targets"
+        ],
         "type": "object"
       },
       "SPVideo": {
@@ -4184,7 +4222,7 @@
         "type": "object"
       },
       "SPVideoType": {
-        "description": "Video Type: Video type of the asset added in the ad extension and its rendering form.\n\n| VideoType | Description |\n|------|------|\n| `SPOTLIGHT` | SPOTLIGHT Video Asset. |\n",
+        "description": "Video Type: Video type of the asset added in the ad extension and its rendering form.\n**VideoType Enum:**\n\n| VideoType | Description |\n|------|------|\n| `SPOTLIGHT` | SPOTLIGHT Video Asset. |\n",
         "enum": [
           "SPOTLIGHT"
         ],
@@ -4283,7 +4321,8 @@
                 "$ref": "#/components/schemas/SPCreateAdExtensionRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -4431,7 +4470,8 @@
                 "$ref": "#/components/schemas/SPCreateAdGroupRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -4579,7 +4619,8 @@
                 "$ref": "#/components/schemas/SPCreateAdRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -4727,7 +4768,8 @@
                 "$ref": "#/components/schemas/SPCreateCampaignRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -4875,7 +4917,8 @@
                 "$ref": "#/components/schemas/SPCreateTargetRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -5023,7 +5066,8 @@
                 "$ref": "#/components/schemas/SPDeleteAdGroupRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -5171,7 +5215,8 @@
                 "$ref": "#/components/schemas/SPDeleteAdRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -5319,7 +5364,8 @@
                 "$ref": "#/components/schemas/SPDeleteCampaignRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -5467,7 +5513,8 @@
                 "$ref": "#/components/schemas/SPDeleteTargetRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -6359,7 +6406,8 @@
                 "$ref": "#/components/schemas/SPUpdateAdExtensionRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -6507,7 +6555,8 @@
                 "$ref": "#/components/schemas/SPUpdateAdGroupRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -6655,7 +6704,8 @@
                 "$ref": "#/components/schemas/SPUpdateAdRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -6803,7 +6853,8 @@
                 "$ref": "#/components/schemas/SPUpdateCampaignRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -6951,7 +7002,8 @@
                 "$ref": "#/components/schemas/SPUpdateTargetRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {

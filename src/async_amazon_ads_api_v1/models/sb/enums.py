@@ -6,7 +6,9 @@ from enum import StrEnum
 
 
 class SBAdProduct(StrEnum):
-    """| AdProduct | Description |
+    """**AdProduct Enum:**
+
+    | AdProduct | Description |
     |------|------|
     | `SPONSORED_BRANDS` | Sponsored Brands ad product. |
     """
@@ -25,6 +27,7 @@ class SBAdvertisingDealPriceType(StrEnum):
 
 class SBCreateState(StrEnum):
     """The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
+    **CreateState Enum:**
 
     | CreateState | Description |
     |------|------|
@@ -37,7 +40,9 @@ class SBCreateState(StrEnum):
 
 
 class SBCurrencyCode(StrEnum):
-    """| CurrencyCode | Description |
+    """**CurrencyCode Enum:**
+
+    | CurrencyCode | Description |
     |------|------|
     | `AED` | United Arab Emirates Dirham |
     | `AUD` | Australian Dollar |
@@ -92,34 +97,7 @@ class SBCurrencyCode(StrEnum):
 
 
 class SBMarketplace(StrEnum):
-    """A list of country codes representing Amazon marketplaces
-
-    | Marketplace | Description |
-    |------|------|
-    | `AE` |  |
-    | `AU` |  |
-    | `BE` |  |
-    | `BR` |  |
-    | `CA` |  |
-    | `DE` |  |
-    | `EG` |  |
-    | `ES` |  |
-    | `FR` |  |
-    | `GB` |  |
-    | `IE` |  |
-    | `IN` |  |
-    | `IT` |  |
-    | `JP` |  |
-    | `MX` |  |
-    | `NL` |  |
-    | `PL` |  |
-    | `SA` |  |
-    | `SE` |  |
-    | `SG` |  |
-    | `TR` |  |
-    | `US` |  |
-    | `ZA` |  |
-    """
+    """A list of country codes representing Amazon marketplaces"""
 
     AE = "AE"
     AU = "AU"
@@ -147,16 +125,13 @@ class SBMarketplace(StrEnum):
 
 
 class SBMarketplaceScope(StrEnum):
-    """| MarketplaceScope | Description |
-    |------|------|
-    | `SINGLE_MARKETPLACE` |  |
-    """
-
     SINGLE_MARKETPLACE = "SINGLE_MARKETPLACE"
 
 
 class SBProductIdType(StrEnum):
-    """| ProductIdType | Description |
+    """**ProductIdType Enum:**
+
+    | ProductIdType | Description |
     |------|------|
     | `ASIN` | ASIN identifier type. |
     """
@@ -177,6 +152,7 @@ class SBRecommendationTypeEnum(StrEnum):
 
 class SBState(StrEnum):
     """The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
+    **State Enum:**
 
     | State | Description |
     |------|------|
@@ -192,6 +168,7 @@ class SBState(StrEnum):
 
 class SBUpdateState(StrEnum):
     """The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
+    **UpdateState Enum:**
 
     | UpdateState | Description |
     |------|------|

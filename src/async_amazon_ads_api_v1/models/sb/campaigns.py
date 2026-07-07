@@ -63,7 +63,9 @@ class SBBidSettings(BaseModel):
 
 
 class SBBidStrategy(StrEnum):
-    """| BidStrategy | Description |
+    """**BidStrategy Enum:**
+
+    | BidStrategy | Description |
     |------|------|
     | `MANUAL` | Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding. |
     | `SALES_UP_AND_DOWN` | Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale. |
@@ -82,11 +84,6 @@ class SBBudget(BaseModel):
 
 
 class SBBudgetType(StrEnum):
-    """| BudgetType | Description |
-    |------|------|
-    | `MONETARY` |  |
-    """
-
     MONETARY = "MONETARY"
 
 
@@ -137,7 +134,7 @@ class SBCampaignAdProductFilter(BaseModel):
 
     include: list[
         Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
-    ]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
+    ]  # **AdProduct Enum:** AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBCampaignCampaignIdFilter(BaseModel):
@@ -182,7 +179,7 @@ class SBCampaignGoalFilter(BaseModel):
 
     include: list[
         Annotated[SBGoal | str, lenient_enum(SBGoal)]
-    ]  # Goal Description `AWARENESS` Indicates a goal of driving awareness. `CONSIDERATION` Indicates a goal of driving consideration. `CONVERSIONS` Indicates a goal of driving conversions.
+    ]  # **Goal Enum:** Goal Description `AWARENESS` Indicates a goal of driving awareness. `CONSIDERATION` Indicates a goal of driving consideration. `CONVERSIONS` Indicates a goal of driving conversions.
 
 
 class SBCampaignMultiStatusResponse(BaseModel):
@@ -207,7 +204,8 @@ class SBCampaignNameFilter(BaseModel):
 
 
 class SBCampaignNameFilterType(StrEnum):
-    """| CampaignNameFilterType | Description |
+    """**CampaignNameFilterType Enum:**
+    | CampaignNameFilterType | Description |
     | --- | --- |
     | `EXACT_MATCH` | Filter by exact match. |
     | `BROAD_MATCH` | Filter by broad match. |"""
@@ -234,7 +232,7 @@ class SBCampaignStateFilter(BaseModel):
 
     include: list[
         Annotated[SBState | str, lenient_enum(SBState)]
-    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
+    ]  # **State Enum:** State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SBCampaignSuccessResponse(BaseModel):
@@ -262,7 +260,9 @@ class SBCampaignUpdate(BaseModel):
 
 
 class SBCostType(StrEnum):
-    """| CostType | Description |
+    """**CostType Enum:**
+
+    | CostType | Description |
     |------|------|
     | `CPC` | Cost per click. |
     | `CPM` | Cost per thousand impressions. |
@@ -277,33 +277,6 @@ class SBCostType(StrEnum):
 
 
 class SBCountryCode(StrEnum):
-    """| CountryCode | Description |
-    |------|------|
-    | `AE` |  |
-    | `AU` |  |
-    | `BE` |  |
-    | `BR` |  |
-    | `CA` |  |
-    | `DE` |  |
-    | `EG` |  |
-    | `ES` |  |
-    | `FR` |  |
-    | `GB` |  |
-    | `IE` |  |
-    | `IN` |  |
-    | `IT` |  |
-    | `JP` |  |
-    | `MX` |  |
-    | `NL` |  |
-    | `PL` |  |
-    | `SA` |  |
-    | `SE` |  |
-    | `SG` |  |
-    | `TR` |  |
-    | `US` |  |
-    | `ZA` |  |
-    """
-
     AE = "AE"
     AU = "AU"
     BE = "BE"
@@ -389,7 +362,7 @@ class SBCreateCampaignOptimizations(BaseModel):
 class SBCreateCampaignRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    campaigns: list[SBCampaignCreate] | None = None
+    campaigns: list[SBCampaignCreate]
 
 
 class SBCreateGoalSettings(BaseModel):
@@ -426,11 +399,13 @@ class SBCreateShopperSegmentBidAdjustment(BaseModel):
 class SBDeleteCampaignRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    campaignIds: list[str] | None = None
+    campaignIds: list[str]
 
 
 class SBGoal(StrEnum):
-    """| Goal | Description |
+    """**Goal Enum:**
+
+    | Goal | Description |
     |------|------|
     | `AWARENESS` | Indicates a goal of driving awareness. |
     | `CONSIDERATION` | Indicates a goal of driving consideration. |
@@ -450,7 +425,9 @@ class SBGoalSettings(BaseModel):
 
 
 class SBKPI(StrEnum):
-    """| KPI | Description |
+    """**KPI Enum:**
+
+    | KPI | Description |
     |------|------|
     | `CLICKS` | Indicates a goal of driving clicks. |
     | `TOP_OF_SEARCH_IMPRESSION_SHARE` | Indicates a goal of maximizing impression for top search placement. |
@@ -475,7 +452,9 @@ class SBMonetaryBudgetValue(BaseModel):
 
 
 class SBPlacement(StrEnum):
-    """| Placement | Description |
+    """**Placement Enum:**
+
+    | Placement | Description |
     |------|------|
     | `HOME_PAGE` | Home page. |
     | `PRODUCT_PAGE` | Placements on the product detail page, and all nonsearch placements such as the add-to-cart page. |
@@ -512,18 +491,14 @@ class SBQueryCampaignRequest(BaseModel):
 
 
 class SBRecurrence(StrEnum):
-    """| Recurrence | Description |
-    |------|------|
-    | `DAILY` |  |
-    | `LIFETIME` |  |
-    """
-
     DAILY = "DAILY"
     LIFETIME = "LIFETIME"
 
 
 class SBSalesChannel(StrEnum):
-    """| SalesChannel | Description |
+    """**SalesChannel Enum:**
+
+    | SalesChannel | Description |
     |------|------|
     | `AMAZON` | A product sold on Amazon-owned sites. |
     | `OFF_AMAZON` | A product sold on a site not owned by Amazon. |
@@ -534,11 +509,6 @@ class SBSalesChannel(StrEnum):
 
 
 class SBShopperSegment(StrEnum):
-    """| ShopperSegment | Description |
-    |------|------|
-    | `NEW_TO_BRAND` |  |
-    """
-
     NEW_TO_BRAND = "NEW_TO_BRAND"
 
 
@@ -550,7 +520,9 @@ class SBShopperSegmentBidAdjustment(BaseModel):
 
 
 class SBSiteRestriction(StrEnum):
-    """| SiteRestriction | Description |
+    """**SiteRestriction Enum:**
+
+    | SiteRestriction | Description |
     |------|------|
     | `AMAZON_BUSINESS` | Restrict the ad to only show on Amazon Business. |
     """
@@ -586,7 +558,7 @@ class SBUpdateCampaignOptimizations(BaseModel):
 class SBUpdateCampaignRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    campaigns: list[SBCampaignUpdate] | None = None
+    campaigns: list[SBCampaignUpdate]
 
 
 __all__ = [

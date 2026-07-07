@@ -11,7 +11,9 @@ from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 
 class SDDeliveryReason(StrEnum):
-    """| DeliveryReason | Description |
+    """**DeliveryReason Enum:**
+
+    | DeliveryReason | Description |
     |------|------|
     | `ADVERTISER_ARCHIVED` |  |
     | `ADVERTISER_OUT_OF_BUDGET` | Indicates that an advertiser is out of budget for Sponsored Products campaigns for sellers. |
@@ -76,7 +78,9 @@ class SDDeliveryReason(StrEnum):
 
 
 class SDDeliveryStatus(StrEnum):
-    """| DeliveryStatus | Description |
+    """**DeliveryStatus Enum:**
+
+    | DeliveryStatus | Description |
     |------|------|
     | `DELIVERING` | Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces |
     | `NOT_DELIVERING` | Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces |

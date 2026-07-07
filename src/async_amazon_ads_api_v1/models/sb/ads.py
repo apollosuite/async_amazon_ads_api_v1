@@ -65,7 +65,7 @@ class SBAdAdProductFilter(BaseModel):
 
     include: list[
         Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
-    ]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
+    ]  # **AdProduct Enum:** AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBAdCampaignIdFilter(BaseModel):
@@ -108,7 +108,8 @@ class SBAdNameFilter(BaseModel):
 
 
 class SBAdNameFilterType(StrEnum):
-    """| AdNameFilterType | Description |
+    """**AdNameFilterType Enum:**
+    | AdNameFilterType | Description |
     | --- | --- |
     | `EXACT_MATCH` | Filter by exact match. |
     | `BROAD_MATCH` | Filter by broad match. |"""
@@ -122,7 +123,7 @@ class SBAdStateFilter(BaseModel):
 
     include: list[
         Annotated[SBState | str, lenient_enum(SBState)]
-    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
+    ]  # **State Enum:** State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SBAdSuccessResponse(BaseModel):
@@ -133,7 +134,9 @@ class SBAdSuccessResponse(BaseModel):
 
 
 class SBAdType(StrEnum):
-    """| AdType | Description |
+    """**AdType Enum:**
+
+    | AdType | Description |
     |------|------|
     | `COMPONENT` | A creative that can features a collection of videos, images, and products. |
     """
@@ -176,7 +179,9 @@ class SBBrandGalleryCardCreativeElement(BaseModel):
 
 
 class SBBrandGalleryCreativePropertiesToOptimize(StrEnum):
-    """| BrandGalleryCreativePropertiesToOptimize | Description |
+    """**BrandGalleryCreativePropertiesToOptimize Enum:**
+
+    | BrandGalleryCreativePropertiesToOptimize | Description |
     |------|------|
     | `HEADLINE` | The headline in the creative. |
     """
@@ -231,7 +236,9 @@ class SBCollectionLandingPage(BaseModel):
 
 
 class SBCollectionLandingPageType(StrEnum):
-    """| CollectionLandingPageType | Description |
+    """**CollectionLandingPageType Enum:**
+
+    | CollectionLandingPageType | Description |
     |------|------|
     | `ASIN_LIST` | A list of products based on the products promoted in the ad creative. |
     | `STORE` | A brand Store landing page. |
@@ -255,7 +262,7 @@ class SBComponentCreative(BaseModel):
 class SBCreateAdRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    ads: list[SBAdCreate] | None = None
+    ads: list[SBAdCreate]
 
 
 class SBCreateAdvertisedProducts(BaseModel):
@@ -378,6 +385,7 @@ class SBCreateManualCollectionSettings(BaseModel):
         SBCreateAdvertisedProducts
     ]  # The products featured in the ad. Required for manual collections.
     sharedSettings: SBCreateSharedCollectionSettings
+    title: str | None = None  # Optional title for the collection. If not provided, title will be auto-generated.
 
 
 class SBCreateProductCollectionLandingPage(BaseModel):
@@ -510,7 +518,7 @@ class SBCreativeStatus(BaseModel):
 class SBDeleteAdRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adIds: list[str] | None = None
+    adIds: list[str]
 
 
 class SBFormatProperties(BaseModel):
@@ -546,10 +554,13 @@ class SBManualCollectionSettings(BaseModel):
     landingPage: SBCollectionLandingPage
     productInclusions: list[SBAdvertisedProducts]  # The products featured in the ad. Required for manual collections.
     sharedSettings: SBSharedCollectionSettings
+    title: str | None = None  # Optional title for the collection. If not provided, title will be auto-generated.
 
 
 class SBModerationStatus(StrEnum):
-    """| ModerationStatus | Description |
+    """**ModerationStatus Enum:**
+
+    | ModerationStatus | Description |
     |------|------|
     | `APPROVED_WITH_EXCEPTIONS` | The creative passed basic moderation but was found to be invalid for some supplies. The creative is serving on approved supplies. |
     | `PENDING_TRANSLATION` | The creative is pending creative Translations. |
@@ -566,7 +577,9 @@ class SBModerationStatus(StrEnum):
 
 
 class SBProductCollectionCreativePropertiesToOptimize(StrEnum):
-    """| ProductCollectionCreativePropertiesToOptimize | Description |
+    """**ProductCollectionCreativePropertiesToOptimize Enum:**
+
+    | ProductCollectionCreativePropertiesToOptimize | Description |
     |------|------|
     | `HEADLINE` | The headline in the creative. |
     """
@@ -587,7 +600,9 @@ class SBProductCollectionLandingPage(BaseModel):
 
 
 class SBProductCollectionLandingPageType(StrEnum):
-    """| ProductCollectionLandingPageType | Description |
+    """**ProductCollectionLandingPageType Enum:**
+
+    | ProductCollectionLandingPageType | Description |
     |------|------|
     | `ASIN_LIST` | A list of products based on the products promoted in the ad creative. |
     | `CUSTOM_URL` | A custom landing page. Available for vendors only. |
@@ -673,7 +688,9 @@ class SBSharedCollectionSettings(BaseModel):
 
 
 class SBStoreSpotlightCreativePropertiesToOptimize(StrEnum):
-    """| StoreSpotlightCreativePropertiesToOptimize | Description |
+    """**StoreSpotlightCreativePropertiesToOptimize Enum:**
+
+    | StoreSpotlightCreativePropertiesToOptimize | Description |
     |------|------|
     | `HEADLINE` | The headline in the creative. |
     """
@@ -689,7 +706,9 @@ class SBStoreSpotlightLandingPage(BaseModel):
 
 
 class SBStoreSpotlightLandingPageType(StrEnum):
-    """| StoreSpotlightLandingPageType | Description |
+    """**StoreSpotlightLandingPageType Enum:**
+
+    | StoreSpotlightLandingPageType | Description |
     |------|------|
     | `STORE` | A brand Store landing page. |
     """
@@ -730,7 +749,7 @@ class SBStoreSpotlightSettings(BaseModel):
 class SBUpdateAdRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    ads: list[SBAdUpdate] | None = None
+    ads: list[SBAdUpdate]
 
 
 class SBUpdateAutoCollectionSettings(BaseModel):
@@ -825,6 +844,7 @@ class SBUpdateManualCollectionSettings(BaseModel):
         None  # The products featured in the ad. Required for manual collections.
     )
     sharedSettings: SBUpdateSharedCollectionSettings | None = None
+    title: str | None = None  # Optional title for the collection. If not provided, title will be auto-generated.
 
 
 class SBUpdateProductCollectionLandingPage(BaseModel):
@@ -952,7 +972,9 @@ class SBVideoLandingPage(BaseModel):
 
 
 class SBVideoLandingPageType(StrEnum):
-    """| VideoLandingPageType | Description |
+    """**VideoLandingPageType Enum:**
+
+    | VideoLandingPageType | Description |
     |------|------|
     | `DETAIL_PAGE` | A product detail page. |
     | `STORE` | A brand Store landing page. |

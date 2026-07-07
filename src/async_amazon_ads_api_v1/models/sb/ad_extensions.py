@@ -47,7 +47,7 @@ class SBAdExtensionAdExtensionStatusFilter(BaseModel):
 
     include: list[
         Annotated[SBAdExtensionStatus | str, lenient_enum(SBAdExtensionStatus)]
-    ]  # AdExtensionStatus Description `OPTED_OUT` If the advertiser has opted out of this Ad Extension.
+    ]  # **AdExtensionStatus Enum:** AdExtensionStatus Description `OPTED_OUT` If the advertiser has opted out of this Ad Extension.
 
 
 class SBAdExtensionAdExtensionTypeFilter(BaseModel):
@@ -55,7 +55,7 @@ class SBAdExtensionAdExtensionTypeFilter(BaseModel):
 
     include: list[
         Annotated[SBAdExtensionType | str, lenient_enum(SBAdExtensionType)]
-    ]  # AdExtensionType Description `PROMPTS` Enables Prompt based Ad Extension.
+    ]  # **AdExtensionType Enum:** AdExtensionType Description `PROMPTS` Enables Prompt based Ad Extension.
 
 
 class SBAdExtensionAdGroupIdFilter(BaseModel):
@@ -75,7 +75,7 @@ class SBAdExtensionAdProductFilter(BaseModel):
 
     include: list[
         Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
-    ]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
+    ]  # **AdProduct Enum:** AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBAdExtensionCreate(BaseModel):
@@ -119,11 +119,12 @@ class SBAdExtensionStateFilter(BaseModel):
 
     include: list[
         Annotated[SBState | str, lenient_enum(SBState)]
-    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
+    ]  # **State Enum:** State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SBAdExtensionStatus(StrEnum):
     """Ad Extension Status.
+    **AdExtensionStatus Enum:**
 
     | AdExtensionStatus | Description |
     |------|------|
@@ -142,6 +143,7 @@ class SBAdExtensionSuccessResponse(BaseModel):
 
 class SBAdExtensionType(StrEnum):
     """Ad Extension Type.
+    **AdExtensionType Enum:**
 
     | AdExtensionType | Description |
     |------|------|
@@ -161,7 +163,7 @@ class SBAdExtensionUpdate(BaseModel):
 class SBCreateAdExtensionRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adExtensions: list[SBAdExtensionCreate] | None = None
+    adExtensions: list[SBAdExtensionCreate]
 
 
 class SBCreateAdExtensionSettings(BaseModel):
@@ -203,7 +205,7 @@ class SBQueryAdExtensionRequest(BaseModel):
 class SBUpdateAdExtensionRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adExtensions: list[SBAdExtensionUpdate] | None = None
+    adExtensions: list[SBAdExtensionUpdate]
 
 
 __all__ = [

@@ -35,11 +35,6 @@ class SDBudget(BaseModel):
 
 
 class SDBudgetType(StrEnum):
-    """| BudgetType | Description |
-    |------|------|
-    | `MONETARY` |  |
-    """
-
     MONETARY = "MONETARY"
 
 
@@ -81,7 +76,7 @@ class SDCampaignAdProductFilter(BaseModel):
 
     include: list[
         Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
-    ]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
+    ]  # **AdProduct Enum:** AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
 
 
 class SDCampaignCampaignIdFilter(BaseModel):
@@ -135,7 +130,8 @@ class SDCampaignNameFilter(BaseModel):
 
 
 class SDCampaignNameFilterType(StrEnum):
-    """| CampaignNameFilterType | Description |
+    """**CampaignNameFilterType Enum:**
+    | CampaignNameFilterType | Description |
     | --- | --- |
     | `EXACT_MATCH` | Filter by exact match. |
     | `BROAD_MATCH` | Filter by broad match. |"""
@@ -155,7 +151,7 @@ class SDCampaignStateFilter(BaseModel):
 
     include: list[
         Annotated[SDState | str, lenient_enum(SDState)]
-    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
+    ]  # **State Enum:** State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SDCampaignSuccessResponse(BaseModel):
@@ -182,7 +178,9 @@ class SDCampaignUpdate(BaseModel):
 
 
 class SDCostType(StrEnum):
-    """| CostType | Description |
+    """**CostType Enum:**
+
+    | CostType | Description |
     |------|------|
     | `CPC` | Cost per click. |
     | `VCPM` | Cost per thousand views. |
@@ -193,31 +191,6 @@ class SDCostType(StrEnum):
 
 
 class SDCountryCode(StrEnum):
-    """| CountryCode | Description |
-    |------|------|
-    | `AE` |  |
-    | `AU` |  |
-    | `BE` |  |
-    | `BR` |  |
-    | `CA` |  |
-    | `DE` |  |
-    | `EG` |  |
-    | `ES` |  |
-    | `FR` |  |
-    | `GB` |  |
-    | `IN` |  |
-    | `IT` |  |
-    | `JP` |  |
-    | `MX` |  |
-    | `NL` |  |
-    | `PL` |  |
-    | `SA` |  |
-    | `SE` |  |
-    | `SG` |  |
-    | `TR` |  |
-    | `US` |  |
-    """
-
     AE = "AE"
     AU = "AU"
     BE = "BE"
@@ -257,7 +230,7 @@ class SDCreateBudgetValue(BaseModel):
 class SDCreateCampaignRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    campaigns: list[SDCampaignCreate] | None = None
+    campaigns: list[SDCampaignCreate]
 
 
 class SDCreateMonetaryBudget(BaseModel):
@@ -282,7 +255,7 @@ class SDCreateTag(BaseModel):
 class SDDeleteCampaignRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    campaignIds: list[str] | None = None
+    campaignIds: list[str]
 
 
 class SDMonetaryBudget(BaseModel):
@@ -312,11 +285,6 @@ class SDQueryCampaignRequest(BaseModel):
 
 
 class SDRecurrence(StrEnum):
-    """| Recurrence | Description |
-    |------|------|
-    | `DAILY` |  |
-    """
-
     DAILY = "DAILY"
 
 
@@ -330,7 +298,7 @@ class SDTag(BaseModel):
 class SDUpdateCampaignRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    campaigns: list[SDCampaignUpdate] | None = None
+    campaigns: list[SDCampaignUpdate]
 
 
 __all__ = [

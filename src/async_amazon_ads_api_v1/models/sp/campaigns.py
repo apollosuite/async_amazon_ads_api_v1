@@ -43,7 +43,9 @@ class SPAutoCreationSettings(BaseModel):
 
 
 class SPAutoScaleGlobalCampaignSetting(StrEnum):
-    """| AutoScaleGlobalCampaignSetting | Description |
+    """**AutoScaleGlobalCampaignSetting Enum:**
+
+    | AutoScaleGlobalCampaignSetting | Description |
     |------|------|
     | `AUTO` | Auto scale global campaign to new marketplaces |
     | `MANUAL` | Manually scale global campaign to new marketplaces |
@@ -73,7 +75,9 @@ class SPBidSettings(BaseModel):
 
 
 class SPBidStrategy(StrEnum):
-    """| BidStrategy | Description |
+    """**BidStrategy Enum:**
+
+    | BidStrategy | Description |
     |------|------|
     | `MANUAL` | Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding. |
     | `RULE_BASED` | Applies bidding rules defined by the advertiser. |
@@ -107,11 +111,6 @@ class SPBudgetSettings(BaseModel):
 
 
 class SPBudgetType(StrEnum):
-    """| BudgetType | Description |
-    |------|------|
-    | `MONETARY` |  |
-    """
-
     MONETARY = "MONETARY"
 
 
@@ -161,7 +160,7 @@ class SPCampaignAdProductFilter(BaseModel):
 
     include: list[
         Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
-    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+    ]  # **AdProduct Enum:** AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPCampaignCampaignIdFilter(BaseModel):
@@ -219,7 +218,8 @@ class SPCampaignNameFilter(BaseModel):
 
 
 class SPCampaignNameFilterType(StrEnum):
-    """| CampaignNameFilterType | Description |
+    """**CampaignNameFilterType Enum:**
+    | CampaignNameFilterType | Description |
     | --- | --- |
     | `EXACT_MATCH` | Filter by exact match. |
     | `BROAD_MATCH` | Filter by broad match. |"""
@@ -246,7 +246,7 @@ class SPCampaignStateFilter(BaseModel):
 
     include: list[
         Annotated[SPState | str, lenient_enum(SPState)]
-    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
+    ]  # **State Enum:** State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SPCampaignSuccessResponse(BaseModel):
@@ -276,33 +276,6 @@ class SPCampaignUpdate(BaseModel):
 
 
 class SPCountryCode(StrEnum):
-    """| CountryCode | Description |
-    |------|------|
-    | `AE` |  |
-    | `AU` |  |
-    | `BE` |  |
-    | `BR` |  |
-    | `CA` |  |
-    | `DE` |  |
-    | `EG` |  |
-    | `ES` |  |
-    | `FR` |  |
-    | `GB` |  |
-    | `IE` |  |
-    | `IN` |  |
-    | `IT` |  |
-    | `JP` |  |
-    | `MX` |  |
-    | `NL` |  |
-    | `PL` |  |
-    | `SA` |  |
-    | `SE` |  |
-    | `SG` |  |
-    | `TR` |  |
-    | `US` |  |
-    | `ZA` |  |
-    """
-
     AE = "AE"
     AU = "AU"
     BE = "BE"
@@ -395,7 +368,7 @@ class SPCreateCampaignOptimizations(BaseModel):
 class SPCreateCampaignRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    campaigns: list[SPCampaignCreate] | None = None
+    campaigns: list[SPCampaignCreate]
 
 
 class SPCreateCreativeBidAdjustment(BaseModel):
@@ -438,7 +411,9 @@ class SPCreativeBidAdjustment(BaseModel):
 
 
 class SPCreativeBidAdjustmentType(StrEnum):
-    """| CreativeBidAdjustmentType | Description |
+    """**CreativeBidAdjustmentType Enum:**
+
+    | CreativeBidAdjustmentType | Description |
     |------|------|
     | `SPOTLIGHT` | SPOTLIGHT Video Asset. |
     """
@@ -449,11 +424,13 @@ class SPCreativeBidAdjustmentType(StrEnum):
 class SPDeleteCampaignRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    campaignIds: list[str] | None = None
+    campaignIds: list[str]
 
 
 class SPMarketplaceBudgetAllocation(StrEnum):
-    """| MarketplaceBudgetAllocation | Description |
+    """**MarketplaceBudgetAllocation Enum:**
+
+    | MarketplaceBudgetAllocation | Description |
     |------|------|
     | `AUTO` | Auto distribute global budget to marketplaces in global campaign |
     | `MANUAL` | Manually distribute global budget to marketplaces in global campaign |
@@ -478,7 +455,9 @@ class SPMonetaryBudgetValue(BaseModel):
 
 
 class SPOffAmazonBudgetControlStrategy(StrEnum):
-    """| OffAmazonBudgetControlStrategy | Description |
+    """**OffAmazonBudgetControlStrategy Enum:**
+
+    | OffAmazonBudgetControlStrategy | Description |
     |------|------|
     | `MAXIMIZE_REACH` | Maximize the reach of off-Amazon inventory within the budget. |
     | `MINIMIZE_SPEND` | Minimize spend on off-Amazon inventory while maintaining delivery. |
@@ -489,7 +468,9 @@ class SPOffAmazonBudgetControlStrategy(StrEnum):
 
 
 class SPPlacement(StrEnum):
-    """| Placement | Description |
+    """**Placement Enum:**
+
+    | Placement | Description |
     |------|------|
     | `PRODUCT_PAGE` | Placements on the product detail page, and all nonsearch placements such as the add-to-cart page. |
     | `REST_OF_SEARCH` | Placements on the middle or the bottom of the first-page search results. Also refers to ads on the second page of search results and beyond. |
@@ -525,16 +506,13 @@ class SPQueryCampaignRequest(BaseModel):
 
 
 class SPRecurrence(StrEnum):
-    """| Recurrence | Description |
-    |------|------|
-    | `DAILY` |  |
-    """
-
     DAILY = "DAILY"
 
 
 class SPSiteRestriction(StrEnum):
-    """| SiteRestriction | Description |
+    """**SiteRestriction Enum:**
+
+    | SiteRestriction | Description |
     |------|------|
     | `AMAZON_BUSINESS` | Restrict the ad to only show on Amazon Business. |
     | `AMAZON_HAUL` | Restrict the ad to only show on Amazon Haul. |
@@ -581,7 +559,7 @@ class SPUpdateCampaignOptimizations(BaseModel):
 class SPUpdateCampaignRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    campaigns: list[SPCampaignUpdate] | None = None
+    campaigns: list[SPCampaignUpdate]
 
 
 __all__ = [

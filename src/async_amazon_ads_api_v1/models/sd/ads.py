@@ -51,7 +51,7 @@ class SDAdAdProductFilter(BaseModel):
 
     include: list[
         Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
-    ]  # AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
+    ]  # **AdProduct Enum:** AdProduct Description `SPONSORED_DISPLAY` Sponsored Display ad product.
 
 
 class SDAdCreate(BaseModel):
@@ -87,7 +87,9 @@ class SDAdSuccessResponse(BaseModel):
 
 
 class SDAdType(StrEnum):
-    """| AdType | Description |
+    """**AdType Enum:**
+
+    | AdType | Description |
     |------|------|
     | `COMPONENT` | A creative that can features a collection of videos, images, and products. |
     """
@@ -150,7 +152,9 @@ class SDComponentLandingPage(BaseModel):
 
 
 class SDComponentLandingPageType(StrEnum):
-    """| ComponentLandingPageType | Description |
+    """**ComponentLandingPageType Enum:**
+
+    | ComponentLandingPageType | Description |
     |------|------|
     | `OFF_AMAZON_LINK` | An off-Amazon landing page. |
     """
@@ -161,7 +165,7 @@ class SDComponentLandingPageType(StrEnum):
 class SDCreateAdRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    ads: list[SDAdCreate] | None = None
+    ads: list[SDAdCreate]
 
 
 class SDCreateAdvertisedProducts(BaseModel):
@@ -247,7 +251,7 @@ class SDCreativeStatus(BaseModel):
 class SDDeleteAdRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adIds: list[str] | None = None
+    adIds: list[str]
 
 
 class SDFormatProperties(BaseModel):
@@ -270,7 +274,9 @@ class SDImage(BaseModel):
 
 
 class SDModerationStatus(StrEnum):
-    """| ModerationStatus | Description |
+    """**ModerationStatus Enum:**
+
+    | ModerationStatus | Description |
     |------|------|
     | `PUBLISHED` | The creative passed moderation and is serving. |
     | `REJECTED_BY_MODERATION` | The creative was rejected during the moderation process. |
@@ -320,7 +326,9 @@ class SDResponsiveEcommerceLandingPage(BaseModel):
 
 
 class SDResponsiveEcommerceLandingPageType(StrEnum):
-    """| ResponsiveEcommerceLandingPageType | Description |
+    """**ResponsiveEcommerceLandingPageType Enum:**
+
+    | ResponsiveEcommerceLandingPageType | Description |
     |------|------|
     | `MOMENT` | A moment landing page. |
     | `STORE` | A brand Store landing page. |
@@ -350,7 +358,7 @@ class SDResponsiveEcommerceSettings(BaseModel):
 class SDUpdateAdRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    ads: list[SDAdUpdate] | None = None
+    ads: list[SDAdUpdate]
 
 
 class SDUpdateAssetBasedCreativeSettings(BaseModel):
@@ -396,7 +404,9 @@ class SDVideoLandingPage(BaseModel):
 
 
 class SDVideoLandingPageType(StrEnum):
-    """| VideoLandingPageType | Description |
+    """**VideoLandingPageType Enum:**
+
+    | VideoLandingPageType | Description |
     |------|------|
     | `MOMENT` | A moment landing page. |
     | `STORE` | A brand Store landing page. |

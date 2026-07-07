@@ -49,7 +49,7 @@ class SPAdExtensionAdExtensionStatusFilter(BaseModel):
 
     include: list[
         Annotated[SPAdExtensionStatus | str, lenient_enum(SPAdExtensionStatus)]
-    ]  # AdExtensionStatus Description `OPTED_OUT` If the advertiser has opted out of this Ad Extension.
+    ]  # **AdExtensionStatus Enum:** AdExtensionStatus Description `OPTED_OUT` If the advertiser has opted out of this Ad Extension.
 
 
 class SPAdExtensionAdExtensionTypeFilter(BaseModel):
@@ -57,7 +57,7 @@ class SPAdExtensionAdExtensionTypeFilter(BaseModel):
 
     include: list[
         Annotated[SPAdExtensionType | str, lenient_enum(SPAdExtensionType)]
-    ]  # AdExtensionType Description `PROMPTS` Enables Prompt based Ad Extension. `VIDEO` Enables Video based Ad Extension.
+    ]  # **AdExtensionType Enum:** AdExtensionType Description `PROMPTS` Enables Prompt based Ad Extension. `VIDEO` Enables Video based Ad Extension.
 
 
 class SPAdExtensionAdGroupIdFilter(BaseModel):
@@ -77,7 +77,7 @@ class SPAdExtensionAdProductFilter(BaseModel):
 
     include: list[
         Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
-    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+    ]  # **AdProduct Enum:** AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPAdExtensionCreate(BaseModel):
@@ -122,11 +122,12 @@ class SPAdExtensionStateFilter(BaseModel):
 
     include: list[
         Annotated[SPState | str, lenient_enum(SPState)]
-    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
+    ]  # **State Enum:** State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SPAdExtensionStatus(StrEnum):
     """Ad Extension Status.
+    **AdExtensionStatus Enum:**
 
     | AdExtensionStatus | Description |
     |------|------|
@@ -145,6 +146,7 @@ class SPAdExtensionSuccessResponse(BaseModel):
 
 class SPAdExtensionType(StrEnum):
     """Ad Extension Type.
+    **AdExtensionType Enum:**
 
     | AdExtensionType | Description |
     |------|------|
@@ -166,7 +168,7 @@ class SPAdExtensionUpdate(BaseModel):
 class SPCreateAdExtensionRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adExtensions: list[SPAdExtensionCreate] | None = None
+    adExtensions: list[SPAdExtensionCreate]
 
 
 class SPCreateAdExtensionSettings(BaseModel):
@@ -215,7 +217,7 @@ class SPQueryAdExtensionRequest(BaseModel):
 class SPUpdateAdExtensionRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adExtensions: list[SPAdExtensionUpdate] | None = None
+    adExtensions: list[SPAdExtensionUpdate]
 
 
 class SPVideoExtension(BaseModel):
@@ -230,6 +232,7 @@ class SPVideoExtension(BaseModel):
 
 class SPVideoType(StrEnum):
     """Video Type: Video type of the asset added in the ad extension and its rendering form.
+    **VideoType Enum:**
 
     | VideoType | Description |
     |------|------|

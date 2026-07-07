@@ -98,7 +98,7 @@
         "type": "object"
       },
       "ErrorCode": {
-        "description": "| ErrorCode | Description |\n|------|------|\n| `ACTION_NOT_SUPPORTED` | The request is not supported. |\n| `ACTIVE_RESOURCE_LIMIT_EXCEEDED` | Too many live resources. Remove resources and try again. |\n| `ARCHIVED_PARENT_CANNOT_CREATE` | New resources cannot be created within an archived parent. |\n| `ARCHIVED_PARENT_CANNOT_EDIT` | Resources within an archived parent cannot be edited. |\n| `ARCHIVED_RESOURCE_CANNOT_EDIT` | Archived resources cannot be edited. |\n| `AUTOCREATED_ENTITY_CANNOT_EDIT` | Autocreated entities cannot be edited. To complete this action, create the resource manually. |\n| `BAD_REQUEST` | The request is not valid considering the documented schema. |\n| `CONFLICT` | Operation could not be completed due to a conflict. Please retry your request. |\n| `CONTENT_TOO_LARGE` | The request is too large. Consider splitting it into multiple requests. |\n| `DATE_CANNOT_BE_IN_PAST` | Update the date to be in the future. |\n| `DATE_CANNOT_BE_NULL` | Update the date. |\n| `DATE_TOO_SOON` | Update the date to be further in the future. |\n| `DUPLICATE_FIELD_VALUE_FOUND` | Multiple resources share the non-unique field values. Remove the non-unique field value. |\n| `DUPLICATE_RESOURCE_ID_FOUND` | Multiple resources share the same ID. Remove the duplicate ID. |\n| `DURATION_TOO_SHORT` | Update the length to be within the required range. |\n| `FEATURE_DISCONTINUED` | Feature has been discontinued. |\n| `FEATURE_NOT_AVAILABLE` | The requested feature is not available. |\n| `FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT` | Update the value to be within the required range. |\n| `FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT` | Update the value to be within the required range. |\n| `FIELD_SIZE_IS_OUT_OF_RANGE` | Update the value to be within the required range. |\n| `FIELD_VALUE_CANNOT_EDIT` | Field value cannot be edited. |\n| `FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_CONTAINS_INVALID_CHARACTERS` | Remove the invalid characters and try again. |\n| `FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT` | Update the value to be within the required range. |\n| `FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT` | Update the value to be within the required range. |\n| `FIELD_VALUE_IS_EMPTY` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_IS_INVALID` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_IS_NULL` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_IS_OUT_OF_RANGE` | Update the value to be within the required range. |\n| `FIELD_VALUE_MISMATCH` | Mismatch among resource field values. |\n| `FIELD_VALUE_MUST_BE_EMPTY_OR_NULL` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_NOT_FOUND` | Resource specified in the field value not found. Try again with valid value. |\n| `FIELD_VALUE_NOT_UNIQUE` | Resource field value conflicts with existing resource. Try again with an unique field value. |\n| `FORBIDDEN` | The caller is not authorized to make the given request. |\n| `INTERNAL_ERROR` | The server encountered an unexpected condition that prevented it from fulfilling the request. |\n| `NOT_FOUND` | The requested resource does not exist. |\n| `PAYMENT_ISSUE` | Payment failed. |\n| `PRODUCT_INELIGIBLE` | Product is not eligible for advertising. Try again with a valid product. |\n| `RESOURCE_DOES_NOT_BELONG_TO_PARENT` | Resource does not belong to the specified parent. Try again with a valid parent ID. |\n| `RESOURCE_ID_NOT_FOUND` | Resource ID not found. Try again with valid ID. |\n| `RESOURCE_IS_EMPTY` | Update the request with the required information for this resource. |\n| `RESOURCE_IS_IN_TERMINAL_STATE` | Resource is in terminal state. |\n| `RESOURCE_IS_NULL` | Update the request with the required information for this resource. |\n| `TOO_MANY_REQUESTS` | There have been too many requests, please slow down your call rate. |\n| `TOTAL_RESOURCE_LIMIT_EXCEEDED` | Too many resources. Remove resources and try again. |\n| `UNAUTHORIZED` | The request lacks the necessary credentials. |\n| `UNSUPPORTED_MARKETPLACE` | Marketplace not supported. Try again with a supported marketplace. |\n",
+        "description": "**ErrorCode Enum:**\n\n| ErrorCode | Description |\n|------|------|\n| `ACTION_NOT_SUPPORTED` | The request is not supported. |\n| `ACTIVE_RESOURCE_LIMIT_EXCEEDED` | Too many live resources. Remove resources and try again. |\n| `ARCHIVED_PARENT_CANNOT_CREATE` | New resources cannot be created within an archived parent. |\n| `ARCHIVED_PARENT_CANNOT_EDIT` | Resources within an archived parent cannot be edited. |\n| `ARCHIVED_RESOURCE_CANNOT_EDIT` | Archived resources cannot be edited. |\n| `AUTOCREATED_ENTITY_CANNOT_EDIT` | Autocreated entities cannot be edited. To complete this action, create the resource manually. |\n| `BAD_REQUEST` | The request is not valid considering the documented schema. |\n| `CONFLICT` | Operation could not be completed due to a conflict. Please retry your request. |\n| `CONTENT_TOO_LARGE` | The request is too large. Consider splitting it into multiple requests. |\n| `DATE_CANNOT_BE_IN_PAST` | Update the date to be in the future. |\n| `DATE_CANNOT_BE_NULL` | Update the date. |\n| `DATE_TOO_SOON` | Update the date to be further in the future. |\n| `DUPLICATE_FIELD_VALUE_FOUND` | Multiple resources share the non-unique field values. Remove the non-unique field value. |\n| `DUPLICATE_RESOURCE_ID_FOUND` | Multiple resources share the same ID. Remove the duplicate ID. |\n| `DURATION_TOO_SHORT` | Update the length to be within the required range. |\n| `FEATURE_DISCONTINUED` | Feature has been discontinued. |\n| `FEATURE_NOT_AVAILABLE` | The requested feature is not available. |\n| `FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT` | Update the value to be within the required range. |\n| `FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT` | Update the value to be within the required range. |\n| `FIELD_SIZE_IS_OUT_OF_RANGE` | Update the value to be within the required range. |\n| `FIELD_VALUE_CANNOT_EDIT` | Field value cannot be edited. |\n| `FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_CONTAINS_INVALID_CHARACTERS` | Remove the invalid characters and try again. |\n| `FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT` | Update the value to be within the required range. |\n| `FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT` | Update the value to be within the required range. |\n| `FIELD_VALUE_IS_EMPTY` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_IS_INVALID` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_IS_NULL` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_IS_OUT_OF_RANGE` | Update the value to be within the required range. |\n| `FIELD_VALUE_MISMATCH` | Mismatch among resource field values. |\n| `FIELD_VALUE_MUST_BE_EMPTY_OR_NULL` | Update the request with the required information for this resource. |\n| `FIELD_VALUE_NOT_FOUND` | Resource specified in the field value not found. Try again with valid value. |\n| `FIELD_VALUE_NOT_UNIQUE` | Resource field value conflicts with existing resource. Try again with an unique field value. |\n| `FORBIDDEN` | The caller is not authorized to make the given request. |\n| `INTERNAL_ERROR` | The server encountered an unexpected condition that prevented it from fulfilling the request. |\n| `NOT_FOUND` | The requested resource does not exist. |\n| `PAYMENT_ISSUE` | Payment failed. |\n| `PRODUCT_INELIGIBLE` | Product is not eligible for advertising. Try again with a valid product. |\n| `RESOURCE_DOES_NOT_BELONG_TO_PARENT` | Resource does not belong to the specified parent. Try again with a valid parent ID. |\n| `RESOURCE_ID_NOT_FOUND` | Resource ID not found. Try again with valid ID. |\n| `RESOURCE_IS_EMPTY` | Update the request with the required information for this resource. |\n| `RESOURCE_IS_IN_TERMINAL_STATE` | Resource is in terminal state. |\n| `RESOURCE_IS_NULL` | Update the request with the required information for this resource. |\n| `TOO_MANY_REQUESTS` | There have been too many requests, please slow down your call rate. |\n| `TOTAL_RESOURCE_LIMIT_EXCEEDED` | Too many resources. Remove resources and try again. |\n| `UNAUTHORIZED` | The request lacks the necessary credentials. |\n| `UNSUPPORTED_MARKETPLACE` | Marketplace not supported. Try again with a supported marketplace. |\n",
         "enum": [
           "ACTION_NOT_SUPPORTED",
           "ACTIVE_RESOURCE_LIMIT_EXCEEDED",
@@ -352,7 +352,7 @@
       "SBAdAdProductFilter": {
         "properties": {
           "include": {
-            "description": "| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_BRANDS` | Sponsored Brands ad product. |",
+            "description": "**AdProduct Enum:**\n| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_BRANDS` | Sponsored Brands ad product. |",
             "items": {
               "$ref": "#/components/schemas/SBAdProduct"
             },
@@ -508,7 +508,7 @@
       "SBAdExtensionAdExtensionStatusFilter": {
         "properties": {
           "include": {
-            "description": "| AdExtensionStatus | Description |\n| --- | --- |\n| `OPTED_OUT` | If the advertiser has opted out of this Ad Extension. |",
+            "description": "**AdExtensionStatus Enum:**\n| AdExtensionStatus | Description |\n| --- | --- |\n| `OPTED_OUT` | If the advertiser has opted out of this Ad Extension. |",
             "items": {
               "$ref": "#/components/schemas/SBAdExtensionStatus"
             },
@@ -525,7 +525,7 @@
       "SBAdExtensionAdExtensionTypeFilter": {
         "properties": {
           "include": {
-            "description": "| AdExtensionType | Description |\n| --- | --- |\n| `PROMPTS` | Enables Prompt based Ad Extension. |",
+            "description": "**AdExtensionType Enum:**\n| AdExtensionType | Description |\n| --- | --- |\n| `PROMPTS` | Enables Prompt based Ad Extension. |",
             "items": {
               "$ref": "#/components/schemas/SBAdExtensionType"
             },
@@ -574,7 +574,7 @@
       "SBAdExtensionAdProductFilter": {
         "properties": {
           "include": {
-            "description": "| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_BRANDS` | Sponsored Brands ad product. |",
+            "description": "**AdProduct Enum:**\n| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_BRANDS` | Sponsored Brands ad product. |",
             "items": {
               "$ref": "#/components/schemas/SBAdProduct"
             },
@@ -694,7 +694,7 @@
       "SBAdExtensionStateFilter": {
         "properties": {
           "include": {
-            "description": "| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
+            "description": "**State Enum:**\n| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
             "items": {
               "$ref": "#/components/schemas/SBState"
             },
@@ -709,7 +709,7 @@
         "type": "object"
       },
       "SBAdExtensionStatus": {
-        "description": "Ad Extension Status.\n\n| AdExtensionStatus | Description |\n|------|------|\n| `OPTED_OUT` | If the advertiser has opted out of this Ad Extension. |\n",
+        "description": "Ad Extension Status.\n**AdExtensionStatus Enum:**\n\n| AdExtensionStatus | Description |\n|------|------|\n| `OPTED_OUT` | If the advertiser has opted out of this Ad Extension. |\n",
         "enum": [
           "OPTED_OUT"
         ],
@@ -732,7 +732,7 @@
         "type": "object"
       },
       "SBAdExtensionType": {
-        "description": "Ad Extension Type.\n\n| AdExtensionType | Description |\n|------|------|\n| `PROMPTS` | Enables Prompt based Ad Extension. |\n",
+        "description": "Ad Extension Type.\n**AdExtensionType Enum:**\n\n| AdExtensionType | Description |\n|------|------|\n| `PROMPTS` | Enables Prompt based Ad Extension. |\n",
         "enum": [
           "PROMPTS"
         ],
@@ -840,7 +840,7 @@
       "SBAdGroupAdProductFilter": {
         "properties": {
           "include": {
-            "description": "| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_BRANDS` | Sponsored Brands ad product. |",
+            "description": "**AdProduct Enum:**\n| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_BRANDS` | Sponsored Brands ad product. |",
             "items": {
               "$ref": "#/components/schemas/SBAdProduct"
             },
@@ -964,7 +964,7 @@
         "type": "object"
       },
       "SBAdGroupNameFilterType": {
-        "description": "| AdGroupNameFilterType | Description |\n| --- | --- |\n| `EXACT_MATCH` | Filter by exact match. |\n| `BROAD_MATCH` | Filter by broad match. |",
+        "description": "**AdGroupNameFilterType Enum:**\n| AdGroupNameFilterType | Description |\n| --- | --- |\n| `EXACT_MATCH` | Filter by exact match. |\n| `BROAD_MATCH` | Filter by broad match. |",
         "enum": [
           "BROAD_MATCH",
           "EXACT_MATCH"
@@ -974,7 +974,7 @@
       "SBAdGroupStateFilter": {
         "properties": {
           "include": {
-            "description": "| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
+            "description": "**State Enum:**\n| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
             "items": {
               "$ref": "#/components/schemas/SBState"
             },
@@ -1092,7 +1092,7 @@
         "type": "object"
       },
       "SBAdNameFilterType": {
-        "description": "| AdNameFilterType | Description |\n| --- | --- |\n| `EXACT_MATCH` | Filter by exact match. |\n| `BROAD_MATCH` | Filter by broad match. |",
+        "description": "**AdNameFilterType Enum:**\n| AdNameFilterType | Description |\n| --- | --- |\n| `EXACT_MATCH` | Filter by exact match. |\n| `BROAD_MATCH` | Filter by broad match. |",
         "enum": [
           "BROAD_MATCH",
           "EXACT_MATCH"
@@ -1100,7 +1100,7 @@
         "type": "string"
       },
       "SBAdProduct": {
-        "description": "| AdProduct | Description |\n|------|------|\n| `SPONSORED_BRANDS` | Sponsored Brands ad product. |\n",
+        "description": "**AdProduct Enum:**\n\n| AdProduct | Description |\n|------|------|\n| `SPONSORED_BRANDS` | Sponsored Brands ad product. |\n",
         "enum": [
           "SPONSORED_BRANDS"
         ],
@@ -1109,7 +1109,7 @@
       "SBAdStateFilter": {
         "properties": {
           "include": {
-            "description": "| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
+            "description": "**State Enum:**\n| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
             "items": {
               "$ref": "#/components/schemas/SBState"
             },
@@ -1140,7 +1140,7 @@
         "type": "object"
       },
       "SBAdType": {
-        "description": "| AdType | Description |\n|------|------|\n| `COMPONENT` | A creative that can features a collection of videos, images, and products. |\n",
+        "description": "**AdType Enum:**\n\n| AdType | Description |\n|------|------|\n| `COMPONENT` | A creative that can features a collection of videos, images, and products. |\n",
         "enum": [
           "COMPONENT"
         ],
@@ -1712,7 +1712,7 @@
         "type": "object"
       },
       "SBBidStrategy": {
-        "description": "| BidStrategy | Description |\n|------|------|\n| `MANUAL` | Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding. |\n| `SALES_UP_AND_DOWN` | Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale. |\n",
+        "description": "**BidStrategy Enum:**\n\n| BidStrategy | Description |\n|------|------|\n| `MANUAL` | Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding. |\n| `SALES_UP_AND_DOWN` | Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale. |\n",
         "enum": [
           "MANUAL",
           "SALES_UP_AND_DOWN"
@@ -1757,7 +1757,7 @@
         "type": "object"
       },
       "SBBrandGalleryCreativePropertiesToOptimize": {
-        "description": "| BrandGalleryCreativePropertiesToOptimize | Description |\n|------|------|\n| `HEADLINE` | The headline in the creative. |\n",
+        "description": "**BrandGalleryCreativePropertiesToOptimize Enum:**\n\n| BrandGalleryCreativePropertiesToOptimize | Description |\n|------|------|\n| `HEADLINE` | The headline in the creative. |\n",
         "enum": [
           "HEADLINE"
         ],
@@ -2051,7 +2051,6 @@
         "type": "object"
       },
       "SBBudgetType": {
-        "description": "| BudgetType | Description |\n|------|------|\n| `MONETARY` |  |\n",
         "enum": [
           "MONETARY"
         ],
@@ -2207,7 +2206,7 @@
       "SBCampaignAdProductFilter": {
         "properties": {
           "include": {
-            "description": "| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_BRANDS` | Sponsored Brands ad product. |",
+            "description": "**AdProduct Enum:**\n| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_BRANDS` | Sponsored Brands ad product. |",
             "items": {
               "$ref": "#/components/schemas/SBAdProduct"
             },
@@ -2346,7 +2345,7 @@
       "SBCampaignGoalFilter": {
         "properties": {
           "include": {
-            "description": "| Goal | Description |\n| --- | --- |\n| `AWARENESS` | Indicates a goal of driving awareness. |\n| `CONSIDERATION` | Indicates a goal of driving consideration. |\n| `CONVERSIONS` | Indicates a goal of driving conversions. |",
+            "description": "**Goal Enum:**\n| Goal | Description |\n| --- | --- |\n| `AWARENESS` | Indicates a goal of driving awareness. |\n| `CONSIDERATION` | Indicates a goal of driving consideration. |\n| `CONVERSIONS` | Indicates a goal of driving conversions. |",
             "items": {
               "$ref": "#/components/schemas/SBGoal"
             },
@@ -2420,7 +2419,7 @@
         "type": "object"
       },
       "SBCampaignNameFilterType": {
-        "description": "| CampaignNameFilterType | Description |\n| --- | --- |\n| `EXACT_MATCH` | Filter by exact match. |\n| `BROAD_MATCH` | Filter by broad match. |",
+        "description": "**CampaignNameFilterType Enum:**\n| CampaignNameFilterType | Description |\n| --- | --- |\n| `EXACT_MATCH` | Filter by exact match. |\n| `BROAD_MATCH` | Filter by broad match. |",
         "enum": [
           "BROAD_MATCH",
           "EXACT_MATCH"
@@ -2457,7 +2456,7 @@
       "SBCampaignStateFilter": {
         "properties": {
           "include": {
-            "description": "| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
+            "description": "**State Enum:**\n| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
             "items": {
               "$ref": "#/components/schemas/SBState"
             },
@@ -2583,7 +2582,7 @@
         "type": "object"
       },
       "SBCollectionLandingPageType": {
-        "description": "| CollectionLandingPageType | Description |\n|------|------|\n| `ASIN_LIST` | A list of products based on the products promoted in the ad creative. |\n| `STORE` | A brand Store landing page. |\n",
+        "description": "**CollectionLandingPageType Enum:**\n\n| CollectionLandingPageType | Description |\n|------|------|\n| `ASIN_LIST` | A list of products based on the products promoted in the ad creative. |\n| `STORE` | A brand Store landing page. |\n",
         "enum": [
           "ASIN_LIST",
           "STORE"
@@ -2614,7 +2613,7 @@
         "type": "object"
       },
       "SBCostType": {
-        "description": "| CostType | Description |\n|------|------|\n| `CPC` | Cost per click. |\n| `CPM` | Cost per thousand impressions. |\n| `FIXED_PRICE` | Sale price for a specific ad placement regardless of auction performance. |\n| `VCPM` | Cost per thousand views. |\n",
+        "description": "**CostType Enum:**\n\n| CostType | Description |\n|------|------|\n| `CPC` | Cost per click. |\n| `CPM` | Cost per thousand impressions. |\n| `FIXED_PRICE` | Sale price for a specific ad placement regardless of auction performance. |\n| `VCPM` | Cost per thousand views. |\n",
         "enum": [
           "CPC",
           "CPM",
@@ -2624,7 +2623,6 @@
         "type": "string"
       },
       "SBCountryCode": {
-        "description": "| CountryCode | Description |\n|------|------|\n| `AE` |  |\n| `AU` |  |\n| `BE` |  |\n| `BR` |  |\n| `CA` |  |\n| `DE` |  |\n| `EG` |  |\n| `ES` |  |\n| `FR` |  |\n| `GB` |  |\n| `IE` |  |\n| `IN` |  |\n| `IT` |  |\n| `JP` |  |\n| `MX` |  |\n| `NL` |  |\n| `PL` |  |\n| `SA` |  |\n| `SE` |  |\n| `SG` |  |\n| `TR` |  |\n| `US` |  |\n| `ZA` |  |\n",
         "enum": [
           "AE",
           "AU",
@@ -2663,6 +2661,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "adExtensions"
+        ],
         "type": "object"
       },
       "SBCreateAdExtensionSettings": {
@@ -2692,6 +2693,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "adGroups"
+        ],
         "type": "object"
       },
       "SBCreateAdRequest": {
@@ -2705,6 +2709,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "ads"
+        ],
         "type": "object"
       },
       "SBCreateAdvertisedProducts": {
@@ -3087,6 +3094,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "campaigns"
+        ],
         "type": "object"
       },
       "SBCreateCardCreativeElement": {
@@ -3296,6 +3306,10 @@
           },
           "sharedSettings": {
             "$ref": "#/components/schemas/SBCreateSharedCollectionSettings"
+          },
+          "title": {
+            "description": "Optional title for the collection. If not provided, title will be auto-generated.",
+            "type": "string"
           }
         },
         "required": [
@@ -3649,7 +3663,7 @@
         "type": "object"
       },
       "SBCreateState": {
-        "description": "The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery\n\n| CreateState | Description |\n|------|------|\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n",
+        "description": "The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery\n**CreateState Enum:**\n\n| CreateState | Description |\n|------|------|\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n",
         "enum": [
           "ENABLED",
           "PAUSED"
@@ -3825,6 +3839,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "targets"
+        ],
         "type": "object"
       },
       "SBCreateThemeTarget": {
@@ -3899,7 +3916,7 @@
         "type": "object"
       },
       "SBCurrencyCode": {
-        "description": "| CurrencyCode | Description |\n|------|------|\n| `AED` | United Arab Emirates Dirham |\n| `AUD` | Australian Dollar |\n| `BRL` | Brazilian Real |\n| `CAD` | Canadian Dollar |\n| `CHF` | Swiss Franc |\n| `CNY` | Chinese Yuan |\n| `DKK` | Danish Krone |\n| `EGP` | Egyptian Pound |\n| `EUR` | Euro |\n| `GBP` | British Pound Sterling |\n| `INR` | Indian Rupee |\n| `JPY` | Japanese Yen |\n| `MXN` | Mexican Peso |\n| `MXP` | Mexican Peso |\n| `NGN` | Nigerian Naira |\n| `NOK` | Norwegian Krone |\n| `NZD` | New Zealand Dollar |\n| `PLN` | Polish Złoty |\n| `SAR` | Saudi Riyal |\n| `SEK` | Swedish Krona |\n| `SGD` | Singapore Dollar |\n| `TRY` | Turkish Lira |\n| `USD` | United States Dollar |\n| `ZAR` | South African Rand |\n",
+        "description": "**CurrencyCode Enum:**\n\n| CurrencyCode | Description |\n|------|------|\n| `AED` | United Arab Emirates Dirham |\n| `AUD` | Australian Dollar |\n| `BRL` | Brazilian Real |\n| `CAD` | Canadian Dollar |\n| `CHF` | Swiss Franc |\n| `CNY` | Chinese Yuan |\n| `DKK` | Danish Krone |\n| `EGP` | Egyptian Pound |\n| `EUR` | Euro |\n| `GBP` | British Pound Sterling |\n| `INR` | Indian Rupee |\n| `JPY` | Japanese Yen |\n| `MXN` | Mexican Peso |\n| `MXP` | Mexican Peso |\n| `NGN` | Nigerian Naira |\n| `NOK` | Norwegian Krone |\n| `NZD` | New Zealand Dollar |\n| `PLN` | Polish Złoty |\n| `SAR` | Saudi Riyal |\n| `SEK` | Swedish Krona |\n| `SGD` | Singapore Dollar |\n| `TRY` | Turkish Lira |\n| `USD` | United States Dollar |\n| `ZAR` | South African Rand |\n",
         "enum": [
           "AED",
           "AUD",
@@ -3939,6 +3956,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "adGroupIds"
+        ],
         "type": "object"
       },
       "SBDeleteAdRequest": {
@@ -3952,6 +3972,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "adIds"
+        ],
         "type": "object"
       },
       "SBDeleteAdvertisingDealRequest": {
@@ -3991,6 +4014,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "campaignIds"
+        ],
         "type": "object"
       },
       "SBDeleteTargetRequest": {
@@ -4004,10 +4030,13 @@
             "type": "array"
           }
         },
+        "required": [
+          "targetIds"
+        ],
         "type": "object"
       },
       "SBDeliveryReason": {
-        "description": "| DeliveryReason | Description |\n|------|------|\n| `ADVERTISER_ARCHIVED` |  |\n| `ADVERTISER_INELIGIBLE` |  |\n| `ADVERTISER_OUT_OF_BUDGET` | Indicates that an advertiser is out of budget for Sponsored Products campaigns for sellers. |\n| `ADVERTISER_OUT_OF_POSTPAY_CREDIT_LIMIT` | Indicates that a postpay advertiser is out of credit limit for all Sponsored Ads campaigns. |\n| `ADVERTISER_OUT_OF_POSTPAY_MONTHLY_BUDGET` | Indicates that a postpay advertiser is out of monthly budget for all Sponsored Ads campaigns. |\n| `ADVERTISER_OUT_OF_PREPAY_BALANCE` | Indicates that a prepay advertiser is out of prepay balance for all Sponsored Ads campaigns. |\n| `ADVERTISER_PAUSED` |  |\n| `ADVERTISER_PAYMENT_FAILURE` |  |\n| `ADVERTISER_POLICING_PENDING_REVIEW` |  |\n| `ADVERTISER_POLICING_SUSPENDED` |  |\n| `AD_ARCHIVED` |  |\n| `AD_CREATION_FAILED` |  |\n| `AD_CREATION_IN_PROGRESS` |  |\n| `AD_GROUP_ARCHIVED` |  |\n| `AD_GROUP_INCOMPLETE` |  |\n| `AD_GROUP_LOW_BID` |  |\n| `AD_GROUP_PAUSED` |  |\n| `AD_GROUP_PENDING_REVIEW` |  |\n| `AD_GROUP_POLICING_PENDING_REVIEW` |  |\n| `AD_GROUP_REJECTED` |  |\n| `AD_INELIGIBLE` |  |\n| `AD_MISSING_DECORATION` |  |\n| `AD_MISSING_IMAGE` |  |\n| `AD_NOT_DELIVERING` |  |\n| `AD_PAUSED` |  |\n| `AD_POLICING_PENDING_REVIEW` |  |\n| `AD_POLICING_SUSPENDED` |  |\n| `BRAND_INELIGIBLE` |  |\n| `CAMPAIGN_ARCHIVED` |  |\n| `CAMPAIGN_END_DATE_REACHED` |  |\n| `CAMPAIGN_INCOMPLETE` |  |\n| `CAMPAIGN_OUT_OF_BUDGET` |  |\n| `CAMPAIGN_PAUSED` |  |\n| `CAMPAIGN_PENDING_REVIEW` |  |\n| `CAMPAIGN_PENDING_START_DATE` |  |\n| `CAMPAIGN_REJECTED` |  |\n| `CREATIVE_MISSING_ASSET` |  |\n| `CREATIVE_PENDING_REVIEW` |  |\n| `CREATIVE_REJECTED` |  |\n| `LANDING_PAGE_INELIGIBLE` |  |\n| `LANDING_PAGE_NOT_AVAILABLE` |  |\n| `OTHER` |  |\n| `PORTFOLIO_ARCHIVED` |  |\n| `PORTFOLIO_END_DATE_REACHED` |  |\n| `PORTFOLIO_OUT_OF_BUDGET` |  |\n| `PORTFOLIO_PAUSED` |  |\n| `PORTFOLIO_PENDING_START_DATE` |  |\n| `STATUS_UNAVAILABLE` |  |\n| `TARGET_ARCHIVED` |  |\n| `TARGET_BLOCKED` |  |\n| `TARGET_PAUSED` |  |\n| `TARGET_POLICING_SUSPENDED` |  |\n",
+        "description": "**DeliveryReason Enum:**\n\n| DeliveryReason | Description |\n|------|------|\n| `ADVERTISER_ARCHIVED` |  |\n| `ADVERTISER_INELIGIBLE` |  |\n| `ADVERTISER_OUT_OF_BUDGET` | Indicates that an advertiser is out of budget for Sponsored Products campaigns for sellers. |\n| `ADVERTISER_OUT_OF_POSTPAY_CREDIT_LIMIT` | Indicates that a postpay advertiser is out of credit limit for all Sponsored Ads campaigns. |\n| `ADVERTISER_OUT_OF_POSTPAY_MONTHLY_BUDGET` | Indicates that a postpay advertiser is out of monthly budget for all Sponsored Ads campaigns. |\n| `ADVERTISER_OUT_OF_PREPAY_BALANCE` | Indicates that a prepay advertiser is out of prepay balance for all Sponsored Ads campaigns. |\n| `ADVERTISER_PAUSED` |  |\n| `ADVERTISER_PAYMENT_FAILURE` |  |\n| `ADVERTISER_POLICING_PENDING_REVIEW` |  |\n| `ADVERTISER_POLICING_SUSPENDED` |  |\n| `AD_ARCHIVED` |  |\n| `AD_CREATION_FAILED` |  |\n| `AD_CREATION_IN_PROGRESS` |  |\n| `AD_GROUP_ARCHIVED` |  |\n| `AD_GROUP_INCOMPLETE` |  |\n| `AD_GROUP_LOW_BID` |  |\n| `AD_GROUP_PAUSED` |  |\n| `AD_GROUP_PENDING_REVIEW` |  |\n| `AD_GROUP_POLICING_PENDING_REVIEW` |  |\n| `AD_GROUP_REJECTED` |  |\n| `AD_INELIGIBLE` |  |\n| `AD_MISSING_DECORATION` |  |\n| `AD_MISSING_IMAGE` |  |\n| `AD_NOT_DELIVERING` |  |\n| `AD_PAUSED` |  |\n| `AD_POLICING_PENDING_REVIEW` |  |\n| `AD_POLICING_SUSPENDED` |  |\n| `BRAND_INELIGIBLE` |  |\n| `CAMPAIGN_ARCHIVED` |  |\n| `CAMPAIGN_END_DATE_REACHED` |  |\n| `CAMPAIGN_INCOMPLETE` |  |\n| `CAMPAIGN_OUT_OF_BUDGET` |  |\n| `CAMPAIGN_PAUSED` |  |\n| `CAMPAIGN_PENDING_REVIEW` |  |\n| `CAMPAIGN_PENDING_START_DATE` |  |\n| `CAMPAIGN_REJECTED` |  |\n| `CREATIVE_MISSING_ASSET` |  |\n| `CREATIVE_PENDING_REVIEW` |  |\n| `CREATIVE_REJECTED` |  |\n| `LANDING_PAGE_INELIGIBLE` |  |\n| `LANDING_PAGE_NOT_AVAILABLE` |  |\n| `OTHER` |  |\n| `PORTFOLIO_ARCHIVED` |  |\n| `PORTFOLIO_END_DATE_REACHED` |  |\n| `PORTFOLIO_OUT_OF_BUDGET` |  |\n| `PORTFOLIO_PAUSED` |  |\n| `PORTFOLIO_PENDING_START_DATE` |  |\n| `STATUS_UNAVAILABLE` |  |\n| `TARGET_ARCHIVED` |  |\n| `TARGET_BLOCKED` |  |\n| `TARGET_PAUSED` |  |\n| `TARGET_POLICING_SUSPENDED` |  |\n",
         "enum": [
           "ADVERTISER_ARCHIVED",
           "ADVERTISER_INELIGIBLE",
@@ -4065,7 +4094,7 @@
         "type": "string"
       },
       "SBDeliveryStatus": {
-        "description": "| DeliveryStatus | Description |\n|------|------|\n| `DELIVERING` | Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces |\n| `NOT_DELIVERING` | Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces |\n| `UNAVAILABLE` | Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces |\n",
+        "description": "**DeliveryStatus Enum:**\n\n| DeliveryStatus | Description |\n|------|------|\n| `DELIVERING` | Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces |\n| `NOT_DELIVERING` | Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces |\n| `UNAVAILABLE` | Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces |\n",
         "enum": [
           "DELIVERING",
           "NOT_DELIVERING",
@@ -4099,7 +4128,7 @@
         "type": "object"
       },
       "SBGoal": {
-        "description": "| Goal | Description |\n|------|------|\n| `AWARENESS` | Indicates a goal of driving awareness. |\n| `CONSIDERATION` | Indicates a goal of driving consideration. |\n| `CONVERSIONS` | Indicates a goal of driving conversions. |\n",
+        "description": "**Goal Enum:**\n\n| Goal | Description |\n|------|------|\n| `AWARENESS` | Indicates a goal of driving awareness. |\n| `CONSIDERATION` | Indicates a goal of driving consideration. |\n| `CONVERSIONS` | Indicates a goal of driving conversions. |\n",
         "enum": [
           "AWARENESS",
           "CONSIDERATION",
@@ -4149,7 +4178,7 @@
         "type": "object"
       },
       "SBKPI": {
-        "description": "| KPI | Description |\n|------|------|\n| `CLICKS` | Indicates a goal of driving clicks. |\n| `TOP_OF_SEARCH_IMPRESSION_SHARE` | Indicates a goal of maximizing impression for top search placement. |\n",
+        "description": "**KPI Enum:**\n\n| KPI | Description |\n|------|------|\n| `CLICKS` | Indicates a goal of driving clicks. |\n| `TOP_OF_SEARCH_IMPRESSION_SHARE` | Indicates a goal of maximizing impression for top search placement. |\n",
         "enum": [
           "CLICKS",
           "TOP_OF_SEARCH_IMPRESSION_SHARE"
@@ -4157,7 +4186,7 @@
         "type": "string"
       },
       "SBKeywordMatchType": {
-        "description": "| KeywordMatchType | Description |\n|------|------|\n| `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE. |\n| `EXACT` | Exact match search terms. |\n| `PHRASE` | Phrase match search terms. This expands matching on user intent beyond EXACT. |\n",
+        "description": "**KeywordMatchType Enum:**\n\n| KeywordMatchType | Description |\n|------|------|\n| `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE. |\n| `EXACT` | Exact match search terms. |\n| `PHRASE` | Phrase match search terms. This expands matching on user intent beyond EXACT. |\n",
         "enum": [
           "BROAD",
           "EXACT",
@@ -4306,7 +4335,7 @@
         "type": "object"
       },
       "SBLanguageLocale": {
-        "description": "A combination of ISO-639 standard for language code and ISO-3166 for country code.\n\n| LanguageLocale | Description |\n|------|------|\n| `zh_CN` | Chinese (China). |\n",
+        "description": "A combination of ISO-639 standard for language code and ISO-3166 for country code.\n**LanguageLocale Enum:**\n\n| LanguageLocale | Description |\n|------|------|\n| `zh_CN` | Chinese (China). |\n",
         "enum": [
           "zh_CN"
         ],
@@ -4329,6 +4358,10 @@
           },
           "sharedSettings": {
             "$ref": "#/components/schemas/SBSharedCollectionSettings"
+          },
+          "title": {
+            "description": "Optional title for the collection. If not provided, title will be auto-generated.",
+            "type": "string"
           }
         },
         "required": [
@@ -4339,7 +4372,7 @@
         "type": "object"
       },
       "SBMarketplace": {
-        "description": "A list of country codes representing Amazon marketplaces\n\n| Marketplace | Description |\n|------|------|\n| `AE` |  |\n| `AU` |  |\n| `BE` |  |\n| `BR` |  |\n| `CA` |  |\n| `DE` |  |\n| `EG` |  |\n| `ES` |  |\n| `FR` |  |\n| `GB` |  |\n| `IE` |  |\n| `IN` |  |\n| `IT` |  |\n| `JP` |  |\n| `MX` |  |\n| `NL` |  |\n| `PL` |  |\n| `SA` |  |\n| `SE` |  |\n| `SG` |  |\n| `TR` |  |\n| `US` |  |\n| `ZA` |  |\n",
+        "description": "A list of country codes representing Amazon marketplaces\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
         "enum": [
           "AE",
           "AU",
@@ -4368,14 +4401,13 @@
         "type": "string"
       },
       "SBMarketplaceScope": {
-        "description": "| MarketplaceScope | Description |\n|------|------|\n| `SINGLE_MARKETPLACE` |  |\n",
         "enum": [
           "SINGLE_MARKETPLACE"
         ],
         "type": "string"
       },
       "SBMatchType": {
-        "description": "| MatchType | Description |\n| --- | --- |\n| `KEYWORDS_RELATED_TO_YOUR_LANDING_PAGES` | Search terms related to your landing pages. |\n| `PHRASE` | Phrase match search terms. This expands matching on user intent beyond EXACT. |\n| `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE.  |\n| `EXACT` | Exact match search terms. |\n| `KEYWORDS_RELATED_TO_YOUR_BRAND` | Search terms related to your brand. |\n| `PRODUCT_EXACT` | Products exactly matching the specified product. |",
+        "description": "**MatchType Enum:**\n| MatchType | Description |\n| --- | --- |\n| `KEYWORDS_RELATED_TO_YOUR_LANDING_PAGES` | Search terms related to your landing pages. |\n| `PHRASE` | Phrase match search terms. This expands matching on user intent beyond EXACT. |\n| `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE.  |\n| `EXACT` | Exact match search terms. |\n| `KEYWORDS_RELATED_TO_YOUR_BRAND` | Search terms related to your brand. |\n| `PRODUCT_EXACT` | Products exactly matching the specified product. |",
         "enum": [
           "BROAD",
           "EXACT",
@@ -4387,7 +4419,7 @@
         "type": "string"
       },
       "SBModerationStatus": {
-        "description": "| ModerationStatus | Description |\n|------|------|\n| `APPROVED_WITH_EXCEPTIONS` | The creative passed basic moderation but was found to be invalid for some supplies. The creative is serving on approved supplies. |\n| `PENDING_TRANSLATION` | The creative is pending creative Translations. |\n| `PUBLISHED` | The creative passed moderation and is serving. |\n| `REJECTED_BY_MODERATION` | The creative was rejected during the moderation process. |\n| `SUBMITTED_FOR_MODERATION` | The creative has been submitted, but has not yet been reviewed. |\n",
+        "description": "**ModerationStatus Enum:**\n\n| ModerationStatus | Description |\n|------|------|\n| `APPROVED_WITH_EXCEPTIONS` | The creative passed basic moderation but was found to be invalid for some supplies. The creative is serving on approved supplies. |\n| `PENDING_TRANSLATION` | The creative is pending creative Translations. |\n| `PUBLISHED` | The creative passed moderation and is serving. |\n| `REJECTED_BY_MODERATION` | The creative was rejected during the moderation process. |\n| `SUBMITTED_FOR_MODERATION` | The creative has been submitted, but has not yet been reviewed. |\n",
         "enum": [
           "APPROVED_WITH_EXCEPTIONS",
           "PENDING_TRANSLATION",
@@ -4447,7 +4479,7 @@
         ]
       },
       "SBPlacement": {
-        "description": "| Placement | Description |\n|------|------|\n| `HOME_PAGE` | Home page. |\n| `PRODUCT_PAGE` | Placements on the product detail page, and all nonsearch placements such as the add-to-cart page. |\n| `REST_OF_SEARCH` | Placements on the middle or the bottom of the first-page search results. Also refers to ads on the second page of search results and beyond. |\n| `TOP_OF_SEARCH` | Placements on the top row of the first-page search results. |\n",
+        "description": "**Placement Enum:**\n\n| Placement | Description |\n|------|------|\n| `HOME_PAGE` | Home page. |\n| `PRODUCT_PAGE` | Placements on the product detail page, and all nonsearch placements such as the add-to-cart page. |\n| `REST_OF_SEARCH` | Placements on the middle or the bottom of the first-page search results. Also refers to ads on the second page of search results and beyond. |\n| `TOP_OF_SEARCH` | Placements on the top row of the first-page search results. |\n",
         "enum": [
           "HOME_PAGE",
           "PRODUCT_PAGE",
@@ -4527,7 +4559,7 @@
         "type": "object"
       },
       "SBProductCollectionCreativePropertiesToOptimize": {
-        "description": "| ProductCollectionCreativePropertiesToOptimize | Description |\n|------|------|\n| `HEADLINE` | The headline in the creative. |\n",
+        "description": "**ProductCollectionCreativePropertiesToOptimize Enum:**\n\n| ProductCollectionCreativePropertiesToOptimize | Description |\n|------|------|\n| `HEADLINE` | The headline in the creative. |\n",
         "enum": [
           "HEADLINE"
         ],
@@ -4552,7 +4584,7 @@
         "type": "object"
       },
       "SBProductCollectionLandingPageType": {
-        "description": "| ProductCollectionLandingPageType | Description |\n|------|------|\n| `ASIN_LIST` | A list of products based on the products promoted in the ad creative. |\n| `CUSTOM_URL` | A custom landing page. Available for vendors only. |\n| `STORE` | A brand Store landing page. |\n",
+        "description": "**ProductCollectionLandingPageType Enum:**\n\n| ProductCollectionLandingPageType | Description |\n|------|------|\n| `ASIN_LIST` | A list of products based on the products promoted in the ad creative. |\n| `CUSTOM_URL` | A custom landing page. Available for vendors only. |\n| `STORE` | A brand Store landing page. |\n",
         "enum": [
           "ASIN_LIST",
           "CUSTOM_URL",
@@ -4642,14 +4674,14 @@
         "type": "object"
       },
       "SBProductIdType": {
-        "description": "| ProductIdType | Description |\n|------|------|\n| `ASIN` | ASIN identifier type. |\n",
+        "description": "**ProductIdType Enum:**\n\n| ProductIdType | Description |\n|------|------|\n| `ASIN` | ASIN identifier type. |\n",
         "enum": [
           "ASIN"
         ],
         "type": "string"
       },
       "SBProductMatchType": {
-        "description": "| ProductMatchType | Description |\n|------|------|\n| `PRODUCT_EXACT` | Products exactly matching the specified product. |\n",
+        "description": "**ProductMatchType Enum:**\n\n| ProductMatchType | Description |\n|------|------|\n| `PRODUCT_EXACT` | Products exactly matching the specified product. |\n",
         "enum": [
           "PRODUCT_EXACT"
         ],
@@ -5171,7 +5203,6 @@
         "type": "object"
       },
       "SBRecurrence": {
-        "description": "| Recurrence | Description |\n|------|------|\n| `DAILY` |  |\n| `LIFETIME` |  |\n",
         "enum": [
           "DAILY",
           "LIFETIME"
@@ -5260,7 +5291,7 @@
         "type": "object"
       },
       "SBSalesChannel": {
-        "description": "| SalesChannel | Description |\n|------|------|\n| `AMAZON` | A product sold on Amazon-owned sites. |\n| `OFF_AMAZON` | A product sold on a site not owned by Amazon. |\n",
+        "description": "**SalesChannel Enum:**\n\n| SalesChannel | Description |\n|------|------|\n| `AMAZON` | A product sold on Amazon-owned sites. |\n| `OFF_AMAZON` | A product sold on a site not owned by Amazon. |\n",
         "enum": [
           "AMAZON",
           "OFF_AMAZON"
@@ -5287,7 +5318,6 @@
         "type": "object"
       },
       "SBShopperSegment": {
-        "description": "| ShopperSegment | Description |\n|------|------|\n| `NEW_TO_BRAND` |  |\n",
         "enum": [
           "NEW_TO_BRAND"
         ],
@@ -5311,14 +5341,14 @@
         "type": "object"
       },
       "SBSiteRestriction": {
-        "description": "| SiteRestriction | Description |\n|------|------|\n| `AMAZON_BUSINESS` | Restrict the ad to only show on Amazon Business. |\n",
+        "description": "**SiteRestriction Enum:**\n\n| SiteRestriction | Description |\n|------|------|\n| `AMAZON_BUSINESS` | Restrict the ad to only show on Amazon Business. |\n",
         "enum": [
           "AMAZON_BUSINESS"
         ],
         "type": "string"
       },
       "SBState": {
-        "description": "The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery\n\n| State | Description |\n|------|------|\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n",
+        "description": "The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery\n**State Enum:**\n\n| State | Description |\n|------|------|\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n",
         "enum": [
           "ARCHIVED",
           "ENABLED",
@@ -5347,7 +5377,7 @@
         "type": "object"
       },
       "SBStoreSpotlightCreativePropertiesToOptimize": {
-        "description": "| StoreSpotlightCreativePropertiesToOptimize | Description |\n|------|------|\n| `HEADLINE` | The headline in the creative. |\n",
+        "description": "**StoreSpotlightCreativePropertiesToOptimize Enum:**\n\n| StoreSpotlightCreativePropertiesToOptimize | Description |\n|------|------|\n| `HEADLINE` | The headline in the creative. |\n",
         "enum": [
           "HEADLINE"
         ],
@@ -5370,7 +5400,7 @@
         "type": "object"
       },
       "SBStoreSpotlightLandingPageType": {
-        "description": "| StoreSpotlightLandingPageType | Description |\n|------|------|\n| `STORE` | A brand Store landing page. |\n",
+        "description": "**StoreSpotlightLandingPageType Enum:**\n\n| StoreSpotlightLandingPageType | Description |\n|------|------|\n| `STORE` | A brand Store landing page. |\n",
         "enum": [
           "STORE"
         ],
@@ -5562,7 +5592,7 @@
       "SBTargetAdProductFilter": {
         "properties": {
           "include": {
-            "description": "| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_BRANDS` | Sponsored Brands ad product. |",
+            "description": "**AdProduct Enum:**\n| AdProduct | Description |\n| --- | --- |\n| `SPONSORED_BRANDS` | Sponsored Brands ad product. |",
             "items": {
               "$ref": "#/components/schemas/SBAdProduct"
             },
@@ -5722,7 +5752,7 @@
         "type": "object"
       },
       "SBTargetKeywordFilterType": {
-        "description": "| TargetKeywordFilterType | Description |\n| --- | --- |\n| `EXACT_MATCH` | Filter by exact match. |\n| `BROAD_MATCH` | Filter by broad match. |",
+        "description": "**TargetKeywordFilterType Enum:**\n| TargetKeywordFilterType | Description |\n| --- | --- |\n| `EXACT_MATCH` | Filter by exact match. |\n| `BROAD_MATCH` | Filter by broad match. |",
         "enum": [
           "BROAD_MATCH",
           "EXACT_MATCH"
@@ -5732,7 +5762,7 @@
       "SBTargetLanguageLocaleFilter": {
         "properties": {
           "include": {
-            "description": "| NativeLanguageLocale | Description |\n| --- | --- |\n| `zh_CN` | Chinese (China). |",
+            "description": "**NativeLanguageLocale Enum:**\n| NativeLanguageLocale | Description |\n| --- | --- |\n| `zh_CN` | Chinese (China). |",
             "items": {
               "$ref": "#/components/schemas/SBLanguageLocale"
             },
@@ -5747,7 +5777,7 @@
         "type": "object"
       },
       "SBTargetLevel": {
-        "description": "| TargetLevel | Description |\n|------|------|\n| `AD_GROUP` | Target applied at the ad group level. |\n",
+        "description": "**TargetLevel Enum:**\n\n| TargetLevel | Description |\n|------|------|\n| `AD_GROUP` | Target applied at the ad group level. |\n",
         "enum": [
           "AD_GROUP"
         ],
@@ -5756,7 +5786,7 @@
       "SBTargetMatchTypeFilter": {
         "properties": {
           "include": {
-            "description": "| MatchType | Description |\n| --- | --- |\n| `KEYWORDS_RELATED_TO_YOUR_LANDING_PAGES` | Search terms related to your landing pages. |\n| `PHRASE` | Phrase match search terms. This expands matching on user intent beyond EXACT. |\n| `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE.  |\n| `EXACT` | Exact match search terms. |\n| `KEYWORDS_RELATED_TO_YOUR_BRAND` | Search terms related to your brand. |\n| `PRODUCT_EXACT` | Products exactly matching the specified product. |",
+            "description": "**MatchType Enum:**\n| MatchType | Description |\n| --- | --- |\n| `KEYWORDS_RELATED_TO_YOUR_LANDING_PAGES` | Search terms related to your landing pages. |\n| `PHRASE` | Phrase match search terms. This expands matching on user intent beyond EXACT. |\n| `BROAD` | Broad match search terms. This expands matching on user intent beyond PHRASE.  |\n| `EXACT` | Exact match search terms. |\n| `KEYWORDS_RELATED_TO_YOUR_BRAND` | Search terms related to your brand. |\n| `PRODUCT_EXACT` | Products exactly matching the specified product. |",
             "items": {
               "$ref": "#/components/schemas/SBMatchType"
             },
@@ -5828,7 +5858,7 @@
       "SBTargetStateFilter": {
         "properties": {
           "include": {
-            "description": "| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
+            "description": "**State Enum:**\n| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
             "items": {
               "$ref": "#/components/schemas/SBState"
             },
@@ -5877,7 +5907,7 @@
       "SBTargetTargetTypeFilter": {
         "properties": {
           "include": {
-            "description": "| TargetType | Description |\n| --- | --- |\n| `KEYWORD` | Target based on customer search terms. |\n| `PRODUCT` | Target based on a specific product. |\n| `PRODUCT_CATEGORY` | Target based on a product category. |\n| `THEME` | Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products. |",
+            "description": "**TargetType Enum:**\n| TargetType | Description |\n| --- | --- |\n| `KEYWORD` | Target based on customer search terms. |\n| `PRODUCT` | Target based on a specific product. |\n| `PRODUCT_CATEGORY` | Target based on a product category. |\n| `THEME` | Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products. |",
             "items": {
               "$ref": "#/components/schemas/SBTargetType"
             },
@@ -5892,7 +5922,7 @@
         "type": "object"
       },
       "SBTargetType": {
-        "description": "| TargetType | Description |\n|------|------|\n| `KEYWORD` | Target based on customer search terms. |\n| `PRODUCT_CATEGORY` | Target based on a product category. |\n| `PRODUCT` | Target based on a specific product. |\n| `THEME` | Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products. |\n",
+        "description": "**TargetType Enum:**\n\n| TargetType | Description |\n|------|------|\n| `KEYWORD` | Target based on customer search terms. |\n| `PRODUCT_CATEGORY` | Target based on a product category. |\n| `PRODUCT` | Target based on a specific product. |\n| `THEME` | Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products. |\n",
         "enum": [
           "KEYWORD",
           "PRODUCT",
@@ -5920,7 +5950,7 @@
         "type": "object"
       },
       "SBThemeMatchType": {
-        "description": "| ThemeMatchType | Description |\n|------|------|\n| `KEYWORDS_RELATED_TO_YOUR_BRAND` | Search terms related to your brand. |\n| `KEYWORDS_RELATED_TO_YOUR_LANDING_PAGES` | Search terms related to your landing pages. |\n",
+        "description": "**ThemeMatchType Enum:**\n\n| ThemeMatchType | Description |\n|------|------|\n| `KEYWORDS_RELATED_TO_YOUR_BRAND` | Search terms related to your brand. |\n| `KEYWORDS_RELATED_TO_YOUR_LANDING_PAGES` | Search terms related to your landing pages. |\n",
         "enum": [
           "KEYWORDS_RELATED_TO_YOUR_BRAND",
           "KEYWORDS_RELATED_TO_YOUR_LANDING_PAGES"
@@ -5950,6 +5980,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "adExtensions"
+        ],
         "type": "object"
       },
       "SBUpdateAdGroupRequest": {
@@ -5963,6 +5996,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "adGroups"
+        ],
         "type": "object"
       },
       "SBUpdateAdRequest": {
@@ -5976,6 +6012,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "ads"
+        ],
         "type": "object"
       },
       "SBUpdateAdvertisingDealPrice": {
@@ -6146,6 +6185,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "campaigns"
+        ],
         "type": "object"
       },
       "SBUpdateCollectionLandingPage": {
@@ -6252,6 +6294,10 @@
           },
           "sharedSettings": {
             "$ref": "#/components/schemas/SBUpdateSharedCollectionSettings"
+          },
+          "title": {
+            "description": "Optional title for the collection. If not provided, title will be auto-generated.",
+            "type": "string"
           }
         },
         "type": "object"
@@ -6400,7 +6446,7 @@
         "type": "object"
       },
       "SBUpdateState": {
-        "description": "The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery\n\n| UpdateState | Description |\n|------|------|\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n",
+        "description": "The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery\n**UpdateState Enum:**\n\n| UpdateState | Description |\n|------|------|\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n",
         "enum": [
           "ENABLED",
           "PAUSED"
@@ -6493,6 +6539,9 @@
             "type": "array"
           }
         },
+        "required": [
+          "targets"
+        ],
         "type": "object"
       },
       "SBUpdateVideoLandingPage": {
@@ -6540,7 +6589,7 @@
         "type": "object"
       },
       "SBVideoLandingPageType": {
-        "description": "| VideoLandingPageType | Description |\n|------|------|\n| `DETAIL_PAGE` | A product detail page. |\n| `STORE` | A brand Store landing page. |\n",
+        "description": "**VideoLandingPageType Enum:**\n\n| VideoLandingPageType | Description |\n|------|------|\n| `DETAIL_PAGE` | A product detail page. |\n| `STORE` | A brand Store landing page. |\n",
         "enum": [
           "DETAIL_PAGE",
           "STORE"
@@ -6640,7 +6689,8 @@
                 "$ref": "#/components/schemas/SBCreateAdExtensionRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -6788,7 +6838,8 @@
                 "$ref": "#/components/schemas/SBCreateAdGroupRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -6936,7 +6987,8 @@
                 "$ref": "#/components/schemas/SBCreateAdRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -7531,7 +7583,8 @@
                 "$ref": "#/components/schemas/SBCreateCampaignRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -8126,7 +8179,8 @@
                 "$ref": "#/components/schemas/SBCreateTargetRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -8274,7 +8328,8 @@
                 "$ref": "#/components/schemas/SBDeleteAdGroupRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -8422,7 +8477,8 @@
                 "$ref": "#/components/schemas/SBDeleteAdRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -8868,7 +8924,8 @@
                 "$ref": "#/components/schemas/SBDeleteCampaignRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -9016,7 +9073,8 @@
                 "$ref": "#/components/schemas/SBDeleteTargetRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -10353,7 +10411,8 @@
                 "$ref": "#/components/schemas/SBUpdateAdExtensionRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -10501,7 +10560,8 @@
                 "$ref": "#/components/schemas/SBUpdateAdGroupRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -10649,7 +10709,8 @@
                 "$ref": "#/components/schemas/SBUpdateAdRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -10946,7 +11007,8 @@
                 "$ref": "#/components/schemas/SBUpdateCampaignRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {
@@ -11094,7 +11156,8 @@
                 "$ref": "#/components/schemas/SBUpdateTargetRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "207": {

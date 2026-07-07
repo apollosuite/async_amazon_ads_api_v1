@@ -47,7 +47,7 @@ class SBAdGroupAdProductFilter(BaseModel):
 
     include: list[
         Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
-    ]  # AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
+    ]  # **AdProduct Enum:** AdProduct Description `SPONSORED_BRANDS` Sponsored Brands ad product.
 
 
 class SBAdGroupCampaignIdFilter(BaseModel):
@@ -88,7 +88,8 @@ class SBAdGroupNameFilter(BaseModel):
 
 
 class SBAdGroupNameFilterType(StrEnum):
-    """| AdGroupNameFilterType | Description |
+    """**AdGroupNameFilterType Enum:**
+    | AdGroupNameFilterType | Description |
     | --- | --- |
     | `EXACT_MATCH` | Filter by exact match. |
     | `BROAD_MATCH` | Filter by broad match. |"""
@@ -102,7 +103,7 @@ class SBAdGroupStateFilter(BaseModel):
 
     include: list[
         Annotated[SBState | str, lenient_enum(SBState)]
-    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
+    ]  # **State Enum:** State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SBAdGroupSuccessResponse(BaseModel):
@@ -124,13 +125,13 @@ class SBAdGroupUpdate(BaseModel):
 class SBCreateAdGroupRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adGroups: list[SBAdGroupCreate] | None = None
+    adGroups: list[SBAdGroupCreate]
 
 
 class SBDeleteAdGroupRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adGroupIds: list[str] | None = None
+    adGroupIds: list[str]
 
 
 class SBQueryAdGroupRequest(BaseModel):
@@ -148,7 +149,7 @@ class SBQueryAdGroupRequest(BaseModel):
 class SBUpdateAdGroupRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adGroups: list[SBAdGroupUpdate] | None = None
+    adGroups: list[SBAdGroupUpdate]
 
 
 __all__ = [

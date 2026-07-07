@@ -64,7 +64,7 @@ class SPAdAdProductFilter(BaseModel):
 
     include: list[
         Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
-    ]  # AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
+    ]  # **AdProduct Enum:** AdProduct Description `SPONSORED_PRODUCTS` Sponsored Products ad product.
 
 
 class SPAdCampaignIdFilter(BaseModel):
@@ -103,7 +103,7 @@ class SPAdStateFilter(BaseModel):
 
     include: list[
         Annotated[SPState | str, lenient_enum(SPState)]
-    ]  # State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
+    ]  # **State Enum:** State Description `ENABLED` The object is set active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery. `ARCHIVED` The object is permanently stopped and cannot be reactivated. Terminal end state.
 
 
 class SPAdSuccessResponse(BaseModel):
@@ -114,7 +114,9 @@ class SPAdSuccessResponse(BaseModel):
 
 
 class SPAdType(StrEnum):
-    """| AdType | Description |
+    """**AdType Enum:**
+
+    | AdType | Description |
     |------|------|
     | `PRODUCT_AD` | A creative built based on a specified product. |
     """
@@ -146,7 +148,7 @@ class SPAdvertisedProducts(BaseModel):
 class SPCreateAdRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    ads: list[SPAdCreate] | None = None
+    ads: list[SPAdCreate]
 
 
 class SPCreateAdvertisedProducts(BaseModel):
@@ -212,7 +214,7 @@ class SPCreative(BaseModel):
 class SPDeleteAdRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adIds: list[str] | None = None
+    adIds: list[str]
 
 
 class SPGlobalStoreSettings(BaseModel):
@@ -261,7 +263,7 @@ class SPSpotlightVideoSettings(BaseModel):
 class SPUpdateAdRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    ads: list[SPAdUpdate] | None = None
+    ads: list[SPAdUpdate]
 
 
 class SPUpdateCreative(BaseModel):
