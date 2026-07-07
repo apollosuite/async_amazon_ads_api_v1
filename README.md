@@ -186,25 +186,25 @@ config = AmazonAdsConfig(
 
 ### BudgetRules — 预算规则关联
 
-SP、SB、SD 共用同一接口结构，通过 `product` 参数切换：
+SP、SB、SD 各自独立的资源类：
 
 ```python
-from async_amazon_ads_api_v1.client.legacy import BudgetRules
+from async_amazon_ads_api_v1.client.legacy import SPBudgetRules, SBBudgetRules, SDBudgetRules
 
-rules = BudgetRules(ctx, product="sp")  # "sp" | "sb" | "sd"
-await rules.get_associated_rules("campaign-id")
-await rules.associate_to_campaign("campaign-id", ["rule-id-1"])
-await rules.disassociate_from_campaign("campaign-id", "rule-id-1")
+sp_rules = SPBudgetRules(ctx)
+await sp_rules.create_budget_rules(request)
+await sp_rules.update_budget_rules(request)
 ```
 
 ### Portfolios — 投资组合
 
 ```python
 from async_amazon_ads_api_v1.client.legacy import Portfolios
+from async_amazon_ads_api_v1.models.legacy.portfolios import UpdatePortfoliosRequestContent
 
 pf = Portfolios(ctx)
-await pf.list()
-await pf.update([portfolio])
+resp = await pf.list()
+await pf.update(UpdatePortfoliosRequestContent(portfolios=[...]))
 ```
 
 ### SBOptimizationRules — SB 优化规则 (Beta)
