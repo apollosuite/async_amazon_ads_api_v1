@@ -35,9 +35,9 @@ from async_amazon_ads_api_v1.client.sp.campaigns import Campaigns as SPCampaigns
 from async_amazon_ads_api_v1.client.sp.targets import Targets as SPTargets
 from async_amazon_ads_api_v1.config.region import Region
 from async_amazon_ads_api_v1.config.settings import AmazonAdsConfig
-from async_amazon_ads_api_v1.models.sb import SBQueryCampaignRequest
-from async_amazon_ads_api_v1.models.sd import SDQueryCampaignRequest
-from async_amazon_ads_api_v1.models.sp import SPQueryCampaignRequest
+from async_amazon_ads_api_v1.models.sb.campaigns import SBQueryCampaignRequest
+from async_amazon_ads_api_v1.models.sd.campaigns import SDQueryCampaignRequest
+from async_amazon_ads_api_v1.models.sp.campaigns import SPQueryCampaignRequest
 
 
 @pytest.fixture

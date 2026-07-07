@@ -8,19 +8,17 @@ import pytest
 
 from async_amazon_ads_api_v1 import AmazonAdsConfig, Region, SPClient
 from async_amazon_ads_api_v1._base import ClientContext
-from async_amazon_ads_api_v1.models.sp import (
+from async_amazon_ads_api_v1.models.sp.campaigns import (
     SPCampaignCreate,
     SPCampaignMultiStatusResponse,
     SPCampaignSuccessResponse,
     SPCampaignUpdate,
-    SPQueryCampaignRequest,
-)
-from async_amazon_ads_api_v1.models.sp.campaigns import (
     SPCreateAutoCreationSettings,
     SPCreateBudget,
     SPCreateBudgetValue,
     SPCreateMonetaryBudget,
     SPCreateMonetaryBudgetValue,
+    SPQueryCampaignRequest,
 )
 from async_amazon_ads_api_v1.models.sp.enums import (
     SPAdProduct,

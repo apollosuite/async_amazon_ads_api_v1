@@ -7,7 +7,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from _gen_utils import clean_desc, collect_refs, TYPE_HINTS
+from _gen_utils import TYPE_HINTS, clean_desc, collect_refs
 
 HERE = Path(__file__).parent
 SPEC_PATH = HERE / "sponsoredBrands_40_openapi.json"
@@ -31,7 +31,6 @@ def has_enum_desc(fschema: dict) -> str | None:
 
 def legacy_generate_fields(schema: dict, schemas: dict[str, Any]) -> list[str]:
     """Generate fields for legacy SB rules (uses bare Any, no Field wrapper)."""
-    import typing
 
     props = schema.get("properties", {})
     required: set[str] = set(schema.get("required", []))

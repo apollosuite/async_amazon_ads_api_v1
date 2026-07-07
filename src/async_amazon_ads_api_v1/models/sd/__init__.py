@@ -2,24 +2,17 @@
 
 from __future__ import annotations
 
-import sys
-import typing
-
-# Include shared error types for forward reference resolution
 import async_amazon_ads_api_v1.errors as _core_errors
 
-# Include lenient_enum for Annotated type resolution
-from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum as lenient_enum
+from . import ad_groups, ads, campaigns, enums, shared, targets
 
-from .ad_groups import *
-from .ads import *
-from .campaigns import *
-from .enums import *
-from .shared import *
-from .targets import *
-
-# Resolve cross-module forward references
-_ns: dict[str, typing.Any] = dict(sys.modules[__name__].__dict__)
+_ns: dict = {}
+_ns.update(vars(ad_groups))
+_ns.update(vars(ads))
+_ns.update(vars(campaigns))
+_ns.update(vars(enums))
+_ns.update(vars(shared))
+_ns.update(vars(targets))
 _ns.update(vars(_core_errors))
 for _name, _obj in list(_ns.items()):
     if (

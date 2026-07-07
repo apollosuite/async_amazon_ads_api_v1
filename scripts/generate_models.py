@@ -207,15 +207,22 @@ def _build_import_block(module_filename: str, refs: set[str], schema_module: dic
         grouped.setdefault(src, []).append(ref)
     if not grouped:
         return ""
-    lines: list[str] = ["if TYPE_CHECKING:"]
-    for src in sorted(grouped):
-        names = sorted(grouped[src])
-        if src == "_core.errors":
-            lines.append(f"    from async_amazon_ads_api_v1.errors import {', '.join(names)}")
-        else:
-            lines.append(f"    from .{src.removesuffix('.py')} import {', '.join(names)}")
-    lines.append("del TYPE_CHECKING")
-    return "\n".join(lines) + "\n\n"
+
+    error_refs = grouped.pop("_core.errors", None)
+
+    regular_lines: list[str] = []
+    if error_refs:
+        regular_lines.append(f"from async_amazon_ads_api_v1.errors import {', '.join(sorted(error_refs))}")
+
+    type_checking_lines: list[str] = []
+    if grouped:
+        type_checking_lines.append("if TYPE_CHECKING:")
+        for src in sorted(grouped):
+            names = sorted(grouped[src])
+            type_checking_lines.append(f"    from .{src.removesuffix('.py')} import {', '.join(names)}")
+        type_checking_lines.append("del TYPE_CHECKING")
+
+    return "\n".join(regular_lines + type_checking_lines) + "\n\n"
 
 
 def _strip_prefix(filename: str) -> str:
@@ -278,39 +285,30 @@ def main(*, output_dir: Path | None = None, product: str | None = None) -> None:
     file_model_names: dict[str, list[str]] = {mod: list(names) for mod, names in groups.items()}
 
     # __init__.py
+    module_ids = sorted(m.removesuffix(".py") for m in groups)
+    imports_line = ", ".join(module_ids)
+    vars_lines = "\n".join(f"_ns.update(vars({m}))" for m in module_ids)
+
     init_parts = [
         f'"""Auto-generated Pydantic models for {product.upper()} from Amazon Ads API schema."""',
         "",
         "from __future__ import annotations",
         "",
-        "import sys",
-        "import typing",
+        f"from . import {imports_line}",
         "",
+        "import async_amazon_ads_api_v1.errors as _core_errors",
+        "",
+        "_ns: dict = {}",
+        vars_lines,
+        "_ns.update(vars(_core_errors))",
+        "for _name, _obj in list(_ns.items()):",
+        "    if (",
+        "        isinstance(_obj, type)",
+        "        and hasattr(_obj, 'model_rebuild')",
+        "        and getattr(_obj, '__module__', '').startswith('async_amazon_ads_api_v1.models')",
+        "    ):",
+        "        _obj.model_rebuild(_types_namespace=_ns)",
     ]
-    for module_file in sorted(groups):
-        mod = module_file.removesuffix(".py")
-        init_parts.append(f"from .{mod} import *")
-    init_parts.extend(
-        [
-            "",
-            "# Include shared error types for forward reference resolution",
-            "import async_amazon_ads_api_v1.errors as _core_errors",
-            "",
-            "# Include lenient_enum for Annotated type resolution",
-            "from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum as lenient_enum",
-            "",
-            "# Resolve cross-module forward references",
-            "_ns: dict[str, typing.Any] = dict(sys.modules[__name__].__dict__)",
-            "_ns.update(vars(_core_errors))",
-            "for _name, _obj in list(_ns.items()):",
-            "    if (",
-            "        isinstance(_obj, type)",
-            "        and hasattr(_obj, 'model_rebuild')",
-            "        and getattr(_obj, '__module__', '').startswith('async_amazon_ads_api_v1.models')",
-            "    ):",
-            "        _obj.model_rebuild(_types_namespace=_ns)",
-        ]
-    )
     (output_dir / "__init__.py").write_text("\n".join(init_parts) + "\n")
     print(f"Wrote {output_dir / '__init__.py'}")
 

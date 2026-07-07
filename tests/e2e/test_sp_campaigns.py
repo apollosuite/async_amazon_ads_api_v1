@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 
 from async_amazon_ads_api_v1.client.sp import SPClient
-from async_amazon_ads_api_v1.models.sp import (
+from async_amazon_ads_api_v1.models.sp.campaigns import (
     SPCampaignMultiStatusResponse,
     SPCampaignSuccessResponse,
 )

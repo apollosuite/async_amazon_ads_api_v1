@@ -7,7 +7,6 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-
 from _gen_utils import (
     TYPE_HINTS,
     clean_desc,

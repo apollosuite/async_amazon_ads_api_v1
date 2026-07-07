@@ -7,9 +7,9 @@ from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
 
-if TYPE_CHECKING:
-    from async_amazon_ads_api_v1.errors import ErrorsIndex
+from async_amazon_ads_api_v1.errors import ErrorsIndex
 
+if TYPE_CHECKING:
     from .shared import SBAdvertisingDealPrice
 del TYPE_CHECKING
 

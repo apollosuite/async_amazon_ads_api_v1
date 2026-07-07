@@ -6,7 +6,6 @@ import re
 from pathlib import Path
 
 import yaml
-
 from _gen_utils import clean_desc, collect_refs, generate_fields
 
 HERE = Path(__file__).parent

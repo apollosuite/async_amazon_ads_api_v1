@@ -8,11 +8,10 @@ from typing import TYPE_CHECKING, Annotated
 
 from pydantic import BaseModel, ConfigDict
 
+from async_amazon_ads_api_v1.errors import ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 if TYPE_CHECKING:
-    from async_amazon_ads_api_v1.errors import ErrorsIndex
-
     from .enums import (
         SPAdProduct,
         SPCreateState,

@@ -2,13 +2,9 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 from pydantic import BaseModel, ConfigDict
 
-if TYPE_CHECKING:
-    from async_amazon_ads_api_v1.errors import ErrorsIndex
-del TYPE_CHECKING
+from async_amazon_ads_api_v1.errors import ErrorsIndex
 
 
 class SBCreateReservedTargetPricingRequest(BaseModel):

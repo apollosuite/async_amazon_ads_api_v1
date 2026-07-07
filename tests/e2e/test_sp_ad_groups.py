@@ -3,10 +3,8 @@ from __future__ import annotations
 import pytest
 
 from async_amazon_ads_api_v1 import AmazonAdsConfig, Region, SPClient
-from async_amazon_ads_api_v1.models.sp import (
-    SPAdGroupMultiStatusResponse,
-    SPCampaignMultiStatusResponse,
-)
+from async_amazon_ads_api_v1.models.sp.ad_groups import SPAdGroupMultiStatusResponse
+from async_amazon_ads_api_v1.models.sp.campaigns import SPCampaignMultiStatusResponse
 
 from .config import E2ESettings
 from .helpers import ad_group_payload, campaign_payload

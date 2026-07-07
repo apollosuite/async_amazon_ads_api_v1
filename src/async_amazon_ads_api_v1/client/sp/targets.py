@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from async_amazon_ads_api_v1._base import _ResourceBase, _ResourceSpec
-from async_amazon_ads_api_v1.models.sp import (
+from async_amazon_ads_api_v1.models.sp.targets import (
     SPQueryTargetRequest,
     SPTargetCreate,
     SPTargetMultiStatusResponse,

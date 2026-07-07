@@ -2,32 +2,40 @@
 
 from __future__ import annotations
 
-import sys
-import typing
-
-# Include shared error types for forward reference resolution
 import async_amazon_ads_api_v1.errors as _core_errors
 
-# Include lenient_enum for Annotated type resolution
-from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum as lenient_enum
+from . import (
+    ad_extensions,
+    ad_groups,
+    ads,
+    advertising_deal_targets,
+    advertising_deals,
+    branded_keywords_pricings,
+    campaigns,
+    enums,
+    keyword_reservation_validations,
+    recommendation_types,
+    recommendations,
+    reserved_target_pricings,
+    shared,
+    targets,
+)
 
-from .ad_extensions import *
-from .ad_groups import *
-from .ads import *
-from .advertising_deal_targets import *
-from .advertising_deals import *
-from .branded_keywords_pricings import *
-from .campaigns import *
-from .enums import *
-from .keyword_reservation_validations import *
-from .recommendation_types import *
-from .recommendations import *
-from .reserved_target_pricings import *
-from .shared import *
-from .targets import *
-
-# Resolve cross-module forward references
-_ns: dict[str, typing.Any] = dict(sys.modules[__name__].__dict__)
+_ns: dict = {}
+_ns.update(vars(ad_extensions))
+_ns.update(vars(ad_groups))
+_ns.update(vars(ads))
+_ns.update(vars(advertising_deal_targets))
+_ns.update(vars(advertising_deals))
+_ns.update(vars(branded_keywords_pricings))
+_ns.update(vars(campaigns))
+_ns.update(vars(enums))
+_ns.update(vars(keyword_reservation_validations))
+_ns.update(vars(recommendation_types))
+_ns.update(vars(recommendations))
+_ns.update(vars(reserved_target_pricings))
+_ns.update(vars(shared))
+_ns.update(vars(targets))
 _ns.update(vars(_core_errors))
 for _name, _obj in list(_ns.items()):
     if (
