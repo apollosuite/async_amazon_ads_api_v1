@@ -7,11 +7,12 @@ import re
 from pathlib import Path
 from typing import Any
 
+from _gen_utils import clean_desc, collect_refs, TYPE_HINTS
+
 HERE = Path(__file__).parent
 SPEC_PATH = HERE / "sponsoredBrands_40_openapi.json"
 OUTPUT_PATH = HERE.parent / "src" / "async_amazon_ads_api_v1" / "models" / "legacy" / "sb_rules.py"
 
-# Strip long prefixes to get clean model names
 PREFIX_STRIPS = ["SponsoredBrands", "Content"]
 
 
@@ -22,76 +23,16 @@ def model_name(schema_name: str) -> str:
     return "SB" + name
 
 
-def clean_desc(desc: str) -> str:
-    lines = desc.splitlines()
-    result = []
-    for line in lines:
-        s = line.strip()
-        if s.startswith("|") and s.endswith("|"):
-            content = s[1:-1]
-            if all(c.strip() in ("", "---") for c in content.split("|")):
-                continue
-            result.append(" ".join(c.strip() for c in content.split("|")))
-        else:
-            result.append(line)
-    return " ".join(result).strip()
-
-
-def collect_refs(schema: dict) -> set[str]:
-    refs: set[str] = set()
-
-    def walk(obj: Any) -> None:
-        if isinstance(obj, dict):
-            if "$ref" in obj:
-                refs.add(obj["$ref"].split("/")[-1])
-                return
-            for k in ("properties", "additionalProperties", "items"):
-                if k in obj:
-                    walk(obj[k])
-            for k in ("oneOf", "anyOf", "allOf"):
-                if k in obj:
-                    for item in obj[k]:
-                        walk(item)
-            for v in obj.values():
-                if isinstance(v, (dict, list)):
-                    walk(v)
-        elif isinstance(obj, list):
-            for item in obj:
-                walk(item)
-
-    walk(schema)
-    return refs
-
-
-def resolve_type(fschema: dict, schemas: dict[str, Any]) -> str:
-    if "$ref" in fschema:
-        return model_name(fschema["$ref"].split("/")[-1])
-    t = fschema.get("type", "object")
-    if t == "array":
-        return f"list[{resolve_type(fschema['items'], schemas)}]"
-    if t == "object":
-        if fschema.get("additionalProperties"):
-            return f"dict[str, {resolve_type(fschema['additionalProperties'], schemas)}]"
-        return "dict[str, Any]"
-    if t == "number":
-        fmt = fschema.get("format")
-        return "int" if not fmt or fmt in ("int32", "int64") else "float"
-    return {"integer": "int", "boolean": "bool"}.get(t, "str")
-
-
 def has_enum_desc(fschema: dict) -> str | None:
     desc = fschema.get("description", "")
     m = re.search(r'Enum:\s*"([^"]+)"', desc)
     return m.group(1) if m else None
 
 
-TYPE_HINTS: dict[str, str] = {
-    "integer": "int",
-    "boolean": "bool",
-}
+def legacy_generate_fields(schema: dict, schemas: dict[str, Any]) -> list[str]:
+    """Generate fields for legacy SB rules (uses bare Any, no Field wrapper)."""
+    import typing
 
-
-def generate_fields(schema: dict, schemas: dict[str, Any]) -> list[str]:
     props = schema.get("properties", {})
     required: set[str] = set(schema.get("required", []))
     fields: list[str] = []
@@ -101,23 +42,25 @@ def generate_fields(schema: dict, schemas: dict[str, Any]) -> list[str]:
         default_val = None
         has_default = False
 
-        # Check for $ref
         if "$ref" in fschema:
             ref_name = fschema["$ref"].split("/")[-1]
             py_type = model_name(ref_name)
         elif fschema.get("type") == "array":
             items = fschema.get("items", {})
-            inner = resolve_type(items, schemas)
+            if "$ref" in items:
+                inner = model_name(items["$ref"].split("/")[-1])
+            elif items.get("type") == "string":
+                inner = "str"
+            else:
+                inner = "typing.Any"
             py_type = f"list[{inner}]"
         else:
             raw_type = fschema.get("type", "str")
             raw_fmt = fschema.get("format", "")
             if raw_type == "string":
-                # Check if description has an enum hint
                 enum_val = has_enum_desc(fschema)
                 if enum_val:
                     py_type = f'typing.Literal["{enum_val}"]'
-                    # Set default if not required
                     if fname not in required:
                         default_val = f'"{enum_val}"'
                         has_default = True
@@ -126,17 +69,15 @@ def generate_fields(schema: dict, schemas: dict[str, Any]) -> list[str]:
             elif raw_type == "number":
                 py_type = "int" if not raw_fmt or raw_fmt in ("int32", "int64") else "float"
             else:
-                py_type = TYPE_HINTS.get(raw_type, "Any")
+                py_type = TYPE_HINTS.get(raw_type, "typing.Any")
 
         is_required = fname in required
 
-        # Determine kwargs
         kwargs: list[str] = []
         if not is_required and not has_default:
             kwargs.append("default=None")
             py_type = f"{py_type} | None"
 
-        # Constraints
         for attr, kw in [
             ("minimum", "ge"),
             ("maximum", "le"),
@@ -170,28 +111,25 @@ def main() -> None:
     schemas = data["components"]["schemas"]
     paths = data["paths"]
 
-    # Collect all schemas referenced by "Optimization rules" tagged endpoints
     target_schemas: set[str] = set()
     for path, methods in paths.items():
         for method, op in methods.items():
             tags = op.get("tags", [])
             if "Optimization rules" not in tags and "Sponsored Brands Optimization rules" not in tags:
                 continue
-            # Request body
             for _, media in op.get("requestBody", {}).get("content", {}).items():
                 ref = media.get("schema", {}).get("$ref", "")
                 if ref:
                     target_schemas.add(ref.split("/")[-1])
-            # Success responses (200, 207)
             for code, resp in op.get("responses", {}).items():
-                if code not in ("200", "207"):
+                code_str = str(code)
+                if code_str not in ("200", "207"):
                     continue
                 for _, media in resp.get("content", {}).items():
                     ref = media.get("schema", {}).get("$ref", "")
                     if ref:
                         target_schemas.add(ref.split("/")[-1])
 
-    # BFS transitive closure over $ref for all collected schemas
     closure: set[str] = set(target_schemas)
     queue = list(target_schemas)
     while queue:
@@ -224,7 +162,7 @@ def main() -> None:
         lines.append('    model_config = ConfigDict(extra="ignore")')
         lines.append("")
 
-        fields = generate_fields(schema, schemas)
+        fields = legacy_generate_fields(schema, schemas)
         if fields:
             lines.extend(fields)
         else:

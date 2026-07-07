@@ -45,6 +45,7 @@ def main() -> None:
     # Legacy model generators
     legacy_scripts = [
         "generate_legacy_sb_rules.py",
+        "generate_legacy_sd_rules.py",
         "generate_sp_budget_rules.py",
         "generate_sb_budget_rules.py",
         "generate_sd_budget_rules.py",
