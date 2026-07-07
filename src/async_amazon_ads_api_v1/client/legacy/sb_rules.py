@@ -3,11 +3,17 @@
 from __future__ import annotations
 
 from async_amazon_ads_api_v1._base import _ResourceBase
-from async_amazon_ads_api_v1.models.legacy import (
+from async_amazon_ads_api_v1.models.legacy.sb_rules import (
+    SBAssociateOptimizationRulesRequest,
+    SBAssociateOptimizationRulesResponse,
+    SBCreateOptimizationRulesRequest,
+    SBCreateOptimizationRulesResponse,
     SBDisassociateOptimizationRulesRequest,
     SBDisassociateOptimizationRulesResponse,
-    SBDisassociationResult,
+    SBListOptimizationRulesRequest,
     SBListOptimizationRulesResponse,
+    SBUpdateOptimizationRulesRequest,
+    SBUpdateOptimizationRulesResponse,
 )
 
 
@@ -16,24 +22,67 @@ class SBOptimizationRules(_ResourceBase):
 
     async def list_optimization_rules(
         self,
-        campaign_id: str | None = None,
-        max_results: int | None = None,
-        next_token: str | None = None,
+        request: SBListOptimizationRulesRequest,
     ) -> SBListOptimizationRulesResponse:
         """获取优化规则列表。"""
-        payload: dict[str, str | int] = {}
-        if campaign_id:
-            payload["entityFilter"] = {
-                "entityType": "CAMPAIGN",
-                "entityId": campaign_id,
-            }
-        if max_results:
-            payload["maxResults"] = max_results
-        if next_token:
-            payload["nextToken"] = next_token
+        resp = await self._request(
+            "POST",
+            "/sb/rules/optimization/list",
+            headers={
+                "Content-Type": "application/vnd.sbruleoptimization.v4+json",
+                "Accept": "application/vnd.sbruleoptimization.v4+json",
+            },
+            json=request.model_dump(exclude_none=True),
+        )
+        return self._response(SBListOptimizationRulesResponse, resp)
 
-        resp = await self._request("POST", "/sb/rules/optimization/list", json=payload)
-        return SBListOptimizationRulesResponse.model_construct(**resp.json())
+    async def create_optimization_rules(
+        self,
+        request: SBCreateOptimizationRulesRequest,
+    ) -> SBCreateOptimizationRulesResponse:
+        """创建优化规则。"""
+        resp = await self._request(
+            "POST",
+            "/sb/rules/optimization",
+            headers={
+                "Content-Type": "application/vnd.sbruleoptimization.v4+json",
+                "Accept": "application/vnd.sbruleoptimization.v4+json",
+            },
+            json=request.model_dump(exclude_none=True),
+        )
+        return self._response(SBCreateOptimizationRulesResponse, resp)
+
+    async def update_optimization_rules(
+        self,
+        request: SBUpdateOptimizationRulesRequest,
+    ) -> SBUpdateOptimizationRulesResponse:
+        """更新优化规则。"""
+        resp = await self._request(
+            "PUT",
+            "/sb/rules/optimization",
+            headers={
+                "Content-Type": "application/vnd.sbruleoptimization.v4+json",
+                "Accept": "application/vnd.sbruleoptimization.v4+json",
+            },
+            json=request.model_dump(exclude_none=True),
+        )
+        return self._response(SBUpdateOptimizationRulesResponse, resp)
+
+    async def associate_optimization_rules(
+        self,
+        request: SBAssociateOptimizationRulesRequest,
+    ) -> SBAssociateOptimizationRulesResponse:
+        """关联一个或多个优化规则。"""
+        resp = await self._request(
+            "POST",
+            "/sb/rules/optimization/associate",
+            headers={
+                "Content-Type": "application/vnd.sbruleoptimization.v4+json",
+                "Accept": "application/vnd.sbruleoptimization.v4+json",
+            },
+            json=request.model_dump(exclude_none=True),
+        )
+        return self._response(SBAssociateOptimizationRulesResponse, resp)
 
     async def disassociate_optimization_rules(
         self,
@@ -43,30 +92,10 @@ class SBOptimizationRules(_ResourceBase):
         resp = await self._request(
             "POST",
             "/sb/rules/optimization/disassociate",
+            headers={
+                "Content-Type": "application/vnd.sbruleoptimization.v4+json",
+                "Accept": "application/vnd.sbruleoptimization.v4+json",
+            },
             json=request.model_dump(exclude_none=True),
         )
-
-        if resp.status_code == 207:
-            data = resp.json()
-            if "optimizationRuleDisassociations" in data:
-                dis_data = data["optimizationRuleDisassociations"]
-                return SBDisassociateOptimizationRulesResponse(
-                    success=[
-                        SBDisassociationResult(**item) if isinstance(item, dict) else item
-                        for item in dis_data.get("success", [])
-                    ],
-                    error=[
-                        SBDisassociationResult(**item) if isinstance(item, dict) else item
-                        for item in dis_data.get("error", [])
-                    ],
-                )
-
-        return SBDisassociateOptimizationRulesResponse(
-            success=[],
-            error=[
-                SBDisassociationResult(
-                    code=str(resp.status_code),
-                    description=resp.text,
-                )
-            ],
-        )
+        return self._response(SBDisassociateOptimizationRulesResponse, resp)

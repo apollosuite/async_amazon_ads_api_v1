@@ -70,6 +70,7 @@ class _ResourceBase:
         params: dict[str, Any] | None = None,
         json: dict[str, Any] | None = None,
         accept_async: bool = False,
+        headers: dict | None = None,
     ) -> httpx.Response:
         client = await self._ctx.get_client()
         accept = "application/vnd.createasyncrequestresults.v3+json" if accept_async else "application/json"
@@ -79,6 +80,7 @@ class _ResourceBase:
             "Authorization": f"Bearer {self._ctx.config.access_token}",
             "Accept": accept,
             "Amazon-Ads-ClientId": self._ctx.config.client_id,
+            **(headers or {}),
         }
         if self._ctx.config.profile_id is not None:
             headers["Amazon-Advertising-API-Scope"] = self._ctx.config.profile_id

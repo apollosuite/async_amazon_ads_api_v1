@@ -180,6 +180,66 @@ config = AmazonAdsConfig(
 | `client.ads` | `create()`, `query()`, `update()`, `delete()` |
 | `client.targets` | `create()`, `query()`, `update()`, `delete()` |
 
+## Legacy / 非标准 API
+
+以下资源类不遵循 `/adsApi/v1` 通用 CRUD 模式，需要单独实例化：
+
+### BudgetRules — 预算规则关联
+
+SP、SB、SD 共用同一接口结构，通过 `product` 参数切换：
+
+```python
+from async_amazon_ads_api_v1.client.legacy import BudgetRules
+
+rules = BudgetRules(ctx, product="sp")  # "sp" | "sb" | "sd"
+await rules.get_associated_rules("campaign-id")
+await rules.associate_to_campaign("campaign-id", ["rule-id-1"])
+await rules.disassociate_from_campaign("campaign-id", "rule-id-1")
+```
+
+### Portfolios — 投资组合
+
+```python
+from async_amazon_ads_api_v1.client.legacy import Portfolios
+
+pf = Portfolios(ctx)
+await pf.list()
+await pf.update([portfolio])
+```
+
+### SBOptimizationRules — SB 优化规则 (Beta)
+
+```python
+from async_amazon_ads_api_v1.client.legacy import SBOptimizationRules
+from async_amazon_ads_api_v1.models.legacy import SBEntityFilter, SBListOptimizationRulesRequest
+
+rules = SBOptimizationRules(ctx)
+request = SBListOptimizationRulesRequest(
+    entityFilter=SBEntityFilter(entityType="CAMPAIGN", entityId="..."),
+)
+await rules.list_optimization_rules(request)
+await rules.disassociate_optimization_rules(request)
+```
+
+### SDOptimizationRules — SD 优化规则 (Beta)
+
+```python
+from async_amazon_ads_api_v1.client.legacy import SDOptimizationRules
+
+rules = SDOptimizationRules(ctx)
+await rules.list_optimization_rules("ad-group-id")
+await rules.disassociate_optimization_rules("ad-group-id", request)
+```
+
+### SDCreatives — SD 创意
+
+```python
+from async_amazon_ads_api_v1.client.legacy import SDCreatives
+
+creatives = SDCreatives(ctx)
+await creatives.create([{...}])
+```
+
 ## License
 
 [MIT](LICENSE)
