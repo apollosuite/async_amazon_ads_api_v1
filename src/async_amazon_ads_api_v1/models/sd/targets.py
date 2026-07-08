@@ -4,17 +4,15 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
-from typing import TYPE_CHECKING, Annotated
+from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict
 
 from async_amazon_ads_api_v1.errors import ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
-if TYPE_CHECKING:
-    from .enums import SDAdProduct, SDCreateState, SDCurrencyCode, SDProductIdType, SDState, SDUpdateState
-    from .shared import SDStatus
-del TYPE_CHECKING
+from .enums import SDAdProduct, SDCreateState, SDCurrencyCode, SDProductIdType, SDState, SDUpdateState
+from .shared import SDStatus
 
 
 class SDAudienceTarget(BaseModel):

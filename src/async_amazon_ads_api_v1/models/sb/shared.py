@@ -3,15 +3,13 @@
 from __future__ import annotations
 
 from enum import StrEnum
-from typing import TYPE_CHECKING, Annotated
+from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict
 
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
-if TYPE_CHECKING:
-    from .enums import SBAdvertisingDealPriceType, SBCurrencyCode
-del TYPE_CHECKING
+from .enums import SBAdvertisingDealPriceType, SBCurrencyCode
 
 
 class SBAdvertisingDealPrice(BaseModel):

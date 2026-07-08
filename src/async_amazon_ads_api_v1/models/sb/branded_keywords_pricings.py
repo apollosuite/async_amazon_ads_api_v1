@@ -3,15 +3,12 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict
 
 from async_amazon_ads_api_v1.errors import ErrorsIndex
 
-if TYPE_CHECKING:
-    from .shared import SBAdvertisingDealPrice
-del TYPE_CHECKING
+from .shared import SBAdvertisingDealPrice
 
 
 class SBBrandedKeywordsPricing(BaseModel):
