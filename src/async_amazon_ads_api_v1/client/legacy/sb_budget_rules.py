@@ -36,7 +36,7 @@ class SBBudgetRules(_ResourceBase):
         resp = await self._request(
             "POST",
             "/sb/budgetRules",
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(SBCreateBudgetRulesResponse, resp)
 
@@ -48,7 +48,7 @@ class SBBudgetRules(_ResourceBase):
         resp = await self._request(
             "PUT",
             "/sb/budgetRules",
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(SBUpdateBudgetRulesResponse, resp)
 
@@ -85,7 +85,7 @@ class SBBudgetRules(_ResourceBase):
         resp = await self._request(
             "POST",
             f"/sb/campaigns/{campaign_id}/budgetRules",
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(SBCreateAssociatedBudgetRulesResponse, resp)
 

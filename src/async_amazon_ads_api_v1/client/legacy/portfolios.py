@@ -35,7 +35,7 @@ class Portfolios(_ResourceBase):
         resp = await self._request(
             "POST",
             "/portfolios",
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(CreatePortfoliosResponseContent, resp)
 
@@ -47,7 +47,7 @@ class Portfolios(_ResourceBase):
         resp = await self._request(
             "PUT",
             "/portfolios",
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(UpdatePortfoliosResponseContent, resp)
 
@@ -59,6 +59,6 @@ class Portfolios(_ResourceBase):
         resp = await self._request(
             "POST",
             "/portfolios/budget/usage",
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(BudgetUsagePortfolioResponse, resp)

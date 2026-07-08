@@ -56,7 +56,7 @@ class SDCreatives(_ResourceBase):
         resp = await self._request(
             "POST",
             "/sd/creatives/preview",
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(SDCreativePreviewResponse, resp)
 

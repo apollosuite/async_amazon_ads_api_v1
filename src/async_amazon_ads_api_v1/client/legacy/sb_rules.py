@@ -32,7 +32,7 @@ class SBOptimizationRules(_ResourceBase):
                 "Content-Type": "application/vnd.sbruleoptimization.v4+json",
                 "Accept": "application/vnd.sbruleoptimization.v4+json",
             },
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(SBListOptimizationRulesResponse, resp)
 
@@ -48,7 +48,7 @@ class SBOptimizationRules(_ResourceBase):
                 "Content-Type": "application/vnd.sbruleoptimization.v4+json",
                 "Accept": "application/vnd.sbruleoptimization.v4+json",
             },
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(SBCreateOptimizationRulesResponse, resp)
 
@@ -64,7 +64,7 @@ class SBOptimizationRules(_ResourceBase):
                 "Content-Type": "application/vnd.sbruleoptimization.v4+json",
                 "Accept": "application/vnd.sbruleoptimization.v4+json",
             },
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(SBUpdateOptimizationRulesResponse, resp)
 
@@ -80,7 +80,7 @@ class SBOptimizationRules(_ResourceBase):
                 "Content-Type": "application/vnd.sbruleoptimization.v4+json",
                 "Accept": "application/vnd.sbruleoptimization.v4+json",
             },
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(SBAssociateOptimizationRulesResponse, resp)
 
@@ -96,6 +96,6 @@ class SBOptimizationRules(_ResourceBase):
                 "Content-Type": "application/vnd.sbruleoptimization.v4+json",
                 "Accept": "application/vnd.sbruleoptimization.v4+json",
             },
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(SBDisassociateOptimizationRulesResponse, resp)

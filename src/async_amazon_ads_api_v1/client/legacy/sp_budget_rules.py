@@ -40,7 +40,7 @@ class SPBudgetRules(_ResourceBase):
         resp = await self._request(
             "POST",
             "/sp/budgetRules",
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(SPCreateBudgetRulesResponse, resp)
 
@@ -52,7 +52,7 @@ class SPBudgetRules(_ResourceBase):
         resp = await self._request(
             "PUT",
             "/sp/budgetRules",
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(SPUpdateBudgetRulesResponse, resp)
 
@@ -80,7 +80,7 @@ class SPBudgetRules(_ResourceBase):
         resp = await self._request(
             "POST",
             "/sp/budgetRulesAssociation",
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(SPBulkBudgetRulesAssociationResponse, resp)
 
@@ -92,7 +92,7 @@ class SPBudgetRules(_ResourceBase):
         resp = await self._request(
             "POST",
             "/sp/budgetRulesAssociation/delete",
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(SPBulkBudgetRulesDisAssociationResponse, resp)
 
@@ -113,7 +113,7 @@ class SPBudgetRules(_ResourceBase):
         resp = await self._request(
             "POST",
             f"/sp/campaigns/{campaign_id}/budgetRules",
-            json=request.model_dump(exclude_none=True),
+            json=request.model_dump(),
         )
         return self._response(SPCreateAssociatedBudgetRulesResponse, resp)
 
