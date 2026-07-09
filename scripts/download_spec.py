@@ -15,6 +15,8 @@ specs: dict[str, str] = {
     "sponsoredBrands_40_openapi.json": "https://d3a0d0y2hgofx6.cloudfront.net/openapi/en-us/sponsored-brands/4-0/openapi.json",
     "sponsoredDisplay_30_openapi.yaml": "https://d3a0d0y2hgofx6.cloudfront.net/openapi/en-us/sponsored-display/3-0/openapi.yaml",
     "Portfolios_prod_3p.json": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/Portfolios_prod_3p.json",
+    "AdvertisingAccounts_prod_3p.json": "https://dtrnk0o2zy01c.cloudfront.net/openapi/en-us/dest/AdvertisingAccounts_prod_3p.json",
+    "profiles_openapi.yaml": "https://d3a0d0y2hgofx6.cloudfront.net/openapi/en-us/profiles/3-0/openapi.yaml",
 }
 
 

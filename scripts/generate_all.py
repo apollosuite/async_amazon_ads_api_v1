@@ -51,6 +51,8 @@ def main() -> None:
         "generate_sd_budget_rules.py",
         "generate_sd_creatives.py",
         "generate_portfolios.py",
+        "generate_legacy_accounts_models.py",
+        "generate_legacy_profiles_models.py",
     ]
     for script in legacy_scripts:
         run(["uv", "run", "python", str(SCRIPTS / script)])
