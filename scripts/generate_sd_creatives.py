@@ -16,6 +16,18 @@ def model_name(schema_name: str) -> str:
     return "SD" + schema_name
 
 
+def anyof_parent_names(schema: dict) -> list[str] | None:
+    """Return model names for anyOf $ref parents, or None if not reusable."""
+    if "anyOf" not in schema:
+        return None
+    parents: list[str] = []
+    for entry in schema["anyOf"]:
+        if "$ref" not in entry:
+            return None
+        parents.append(model_name(entry["$ref"].split("/")[-1]))
+    return parents or None
+
+
 def main() -> None:
     with open(SPEC_PATH) as f:
         data = yaml.safe_load(f)
@@ -56,6 +68,15 @@ def main() -> None:
                 queue.append(dep)
 
     schema_order = sorted(closure, key=lambda n: (0 if n in target_schemas else 1, n))
+    # Emit anyOf composition classes last so parent models exist for multiple inheritance.
+    composition: list[str] = []
+    regular: list[str] = []
+    for name in schema_order:
+        schema = schemas[name]
+        if not schema.get("properties") and anyof_parent_names(schema) is not None:
+            composition.append(name)
+        else:
+            regular.append(name)
 
     lines: list[str] = []
     lines.append('"""SD Creatives Pydantic models — generated from sponsoredDisplay_30_openapi.yaml."""')
@@ -68,7 +89,7 @@ def main() -> None:
     lines.append("from pydantic import BaseModel, ConfigDict, Field")
     lines.append("")
 
-    for name in schema_order:
+    for name in regular + composition:
         schema = schemas[name]
         mname = model_name(name)
         desc = clean_desc(schema.get("description", "")).strip().rstrip()
@@ -89,6 +110,14 @@ def main() -> None:
             lines.append('    model_config = ConfigDict(extra="ignore")')
             lines.append("")
             lines.append("    pass")
+            lines.append("")
+            lines.append("")
+            continue
+
+        parents = anyof_parent_names(schema) if not schema.get("properties") else None
+        if parents is not None:
+            lines.append(f"class {mname}({', '.join(parents)}):{desc_comment}")
+            lines.append('    model_config = ConfigDict(extra="ignore")')
             lines.append("")
             lines.append("")
             continue

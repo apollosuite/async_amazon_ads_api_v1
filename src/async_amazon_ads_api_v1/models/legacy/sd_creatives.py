@@ -133,16 +133,6 @@ class SDCreativePreviewConfigurations(BaseModel):
     pass
 
 
-class SDCreativeProperties(
-    BaseModel
-):  # Select customizations on your creative from any combination of headline, logo, custom image and backgrounds.
-    """Composition type — resolves to one of the sub-types at runtime."""
-
-    model_config = ConfigDict(extra="ignore")
-
-    pass
-
-
 class SDCreativeTypeInCreativeRequest(
     StrEnum
 ):  # The type of the creative. Name Description ---- ----------- IMAGE The creative will display static assets (e.g. headline, brandLogo or custom image). VIDEO The creative will display video assets. This type of creative must have video assets provided. Only supported when using productAds with ASIN or SKU.
@@ -277,6 +267,16 @@ class SDVideoCreativeProperties(
         description="An optional collection of 9:16 vertical videos which are displayed on the ad. Currently, only one asset is supported in the array.",
     )
     video: SDVideo | None = Field(default=None)
+
+
+class SDCreativeProperties(
+    SDHeadlineCreativeProperties,
+    SDLogoCreativeProperties,
+    SDCustomImageCreativeProperties,
+    SDVideoCreativeProperties,
+    SDBackgroundCreativeProperties,
+):  # Select customizations on your creative from any combination of headline, logo, custom image and backgrounds.
+    model_config = ConfigDict(extra="ignore")
 
 
 __all__ = [
