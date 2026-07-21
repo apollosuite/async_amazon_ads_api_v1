@@ -15621,6 +15621,11 @@
           },
           "landingPage": {
             "$ref": "#/components/schemas/BrandCollectionLandingPage"
+          },
+          "title": {
+            "description": "Optional title for the collection. If not provided, title will be auto-generated.",
+            "maxLength": 32,
+            "type": "string"
           }
         },
         "required": [

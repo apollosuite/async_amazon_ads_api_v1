@@ -1803,7 +1803,7 @@
               "$ref": "#/components/schemas/SBImage"
             },
             "maxItems": 1,
-            "minItems": 1,
+            "minItems": 0,
             "type": "array"
           },
           "enableCreativeAutoTranslation": {
@@ -1839,7 +1839,6 @@
           "brand",
           "brandLogos",
           "cards",
-          "customImages",
           "headlines",
           "landingPage"
         ],
@@ -2969,7 +2968,7 @@
               "$ref": "#/components/schemas/SBCreateImage"
             },
             "maxItems": 1,
-            "minItems": 1,
+            "minItems": 0,
             "type": "array"
           },
           "enableCreativeAutoTranslation": {
@@ -2993,7 +2992,6 @@
           "brand",
           "brandLogos",
           "cards",
-          "customImages",
           "headlines",
           "landingPage"
         ],
@@ -5240,15 +5238,6 @@
         "type": "object"
       },
       "SBReservedTargetPricingCreate": {
-        "properties": {
-          "targetPricingId": {
-            "description": "A unique identifier for the reserved target pricing.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "targetPricingId"
-        ],
         "type": "object"
       },
       "SBReservedTargetPricingMultiStatusResponse": {
@@ -6144,7 +6133,7 @@
               "$ref": "#/components/schemas/SBCreateImage"
             },
             "maxItems": 1,
-            "minItems": 1,
+            "minItems": 0,
             "type": "array"
           },
           "enableCreativeAutoTranslation": {

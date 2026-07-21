@@ -205,7 +205,7 @@ class SBBrandGallerySettings(BaseModel):
         ]
         | None
     ) = None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-    customImages: list[SBImage]  # The custom images featured in the ad.
+    customImages: list[SBImage] | None = None  # The custom images featured in the ad.
     enableCreativeAutoTranslation: bool | None = (
         None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
     )
@@ -305,7 +305,7 @@ class SBCreateBrandGallerySettings(BaseModel):
         ]
         | None
     ) = None  # The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-    customImages: list[SBCreateImage]  # The custom images featured in the ad.
+    customImages: list[SBCreateImage] | None = None  # The custom images featured in the ad.
     enableCreativeAutoTranslation: bool | None = (
         None  # If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.
     )

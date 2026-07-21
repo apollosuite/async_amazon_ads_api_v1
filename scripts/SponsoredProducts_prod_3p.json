@@ -4510,7 +4510,7 @@
             "description": "This denotes the fields related to [GlobalStore Program](https://sellercentral.amazon.com/help/hub/reference/external/202139180).",
             "properties": {
               "catalogSourceCountryCode": {
-                "description": "Country code of source marketplace where seller has listed the product. Possible source country codes include US, UK, DE, JP, and AE.",
+                "description": "Country code of source marketplace where seller has listed the product. Possible source country codes include US, UK, DE, JP, AE, and TR.",
                 "type": "string"
               }
             },

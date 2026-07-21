@@ -22,8 +22,6 @@ class SBReservedTargetPricing(BaseModel):
 class SBReservedTargetPricingCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    targetPricingId: str  # A unique identifier for the reserved target pricing.
-
 
 class SBReservedTargetPricingMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="forbid")
