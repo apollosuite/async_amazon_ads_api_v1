@@ -229,6 +229,25 @@ def _strip_prefix(filename: str) -> str:
     return filename
 
 
+def _patch_schemas(product: str, schemas: dict) -> None:
+    """Apply known upstream spec fixes before model generation.
+
+    These patches compensate for bugs in the published OpenAPI specs that have
+    been reported upstream but not yet fixed. Remove each patch once the
+    upstream spec is corrected.
+    """
+    if product == "sd":
+        # SDCreateBudget is missing recurrenceTimePeriod (upstream bug)
+        # Upstream issue: https://github.com/amzn/ads-advanced-tools-docs/issues/475
+        create_budget = schemas.get("SDCreateBudget")
+        if create_budget and "recurrenceTimePeriod" not in create_budget.get("properties", {}):
+            create_budget.setdefault("properties", {})["recurrenceTimePeriod"] = {
+                "$ref": "#/components/schemas/SDRecurrence"
+            }
+            if "required" in create_budget:
+                create_budget["required"].append("recurrenceTimePeriod")
+
+
 def main(*, output_dir: Path | None = None, product: str | None = None) -> None:
     if product is None or product not in ("sp", "sb", "sd"):
         print("Error: --product must be 'sp', 'sb', or 'sd'", file=sys.stderr)
@@ -239,6 +258,8 @@ def main(*, output_dir: Path | None = None, product: str | None = None) -> None:
     with open(spec_path) as f:
         data = json.load(f)
     schemas = data["components"]["schemas"]
+
+    _patch_schemas(product, schemas)
 
     result = classify(data)
     groups: dict[str, list[str]] = result["files"]

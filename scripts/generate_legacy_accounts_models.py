@@ -12,14 +12,13 @@ from __future__ import annotations
 
 import json
 import re
-import textwrap
 import sys
 from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from generate_file_structure import extract_refs  # type: ignore[import-untyped]
-from generate_models import is_enum, openapi_to_python_type, _clean_description  # type: ignore[import-untyped]
+from generate_models import _clean_description, is_enum, openapi_to_python_type  # type: ignore[import-untyped]
 
 HERE = Path(__file__).parent
 SPEC_PATH = HERE / "AdvertisingAccounts_prod_3p.json"

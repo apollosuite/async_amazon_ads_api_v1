@@ -208,6 +208,7 @@ class SDCreateBudget(BaseModel):
 
     budgetType: Annotated[SDBudgetType | str, lenient_enum(SDBudgetType)]
     budgetValue: SDCreateBudgetValue
+    recurrenceTimePeriod: Annotated[SDRecurrence | str, lenient_enum(SDRecurrence)]
 
 
 class SDCreateBudgetValue(BaseModel):

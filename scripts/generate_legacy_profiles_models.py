@@ -18,7 +18,8 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).parent))
 from generate_file_structure import extract_refs  # type: ignore[import-untyped]
-from generate_models import is_enum, _clean_description as _raw_clean  # type: ignore[import-untyped]
+from generate_models import _clean_description as _raw_clean
+from generate_models import is_enum  # type: ignore[import-untyped]
 
 HERE = Path(__file__).parent
 SPEC_PATH = HERE / "profiles_openapi.yaml"
