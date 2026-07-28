@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -164,11 +165,7 @@ def _discover_known_schemas() -> dict[str, str]:
     for prod_dir in ("sp", "sb", "sd", "general"):
         model_dir = PROJECT / "models" / prod_dir
         if model_dir.exists():
-            py_files = [
-                f
-                for f in model_dir.iterdir()
-                if f.suffix == ".py" and f.name != "__init__.py"
-            ]
+            py_files = [f for f in model_dir.iterdir() if f.suffix == ".py" and f.name != "__init__.py"]
             class_map = _collect_class_names(py_files)
             for cls, stem in class_map.items():
                 if cls not in known:
@@ -263,9 +260,7 @@ def generate_model(name: str, schema: dict, schemas: dict[str, Any]) -> str:
             if variant.get("type") == "object" and variant.get("properties"):
                 for fname, fschema in variant["properties"].items():
                     typ = _schema_type(fschema, schemas)
-                    desc = _clean_description(fschema.get("description", "")).strip().rstrip()
-                    comment = f"  # {desc}" if desc else ""
-                    fields.append(f"    {fname}: {typ} | None = None{comment}")
+                    fields.append(f"    {fname}: {typ} | None = None")
         field_block = "\n".join(fields) if fields else "    pass"
         return f"""class {name}(BaseModel):{docstring}
     model_config = ConfigDict(extra="forbid")
@@ -278,16 +273,38 @@ def generate_model(name: str, schema: dict, schemas: dict[str, Any]) -> str:
         return f"""class {name}(BaseModel):{docstring}
     model_config = ConfigDict(extra="forbid")
 """
-    fields = []
+    fields: list[str] = []
     for fname, fschema in props.items():
         typ = _schema_type(fschema, schemas)
         is_required = fname in required
-        default = "" if is_required else " = None"
         if not is_required and typ not in ("Any",):
             typ = f"{typ} | None"
+
+        kwargs: list[str] = []
+        for attr, kw in [
+            ("minimum", "ge"),
+            ("maximum", "le"),
+            ("minLength", "min_length"),
+            ("maxLength", "max_length"),
+            ("minItems", "min_length"),
+            ("maxItems", "max_length"),
+        ]:
+            if attr in fschema:
+                kwargs.append(f"{kw}={fschema[attr]}")
+
+        if not is_required:
+            default_val = fschema.get("default")
+            kwargs.insert(0, f"default={default_val!r}" if default_val is not None else "default=None")
+
         desc = _clean_description(fschema.get("description", "")).strip().rstrip()
-        comment = f"  # {desc}" if desc else ""
-        fields.append(f"    {fname}: {typ}{default}{comment}")
+        if desc:
+            kwargs.append(f'description="{desc}"')
+
+        if kwargs:
+            fields.append(f"    {fname}: {typ} = Field({', '.join(kwargs)})")
+        else:
+            fields.append(f"    {fname}: {typ}")
+
     field_block = "\n".join(fields)
     return f"""class {name}(BaseModel):{docstring}
     model_config = ConfigDict(extra="forbid")
@@ -384,6 +401,7 @@ def generate_for_tag(
 
     # ── Generate model file ──
     model_path = MODEL_DIR / f"{snake_name}.py"
+
     model_imports: dict[str, list[str]] = defaultdict(list)
     for name, source in sorted(to_import.items()):
         model_imports[source].append(name)
@@ -391,14 +409,12 @@ def generate_for_tag(
     import_lines: list[str] = []
     for source, names in sorted(model_imports.items()):
         if source == "errors":
-            import_lines.append(
-                f"from async_amazon_ads_api_v1.errors import {', '.join(sorted(names))}"
-            )
+            import_lines.append(f"from async_amazon_ads_api_v1.errors import {', '.join(sorted(names))}")
         else:
             # source is "models.general.advertiser_accounts" etc
             # Strip the model package prefix to get sibling module name
             prefix = "models.general."
-            module = source[len(prefix):] if source.startswith(prefix) else source
+            module = source[len(prefix) :] if source.startswith(prefix) else source
             import_lines.append(f"from .{module} import {', '.join(sorted(names))}")
 
     # Build model header
@@ -415,12 +431,12 @@ def generate_for_tag(
         std_imports.add("from enum import StrEnum")
     std_imports.add("from typing import Annotated, Any")
     std_imports.add("from datetime import datetime")
-    if import_lines:
-        std_imports.add("")  # empty line before project imports
 
     header.extend(sorted(std_imports))
+    if std_imports:
+        header.append("")
     header.append("")
-    header.append("from pydantic import BaseModel, ConfigDict")
+    header.append("from pydantic import BaseModel, ConfigDict, Field")
     header.append("")
     header.append("from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum")
     header.append("")
@@ -547,10 +563,7 @@ def generate_for_tag(
         method_is_get = http_method == "GET"
 
         has_query_params = bool(query_params)
-        has_param_docs = any(
-            _clean_description(p.get("description", "")).strip()
-            for p in query_params
-        )
+        has_param_docs = any(_clean_description(p.get("description", "")).strip() for p in query_params)
 
         client_lines.append(f"    async def {mname}({sig}) -> {ret_type}:")
         if not has_query_params or not has_param_docs:
@@ -606,6 +619,30 @@ def generate_for_tag(
 # ── Entry point ───────────────────────────────────────────────────────
 
 
+PROJECT_ROOT = HERE.parent
+
+
+def _run_tool(cmd: list[str], label: str) -> None:
+    """Run a formatting/lint tool and print its output.
+
+    docformatter exit codes: 0 = no changes, 3 = changes made.
+    Both are considered success.
+    """
+    ok_codes = {0, 3} if "docformatter" in label else {0}
+    print(f"\n── {label} {'─' * (56 - len(label))}")
+    result = subprocess.run(cmd, capture_output=True, text=True, cwd=PROJECT_ROOT)
+    if result.returncode not in ok_codes:
+        print(f"  ⚠ {label} exited with code {result.returncode}")
+    if result.stdout:
+        for line in result.stdout.splitlines():
+            print(f"  {line}")
+    if result.stderr:
+        for line in result.stderr.splitlines():
+            print(f"  {line}")
+    if result.returncode in ok_codes:
+        print(f"  ✓ {label} passed")
+
+
 def main() -> None:
     if not SPEC_PATH.exists():
         print(f"ERROR: {SPEC_PATH} not found", file=sys.stderr)
@@ -621,6 +658,33 @@ def main() -> None:
 
     for tag in TAGS:
         generate_for_tag(spec, tag, known_schemas)
+
+    # ── Post-processing ──────────────────────────────────────────────
+    print("\n" + "=" * 60)
+    print("Post-processing generated files...")
+
+    general_dirs = [
+        str(MODEL_DIR),
+        str(CLIENT_DIR),
+    ]
+
+    _run_tool(
+        ["uv", "run", "docformatter", *general_dirs],
+        "docformatter",
+    )
+
+    _run_tool(
+        ["uv", "run", "black", "src/"],
+        "black",
+    )
+
+    _run_tool(
+        ["uv", "run", "ruff", "check", "--fix", "src/"],
+        "ruff check --fix",
+    )
+
+    print(f"\n{'=' * 60}")
+    print("Done.")
 
 
 if __name__ == "__main__":

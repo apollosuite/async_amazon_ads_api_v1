@@ -5,7 +5,7 @@ from __future__ import annotations
 from enum import StrEnum
 from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
@@ -280,22 +280,27 @@ class SellingProgram(StrEnum):
 class QuerySellingAccountRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    maxResults: int | None = None
-    nextToken: str | None = None
-    sellingAccountLinkTokenFilter: SellingAccountSellingAccountLinkTokenFilter | None = None
-    sellingProgramFilter: SellingAccountSellingProgramFilter | None = None
+    maxResults: int | None = Field(default=100, ge=10, le=100)
+    nextToken: str | None = Field(default=None)
+    sellingAccountLinkTokenFilter: SellingAccountSellingAccountLinkTokenFilter | None = Field(default=None)
+    sellingProgramFilter: SellingAccountSellingProgramFilter | None = Field(default=None)
 
 
 class SellingAccount(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    business: SellingAccountBusiness | None = None
-    countryCodes: list[Annotated[CountryCode | str, lenient_enum(CountryCode)]] | None = (
-        None  # The countries of the selling account user can advertise in.
+    business: SellingAccountBusiness | None = Field(default=None)
+    countryCodes: list[Annotated[CountryCode | str, lenient_enum(CountryCode)]] | None = Field(
+        default=None,
+        min_length=0,
+        max_length=30,
+        description="The countries of the selling account user can advertise in.",
     )
-    displayName: str | None = None  # Display name for the selling account.
-    portals: list[Annotated[Portal | str, lenient_enum(Portal)]]  # The portal(s) used to access the selling account.
-    sellingAccountLinkToken: str  # The token to locate a selling account.
+    displayName: str | None = Field(default=None, description="Display name for the selling account.")
+    portals: list[Annotated[Portal | str, lenient_enum(Portal)]] = Field(
+        min_length=1, max_length=6, description="The portal(s) used to access the selling account."
+    )
+    sellingAccountLinkToken: str = Field(description="The token to locate a selling account.")
     sellingProgram: Annotated[SellingProgram | str, lenient_enum(SellingProgram)]
 
 
@@ -304,15 +309,15 @@ class SellingAccountAddress(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    addressLine1: str  # The address details - 1 of business.
-    addressLine2: str | None = None  # The address details - 2 of business.
-    addressToken: str  # The token to locate a business address.
-    businessName: str  # The name of business.
-    city: str  # The city where business is located.
-    countryCode: str  # The country where business is located.
-    phoneNumber: str | None = None  # The phone number of business.
-    state: str  # The city where business is located.
-    zipCode: str  # The zipCode where business is located.
+    addressLine1: str = Field(description="The address details - 1 of business.")
+    addressLine2: str | None = Field(default=None, description="The address details - 2 of business.")
+    addressToken: str = Field(description="The token to locate a business address.")
+    businessName: str = Field(description="The name of business.")
+    city: str = Field(description="The city where business is located.")
+    countryCode: str = Field(description="The country where business is located.")
+    phoneNumber: str | None = Field(default=None, description="The phone number of business.")
+    state: str = Field(description="The city where business is located.")
+    zipCode: str = Field(description="The zipCode where business is located.")
 
 
 class SellingAccountBusiness(BaseModel):
@@ -320,27 +325,29 @@ class SellingAccountBusiness(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    addresses: list[SellingAccountAddress] | None = None  # A list of business address the selling account has.
-    website: str | None = None  # The website of the business.
+    addresses: list[SellingAccountAddress] | None = Field(
+        default=None, min_length=0, max_length=10, description="A list of business address the selling account has."
+    )
+    website: str | None = Field(default=None, description="The website of the business.")
 
 
 class SellingAccountSellingAccountLinkTokenFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[str]
+    include: list[str] = Field(min_length=1, max_length=1)
 
 
 class SellingAccountSellingProgramFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    include: list[Annotated[SellingProgram | str, lenient_enum(SellingProgram)]]
+    include: list[Annotated[SellingProgram | str, lenient_enum(SellingProgram)]] = Field(min_length=1, max_length=1)
 
 
 class SellingAccountSuccessResponse(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    nextToken: str | None = None
-    sellingAccounts: list[SellingAccount] | None = None
+    nextToken: str | None = Field(default=None)
+    sellingAccounts: list[SellingAccount] | None = Field(default=None, min_length=0, max_length=100)
 
 
 __all__ = [

@@ -15,6 +15,5 @@ from async_amazon_ads_api_v1.models.general.brand_stores import (
 class BrandStores(_ResourceBase):
 
     async def query_brand_store(self, body: QueryBrandStoreRequest) -> BrandStoreSuccessResponse:
-        """Query brand store content"""
-
+        """Query brand store content."""
         return await self._query(body, "/adsApi/v1/query/brandStores", BrandStoreSuccessResponse)

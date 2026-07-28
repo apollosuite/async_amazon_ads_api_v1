@@ -16,8 +16,7 @@ class BrandStoreEditions(_ResourceBase):
     async def list_brand_store_edition(
         self, brand_store_id: str, next_token: str | None = None, max_results: int | None = None
     ) -> BrandStoreEditionSuccessResponse:
-        """Retrieve brand store page content"""
-
+        """Retrieve brand store page content."""
         params = {
             "brandStoreId": brand_store_id,
             "nextToken": next_token,
