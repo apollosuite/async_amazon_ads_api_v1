@@ -19,7 +19,7 @@ class BrandStore(BaseModel):
 
 
 class BrandStorePageInfo(BaseModel):
-    """Structure containing the basic information of a store page."""
+    """Structure containing the basic information of a store page"""
 
     model_config = ConfigDict(extra="forbid")
 

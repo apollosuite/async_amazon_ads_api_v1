@@ -13,11 +13,14 @@ from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 
 class CreateState(StrEnum):
-    """The user defined state for the resource.
+    """
+    The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
+    **CreateState Enum:**
 
-    For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to
-    activate for delivery **CreateState Enum:**  CreateState Description ------ ------ `ENABLED` The object is set
-    active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery.
+    | CreateState | Description |
+    |------|------|
+    | `ENABLED` | The object is set active by user and eligible for delivery. |
+    | `PAUSED` | The object is stopped by user and not eligible for delivery. |
     """
 
     ENABLED = "ENABLED"
@@ -25,12 +28,15 @@ class CreateState(StrEnum):
 
 
 class State(StrEnum):
-    """The user defined state for the resource.
+    """
+    The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
+    **State Enum:**
 
-    For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to
-    activate for delivery **State Enum:**  State Description ------ ------ `ARCHIVED` The object is permanently stopped
-    and cannot be reactivated. Terminal end state. `ENABLED` The object is set active by user and eligible for delivery.
-    `PAUSED` The object is stopped by user and not eligible for delivery.
+    | State | Description |
+    |------|------|
+    | `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |
+    | `ENABLED` | The object is set active by user and eligible for delivery. |
+    | `PAUSED` | The object is stopped by user and not eligible for delivery. |
     """
 
     ARCHIVED = "ARCHIVED"
@@ -39,11 +45,14 @@ class State(StrEnum):
 
 
 class UpdateState(StrEnum):
-    """The user defined state for the resource.
+    """
+    The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
+    **UpdateState Enum:**
 
-    For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to
-    activate for delivery **UpdateState Enum:**  UpdateState Description ------ ------ `ENABLED` The object is set
-    active by user and eligible for delivery. `PAUSED` The object is stopped by user and not eligible for delivery.
+    | UpdateState | Description |
+    |------|------|
+    | `ENABLED` | The object is set active by user and eligible for delivery. |
+    | `PAUSED` | The object is stopped by user and not eligible for delivery. |
     """
 
     ENABLED = "ENABLED"

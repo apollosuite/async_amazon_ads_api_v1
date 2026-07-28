@@ -20,15 +20,18 @@ class AdvertiserAccounts(_ResourceBase):
     async def create_advertiser_account(
         self, body: CreateAdvertiserAccountRequest
     ) -> AdvertiserAccountMultiStatusResponse:
-        """Create advertiser accounts."""
+        """Create advertiser accounts"""
+
         return await self._query(body, "/adsApi/v1/create/advertiserAccounts", AdvertiserAccountMultiStatusResponse)
 
     async def query_advertiser_account(self, body: QueryAdvertiserAccountRequest) -> AdvertiserAccountSuccessResponse:
-        """List advertiser accounts."""
+        """List advertiser accounts"""
+
         return await self._query(body, "/adsApi/v1/query/advertiserAccounts", AdvertiserAccountSuccessResponse)
 
     async def update_advertiser_account(
         self, body: UpdateAdvertiserAccountRequest
     ) -> AdvertiserAccountMultiStatusResponse:
-        """Update advertiser accounts."""
+        """Update advertiser accounts"""
+
         return await self._query(body, "/adsApi/v1/update/advertiserAccounts", AdvertiserAccountMultiStatusResponse)

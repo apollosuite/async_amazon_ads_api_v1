@@ -19,7 +19,8 @@ class BrandStoreEditionPublishVersions(_ResourceBase):
     async def query_brand_store_edition_publish_version(
         self, body: QueryBrandStoreEditionPublishVersionRequest
     ) -> BrandStoreEditionPublishVersionSuccessResponse:
-        """Query store edition publish versions."""
+        """Query store edition publish versions"""
+
         return await self._query(
             body, "/adsApi/v1/query/brandStoreEditionPublishVersions", BrandStoreEditionPublishVersionSuccessResponse
         )
@@ -27,7 +28,8 @@ class BrandStoreEditionPublishVersions(_ResourceBase):
     async def update_brand_store_edition_publish_version(
         self, body: UpdateBrandStoreEditionPublishVersionRequest
     ) -> BrandStoreEditionPublishVersionMultiStatusResponse:
-        """Update store edition publish versions."""
+        """Update store edition publish versions"""
+
         return await self._query(
             body,
             "/adsApi/v1/update/brandStoreEditionPublishVersions",

@@ -20,7 +20,6 @@ classifiers = [
 ]
 
 dependencies = [
-    "docformatter>=1.7.8",
     "httpx>=0.28.0",
     "pydantic>=2.10.0",
 ]
@@ -40,7 +39,6 @@ dev = [
     "pytest>=8.3.0",
     "pytest-asyncio>=0.25.0",
     "black>=26.3.1",
-    "docformatter>=1.7.8",
     "pyrefly>=1.0.0",
     "hatchling>=1.21.0",
     "twine>=6.0.0",
@@ -78,14 +76,6 @@ select = ["E", "F", "I", "N", "UP", "W"]
 "src/async_amazon_ads_api_v1/models/*" = ["E501", "F403", "N815"]
 "src/async_amazon_ads_api_v1/models/legacy*" = ["E501"]
 "src/async_amazon_ads_api_v1/client/general/*" = ["E501"]
-
-
-[tool.docformatter]
-black = true
-wrap-summaries = 120
-wrap-descriptions = 120
-in-place = true
-recursive = true
 
 
 [tool.pytest.ini_options]

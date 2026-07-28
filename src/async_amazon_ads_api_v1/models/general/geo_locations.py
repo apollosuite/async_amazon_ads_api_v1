@@ -12,14 +12,20 @@ from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 
 class DistanceUnit(StrEnum):
-    """**DistanceUnit Enum:** DistanceUnit Description `KILOMETERS` Distance in kilometers `MILES` Distance in miles."""
+    """
+    **DistanceUnit Enum:**
+    | DistanceUnit | Description |
+    | --- | --- |
+    | `KILOMETERS` | Distance in kilometers |
+    | `MILES` | Distance in miles |
+    """
 
     KILOMETERS = "KILOMETERS"
     MILES = "MILES"
 
 
 class CreateGeoLocationCoordinates(BaseModel):
-    """Coordinates for a point of interest."""
+    """Coordinates for a point of interest"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -41,10 +47,7 @@ class CreateGeoLocationUnion(BaseModel):
 
 
 class CreateRadiusLocation(BaseModel):
-    """Configuration for a radius-based location.
-
-    A minimum radius of 0.37 miles (2000 ft, 0.6km) is required.
-    """
+    """Configuration for a radius-based location. A minimum radius of 0.37 miles (2000 ft, 0.6km) is required."""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -86,7 +89,7 @@ class GeoLocation(BaseModel):
 
 
 class GeoLocationCoordinates(BaseModel):
-    """Coordinates for a point of interest."""
+    """Coordinates for a point of interest"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -122,10 +125,7 @@ class GeoLocationUnion(BaseModel):
 
 
 class RadiusLocation(BaseModel):
-    """Configuration for a radius-based location.
-
-    A minimum radius of 0.37 miles (2000 ft, 0.6km) is required.
-    """
+    """Configuration for a radius-based location. A minimum radius of 0.37 miles (2000 ft, 0.6km) is required."""
 
     model_config = ConfigDict(extra="forbid")
 

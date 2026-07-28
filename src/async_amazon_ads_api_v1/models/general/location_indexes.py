@@ -15,12 +15,15 @@ from .selling_accounts import CountryCode
 
 
 class IndexStatus(StrEnum):
-    """**IndexStatus Enum:**  IndexStatus Description ------ ------ `ENABLED` The location index is active and can be
-    used in smart locations.
+    """
+    **IndexStatus Enum:**
 
-    `FAILED` The location index creation failed and cannot be used in smart locations. `PENDING` The location index is
-    being created and cannot be used in smart locations yet. `UPDATE_FAILED` The location index update has failed, but
-    the old version can still be used.
+    | IndexStatus | Description |
+    |------|------|
+    | `ENABLED` | The location index is active and can be used in smart locations. |
+    | `FAILED` | The location index creation failed and cannot be used in smart locations. |
+    | `PENDING` | The location index is being created and cannot be used in smart locations yet. |
+    | `UPDATE_FAILED` | The location index update has failed, but the old version can still be used. |
     """
 
     ENABLED = "ENABLED"

@@ -11,7 +11,13 @@ from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 
 class HorizontalPosition(StrEnum):
-    """HorizontalPosition Description `LEFT` Left position `CENTER` Center position `RIGHT` Right position."""
+    """
+    | HorizontalPosition | Description |
+    | --- | --- |
+    | `LEFT` | Left position |
+    | `CENTER` | Center position |
+    | `RIGHT` | Right position |
+    """
 
     CENTER = "CENTER"
     LEFT = "LEFT"
@@ -19,8 +25,14 @@ class HorizontalPosition(StrEnum):
 
 
 class StoreBleedImageType(StrEnum):
-    """StoreBleedImageType Description `NONE` No image bleed `SIDE` Side image bleed `CORNER` Corner image bleed `ALL`
-    All sides image bleed."""
+    """
+    | StoreBleedImageType | Description |
+    | --- | --- |
+    | `NONE` | No image bleed |
+    | `SIDE` | Side image bleed |
+    | `CORNER` | Corner image bleed |
+    | `ALL` | All sides image bleed |
+    """
 
     ALL = "ALL"
     CORNER = "CORNER"
@@ -29,17 +41,30 @@ class StoreBleedImageType(StrEnum):
 
 
 class StoreCallToActionType(StrEnum):
-    """StoreCallToActionType Description `LINK` Link type call to action `BUTTON` Button type call to action."""
+    """
+    | StoreCallToActionType | Description |
+    | --- | --- |
+    | `LINK` | Link type call to action |
+    | `BUTTON` | Button type call to action |
+    """
 
     BUTTON = "BUTTON"
     LINK = "LINK"
 
 
 class StoreColorPalette(StrEnum):
-    """StoreColorPalette Description `DEFAULT` Default color scheme `DEFAULT_INVERTED` Inverted default color scheme
-    `SOLID_WHITE` Solid white color scheme `SOLID_BLACK` Solid black color scheme `TRANSLUCENT_WHITE` Translucent white
-    color scheme `TRANSLUCENT_BLACK` Translucent black color scheme `TRANSPARENT_BLACK` Transparent black color scheme
-    `TRANSPARENT_WHITE` Transparent white color scheme."""
+    """
+    | StoreColorPalette | Description |
+    | --- | --- |
+    | `DEFAULT` | Default color scheme |
+    | `DEFAULT_INVERTED` | Inverted default color scheme |
+    | `SOLID_WHITE` | Solid white color scheme |
+    | `SOLID_BLACK` | Solid black color scheme |
+    | `TRANSLUCENT_WHITE` | Translucent white color scheme |
+    | `TRANSLUCENT_BLACK` | Translucent black color scheme |
+    | `TRANSPARENT_BLACK` | Transparent black color scheme |
+    | `TRANSPARENT_WHITE` | Transparent white color scheme |
+    """
 
     DEFAULT = "DEFAULT"
     DEFAULT_INVERTED = "DEFAULT_INVERTED"
@@ -52,14 +77,25 @@ class StoreColorPalette(StrEnum):
 
 
 class StoreDealsMode(StrEnum):
-    """StoreDealsMode Description `BULK` Bulk mode `AUTOMATIC` Automatic mode."""
+    """
+    | StoreDealsMode | Description |
+    | --- | --- |
+    | `BULK` | Bulk mode |
+    | `AUTOMATIC` | Automatic mode |
+    """
 
     AUTOMATIC = "AUTOMATIC"
     BULK = "BULK"
 
 
 class StoreImageLayout(StrEnum):
-    """StoreImageLayout Description `COVER` Cover layout `CONTAIN` Contain layout `TEXT` Text layout."""
+    """
+    | StoreImageLayout | Description |
+    | --- | --- |
+    | `COVER` | Cover layout |
+    | `CONTAIN` | Contain layout |
+    | `TEXT` | Text layout |
+    """
 
     CONTAIN = "CONTAIN"
     COVER = "COVER"
@@ -67,36 +103,59 @@ class StoreImageLayout(StrEnum):
 
 
 class StoreImageShape(StrEnum):
-    """StoreImageShape Description `SQUARE` Square shape."""
+    """
+    | StoreImageShape | Description |
+    | --- | --- |
+    | `SQUARE` | Square shape |
+    """
 
     SQUARE = "SQUARE"
 
 
 class StoreImageTextAlign(StrEnum):
-    """StoreImageTextAlign Description `LEFT` Left text alignment `RIGHT` Right text alignment."""
+    """
+    | StoreImageTextAlign | Description |
+    | --- | --- |
+    | `LEFT` | Left text alignment |
+    | `RIGHT` | Right text alignment |
+    """
 
     LEFT = "LEFT"
     RIGHT = "RIGHT"
 
 
 class StoreImageWithTextTileVariation(StrEnum):
-    """StoreImageWithTextTileVariation Description `IMAGE_WITH_TEXT` Image with text variation."""
+    """
+    | StoreImageWithTextTileVariation | Description |
+    | --- | --- |
+    | `IMAGE_WITH_TEXT` | Image with text variation |
+    """
 
     IMAGE_WITH_TEXT = "IMAGE_WITH_TEXT"
 
 
 class StoreLayoutType(StrEnum):
-    """StoreLayoutType Description `DEFAULT` Default layout configuration `SHOWCASE` Showcase layout configuration for
-    featured display."""
+    """
+    | StoreLayoutType | Description |
+    | --- | --- |
+    | `DEFAULT` | Default layout configuration |
+    | `SHOWCASE` | Showcase layout configuration for featured display |
+    """
 
     DEFAULT = "DEFAULT"
     SHOWCASE = "SHOWCASE"
 
 
 class StorePageTemplate(StrEnum):
-    """StorePageTemplate Description `PRODUCT_GRID` Template displaying products in a grid layout `HIGHLIGHT` Template
-    for highlighting specific content `MARQUEE` Template featuring a prominent marquee section `BLANK` Empty template
-    for custom layouts `PRODUCT_COLLECTION` Template for displaying collections of products."""
+    """
+    | StorePageTemplate | Description |
+    | --- | --- |
+    | `PRODUCT_GRID` | Template displaying products in a grid layout |
+    | `HIGHLIGHT` | Template for highlighting specific content |
+    | `MARQUEE` | Template featuring a prominent marquee section |
+    | `BLANK` | Empty template for custom layouts |
+    | `PRODUCT_COLLECTION` | Template for displaying collections of products |
+    """
 
     BLANK = "BLANK"
     HIGHLIGHT = "HIGHLIGHT"
@@ -106,24 +165,37 @@ class StorePageTemplate(StrEnum):
 
 
 class StorePageType(StrEnum):
-    """StorePageType Description `BRAND_STORE_PAGE` Standard brand store page that allows customization to show case the
-    brand and product `LANDING_PAGE` Landing page for specific ads program with predefined template."""
+    """
+    | StorePageType | Description |
+    | --- | --- |
+    | `BRAND_STORE_PAGE` | Standard brand store page that allows customization to show case the brand and product |
+    | `LANDING_PAGE` | Landing page for specific ads program with predefined template |
+    """
 
     BRAND_STORE_PAGE = "BRAND_STORE_PAGE"
     LANDING_PAGE = "LANDING_PAGE"
 
 
 class StoreProductCarouselSearchType(StrEnum):
-    """StoreProductCarouselSearchType Description `RECOMMENDATION_FOR_YOU` Personalized recommendations `BEST_SELLING`
-    Best selling items."""
+    """
+    | StoreProductCarouselSearchType | Description |
+    | --- | --- |
+    | `RECOMMENDATION_FOR_YOU` | Personalized recommendations |
+    | `BEST_SELLING` | Best selling items |
+    """
 
     BEST_SELLING = "BEST_SELLING"
     RECOMMENDATION_FOR_YOU = "RECOMMENDATION_FOR_YOU"
 
 
 class StoreProductSelectorButtonColor(StrEnum):
-    """StoreProductSelectorButtonColor Description `WHITE` White button color `BLACK` Black button color `TRANSPARENT`
-    Transparent button color."""
+    """
+    | StoreProductSelectorButtonColor | Description |
+    | --- | --- |
+    | `WHITE` | White button color |
+    | `BLACK` | Black button color |
+    | `TRANSPARENT` | Transparent button color |
+    """
 
     BLACK = "BLACK"
     TRANSPARENT = "TRANSPARENT"
@@ -131,8 +203,14 @@ class StoreProductSelectorButtonColor(StrEnum):
 
 
 class StoreProductSelectorImageLayout(StrEnum):
-    """StoreProductSelectorImageLayout Description `TOP` Top image layout `LEFT` Left image layout `RIGHT` Right image
-    layout `BOTTOM` Bottom image layout."""
+    """
+    | StoreProductSelectorImageLayout | Description |
+    | --- | --- |
+    | `TOP` | Top image layout |
+    | `LEFT` | Left image layout |
+    | `RIGHT` | Right image layout |
+    | `BOTTOM` | Bottom image layout |
+    """
 
     BOTTOM = "BOTTOM"
     LEFT = "LEFT"
@@ -141,8 +219,13 @@ class StoreProductSelectorImageLayout(StrEnum):
 
 
 class StoreShoppableTextOption(StrEnum):
-    """StoreShoppableTextOption Description `TEXT_UNDER_INTERACTIVE_IMAGE` Text under interactive image
-    `NO_TEXT_UNDER_INTERACTIVE_IMAGE` No text under interactive image `TEXT_OVER_IMAGE` Text over interactive image."""
+    """
+    | StoreShoppableTextOption | Description |
+    | --- | --- |
+    | `TEXT_UNDER_INTERACTIVE_IMAGE` | Text under interactive image |
+    | `NO_TEXT_UNDER_INTERACTIVE_IMAGE` | No text under interactive image |
+    | `TEXT_OVER_IMAGE` | Text over interactive image |
+    """
 
     NO_TEXT_UNDER_INTERACTIVE_IMAGE = "NO_TEXT_UNDER_INTERACTIVE_IMAGE"
     TEXT_OVER_IMAGE = "TEXT_OVER_IMAGE"
@@ -150,18 +233,25 @@ class StoreShoppableTextOption(StrEnum):
 
 
 class StoreSlideType(StrEnum):
-    """StoreSlideType Description `IMAGE` Slide type for StoreGallerySlide, StoreImageSlide `ASIN` Slide type for
-    StoreASINSlide."""
+    """
+    | StoreSlideType | Description |
+    | --- | --- |
+    | `IMAGE` | Slide type for StoreGallerySlide, StoreImageSlide |
+    | `ASIN` | Slide type for StoreASINSlide |
+    """
 
     ASIN = "ASIN"
     IMAGE = "IMAGE"
 
 
 class StoreTextAlignment(StrEnum):
-    """StoreTextAlignment Description `LEFT` Left alignment.
-
-    Default value configured for StoreEmptyTile `CENTER` Center alignment `RIGHT` Right alignment `JUSTIFY` Justified
-    alignment
+    """
+    | StoreTextAlignment | Description |
+    | --- | --- |
+    | `LEFT` | Left alignment. Default value configured for StoreEmptyTile |
+    | `CENTER` | Center alignment |
+    | `RIGHT` | Right alignment |
+    | `JUSTIFY` | Justified alignment |
     """
 
     CENTER = "CENTER"
@@ -171,23 +261,38 @@ class StoreTextAlignment(StrEnum):
 
 
 class StoreTextOption(StrEnum):
-    """StoreTextOption Description `TEXT_OVER_IMAGE` Text overlaid on image `TEXT_NEXT_TO_IMAGE` Text next to image."""
+    """
+    | StoreTextOption | Description |
+    | --- | --- |
+    | `TEXT_OVER_IMAGE` | Text overlaid on image |
+    | `TEXT_NEXT_TO_IMAGE` | Text next to image |
+    """
 
     TEXT_NEXT_TO_IMAGE = "TEXT_NEXT_TO_IMAGE"
     TEXT_OVER_IMAGE = "TEXT_OVER_IMAGE"
 
 
 class StoreTextOptionType(StrEnum):
-    """StoreTextOptionType Description `NO_TEXT_OVER_VIDEO` No text overlay on video `TEXT_OVER_VIDEO` Text overlay on
-    video."""
+    """
+    | StoreTextOptionType | Description |
+    | --- | --- |
+    | `NO_TEXT_OVER_VIDEO` | No text overlay on video |
+    | `TEXT_OVER_VIDEO` | Text overlay on video |
+    """
 
     NO_TEXT_OVER_VIDEO = "NO_TEXT_OVER_VIDEO"
     TEXT_OVER_VIDEO = "TEXT_OVER_VIDEO"
 
 
 class StoreTileBorderSize(StrEnum):
-    """StoreTileBorderSize Description `NONE` No border `SMALL` Small border size `MEDIUM` Medium border size `LARGE`
-    Large border size."""
+    """
+    | StoreTileBorderSize | Description |
+    | --- | --- |
+    | `NONE` | No border |
+    | `SMALL` | Small border size |
+    | `MEDIUM` | Medium border size |
+    | `LARGE` | Large border size |
+    """
 
     LARGE = "LARGE"
     MEDIUM = "MEDIUM"
@@ -196,8 +301,14 @@ class StoreTileBorderSize(StrEnum):
 
 
 class StoreTileSize(StrEnum):
-    """StoreTileSize Description `LARGE` Large tile size, StoreAWLSTile only uses LARGE `MEDIUM` Medium tile size
-    `SMALL` Small tile size `MINI` Mini tile size."""
+    """
+    | StoreTileSize | Description |
+    | --- | --- |
+    | `LARGE` | Large tile size, StoreAWLSTile only uses LARGE |
+    | `MEDIUM` | Medium tile size |
+    | `SMALL` | Small tile size |
+    | `MINI` | Mini tile size |
+    """
 
     LARGE = "LARGE"
     MEDIUM = "MEDIUM"
@@ -206,8 +317,14 @@ class StoreTileSize(StrEnum):
 
 
 class StoreTileTextSize(StrEnum):
-    """StoreTileTextSize Description `MINI` Mini text size `SMALL` Small text size `MEDIUM` Medium text size `LARGE`
-    Large text size."""
+    """
+    | StoreTileTextSize | Description |
+    | --- | --- |
+    | `MINI` | Mini text size |
+    | `SMALL` | Small text size |
+    | `MEDIUM` | Medium text size |
+    | `LARGE` | Large text size |
+    """
 
     LARGE = "LARGE"
     MEDIUM = "MEDIUM"
@@ -216,11 +333,18 @@ class StoreTileTextSize(StrEnum):
 
 
 class StoreTileType(StrEnum):
-    """StoreTileType Description `TEXT` Tile type for StoreTextTile and tile layers `IMAGE` Tile type for
-    StoreImageTile, StoreImageWithTextTile, StoreMetadataItem type `PRODUCT` Tile type for StoreProductTile and
-    StoreShoppablePoint type `INTERACTIVE_IMAGE` Tile type for StoreShoppableImageTile `VIDEO` Tile type for
-    StoreVideoTile `CUSTOM_CODE` Tile type for StoreCustomCodeTile `EMPTY` Tile type for StoreEmptyTile
-    `EXTERNAL_WIDGET` Tile type for StoreAWLSTile."""
+    """
+    | StoreTileType | Description |
+    | --- | --- |
+    | `TEXT` | Tile type for StoreTextTile and tile layers |
+    | `IMAGE` | Tile type for StoreImageTile, StoreImageWithTextTile, StoreMetadataItem type |
+    | `PRODUCT` | Tile type for StoreProductTile and StoreShoppablePoint type |
+    | `INTERACTIVE_IMAGE` | Tile type for StoreShoppableImageTile |
+    | `VIDEO` | Tile type for StoreVideoTile |
+    | `CUSTOM_CODE` | Tile type for StoreCustomCodeTile |
+    | `EMPTY` | Tile type for StoreEmptyTile |
+    | `EXTERNAL_WIDGET` | Tile type for StoreAWLSTile |
+    """
 
     CUSTOM_CODE = "CUSTOM_CODE"
     EMPTY = "EMPTY"
@@ -233,7 +357,13 @@ class StoreTileType(StrEnum):
 
 
 class StoreVerticalAlign(StrEnum):
-    """StoreVerticalAlign Description `TOP` Top alignment `MIDDLE` Middle alignment `BOTTOM` Bottom alignment."""
+    """
+    | StoreVerticalAlign | Description |
+    | --- | --- |
+    | `TOP` | Top alignment |
+    | `MIDDLE` | Middle alignment |
+    | `BOTTOM` | Bottom alignment |
+    """
 
     BOTTOM = "BOTTOM"
     MIDDLE = "MIDDLE"
@@ -241,18 +371,23 @@ class StoreVerticalAlign(StrEnum):
 
 
 class StoreWidgetSectionType(StrEnum):
-    """StoreWidgetSectionType Description `HERO` Section type for StoreHeroImageWidget `EDITORIAL_ROW` Widget type for
-    StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget,
-    StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget `DEALS_AND_COUPONS` Section type for
-    StoreDealsWidget and StoreDealsContent type `GALLERY` Section type for StoreGalleryWidget `PRODUCT_COLLECTION`
-    Section type for StoreProductCollectionWidget `PRODUCT_GRID` Section type for StoreProductGridWidget and type for
-    StoreProductCollectionASINGrid `SHOP_THE_LOOK_CAROUSEL` Section type for StoreShopTheLookWidget and type for
-    StoreShopTheLookContent `MANUALLY_CURATED_PRODUCT_CAROUSEL` Section type for
-    StoreManuallyCuratedProductCarouselWidget and StoreCarouselContent type `RECOMMENDED` Section type for
-    StoreProductCarouselWidget and StoreProductCarouselContent type `BEST_SELLING` Section type for
-    StoreProductCarouselWidget and StoreProductCarouselContent type `PREMIUM_BEST_SELLING` Section type for
-    StoreProductCarouselWidget and StoreProductCarouselContent type `LIVE_VIDEO` Section type for StoreLiveVideoWidget
-    `BANNER` Section type for StoreBannerWidget."""
+    """
+    | StoreWidgetSectionType | Description |
+    | --- | --- |
+    | `HERO` | Section type for StoreHeroImageWidget |
+    | `EDITORIAL_ROW` | Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget |
+    | `DEALS_AND_COUPONS` | Section type for StoreDealsWidget and StoreDealsContent type |
+    | `GALLERY` | Section type for StoreGalleryWidget |
+    | `PRODUCT_COLLECTION` | Section type for StoreProductCollectionWidget |
+    | `PRODUCT_GRID` | Section type for StoreProductGridWidget and type for StoreProductCollectionASINGrid |
+    | `SHOP_THE_LOOK_CAROUSEL` | Section type for StoreShopTheLookWidget and type for StoreShopTheLookContent |
+    | `MANUALLY_CURATED_PRODUCT_CAROUSEL` | Section type for StoreManuallyCuratedProductCarouselWidget and StoreCarouselContent type |
+    | `RECOMMENDED` | Section type for StoreProductCarouselWidget and StoreProductCarouselContent type |
+    | `BEST_SELLING` | Section type for StoreProductCarouselWidget and StoreProductCarouselContent type |
+    | `PREMIUM_BEST_SELLING` | Section type for StoreProductCarouselWidget and StoreProductCarouselContent type |
+    | `LIVE_VIDEO` | Section type for StoreLiveVideoWidget |
+    | `BANNER` | Section type for StoreBannerWidget |
+    """
 
     BANNER = "BANNER"
     BEST_SELLING = "BEST_SELLING"
@@ -270,14 +405,19 @@ class StoreWidgetSectionType(StrEnum):
 
 
 class StoreWidgetType(StrEnum):
-    """StoreWidgetType Description `HERO` Widget type for StoreHeroImageWidget `EDITORIAL_ROW` Widget type for
-    StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget,
-    StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget `PRODUCT_GRID` Widget type for
-    StoreProductGridWidget and StoreDealsWidget `GALLERY` Widget type for StoreGalleryWidget and StoreGalleryContent
-    type `PRODUCT_COLLECTION` Widget type for StoreProductCollectionWidget and StoreProductCollection type
-    `MULTI_MEDIA_CAROUSEL` Widget type for StoreShopTheLookWidget, StoreManuallyCuratedProductCarouselWidget and
-    StoreProductCarouselWidget `PRODUCT_CAROUSEL` Widget type for StoreProductCarouselWidget `LIVE_VIDEO` Widget type
-    and content type for StoreLiveVideoWidget `BANNER` Widget type and content type for StoreBannerWidget."""
+    """
+    | StoreWidgetType | Description |
+    | --- | --- |
+    | `HERO` | Widget type for StoreHeroImageWidget |
+    | `EDITORIAL_ROW` | Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget |
+    | `PRODUCT_GRID` | Widget type for StoreProductGridWidget and StoreDealsWidget |
+    | `GALLERY` | Widget type for StoreGalleryWidget and StoreGalleryContent type |
+    | `PRODUCT_COLLECTION` | Widget type for StoreProductCollectionWidget and StoreProductCollection type |
+    | `MULTI_MEDIA_CAROUSEL` | Widget type for StoreShopTheLookWidget, StoreManuallyCuratedProductCarouselWidget and StoreProductCarouselWidget |
+    | `PRODUCT_CAROUSEL` | Widget type for StoreProductCarouselWidget |
+    | `LIVE_VIDEO` | Widget type and content type for StoreLiveVideoWidget |
+    | `BANNER` | Widget type and content type for StoreBannerWidget |
+    """
 
     BANNER = "BANNER"
     EDITORIAL_ROW = "EDITORIAL_ROW"
@@ -291,7 +431,13 @@ class StoreWidgetType(StrEnum):
 
 
 class VerticalPosition(StrEnum):
-    """VerticalPosition Description `TOP` Top position `MIDDLE` Middle position `BOTTOM` Bottom position."""
+    """
+    | VerticalPosition | Description |
+    | --- | --- |
+    | `TOP` | Top position |
+    | `MIDDLE` | Middle position |
+    | `BOTTOM` | Bottom position |
+    """
 
     BOTTOM = "BOTTOM"
     MIDDLE = "MIDDLE"
@@ -343,7 +489,7 @@ class BrandStorePageSuccessResponse(BaseModel):
 
 
 class BrandedRecipeDirection(BaseModel):
-    """Represents a single step in a recipe's directions."""
+    """Represents a single step in a recipe's directions"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -352,7 +498,7 @@ class BrandedRecipeDirection(BaseModel):
 
 
 class BrandedRecipeIngredient(BaseModel):
-    """Represents an ingredient in a branded recipe."""
+    """Represents an ingredient in a branded recipe"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -371,7 +517,7 @@ class BrandedRecipeIngredient(BaseModel):
 
 
 class BrandedRecipeIngredientsMetadata(BaseModel):
-    """Contains metadata information for recipe ingredients."""
+    """Contains metadata information for recipe ingredients"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -387,7 +533,7 @@ class BrandedRecipeIngredientsMetadata(BaseModel):
 
 
 class BrandedRecipeMedia(BaseModel):
-    """Represents media content associated with a recipe."""
+    """Represents media content associated with a recipe"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -397,15 +543,16 @@ class BrandedRecipeMedia(BaseModel):
 
 
 class BrandedRecipeQuantityItem(BaseModel):
-    """Represents a quantity measurement for a recipe ingredient."""
+    """Represents a quantity measurement for a recipe ingredient"""
 
     model_config = ConfigDict(extra="forbid")
+
     amount: float = Field(description="Numerical amount of the ingredient")
     unit: str = Field(description="Unit of measurement for the ingredient")
 
 
 class BrandedRecipeWidget(BaseModel):
-    """Main widget structure for displaying a branded recipe."""
+    """Main widget structure for displaying a branded recipe"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -465,7 +612,7 @@ class Coordinates(BaseModel):
 
 
 class PriorityAsin(BaseModel):
-    """Product information for a priority ASIN."""
+    """Product information for a priority ASIN"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -510,7 +657,7 @@ class QueryBrandStorePageRequest(BaseModel):
 
 
 class ReviewStars(BaseModel):
-    """Review information for a product."""
+    """Review information for a product"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -1018,7 +1165,7 @@ class StoreMobileImageWithTextContent(BaseModel):
 
 
 class StorePageContent(BaseModel):
-    """Structure containing the content elements of a store page."""
+    """Structure containing the content elements of a store page"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -1033,7 +1180,7 @@ class StorePageContent(BaseModel):
 
 
 class StorePageWidget(BaseModel):
-    """Union of all possible widget types that can be used on a store page."""
+    """Union of all possible widget types that can be used on a store page"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -1200,7 +1347,7 @@ class StoreProductGridWidget(BaseModel):
 
 
 class StoreProductSelectorAnswer(BaseModel):
-    """Represents a possible answer in the product selector questionnaire."""
+    """Represents a possible answer in the product selector questionnaire"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -1214,7 +1361,7 @@ class StoreProductSelectorAnswer(BaseModel):
 
 
 class StoreProductSelectorDesignOptions(BaseModel):
-    """Visual styling options for the product selector widget."""
+    """Visual styling options for the product selector widget"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -1231,7 +1378,7 @@ class StoreProductSelectorDesignOptions(BaseModel):
 
 
 class StoreProductSelectorImage(BaseModel):
-    """Represents an image used in the product selector introduction."""
+    """Represents an image used in the product selector introduction"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -1244,7 +1391,7 @@ class StoreProductSelectorImage(BaseModel):
 
 
 class StoreProductSelectorImageOptions(BaseModel):
-    """Image options for the product selector introduction."""
+    """Image options for the product selector introduction"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -1253,7 +1400,7 @@ class StoreProductSelectorImageOptions(BaseModel):
 
 
 class StoreProductSelectorIntroduction(BaseModel):
-    """Introduction section for the product selector widget."""
+    """Introduction section for the product selector widget"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -1266,7 +1413,7 @@ class StoreProductSelectorIntroduction(BaseModel):
 
 
 class StoreProductSelectorLayoutConfiguration(BaseModel):
-    """Layout configuration for desktop and mobile views."""
+    """Layout configuration for desktop and mobile views"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -1275,7 +1422,7 @@ class StoreProductSelectorLayoutConfiguration(BaseModel):
 
 
 class StoreProductSelectorQuestion(BaseModel):
-    """Represents a question in the product selector questionnaire."""
+    """Represents a question in the product selector questionnaire"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -1290,7 +1437,7 @@ class StoreProductSelectorQuestion(BaseModel):
 
 
 class StoreProductSelectorResults(BaseModel):
-    """Configuration for displaying product selector results."""
+    """Configuration for displaying product selector results"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -1302,7 +1449,7 @@ class StoreProductSelectorResults(BaseModel):
 
 
 class StoreProductSelectorWidget(BaseModel):
-    """Main widget structure for the product selector feature."""
+    """Main widget structure for the product selector feature"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -1577,7 +1724,7 @@ class StoreVideoContent(BaseModel):
 
 
 class StoreVideoRevealVRVideo(BaseModel):
-    """Configuration for a single video reveal video asset."""
+    """Configuration for a single video reveal video asset"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -1586,7 +1733,7 @@ class StoreVideoRevealVRVideo(BaseModel):
 
 
 class StoreVideoRevealVideos(BaseModel):
-    """Collection of video assets for different device types."""
+    """Collection of video assets for different device types"""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -1595,7 +1742,7 @@ class StoreVideoRevealVideos(BaseModel):
 
 
 class StoreVideoRevealWidget(BaseModel):
-    """Main widget structure for the video reveal feature."""
+    """Main widget structure for the video reveal feature"""
 
     model_config = ConfigDict(extra="forbid")
 

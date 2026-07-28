@@ -14,14 +14,16 @@ from .selling_accounts import CountryCode, SellingProgram
 
 
 class AccountState(StrEnum):
-    """This represents the current state of an advertising account.
+    """
+    This represents the current state of an advertising account.
+    **AccountState Enum:**
 
-    **AccountState Enum:**  AccountState Description ------ ------ `APPROVED` This signifies that the account has been
-    successfully registered and is eligible to create and manage campaigns. `ARCHIVED` This account has been permanently
-    closed and cannot be reactivated. This may occur if the account was shut down at your request. To advertise again,
-    you'll need to create a new account. `REGISTRATION_IN_PROGRESS` This means the account registration request has been
-    received and is currently in progress. `REJECTED` This signifies that the account registration could not be
-    completed successfully. To advertise again, you'll need to create a new account.
+    | AccountState | Description |
+    |------|------|
+    | `APPROVED` | This signifies that the account has been successfully registered and is eligible to create and manage campaigns. |
+    | `ARCHIVED` | This account has been permanently closed and cannot be reactivated. This may occur if the account was shut down at your request. To advertise again, you'll need to create a new account. |
+    | `REGISTRATION_IN_PROGRESS` | This means the account registration request has been received and is currently in progress. |
+    | `REJECTED` | This signifies that the account registration could not be completed successfully. To advertise again, you'll need to create a new account. |
     """
 
     APPROVED = "APPROVED"
@@ -31,19 +33,74 @@ class AccountState(StrEnum):
 
 
 class CurrencyCode(StrEnum):
-    """**CurrencyCode Enum:**  CurrencyCode Description ------ ------ `AED` United Arab Emirates Dirham `ARS` Argentine
-    Peso `AUD` Australian Dollar `BGN` Bulgarian Lev `BHD` Bahraini Dinar `BOB` Bolivian Boliviano `BRL` Brazilian Real
-    `CAD` Canadian Dollar `CHF` Swiss Franc `CLP` Chilean Peso `CNY` Chinese Yuan `COP` Colombian Peso `CRC` Costa Rican
-    Colón `CZK` Czech Koruna `DKK` Danish Krone `DOP` Dominican Peso `DZD` Algerian Dinar `EGP` Egyptian Pound `EUR`
-    Euro `GBP` British Pound Sterling `GTQ` Guatemalan Quetzal `HKD` Hong Kong Dollar `HNL` Honduran Lempira `HRK`
-    Croatian Kuna `HUF` Hungarian Forint `IDR` Indonesian Rupiah `ILS` Israeli New Shekel `INR` Indian Rupee `JMD`
-    Jamaican Dollar `JOD` Jordanian Dinar `JPY` Japanese Yen `KRW` South Korean Won `KWD` Kuwaiti Dinar `MAD` Moroccan
-    Dirham `MXN` Mexican Peso `MXP` Mexican Peso `MYR` Malaysian Ringgit `NGN` Nigerian Naira `NOK` Norwegian Krone
-    `NZD` New Zealand Dollar `PAB` Panamanian Balboa `PEN` Peruvian Sol `PHP` Philippine Peso `PKR` Pakistani Rupee
-    `PLN` Polish Złoty `PYG` Paraguayan Guaraní `QAR` Qatari Riyal `RON` Romanian Leu `RSD` Serbian Dinar `RUB` Russian
-    Ruble `SAR` Saudi Riyal `SEK` Swedish Krona `SGD` Singapore Dollar `THB` Thai Baht `TND` Tunisian Dinar `TRY`
-    Turkish Lira `TWD` New Taiwan Dollar `UAH` Ukrainian Hryvnia `USD` United States Dollar `UYU` Uruguayan Peso `VND`
-    Vietnamese Đồng `ZAR` South African Rand."""
+    """
+    **CurrencyCode Enum:**
+
+    | CurrencyCode | Description |
+    |------|------|
+    | `AED` | United Arab Emirates Dirham |
+    | `ARS` | Argentine Peso |
+    | `AUD` | Australian Dollar |
+    | `BGN` | Bulgarian Lev |
+    | `BHD` | Bahraini Dinar |
+    | `BOB` | Bolivian Boliviano |
+    | `BRL` | Brazilian Real |
+    | `CAD` | Canadian Dollar |
+    | `CHF` | Swiss Franc |
+    | `CLP` | Chilean Peso |
+    | `CNY` | Chinese Yuan |
+    | `COP` | Colombian Peso |
+    | `CRC` | Costa Rican Colón |
+    | `CZK` | Czech Koruna |
+    | `DKK` | Danish Krone |
+    | `DOP` | Dominican Peso |
+    | `DZD` | Algerian Dinar |
+    | `EGP` | Egyptian Pound |
+    | `EUR` | Euro |
+    | `GBP` | British Pound Sterling |
+    | `GTQ` | Guatemalan Quetzal |
+    | `HKD` | Hong Kong Dollar |
+    | `HNL` | Honduran Lempira |
+    | `HRK` | Croatian Kuna |
+    | `HUF` | Hungarian Forint |
+    | `IDR` | Indonesian Rupiah |
+    | `ILS` | Israeli New Shekel |
+    | `INR` | Indian Rupee |
+    | `JMD` | Jamaican Dollar |
+    | `JOD` | Jordanian Dinar |
+    | `JPY` | Japanese Yen |
+    | `KRW` | South Korean Won |
+    | `KWD` | Kuwaiti Dinar |
+    | `MAD` | Moroccan Dirham |
+    | `MXN` | Mexican Peso |
+    | `MXP` | Mexican Peso |
+    | `MYR` | Malaysian Ringgit |
+    | `NGN` | Nigerian Naira |
+    | `NOK` | Norwegian Krone |
+    | `NZD` | New Zealand Dollar |
+    | `PAB` | Panamanian Balboa |
+    | `PEN` | Peruvian Sol |
+    | `PHP` | Philippine Peso |
+    | `PKR` | Pakistani Rupee |
+    | `PLN` | Polish Złoty |
+    | `PYG` | Paraguayan Guaraní |
+    | `QAR` | Qatari Riyal |
+    | `RON` | Romanian Leu |
+    | `RSD` | Serbian Dinar |
+    | `RUB` | Russian Ruble |
+    | `SAR` | Saudi Riyal |
+    | `SEK` | Swedish Krona |
+    | `SGD` | Singapore Dollar |
+    | `THB` | Thai Baht |
+    | `TND` | Tunisian Dinar |
+    | `TRY` | Turkish Lira |
+    | `TWD` | New Taiwan Dollar |
+    | `UAH` | Ukrainian Hryvnia |
+    | `USD` | United States Dollar |
+    | `UYU` | Uruguayan Peso |
+    | `VND` | Vietnamese Đồng |
+    | `ZAR` | South African Rand |
+    """
 
     AED = "AED"
     ARS = "ARS"
@@ -110,12 +167,31 @@ class CurrencyCode(StrEnum):
 
 
 class IndustryVertical(StrEnum):
-    """**IndustryVertical Enum:**  IndustryVertical Description ------ ------ `AMS Keyword` AMS Keyword `AMS Self
-    Service` AMS Self Service `Automotive` Automotive `Consumer Goods` Consumer Goods `Entertainment` Entertainment
-    `Financial Services` Financial Services `Hardware & Electronics` Hardware & Electronics `Health` Health `House Ads`
-    House Ads `Public Services` Public Services `Remnant Networks` Remnant Networks `Retail Goods & Services` Retail
-    Goods & Services `Software` Software `Telecommunications` Telecommunications `Travel` Travel `Twitch TV` Twitch TV
-    `Twitch` Twitch `Web Media` Web Media `eCommerce` eCommerce."""
+    """
+    **IndustryVertical Enum:**
+
+    | IndustryVertical | Description |
+    |------|------|
+    | `AMS Keyword` | AMS Keyword |
+    | `AMS Self Service` | AMS Self Service |
+    | `Automotive` | Automotive |
+    | `Consumer Goods` | Consumer Goods |
+    | `Entertainment` | Entertainment |
+    | `Financial Services` | Financial Services |
+    | `Hardware & Electronics` | Hardware & Electronics |
+    | `Health` | Health |
+    | `House Ads` | House Ads |
+    | `Public Services` | Public Services |
+    | `Remnant Networks` | Remnant Networks |
+    | `Retail Goods & Services` | Retail Goods & Services |
+    | `Software` | Software |
+    | `Telecommunications` | Telecommunications |
+    | `Travel` | Travel |
+    | `Twitch TV` | Twitch TV |
+    | `Twitch` | Twitch |
+    | `Web Media` | Web Media |
+    | `eCommerce` | eCommerce |
+    """
 
     AMS_Keyword = "AMS Keyword"
     AMS_Self_Service = "AMS Self Service"
@@ -139,7 +215,15 @@ class IndustryVertical(StrEnum):
 
 
 class RegionCode(StrEnum):
-    """**RegionCode Enum:**  RegionCode Description ------ ------ `EU` Europe `FE` Far East `NA` North America."""
+    """
+    **RegionCode Enum:**
+
+    | RegionCode | Description |
+    |------|------|
+    | `EU` | Europe |
+    | `FE` | Far East |
+    | `NA` | North America |
+    """
 
     EU = "EU"
     FE = "FE"
@@ -154,27 +238,56 @@ class SellingAccountLinkState(StrEnum):
 
 
 class TimeZoneIana(StrEnum):
-    """Each enum member is in the IANA Time Zone Database **TimeZoneIana Enum:**  TimeZoneIana Description ------ ------
-    `America/Anchorage` Alaska Time Zone (UTC-09:00) `America/Caracas` Venezuela Time Zone (UTC-04:00) `America/Chicago`
-    Central Time Zone (UTC-06:00) `America/Denver` Mountain Time Zone (UTC-07:00) `America/Halifax` Atlantic Time Zone
-    (UTC-04:00) `America/Los_Angeles` Pacific Time Zone (UTC-08:00) `America/Mexico_City` Central Mexico Time Zone
-    (UTC-06:00) `America/New_York` Eastern Time Zone (UTC-05:00) `America/Sao_Paulo` Brasilia Time Zone (UTC-03:00)
-    `America/St_Johns` Newfoundland Time Zone (UTC-03:30) `Asia/Almaty` Kazakhstan Time Zone (UTC+06:00) `Asia/Baghdad`
-    Arabian Time Zone (UTC+03:00) `Asia/Bangkok` Indochina Time Zone (UTC+07:00) `Asia/Dubai` Gulf Time Zone (UTC+04:00)
-    `Asia/Hong_Kong` Hong Kong Time Zone (UTC+08:00) `Asia/Kabul` Afghanistan Time Zone (UTC+04:30) `Asia/Kathmandu`
-    Nepal Time Zone (UTC+05:45) `Asia/Kolkata` India Time Zone (UTC+05:30) `Asia/Magadan` Magadan Time Zone (UTC+11:00)
-    `Asia/Riyadh` Saudi Arabia Time Zone (UTC+03:00) `Asia/Shanghai` China Time Zone (UTC+08:00) `Asia/Singapore`
-    Singapore Time Zone (UTC+08:00) `Asia/Tehran` Iran Time Zone (UTC+03:30) `Asia/Tokyo` Japan Time Zone (UTC+09:00)
-    `Asia/Yekaterinburg` Yekaterinburg Time Zone (UTC+05:00) `Asia/Yerevan` Armenia Time Zone (UTC+04:00)
-    `Atlantic/Azores` Azores Time Zone (UTC-01:00) `Atlantic/South_Georgia` South Georgia Time Zone (UTC-02:00)
-    `Australia/Brisbane` Australian Eastern Time Zone (UTC+10:00) `Australia/Darwin` Australian Central Time Zone
-    (UTC+09:30) `Australia/Sydney` Australian Eastern Time Zone (UTC+10:00/+11:00) `EET` Eastern European Time Zone
-    (UTC+02:00) `Europe/Amsterdam` Central European Time Zone (UTC+01:00) `Europe/Istanbul` Turkey Time Zone (UTC+03:00)
-    `Europe/London` British Time Zone (UTC+00:00) `Europe/Paris` Central European Time Zone (UTC+01:00)
-    `Europe/Stockholm` Central European Time Zone (UTC+01:00) `Indian/Cocos` Cocos Islands Time Zone (UTC+06:30)
-    `Pacific/Auckland` New Zealand Time Zone (UTC+12:00/+13:00) `Pacific/Fiji` Fiji Time Zone (UTC+12:00)
-    `Pacific/Honolulu` Hawaii Time Zone (UTC-10:00) `Pacific/Kwajalein` Marshall Islands Time Zone (UTC+12:00)
-    `Pacific/Midway` Samoa Time Zone (UTC-11:00)"""
+    """
+    Each enum member is in the IANA Time Zone Database
+    **TimeZoneIana Enum:**
+
+    | TimeZoneIana | Description |
+    |------|------|
+    | `America/Anchorage` | Alaska Time Zone (UTC-09:00) |
+    | `America/Caracas` | Venezuela Time Zone (UTC-04:00) |
+    | `America/Chicago` | Central Time Zone (UTC-06:00) |
+    | `America/Denver` | Mountain Time Zone (UTC-07:00) |
+    | `America/Halifax` | Atlantic Time Zone (UTC-04:00) |
+    | `America/Los_Angeles` | Pacific Time Zone (UTC-08:00) |
+    | `America/Mexico_City` | Central Mexico Time Zone (UTC-06:00) |
+    | `America/New_York` | Eastern Time Zone (UTC-05:00) |
+    | `America/Sao_Paulo` | Brasilia Time Zone (UTC-03:00) |
+    | `America/St_Johns` | Newfoundland Time Zone (UTC-03:30) |
+    | `Asia/Almaty` | Kazakhstan Time Zone (UTC+06:00) |
+    | `Asia/Baghdad` | Arabian Time Zone (UTC+03:00) |
+    | `Asia/Bangkok` | Indochina Time Zone (UTC+07:00) |
+    | `Asia/Dubai` | Gulf Time Zone (UTC+04:00) |
+    | `Asia/Hong_Kong` | Hong Kong Time Zone (UTC+08:00) |
+    | `Asia/Kabul` | Afghanistan Time Zone (UTC+04:30) |
+    | `Asia/Kathmandu` | Nepal Time Zone (UTC+05:45) |
+    | `Asia/Kolkata` | India Time Zone (UTC+05:30) |
+    | `Asia/Magadan` | Magadan Time Zone (UTC+11:00) |
+    | `Asia/Riyadh` | Saudi Arabia Time Zone (UTC+03:00) |
+    | `Asia/Shanghai` | China Time Zone (UTC+08:00) |
+    | `Asia/Singapore` | Singapore Time Zone (UTC+08:00) |
+    | `Asia/Tehran` | Iran Time Zone (UTC+03:30) |
+    | `Asia/Tokyo` | Japan Time Zone (UTC+09:00) |
+    | `Asia/Yekaterinburg` | Yekaterinburg Time Zone (UTC+05:00) |
+    | `Asia/Yerevan` | Armenia Time Zone (UTC+04:00) |
+    | `Atlantic/Azores` | Azores Time Zone (UTC-01:00) |
+    | `Atlantic/South_Georgia` | South Georgia Time Zone (UTC-02:00) |
+    | `Australia/Brisbane` | Australian Eastern Time Zone (UTC+10:00) |
+    | `Australia/Darwin` | Australian Central Time Zone (UTC+09:30) |
+    | `Australia/Sydney` | Australian Eastern Time Zone (UTC+10:00/+11:00) |
+    | `EET` | Eastern European Time Zone (UTC+02:00) |
+    | `Europe/Amsterdam` | Central European Time Zone (UTC+01:00) |
+    | `Europe/Istanbul` | Turkey Time Zone (UTC+03:00) |
+    | `Europe/London` | British Time Zone (UTC+00:00) |
+    | `Europe/Paris` | Central European Time Zone (UTC+01:00) |
+    | `Europe/Stockholm` | Central European Time Zone (UTC+01:00) |
+    | `Indian/Cocos` | Cocos Islands Time Zone (UTC+06:30) |
+    | `Pacific/Auckland` | New Zealand Time Zone (UTC+12:00/+13:00) |
+    | `Pacific/Fiji` | Fiji Time Zone (UTC+12:00) |
+    | `Pacific/Honolulu` | Hawaii Time Zone (UTC-10:00) |
+    | `Pacific/Kwajalein` | Marshall Islands Time Zone (UTC+12:00) |
+    | `Pacific/Midway` | Samoa Time Zone (UTC-11:00) |
+    """
 
     America_Anchorage = "America/Anchorage"
     America_Caracas = "America/Caracas"
@@ -379,8 +492,7 @@ class AdvertiserAccountUpdate(BaseModel):
 
 
 class AlternateIdentifier(BaseModel):
-    """Marketplace identifiers associated with advertising account, including profile ID, dsp advertiser ID and entity
-    ID."""
+    """Marketplace identifiers associated with advertising account, including profile ID, dsp advertiser ID and entity ID"""
 
     model_config = ConfigDict(extra="forbid")
 

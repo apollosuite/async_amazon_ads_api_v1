@@ -46,23 +46,6 @@ TAGS: list[str] = [
 # ── Helpers ────────────────────────────────────────────────────────────
 
 
-def _clean_description(desc: str) -> str:
-    lines = desc.splitlines()
-    result_lines = []
-    for line in lines:
-        stripped = line.strip()
-        if stripped.startswith("|") and stripped.endswith("|"):
-            content = stripped[1:-1]
-            if all(c.strip() in ("", "---") for c in content.split("|")):
-                continue
-            cells = [c.strip() for c in content.split("|")]
-            if cells:
-                result_lines.append(" ".join(cells))
-        else:
-            result_lines.append(line)
-    return " ".join(result_lines).strip()
-
-
 def _schema_type(schema: dict, schemas: dict[str, Any]) -> str:
     """Resolve an OpenAPI property schema to a Python type string."""
     if "$ref" in schema:
@@ -229,10 +212,29 @@ def discover_schemas(
 # ── Model generation ──────────────────────────────────────────────────
 
 
+def _format_enum_doc(doc: str) -> str:
+    """Format an enum description preserving markdown table structure."""
+    lines = doc.splitlines()
+    formatted: list[str] = []
+    indent = "    "
+    for line in lines:
+        stripped = line.strip()
+        if stripped.startswith("|") and stripped.endswith("|"):
+            content = stripped[1:-1]
+            if all(c.strip() in ("", "---") for c in content.split("|")):
+                formatted.append(stripped)
+            else:
+                formatted.append(stripped)
+        else:
+            formatted.append(stripped)
+    body = ("\n" + indent).join(formatted)
+    return f'\n    """\n{indent}{body}\n    """'
+
+
 def generate_enum(name: str, schema: dict) -> str:
     doc = schema.get("description", "")
     values = schema.get("enum", [])
-    docstring = f'\n    """{_clean_description(doc)}"""' if doc else ""
+    docstring = _format_enum_doc(doc) if doc else ""
     members: list[str] = []
     for v in values:
         safe = re.sub(r"[^a-zA-Z0-9_]", "_", v)
@@ -296,9 +298,13 @@ def generate_model(name: str, schema: dict, schemas: dict[str, Any]) -> str:
             default_val = fschema.get("default")
             kwargs.insert(0, f"default={default_val!r}" if default_val is not None else "default=None")
 
-        desc = _clean_description(fschema.get("description", "")).strip().rstrip()
+        desc = fschema.get("description", "").strip().rstrip()
         if desc:
-            kwargs.append(f'description="{desc}"')
+            if "\n" in desc:
+                desc_safe = desc.replace('"""', '\\"\\"\\"')
+                kwargs.append(f'description="""\n{desc_safe}\n"""')
+            else:
+                kwargs.append(f'description="{desc}"')
 
         if kwargs:
             fields.append(f"    {fname}: {typ} = Field({', '.join(kwargs)})")
@@ -558,12 +564,12 @@ def generate_for_tag(
 
         sig = ", ".join(sig_parts)
         ret_type = resp_model or "Any"
-        first_line = _clean_description(desc_lines[0]) if desc_lines else ""
+        first_line = desc_lines[0].strip() if desc_lines else ""
 
         method_is_get = http_method == "GET"
 
         has_query_params = bool(query_params)
-        has_param_docs = any(_clean_description(p.get("description", "")).strip() for p in query_params)
+        has_param_docs = any(p.get("description", "").strip() for p in query_params)
 
         client_lines.append(f"    async def {mname}({sig}) -> {ret_type}:")
         if not has_query_params or not has_param_docs:
@@ -584,7 +590,7 @@ def generate_for_tag(
             for p in query_params:
                 pname = p.get("name", "")
                 py_name = _camel_to_snake(pname)
-                pdesc = _clean_description(p.get("description", "")).strip().rstrip()
+                pdesc = p.get("description", "").strip().rstrip()
                 ptype = p.get("schema", {}).get("type", "str")
                 client_lines.append(f"        {py_name} : {_schema_type(p.get('schema', {}), needed)}")
                 if pdesc:
@@ -623,15 +629,10 @@ PROJECT_ROOT = HERE.parent
 
 
 def _run_tool(cmd: list[str], label: str) -> None:
-    """Run a formatting/lint tool and print its output.
-
-    docformatter exit codes: 0 = no changes, 3 = changes made.
-    Both are considered success.
-    """
-    ok_codes = {0, 3} if "docformatter" in label else {0}
+    """Run a formatting/lint tool and print its output."""
     print(f"\n── {label} {'─' * (56 - len(label))}")
     result = subprocess.run(cmd, capture_output=True, text=True, cwd=PROJECT_ROOT)
-    if result.returncode not in ok_codes:
+    if result.returncode != 0:
         print(f"  ⚠ {label} exited with code {result.returncode}")
     if result.stdout:
         for line in result.stdout.splitlines():
@@ -639,7 +640,7 @@ def _run_tool(cmd: list[str], label: str) -> None:
     if result.stderr:
         for line in result.stderr.splitlines():
             print(f"  {line}")
-    if result.returncode in ok_codes:
+    if result.returncode == 0:
         print(f"  ✓ {label} passed")
 
 
@@ -662,16 +663,6 @@ def main() -> None:
     # ── Post-processing ──────────────────────────────────────────────
     print("\n" + "=" * 60)
     print("Post-processing generated files...")
-
-    general_dirs = [
-        str(MODEL_DIR),
-        str(CLIENT_DIR),
-    ]
-
-    _run_tool(
-        ["uv", "run", "docformatter", *general_dirs],
-        "docformatter",
-    )
 
     _run_tool(
         ["uv", "run", "black", "src/"],

@@ -12,16 +12,28 @@ from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 
 class StorePublishState(StrEnum):
-    """User State for content  StorePublishState Description ------ ------ `DRAFT` Content is in draft form `PUBLISH`
-    Submit Content to Publish to LIVE / SCHEDULED."""
+    """
+    User State for content
+
+    | StorePublishState | Description |
+    |------|------|
+    | `DRAFT` | Content is in draft form |
+    | `PUBLISH` | Submit Content to Publish to LIVE / SCHEDULED |
+    """
 
     DRAFT = "DRAFT"
     PUBLISH = "PUBLISH"
 
 
 class StorePublishStatus(StrEnum):
-    """Status of content publish  StorePublishStatus Description ------ ------ `DRAFT` Content is in draft state
-    `REVIEW_IN_PROGRESS` Content is pending publication for review."""
+    """
+    Status of content publish
+
+    | StorePublishStatus | Description |
+    |------|------|
+    | `DRAFT` | Content is in draft state |
+    | `REVIEW_IN_PROGRESS` | Content is pending publication for review |
+    """
 
     DRAFT = "DRAFT"
     REVIEW_IN_PROGRESS = "REVIEW_IN_PROGRESS"
@@ -77,7 +89,12 @@ class BrandStoreEditionPublishVersionStorePublishStatusFilter(BaseModel):
     include: list[Annotated[StorePublishStatus | str, lenient_enum(StorePublishStatus)]] = Field(
         min_length=1,
         max_length=1,
-        description="PublishStatus Description `DRAFT` Content is in draft state `REVIEW_IN_PROGRESS` Content is pending publication for review",
+        description="""
+| PublishStatus | Description |
+| --- | --- |
+| `DRAFT` | Content is in draft state |
+| `REVIEW_IN_PROGRESS` | Content is pending publication for review |
+""",
     )
 
 
@@ -110,7 +127,7 @@ class QueryBrandStoreEditionPublishVersionRequest(BaseModel):
 
 
 class StorePageVersion(BaseModel):
-    """Version information for a store page."""
+    """Version information for a store page"""
 
     model_config = ConfigDict(extra="forbid")
 

@@ -24,7 +24,7 @@ class BrandStoreEditionSuccessResponse(BaseModel):
 
 
 class StoreEditionSchedule(BaseModel):
-    """Schedule information for store edition."""
+    """Schedule information for store edition"""
 
     model_config = ConfigDict(extra="forbid")
 
