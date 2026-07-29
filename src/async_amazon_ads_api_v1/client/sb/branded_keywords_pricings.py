@@ -12,7 +12,7 @@ from async_amazon_ads_api_v1.models.sb.branded_keywords_pricings import (
 class BrandedKeywordsPricings(_ResourceBase):
 
     async def create(self, items: list[SBBrandedKeywordsPricingCreate]) -> SBBrandedKeywordsPricingMultiStatusResponse:
-        return await self._create(
+        return await self._post(
             "/adsApi/v1/create/brandedKeywordsPricings/sb",
             SBBrandedKeywordsPricingMultiStatusResponse,
             json={"brandedKeywordsPricings": self._validate(items)},

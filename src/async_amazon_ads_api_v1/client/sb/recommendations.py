@@ -12,7 +12,7 @@ from async_amazon_ads_api_v1.models.sb.recommendations import (
 class Recommendations(_ResourceBase):
 
     async def create(self, items: list[SBRecommendationCreate]) -> SBRecommendationMultiStatusResponse:
-        return await self._create(
+        return await self._post(
             "/adsApi/v1/create/recommendations/sb",
             SBRecommendationMultiStatusResponse,
             json={"recommendations": self._validate(items)},

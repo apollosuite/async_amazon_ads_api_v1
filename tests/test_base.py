@@ -164,12 +164,12 @@ class TestResourceBase:
         assert result.value == 2
 
     @pytest.mark.asyncio
-    async def test_create(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
+    async def test_post(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
         mock_resp = MagicMock(spec=httpx.Response)
         mock_resp.json.return_value = {"ok": True}
         mock_async_client.request.return_value = mock_resp
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
-            result = await resource._create(
+            result = await resource._post(
                 "/adsApi/v1/create/items",
                 DummyResponse,
                 json={"items": [{"name": "a", "value": 1}]},
@@ -181,40 +181,6 @@ class TestResourceBase:
         assert call_kwargs["url"] == "/adsApi/v1/create/items"
         assert call_kwargs["json"] == {"items": [{"name": "a", "value": 1}]}
         assert call_kwargs["headers"]["Accept"] == "application/vnd.createasyncrequestresults.v3+json"
-
-    @pytest.mark.asyncio
-    async def test_update(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
-        mock_resp = MagicMock(spec=httpx.Response)
-        mock_resp.json.return_value = {"ok": True}
-        mock_async_client.request.return_value = mock_resp
-        with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
-            result = await resource._update(
-                "/adsApi/v1/update/items",
-                DummyResponse,
-                json={"items": [{"name": "a", "value": 1}]},
-            )
-        assert isinstance(result, DummyResponse)
-        assert result.ok is True
-        call_kwargs = mock_async_client.request.call_args[1]
-        assert call_kwargs["method"] == "POST"
-        assert call_kwargs["url"] == "/adsApi/v1/update/items"
-
-    @pytest.mark.asyncio
-    async def test_delete(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
-        mock_resp = MagicMock(spec=httpx.Response)
-        mock_resp.json.return_value = {"ok": True}
-        mock_async_client.request.return_value = mock_resp
-        with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
-            result = await resource._delete(
-                "/adsApi/v1/delete/items",
-                DummyResponse,
-                json={"itemIds": ["1", "2"]},
-            )
-        assert isinstance(result, DummyResponse)
-        assert result.ok is True
-        call_kwargs = mock_async_client.request.call_args[1]
-        assert call_kwargs["url"] == "/adsApi/v1/delete/items"
-        assert call_kwargs["json"] == {"itemIds": ["1", "2"]}
 
     @pytest.mark.asyncio
     async def test_query(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:

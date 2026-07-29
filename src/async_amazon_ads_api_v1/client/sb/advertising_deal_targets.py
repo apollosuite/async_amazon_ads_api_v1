@@ -14,7 +14,7 @@ from async_amazon_ads_api_v1.models.sb.advertising_deal_targets import (
 class AdvertisingDealTargets(_ResourceBase):
 
     async def create(self, items: list[SBAdvertisingDealTargetCreate]) -> SBAdvertisingDealTargetSuccessResponse:
-        return await self._create(
+        return await self._post(
             "/adsApi/v1/create/advertisingDealTargets/sb",
             SBAdvertisingDealTargetSuccessResponse,
             json={"advertisingDealTargets": self._validate(items)},
@@ -28,7 +28,7 @@ class AdvertisingDealTargets(_ResourceBase):
         )
 
     async def delete(self, ids: list[str]) -> SBAdvertisingDealTargetMultiStatusResponse:
-        return await self._delete(
+        return await self._post(
             "/adsApi/v1/delete/advertisingDealTargets/sb",
             SBAdvertisingDealTargetMultiStatusResponse,
             json={"advertisingDealTargetIds": ids},

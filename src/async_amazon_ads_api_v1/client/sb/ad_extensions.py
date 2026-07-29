@@ -15,7 +15,7 @@ from async_amazon_ads_api_v1.models.sb.ad_extensions import (
 class AdExtensions(_ResourceBase):
 
     async def create(self, ad_extensions: list[SBAdExtensionCreate]) -> SBAdExtensionSuccessResponse:
-        return await self._create(
+        return await self._post(
             "/adsApi/v1/create/adExtensions",
             SBAdExtensionSuccessResponse,
             json={"adExtensions": self._validate(ad_extensions)},
@@ -25,7 +25,7 @@ class AdExtensions(_ResourceBase):
         return await self._query(body, "/adsApi/v1/query/adExtensions", SBAdExtensionSuccessResponse)
 
     async def update(self, ad_extensions: list[SBAdExtensionUpdate]) -> SBAdExtensionMultiStatusResponse:
-        return await self._update(
+        return await self._post(
             "/adsApi/v1/update/adExtensions",
             SBAdExtensionMultiStatusResponse,
             json={"adExtensions": self._validate(ad_extensions)},

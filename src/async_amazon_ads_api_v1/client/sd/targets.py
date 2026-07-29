@@ -15,7 +15,7 @@ from async_amazon_ads_api_v1.models.sd.targets import (
 class Targets(_ResourceBase):
 
     async def create(self, targets: list[SDTargetCreate]) -> SDTargetMultiStatusResponse:
-        return await self._create(
+        return await self._post(
             "/adsApi/v1/create/targets",
             SDTargetMultiStatusResponse,
             json={"targets": self._validate(targets)},
@@ -25,14 +25,14 @@ class Targets(_ResourceBase):
         return await self._query(body, "/adsApi/v1/query/targets", SDTargetSuccessResponse)
 
     async def update(self, targets: list[SDTargetUpdate]) -> SDTargetMultiStatusResponse:
-        return await self._update(
+        return await self._post(
             "/adsApi/v1/update/targets",
             SDTargetMultiStatusResponse,
             json={"targets": self._validate(targets)},
         )
 
     async def delete(self, target_ids: list[str]) -> SDTargetMultiStatusResponse:
-        return await self._delete(
+        return await self._post(
             "/adsApi/v1/delete/targets",
             SDTargetMultiStatusResponse,
             json={"targetIds": target_ids},

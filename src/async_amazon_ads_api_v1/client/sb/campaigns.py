@@ -15,7 +15,7 @@ from async_amazon_ads_api_v1.models.sb.campaigns import (
 class Campaigns(_ResourceBase):
 
     async def create(self, campaigns: list[SBCampaignCreate]) -> SBCampaignMultiStatusResponse:
-        return await self._create(
+        return await self._post(
             "/adsApi/v1/create/campaigns",
             SBCampaignMultiStatusResponse,
             json={"campaigns": self._validate(campaigns)},
@@ -25,14 +25,14 @@ class Campaigns(_ResourceBase):
         return await self._query(body, "/adsApi/v1/query/campaigns", SBCampaignSuccessResponse)
 
     async def update(self, campaigns: list[SBCampaignUpdate]) -> SBCampaignMultiStatusResponse:
-        return await self._update(
+        return await self._post(
             "/adsApi/v1/update/campaigns",
             SBCampaignMultiStatusResponse,
             json={"campaigns": self._validate(campaigns)},
         )
 
     async def delete(self, campaign_ids: list[str]) -> SBCampaignMultiStatusResponse:
-        return await self._delete(
+        return await self._post(
             "/adsApi/v1/delete/campaigns",
             SBCampaignMultiStatusResponse,
             json={"campaignIds": campaign_ids},

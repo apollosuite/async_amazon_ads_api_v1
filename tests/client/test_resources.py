@@ -65,13 +65,13 @@ class TestResourceMethodRouting:
     ) -> None:
         obj = cls(ClientContext(config))
         mock_result = MagicMock()
-        with patch.object(obj, "_create", AsyncMock(return_value=mock_result)) as create_mock:
+        with patch.object(obj, "_post", AsyncMock(return_value=mock_result)) as post_mock:
             with patch.object(obj, "_validate", return_value=[{"ok": True}]):
                 result = await obj.create([MagicMock()])
             assert result is mock_result
-            create_mock.assert_awaited_once()
-            assert create_mock.await_args.args[0] == expected_path
-            assert create_mock.await_args.args[1].__name__ == expected_response
+            post_mock.assert_awaited_once()
+            assert post_mock.await_args.args[0] == expected_path
+            assert post_mock.await_args.args[1].__name__ == expected_response
 
     @pytest.mark.parametrize(
         "cls,body",

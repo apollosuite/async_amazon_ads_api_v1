@@ -16,7 +16,7 @@ class Campaigns(_ResourceBase):
     """Campaign 广告活动资源操作。"""
 
     async def create(self, campaigns: list[SPCampaignCreate]) -> SPCampaignMultiStatusResponse:
-        return await self._create(
+        return await self._post(
             "/adsApi/v1/create/campaigns",
             SPCampaignMultiStatusResponse,
             json={"campaigns": self._validate(campaigns)},
@@ -26,14 +26,14 @@ class Campaigns(_ResourceBase):
         return await self._query(body, "/adsApi/v1/query/campaigns", SPCampaignSuccessResponse)
 
     async def update(self, campaigns: list[SPCampaignUpdate]) -> SPCampaignMultiStatusResponse:
-        return await self._update(
+        return await self._post(
             "/adsApi/v1/update/campaigns",
             SPCampaignMultiStatusResponse,
             json={"campaigns": self._validate(campaigns)},
         )
 
     async def delete(self, campaign_ids: list[str]) -> SPCampaignMultiStatusResponse:
-        return await self._delete(
+        return await self._post(
             "/adsApi/v1/delete/campaigns",
             SPCampaignMultiStatusResponse,
             json={"campaignIds": campaign_ids},

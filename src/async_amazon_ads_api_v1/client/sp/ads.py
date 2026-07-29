@@ -16,7 +16,7 @@ class Ads(_ResourceBase):
     """Ad 广告资源操作。"""
 
     async def create(self, ads: list[SPAdCreate]) -> SPAdMultiStatusResponse:
-        return await self._create(
+        return await self._post(
             "/adsApi/v1/create/ads",
             SPAdMultiStatusResponse,
             json={"ads": self._validate(ads)},
@@ -26,14 +26,14 @@ class Ads(_ResourceBase):
         return await self._query(body, "/adsApi/v1/query/ads", SPAdSuccessResponse)
 
     async def update(self, ads: list[SPAdUpdate]) -> SPAdMultiStatusResponse:
-        return await self._update(
+        return await self._post(
             "/adsApi/v1/update/ads",
             SPAdMultiStatusResponse,
             json={"ads": self._validate(ads)},
         )
 
     async def delete(self, ad_ids: list[str]) -> SPAdMultiStatusResponse:
-        return await self._delete(
+        return await self._post(
             "/adsApi/v1/delete/ads",
             SPAdMultiStatusResponse,
             json={"adIds": ad_ids},

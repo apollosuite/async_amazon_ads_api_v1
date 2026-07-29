@@ -15,7 +15,7 @@ from async_amazon_ads_api_v1.models.sd.ad_groups import (
 class AdGroups(_ResourceBase):
 
     async def create(self, ad_groups: list[SDAdGroupCreate]) -> SDAdGroupMultiStatusResponse:
-        return await self._create(
+        return await self._post(
             "/adsApi/v1/create/adGroups",
             SDAdGroupMultiStatusResponse,
             json={"adGroups": self._validate(ad_groups)},
@@ -25,14 +25,14 @@ class AdGroups(_ResourceBase):
         return await self._query(body, "/adsApi/v1/query/adGroups", SDAdGroupSuccessResponse)
 
     async def update(self, ad_groups: list[SDAdGroupUpdate]) -> SDAdGroupMultiStatusResponse:
-        return await self._update(
+        return await self._post(
             "/adsApi/v1/update/adGroups",
             SDAdGroupMultiStatusResponse,
             json={"adGroups": self._validate(ad_groups)},
         )
 
     async def delete(self, ad_group_ids: list[str]) -> SDAdGroupMultiStatusResponse:
-        return await self._delete(
+        return await self._post(
             "/adsApi/v1/delete/adGroups",
             SDAdGroupMultiStatusResponse,
             json={"adGroupIds": ad_group_ids},
