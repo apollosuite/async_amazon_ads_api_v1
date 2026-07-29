@@ -27,7 +27,11 @@ def main() -> None:
             known_schemas_prefix="models.legacy",
         ),
         [
-            TagSpec(tag="Portfolios", snake_name="portfolios", schema_renames={"CurrencyCode": "PortfolioCurrencyCode"}),
+            TagSpec(
+                tag="Portfolios",
+                snake_name="portfolios",
+                schema_renames={"CurrencyCode": "PortfolioCurrencyCode"},
+            ),
             TagSpec(tag="Budget Usage", snake_name="budget_usage"),
         ],
     )

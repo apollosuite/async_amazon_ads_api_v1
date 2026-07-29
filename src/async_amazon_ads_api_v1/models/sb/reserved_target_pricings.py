@@ -1,8 +1,8 @@
-"""Auto-generated Pydantic models for sb from Amazon Ads API schema."""
+"""Auto-generated models for ReservedTargetPricings from Amazon Ads API schema."""
 
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from async_amazon_ads_api_v1.errors import ErrorsIndex
 
@@ -10,13 +10,13 @@ from async_amazon_ads_api_v1.errors import ErrorsIndex
 class SBCreateReservedTargetPricingRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    reservedTargetPricings: list[SBReservedTargetPricingCreate]
+    reservedTargetPricings: list[SBReservedTargetPricingCreate] = Field(min_length=1, max_length=10)
 
 
 class SBReservedTargetPricing(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
-    targetPricingId: str  # A unique identifier for the reserved target pricing.
+    targetPricingId: str = Field(description="A unique identifier for the reserved target pricing.")
 
 
 class SBReservedTargetPricingCreate(BaseModel):
@@ -24,16 +24,16 @@ class SBReservedTargetPricingCreate(BaseModel):
 
 
 class SBReservedTargetPricingMultiStatusResponse(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = None
-    success: list[SBReservedTargetPricingMultiStatusSuccess] | None = None
+    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=10)
+    success: list[SBReservedTargetPricingMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=10)
 
 
 class SBReservedTargetPricingMultiStatusSuccess(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
-    index: int
+    index: int = Field(ge=0, le=9)
     reservedTargetPricing: SBReservedTargetPricing
 
 

@@ -35,6 +35,7 @@ class GenerationProject:
     models_package: str
     client_dir: Path | None
     known_schemas_prefix: str | None = None
+    patch_spec: Callable[[dict], None] | None = None
 
     @property
     def models_only(self) -> bool:
@@ -170,9 +171,7 @@ def generate_models_for_tag(
                 module = source[len(prefix) :]
                 import_lines.append(f"from .{module} import {', '.join(sorted(names))}")
             else:
-                import_lines.append(
-                    f"from async_amazon_ads_api_v1.{source} import {', '.join(sorted(names))}"
-                )
+                import_lines.append(f"from async_amazon_ads_api_v1.{source} import {', '.join(sorted(names))}")
 
     enums, regular_models, composition_models = split_types(to_generate)
     header = [
@@ -315,6 +314,8 @@ def run(project: GenerationProject, tags: list[TagSpec]) -> None:
     print(f"  model files: {sum(1 for v in known_schemas.values() if v != 'errors')}")
 
     spec = load_spec(project.spec_path)
+    if project.patch_spec:
+        project.patch_spec(spec)
 
     all_shared: dict[str, list[str]] = {}
     for raw_tag in tags:

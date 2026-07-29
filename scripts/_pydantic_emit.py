@@ -231,7 +231,9 @@ def is_anyof_composition(schema: dict) -> bool:
     return all("$ref" in entry for entry in schema["anyOf"])
 
 
-def split_types(needed: dict[str, Any]) -> tuple[list[tuple[str, dict]], list[tuple[str, dict]], list[tuple[str, dict]]]:
+def split_types(
+    needed: dict[str, Any],
+) -> tuple[list[tuple[str, dict]], list[tuple[str, dict]], list[tuple[str, dict]]]:
     enums: list[tuple[str, dict]] = []
     regular: list[tuple[str, dict]] = []
     composition: list[tuple[str, dict]] = []

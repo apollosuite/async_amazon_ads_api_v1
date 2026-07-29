@@ -1,4 +1,4 @@
-"""Auto-generated Pydantic models for sb from Amazon Ads API schema."""
+"""Auto-generated models for AdvertisingDeals from Amazon Ads API schema."""
 
 from __future__ import annotations
 
@@ -6,68 +6,17 @@ from datetime import datetime
 from enum import StrEnum
 from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from async_amazon_ads_api_v1.errors import ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
-from .enums import SBAdvertisingDealPriceType
-from .shared import SBAdvertisingDealPrice
-
-
-class SBAdvertisingDeal(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    advertisingDealId: str  # A unique identifier for a deal.
-    endDateTime: datetime  # The end date time for the deal.
-    name: str  # The name of the deal.
-    price: SBAdvertisingDealPrice | None = None
-    replacingDealId: str | None = None  # The ID of an advertising deal that this deal intends to replace.
-    startDateTime: datetime  # The start date time for the deal.
-    state: Annotated[SBAdvertisingDealState | str, lenient_enum(SBAdvertisingDealState)] | None = None
-    status: SBAdvertisingDealStatus
-
-
-class SBAdvertisingDealAdvertisingDealIdFilter(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    include: list[str]
-
-
-class SBAdvertisingDealCreate(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    endDateTime: datetime  # The end date time for the deal.
-    name: str  # The name of the deal.
-    price: SBCreateAdvertisingDealPrice | None = None
-    replacingDealId: str | None = None  # The ID of an advertising deal that this deal intends to replace.
-    startDateTime: datetime  # The start date time for the deal.
-    state: Annotated[SBAdvertisingDealState | str, lenient_enum(SBAdvertisingDealState)] | None = None
-
-
-class SBAdvertisingDealMultiStatusResponse(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    error: list[ErrorsIndex] | None = None
-    success: list[SBAdvertisingDealMultiStatusSuccess] | None = None
-
-
-class SBAdvertisingDealMultiStatusSuccess(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    advertisingDeal: SBAdvertisingDeal
-    index: int
-
-
-class SBAdvertisingDealNameFilter(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    include: list[str]
-    queryTermMatchType: Annotated[SBAdvertisingDealNameFilterType | str, lenient_enum(SBAdvertisingDealNameFilterType)]
+from .campaigns import SBCurrencyCode
 
 
 class SBAdvertisingDealNameFilterType(StrEnum):
-    """| AdvertisingDealNameFilterType | Description |
+    """
+    | AdvertisingDealNameFilterType | Description |
     |------|------|
     | `BROAD_MATCH` | Filter by broad match. |
     | `EXACT_MATCH` | Filter by exact match. |
@@ -77,8 +26,19 @@ class SBAdvertisingDealNameFilterType(StrEnum):
     EXACT_MATCH = "EXACT_MATCH"
 
 
+class SBAdvertisingDealPriceType(StrEnum):
+    """
+    | AdvertisingDealPriceType | Description |
+    |------|------|
+    | `FIXED_PRICE` | Sale price for a specific ad placement regardless of auction performance. |
+    """
+
+    FIXED_PRICE = "FIXED_PRICE"
+
+
 class SBAdvertisingDealState(StrEnum):
-    """| AdvertisingDealState | Description |
+    """
+    | AdvertisingDealState | Description |
     |------|------|
     | `DRAFT` |  |
     | `PROPOSED` |  |
@@ -88,14 +48,9 @@ class SBAdvertisingDealState(StrEnum):
     PROPOSED = "PROPOSED"
 
 
-class SBAdvertisingDealStatus(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    status: Annotated[SBAdvertisingDealStatusEnum | str, lenient_enum(SBAdvertisingDealStatusEnum)]
-
-
 class SBAdvertisingDealStatusEnum(StrEnum):
-    """| AdvertisingDealStatusEnum | Description |
+    """
+    | AdvertisingDealStatusEnum | Description |
     |------|------|
     | `DRAFT` | The deal has not been submitted yet. |
     | `MODERATION_APPROVED` | The deal has passed moderation. |
@@ -107,77 +62,152 @@ class SBAdvertisingDealStatusEnum(StrEnum):
     PROPOSED = "PROPOSED"
 
 
-class SBAdvertisingDealSuccessResponse(BaseModel):
+class SBAdvertisingDeal(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    advertisingDealId: str = Field(description="A unique identifier for a deal.")
+    endDateTime: datetime = Field(description="The end date time for the deal.")
+    name: str = Field(description="The name of the deal.")
+    price: SBAdvertisingDealPrice | None = Field(default=None)
+    replacingDealId: str | None = Field(
+        default=None, description="The ID of an advertising deal that this deal intends to replace."
+    )
+    startDateTime: datetime = Field(description="The start date time for the deal.")
+    state: Annotated[SBAdvertisingDealState | str, lenient_enum(SBAdvertisingDealState)] | None = Field(default=None)
+    status: SBAdvertisingDealStatus
+
+
+class SBAdvertisingDealAdvertisingDealIdFilter(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    advertisingDeals: list[SBAdvertisingDeal] | None = None
-    nextToken: str | None = None
+    include: list[str] = Field(min_length=1, max_length=10)
+
+
+class SBAdvertisingDealCreate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    endDateTime: datetime = Field(description="The end date time for the deal.")
+    name: str = Field(description="The name of the deal.")
+    price: SBCreateAdvertisingDealPrice | None = Field(default=None)
+    replacingDealId: str | None = Field(
+        default=None, description="The ID of an advertising deal that this deal intends to replace."
+    )
+    startDateTime: datetime = Field(description="The start date time for the deal.")
+    state: Annotated[SBAdvertisingDealState | str, lenient_enum(SBAdvertisingDealState)] | None = Field(default=None)
+
+
+class SBAdvertisingDealMultiStatusResponse(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=10)
+    success: list[SBAdvertisingDealMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=10)
+
+
+class SBAdvertisingDealMultiStatusSuccess(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    advertisingDeal: SBAdvertisingDeal
+    index: int = Field(ge=0, le=9)
+
+
+class SBAdvertisingDealNameFilter(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str] = Field(min_length=1, max_length=10)
+    queryTermMatchType: Annotated[SBAdvertisingDealNameFilterType | str, lenient_enum(SBAdvertisingDealNameFilterType)]
+
+
+class SBAdvertisingDealPrice(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    currencyCode: Annotated[SBCurrencyCode | str, lenient_enum(SBCurrencyCode)]
+    priceType: Annotated[SBAdvertisingDealPriceType | str, lenient_enum(SBAdvertisingDealPriceType)]
+    value: float = Field(description="The monetary amount of the price in the given currency.")
+
+
+class SBAdvertisingDealStatus(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    status: Annotated[SBAdvertisingDealStatusEnum | str, lenient_enum(SBAdvertisingDealStatusEnum)]
+
+
+class SBAdvertisingDealSuccessResponse(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    advertisingDeals: list[SBAdvertisingDeal] | None = Field(default=None, min_length=0, max_length=50)
+    nextToken: str | None = Field(default=None)
 
 
 class SBAdvertisingDealUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    advertisingDealId: str  # A unique identifier for a deal.
-    endDateTime: datetime | None = None  # The end date time for the deal.
-    name: str | None = None  # The name of the deal.
-    price: SBUpdateAdvertisingDealPrice | None = None
-    replacingDealId: str | None = None  # The ID of an advertising deal that this deal intends to replace.
-    startDateTime: datetime | None = None  # The start date time for the deal.
-    state: Annotated[SBAdvertisingDealState | str, lenient_enum(SBAdvertisingDealState)] | None = None
+    advertisingDealId: str = Field(description="A unique identifier for a deal.")
+    endDateTime: datetime | None = Field(default=None, description="The end date time for the deal.")
+    name: str | None = Field(default=None, description="The name of the deal.")
+    price: SBUpdateAdvertisingDealPrice | None = Field(default=None)
+    replacingDealId: str | None = Field(
+        default=None, description="The ID of an advertising deal that this deal intends to replace."
+    )
+    startDateTime: datetime | None = Field(default=None, description="The start date time for the deal.")
+    state: Annotated[SBAdvertisingDealState | str, lenient_enum(SBAdvertisingDealState)] | None = Field(default=None)
 
 
 class SBCreateAdvertisingDealPrice(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     priceType: Annotated[SBAdvertisingDealPriceType | str, lenient_enum(SBAdvertisingDealPriceType)]
-    value: float  # The monetary amount of the price in the given currency.
+    value: float = Field(description="The monetary amount of the price in the given currency.")
 
 
 class SBCreateAdvertisingDealRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    advertisingDeals: list[SBAdvertisingDealCreate] | None = None
+    advertisingDeals: list[SBAdvertisingDealCreate] | None = Field(default=None, min_length=1, max_length=10)
 
 
 class SBDeleteAdvertisingDealRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    advertisingDealIds: list[str] | None = None
+    advertisingDealIds: list[str] | None = Field(default=None, min_length=1, max_length=10)
 
 
 class SBQueryAdvertisingDealRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    advertisingDealIdFilter: SBAdvertisingDealAdvertisingDealIdFilter | None = None
-    maxResults: int | None = None
-    nameFilter: SBAdvertisingDealNameFilter | None = None
-    nextToken: str | None = None
+    advertisingDealIdFilter: SBAdvertisingDealAdvertisingDealIdFilter | None = Field(default=None)
+    maxResults: int | None = Field(default=10, ge=1, le=50)
+    nameFilter: SBAdvertisingDealNameFilter | None = Field(default=None)
+    nextToken: str | None = Field(default=None)
 
 
 class SBUpdateAdvertisingDealPrice(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    priceType: Annotated[SBAdvertisingDealPriceType | str, lenient_enum(SBAdvertisingDealPriceType)] | None = None
-    value: float | None = None  # The monetary amount of the price in the given currency.
+    priceType: Annotated[SBAdvertisingDealPriceType | str, lenient_enum(SBAdvertisingDealPriceType)] | None = Field(
+        default=None
+    )
+    value: float | None = Field(default=None, description="The monetary amount of the price in the given currency.")
 
 
 class SBUpdateAdvertisingDealRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    advertisingDeals: list[SBAdvertisingDealUpdate] | None = None
+    advertisingDeals: list[SBAdvertisingDealUpdate] | None = Field(default=None, min_length=1, max_length=10)
 
 
 __all__ = [
+    "SBAdvertisingDealNameFilterType",
+    "SBAdvertisingDealPriceType",
+    "SBAdvertisingDealState",
+    "SBAdvertisingDealStatusEnum",
     "SBAdvertisingDeal",
     "SBAdvertisingDealAdvertisingDealIdFilter",
     "SBAdvertisingDealCreate",
     "SBAdvertisingDealMultiStatusResponse",
     "SBAdvertisingDealMultiStatusSuccess",
     "SBAdvertisingDealNameFilter",
-    "SBAdvertisingDealNameFilterType",
-    "SBAdvertisingDealState",
+    "SBAdvertisingDealPrice",
     "SBAdvertisingDealStatus",
-    "SBAdvertisingDealStatusEnum",
     "SBAdvertisingDealSuccessResponse",
     "SBAdvertisingDealUpdate",
     "SBCreateAdvertisingDealPrice",

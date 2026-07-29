@@ -1,75 +1,88 @@
-"""Auto-generated Pydantic models for sb from Amazon Ads API schema."""
+"""Auto-generated models for BrandedKeywordsPricings from Amazon Ads API schema."""
 
 from __future__ import annotations
 
 from datetime import datetime
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from async_amazon_ads_api_v1.errors import ErrorsIndex
 
-from .shared import SBAdvertisingDealPrice
+from .advertising_deals import SBAdvertisingDealPrice
 
 
 class SBBrandedKeywordsPricing(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
-    advertisingDealId: str | None = None  # Identifier of the existing deal to price. Omit when pricing a new deal.
-    brandedKeywordsPricingId: str  # A unique identifier for the branded keywords pricing.
-    endDateTime: datetime  # The end date time for the deal.
-    keywords: list[str]  # The list of branded keywords advertiser wants to reserve.
-    keywordsPricing: SBKeywordsPricing | None = None
-    rejectedKeywords: list[SBRejectedKeyword] | None = (
-        None  # The list of branded keywords rejected for reservation by this advertiser.
+    advertisingDealId: str | None = Field(
+        default=None, description="Identifier of the existing deal to price. Omit when pricing a new deal."
     )
-    startDateTime: datetime  # The start date time for the deal.
+    brandedKeywordsPricingId: str = Field(description="A unique identifier for the branded keywords pricing.")
+    endDateTime: datetime = Field(description="The end date time for the deal.")
+    keywords: list[str] = Field(
+        min_length=1, max_length=1000, description="The list of branded keywords advertiser wants to reserve."
+    )
+    keywordsPricing: SBKeywordsPricing | None = Field(default=None)
+    rejectedKeywords: list[SBRejectedKeyword] | None = Field(
+        default=None,
+        min_length=0,
+        max_length=1000,
+        description="The list of branded keywords rejected for reservation by this advertiser.",
+    )
+    startDateTime: datetime = Field(description="The start date time for the deal.")
 
 
 class SBBrandedKeywordsPricingCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    advertisingDealId: str | None = None  # Identifier of the existing deal to price. Omit when pricing a new deal.
-    endDateTime: datetime  # The end date time for the deal.
-    keywords: list[str]  # The list of branded keywords advertiser wants to reserve.
-    startDateTime: datetime  # The start date time for the deal.
+    advertisingDealId: str | None = Field(
+        default=None, description="Identifier of the existing deal to price. Omit when pricing a new deal."
+    )
+    endDateTime: datetime = Field(description="The end date time for the deal.")
+    keywords: list[str] = Field(
+        min_length=1, max_length=1000, description="The list of branded keywords advertiser wants to reserve."
+    )
+    startDateTime: datetime = Field(description="The start date time for the deal.")
 
 
 class SBBrandedKeywordsPricingMultiStatusResponse(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = None
-    success: list[SBBrandedKeywordsPricingMultiStatusSuccess] | None = None
+    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=10)
+    success: list[SBBrandedKeywordsPricingMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=10)
 
 
 class SBBrandedKeywordsPricingMultiStatusSuccess(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     brandedKeywordsPricing: SBBrandedKeywordsPricing
-    index: int
+    index: int = Field(ge=0, le=9)
 
 
 class SBCreateBrandedKeywordsPricingRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    brandedKeywordsPricings: list[SBBrandedKeywordsPricingCreate] | None = None
+    brandedKeywordsPricings: list[SBBrandedKeywordsPricingCreate] | None = Field(
+        default=None, min_length=1, max_length=10
+    )
 
 
 class SBKeywordsPricing(BaseModel):
     """The detail of keywords pricing."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     price: SBAdvertisingDealPrice
-    validKeywords: list[str]  # List of valid keywords.
+    validKeywords: list[str] = Field(min_length=1, max_length=1000, description="List of valid keywords.")
 
 
 class SBRejectedKeyword(BaseModel):
     """The detail of a rejected keyword."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
-    keyword: str  # The keyword that has been rejected.
-    reason: str  # The reason keyword has been rejected for this advertiser.
+    keyword: str = Field(description="The keyword that has been rejected.")
+    reason: str = Field(description="The reason keyword has been rejected for this advertiser.")
 
 
 __all__ = [

@@ -1,76 +1,19 @@
-"""Auto-generated Pydantic models for sb from Amazon Ads API schema."""
+"""Auto-generated models for AdvertisingDealTargets from Amazon Ads API schema."""
 
 from __future__ import annotations
 
 from enum import StrEnum
 from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from async_amazon_ads_api_v1.errors import ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 
-class SBAdvertisingDealBrandedKeywordTargetDetails(BaseModel):
-    """The detail of a BRANDED_KEYWORD target."""
-
-    model_config = ConfigDict(extra="forbid")
-
-    brandedKeyword: str  # The branded keyword that is an exact match to the shoppers' search term.
-
-
-class SBAdvertisingDealTarget(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    advertisingDealId: str  # A unique identifier for the deal associated with the target.
-    advertisingDealTargetId: str  # A unique identifier for a deal target.
-    targetDetails: SBAdvertisingDealTargetDetails
-    targetType: Annotated[SBAdvertisingDealTargetType | str, lenient_enum(SBAdvertisingDealTargetType)]
-
-
-class SBAdvertisingDealTargetAdvertisingDealIdFilter(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    include: list[str]
-
-
-class SBAdvertisingDealTargetCreate(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    advertisingDealId: str  # A unique identifier for the deal associated with the target.
-    targetDetails: SBCreateAdvertisingDealTargetDetails
-    targetType: Annotated[SBAdvertisingDealTargetType | str, lenient_enum(SBAdvertisingDealTargetType)]
-
-
-class SBAdvertisingDealTargetDetails(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    advertisingDealBrandedKeywordTargetDetails: SBAdvertisingDealBrandedKeywordTargetDetails | None = None
-
-
-class SBAdvertisingDealTargetMultiStatusResponse(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    error: list[ErrorsIndex] | None = None
-    success: list[SBAdvertisingDealTargetMultiStatusSuccess] | None = None
-
-
-class SBAdvertisingDealTargetMultiStatusSuccess(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    advertisingDealTarget: SBAdvertisingDealTarget
-    index: int
-
-
-class SBAdvertisingDealTargetSuccessResponse(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    advertisingDealTargets: list[SBAdvertisingDealTarget] | None = None
-    nextToken: str | None = None
-
-
 class SBAdvertisingDealTargetType(StrEnum):
-    """| AdvertisingDealTargetType | Description |
+    """
+    | AdvertisingDealTargetType | Description |
     |------|------|
     | `BRANDED_KEYWORD` |  |
     """
@@ -78,12 +21,70 @@ class SBAdvertisingDealTargetType(StrEnum):
     BRANDED_KEYWORD = "BRANDED_KEYWORD"
 
 
+class SBAdvertisingDealBrandedKeywordTargetDetails(BaseModel):
+    """The detail of a BRANDED_KEYWORD target."""
+
+    model_config = ConfigDict(extra="allow")
+
+    brandedKeyword: str = Field(description="The branded keyword that is an exact match to the shoppers' search term.")
+
+
+class SBAdvertisingDealTarget(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    advertisingDealId: str = Field(description="A unique identifier for the deal associated with the target.")
+    advertisingDealTargetId: str = Field(description="A unique identifier for a deal target.")
+    targetDetails: SBAdvertisingDealTargetDetails
+    targetType: Annotated[SBAdvertisingDealTargetType | str, lenient_enum(SBAdvertisingDealTargetType)]
+
+
+class SBAdvertisingDealTargetAdvertisingDealIdFilter(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    include: list[str] = Field(min_length=1, max_length=1)
+
+
+class SBAdvertisingDealTargetCreate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    advertisingDealId: str = Field(description="A unique identifier for the deal associated with the target.")
+    targetDetails: SBCreateAdvertisingDealTargetDetails
+    targetType: Annotated[SBAdvertisingDealTargetType | str, lenient_enum(SBAdvertisingDealTargetType)]
+
+
+class SBAdvertisingDealTargetDetails(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    advertisingDealBrandedKeywordTargetDetails: SBAdvertisingDealBrandedKeywordTargetDetails | None = None
+
+
+class SBAdvertisingDealTargetMultiStatusResponse(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=1000)
+    success: list[SBAdvertisingDealTargetMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=1000)
+
+
+class SBAdvertisingDealTargetMultiStatusSuccess(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    advertisingDealTarget: SBAdvertisingDealTarget
+    index: int = Field(ge=0, le=999)
+
+
+class SBAdvertisingDealTargetSuccessResponse(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    advertisingDealTargets: list[SBAdvertisingDealTarget] | None = Field(default=None, min_length=0, max_length=1000)
+    nextToken: str | None = Field(default=None)
+
+
 class SBCreateAdvertisingDealBrandedKeywordTargetDetails(BaseModel):
     """The detail of a BRANDED_KEYWORD target."""
 
     model_config = ConfigDict(extra="forbid")
 
-    brandedKeyword: str  # The branded keyword that is an exact match to the shoppers' search term.
+    brandedKeyword: str = Field(description="The branded keyword that is an exact match to the shoppers' search term.")
 
 
 class SBCreateAdvertisingDealTargetDetails(BaseModel):
@@ -95,24 +96,27 @@ class SBCreateAdvertisingDealTargetDetails(BaseModel):
 class SBCreateAdvertisingDealTargetRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    advertisingDealTargets: list[SBAdvertisingDealTargetCreate] | None = None
+    advertisingDealTargets: list[SBAdvertisingDealTargetCreate] | None = Field(
+        default=None, min_length=1, max_length=1000
+    )
 
 
 class SBDeleteAdvertisingDealTargetRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    advertisingDealTargetIds: list[str] | None = None
+    advertisingDealTargetIds: list[str] | None = Field(default=None, min_length=1, max_length=1000)
 
 
 class SBQueryAdvertisingDealTargetRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     advertisingDealIdFilter: SBAdvertisingDealTargetAdvertisingDealIdFilter
-    maxResults: int | None = None
-    nextToken: str | None = None
+    maxResults: int | None = Field(default=100, ge=100, le=1000)
+    nextToken: str | None = Field(default=None)
 
 
 __all__ = [
+    "SBAdvertisingDealTargetType",
     "SBAdvertisingDealBrandedKeywordTargetDetails",
     "SBAdvertisingDealTarget",
     "SBAdvertisingDealTargetAdvertisingDealIdFilter",
@@ -121,7 +125,6 @@ __all__ = [
     "SBAdvertisingDealTargetMultiStatusResponse",
     "SBAdvertisingDealTargetMultiStatusSuccess",
     "SBAdvertisingDealTargetSuccessResponse",
-    "SBAdvertisingDealTargetType",
     "SBCreateAdvertisingDealBrandedKeywordTargetDetails",
     "SBCreateAdvertisingDealTargetDetails",
     "SBCreateAdvertisingDealTargetRequest",
