@@ -105,5 +105,8 @@ class BaseResource:
     def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
         return model_cls.model_validate_json(resp.text)
 
+    def _response_list(self, model_cls: type[_T], resp: httpx.Response) -> list[_T]:
+        return [model_cls.model_validate(item) for item in resp.json()]
+
     def _dump(self, items: Sequence[BaseModel]) -> list[dict[str, Any]]:
         return [item.model_dump(mode="json", exclude_none=True) for item in items]

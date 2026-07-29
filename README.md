@@ -225,10 +225,24 @@ await rules.disassociate_optimization_rules(request)
 
 ```python
 from async_amazon_ads_api_v1.client.legacy import SDOptimizationRules
+from async_amazon_ads_api_v1.models.legacy.sd_rules import (
+    SDCreateAssociatedOptimizationRulesRequest,
+    SDCreateOptimizationRule,
+)
 
 rules = SDOptimizationRules(ctx)
-await rules.list_optimization_rules("ad-group-id")
-await rules.disassociate_optimization_rules("ad-group-id", request)
+await rules.list_optimization_rules(count=10, state_filter="enabled")
+await rules.get_optimization_rule("rule-id")
+await rules.list_ad_group_optimization_rules(ad_group_id=12345)
+await rules.create_optimization_rules([SDCreateOptimizationRule(...)])
+await rules.associate_optimization_rules(
+    12345,
+    SDCreateAssociatedOptimizationRulesRequest(optimizationRuleIds=["rule-id"]),
+)
+await rules.disassociate_optimization_rules(
+    12345,
+    SDCreateAssociatedOptimizationRulesRequest(optimizationRuleIds=["rule-id"]),
+)
 ```
 
 ### SDCreatives — SD 创意

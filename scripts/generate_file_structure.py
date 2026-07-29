@@ -158,7 +158,7 @@ def discover_entry_schemas(paths: dict) -> tuple[dict[str, dict[str, str]], set[
                     if not ref:
                         continue
                     name = ref.split("/")[-1]
-                    if code in ("200", "207", "201"):
+                    if str(code) in ("200", "207", "201"):
                         entries[name] = f"{action}_response"
                     else:
                         error_by_resource[resource].add(name)

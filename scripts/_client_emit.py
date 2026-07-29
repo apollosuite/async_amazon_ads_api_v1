@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Literal
 
-from _openapi_schema import camel_to_snake, method_name, rename_schema
+from _openapi_schema import _schema_ref_seeds, camel_to_snake, method_name, rename_schema
 from _pydantic_emit import schema_type
 
 
@@ -68,11 +68,11 @@ def _append_client_method(
 
     resp_model = None
     for code, resp in operation.get("responses", {}).items():
-        if code in ("200", "207", "201"):
+        if str(code) in ("200", "207", "201"):
             for _, media in resp.get("content", {}).items():
-                ref = media.get("schema", {}).get("$ref", "")
-                if ref:
-                    resp_model = rename_schema(ref.split("/")[-1], schema_renames)
+                seeds = _schema_ref_seeds(media.get("schema", {}))
+                if seeds:
+                    resp_model = rename_schema(next(iter(seeds)), schema_renames)
                     break
             if resp_model:
                 break
@@ -187,11 +187,10 @@ def generate_client_file(
             if ref:
                 sig_imports.add(rename(ref.split("/")[-1]))
         for code, resp in operation.get("responses", {}).items():
-            if code in ("200", "207", "201"):
+            if str(code) in ("200", "207", "201"):
                 for _, media in resp.get("content", {}).items():
-                    ref = media.get("schema", {}).get("$ref", "")
-                    if ref:
-                        sig_imports.add(rename(ref.split("/")[-1]))
+                    for seed in _schema_ref_seeds(media.get("schema", {})):
+                        sig_imports.add(rename(seed))
 
     client_doc_title = client_config.resource_name or resource_name
     client_lines = [

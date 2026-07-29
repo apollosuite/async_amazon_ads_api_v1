@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 from typing import Any
 
+from _gen_utils import flatten_allof
 from _openapi_schema import rename_schema
 
 
@@ -79,6 +80,34 @@ def generate_enum(name: str, schema: dict) -> str:
 """
 
 
+def is_type_alias(schema: dict) -> bool:
+    return (
+        "type" in schema
+        and schema["type"] in ("string", "integer", "boolean", "number")
+        and "properties" not in schema
+        and "allOf" not in schema
+        and not schema.get("enum")
+    )
+
+
+def generate_type_alias(name: str, schema: dict) -> str:
+    py_type = {"string": "str", "integer": "int", "number": "float", "boolean": "bool"}.get(schema["type"], "Any")
+    doc = schema.get("description", "")
+    if doc:
+        return f"type {name} = {py_type}  # {doc}"
+    return f"type {name} = {py_type}"
+
+
+def _format_default(default_val: Any, typ: str) -> str:
+    if default_val is None:
+        return "default=None"
+    if "float" in typ and isinstance(default_val, str):
+        return f"default={float(default_val)}"
+    if "int" in typ and isinstance(default_val, str):
+        return f"default={int(default_val)}"
+    return f"default={default_val!r}"
+
+
 def generate_model(
     name: str,
     schema: dict,
@@ -87,6 +116,7 @@ def generate_model(
     *,
     extra: str = "forbid",
 ) -> str:
+    schema = flatten_allof(schema, schemas)
     doc = schema.get("description", "")
     required: set[str] = set(schema.get("required", []))
     docstring = f'\n    """{doc}"""' if doc else ""
@@ -134,7 +164,7 @@ def generate_model(
 
         if not is_required:
             default_val = fschema.get("default")
-            kwargs.insert(0, f"default={default_val!r}" if default_val is not None else "default=None")
+            kwargs.insert(0, _format_default(default_val, typ))
 
         desc = fschema.get("description", "").strip().rstrip()
         if desc:
@@ -165,6 +195,8 @@ def emit_model(
     *,
     extra: str = "forbid",
 ) -> str:
+    if is_type_alias(schema):
+        return generate_type_alias(name, schema)
     if is_enum(schema) and schema.get("enum"):
         return generate_enum(name, schema)
     return generate_model(name, schema, schemas, schema_renames, extra=extra)
@@ -174,7 +206,9 @@ def split_types(needed: dict[str, Any]) -> tuple[list[tuple[str, dict]], list[tu
     enums: list[tuple[str, dict]] = []
     models: list[tuple[str, dict]] = []
     for name, schema in sorted(needed.items()):
-        if is_enum(schema) and schema.get("enum"):
+        if is_type_alias(schema):
+            models.append((name, schema))
+        elif is_enum(schema) and schema.get("enum"):
             enums.append((name, schema))
         else:
             models.append((name, schema))

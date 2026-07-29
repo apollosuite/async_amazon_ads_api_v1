@@ -153,7 +153,7 @@ class GetAccountResponseContent(BaseModel):
 class ListAdsAccountsRequestContent(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    maxResults: float | None = Field(default="100", ge=1, le=100)
+    maxResults: float | None = Field(default=100.0, ge=1, le=100)
     nextToken: str | None = Field(
         default=None, description="The token is used to fetch the next page of results if they exist."
     )

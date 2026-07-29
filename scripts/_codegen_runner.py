@@ -11,6 +11,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+import yaml
 from _client_emit import ClientGenerationConfig, generate_client_file
 from _openapi_schema import (
     PROJECT_ROOT,
@@ -285,6 +286,14 @@ def print_shared_schemas_summary(all_shared: dict[str, list[str]], *, single_tag
         print(f"  {tag_name}: {', '.join(names)}")
 
 
+def load_spec(spec_path: Path) -> dict:
+    """Load an OpenAPI spec from JSON or YAML."""
+    with open(spec_path) as f:
+        if spec_path.suffix in {".yaml", ".yml"}:
+            return yaml.safe_load(f)
+        return json.load(f)
+
+
 def run(project: GenerationProject, tags: list[TagSpec]) -> None:
     """Load spec, generate all tags, print summary, and post-process."""
     if not project.spec_path.exists():
@@ -296,8 +305,7 @@ def run(project: GenerationProject, tags: list[TagSpec]) -> None:
     print(f"  errors.py: {sum(1 for v in known_schemas.values() if v == 'errors')}")
     print(f"  model files: {sum(1 for v in known_schemas.values() if v != 'errors')}")
 
-    with open(project.spec_path) as f:
-        spec = json.load(f)
+    spec = load_spec(project.spec_path)
 
     all_shared: dict[str, list[str]] = {}
     for raw_tag in tags:

@@ -118,6 +118,19 @@ def find_endpoints_by_tag(spec: dict, tag: str) -> list[tuple[str, str, dict]]:
     return result
 
 
+def _schema_ref_seeds(schema: dict) -> set[str]:
+    """Collect top-level schema names from a request/response body schema."""
+    seeds: set[str] = set()
+    if "$ref" in schema:
+        seeds.add(schema["$ref"].split("/")[-1])
+        return seeds
+    if schema.get("type") == "array":
+        items = schema.get("items", {})
+        if "$ref" in items:
+            seeds.add(items["$ref"].split("/")[-1])
+    return seeds
+
+
 def _collect_schema_seeds(
     endpoints: list[tuple[str, str, dict]],
     *,
@@ -128,16 +141,12 @@ def _collect_schema_seeds(
     for _method, _path, operation in endpoints:
         if from_request:
             for _, media in operation.get("requestBody", {}).get("content", {}).items():
-                ref = media.get("schema", {}).get("$ref", "")
-                if ref:
-                    seeds.add(ref.split("/")[-1])
+                seeds.update(_schema_ref_seeds(media.get("schema", {})))
         if from_response:
             for code, resp in operation.get("responses", {}).items():
-                if code in ("200", "207", "201"):
+                if str(code) in ("200", "207", "201"):
                     for _, media in resp.get("content", {}).items():
-                        ref = media.get("schema", {}).get("$ref", "")
-                        if ref:
-                            seeds.add(ref.split("/")[-1])
+                        seeds.update(_schema_ref_seeds(media.get("schema", {})))
     return seeds
 
 
