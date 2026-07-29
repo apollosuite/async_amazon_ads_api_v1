@@ -6,7 +6,8 @@ import json
 import re
 from pathlib import Path
 
-from _gen_utils import clean_desc, collect_refs, generate_fields
+from _gen_utils import clean_desc, generate_fields
+from _openapi_schema import extract_refs
 
 HERE = Path(__file__).parent
 SPEC_PATH = HERE / "sponsoredBrands_40_openapi.json"
@@ -63,7 +64,7 @@ def main() -> None:
     while queue:
         name = queue.pop(0)
         s = schemas.get(name, {})
-        for dep in collect_refs(s):
+        for dep in extract_refs(s):
             if dep not in closure and dep in schemas:
                 closure.add(dep)
                 queue.append(dep)

@@ -7,13 +7,8 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from _gen_utils import (
-    TYPE_HINTS,
-    clean_desc,
-    collect_refs,
-    field_from_param,
-    flatten_allof,
-)
+from _gen_utils import TYPE_HINTS, clean_desc, field_from_param, flatten_allof
+from _openapi_schema import extract_refs
 
 HERE = Path(__file__).parent
 SPEC_PATH = HERE / "sponsoredDisplay_30_openapi.yaml"
@@ -211,7 +206,7 @@ def main() -> None:
     while queue:
         name = queue.pop(0)
         s = schemas.get(name, {})
-        for dep in collect_refs(s):
+        for dep in extract_refs(s):
             if dep not in closure and dep in schemas:
                 closure.add(dep)
                 queue.append(dep)

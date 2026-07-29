@@ -1,53 +1,126 @@
-"""SB Optimization Rules Pydantic models."""
+"""Auto-generated models for Optimization rules from Amazon Ads API schema."""
 
 from __future__ import annotations
-
-import typing
 
 from pydantic import BaseModel, ConfigDict, Field
 
 
 class SBAssociateOptimizationRulesRequest(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="forbid")
 
     optimizationRuleAssociations: list[SBOptimizationRuleToEntityMapping] = Field(min_length=1, max_length=10)
 
 
 class SBAssociateOptimizationRulesResponse(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="allow")
 
-    optimizationRuleAssociations: SBBulkAssociationsOptimizationRuleResponse
+    optimizationRuleAssociations: SBBulkAssociationsOptimizationRuleResponse | None = Field(default=None)
+
+
+class SBBulkAssociationsOptimizationRuleResponse(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    success: list[SBOptimizationRuleToEntityMappingSuccessResponseItem] | None = Field(
+        default=None, min_length=1, max_length=10
+    )
+    error: list[SBOptimizationRuleFailureResponseItem] | None = Field(default=None, min_length=1, max_length=10)
+
+
+class SBBulkCreateOptimizationRuleOperationResponse(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    success: list[SBCreateOptimizationRuleSuccessResponseItem] | None = Field(default=None, min_length=1, max_length=10)
+    error: list[SBOptimizationRuleFailureResponseItem] | None = Field(default=None, min_length=1, max_length=10)
+
+
+class SBBulkDisassociationsOptimizationRuleResponse(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    success: list[SBOptimizationRuleToEntityMappingSuccessResponseItem] | None = Field(
+        default=None, min_length=1, max_length=10
+    )
+    error: list[SBOptimizationRuleFailureResponseItem] | None = Field(default=None, min_length=1, max_length=10)
+
+
+class SBBulkUpdateOptimizationRuleOperationResponse(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    success: list[SBUpdateOptimizationRuleSuccessResponseItem] | None = Field(default=None, min_length=1, max_length=10)
+    error: list[SBOptimizationRuleFailureResponseItem] | None = Field(default=None, min_length=1, max_length=10)
+
+
+class SBCreateOptimizationRule(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    entityType: str | None = Field(
+        default=None,
+        description="""
+Enum: "CAMPAIGN"
+
+The type of entity passed.
+""",
+    )
+    entityId: str | None = Field(default=None, description="Entity object identifier.")
+    conditions: list[SBRuleCondition] | None = Field(default=None, min_length=1, max_length=1)
+
+
+class SBCreateOptimizationRuleSuccessResponseItem(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    optimizationRule: SBOptimizationRule | None = Field(default=None)
+    entityType: str | None = Field(default=None)
+    index: float | None = Field(
+        default=None, ge=0, le=10, description="The index of the entityId in the array from the request body."
+    )
+    entityId: str | None = Field(default=None, description="Entity object identifier.")
+    optimizationRuleId: str | None = Field(default=None, description="The identifier of the optimization rule.")
 
 
 class SBCreateOptimizationRulesRequest(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="forbid")
 
     optimizationRules: list[SBCreateOptimizationRule] = Field(min_length=1, max_length=10)
 
 
 class SBCreateOptimizationRulesResponse(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="allow")
 
-    optimizationRules: SBBulkCreateOptimizationRuleOperationResponse
+    optimizationRules: SBBulkCreateOptimizationRuleOperationResponse | None = Field(default=None)
 
 
 class SBDisassociateOptimizationRulesRequest(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="forbid")
 
     optimizationRuleDisassociations: list[SBOptimizationRuleToEntityMapping] = Field(min_length=1, max_length=10)
 
 
 class SBDisassociateOptimizationRulesResponse(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="allow")
 
-    optimizationRuleDisassociations: SBBulkDisassociationsOptimizationRuleResponse
+    optimizationRuleDisassociations: SBBulkDisassociationsOptimizationRuleResponse | None = Field(default=None)
+
+
+class SBEntityFilter(BaseModel):
+    """Filter optimization rules by entityId and entityType"""
+
+    model_config = ConfigDict(extra="forbid")
+
+    entityType: str | None = Field(
+        default=None,
+        description="""
+Enum: "CAMPAIGN"
+
+The type of entity passed.
+""",
+    )
+    entityId: str | None = Field(default=None, description="Entity object identifier.")
 
 
 class SBListOptimizationRulesRequest(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="forbid")
 
     entityFilter: SBEntityFilter | None = Field(default=None)
-    maxResults: int | None = Field(
+    maxResults: float | None = Field(
         default=None,
         ge=1,
         le=100,
@@ -60,162 +133,136 @@ class SBListOptimizationRulesRequest(BaseModel):
 
 
 class SBListOptimizationRulesResponse(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="allow")
 
     nextToken: str | None = Field(
         default=None, description="Token value allowing to navigate to the next response page."
     )
-    optimizationRules: list[SBOptimizationRule] = Field(min_length=1, max_length=100)
-    totalCount: int | None = Field(default=None, description="The total number of entities.")
-
-
-class SBUpdateOptimizationRulesRequest(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-
-    optimizationRules: list[SBUpdateOptimizationRule] = Field(min_length=1, max_length=10)
-
-
-class SBUpdateOptimizationRulesResponse(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-
-    optimizationRules: SBBulkUpdateOptimizationRuleOperationResponse
-
-
-class SBBulkAssociationsOptimizationRuleResponse(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-
-    error: list[SBOptimizationRuleFailureResponseItem] | None = Field(default=None, min_length=1, max_length=10)
-    success: list[SBOptimizationRuleToEntityMappingSuccessResponseItem] | None = Field(
-        default=None, min_length=1, max_length=10
-    )
-
-
-class SBBulkCreateOptimizationRuleOperationResponse(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-
-    error: list[SBOptimizationRuleFailureResponseItem] | None = Field(default=None, min_length=1, max_length=10)
-    success: list[SBCreateOptimizationRuleSuccessResponseItem] | None = Field(default=None, min_length=1, max_length=10)
-
-
-class SBBulkDisassociationsOptimizationRuleResponse(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-
-    error: list[SBOptimizationRuleFailureResponseItem] | None = Field(default=None, min_length=1, max_length=10)
-    success: list[SBOptimizationRuleToEntityMappingSuccessResponseItem] | None = Field(
-        default=None, min_length=1, max_length=10
-    )
-
-
-class SBBulkUpdateOptimizationRuleOperationResponse(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-
-    error: list[SBOptimizationRuleFailureResponseItem] | None = Field(default=None, min_length=1, max_length=10)
-    success: list[SBUpdateOptimizationRuleSuccessResponseItem] | None = Field(default=None, min_length=1, max_length=10)
-
-
-class SBCreateOptimizationRule(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-
-    conditions: list[SBRuleCondition] | None = Field(default=None, min_length=1, max_length=1)
-    entityId: str | None = Field(default=None, description="Entity object identifier.")
-    entityType: typing.Literal["CAMPAIGN"] = "CAMPAIGN"
-
-
-class SBCreateOptimizationRuleSuccessResponseItem(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-
-    entityId: str = Field(description="Entity object identifier.")
-    entityType: str
-    index: int = Field(ge=0, le=10, description="The index of the entityId in the array from the request body.")
-    optimizationRule: SBOptimizationRule
-    optimizationRuleId: str = Field(description="The identifier of the optimization rule.")
-
-
-class SBEntityFilter(BaseModel):  # Filter optimization rules by entityId and entityType
-    model_config = ConfigDict(extra="ignore")
-
-    entityId: str | None = Field(default=None, description="Entity object identifier.")
-    entityType: typing.Literal["CAMPAIGN"] = "CAMPAIGN"
+    totalCount: float | None = Field(default=None, description="The total number of entities.")
+    optimizationRules: list[SBOptimizationRule] | None = Field(default=None, min_length=1, max_length=100)
 
 
 class SBOptimizationRule(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="allow")
 
-    conditions: list[SBRuleCondition] | None = Field(default=None, min_length=1, max_length=1)
     optimizationRuleId: str | None = Field(default=None, description="The identifier of the optimization rule.")
+    conditions: list[SBRuleCondition] | None = Field(default=None, min_length=1, max_length=1)
 
 
 class SBOptimizationRuleFailureResponseItem(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="allow")
 
+    index: float | None = Field(
+        default=None,
+        ge=0,
+        le=10,
+        description="the index of the optimization rule id/entity Id in the array from the request body.",
+    )
     errors: list[SBOptimizationRulesError] | None = Field(
         default=None, min_length=0, max_length=100, description="A list of validation errors"
     )
-    index: int = Field(
-        ge=0, le=10, description="the index of the optimization rule id/entity Id in the array from the request body."
-    )
 
 
-class SBOptimizationRuleIdFilter(BaseModel):  # Filter optimization rules by the list of optimization rule ids.
-    model_config = ConfigDict(extra="ignore")
+class SBOptimizationRuleIdFilter(BaseModel):
+    """Filter optimization rules by the list of optimization rule ids."""
+
+    model_config = ConfigDict(extra="forbid")
 
     include: list[str] | None = Field(default=None, min_length=0, max_length=10)
 
 
 class SBOptimizationRuleToEntityMapping(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="forbid")
 
+    entityType: str = Field(description="""
+Enum: "CAMPAIGN"
+
+The type of entity passed.
+""")
     entityId: str = Field(description="Entity object identifier.")
-    entityType: typing.Literal["CAMPAIGN"] = Field(description='Enum: "CAMPAIGN"  The type of entity passed.')
     optimizationRuleId: str = Field(description="The identifier of the optimization rule.")
 
 
 class SBOptimizationRuleToEntityMappingSuccessResponseItem(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="allow")
 
-    entityId: str = Field(description="Entity object identifier.")
-    entityType: str
-    index: int = Field(
-        ge=0, le=10, description="The index of the entityId/optimizationId in the array from the request body."
+    entityType: str | None = Field(default=None)
+    index: float | None = Field(
+        default=None,
+        ge=0,
+        le=10,
+        description="The index of the entityId/optimizationId in the array from the request body.",
     )
-    optimizationRuleId: str = Field(description="The identifier of the optimization rule.")
-
-
-class SBOptimizationRulesError(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-
-    code: str = Field(description="The type of the error.")
-    message: str = Field(description="Human readable error message.")
-
-
-class SBRuleCondition(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-
-    attributeName: typing.Literal["COST_PER_CLICK"] = Field(
-        description='Enum: "COST_PER_CLICK"  The name of the attribute.   Supported rule metrics and corresponding supported comparisonOperators: AttributeName ComparisonOperator Description ------------------------------------ --------------------------- ----------------------------------------------------------------------------------------- COST_PER_CLICK LESS_THAN_OR_EQUAL_TO Maximize page visits while cost per click less than or equal to threshold.'
-    )
-    criteria: SBValueTypeRuleCriteria
-
-
-class SBUpdateOptimizationRule(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-
-    conditions: list[SBRuleCondition] | None = Field(default=None, min_length=1, max_length=1)
+    entityId: str | None = Field(default=None, description="Entity object identifier.")
     optimizationRuleId: str | None = Field(default=None, description="The identifier of the optimization rule.")
 
 
-class SBUpdateOptimizationRuleSuccessResponseItem(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+class SBOptimizationRulesError(BaseModel):
+    model_config = ConfigDict(extra="allow")
 
-    index: int = Field(ge=0, le=10, description="The index of the entityId in the array from the request body.")
-    optimizationRule: SBOptimizationRule
-    optimizationRuleId: str = Field(description="The identifier of the optimization rule.")
+    code: str | None = Field(default=None, description="The type of the error.")
+    message: str | None = Field(default=None, description="Human readable error message.")
+
+
+class SBRuleCondition(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    criteria: SBValueTypeRuleCriteria | None = Field(default=None)
+    attributeName: str | None = Field(
+        default=None,
+        description="""
+Enum: "COST_PER_CLICK"
+
+The name of the attribute.
+
+ Supported rule metrics and corresponding supported comparisonOperators:
+| AttributeName                      |  ComparisonOperator       |  Description                                                                            |
+|------------------------------------|---------------------------|-----------------------------------------------------------------------------------------|
+| COST_PER_CLICK                     | LESS_THAN_OR_EQUAL_TO     | Maximize page visits while cost per click less than or equal to threshold.              |
+""",
+    )
+
+
+class SBUpdateOptimizationRule(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    optimizationRuleId: str | None = Field(default=None, description="The identifier of the optimization rule.")
+    conditions: list[SBRuleCondition] | None = Field(default=None, min_length=1, max_length=1)
+
+
+class SBUpdateOptimizationRuleSuccessResponseItem(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    optimizationRule: SBOptimizationRule | None = Field(default=None)
+    index: float | None = Field(
+        default=None, ge=0, le=10, description="The index of the entityId in the array from the request body."
+    )
+    optimizationRuleId: str | None = Field(default=None, description="The identifier of the optimization rule.")
+
+
+class SBUpdateOptimizationRulesRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    optimizationRules: list[SBUpdateOptimizationRule] = Field(min_length=1, max_length=10)
+
+
+class SBUpdateOptimizationRulesResponse(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    optimizationRules: SBBulkUpdateOptimizationRuleOperationResponse | None = Field(default=None)
 
 
 class SBValueTypeRuleCriteria(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="allow")
 
-    comparisonOperator: typing.Literal["LESS_THAN_OR_EQUAL_TO"] = "LESS_THAN_OR_EQUAL_TO"
+    comparisonOperator: str | None = Field(
+        default=None,
+        description="""
+Enum: "LESS_THAN_OR_EQUAL_TO"
+
+The comparison operator.
+""",
+    )
     value: float | None = Field(default=None, description="The value of the threshold associated with the attribute.")
 
 

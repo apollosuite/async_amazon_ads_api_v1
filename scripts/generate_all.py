@@ -54,6 +54,7 @@ def main() -> None:
         "generate_legacy_accounts_models.py",
         "generate_legacy_profiles_models.py",
         "generate_brandhome.py",
+        "generate_brandstores.py",
     ]
     for script in legacy_scripts:
         run(["uv", "run", "python", str(SCRIPTS / script)])

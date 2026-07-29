@@ -32,33 +32,6 @@ def clean_desc(desc: str) -> str:
     return " ".join(result).strip()
 
 
-def collect_refs(schema: dict) -> set[str]:
-    """Recursively collect all ``$ref`` target names from a schema object."""
-    refs: set[str] = set()
-
-    def walk(obj: Any) -> None:
-        if isinstance(obj, dict):
-            if "$ref" in obj:
-                refs.add(obj["$ref"].split("/")[-1])
-                return
-            for k in ("properties", "additionalProperties", "items"):
-                if k in obj:
-                    walk(obj[k])
-            for k in ("oneOf", "anyOf", "allOf"):
-                if k in obj:
-                    for item in obj[k]:
-                        walk(item)
-            for v in obj.values():
-                if isinstance(v, (dict, list)):
-                    walk(v)
-        elif isinstance(obj, list):
-            for item in obj:
-                walk(item)
-
-    walk(schema)
-    return refs
-
-
 def resolve_type(
     fschema: dict,
     schemas: dict[str, Any],

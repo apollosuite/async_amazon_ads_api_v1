@@ -1,13 +1,6 @@
 #!/usr/bin/env python3
 """Generate client interface code for the Brand Home API.
 
-Reads ``scripts/BrandHome_prod_3p.json`` and generates:
-
-1. Pydantic model module  → ``models/general/brand_home.py``
-   - Request schemas: ``extra="forbid"``
-   - Response schemas: ``extra="allow"`` (preserve unknown API fields)
-2. Client resource class  → ``client/general/brand_home.py``
-
 Usage:
     uv run python scripts/generate_brandhome.py
 """
@@ -16,27 +9,42 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from _general_codegen import TagGenerationConfig, run_generator_script
+from _client_emit import ClientGenerationConfig
+from _codegen_runner import GenerationProject, TagSpec, run
+from _openapi_schema import PACKAGE_ROOT
 
 HERE = Path(__file__).parent
 SPEC_PATH = HERE / "BrandHome_prod_3p.json"
+MODEL_DIR = PACKAGE_ROOT / "models" / "general"
+CLIENT_DIR = PACKAGE_ROOT / "client" / "general"
+MODELS_PACKAGE = "models.general"
 
-CONFIGS: list[TagGenerationConfig] = [
-    TagGenerationConfig(
+CONFIGS: list[TagSpec] = [
+    TagSpec(
         tag="BrandHomeAPIService",
-        resource_name="BrandHome",
         snake_name="brand_home",
         schema_renames={"State": "BrandHomeState"},
-        respect_request_body_required=True,
-        emit_content_type_header=True,
-        query_params_on_non_get=True,
-        param_docstring_mode="if_query_params",
+        client=ClientGenerationConfig(
+            resource_name="BrandHome",
+            respect_request_body_required=True,
+            emit_content_type_header=True,
+            query_params_on_non_get=True,
+            param_docstring_mode="if_query_params",
+        ),
     ),
 ]
 
 
 def main() -> None:
-    run_generator_script(SPEC_PATH, CONFIGS)
+    run(
+        GenerationProject(
+            spec_path=SPEC_PATH,
+            model_dir=MODEL_DIR,
+            models_package=MODELS_PACKAGE,
+            client_dir=CLIENT_DIR,
+        ),
+        CONFIGS,
+    )
 
 
 if __name__ == "__main__":
