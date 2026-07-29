@@ -21,19 +21,39 @@ class AdAssociations(_ResourceBase):
     async def create_ad_association(self, body: CreateAdAssociationRequest) -> AdAssociationMultiStatusResponse:
         """Create Ad Association"""
 
-        return await self._query(body, "/adsApi/v1/create/adAssociations", AdAssociationMultiStatusResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/create/adAssociations",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(AdAssociationMultiStatusResponse, resp)
 
     async def delete_ad_association(self, body: DeleteAdAssociationRequest) -> AdAssociationMultiStatusResponse:
         """Delete Ad Association"""
 
-        return await self._query(body, "/adsApi/v1/delete/adAssociations", AdAssociationMultiStatusResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/delete/adAssociations",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(AdAssociationMultiStatusResponse, resp)
 
     async def query_ad_association(self, body: QueryAdAssociationRequest) -> AdAssociationSuccessResponse:
         """Query Ad Association"""
 
-        return await self._query(body, "/adsApi/v1/query/adAssociations", AdAssociationSuccessResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/query/adAssociations",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(AdAssociationSuccessResponse, resp)
 
     async def update_ad_association(self, body: UpdateAdAssociationRequest) -> AdAssociationMultiStatusResponse:
         """Update Ad Association"""
 
-        return await self._query(body, "/adsApi/v1/update/adAssociations", AdAssociationMultiStatusResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/update/adAssociations",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(AdAssociationMultiStatusResponse, resp)

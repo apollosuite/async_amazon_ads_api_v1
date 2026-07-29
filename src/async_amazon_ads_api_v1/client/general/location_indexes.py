@@ -20,7 +20,12 @@ class LocationIndexes(_ResourceBase):
     async def create_location_index(self, body: CreateLocationIndexRequest) -> LocationIndexMultiStatusResponse:
         """Create a Smart Location Index. A Smart Location Index is a named dataset that maps postal codes to index values representing relative audience quality or sales potential for a given advertiser. Index data is processed asynchronously; the index status will transition from PENDING to ENABLED once processing is complete."""
 
-        return await self._query(body, "/adsApi/v1/create/locationIndexes", LocationIndexMultiStatusResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/create/locationIndexes",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(LocationIndexMultiStatusResponse, resp)
 
     async def list_location_index(
         self, next_token: str | None = None, max_results: int | None = None
@@ -38,9 +43,19 @@ class LocationIndexes(_ResourceBase):
     async def retrieve_location_index(self, body: RetrieveLocationIndexRequest) -> LocationIndexMultiStatusResponse:
         """Retrieve one or more Smart Location Indexes by ID. Returns the current metadata and processing status for each requested index. An index with status PENDING is still being processed and is not yet available for use in smart location targeting."""
 
-        return await self._query(body, "/adsApi/v1/retrieve/locationIndexes", LocationIndexMultiStatusResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/retrieve/locationIndexes",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(LocationIndexMultiStatusResponse, resp)
 
     async def update_location_index(self, body: UpdateLocationIndexRequest) -> LocationIndexMultiStatusResponse:
         """Update the data for an existing Smart Location Index. Replaces the index's postal code values with the provided dataset. The update is processed asynchronously; the index status will return to PENDING until the new data has been fully processed."""
 
-        return await self._query(body, "/adsApi/v1/update/locationIndexes", LocationIndexMultiStatusResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/update/locationIndexes",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(LocationIndexMultiStatusResponse, resp)

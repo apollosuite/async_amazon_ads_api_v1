@@ -419,7 +419,7 @@ def generate_for_tag(
             import_lines.append(f"from async_amazon_ads_api_v1.errors import {', '.join(sorted(names))}")
         else:
             prefix = "models.general."
-            module = source[len(prefix):] if source.startswith(prefix) else source
+            module = source[len(prefix) :] if source.startswith(prefix) else source
             import_lines.append(f"from .{module} import {', '.join(sorted(names))}")
 
     # Build model header
@@ -609,8 +609,12 @@ def generate_for_tag(
                 client_lines.append("        params = {k: v for k, v in params.items() if v is not None}")
             client_lines.append(f'        resp = await self._request("{http_method}", "{path}", params=params)')
         else:
-            headers_arg = f', headers={{"Content-Type": "{content_type}"}}' if content_type else ""
-            client_lines.append(f'        return await self._query(body, "{path}", {ret_type}{headers_arg})')
+            client_lines.append(f'        resp = await self._request("POST", "{path}",')
+            client_lines.append("            json=body.model_dump(exclude_none=True),")
+            if content_type:
+                client_lines.append(f'            headers={{"Content-Type": "{content_type}"}},')
+            client_lines.append("        )")
+            client_lines.append(f"        return self._response({ret_type}, resp)")
         client_lines.append("")
 
     client_path = CLIENT_DIR / f"{SNAKE_NAME}.py"

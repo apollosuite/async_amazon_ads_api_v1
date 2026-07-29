@@ -107,9 +107,3 @@ class _ResourceBase:
 
     def _validate(self, items: Sequence[BaseModel]) -> list[dict[str, Any]]:
         return [item.model_dump(mode="json", exclude_none=True) for item in items]
-
-    async def _query(
-        self, body: BaseModel, path: str, response_cls: type[_T], headers: dict[str, Any] | None = None
-    ) -> _T:
-        resp = await self._request("POST", path, json=body.model_dump(exclude_none=True), headers=headers)
-        return self._response(response_cls, resp)

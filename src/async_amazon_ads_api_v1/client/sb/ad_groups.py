@@ -24,7 +24,12 @@ class AdGroups(_ResourceBase):
         return self._response(SBAdGroupMultiStatusResponse, resp)
 
     async def query(self, body: SBQueryAdGroupRequest) -> SBAdGroupSuccessResponse:
-        return await self._query(body, "/adsApi/v1/query/adGroups", SBAdGroupSuccessResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/query/adGroups",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(SBAdGroupSuccessResponse, resp)
 
     async def update(self, ad_groups: list[SBAdGroupUpdate]) -> SBAdGroupMultiStatusResponse:
         resp = await self._request(

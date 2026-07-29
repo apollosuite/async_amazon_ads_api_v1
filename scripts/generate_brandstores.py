@@ -54,6 +54,7 @@ def _rename_schema(name: str) -> str:
     """Apply schema rename map."""
     return _SCHEMA_RENAMES.get(name, name)
 
+
 # ── Helpers ────────────────────────────────────────────────────────────
 
 
@@ -639,7 +640,10 @@ def generate_for_tag(
                 client_lines.append(f'        resp = await self._request("GET", "{path}")')
             client_lines.append(f"        return self._response({ret_type}, resp)")
         else:
-            client_lines.append(f'        return await self._query(body, "{path}", {ret_type})')
+            client_lines.append(f'        resp = await self._request("POST", "{path}",')
+            client_lines.append("            json=body.model_dump(exclude_none=True),")
+            client_lines.append("        )")
+            client_lines.append(f"        return self._response({ret_type}, resp)")
         client_lines.append("")
 
     client_path = CLIENT_DIR / f"{snake_name}.py"

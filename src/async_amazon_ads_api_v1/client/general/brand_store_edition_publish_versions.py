@@ -21,17 +21,21 @@ class BrandStoreEditionPublishVersions(_ResourceBase):
     ) -> BrandStoreEditionPublishVersionSuccessResponse:
         """Query store edition publish versions"""
 
-        return await self._query(
-            body, "/adsApi/v1/query/brandStoreEditionPublishVersions", BrandStoreEditionPublishVersionSuccessResponse
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/query/brandStoreEditionPublishVersions",
+            json=body.model_dump(exclude_none=True),
         )
+        return self._response(BrandStoreEditionPublishVersionSuccessResponse, resp)
 
     async def update_brand_store_edition_publish_version(
         self, body: UpdateBrandStoreEditionPublishVersionRequest
     ) -> BrandStoreEditionPublishVersionMultiStatusResponse:
         """Update store edition publish versions"""
 
-        return await self._query(
-            body,
+        resp = await self._request(
+            "POST",
             "/adsApi/v1/update/brandStoreEditionPublishVersions",
-            BrandStoreEditionPublishVersionMultiStatusResponse,
+            json=body.model_dump(exclude_none=True),
         )
+        return self._response(BrandStoreEditionPublishVersionMultiStatusResponse, resp)

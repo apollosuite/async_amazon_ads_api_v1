@@ -24,7 +24,12 @@ class AdExtensions(_ResourceBase):
         return self._response(SBAdExtensionSuccessResponse, resp)
 
     async def query(self, body: SBQueryAdExtensionRequest) -> SBAdExtensionSuccessResponse:
-        return await self._query(body, "/adsApi/v1/query/adExtensions", SBAdExtensionSuccessResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/query/adExtensions",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(SBAdExtensionSuccessResponse, resp)
 
     async def update(self, ad_extensions: list[SBAdExtensionUpdate]) -> SBAdExtensionMultiStatusResponse:
         resp = await self._request(

@@ -17,4 +17,9 @@ class SellingAccounts(_ResourceBase):
     async def query_selling_account(self, body: QuerySellingAccountRequest) -> SellingAccountSuccessResponse:
         """List selling accounts"""
 
-        return await self._query(body, "/adsApi/v1/query/sellingAccounts", SellingAccountSuccessResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/query/sellingAccounts",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(SellingAccountSuccessResponse, resp)

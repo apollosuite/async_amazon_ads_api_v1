@@ -24,7 +24,12 @@ class Campaigns(_ResourceBase):
         return self._response(SDCampaignMultiStatusResponse, resp)
 
     async def query(self, body: SDQueryCampaignRequest) -> SDCampaignSuccessResponse:
-        return await self._query(body, "/adsApi/v1/query/campaigns", SDCampaignSuccessResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/query/campaigns",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(SDCampaignSuccessResponse, resp)
 
     async def update(self, campaigns: list[SDCampaignUpdate]) -> SDCampaignMultiStatusResponse:
         resp = await self._request(

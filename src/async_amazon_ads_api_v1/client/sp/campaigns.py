@@ -25,7 +25,12 @@ class Campaigns(_ResourceBase):
         return self._response(SPCampaignMultiStatusResponse, resp)
 
     async def query(self, body: SPQueryCampaignRequest) -> SPCampaignSuccessResponse:
-        return await self._query(body, "/adsApi/v1/query/campaigns", SPCampaignSuccessResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/query/campaigns",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(SPCampaignSuccessResponse, resp)
 
     async def update(self, campaigns: list[SPCampaignUpdate]) -> SPCampaignMultiStatusResponse:
         resp = await self._request(

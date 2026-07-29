@@ -162,18 +162,3 @@ class TestResourceBase:
         assert isinstance(result, DummyModel)
         assert result.name == "x"
         assert result.value == 2
-
-    @pytest.mark.asyncio
-    async def test_query(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
-        body = DummyModel(name="test", value=1)
-        mock_resp = MagicMock(spec=httpx.Response)
-        mock_resp.json.return_value = {"ok": True}
-        mock_async_client.request.return_value = mock_resp
-        with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
-            result = await resource._query(body, "/test/query", DummyResponse)
-        assert isinstance(result, DummyResponse)
-        assert result.ok is True
-        call_kwargs = mock_async_client.request.call_args[1]
-        assert call_kwargs["method"] == "POST"
-        assert call_kwargs["url"] == "/test/query"
-        assert call_kwargs["json"] == {"name": "test", "value": 1}

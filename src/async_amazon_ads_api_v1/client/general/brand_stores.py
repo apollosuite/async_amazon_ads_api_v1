@@ -17,4 +17,9 @@ class BrandStores(_ResourceBase):
     async def query_brand_store(self, body: QueryBrandStoreRequest) -> BrandStoreSuccessResponse:
         """Query brand store content"""
 
-        return await self._query(body, "/adsApi/v1/query/brandStores", BrandStoreSuccessResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/query/brandStores",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(BrandStoreSuccessResponse, resp)

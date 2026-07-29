@@ -22,16 +22,31 @@ class AdvertiserAccounts(_ResourceBase):
     ) -> AdvertiserAccountMultiStatusResponse:
         """Create advertiser accounts"""
 
-        return await self._query(body, "/adsApi/v1/create/advertiserAccounts", AdvertiserAccountMultiStatusResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/create/advertiserAccounts",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(AdvertiserAccountMultiStatusResponse, resp)
 
     async def query_advertiser_account(self, body: QueryAdvertiserAccountRequest) -> AdvertiserAccountSuccessResponse:
         """List advertiser accounts"""
 
-        return await self._query(body, "/adsApi/v1/query/advertiserAccounts", AdvertiserAccountSuccessResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/query/advertiserAccounts",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(AdvertiserAccountSuccessResponse, resp)
 
     async def update_advertiser_account(
         self, body: UpdateAdvertiserAccountRequest
     ) -> AdvertiserAccountMultiStatusResponse:
         """Update advertiser accounts"""
 
-        return await self._query(body, "/adsApi/v1/update/advertiserAccounts", AdvertiserAccountMultiStatusResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/update/advertiserAccounts",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(AdvertiserAccountMultiStatusResponse, resp)

@@ -19,20 +19,22 @@ class BrandHome(_ResourceBase):
     async def list_pages(self, body: ListPagesRequest) -> ListPagesResponse:
         """List all Store pages for Advertiser"""
 
-        return await self._query(
-            body,
+        resp = await self._request(
+            "POST",
             "/brand/stores/v1/storePages/list",
-            ListPagesResponse,
+            json=body.model_dump(exclude_none=True),
             headers={"Content-Type": "application/brandStore.ListPages.v1+json"},
         )
+        return self._response(ListPagesResponse, resp)
 
     async def list_stores(self, body: ListStoresRequest | None = None) -> ListStoresResponse:
         """Lists all Stores for Advertiser"""
 
         body = body or ListStoresRequest()
-        return await self._query(
-            body,
+        resp = await self._request(
+            "POST",
             "/brand/stores/v1/stores/list",
-            ListStoresResponse,
+            json=body.model_dump(exclude_none=True),
             headers={"Content-Type": "application/brandStores.ListStores.v1+json"},
         )
+        return self._response(ListStoresResponse, resp)

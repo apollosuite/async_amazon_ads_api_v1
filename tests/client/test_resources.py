@@ -90,9 +90,14 @@ class TestResourceMethodRouting:
     async def test_query_routing(self, cls: type, body: object, config: AmazonAdsConfig) -> None:
         obj = cls(ClientContext(config))
         mock_result = MagicMock()
-        with patch.object(obj, "_query", AsyncMock(return_value=mock_result)):
-            result = await obj.query(body)
+        mock_resp = MagicMock()
+        with patch.object(obj, "_request", AsyncMock(return_value=mock_resp)) as request_mock:
+            with patch.object(obj, "_response", return_value=mock_result) as response_mock:
+                result = await obj.query(body)
             assert result is mock_result
+            request_mock.assert_awaited_once()
+            assert request_mock.await_args.args[0] == "POST"
+            assert response_mock.call_args.args[1] is mock_resp
 
     @pytest.mark.asyncio
     async def test_recommendation_types_query_only(self, config: AmazonAdsConfig) -> None:

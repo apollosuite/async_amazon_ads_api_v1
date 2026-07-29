@@ -24,7 +24,12 @@ class Ads(_ResourceBase):
         return self._response(SBAdMultiStatusResponse, resp)
 
     async def query(self, body: SBQueryAdRequest) -> SBAdSuccessResponse:
-        return await self._query(body, "/adsApi/v1/query/ads", SBAdSuccessResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/query/ads",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(SBAdSuccessResponse, resp)
 
     async def update(self, ads: list[SBAdUpdate]) -> SBAdMultiStatusResponse:
         resp = await self._request(

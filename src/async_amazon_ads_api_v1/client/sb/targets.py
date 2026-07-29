@@ -24,7 +24,12 @@ class Targets(_ResourceBase):
         return self._response(SBTargetMultiStatusResponse, resp)
 
     async def query(self, body: SBQueryTargetRequest) -> SBTargetSuccessResponse:
-        return await self._query(body, "/adsApi/v1/query/targets", SBTargetSuccessResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/query/targets",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(SBTargetSuccessResponse, resp)
 
     async def update(self, targets: list[SBTargetUpdate]) -> SBTargetMultiStatusResponse:
         resp = await self._request(

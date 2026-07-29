@@ -12,4 +12,9 @@ from async_amazon_ads_api_v1.models.sb.recommendation_types import (
 class RecommendationTypes(_ResourceBase):
 
     async def query(self, body: SBQueryRecommendationTypeRequest) -> SBRecommendationTypeSuccessResponse:
-        return await self._query(body, "/adsApi/v1/query/recommendationTypes/sb", SBRecommendationTypeSuccessResponse)
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/query/recommendationTypes/sb",
+            json=body.model_dump(exclude_none=True),
+        )
+        return self._response(SBRecommendationTypeSuccessResponse, resp)
