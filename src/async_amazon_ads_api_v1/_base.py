@@ -39,7 +39,7 @@ class ClientContext:
         return self._client
 
 
-class _ResourceBase:
+class BaseResource:
     """Base class providing shared HTTP operations for resource classes."""
 
     __slots__ = ("_ctx",)

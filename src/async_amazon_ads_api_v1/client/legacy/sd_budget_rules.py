@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase
+from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.legacy.sd_budget_rules import (
     SDCreateAssociatedBudgetRulesRequest,
     SDCreateAssociatedBudgetRulesResponse,
@@ -18,7 +18,7 @@ from async_amazon_ads_api_v1.models.legacy.sd_budget_rules import (
 )
 
 
-class SDBudgetRules(_ResourceBase):
+class SDBudgetRules(BaseResource):
     """Sponsored Display Budget Rules API."""
 
     async def get_budget_rules(

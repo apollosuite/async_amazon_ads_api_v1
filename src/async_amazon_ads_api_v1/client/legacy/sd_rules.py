@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase
+from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.legacy.sd_rules import (
     SDAssociateOptimizationRulesRequest,
     SDCreateOptimizationRulesRequest,
@@ -17,7 +17,7 @@ from async_amazon_ads_api_v1.models.legacy.sd_rules import (
 )
 
 
-class SDOptimizationRules(_ResourceBase):
+class SDOptimizationRules(BaseResource):
     """Sponsored Display Optimization Rules API (Beta)."""
 
     async def list_optimization_rules(

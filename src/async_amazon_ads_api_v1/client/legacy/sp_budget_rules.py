@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase
+from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.legacy.sp_budget_rules import (
     SPBulkBudgetRulesAssociationRequest,
     SPBulkBudgetRulesAssociationResponse,
@@ -22,7 +22,7 @@ from async_amazon_ads_api_v1.models.legacy.sp_budget_rules import (
 )
 
 
-class SPBudgetRules(_ResourceBase):
+class SPBudgetRules(BaseResource):
     """Sponsored Products Budget Rules API V4."""
 
     async def get_budget_rules(

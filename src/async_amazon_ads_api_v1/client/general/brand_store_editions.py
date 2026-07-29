@@ -5,13 +5,13 @@ Generated from OpenAPI spec (tag: BrandStoreEditions).
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase
+from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.general.brand_store_editions import (
     BrandStoreEditionSuccessResponse,
 )
 
 
-class BrandStoreEditions(_ResourceBase):
+class BrandStoreEditions(BaseResource):
 
     async def list_brand_store_edition(
         self, brand_store_id: str, next_token: str | None = None, max_results: int | None = None

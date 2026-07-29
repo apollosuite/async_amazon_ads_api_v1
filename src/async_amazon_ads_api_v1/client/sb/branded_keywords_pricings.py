@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase
+from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.sb.branded_keywords_pricings import (
     SBBrandedKeywordsPricingCreate,
     SBBrandedKeywordsPricingMultiStatusResponse,
 )
 
 
-class BrandedKeywordsPricings(_ResourceBase):
+class BrandedKeywordsPricings(BaseResource):
 
     async def create(self, items: list[SBBrandedKeywordsPricingCreate]) -> SBBrandedKeywordsPricingMultiStatusResponse:
         resp = await self._request(

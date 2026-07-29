@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase
+from async_amazon_ads_api_v1._base import BaseResource
 
 
-class _AccountsAPIBase(_ResourceBase):
+class _AccountsAPIBase(BaseResource):
     """Base class for Advertising Accounts API resources.
 
     Provides the ``Amazon-Advertising-API-ClientId`` header required

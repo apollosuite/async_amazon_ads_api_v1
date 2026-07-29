@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from async_amazon_ads_api_v1._base import ClientContext, _ResourceBase
+from async_amazon_ads_api_v1._base import ClientContext, BaseResource
 from async_amazon_ads_api_v1.client.sb.ad_groups import AdGroups as SBAdGroups
 from async_amazon_ads_api_v1.client.sb.ads import Ads as SBAds
 from async_amazon_ads_api_v1.client.sb.branded_keywords_pricings import (
@@ -40,7 +40,7 @@ def config() -> AmazonAdsConfig:
 
 
 class TestResourceMethodRouting:
-    """Verify resource methods delegate to _ResourceBase with correct args."""
+    """Verify resource methods delegate to BaseResource with correct args."""
 
     @pytest.mark.parametrize(
         ("cls", "expected_path", "expected_response"),
@@ -74,7 +74,7 @@ class TestResourceMethodRouting:
             request_mock.assert_awaited_once()
             assert request_mock.await_args.args[0] == "POST"
             assert request_mock.await_args.args[1] == expected_path
-            assert request_mock.await_args.kwargs["headers"] == _ResourceBase.ASYNC_ACCEPT
+            assert request_mock.await_args.kwargs["headers"] == BaseResource.ASYNC_ACCEPT
             assert response_mock.call_args.args[0].__name__ == expected_response
             assert response_mock.call_args.args[1] is mock_resp
 

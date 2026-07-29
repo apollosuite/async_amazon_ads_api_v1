@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase
+from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.sb.keyword_reservation_validations import (
     SBKeywordReservationValidationCreate,
     SBKeywordReservationValidationMultiStatusResponse,
 )
 
 
-class KeywordReservationValidations(_ResourceBase):
+class KeywordReservationValidations(BaseResource):
 
     async def create(
         self, items: list[SBKeywordReservationValidationCreate]

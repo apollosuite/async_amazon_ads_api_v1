@@ -514,7 +514,7 @@ def generate_for_tag(
         "",
         "from __future__ import annotations",
         "",
-        "from async_amazon_ads_api_v1._base import _ResourceBase",
+        "from async_amazon_ads_api_v1._base import BaseResource",
         "",
         f"from {model_import_prefix} import (",
     ]
@@ -525,7 +525,7 @@ def generate_for_tag(
     client_lines.append("")
 
     # Class definition
-    client_lines.append(f"class {resource_class}(_ResourceBase):")
+    client_lines.append(f"class {resource_class}(BaseResource):")
     client_lines.append("")
 
     for idx, (http_method, path, operation) in enumerate(endpoints):

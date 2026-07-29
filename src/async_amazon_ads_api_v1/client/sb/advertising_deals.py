@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase
+from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.sb.advertising_deals import (
     SBAdvertisingDealCreate,
     SBAdvertisingDealMultiStatusResponse,
@@ -12,7 +12,7 @@ from async_amazon_ads_api_v1.models.sb.advertising_deals import (
 )
 
 
-class AdvertisingDeals(_ResourceBase):
+class AdvertisingDeals(BaseResource):
 
     async def create(self, items: list[SBAdvertisingDealCreate]) -> SBAdvertisingDealSuccessResponse:
         resp = await self._request(

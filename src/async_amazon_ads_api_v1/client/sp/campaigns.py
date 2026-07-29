@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase
+from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.sp.campaigns import (
     SPCampaignCreate,
     SPCampaignMultiStatusResponse,
@@ -12,7 +12,7 @@ from async_amazon_ads_api_v1.models.sp.campaigns import (
 )
 
 
-class Campaigns(_ResourceBase):
+class Campaigns(BaseResource):
     """Campaign 广告活动资源操作。"""
 
     async def create(self, campaigns: list[SPCampaignCreate]) -> SPCampaignMultiStatusResponse:

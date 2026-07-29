@@ -5,7 +5,7 @@ Generated from OpenAPI spec (tag: AdvertiserAccounts).
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase
+from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.general.advertiser_accounts import (
     AdvertiserAccountMultiStatusResponse,
     AdvertiserAccountSuccessResponse,
@@ -15,7 +15,7 @@ from async_amazon_ads_api_v1.models.general.advertiser_accounts import (
 )
 
 
-class AdvertiserAccounts(_ResourceBase):
+class AdvertiserAccounts(BaseResource):
 
     async def create_advertiser_account(
         self, body: CreateAdvertiserAccountRequest

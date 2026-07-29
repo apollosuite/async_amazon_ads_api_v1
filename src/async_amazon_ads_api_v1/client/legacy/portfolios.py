@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase
+from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.legacy.portfolios import (
     BudgetUsagePortfolioRequest,
     BudgetUsagePortfolioResponse,
@@ -15,7 +15,7 @@ from async_amazon_ads_api_v1.models.legacy.portfolios import (
 )
 
 
-class Portfolios(_ResourceBase):
+class Portfolios(BaseResource):
     """Portfolio Management API — 投资组合管理。"""
 
     async def list(

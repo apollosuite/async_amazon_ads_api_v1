@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase
+from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.sb.ads import (
     SBAdCreate,
     SBAdMultiStatusResponse,
@@ -12,7 +12,7 @@ from async_amazon_ads_api_v1.models.sb.ads import (
 )
 
 
-class Ads(_ResourceBase):
+class Ads(BaseResource):
 
     async def create(self, ads: list[SBAdCreate]) -> SBAdMultiStatusResponse:
         resp = await self._request(

@@ -5,7 +5,7 @@ Generated from OpenAPI spec (tag: AdAssociations).
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase
+from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.general.ad_associations import (
     AdAssociationMultiStatusResponse,
     AdAssociationSuccessResponse,
@@ -16,7 +16,7 @@ from async_amazon_ads_api_v1.models.general.ad_associations import (
 )
 
 
-class AdAssociations(_ResourceBase):
+class AdAssociations(BaseResource):
 
     async def create_ad_association(self, body: CreateAdAssociationRequest) -> AdAssociationMultiStatusResponse:
         """Create Ad Association"""

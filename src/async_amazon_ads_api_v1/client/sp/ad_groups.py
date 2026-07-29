@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase
+from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.sp.ad_groups import (
     SPAdGroupCreate,
     SPAdGroupMultiStatusResponse,
@@ -12,7 +12,7 @@ from async_amazon_ads_api_v1.models.sp.ad_groups import (
 )
 
 
-class AdGroups(_ResourceBase):
+class AdGroups(BaseResource):
     """AdGroup 广告组资源操作。"""
 
     async def create(self, ad_groups: list[SPAdGroupCreate]) -> SPAdGroupMultiStatusResponse:

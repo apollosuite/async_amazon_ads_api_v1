@@ -7,7 +7,7 @@ import httpx
 import pytest
 from pydantic import BaseModel
 
-from async_amazon_ads_api_v1._base import ClientContext, _ResourceBase
+from async_amazon_ads_api_v1._base import ClientContext, BaseResource
 from async_amazon_ads_api_v1.config.settings import AmazonAdsConfig
 
 
@@ -48,26 +48,26 @@ class TestClientContext:
         assert c1 is c2
 
 
-class TestResourceBase:
+class TestBaseResource:
     @pytest.fixture
-    def resource(self, ctx: ClientContext) -> _ResourceBase:
-        return _ResourceBase(ctx)
+    def resource(self, ctx: ClientContext) -> BaseResource:
+        return BaseResource(ctx)
 
     @pytest.mark.asyncio
-    async def test_dump_with_model_instances(self, resource: _ResourceBase) -> None:
+    async def test_dump_with_model_instances(self, resource: BaseResource) -> None:
         items = [DummyModel(name="a", value=1)]
         result = resource._dump(items)
         assert result == [{"name": "a", "value": 1}]
 
     @pytest.mark.asyncio
-    async def test_dump_uses_json_mode(self, resource: _ResourceBase) -> None:
+    async def test_dump_uses_json_mode(self, resource: BaseResource) -> None:
         items = [DummyDateModel(startDateTime=datetime(2026, 6, 8, tzinfo=UTC))]
         result = resource._dump(items)
         assert result == [{"startDateTime": "2026-06-08T00:00:00Z"}]
 
     @pytest.mark.asyncio
     async def test_request_success(
-        self, resource: _ResourceBase, mock_async_client: MagicMock, mock_response: MagicMock
+        self, resource: BaseResource, mock_async_client: MagicMock, mock_response: MagicMock
     ) -> None:
         mock_async_client.request.return_value = mock_response
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
@@ -76,7 +76,7 @@ class TestResourceBase:
 
     @pytest.mark.asyncio
     async def test_request_accept_header_override(
-        self, resource: _ResourceBase, mock_async_client: MagicMock, mock_response: MagicMock
+        self, resource: BaseResource, mock_async_client: MagicMock, mock_response: MagicMock
     ) -> None:
         mock_async_client.request.return_value = mock_response
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
@@ -90,7 +90,7 @@ class TestResourceBase:
 
     @pytest.mark.asyncio
     async def test_request_profile_header(
-        self, resource: _ResourceBase, mock_async_client: MagicMock, mock_response: MagicMock
+        self, resource: BaseResource, mock_async_client: MagicMock, mock_response: MagicMock
     ) -> None:
         resource._ctx.config.profile_id = "1"
         mock_async_client.request.return_value = mock_response
@@ -101,7 +101,7 @@ class TestResourceBase:
         assert call_kwargs["headers"]["Amazon-Advertising-API-Scope"] == "1"
 
     @pytest.mark.asyncio
-    async def test_request_retry_on_429(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
+    async def test_request_retry_on_429(self, resource: BaseResource, mock_async_client: MagicMock) -> None:
         error_resp = MagicMock(spec=httpx.Response)
         error_resp.status_code = 429
         error_resp.raise_for_status.side_effect = httpx.HTTPStatusError(
@@ -118,7 +118,7 @@ class TestResourceBase:
         assert mock_async_client.request.call_count == 3
 
     @pytest.mark.asyncio
-    async def test_request_retry_on_connect_error(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
+    async def test_request_retry_on_connect_error(self, resource: BaseResource, mock_async_client: MagicMock) -> None:
         mock_async_client.request.side_effect = [
             httpx.ConnectError("conn refused"),
             httpx.ConnectError("conn refused"),
@@ -130,7 +130,7 @@ class TestResourceBase:
         assert mock_async_client.request.call_count == 3
 
     @pytest.mark.asyncio
-    async def test_request_exhaust_retries(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
+    async def test_request_exhaust_retries(self, resource: BaseResource, mock_async_client: MagicMock) -> None:
         error_resp = MagicMock(spec=httpx.Response)
         error_resp.status_code = 503
         error_resp.raise_for_status.side_effect = httpx.HTTPStatusError(
@@ -143,7 +143,7 @@ class TestResourceBase:
         assert mock_async_client.request.call_count == 3
 
     @pytest.mark.asyncio
-    async def test_request_non_retryable_status(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
+    async def test_request_non_retryable_status(self, resource: BaseResource, mock_async_client: MagicMock) -> None:
         error_resp = MagicMock(spec=httpx.Response)
         error_resp.status_code = 400
         exc = httpx.HTTPStatusError("bad", request=MagicMock(), response=error_resp)
@@ -155,7 +155,7 @@ class TestResourceBase:
         assert mock_async_client.request.call_count == 1
 
     @pytest.mark.asyncio
-    async def test_response(self, resource: _ResourceBase) -> None:
+    async def test_response(self, resource: BaseResource) -> None:
         resp = MagicMock(spec=httpx.Response)
         resp.json.return_value = {"name": "x", "value": 2}
         result = resource._response(DummyModel, resp)

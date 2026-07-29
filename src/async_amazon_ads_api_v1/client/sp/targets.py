@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase
+from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.sp.targets import (
     SPQueryTargetRequest,
     SPTargetCreate,
@@ -12,7 +12,7 @@ from async_amazon_ads_api_v1.models.sp.targets import (
 )
 
 
-class Targets(_ResourceBase):
+class Targets(BaseResource):
     """Target 投放目标资源操作。"""
 
     async def create(self, targets: list[SPTargetCreate]) -> SPTargetMultiStatusResponse:

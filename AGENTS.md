@@ -17,7 +17,7 @@ Pure async Python SDK for the Amazon Advertising API — Sponsored Products / Sp
 ├── pyproject.toml                          # uv 项目配置
 └── src/async_amazon_ads_api_v1/
     ├── __init__.py                         # 导出所有公开 API
-    ├── _base.py                            # ClientContext + _ResourceBase + _ResourceSpec
+    ├── _base.py                            # ClientContext + BaseResource
     ├── errors.py                           # 共享 HTTP 错误模型
     ├── config/
     │   ├── region.py                       # Region 枚举 + ENDPOINT_MAP

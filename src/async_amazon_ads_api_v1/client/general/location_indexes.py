@@ -5,7 +5,7 @@ Generated from OpenAPI spec (tag: LocationIndexes).
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase
+from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.general.location_indexes import (
     CreateLocationIndexRequest,
     LocationIndexMultiStatusResponse,
@@ -15,7 +15,7 @@ from async_amazon_ads_api_v1.models.general.location_indexes import (
 )
 
 
-class LocationIndexes(_ResourceBase):
+class LocationIndexes(BaseResource):
 
     async def create_location_index(self, body: CreateLocationIndexRequest) -> LocationIndexMultiStatusResponse:
         """Create a Smart Location Index. A Smart Location Index is a named dataset that maps postal codes to index values representing relative audience quality or sales potential for a given advertiser. Index data is processed asynchronously; the index status will transition from PENDING to ENABLED once processing is complete."""
