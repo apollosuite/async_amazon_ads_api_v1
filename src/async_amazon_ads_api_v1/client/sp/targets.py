@@ -17,8 +17,6 @@ class Targets(_ResourceBase):
 
     _spec = _ResourceSpec(
         name="targets",
-        create_model=SPTargetCreate,
-        update_model=SPTargetUpdate,
         delete_key="targetIds",
     )
 

@@ -15,8 +15,6 @@ from async_amazon_ads_api_v1.models.sb.targets import (
 class Targets(_ResourceBase):
     _spec = _ResourceSpec(
         name="targets",
-        create_model=SBTargetCreate,
-        update_model=SBTargetUpdate,
         delete_key="targetIds",
     )
 

@@ -12,7 +12,6 @@ from async_amazon_ads_api_v1.models.sb.branded_keywords_pricings import (
 class BrandedKeywordsPricings(_ResourceBase):
     _spec = _ResourceSpec(
         name="brandedKeywordsPricings",
-        create_model=SBBrandedKeywordsPricingCreate,
         path_suffix="/sb",
     )
 

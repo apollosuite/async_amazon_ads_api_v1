@@ -50,18 +50,14 @@ class TestClientContext:
 
 class TestResourceSpec:
     def test_minimal(self) -> None:
-        spec = _ResourceSpec(name="items", create_model=DummyModel)
+        spec = _ResourceSpec(name="items")
         assert spec.name == "items"
-        assert spec.create_model is DummyModel
-        assert spec.update_model is None
         assert spec.delete_key is None
         assert spec.path_suffix == ""
 
     def test_full(self) -> None:
         spec = _ResourceSpec(
             name="campaigns",
-            create_model=DummyModel,
-            update_model=DummyModel,
             delete_key="campaignIds",
             path_suffix="/v2",
         )
@@ -186,7 +182,7 @@ class TestResourceBase:
 
     @pytest.mark.asyncio
     async def test_create(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
-        spec = _ResourceSpec(name="items", create_model=DummyModel)
+        spec = _ResourceSpec(name="items")
         mock_resp = MagicMock(spec=httpx.Response)
         mock_resp.json.return_value = {"ok": True}
         mock_async_client.request.return_value = mock_resp
@@ -202,7 +198,7 @@ class TestResourceBase:
 
     @pytest.mark.asyncio
     async def test_update(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
-        spec = _ResourceSpec(name="items", create_model=DummyModel, update_model=DummyModel)
+        spec = _ResourceSpec(name="items")
         mock_resp = MagicMock(spec=httpx.Response)
         mock_resp.json.return_value = {"ok": True}
         mock_async_client.request.return_value = mock_resp
@@ -215,14 +211,8 @@ class TestResourceBase:
         assert "/update/items" in call_kwargs["url"]
 
     @pytest.mark.asyncio
-    async def test_update_no_model_raises(self, resource: _ResourceBase) -> None:
-        spec = _ResourceSpec(name="items", create_model=DummyModel)
-        with pytest.raises(AssertionError, match="has no update model"):
-            await resource._update([], spec, DummyResponse)
-
-    @pytest.mark.asyncio
     async def test_delete(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
-        spec = _ResourceSpec(name="items", create_model=DummyModel, delete_key="itemIds")
+        spec = _ResourceSpec(name="items", delete_key="itemIds")
         mock_resp = MagicMock(spec=httpx.Response)
         mock_resp.json.return_value = {"ok": True}
         mock_async_client.request.return_value = mock_resp
@@ -235,7 +225,7 @@ class TestResourceBase:
 
     @pytest.mark.asyncio
     async def test_delete_no_key_raises(self, resource: _ResourceBase) -> None:
-        spec = _ResourceSpec(name="items", create_model=DummyModel)
+        spec = _ResourceSpec(name="items")
         with pytest.raises(AssertionError, match="has no delete operation"):
             await resource._delete([], spec, DummyResponse)
 

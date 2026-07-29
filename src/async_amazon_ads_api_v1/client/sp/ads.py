@@ -17,8 +17,6 @@ class Ads(_ResourceBase):
 
     _spec = _ResourceSpec(
         name="ads",
-        create_model=SPAdCreate,
-        update_model=SPAdUpdate,
         delete_key="adIds",
     )
 

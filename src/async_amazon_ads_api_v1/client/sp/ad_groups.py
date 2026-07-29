@@ -17,8 +17,6 @@ class AdGroups(_ResourceBase):
 
     _spec = _ResourceSpec(
         name="adGroups",
-        create_model=SPAdGroupCreate,
-        update_model=SPAdGroupUpdate,
         delete_key="adGroupIds",
     )
 

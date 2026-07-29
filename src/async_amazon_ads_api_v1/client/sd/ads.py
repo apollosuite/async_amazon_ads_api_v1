@@ -15,8 +15,6 @@ from async_amazon_ads_api_v1.models.sd.ads import (
 class Ads(_ResourceBase):
     _spec = _ResourceSpec(
         name="ads",
-        create_model=SDAdCreate,
-        update_model=SDAdUpdate,
         delete_key="adIds",
     )
 

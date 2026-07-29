@@ -15,8 +15,6 @@ from async_amazon_ads_api_v1.models.sb.ad_extensions import (
 class AdExtensions(_ResourceBase):
     _spec = _ResourceSpec(
         name="adExtensions",
-        create_model=SBAdExtensionCreate,
-        update_model=SBAdExtensionUpdate,
     )
 
     async def create(self, ad_extensions: list[SBAdExtensionCreate]) -> SBAdExtensionSuccessResponse:

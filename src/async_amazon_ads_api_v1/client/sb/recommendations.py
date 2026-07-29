@@ -12,7 +12,6 @@ from async_amazon_ads_api_v1.models.sb.recommendations import (
 class Recommendations(_ResourceBase):
     _spec = _ResourceSpec(
         name="recommendations",
-        create_model=SBRecommendationCreate,
         path_suffix="/sb",
     )
 

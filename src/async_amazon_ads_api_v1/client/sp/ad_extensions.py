@@ -16,8 +16,6 @@ class AdExtensions(_ResourceBase):
 
     _spec = _ResourceSpec(
         name="adExtensions",
-        create_model=SPAdExtensionCreate,
-        update_model=SPAdExtensionUpdate,
     )
 
     async def create(self, ad_extensions: list[SPAdExtensionCreate]) -> SPAdExtensionSuccessResponse:

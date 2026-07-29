@@ -15,8 +15,6 @@ from async_amazon_ads_api_v1.models.sb.ad_groups import (
 class AdGroups(_ResourceBase):
     _spec = _ResourceSpec(
         name="adGroups",
-        create_model=SBAdGroupCreate,
-        update_model=SBAdGroupUpdate,
         delete_key="adGroupIds",
     )
 

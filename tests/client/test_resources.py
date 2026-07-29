@@ -66,57 +66,33 @@ class ResourceSpec:
         return self.spec.path_suffix
 
 
-SP_RESOURCES: list[tuple[type, str, str | None, str | None, str]] = [
-    (SPCampaigns, "campaigns", "SPCampaignCreate", "SPCampaignUpdate", "campaignIds"),
-    (SPAdGroups, "adGroups", "SPAdGroupCreate", "SPAdGroupUpdate", "adGroupIds"),
-    (SPAds, "ads", "SPAdCreate", "SPAdUpdate", "adIds"),
-    (SPTargets, "targets", "SPTargetCreate", "SPTargetUpdate", "targetIds"),
-    (SPAdExtensions, "adExtensions", "SPAdExtensionCreate", "SPAdExtensionUpdate", ""),
+SP_RESOURCES: list[tuple[type, str, str]] = [
+    (SPCampaigns, "campaigns", "campaignIds"),
+    (SPAdGroups, "adGroups", "adGroupIds"),
+    (SPAds, "ads", "adIds"),
+    (SPTargets, "targets", "targetIds"),
+    (SPAdExtensions, "adExtensions", ""),
 ]
 
-SB_RESOURCES: list[tuple[type, str, str | None, str | None, str]] = [
-    (SBCampaigns, "campaigns", "SBCampaignCreate", "SBCampaignUpdate", "campaignIds"),
-    (SBAdGroups, "adGroups", "SBAdGroupCreate", "SBAdGroupUpdate", "adGroupIds"),
-    (SBAds, "ads", "SBAdCreate", "SBAdUpdate", "adIds"),
-    (SBTargets, "targets", "SBTargetCreate", "SBTargetUpdate", "targetIds"),
-    (SBAdExtensions, "adExtensions", "SBAdExtensionCreate", "SBAdExtensionUpdate", ""),
-    (
-        AdvertisingDeals,
-        "advertisingDeals",
-        "SBAdvertisingDealCreate",
-        "SBAdvertisingDealUpdate",
-        "advertisingDealIds",
-    ),
-    (
-        AdvertisingDealTargets,
-        "advertisingDealTargets",
-        "SBAdvertisingDealTargetCreate",
-        None,
-        "advertisingDealTargetIds",
-    ),
-    (
-        BrandedKeywordsPricings,
-        "brandedKeywordsPricings",
-        "SBBrandedKeywordsPricingCreate",
-        None,
-        "",
-    ),
-    (
-        KeywordReservationValidations,
-        "keywordReservationValidations",
-        "SBKeywordReservationValidationCreate",
-        None,
-        "",
-    ),
-    (Recommendations, "recommendations", "SBRecommendationCreate", None, ""),
-    (RecommendationTypes, "recommendationTypes", "SBRecommendationTypeSuccessResponse", None, ""),
+SB_RESOURCES: list[tuple[type, str, str]] = [
+    (SBCampaigns, "campaigns", "campaignIds"),
+    (SBAdGroups, "adGroups", "adGroupIds"),
+    (SBAds, "ads", "adIds"),
+    (SBTargets, "targets", "targetIds"),
+    (SBAdExtensions, "adExtensions", ""),
+    (AdvertisingDeals, "advertisingDeals", "advertisingDealIds"),
+    (AdvertisingDealTargets, "advertisingDealTargets", "advertisingDealTargetIds"),
+    (BrandedKeywordsPricings, "brandedKeywordsPricings", ""),
+    (KeywordReservationValidations, "keywordReservationValidations", ""),
+    (Recommendations, "recommendations", ""),
+    (RecommendationTypes, "recommendationTypes", ""),
 ]
 
-SD_RESOURCES: list[tuple[type, str, str | None, str | None, str]] = [
-    (SDCampaigns, "campaigns", "SDCampaignCreate", "SDCampaignUpdate", "campaignIds"),
-    (SDAdGroups, "adGroups", "SDAdGroupCreate", "SDAdGroupUpdate", "adGroupIds"),
-    (SDAds, "ads", "SDAdCreate", "SDAdUpdate", "adIds"),
-    (SDTargets, "targets", "SDTargetCreate", "SDTargetUpdate", "targetIds"),
+SD_RESOURCES: list[tuple[type, str, str]] = [
+    (SDCampaigns, "campaigns", "campaignIds"),
+    (SDAdGroups, "adGroups", "adGroupIds"),
+    (SDAds, "ads", "adIds"),
+    (SDTargets, "targets", "targetIds"),
 ]
 
 RESOURCE_WITH_SUFFIX: list[tuple[type, str]] = [
@@ -131,26 +107,18 @@ RESOURCE_WITH_SUFFIX: list[tuple[type, str]] = [
 
 class TestResourceSpecs:
     @pytest.mark.parametrize(
-        ("cls", "expected_name", "expected_create", "expected_update", "expected_delete_key"),
+        ("cls", "expected_name", "expected_delete_key"),
         SP_RESOURCES + SB_RESOURCES + SD_RESOURCES,
     )
     def test_spec(
         self,
         cls: type,
         expected_name: str,
-        expected_create: str | None,
-        expected_update: str | None,
         expected_delete_key: str,
         ctx: ClientContext,
     ) -> None:
         rs = ResourceSpec(cls, ctx)
         assert rs.name == expected_name
-        assert rs.spec.create_model.__name__ == expected_create
-        if expected_update:
-            assert rs.spec.update_model is not None
-            assert rs.spec.update_model.__name__ == expected_update
-        else:
-            assert rs.spec.update_model is None
         if expected_delete_key:
             assert rs.spec.delete_key == expected_delete_key
         else:

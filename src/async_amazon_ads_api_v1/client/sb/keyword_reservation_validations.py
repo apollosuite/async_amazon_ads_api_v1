@@ -12,7 +12,6 @@ from async_amazon_ads_api_v1.models.sb.keyword_reservation_validations import (
 class KeywordReservationValidations(_ResourceBase):
     _spec = _ResourceSpec(
         name="keywordReservationValidations",
-        create_model=SBKeywordReservationValidationCreate,
         path_suffix="/sb",
     )
 

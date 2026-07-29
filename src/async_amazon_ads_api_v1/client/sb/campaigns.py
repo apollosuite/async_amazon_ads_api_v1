@@ -15,8 +15,6 @@ from async_amazon_ads_api_v1.models.sb.campaigns import (
 class Campaigns(_ResourceBase):
     _spec = _ResourceSpec(
         name="campaigns",
-        create_model=SBCampaignCreate,
-        update_model=SBCampaignUpdate,
         delete_key="campaignIds",
     )
 

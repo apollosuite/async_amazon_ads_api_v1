@@ -45,8 +45,6 @@ class _ResourceSpec:
     """Metadata for a REST resource (campaigns, adGroups, etc)."""
 
     name: str
-    create_model: type[BaseModel]
-    update_model: type[BaseModel] | None = None
     delete_key: str | None = None
     path_suffix: str = ""
 
@@ -129,7 +127,6 @@ class _ResourceBase:
         return self._response(response_cls, resp)
 
     async def _update(self, items: Sequence[BaseModel], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
-        assert spec.update_model is not None, f"{spec.name} has no update model"
         validated = self._validate(items)
         resp = await self._request(
             "POST",

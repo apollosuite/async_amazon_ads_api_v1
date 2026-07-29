@@ -17,8 +17,6 @@ class Campaigns(_ResourceBase):
 
     _spec = _ResourceSpec(
         name="campaigns",
-        create_model=SPCampaignCreate,
-        update_model=SPCampaignUpdate,
         delete_key="campaignIds",
     )
 
