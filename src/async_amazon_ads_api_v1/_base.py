@@ -66,18 +66,16 @@ class _ResourceBase:
         *,
         params: dict[str, Any] | None = None,
         json: dict[str, Any] | list[Any] | None = None,
-        accept_async: bool = False,
         headers: dict[str, Any] | None = None,
     ) -> httpx.Response:
         client = await self._ctx.get_client()
-        accept = "application/vnd.createasyncrequestresults.v3+json" if accept_async else "application/json"
         if self._ctx.config._token_manager is not None:
             token: str = await self._ctx.config.refresh_access_token()
         else:
             token = self._ctx.config.access_token or ""
         headers = {
             "Authorization": f"Bearer {token}",
-            "Accept": accept,
+            "Accept": "application/json",
             "Amazon-Ads-ClientId": self._ctx.config.client_id,
             **(headers or {}),
         }
@@ -126,7 +124,7 @@ class _ResourceBase:
             "POST",
             f"/adsApi/v1/create/{spec.name}{spec.path_suffix}",
             json={spec.name: validated},
-            accept_async=True,
+            headers={"Accept": "application/vnd.createasyncrequestresults.v3+json"},
         )
         return self._response(response_cls, resp)
 
@@ -137,7 +135,7 @@ class _ResourceBase:
             "POST",
             f"/adsApi/v1/update/{spec.name}{spec.path_suffix}",
             json={spec.name: validated},
-            accept_async=True,
+            headers={"Accept": "application/vnd.createasyncrequestresults.v3+json"},
         )
         return self._response(response_cls, resp)
 
@@ -147,7 +145,7 @@ class _ResourceBase:
             "POST",
             f"/adsApi/v1/delete/{spec.name}{spec.path_suffix}",
             json={spec.delete_key: ids},
-            accept_async=True,
+            headers={"Accept": "application/vnd.createasyncrequestresults.v3+json"},
         )
         return self._response(response_cls, resp)
 

@@ -96,12 +96,16 @@ class TestResourceBase:
         assert resp.status_code == 200
 
     @pytest.mark.asyncio
-    async def test_request_accept_async(
+    async def test_request_accept_header_override(
         self, resource: _ResourceBase, mock_async_client: MagicMock, mock_response: MagicMock
     ) -> None:
         mock_async_client.request.return_value = mock_response
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
-            await resource._request("POST", "/test", accept_async=True)
+            await resource._request(
+                "POST",
+                "/test",
+                headers={"Accept": "application/vnd.createasyncrequestresults.v3+json"},
+            )
         call_kwargs = mock_async_client.request.call_args[1]
         assert call_kwargs["headers"]["Accept"] == "application/vnd.createasyncrequestresults.v3+json"
 
@@ -194,6 +198,7 @@ class TestResourceBase:
         assert call_kwargs["method"] == "POST"
         assert "/create/items" in call_kwargs["url"]
         assert call_kwargs["json"] == {"items": [{"name": "a", "value": 1}]}
+        assert call_kwargs["headers"]["Accept"] == "application/vnd.createasyncrequestresults.v3+json"
 
     @pytest.mark.asyncio
     async def test_update(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
