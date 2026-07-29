@@ -8,16 +8,16 @@ from pydantic import BaseModel, ConfigDict, Field
 
 
 class BrandStoreEdition(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
-    editionId: str = Field(description="Unique identifier for the edition within the store")
-    editionName: str = Field(description="Name of the store edition")
+    editionId: str | None = Field(default=None, description="Unique identifier for the edition within the store")
+    editionName: str | None = Field(default=None, description="Name of the store edition")
     storeEditionSchedule: StoreEditionSchedule | None = Field(default=None)
-    storeId: str = Field(description="Identifier of the associated store")
+    storeId: str | None = Field(default=None, description="Identifier of the associated store")
 
 
 class BrandStoreEditionSuccessResponse(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     brandStoreEditions: list[BrandStoreEdition] | None = Field(default=None, min_length=0, max_length=50)
     nextToken: str | None = Field(default=None)
@@ -26,7 +26,7 @@ class BrandStoreEditionSuccessResponse(BaseModel):
 class StoreEditionSchedule(BaseModel):
     """Schedule information for store edition"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     endAt: datetime | None = Field(default=None, description="End time for the store edition")
     startAt: datetime | None = Field(default=None, description="Start time for the store edition")

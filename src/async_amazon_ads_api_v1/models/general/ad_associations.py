@@ -60,14 +60,14 @@ class UpdateState(StrEnum):
 
 
 class AdAssociation(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
-    adAssociationId: str = Field(description="The unique identifier of the ad association.")
-    adGroupId: str = Field(description="The ad group associated with the ad.")
-    adId: str = Field(description="The ad Id  associated with the ad.")
+    adAssociationId: str | None = Field(default=None, description="The unique identifier of the ad association.")
+    adGroupId: str | None = Field(default=None, description="The ad group associated with the ad.")
+    adId: str | None = Field(default=None, description="The ad Id  associated with the ad.")
     endDateTime: datetime | None = Field(default=None, description="The end date time for the ad association.")
     startDateTime: datetime | None = Field(default=None, description="The start date time for the ad association.")
-    state: Annotated[AdState | str, lenient_enum(AdState)]
+    state: Annotated[AdState | str, lenient_enum(AdState)] | None = Field(default=None)
     weight: int | None = Field(
         default=None,
         description="The relative percentage of traffic which would be directed to the associated Ad Creative in the Ad Group.",
@@ -107,21 +107,21 @@ class AdAssociationCreate(BaseModel):
 
 
 class AdAssociationMultiStatusResponse(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=20)
     success: list[AdAssociationMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=20)
 
 
 class AdAssociationMultiStatusSuccess(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
-    adAssociation: AdAssociation
-    index: int = Field(ge=0, le=19)
+    adAssociation: AdAssociation | None = Field(default=None)
+    index: int | None = Field(default=None, ge=0, le=19)
 
 
 class AdAssociationSuccessResponse(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     adAssociations: list[AdAssociation] | None = Field(default=None, min_length=0, max_length=100)
     nextToken: str | None = Field(default=None)

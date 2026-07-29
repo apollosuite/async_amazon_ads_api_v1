@@ -103,7 +103,7 @@ class BaseResource:
         raise RuntimeError("Retry loop exited unexpectedly")
 
     def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
-        return model_cls.model_construct(**resp.json())
+        return model_cls.model_validate_json(resp.text)
 
     def _dump(self, items: Sequence[BaseModel]) -> list[dict[str, Any]]:
         return [item.model_dump(mode="json", exclude_none=True) for item in items]

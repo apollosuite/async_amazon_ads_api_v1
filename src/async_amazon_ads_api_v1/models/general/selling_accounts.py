@@ -287,7 +287,7 @@ class QuerySellingAccountRequest(BaseModel):
 
 
 class SellingAccount(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     business: SellingAccountBusiness | None = Field(default=None)
     countryCodes: list[Annotated[CountryCode | str, lenient_enum(CountryCode)]] | None = Field(
@@ -297,33 +297,33 @@ class SellingAccount(BaseModel):
         description="The countries of the selling account user can advertise in.",
     )
     displayName: str | None = Field(default=None, description="Display name for the selling account.")
-    portals: list[Annotated[Portal | str, lenient_enum(Portal)]] = Field(
-        min_length=1, max_length=6, description="The portal(s) used to access the selling account."
+    portals: list[Annotated[Portal | str, lenient_enum(Portal)]] | None = Field(
+        default=None, min_length=1, max_length=6, description="The portal(s) used to access the selling account."
     )
-    sellingAccountLinkToken: str = Field(description="The token to locate a selling account.")
-    sellingProgram: Annotated[SellingProgram | str, lenient_enum(SellingProgram)]
+    sellingAccountLinkToken: str | None = Field(default=None, description="The token to locate a selling account.")
+    sellingProgram: Annotated[SellingProgram | str, lenient_enum(SellingProgram)] | None = Field(default=None)
 
 
 class SellingAccountAddress(BaseModel):
     """The business address of selling account."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
-    addressLine1: str = Field(description="The address details - 1 of business.")
+    addressLine1: str | None = Field(default=None, description="The address details - 1 of business.")
     addressLine2: str | None = Field(default=None, description="The address details - 2 of business.")
-    addressToken: str = Field(description="The token to locate a business address.")
-    businessName: str = Field(description="The name of business.")
-    city: str = Field(description="The city where business is located.")
-    countryCode: str = Field(description="The country where business is located.")
+    addressToken: str | None = Field(default=None, description="The token to locate a business address.")
+    businessName: str | None = Field(default=None, description="The name of business.")
+    city: str | None = Field(default=None, description="The city where business is located.")
+    countryCode: str | None = Field(default=None, description="The country where business is located.")
     phoneNumber: str | None = Field(default=None, description="The phone number of business.")
-    state: str = Field(description="The city where business is located.")
-    zipCode: str = Field(description="The zipCode where business is located.")
+    state: str | None = Field(default=None, description="The city where business is located.")
+    zipCode: str | None = Field(default=None, description="The zipCode where business is located.")
 
 
 class SellingAccountBusiness(BaseModel):
     """The business details of selling account."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     addresses: list[SellingAccountAddress] | None = Field(
         default=None, min_length=0, max_length=10, description="A list of business address the selling account has."
@@ -344,7 +344,7 @@ class SellingAccountSellingProgramFilter(BaseModel):
 
 
 class SellingAccountSuccessResponse(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     nextToken: str | None = Field(default=None)
     sellingAccounts: list[SellingAccount] | None = Field(default=None, min_length=0, max_length=100)

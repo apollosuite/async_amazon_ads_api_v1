@@ -5,6 +5,8 @@ Reads ``scripts/AmazonAdsAPIALLMerged_prod_3p.json`` and for each tag in
 the ``TAGS`` list generates:
 
 1. Pydantic model module  → ``models/general/<snake_name>.py``
+   - Request schemas: ``extra="forbid"``
+   - Response schemas: ``extra="allow"`` (preserve unknown API fields)
 2. Client resource class  → ``client/general/<snake_name>.py``
 
 To add a new API, just append the tag name to ``TAGS`` below.
@@ -186,28 +188,35 @@ def discover_schemas(
     spec: dict,
     endpoints: list[tuple[str, str, dict]],
 ) -> dict[str, Any]:
-    """BFS through ``$ref`` to collect every schema reachable from the endpoints.
+    """BFS through ``$ref`` to collect every schema reachable from the endpoints."""
+    request_schemas, response_schemas, all_needed = discover_schema_sets(spec, endpoints)
+    return all_needed
 
-    Seeds are request-body and 2xx-response schemas. Errors (non-2xx) are
-    *not* traversed — they are already defined in ``errors.py``.
-    """
-    all_schemas = spec.get("components", {}).get("schemas", {})
 
-    # Collect seed schemas
+def _collect_schema_seeds(
+    endpoints: list[tuple[str, str, dict]],
+    *,
+    from_request: bool,
+    from_response: bool,
+) -> set[str]:
     seeds: set[str] = set()
     for _method, _path, operation in endpoints:
-        for _, media in operation.get("requestBody", {}).get("content", {}).items():
-            ref = media.get("schema", {}).get("$ref", "")
-            if ref:
-                seeds.add(ref.split("/")[-1])
-        for code, resp in operation.get("responses", {}).items():
-            if code in ("200", "207", "201"):
-                for _, media in resp.get("content", {}).items():
-                    ref = media.get("schema", {}).get("$ref", "")
-                    if ref:
-                        seeds.add(ref.split("/")[-1])
+        if from_request:
+            for _, media in operation.get("requestBody", {}).get("content", {}).items():
+                ref = media.get("schema", {}).get("$ref", "")
+                if ref:
+                    seeds.add(ref.split("/")[-1])
+        if from_response:
+            for code, resp in operation.get("responses", {}).items():
+                if code in ("200", "207", "201"):
+                    for _, media in resp.get("content", {}).items():
+                        ref = media.get("schema", {}).get("$ref", "")
+                        if ref:
+                            seeds.add(ref.split("/")[-1])
+    return seeds
 
-    # BFS transitive closure
+
+def _bfs_schema_closure(all_schemas: dict[str, Any], seeds: set[str]) -> set[str]:
     closure: set[str] = set(seeds)
     queue = list(seeds)
     while queue:
@@ -217,8 +226,30 @@ def discover_schemas(
             if dep not in closure:
                 closure.add(dep)
                 queue.append(dep)
+    return closure
 
-    return {n: all_schemas[n] for n in closure if n in all_schemas}
+
+def discover_schema_sets(
+    spec: dict,
+    endpoints: list[tuple[str, str, dict]],
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+    """Return (request_schemas, response_schemas, all_needed).
+
+    Request and response closures are computed separately so request models
+    can use ``extra="forbid"`` while response models use ``extra="allow"``.
+    """
+    all_schemas = spec.get("components", {}).get("schemas", {})
+
+    request_seeds = _collect_schema_seeds(endpoints, from_request=True, from_response=False)
+    response_seeds = _collect_schema_seeds(endpoints, from_request=False, from_response=True)
+
+    request_names = _bfs_schema_closure(all_schemas, request_seeds)
+    response_names = _bfs_schema_closure(all_schemas, response_seeds)
+
+    request_schemas = {n: all_schemas[n] for n in request_names if n in all_schemas}
+    response_schemas = {n: all_schemas[n] for n in response_names if n in all_schemas}
+    all_needed = {**request_schemas, **response_schemas}
+    return request_schemas, response_schemas, all_needed
 
 
 # ── Model generation ──────────────────────────────────────────────────
@@ -263,7 +294,7 @@ def generate_enum(name: str, schema: dict) -> str:
 """
 
 
-def generate_model(name: str, schema: dict, schemas: dict[str, Any]) -> str:
+def generate_model(name: str, schema: dict, schemas: dict[str, Any], *, extra: str = "forbid") -> str:
     doc = schema.get("description", "")
     required: set[str] = set(schema.get("required", []))
     docstring = f'\n    """{doc}"""' if doc else ""
@@ -277,7 +308,7 @@ def generate_model(name: str, schema: dict, schemas: dict[str, Any]) -> str:
                     fields.append(f"    {fname}: {typ} | None = None")
         field_block = "\n".join(fields) if fields else "    pass"
         return f"""class {name}(BaseModel):{docstring}
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="{extra}")
 
 {field_block}
 """
@@ -285,12 +316,12 @@ def generate_model(name: str, schema: dict, schemas: dict[str, Any]) -> str:
     props = schema.get("properties", {})
     if not props:
         return f"""class {name}(BaseModel):{docstring}
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="{extra}")
 """
     fields: list[str] = []
     for fname, fschema in props.items():
         typ = _schema_type(fschema, schemas)
-        is_required = fname in required
+        is_required = fname in required and extra == "forbid"
         if not is_required and typ not in ("Any",):
             typ = f"{typ} | None"
 
@@ -325,16 +356,22 @@ def generate_model(name: str, schema: dict, schemas: dict[str, Any]) -> str:
 
     field_block = "\n".join(fields)
     return f"""class {name}(BaseModel):{docstring}
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="{extra}")
 
 {field_block}
 """
 
 
-def emit_model(name: str, schema: dict, schemas: dict[str, Any]) -> str:
+def emit_model(
+    name: str,
+    schema: dict,
+    schemas: dict[str, Any],
+    *,
+    extra: str = "forbid",
+) -> str:
     if _is_enum(schema) and schema.get("enum"):
         return generate_enum(name, schema)
-    return generate_model(name, schema, schemas)
+    return generate_model(name, schema, schemas, extra=extra)
 
 
 def _split_types(needed: dict[str, Any]) -> tuple[list[tuple[str, dict]], list[tuple[str, dict]]]:
@@ -373,12 +410,15 @@ def generate_for_tag(
     spec: dict,
     tag: str,
     known_schemas: dict[str, str],
-) -> None:
-    """Generate model + client files for a single tag."""
+) -> set[str]:
+    """Generate model + client files for a single tag.
+
+    Returns shared schema names (present in both request and response closures).
+    """
     endpoints = find_endpoints_by_tag(spec, tag)
     if not endpoints:
         print(f"\n[SKIP] Tag '{tag}' has no endpoints")
-        return
+        return set()
 
     print(f"\n{'=' * 60}")
     print(f"Tag: {tag}")
@@ -398,8 +438,11 @@ def generate_for_tag(
     model_import_prefix = f"async_amazon_ads_api_v1.models.general.{snake_name}"
 
     # Collect schemas referenced by these endpoints
-    needed = discover_schemas(spec, endpoints)
-    print(f"  Referenced schemas: {len(needed)}")
+    request_schemas, response_schemas, needed = discover_schema_sets(spec, endpoints)
+    print(
+        f"  Referenced schemas: {len(needed)} "
+        f"(request={len(request_schemas)}, response={len(response_schemas)})"
+    )
 
     # Build a combined schema dict that includes both original and renamed
     # names so _schema_type can resolve $ref by either name.
@@ -414,7 +457,18 @@ def generate_for_tag(
         for new, old in renamed_from.items():
             print(f"  Renamed schema: {old} → {new}")
 
-    # ── Separate schemas into "to-generate" vs "to-import" ──
+    response_schema_names = {_rename_schema(n) for n in response_schemas}
+    request_schema_names = {_rename_schema(n) for n in request_schemas}
+    shared_schema_names = sorted(request_schema_names & response_schema_names)
+    if shared_schema_names:
+        print(f"  Shared schemas (request ∩ response): {len(shared_schema_names)}")
+        for name in shared_schema_names:
+            schema = needed.get(name) or next(
+                (needed[k] for k in needed if _rename_schema(k) == name),
+                {},
+            )
+            kind = "enum" if _is_enum(schema) and schema.get("enum") else "model"
+            print(f"    {name} ({kind})")
     to_import: dict[str, str] = {}  # {schema_name: import_source}
     to_generate: dict[str, Any] = {}
 
@@ -481,7 +535,8 @@ def generate_for_tag(
     for name, schema in enums:
         buf += emit_model(name, schema, schemas_for_resolution) + "\n\n"
     for name, schema in models:
-        buf += emit_model(name, schema, schemas_for_resolution) + "\n\n"
+        extra = "allow" if name in response_schema_names else "forbid"
+        buf += emit_model(name, schema, schemas_for_resolution, extra=extra) + "\n\n"
 
     all_names = [n for n, _ in (enums + models)]
     if all_names:
@@ -640,7 +695,7 @@ def generate_for_tag(
                 client_lines.append(f'        resp = await self._request("GET", "{path}")')
             client_lines.append(f"        return self._response({ret_type}, resp)")
         else:
-            client_lines.append(f'        resp = await self._request("POST", "{path}",')
+            client_lines.append(f'        resp = await self._request("{http_method}", "{path}",')
             client_lines.append("            json=body.model_dump(exclude_none=True),")
             client_lines.append("        )")
             client_lines.append(f"        return self._response({ret_type}, resp)")
@@ -649,6 +704,7 @@ def generate_for_tag(
     client_path = CLIENT_DIR / f"{snake_name}.py"
     client_path.write_text("\n".join(client_lines))
     print(f"  Wrote client file: {client_path}")
+    return set(shared_schema_names)
 
 
 # ── Entry point ───────────────────────────────────────────────────────
@@ -686,8 +742,20 @@ def main() -> None:
     with open(SPEC_PATH) as f:
         spec = json.load(f)
 
+    all_shared: dict[str, list[str]] = {}
     for tag in TAGS:
-        generate_for_tag(spec, tag, known_schemas)
+        shared = generate_for_tag(spec, tag, known_schemas)
+        if shared:
+            all_shared[tag] = sorted(shared)
+
+    if all_shared:
+        print("\n" + "=" * 60)
+        print("Shared schemas summary (request ∩ response)")
+        for tag, names in all_shared.items():
+            print(f"  {tag}: {', '.join(names)}")
+    else:
+        print("\n" + "=" * 60)
+        print("No shared schemas (request ∩ response) across all tags.")
 
     # ── Post-processing ──────────────────────────────────────────────
     print("\n" + "=" * 60)
