@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from async_amazon_ads_api_v1._base import BaseResource
-from async_amazon_ads_api_v1.models.legacy.portfolios import (
+from async_amazon_ads_api_v1.models.legacy.budget_usage import (
     BudgetUsagePortfolioRequest,
     BudgetUsagePortfolioResponse,
+)
+from async_amazon_ads_api_v1.models.legacy.portfolios import (
     CreatePortfoliosRequestContent,
     CreatePortfoliosResponseContent,
     ListPortfoliosRequestContent,

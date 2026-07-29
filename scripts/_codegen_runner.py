@@ -186,7 +186,7 @@ def generate_models_for_tag(
     if any(is_enum(s) for _, s in enums):
         std_imports.add("from enum import StrEnum")
     std_imports.add("from typing import Annotated, Any")
-    std_imports.add("from datetime import datetime")
+    std_imports.add("from datetime import date, datetime")
 
     header.extend(sorted(std_imports))
     if std_imports:
