@@ -35,7 +35,9 @@ def schema_type(schema: dict, schemas: dict[str, Any], schema_renames: dict[str,
         if fmt == "date":
             return "date"
         return "str"
-    return {"integer": "int", "number": "float", "boolean": "bool"}.get(t, "Any")
+    if t == "number":
+        return "int" if not fmt or fmt in ("int32", "int64") else "float"
+    return {"integer": "int", "boolean": "bool"}.get(t, "Any")
 
 
 def is_enum(schema: dict) -> bool:
@@ -91,9 +93,14 @@ def is_type_alias(schema: dict) -> bool:
 
 
 def generate_type_alias(name: str, schema: dict) -> str:
-    py_type = {"string": "str", "integer": "int", "number": "float", "boolean": "bool"}.get(schema["type"], "Any")
+    t = schema["type"]
+    if t == "number":
+        fmt = schema.get("format", "")
+        py_type = "int" if not fmt or fmt in ("int32", "int64") else "float"
+    else:
+        py_type = {"string": "str", "integer": "int", "boolean": "bool"}.get(t, "Any")
     doc = schema.get("description", "")
-    if doc:
+    if doc and "\n" not in doc:
         return f"type {name} = {py_type}  # {doc}"
     return f"type {name} = {py_type}"
 
@@ -138,6 +145,19 @@ def generate_model(
 {field_block}
 """
 
+    if not schema.get("properties") and schema.get("anyOf"):
+        parents: list[str] = []
+        for entry in schema["anyOf"]:
+            if "$ref" not in entry:
+                break
+            parents.append(rename_schema(entry["$ref"].split("/")[-1], schema_renames))
+        else:
+            return f"""class {name}({', '.join(parents)}):{docstring}
+    model_config = ConfigDict(extra="{extra}")
+
+    pass
+"""
+
     props = schema.get("properties", {})
     if not props:
         return f"""class {name}(BaseModel):{docstring}
@@ -146,7 +166,7 @@ def generate_model(
     fields: list[str] = []
     for fname, fschema in props.items():
         typ = type_fn(fschema, schemas)
-        is_required = fname in required and extra == "forbid"
+        is_required = fname in required
         if not is_required and typ not in ("Any",):
             typ = f"{typ} | None"
 
@@ -202,14 +222,26 @@ def emit_model(
     return generate_model(name, schema, schemas, schema_renames, extra=extra)
 
 
-def split_types(needed: dict[str, Any]) -> tuple[list[tuple[str, dict]], list[tuple[str, dict]]]:
+def is_anyof_composition(schema: dict) -> bool:
+    """Check if a schema uses anyOf with only $ref entries (→ multiple inheritance)."""
+    if schema.get("properties"):
+        return False
+    if not schema.get("anyOf"):
+        return False
+    return all("$ref" in entry for entry in schema["anyOf"])
+
+
+def split_types(needed: dict[str, Any]) -> tuple[list[tuple[str, dict]], list[tuple[str, dict]], list[tuple[str, dict]]]:
     enums: list[tuple[str, dict]] = []
-    models: list[tuple[str, dict]] = []
+    regular: list[tuple[str, dict]] = []
+    composition: list[tuple[str, dict]] = []
     for name, schema in sorted(needed.items()):
         if is_type_alias(schema):
-            models.append((name, schema))
+            regular.append((name, schema))
         elif is_enum(schema) and schema.get("enum"):
             enums.append((name, schema))
+        elif is_anyof_composition(schema):
+            composition.append((name, schema))
         else:
-            models.append((name, schema))
-    return enums, models
+            regular.append((name, schema))
+    return enums, regular, composition

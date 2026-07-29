@@ -166,10 +166,15 @@ def generate_models_for_tag(
             import_lines.append(f"from async_amazon_ads_api_v1.errors import {', '.join(sorted(names))}")
         else:
             prefix = f"{models_package}."
-            module = source[len(prefix) :] if source.startswith(prefix) else source
-            import_lines.append(f"from .{module} import {', '.join(sorted(names))}")
+            if source.startswith(prefix):
+                module = source[len(prefix) :]
+                import_lines.append(f"from .{module} import {', '.join(sorted(names))}")
+            else:
+                import_lines.append(
+                    f"from async_amazon_ads_api_v1.{source} import {', '.join(sorted(names))}"
+                )
 
-    enums, models = split_types(to_generate)
+    enums, regular_models, composition_models = split_types(to_generate)
     header = [
         f'"""Auto-generated models for {tag.tag} from Amazon Ads API schema."""',
         "",
@@ -195,14 +200,18 @@ def generate_models_for_tag(
     header.append("")
     header.append("")
 
+    all_models = list(regular_models) + list(composition_models)
     buf = "\n".join(header)
     for name, schema in enums:
         buf += emit_model(name, schema, schemas_for_resolution, schema_renames) + "\n\n"
-    for name, schema in models:
+    for name, schema in regular_models:
+        extra = "allow" if name in response_schema_names else "forbid"
+        buf += emit_model(name, schema, schemas_for_resolution, schema_renames, extra=extra) + "\n\n"
+    for name, schema in composition_models:
         extra = "allow" if name in response_schema_names else "forbid"
         buf += emit_model(name, schema, schemas_for_resolution, schema_renames, extra=extra) + "\n\n"
 
-    all_names = [n for n, _ in (enums + models)]
+    all_names = [n for n, _ in (enums + all_models)]
     if all_names:
         buf += f"__all__ = [{', '.join(repr(n) for n in all_names)}]\n"
 
