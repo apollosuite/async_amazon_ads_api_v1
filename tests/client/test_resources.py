@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from async_amazon_ads_api_v1._base import ClientContext
+from async_amazon_ads_api_v1._base import ClientContext, _ResourceBase
 from async_amazon_ads_api_v1.client.sb.ad_groups import AdGroups as SBAdGroups
 from async_amazon_ads_api_v1.client.sb.ads import Ads as SBAds
 from async_amazon_ads_api_v1.client.sb.branded_keywords_pricings import (
@@ -65,13 +65,18 @@ class TestResourceMethodRouting:
     ) -> None:
         obj = cls(ClientContext(config))
         mock_result = MagicMock()
-        with patch.object(obj, "_post", AsyncMock(return_value=mock_result)) as post_mock:
-            with patch.object(obj, "_validate", return_value=[{"ok": True}]):
-                result = await obj.create([MagicMock()])
+        mock_resp = MagicMock()
+        with patch.object(obj, "_request", AsyncMock(return_value=mock_resp)) as request_mock:
+            with patch.object(obj, "_response", return_value=mock_result) as response_mock:
+                with patch.object(obj, "_validate", return_value=[{"ok": True}]):
+                    result = await obj.create([MagicMock()])
             assert result is mock_result
-            post_mock.assert_awaited_once()
-            assert post_mock.await_args.args[0] == expected_path
-            assert post_mock.await_args.args[1].__name__ == expected_response
+            request_mock.assert_awaited_once()
+            assert request_mock.await_args.args[0] == "POST"
+            assert request_mock.await_args.args[1] == expected_path
+            assert request_mock.await_args.kwargs["headers"] == _ResourceBase.ASYNC_ACCEPT
+            assert response_mock.call_args.args[0].__name__ == expected_response
+            assert response_mock.call_args.args[1] is mock_resp
 
     @pytest.mark.parametrize(
         "cls,body",

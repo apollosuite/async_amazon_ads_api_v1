@@ -17,8 +17,6 @@ logger = logging.getLogger(__name__)
 
 _T = TypeVar("_T", bound=BaseModel)
 
-_ASYNC_ACCEPT = {"Accept": "application/vnd.createasyncrequestresults.v3+json"}
-
 
 class ClientContext:
     """Shared HTTP state for all resource instances.
@@ -45,6 +43,8 @@ class _ResourceBase:
     """Base class providing shared HTTP operations for resource classes."""
 
     __slots__ = ("_ctx",)
+
+    ASYNC_ACCEPT = {"Accept": "application/vnd.createasyncrequestresults.v3+json"}
 
     def __init__(self, ctx: ClientContext) -> None:
         self._ctx: ClientContext = ctx
@@ -107,10 +107,6 @@ class _ResourceBase:
 
     def _validate(self, items: Sequence[BaseModel]) -> list[dict[str, Any]]:
         return [item.model_dump(mode="json", exclude_none=True) for item in items]
-
-    async def _post(self, path: str, response_cls: type[_T], *, json: dict[str, Any]) -> _T:
-        resp = await self._request("POST", path, json=json, headers=_ASYNC_ACCEPT)
-        return self._response(response_cls, resp)
 
     async def _query(
         self, body: BaseModel, path: str, response_cls: type[_T], headers: dict[str, Any] | None = None

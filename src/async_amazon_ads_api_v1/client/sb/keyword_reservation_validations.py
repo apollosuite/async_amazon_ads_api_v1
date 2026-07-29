@@ -14,8 +14,10 @@ class KeywordReservationValidations(_ResourceBase):
     async def create(
         self, items: list[SBKeywordReservationValidationCreate]
     ) -> SBKeywordReservationValidationMultiStatusResponse:
-        return await self._post(
+        resp = await self._request(
+            "POST",
             "/adsApi/v1/create/keywordReservationValidations/sb",
-            SBKeywordReservationValidationMultiStatusResponse,
             json={"keywordReservationValidations": self._validate(items)},
+            headers=self.ASYNC_ACCEPT,
         )
+        return self._response(SBKeywordReservationValidationMultiStatusResponse, resp)

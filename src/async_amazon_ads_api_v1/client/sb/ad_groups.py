@@ -15,25 +15,31 @@ from async_amazon_ads_api_v1.models.sb.ad_groups import (
 class AdGroups(_ResourceBase):
 
     async def create(self, ad_groups: list[SBAdGroupCreate]) -> SBAdGroupMultiStatusResponse:
-        return await self._post(
+        resp = await self._request(
+            "POST",
             "/adsApi/v1/create/adGroups",
-            SBAdGroupMultiStatusResponse,
             json={"adGroups": self._validate(ad_groups)},
+            headers=self.ASYNC_ACCEPT,
         )
+        return self._response(SBAdGroupMultiStatusResponse, resp)
 
     async def query(self, body: SBQueryAdGroupRequest) -> SBAdGroupSuccessResponse:
         return await self._query(body, "/adsApi/v1/query/adGroups", SBAdGroupSuccessResponse)
 
     async def update(self, ad_groups: list[SBAdGroupUpdate]) -> SBAdGroupMultiStatusResponse:
-        return await self._post(
+        resp = await self._request(
+            "POST",
             "/adsApi/v1/update/adGroups",
-            SBAdGroupMultiStatusResponse,
             json={"adGroups": self._validate(ad_groups)},
+            headers=self.ASYNC_ACCEPT,
         )
+        return self._response(SBAdGroupMultiStatusResponse, resp)
 
     async def delete(self, ad_group_ids: list[str]) -> SBAdGroupMultiStatusResponse:
-        return await self._post(
+        resp = await self._request(
+            "POST",
             "/adsApi/v1/delete/adGroups",
-            SBAdGroupMultiStatusResponse,
             json={"adGroupIds": ad_group_ids},
+            headers=self.ASYNC_ACCEPT,
         )
+        return self._response(SBAdGroupMultiStatusResponse, resp)

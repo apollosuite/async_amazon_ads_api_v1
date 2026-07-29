@@ -16,25 +16,31 @@ class Targets(_ResourceBase):
     """Target 投放目标资源操作。"""
 
     async def create(self, targets: list[SPTargetCreate]) -> SPTargetMultiStatusResponse:
-        return await self._post(
+        resp = await self._request(
+            "POST",
             "/adsApi/v1/create/targets",
-            SPTargetMultiStatusResponse,
             json={"targets": self._validate(targets)},
+            headers=self.ASYNC_ACCEPT,
         )
+        return self._response(SPTargetMultiStatusResponse, resp)
 
     async def query(self, body: SPQueryTargetRequest) -> SPTargetSuccessResponse:
         return await self._query(body, "/adsApi/v1/query/targets", SPTargetSuccessResponse)
 
     async def update(self, targets: list[SPTargetUpdate]) -> SPTargetMultiStatusResponse:
-        return await self._post(
+        resp = await self._request(
+            "POST",
             "/adsApi/v1/update/targets",
-            SPTargetMultiStatusResponse,
             json={"targets": self._validate(targets)},
+            headers=self.ASYNC_ACCEPT,
         )
+        return self._response(SPTargetMultiStatusResponse, resp)
 
     async def delete(self, target_ids: list[str]) -> SPTargetMultiStatusResponse:
-        return await self._post(
+        resp = await self._request(
+            "POST",
             "/adsApi/v1/delete/targets",
-            SPTargetMultiStatusResponse,
             json={"targetIds": target_ids},
+            headers=self.ASYNC_ACCEPT,
         )
+        return self._response(SPTargetMultiStatusResponse, resp)

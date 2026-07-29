@@ -15,18 +15,22 @@ class AdExtensions(_ResourceBase):
     """AdExtension 广告扩展资源操作。"""
 
     async def create(self, ad_extensions: list[SPAdExtensionCreate]) -> SPAdExtensionSuccessResponse:
-        return await self._post(
+        resp = await self._request(
+            "POST",
             "/adsApi/v1/create/adExtensions",
-            SPAdExtensionSuccessResponse,
             json={"adExtensions": self._validate(ad_extensions)},
+            headers=self.ASYNC_ACCEPT,
         )
+        return self._response(SPAdExtensionSuccessResponse, resp)
 
     async def query(self, body: SPQueryAdExtensionRequest) -> SPAdExtensionSuccessResponse:
         return await self._query(body, "/adsApi/v1/query/adExtensions", SPAdExtensionSuccessResponse)
 
     async def update(self, ad_extensions: list[SPAdExtensionUpdate]) -> SPAdExtensionSuccessResponse:
-        return await self._post(
+        resp = await self._request(
+            "POST",
             "/adsApi/v1/update/adExtensions",
-            SPAdExtensionSuccessResponse,
             json={"adExtensions": self._validate(ad_extensions)},
+            headers=self.ASYNC_ACCEPT,
         )
+        return self._response(SPAdExtensionSuccessResponse, resp)

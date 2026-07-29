@@ -164,25 +164,6 @@ class TestResourceBase:
         assert result.value == 2
 
     @pytest.mark.asyncio
-    async def test_post(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
-        mock_resp = MagicMock(spec=httpx.Response)
-        mock_resp.json.return_value = {"ok": True}
-        mock_async_client.request.return_value = mock_resp
-        with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
-            result = await resource._post(
-                "/adsApi/v1/create/items",
-                DummyResponse,
-                json={"items": [{"name": "a", "value": 1}]},
-            )
-        assert isinstance(result, DummyResponse)
-        assert result.ok is True
-        call_kwargs = mock_async_client.request.call_args[1]
-        assert call_kwargs["method"] == "POST"
-        assert call_kwargs["url"] == "/adsApi/v1/create/items"
-        assert call_kwargs["json"] == {"items": [{"name": "a", "value": 1}]}
-        assert call_kwargs["headers"]["Accept"] == "application/vnd.createasyncrequestresults.v3+json"
-
-    @pytest.mark.asyncio
     async def test_query(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
         body = DummyModel(name="test", value=1)
         mock_resp = MagicMock(spec=httpx.Response)

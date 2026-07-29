@@ -16,25 +16,31 @@ class AdGroups(_ResourceBase):
     """AdGroup 广告组资源操作。"""
 
     async def create(self, ad_groups: list[SPAdGroupCreate]) -> SPAdGroupMultiStatusResponse:
-        return await self._post(
+        resp = await self._request(
+            "POST",
             "/adsApi/v1/create/adGroups",
-            SPAdGroupMultiStatusResponse,
             json={"adGroups": self._validate(ad_groups)},
+            headers=self.ASYNC_ACCEPT,
         )
+        return self._response(SPAdGroupMultiStatusResponse, resp)
 
     async def query(self, body: SPQueryAdGroupRequest) -> SPAdGroupSuccessResponse:
         return await self._query(body, "/adsApi/v1/query/adGroups", SPAdGroupSuccessResponse)
 
     async def update(self, ad_groups: list[SPAdGroupUpdate]) -> SPAdGroupMultiStatusResponse:
-        return await self._post(
+        resp = await self._request(
+            "POST",
             "/adsApi/v1/update/adGroups",
-            SPAdGroupMultiStatusResponse,
             json={"adGroups": self._validate(ad_groups)},
+            headers=self.ASYNC_ACCEPT,
         )
+        return self._response(SPAdGroupMultiStatusResponse, resp)
 
     async def delete(self, ad_group_ids: list[str]) -> SPAdGroupMultiStatusResponse:
-        return await self._post(
+        resp = await self._request(
+            "POST",
             "/adsApi/v1/delete/adGroups",
-            SPAdGroupMultiStatusResponse,
             json={"adGroupIds": ad_group_ids},
+            headers=self.ASYNC_ACCEPT,
         )
+        return self._response(SPAdGroupMultiStatusResponse, resp)
