@@ -47,15 +47,6 @@ class TestClientContext:
         c2 = await ctx.get_client()
         assert c1 is c2
 
-    def test_response(self, config: AmazonAdsConfig) -> None:
-        ctx = ClientContext(config)
-        resp = MagicMock(spec=httpx.Response)
-        resp.json.return_value = {"name": "test", "value": 1}
-        result = ctx._response(DummyModel, resp)
-        assert isinstance(result, DummyModel)
-        assert result.name == "test"
-        assert result.value == 1
-
 
 class TestResourceSpec:
     def test_minimal(self) -> None:

@@ -39,9 +39,6 @@ class ClientContext:
             )
         return self._client
 
-    def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
-        return model_cls.model_construct(**resp.json())
-
 
 @dataclass
 class _ResourceSpec:
@@ -118,7 +115,7 @@ class _ResourceBase:
         raise RuntimeError("Retry loop exited unexpectedly")
 
     def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
-        return self._ctx._response(model_cls, resp)
+        return model_cls.model_construct(**resp.json())
 
     def _validate(self, items: Sequence[BaseModel]) -> list[dict[str, Any]]:
         return [item.model_dump(mode="json", exclude_none=True) for item in items]
