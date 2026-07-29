@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase, _ResourceSpec
+from async_amazon_ads_api_v1._base import _ResourceBase
 from async_amazon_ads_api_v1.models.sb.ads import (
     SBAdCreate,
     SBAdMultiStatusResponse,
@@ -13,19 +13,27 @@ from async_amazon_ads_api_v1.models.sb.ads import (
 
 
 class Ads(_ResourceBase):
-    _spec = _ResourceSpec(
-        name="ads",
-        delete_key="adIds",
-    )
 
     async def create(self, ads: list[SBAdCreate]) -> SBAdMultiStatusResponse:
-        return await self._create(ads, self._spec, SBAdMultiStatusResponse)
+        return await self._create(
+            "/adsApi/v1/create/ads",
+            SBAdMultiStatusResponse,
+            json={"ads": self._validate(ads)},
+        )
 
     async def query(self, body: SBQueryAdRequest) -> SBAdSuccessResponse:
         return await self._query(body, "/adsApi/v1/query/ads", SBAdSuccessResponse)
 
     async def update(self, ads: list[SBAdUpdate]) -> SBAdMultiStatusResponse:
-        return await self._update(ads, self._spec, SBAdMultiStatusResponse)
+        return await self._update(
+            "/adsApi/v1/update/ads",
+            SBAdMultiStatusResponse,
+            json={"ads": self._validate(ads)},
+        )
 
     async def delete(self, ad_ids: list[str]) -> SBAdMultiStatusResponse:
-        return await self._delete(ad_ids, self._spec, SBAdMultiStatusResponse)
+        return await self._delete(
+            "/adsApi/v1/delete/ads",
+            SBAdMultiStatusResponse,
+            json={"adIds": ad_ids},
+        )

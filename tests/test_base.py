@@ -7,7 +7,7 @@ import httpx
 import pytest
 from pydantic import BaseModel
 
-from async_amazon_ads_api_v1._base import ClientContext, _ResourceBase, _ResourceSpec
+from async_amazon_ads_api_v1._base import ClientContext, _ResourceBase
 from async_amazon_ads_api_v1.config.settings import AmazonAdsConfig
 
 
@@ -46,23 +46,6 @@ class TestClientContext:
         c1 = await ctx.get_client()
         c2 = await ctx.get_client()
         assert c1 is c2
-
-
-class TestResourceSpec:
-    def test_minimal(self) -> None:
-        spec = _ResourceSpec(name="items")
-        assert spec.name == "items"
-        assert spec.delete_key is None
-        assert spec.path_suffix == ""
-
-    def test_full(self) -> None:
-        spec = _ResourceSpec(
-            name="campaigns",
-            delete_key="campaignIds",
-            path_suffix="/v2",
-        )
-        assert spec.delete_key == "campaignIds"
-        assert spec.path_suffix == "/v2"
 
 
 class TestResourceBase:
@@ -182,52 +165,56 @@ class TestResourceBase:
 
     @pytest.mark.asyncio
     async def test_create(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
-        spec = _ResourceSpec(name="items")
         mock_resp = MagicMock(spec=httpx.Response)
         mock_resp.json.return_value = {"ok": True}
         mock_async_client.request.return_value = mock_resp
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
-            result = await resource._create([DummyModel(name="a", value=1)], spec, DummyResponse)
+            result = await resource._create(
+                "/adsApi/v1/create/items",
+                DummyResponse,
+                json={"items": [{"name": "a", "value": 1}]},
+            )
         assert isinstance(result, DummyResponse)
         assert result.ok is True
         call_kwargs = mock_async_client.request.call_args[1]
         assert call_kwargs["method"] == "POST"
-        assert "/create/items" in call_kwargs["url"]
+        assert call_kwargs["url"] == "/adsApi/v1/create/items"
         assert call_kwargs["json"] == {"items": [{"name": "a", "value": 1}]}
         assert call_kwargs["headers"]["Accept"] == "application/vnd.createasyncrequestresults.v3+json"
 
     @pytest.mark.asyncio
     async def test_update(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
-        spec = _ResourceSpec(name="items")
         mock_resp = MagicMock(spec=httpx.Response)
         mock_resp.json.return_value = {"ok": True}
         mock_async_client.request.return_value = mock_resp
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
-            result = await resource._update([DummyModel(name="a", value=1)], spec, DummyResponse)
+            result = await resource._update(
+                "/adsApi/v1/update/items",
+                DummyResponse,
+                json={"items": [{"name": "a", "value": 1}]},
+            )
         assert isinstance(result, DummyResponse)
         assert result.ok is True
         call_kwargs = mock_async_client.request.call_args[1]
         assert call_kwargs["method"] == "POST"
-        assert "/update/items" in call_kwargs["url"]
+        assert call_kwargs["url"] == "/adsApi/v1/update/items"
 
     @pytest.mark.asyncio
     async def test_delete(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
-        spec = _ResourceSpec(name="items", delete_key="itemIds")
         mock_resp = MagicMock(spec=httpx.Response)
         mock_resp.json.return_value = {"ok": True}
         mock_async_client.request.return_value = mock_resp
         with patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)):
-            result = await resource._delete(["1", "2"], spec, DummyResponse)
+            result = await resource._delete(
+                "/adsApi/v1/delete/items",
+                DummyResponse,
+                json={"itemIds": ["1", "2"]},
+            )
         assert isinstance(result, DummyResponse)
         assert result.ok is True
         call_kwargs = mock_async_client.request.call_args[1]
+        assert call_kwargs["url"] == "/adsApi/v1/delete/items"
         assert call_kwargs["json"] == {"itemIds": ["1", "2"]}
-
-    @pytest.mark.asyncio
-    async def test_delete_no_key_raises(self, resource: _ResourceBase) -> None:
-        spec = _ResourceSpec(name="items")
-        with pytest.raises(AssertionError, match="has no delete operation"):
-            await resource._delete([], spec, DummyResponse)
 
     @pytest.mark.asyncio
     async def test_query(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:

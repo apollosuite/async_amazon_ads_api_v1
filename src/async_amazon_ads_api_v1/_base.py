@@ -6,7 +6,6 @@ import asyncio
 import logging
 import random
 from collections.abc import Sequence
-from dataclasses import dataclass
 from typing import Any, TypeVar
 
 import httpx
@@ -17,6 +16,8 @@ from .config.settings import AmazonAdsConfig
 logger = logging.getLogger(__name__)
 
 _T = TypeVar("_T", bound=BaseModel)
+
+_ASYNC_ACCEPT = {"Accept": "application/vnd.createasyncrequestresults.v3+json"}
 
 
 class ClientContext:
@@ -38,15 +39,6 @@ class ClientContext:
                 timeout=httpx.Timeout(self.config.timeout),
             )
         return self._client
-
-
-@dataclass
-class _ResourceSpec:
-    """Metadata for a REST resource (campaigns, adGroups, etc)."""
-
-    name: str
-    delete_key: str | None = None
-    path_suffix: str = ""
 
 
 class _ResourceBase:
@@ -116,34 +108,16 @@ class _ResourceBase:
     def _validate(self, items: Sequence[BaseModel]) -> list[dict[str, Any]]:
         return [item.model_dump(mode="json", exclude_none=True) for item in items]
 
-    async def _create(self, items: Sequence[BaseModel], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
-        validated = self._validate(items)
-        resp = await self._request(
-            "POST",
-            f"/adsApi/v1/create/{spec.name}{spec.path_suffix}",
-            json={spec.name: validated},
-            headers={"Accept": "application/vnd.createasyncrequestresults.v3+json"},
-        )
+    async def _create(self, path: str, response_cls: type[_T], *, json: dict[str, Any]) -> _T:
+        resp = await self._request("POST", path, json=json, headers=_ASYNC_ACCEPT)
         return self._response(response_cls, resp)
 
-    async def _update(self, items: Sequence[BaseModel], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
-        validated = self._validate(items)
-        resp = await self._request(
-            "POST",
-            f"/adsApi/v1/update/{spec.name}{spec.path_suffix}",
-            json={spec.name: validated},
-            headers={"Accept": "application/vnd.createasyncrequestresults.v3+json"},
-        )
+    async def _update(self, path: str, response_cls: type[_T], *, json: dict[str, Any]) -> _T:
+        resp = await self._request("POST", path, json=json, headers=_ASYNC_ACCEPT)
         return self._response(response_cls, resp)
 
-    async def _delete(self, ids: list[str], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
-        assert spec.delete_key is not None, f"{spec.name} has no delete operation"
-        resp = await self._request(
-            "POST",
-            f"/adsApi/v1/delete/{spec.name}{spec.path_suffix}",
-            json={spec.delete_key: ids},
-            headers={"Accept": "application/vnd.createasyncrequestresults.v3+json"},
-        )
+    async def _delete(self, path: str, response_cls: type[_T], *, json: dict[str, list[str]]) -> _T:
+        resp = await self._request("POST", path, json=json, headers=_ASYNC_ACCEPT)
         return self._response(response_cls, resp)
 
     async def _query(

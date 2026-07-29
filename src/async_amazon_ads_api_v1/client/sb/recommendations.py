@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase, _ResourceSpec
+from async_amazon_ads_api_v1._base import _ResourceBase
 from async_amazon_ads_api_v1.models.sb.recommendations import (
     SBRecommendationCreate,
     SBRecommendationMultiStatusResponse,
@@ -10,10 +10,10 @@ from async_amazon_ads_api_v1.models.sb.recommendations import (
 
 
 class Recommendations(_ResourceBase):
-    _spec = _ResourceSpec(
-        name="recommendations",
-        path_suffix="/sb",
-    )
 
     async def create(self, items: list[SBRecommendationCreate]) -> SBRecommendationMultiStatusResponse:
-        return await self._create(items, self._spec, SBRecommendationMultiStatusResponse)
+        return await self._create(
+            "/adsApi/v1/create/recommendations/sb",
+            SBRecommendationMultiStatusResponse,
+            json={"recommendations": self._validate(items)},
+        )

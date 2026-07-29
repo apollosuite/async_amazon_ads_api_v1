@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from async_amazon_ads_api_v1._base import _ResourceBase, _ResourceSpec
+from async_amazon_ads_api_v1._base import _ResourceBase
 from async_amazon_ads_api_v1.models.sb.branded_keywords_pricings import (
     SBBrandedKeywordsPricingCreate,
     SBBrandedKeywordsPricingMultiStatusResponse,
@@ -10,10 +10,10 @@ from async_amazon_ads_api_v1.models.sb.branded_keywords_pricings import (
 
 
 class BrandedKeywordsPricings(_ResourceBase):
-    _spec = _ResourceSpec(
-        name="brandedKeywordsPricings",
-        path_suffix="/sb",
-    )
 
     async def create(self, items: list[SBBrandedKeywordsPricingCreate]) -> SBBrandedKeywordsPricingMultiStatusResponse:
-        return await self._create(items, self._spec, SBBrandedKeywordsPricingMultiStatusResponse)
+        return await self._create(
+            "/adsApi/v1/create/brandedKeywordsPricings/sb",
+            SBBrandedKeywordsPricingMultiStatusResponse,
+            json={"brandedKeywordsPricings": self._validate(items)},
+        )

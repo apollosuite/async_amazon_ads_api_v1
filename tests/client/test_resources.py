@@ -1,4 +1,4 @@
-"""Verify that every resource class has the correct _ResourceSpec configuration."""
+"""Verify resource method routing for SP/SB/SD clients."""
 
 from __future__ import annotations
 
@@ -7,13 +7,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 
 from async_amazon_ads_api_v1._base import ClientContext
-from async_amazon_ads_api_v1.client.sb.ad_extensions import AdExtensions as SBAdExtensions
 from async_amazon_ads_api_v1.client.sb.ad_groups import AdGroups as SBAdGroups
 from async_amazon_ads_api_v1.client.sb.ads import Ads as SBAds
-from async_amazon_ads_api_v1.client.sb.advertising_deal_targets import (
-    AdvertisingDealTargets,
-)
-from async_amazon_ads_api_v1.client.sb.advertising_deals import AdvertisingDeals
 from async_amazon_ads_api_v1.client.sb.branded_keywords_pricings import (
     BrandedKeywordsPricings,
 )
@@ -28,7 +23,6 @@ from async_amazon_ads_api_v1.client.sd.ad_groups import AdGroups as SDAdGroups
 from async_amazon_ads_api_v1.client.sd.ads import Ads as SDAds
 from async_amazon_ads_api_v1.client.sd.campaigns import Campaigns as SDCampaigns
 from async_amazon_ads_api_v1.client.sd.targets import Targets as SDTargets
-from async_amazon_ads_api_v1.client.sp.ad_extensions import AdExtensions as SPAdExtensions
 from async_amazon_ads_api_v1.client.sp.ad_groups import AdGroups as SPAdGroups
 from async_amazon_ads_api_v1.client.sp.ads import Ads as SPAds
 from async_amazon_ads_api_v1.client.sp.campaigns import Campaigns as SPCampaigns
@@ -45,125 +39,39 @@ def config() -> AmazonAdsConfig:
     return AmazonAdsConfig(access_token="test-token", client_id="test-client", region=Region.NA)
 
 
-@pytest.fixture
-def ctx(config: AmazonAdsConfig) -> ClientContext:
-    return ClientContext(config)
-
-
-class ResourceSpec:
-    """Helper to check _spec without touching __init__."""
-
-    def __init__(self, cls: type, ctx: ClientContext) -> None:
-        self.obj = cls(ctx)
-        self.spec = cls._spec  # type: ignore[attr-defined]
-
-    @property
-    def name(self) -> str:
-        return self.spec.name
-
-    @property
-    def path_suffix(self) -> str:
-        return self.spec.path_suffix
-
-
-SP_RESOURCES: list[tuple[type, str, str]] = [
-    (SPCampaigns, "campaigns", "campaignIds"),
-    (SPAdGroups, "adGroups", "adGroupIds"),
-    (SPAds, "ads", "adIds"),
-    (SPTargets, "targets", "targetIds"),
-    (SPAdExtensions, "adExtensions", ""),
-]
-
-SB_RESOURCES: list[tuple[type, str, str]] = [
-    (SBCampaigns, "campaigns", "campaignIds"),
-    (SBAdGroups, "adGroups", "adGroupIds"),
-    (SBAds, "ads", "adIds"),
-    (SBTargets, "targets", "targetIds"),
-    (SBAdExtensions, "adExtensions", ""),
-    (AdvertisingDeals, "advertisingDeals", "advertisingDealIds"),
-    (AdvertisingDealTargets, "advertisingDealTargets", "advertisingDealTargetIds"),
-    (BrandedKeywordsPricings, "brandedKeywordsPricings", ""),
-    (KeywordReservationValidations, "keywordReservationValidations", ""),
-    (Recommendations, "recommendations", ""),
-    (RecommendationTypes, "recommendationTypes", ""),
-]
-
-SD_RESOURCES: list[tuple[type, str, str]] = [
-    (SDCampaigns, "campaigns", "campaignIds"),
-    (SDAdGroups, "adGroups", "adGroupIds"),
-    (SDAds, "ads", "adIds"),
-    (SDTargets, "targets", "targetIds"),
-]
-
-RESOURCE_WITH_SUFFIX: list[tuple[type, str]] = [
-    (AdvertisingDeals, "/sb"),
-    (AdvertisingDealTargets, "/sb"),
-    (BrandedKeywordsPricings, "/sb"),
-    (KeywordReservationValidations, "/sb"),
-    (Recommendations, "/sb"),
-    (RecommendationTypes, "/sb"),
-]
-
-
-class TestResourceSpecs:
-    @pytest.mark.parametrize(
-        ("cls", "expected_name", "expected_delete_key"),
-        SP_RESOURCES + SB_RESOURCES + SD_RESOURCES,
-    )
-    def test_spec(
-        self,
-        cls: type,
-        expected_name: str,
-        expected_delete_key: str,
-        ctx: ClientContext,
-    ) -> None:
-        rs = ResourceSpec(cls, ctx)
-        assert rs.name == expected_name
-        if expected_delete_key:
-            assert rs.spec.delete_key == expected_delete_key
-        else:
-            assert rs.spec.delete_key is None
-
-    @pytest.mark.parametrize(("cls", "expected_suffix"), RESOURCE_WITH_SUFFIX)
-    def test_path_suffix(self, cls: type, expected_suffix: str, ctx: ClientContext) -> None:
-        rs = ResourceSpec(cls, ctx)
-        assert rs.path_suffix == expected_suffix
-
-    def test_basic_resources_no_suffix(self, ctx: ClientContext) -> None:
-        for cls, *_ in SP_RESOURCES + SD_RESOURCES:
-            rs = ResourceSpec(cls, ctx)
-            assert rs.path_suffix == "", f"{cls.__name__} should have no path_suffix"
-
-
 class TestResourceMethodRouting:
     """Verify resource methods delegate to _ResourceBase with correct args."""
 
     @pytest.mark.parametrize(
-        ("cls", "expected_response"),
+        ("cls", "expected_path", "expected_response"),
         [
-            (SPCampaigns, "SPCampaignMultiStatusResponse"),
-            (SPAdGroups, "SPAdGroupMultiStatusResponse"),
-            (SPAds, "SPAdMultiStatusResponse"),
-            (SPTargets, "SPTargetMultiStatusResponse"),
-            (SBCampaigns, "SBCampaignMultiStatusResponse"),
-            (SBAdGroups, "SBAdGroupMultiStatusResponse"),
-            (SBAds, "SBAdMultiStatusResponse"),
-            (SBTargets, "SBTargetMultiStatusResponse"),
-            (SDCampaigns, "SDCampaignMultiStatusResponse"),
-            (SDAdGroups, "SDAdGroupMultiStatusResponse"),
-            (SDAds, "SDAdMultiStatusResponse"),
-            (SDTargets, "SDTargetMultiStatusResponse"),
+            (SPCampaigns, "/adsApi/v1/create/campaigns", "SPCampaignMultiStatusResponse"),
+            (SPAdGroups, "/adsApi/v1/create/adGroups", "SPAdGroupMultiStatusResponse"),
+            (SPAds, "/adsApi/v1/create/ads", "SPAdMultiStatusResponse"),
+            (SPTargets, "/adsApi/v1/create/targets", "SPTargetMultiStatusResponse"),
+            (SBCampaigns, "/adsApi/v1/create/campaigns", "SBCampaignMultiStatusResponse"),
+            (SBAdGroups, "/adsApi/v1/create/adGroups", "SBAdGroupMultiStatusResponse"),
+            (SBAds, "/adsApi/v1/create/ads", "SBAdMultiStatusResponse"),
+            (SBTargets, "/adsApi/v1/create/targets", "SBTargetMultiStatusResponse"),
+            (SDCampaigns, "/adsApi/v1/create/campaigns", "SDCampaignMultiStatusResponse"),
+            (SDAdGroups, "/adsApi/v1/create/adGroups", "SDAdGroupMultiStatusResponse"),
+            (SDAds, "/adsApi/v1/create/ads", "SDAdMultiStatusResponse"),
+            (SDTargets, "/adsApi/v1/create/targets", "SDTargetMultiStatusResponse"),
         ],
     )
     @pytest.mark.asyncio
-    async def test_create_routing(self, cls: type, expected_response: str, config: AmazonAdsConfig) -> None:
+    async def test_create_routing(
+        self, cls: type, expected_path: str, expected_response: str, config: AmazonAdsConfig
+    ) -> None:
         obj = cls(ClientContext(config))
         mock_result = MagicMock()
         with patch.object(obj, "_create", AsyncMock(return_value=mock_result)) as create_mock:
-            result = await obj.create([MagicMock()])
+            with patch.object(obj, "_validate", return_value=[{"ok": True}]):
+                result = await obj.create([MagicMock()])
             assert result is mock_result
             create_mock.assert_awaited_once()
-            assert create_mock.await_args.args[2].__name__ == expected_response
+            assert create_mock.await_args.args[0] == expected_path
+            assert create_mock.await_args.args[1].__name__ == expected_response
 
     @pytest.mark.parametrize(
         "cls,body",
