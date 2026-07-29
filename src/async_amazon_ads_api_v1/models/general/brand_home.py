@@ -61,7 +61,7 @@ class ListPagesRequest(BaseModel):
 class ListPagesResponse(BaseModel):
     """Response Object for ListPages API"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     nextToken: str | None = Field(
         default=None,
@@ -96,24 +96,25 @@ class ListStoresRequest(BaseModel):
 class ListStoresResponse(BaseModel):
     """Response Object for ListStores API"""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     nextToken: str | None = Field(
         default=None, description="Nullable. The next token to be used for paginated querying."
     )
-    stores: list[StoreInfo] = Field(
-        description="Paginated list of `StoreInfo`'s. Result list size <= maxResults. If advertiser has no stores, returns empty list."
+    stores: list[StoreInfo] | None = Field(
+        default=None,
+        description="Paginated list of `StoreInfo`'s. Result list size <= maxResults. If advertiser has no stores, returns empty list.",
     )
 
 
 class StoreId(BaseModel):
     """The Store Identifier."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
 
 class StoreInfo(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     brandEntityId: str | None = Field(default=None, description="The ID of the Brand Entity associated with the store")
     storeId: StoreId | None = Field(default=None)
@@ -122,7 +123,7 @@ class StoreInfo(BaseModel):
 
 
 class StorePageInfo(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     storePageId: str | None = Field(default=None, description="The ID of the store page")
     storePageName: str | None = Field(default=None, description="The name of the store page")
