@@ -67,7 +67,7 @@ from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 '''
 
 
-def _clean_description(desc: str) -> str:
+def clean_description(desc: str) -> str:
     lines = desc.splitlines()
     result_lines = []
     for line in lines:
@@ -137,7 +137,7 @@ def generate_model(name: str, schema: dict, schemas: dict | None = None) -> str:
             if variant.get("type") == "object" and variant.get("properties"):
                 for fname, fschema in variant["properties"].items():
                     typ = openapi_to_python_type(fschema, schemas)
-                    desc = _clean_description(fschema.get("description", "")).strip().rstrip()
+                    desc = clean_description(fschema.get("description", "")).strip().rstrip()
                     comment = f"  # {desc}" if desc else ""
                     fields.append(f"    {fname}: {typ} | None = None{comment}")
         field_block = "\n".join(fields) if fields else "    pass"
@@ -159,7 +159,7 @@ def generate_model(name: str, schema: dict, schemas: dict | None = None) -> str:
         default = "" if is_required else " = None"
         if not is_required and typ not in ("Any",):
             typ = f"{typ} | None"
-        desc = _clean_description(fschema.get("description", "")).strip().rstrip()
+        desc = clean_description(fschema.get("description", "")).strip().rstrip()
         comment = f"  # {desc}" if desc else ""
         fields.append(f"    {fname}: {typ}{default}{comment}")
     field_block = "\n".join(fields)

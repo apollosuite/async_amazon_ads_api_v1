@@ -2,16 +2,10 @@
 
 from __future__ import annotations
 
-import json as _json
 from typing import Any
 
 from async_amazon_ads_api_v1.client.legacy.accounts._base import _AccountsAPIBase
-from async_amazon_ads_api_v1.models.legacy.accounts.profiles import (
-    ListProfilesResponseContent,
-    Profile,
-    ProfileResponse,
-    UpdateProfilesResponseContent,
-)
+from async_amazon_ads_api_v1.models.legacy.accounts.profiles import Profile, ProfileResponse
 
 
 class Profiles(_AccountsAPIBase):
@@ -49,9 +43,7 @@ class Profiles(_AccountsAPIBase):
             params=params or None,
             headers=self._client_id_header(),
         )
-        # API 返回裸数组，_response 需要 dict → 把数组包进 dict
-        resp._content = _json.dumps({"profiles": resp.json()}).encode()
-        return self._response(ListProfilesResponseContent, resp).profiles
+        return self._response_list(Profile, resp)
 
     async def update(
         self,
@@ -68,8 +60,7 @@ class Profiles(_AccountsAPIBase):
             json=[p.model_dump(exclude_none=True) for p in profiles],
             headers=self._client_id_header(),
         )
-        resp._content = _json.dumps({"results": resp.json()}).encode()
-        return self._response(UpdateProfilesResponseContent, resp).results
+        return self._response_list(ProfileResponse, resp)
 
     async def get(
         self,
