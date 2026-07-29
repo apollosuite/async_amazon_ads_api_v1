@@ -105,5 +105,5 @@ class _ResourceBase:
     def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
         return model_cls.model_construct(**resp.json())
 
-    def _validate(self, items: Sequence[BaseModel]) -> list[dict[str, Any]]:
+    def _dump(self, items: Sequence[BaseModel]) -> list[dict[str, Any]]:
         return [item.model_dump(mode="json", exclude_none=True) for item in items]

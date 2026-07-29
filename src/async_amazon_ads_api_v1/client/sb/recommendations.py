@@ -15,7 +15,7 @@ class Recommendations(_ResourceBase):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/recommendations/sb",
-            json={"recommendations": self._validate(items)},
+            json={"recommendations": self._dump(items)},
             headers=self.ASYNC_ACCEPT,
         )
         return self._response(SBRecommendationMultiStatusResponse, resp)

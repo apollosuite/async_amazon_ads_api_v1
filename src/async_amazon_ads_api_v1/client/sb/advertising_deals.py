@@ -18,7 +18,7 @@ class AdvertisingDeals(_ResourceBase):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/advertisingDeals/sb",
-            json={"advertisingDeals": self._validate(items)},
+            json={"advertisingDeals": self._dump(items)},
             headers=self.ASYNC_ACCEPT,
         )
         return self._response(SBAdvertisingDealSuccessResponse, resp)
@@ -35,7 +35,7 @@ class AdvertisingDeals(_ResourceBase):
         resp = await self._request(
             "POST",
             "/adsApi/v1/update/advertisingDeals/sb",
-            json={"advertisingDeals": self._validate(items)},
+            json={"advertisingDeals": self._dump(items)},
             headers=self.ASYNC_ACCEPT,
         )
         return self._response(SBAdvertisingDealMultiStatusResponse, resp)

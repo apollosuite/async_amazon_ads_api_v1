@@ -18,7 +18,7 @@ class Campaigns(_ResourceBase):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/campaigns",
-            json={"campaigns": self._validate(campaigns)},
+            json={"campaigns": self._dump(campaigns)},
             headers=self.ASYNC_ACCEPT,
         )
         return self._response(SBCampaignMultiStatusResponse, resp)
@@ -35,7 +35,7 @@ class Campaigns(_ResourceBase):
         resp = await self._request(
             "POST",
             "/adsApi/v1/update/campaigns",
-            json={"campaigns": self._validate(campaigns)},
+            json={"campaigns": self._dump(campaigns)},
             headers=self.ASYNC_ACCEPT,
         )
         return self._response(SBCampaignMultiStatusResponse, resp)

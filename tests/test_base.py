@@ -54,15 +54,15 @@ class TestResourceBase:
         return _ResourceBase(ctx)
 
     @pytest.mark.asyncio
-    async def test_validate_with_model_instances(self, resource: _ResourceBase) -> None:
+    async def test_dump_with_model_instances(self, resource: _ResourceBase) -> None:
         items = [DummyModel(name="a", value=1)]
-        result = resource._validate(items)
+        result = resource._dump(items)
         assert result == [{"name": "a", "value": 1}]
 
     @pytest.mark.asyncio
-    async def test_validate_uses_json_mode(self, resource: _ResourceBase) -> None:
+    async def test_dump_uses_json_mode(self, resource: _ResourceBase) -> None:
         items = [DummyDateModel(startDateTime=datetime(2026, 6, 8, tzinfo=UTC))]
-        result = resource._validate(items)
+        result = resource._dump(items)
         assert result == [{"startDateTime": "2026-06-08T00:00:00Z"}]
 
     @pytest.mark.asyncio

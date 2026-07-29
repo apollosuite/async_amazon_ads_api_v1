@@ -18,7 +18,7 @@ class AdExtensions(_ResourceBase):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/adExtensions",
-            json={"adExtensions": self._validate(ad_extensions)},
+            json={"adExtensions": self._dump(ad_extensions)},
             headers=self.ASYNC_ACCEPT,
         )
         return self._response(SPAdExtensionSuccessResponse, resp)
@@ -35,7 +35,7 @@ class AdExtensions(_ResourceBase):
         resp = await self._request(
             "POST",
             "/adsApi/v1/update/adExtensions",
-            json={"adExtensions": self._validate(ad_extensions)},
+            json={"adExtensions": self._dump(ad_extensions)},
             headers=self.ASYNC_ACCEPT,
         )
         return self._response(SPAdExtensionSuccessResponse, resp)

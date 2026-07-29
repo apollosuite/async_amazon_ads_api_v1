@@ -18,7 +18,7 @@ class Targets(_ResourceBase):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/targets",
-            json={"targets": self._validate(targets)},
+            json={"targets": self._dump(targets)},
             headers=self.ASYNC_ACCEPT,
         )
         return self._response(SDTargetMultiStatusResponse, resp)
@@ -35,7 +35,7 @@ class Targets(_ResourceBase):
         resp = await self._request(
             "POST",
             "/adsApi/v1/update/targets",
-            json={"targets": self._validate(targets)},
+            json={"targets": self._dump(targets)},
             headers=self.ASYNC_ACCEPT,
         )
         return self._response(SDTargetMultiStatusResponse, resp)

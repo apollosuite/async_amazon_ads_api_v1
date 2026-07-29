@@ -18,7 +18,7 @@ class AdGroups(_ResourceBase):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/adGroups",
-            json={"adGroups": self._validate(ad_groups)},
+            json={"adGroups": self._dump(ad_groups)},
             headers=self.ASYNC_ACCEPT,
         )
         return self._response(SBAdGroupMultiStatusResponse, resp)
@@ -35,7 +35,7 @@ class AdGroups(_ResourceBase):
         resp = await self._request(
             "POST",
             "/adsApi/v1/update/adGroups",
-            json={"adGroups": self._validate(ad_groups)},
+            json={"adGroups": self._dump(ad_groups)},
             headers=self.ASYNC_ACCEPT,
         )
         return self._response(SBAdGroupMultiStatusResponse, resp)

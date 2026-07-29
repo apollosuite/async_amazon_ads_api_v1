@@ -15,7 +15,7 @@ class BrandedKeywordsPricings(_ResourceBase):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/brandedKeywordsPricings/sb",
-            json={"brandedKeywordsPricings": self._validate(items)},
+            json={"brandedKeywordsPricings": self._dump(items)},
             headers=self.ASYNC_ACCEPT,
         )
         return self._response(SBBrandedKeywordsPricingMultiStatusResponse, resp)

@@ -17,7 +17,7 @@ class AdvertisingDealTargets(_ResourceBase):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/advertisingDealTargets/sb",
-            json={"advertisingDealTargets": self._validate(items)},
+            json={"advertisingDealTargets": self._dump(items)},
             headers=self.ASYNC_ACCEPT,
         )
         return self._response(SBAdvertisingDealTargetSuccessResponse, resp)

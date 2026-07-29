@@ -68,7 +68,7 @@ class TestResourceMethodRouting:
         mock_resp = MagicMock()
         with patch.object(obj, "_request", AsyncMock(return_value=mock_resp)) as request_mock:
             with patch.object(obj, "_response", return_value=mock_result) as response_mock:
-                with patch.object(obj, "_validate", return_value=[{"ok": True}]):
+                with patch.object(obj, "_dump", return_value=[{"ok": True}]):
                     result = await obj.create([MagicMock()])
             assert result is mock_result
             request_mock.assert_awaited_once()
