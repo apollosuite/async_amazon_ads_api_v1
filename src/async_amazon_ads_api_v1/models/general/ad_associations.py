@@ -12,22 +12,7 @@ from async_amazon_ads_api_v1.errors import ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 
-class CreateState(StrEnum):
-    """
-    The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-    **CreateState Enum:**
-
-    | CreateState | Description |
-    |------|------|
-    | `ENABLED` | The object is set active by user and eligible for delivery. |
-    | `PAUSED` | The object is stopped by user and not eligible for delivery. |
-    """
-
-    ENABLED = "ENABLED"
-    PAUSED = "PAUSED"
-
-
-class State(StrEnum):
+class AdState(StrEnum):
     """
     The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
     **State Enum:**
@@ -40,6 +25,21 @@ class State(StrEnum):
     """
 
     ARCHIVED = "ARCHIVED"
+    ENABLED = "ENABLED"
+    PAUSED = "PAUSED"
+
+
+class CreateState(StrEnum):
+    """
+    The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
+    **CreateState Enum:**
+
+    | CreateState | Description |
+    |------|------|
+    | `ENABLED` | The object is set active by user and eligible for delivery. |
+    | `PAUSED` | The object is stopped by user and not eligible for delivery. |
+    """
+
     ENABLED = "ENABLED"
     PAUSED = "PAUSED"
 
@@ -67,7 +67,7 @@ class AdAssociation(BaseModel):
     adId: str = Field(description="The ad Id  associated with the ad.")
     endDateTime: datetime | None = Field(default=None, description="The end date time for the ad association.")
     startDateTime: datetime | None = Field(default=None, description="The start date time for the ad association.")
-    state: Annotated[State | str, lenient_enum(State)]
+    state: Annotated[AdState | str, lenient_enum(AdState)]
     weight: int | None = Field(
         default=None,
         description="The relative percentage of traffic which would be directed to the associated Ad Creative in the Ad Group.",
@@ -169,8 +169,8 @@ class UpdateAdAssociationRequest(BaseModel):
 
 
 __all__ = [
+    "AdState",
     "CreateState",
-    "State",
     "UpdateState",
     "AdAssociation",
     "AdAssociationAdAssociationIdFilter",

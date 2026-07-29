@@ -154,6 +154,8 @@ class _ResourceBase:
         )
         return self._response(response_cls, resp)
 
-    async def _query(self, body: BaseModel, path: str, response_cls: type[_T]) -> _T:
-        resp = await self._request("POST", path, json=body.model_dump(exclude_none=True))
+    async def _query(
+        self, body: BaseModel, path: str, response_cls: type[_T], headers: dict[str, Any] | None = None
+    ) -> _T:
+        resp = await self._request("POST", path, json=body.model_dump(exclude_none=True), headers=headers)
         return self._response(response_cls, resp)

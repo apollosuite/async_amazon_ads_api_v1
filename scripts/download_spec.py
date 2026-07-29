@@ -18,6 +18,7 @@ specs: dict[str, str] = {
     "AdvertisingAccounts_prod_3p.json": "https://dtrnk0o2zy01c.cloudfront.net/openapi/en-us/dest/AdvertisingAccounts_prod_3p.json",
     "profiles_openapi.yaml": "https://d3a0d0y2hgofx6.cloudfront.net/openapi/en-us/profiles/3-0/openapi.yaml",
     "AmazonAdsAPIALLMerged_prod_3p.json": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLMerged_prod_3p.json",
+    "BrandHome_prod_3p.json": "https://dtrnk0o2zy01c.cloudfront.net/openapi/en-us/dest/BrandHome_prod_3p.json",
 }
 
 

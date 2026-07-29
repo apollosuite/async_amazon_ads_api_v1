@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
-"""Generate client interface code for all general-purpose API tags.
+"""Generate client interface code for the Brand Home API.
 
-Reads ``scripts/AmazonAdsAPIALLMerged_prod_3p.json`` and for each tag in
-the ``TAGS`` list generates:
+Reads ``scripts/BrandHome_prod_3p.json`` and generates:
 
-1. Pydantic model module  → ``models/general/<snake_name>.py``
-2. Client resource class  → ``client/general/<snake_name>.py``
-
-To add a new API, just append the tag name to ``TAGS`` below.
+1. Pydantic model module  → ``models/general/brand_home.py``
+2. Client resource class  → ``client/general/brand_home.py``
 
 Usage:
-    uv run python scripts/generate_brandstores.py
+    uv run python scripts/generate_brandhome.py
 """
 
 from __future__ import annotations
@@ -25,34 +22,30 @@ from typing import Any
 
 HERE = Path(__file__).parent
 PROJECT = HERE.parent / "src" / "async_amazon_ads_api_v1"
-SPEC_PATH = HERE / "AmazonAdsAPIALLMerged_prod_3p.json"
+SPEC_PATH = HERE / "BrandHome_prod_3p.json"
 
 CLIENT_DIR = PROJECT / "client" / "general"
 MODEL_DIR = PROJECT / "models" / "general"
 
-# Tags that have been generated. Add new tags here as needed.
-TAGS: list[str] = [
-    "BrandStores",
-    "BrandStoreEditions",
-    "BrandStoreEditionPublishVersions",
-    "BrandStorePages",
-    "AdvertiserAccounts",
-    "SellingAccounts",
-    "AdAssociations",
-    "GeoLocations",
-    "LocationIndexes",
-]
+# The OpenAPI tag for the Brand Home API
+TAG = "BrandHomeAPIService"
+
+# Override the resource name for cleaner naming
+RESOURCE_NAME = "BrandHome"
+SNAKE_NAME = "brand_home"
 
 # Some schema names in the spec conflict with identically-named schemas
-# in other specs.  Rename them here to avoid collisions.
+# in other specs (e.g. ``State`` in BrandHome has different enum values
+# than ``State`` in AdAssociations).  Rename them here to avoid collisions.
 _SCHEMA_RENAMES: dict[str, str] = {
-    "State": "AdState",
+    "State": "BrandHomeState",
 }
 
 
 def _rename_schema(name: str) -> str:
     """Apply schema rename map."""
     return _SCHEMA_RENAMES.get(name, name)
+
 
 # ── Helpers ────────────────────────────────────────────────────────────
 
@@ -125,10 +118,6 @@ def _camel_to_snake(name: str) -> str:
 
 
 # ── Known-schema discovery ────────────────────────────────────────────
-#
-# Instead of hardcoding an ERROR_SCHEMAS set, we read errors.py and all
-# existing model files to discover which schema names are already defined.
-# Any schema that already exists will be imported, not regenerated.
 
 
 def _collect_class_names(py_files: list[Path]) -> dict[str, str]:
@@ -351,18 +340,10 @@ def _split_types(needed: dict[str, Any]) -> tuple[list[tuple[str, dict]], list[t
 
 
 def _method_name(operation_id: str) -> str:
-    """Convert an operationId to a snake_case method name.
-
-    ``QueryBrandStore`` → ``query_brand_store``
-    ``ListBrandStoreEdition`` → ``list_brand_store_edition``
-    ``UpdateBrandStoreEditionPublishVersion`` → ``update_brand_store_edition_publish_version``
-    """
+    """Convert an operationId to a snake_case method name."""
     s = re.sub(r"(?<=[a-z])(?=[A-Z])", "_", operation_id)
     s = re.sub(r"(?<=[A-Z])(?=[A-Z][a-z])", "_", s)
     return s.lower().strip("_")
-
-
-# ── SBClient registration ─────────────────────────────────────────────
 
 
 # ── Per-tag generation logic ──────────────────────────────────────────
@@ -373,7 +354,7 @@ def generate_for_tag(
     tag: str,
     known_schemas: dict[str, str],
 ) -> None:
-    """Generate model + client files for a single tag."""
+    """Generate model + client files for the BrandHome tag."""
     endpoints = find_endpoints_by_tag(spec, tag)
     if not endpoints:
         print(f"\n[SKIP] Tag '{tag}' has no endpoints")
@@ -388,13 +369,8 @@ def generate_for_tag(
     MODEL_DIR.mkdir(parents=True, exist_ok=True)
     CLIENT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Derive resource name from the tag (CamelCase → snake_case)
-    resource_name = tag  # e.g. "BrandStores"
-    snake_name = _camel_to_snake(resource_name)  # "brand_stores"
-    resource_class = resource_name  # "BrandStores"
-
     # Model import prefix for the client file
-    model_import_prefix = f"async_amazon_ads_api_v1.models.general.{snake_name}"
+    model_import_prefix = f"async_amazon_ads_api_v1.models.general.{SNAKE_NAME}"
 
     # Collect schemas referenced by these endpoints
     needed = discover_schemas(spec, endpoints)
@@ -410,14 +386,14 @@ def generate_for_tag(
 
     renamed_from = {_rename_schema(k): k for k in needed if _rename_schema(k) != k}
     if renamed_from:
-        for new, old in renamed_from.items():
-            print(f"  Renamed schema: {old} → {new}")
+        for old, new in renamed_from.items():
+            print(f"  Renamed schema: {new} → {old}")
 
     # ── Separate schemas into "to-generate" vs "to-import" ──
     to_import: dict[str, str] = {}  # {schema_name: import_source}
     to_generate: dict[str, Any] = {}
 
-    current_module = f"models.general.{snake_name}"
+    current_module = f"models.general.{SNAKE_NAME}"
     for name, schema in needed.items():
         renamed = _rename_schema(name)
         if renamed in known_schemas and known_schemas[renamed] != current_module:
@@ -431,7 +407,7 @@ def generate_for_tag(
             print(f"    {n} ← {to_import[n]}")
 
     # ── Generate model file ──
-    model_path = MODEL_DIR / f"{snake_name}.py"
+    model_path = MODEL_DIR / f"{SNAKE_NAME}.py"
 
     model_imports: dict[str, list[str]] = defaultdict(list)
     for name, source in sorted(to_import.items()):
@@ -442,10 +418,8 @@ def generate_for_tag(
         if source == "errors":
             import_lines.append(f"from async_amazon_ads_api_v1.errors import {', '.join(sorted(names))}")
         else:
-            # source is "models.general.advertiser_accounts" etc
-            # Strip the model package prefix to get sibling module name
             prefix = "models.general."
-            module = source[len(prefix) :] if source.startswith(prefix) else source
+            module = source[len(prefix):] if source.startswith(prefix) else source
             import_lines.append(f"from .{module} import {', '.join(sorted(names))}")
 
     # Build model header
@@ -490,8 +464,6 @@ def generate_for_tag(
     print(f"\n  Wrote model file: {model_path}")
 
     # ── Generate client resource class ──
-    #
-    # Collect models needed in method signatures (request/response only)
     sig_imports: set[str] = set()
     for _method, _path, operation in endpoints:
         for _, media in operation.get("requestBody", {}).get("content", {}).items():
@@ -506,7 +478,7 @@ def generate_for_tag(
                         sig_imports.add(_rename_schema(ref.split("/")[-1]))
 
     client_lines = [
-        f'"""{tag} resource operations.',
+        f'"""{RESOURCE_NAME} resource operations.',
         "",
         f"Generated from OpenAPI spec (tag: {tag}).",
         '"""',
@@ -524,7 +496,7 @@ def generate_for_tag(
     client_lines.append("")
 
     # Class definition
-    client_lines.append(f"class {resource_class}(_ResourceBase):")
+    client_lines.append(f"class {RESOURCE_NAME}(_ResourceBase):")
     client_lines.append("")
 
     for idx, (http_method, path, operation) in enumerate(endpoints):
@@ -532,8 +504,15 @@ def generate_for_tag(
         mname = _method_name(op_id)
         desc_lines = operation.get("description", "").strip().split("\n") if operation.get("description") else []
 
+        # First content type from the spec (BrandHome uses custom content types)
+        content_type = None
+        content_dict = operation.get("requestBody", {}).get("content", {})
+        if content_dict:
+            content_type = next(iter(content_dict))
+
         # Request model
         req_model = None
+        request_required = operation.get("requestBody", {}).get("required", False)
         for _, media in operation.get("requestBody", {}).get("content", {}).items():
             ref = media.get("schema", {}).get("$ref", "")
             if ref:
@@ -554,7 +533,6 @@ def generate_for_tag(
 
         # Gather path/query/header params from spec
         all_params = operation.get("parameters", [])
-        # Resolve $ref parameters
         resolved_params = []
         spec_params = spec.get("components", {}).get("parameters", {})
         for p in all_params:
@@ -567,18 +545,18 @@ def generate_for_tag(
                 resolved_params.append(p)
 
         query_params = [p for p in resolved_params if p.get("in") == "query"]
-        # Header params are managed by _request() — skip them
-        # path_params = [p for p in resolved_params if p.get("in") == "path"]
 
         sig_parts = ["self"]
         if req_model:
-            sig_parts.append(f"body: {req_model}")
+            if request_required:
+                sig_parts.append(f"body: {req_model}")
+            else:
+                sig_parts.append(f"body: {req_model} | None = None")
 
-        # Add query params as method arguments (optional for nullable)
         for p in query_params:
             pname = p.get("name", "")
             pschema = p.get("schema", {})
-            ptype = _schema_type(pschema, needed)
+            ptype = _schema_type(pschema, schemas_for_resolution)
             is_required = p.get("required", False)
             py_name = _camel_to_snake(pname)
             if not is_required:
@@ -591,17 +569,12 @@ def generate_for_tag(
         ret_type = resp_model or "Any"
         first_line = desc_lines[0].strip() if desc_lines else ""
 
-        method_is_get = http_method == "GET"
-
         has_query_params = bool(query_params)
-        has_param_docs = any(p.get("description", "").strip() for p in query_params)
 
         client_lines.append(f"    async def {mname}({sig}) -> {ret_type}:")
-        if not has_query_params or not has_param_docs:
-            # body-only or params without descriptions: single-line docstring
+        if not has_query_params:
             client_lines.append(f'        """{first_line}"""' if first_line else '        """')
         else:
-            # has query params with descriptions: multi-line docstring
             if first_line:
                 client_lines.append(f'        """{first_line}')
             else:
@@ -616,33 +589,31 @@ def generate_for_tag(
                 pname = p.get("name", "")
                 py_name = _camel_to_snake(pname)
                 pdesc = p.get("description", "").strip().rstrip()
-                ptype = p.get("schema", {}).get("type", "str")
-                client_lines.append(f"        {py_name} : {_schema_type(p.get('schema', {}), needed)}")
+                client_lines.append(f"        {py_name} : {_schema_type(p.get('schema', {}), schemas_for_resolution)}")
                 if pdesc:
                     client_lines.append(f"            {pdesc}")
             client_lines.append('        """')
         client_lines.append("")
 
-        if method_is_get:
-            # Build params dict from query params (use original API names as keys)
+        # Generate the method body
+        if not request_required and req_model:
+            client_lines.append(f"        body = body or {req_model}()")
+
+        if query_params:
             param_names = [(p.get("name", ""), _camel_to_snake(p.get("name", ""))) for p in query_params]
-            if param_names:
-                client_lines.append("        params = {")
-                for api_name, py_name in param_names:
-                    client_lines.append(f'            "{api_name}": {py_name},')
-                client_lines.append("        }")
-                if any(not p.get("required", False) for p in query_params):
-                    # Remove None values
-                    client_lines.append("        params = {k: v for k, v in params.items() if v is not None}")
-                client_lines.append(f'        resp = await self._request("GET", "{path}", params=params)')
-            else:
-                client_lines.append(f'        resp = await self._request("GET", "{path}")')
-            client_lines.append(f"        return self._response({ret_type}, resp)")
+            client_lines.append("        params = {")
+            for api_name, py_name in param_names:
+                client_lines.append(f'            "{api_name}": {py_name},')
+            client_lines.append("        }")
+            if any(not p.get("required", False) for p in query_params):
+                client_lines.append("        params = {k: v for k, v in params.items() if v is not None}")
+            client_lines.append(f'        resp = await self._request("{http_method}", "{path}", params=params)')
         else:
-            client_lines.append(f'        return await self._query(body, "{path}", {ret_type})')
+            headers_arg = f', headers={{"Content-Type": "{content_type}"}}' if content_type else ""
+            client_lines.append(f'        return await self._query(body, "{path}", {ret_type}{headers_arg})')
         client_lines.append("")
 
-    client_path = CLIENT_DIR / f"{snake_name}.py"
+    client_path = CLIENT_DIR / f"{SNAKE_NAME}.py"
     client_path.write_text("\n".join(client_lines))
     print(f"  Wrote client file: {client_path}")
 
@@ -682,8 +653,7 @@ def main() -> None:
     with open(SPEC_PATH) as f:
         spec = json.load(f)
 
-    for tag in TAGS:
-        generate_for_tag(spec, tag, known_schemas)
+    generate_for_tag(spec, TAG, known_schemas)
 
     # ── Post-processing ──────────────────────────────────────────────
     print("\n" + "=" * 60)
