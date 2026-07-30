@@ -7,8 +7,10 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
+
+from .enums import SBErrorCode
+from .shared import SBErrorsIndex
 
 
 class SBAdvertisingDealTargetType(StrEnum):
@@ -67,7 +69,7 @@ class SBAdvertisingDealTargetDetails(BaseModel):
 class SBAdvertisingDealTargetMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=1000)
+    error: list[SBErrorsIndex] | None = Field(default=None, min_length=0, max_length=1000)
     success: list[SBAdvertisingDealTargetMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=1000)
 
 
@@ -122,7 +124,6 @@ class SBQueryAdvertisingDealTargetRequest(BaseModel):
 
 
 __all__ = [
-    "ErrorCode",
     "SBAdvertisingDealTargetAdvertisingDealIdFilter",
     "SBAdvertisingDealTargetCreate",
     "SBAdvertisingDealTargetType",
@@ -130,5 +131,6 @@ __all__ = [
     "SBCreateAdvertisingDealTargetDetails",
     "SBCreateAdvertisingDealTargetRequest",
     "SBDeleteAdvertisingDealTargetRequest",
+    "SBErrorCode",
     "SBQueryAdvertisingDealTargetRequest",
 ]

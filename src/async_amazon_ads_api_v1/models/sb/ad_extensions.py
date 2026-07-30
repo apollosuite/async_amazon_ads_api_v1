@@ -8,10 +8,10 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
-from .campaigns import SBAdProduct, SBCreateState, SBMarketplace, SBMarketplaceScope, SBState, SBUpdateState
+from .enums import SBAdProduct, SBCreateState, SBErrorCode, SBMarketplace, SBMarketplaceScope, SBState, SBUpdateState
+from .shared import SBErrorsIndex
 
 
 class SBAdExtensionStatus(StrEnum):
@@ -160,7 +160,7 @@ class SBAdExtensionCreate(BaseModel):
 class SBAdExtensionMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=50)
+    error: list[SBErrorsIndex] | None = Field(default=None, min_length=0, max_length=50)
     success: list[SBAdExtensionMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=50)
 
 
@@ -257,7 +257,6 @@ class SBUpdateAdExtensionRequest(BaseModel):
 
 
 __all__ = [
-    "ErrorCode",
     "SBAdExtensionAdExtensionIdFilter",
     "SBAdExtensionAdExtensionStatusFilter",
     "SBAdExtensionAdExtensionTypeFilter",
@@ -274,6 +273,7 @@ __all__ = [
     "SBCreateAdExtensionSettings",
     "SBCreatePromptExtension",
     "SBCreateState",
+    "SBErrorCode",
     "SBMarketplace",
     "SBMarketplaceScope",
     "SBQueryAdExtensionRequest",

@@ -8,10 +8,10 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
-from .selling_accounts import CountryCode
+from .enums import GeneralCountryCode, GeneralErrorCode
+from .shared import GeneralErrorsIndex
 
 
 class IndexStatus(StrEnum):
@@ -133,7 +133,7 @@ class IndexValues(BaseModel):
 class LocationIndex(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    countryCode: Annotated[CountryCode | str, lenient_enum(CountryCode)] | None = Field(default=None)
+    countryCode: Annotated[GeneralCountryCode | str, lenient_enum(GeneralCountryCode)] | None = Field(default=None)
     creationDateTime: datetime | None = Field(default=None, description="The date time the location index was created.")
     indexData: IndexValues | None = Field(default=None)
     indexId: str | None = Field(default=None, description="The identifier of the location index.")
@@ -147,7 +147,7 @@ class LocationIndex(BaseModel):
 class LocationIndexCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    countryCode: Annotated[CountryCode | str, lenient_enum(CountryCode)] | None = Field(default=None)
+    countryCode: Annotated[GeneralCountryCode | str, lenient_enum(GeneralCountryCode)] | None = Field(default=None)
     indexData: CreateIndexValues
     indexName: str = Field(description="The name of the location index.")
 
@@ -155,7 +155,7 @@ class LocationIndexCreate(BaseModel):
 class LocationIndexMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=10)
+    error: list[GeneralErrorsIndex] | None = Field(default=None, min_length=0, max_length=10)
     success: list[LocationIndexMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=10)
 
 
@@ -216,14 +216,14 @@ class UpdateLocationIndexRequest(BaseModel):
 
 
 __all__ = [
-    "CountryCode",
     "CreateConstituentIndexValue",
     "CreateConstituentIndexValues",
     "CreateDirectIndexValue",
     "CreateDirectIndexValues",
     "CreateIndexValues",
     "CreateLocationIndexRequest",
-    "ErrorCode",
+    "GeneralCountryCode",
+    "GeneralErrorCode",
     "IndexStatus",
     "LocationIndexCreate",
     "LocationIndexUpdate",

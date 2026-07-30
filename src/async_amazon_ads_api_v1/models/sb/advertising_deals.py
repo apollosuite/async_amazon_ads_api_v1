@@ -8,10 +8,10 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
-from .campaigns import SBCurrencyCode
+from .enums import SBAdvertisingDealPriceType, SBCurrencyCode, SBErrorCode
+from .shared import SBAdvertisingDealPrice, SBErrorsIndex
 
 
 class SBAdvertisingDealNameFilterType(StrEnum):
@@ -24,16 +24,6 @@ class SBAdvertisingDealNameFilterType(StrEnum):
 
     BROAD_MATCH = "BROAD_MATCH"
     EXACT_MATCH = "EXACT_MATCH"
-
-
-class SBAdvertisingDealPriceType(StrEnum):
-    """
-    | AdvertisingDealPriceType | Description |
-    |------|------|
-    | `FIXED_PRICE` | Sale price for a specific ad placement regardless of auction performance. |
-    """
-
-    FIXED_PRICE = "FIXED_PRICE"
 
 
 class SBAdvertisingDealState(StrEnum):
@@ -99,7 +89,7 @@ class SBAdvertisingDealCreate(BaseModel):
 class SBAdvertisingDealMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=10)
+    error: list[SBErrorsIndex] | None = Field(default=None, min_length=0, max_length=10)
     success: list[SBAdvertisingDealMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=10)
 
 
@@ -115,16 +105,6 @@ class SBAdvertisingDealNameFilter(BaseModel):
 
     include: list[str] = Field(min_length=1, max_length=10)
     queryTermMatchType: Annotated[SBAdvertisingDealNameFilterType | str, lenient_enum(SBAdvertisingDealNameFilterType)]
-
-
-class SBAdvertisingDealPrice(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-    currencyCode: Annotated[SBCurrencyCode | str, lenient_enum(SBCurrencyCode)] | None = Field(default=None)
-    priceType: Annotated[SBAdvertisingDealPriceType | str, lenient_enum(SBAdvertisingDealPriceType)] | None = Field(
-        default=None
-    )
-    value: float | None = Field(default=None, description="The monetary amount of the price in the given currency.")
 
 
 class SBAdvertisingDealStatus(BaseModel):
@@ -200,7 +180,6 @@ class SBUpdateAdvertisingDealRequest(BaseModel):
 
 
 __all__ = [
-    "ErrorCode",
     "SBAdvertisingDealAdvertisingDealIdFilter",
     "SBAdvertisingDealCreate",
     "SBAdvertisingDealNameFilter",
@@ -213,6 +192,7 @@ __all__ = [
     "SBCreateAdvertisingDealRequest",
     "SBCurrencyCode",
     "SBDeleteAdvertisingDealRequest",
+    "SBErrorCode",
     "SBQueryAdvertisingDealRequest",
     "SBUpdateAdvertisingDealPrice",
     "SBUpdateAdvertisingDealRequest",

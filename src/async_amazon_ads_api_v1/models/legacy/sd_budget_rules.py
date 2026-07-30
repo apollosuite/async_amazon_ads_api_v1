@@ -8,7 +8,6 @@ from typing import Annotated
 from pydantic import BaseModel, ConfigDict, Field
 
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
-from async_amazon_ads_api_v1.models.sd.campaigns import SDRecurrence
 
 
 class SDBudgetChangeType(StrEnum):
@@ -326,6 +325,21 @@ class SDPerformanceMeasureConditionOut(BaseModel):
         default=None
     )
     threshold: float | None = Field(default=None, description="The performance threshold value.")
+
+
+class SDRecurrence(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    type: Annotated[SDRecurrenceType | str, lenient_enum(SDRecurrenceType)] | None = Field(default=None)
+    daysOfWeek: list[Annotated[SDDayOfWeek | str, lenient_enum(SDDayOfWeek)]] | None = Field(
+        default=None,
+        description="Object representing days of the week for weekly type rule. It is not required for daily recurrence type",
+    )
+    intraDaySchedule: list[SDTimeOfDay] | None = Field(
+        default=None,
+        max_length=1,
+        description="List of objects representing start and end time of desired intra-day budget rule window",
+    )
 
 
 class SDRecurrenceOut(BaseModel):

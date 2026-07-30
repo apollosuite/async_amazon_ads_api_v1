@@ -42,6 +42,7 @@ def main() -> None:
             model_dir=MODEL_DIR,
             models_package=MODELS_PACKAGE,
             client_dir=CLIENT_DIR,
+            enum_prefix="General",
         ),
         CONFIGS,
     )

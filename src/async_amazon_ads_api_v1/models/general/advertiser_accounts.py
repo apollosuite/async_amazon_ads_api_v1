@@ -7,10 +7,10 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
-from .selling_accounts import CountryCode, SellingProgram
+from .enums import GeneralCountryCode, GeneralErrorCode, GeneralSellingProgram
+from .shared import GeneralErrorsIndex
 
 
 class AccountState(StrEnum):
@@ -435,7 +435,7 @@ class AdvertiserAccountIsGlobalAccountFilter(BaseModel):
 class AdvertiserAccountMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=100)
+    error: list[GeneralErrorsIndex] | None = Field(default=None, min_length=0, max_length=100)
     success: list[AdvertiserAccountMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=100)
 
 
@@ -501,7 +501,7 @@ class AlternateIdentifier(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    countryCode: Annotated[CountryCode | str, lenient_enum(CountryCode)] | None = Field(default=None)
+    countryCode: Annotated[GeneralCountryCode | str, lenient_enum(GeneralCountryCode)] | None = Field(default=None)
     dspAdvertiserId: str | None = Field(
         default=None, description="The regional ADSP advertiser identifier of the advertising account."
     )
@@ -565,7 +565,9 @@ class CreateSellingAccountLinkDetails(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     sellingAccountLinkToken: str = Field(description="The token to locate a selling account to be linked.")
-    sellingProgram: Annotated[SellingProgram | str, lenient_enum(SellingProgram)] | None = Field(default=None)
+    sellingProgram: Annotated[GeneralSellingProgram | str, lenient_enum(GeneralSellingProgram)] | None = Field(
+        default=None
+    )
 
 
 class CreateSellingAccountLinkRequest(BaseModel):
@@ -590,7 +592,9 @@ class SellingAccountLinkDetails(BaseModel):
     sellingAccountLinkToken: str | None = Field(
         default=None, description="The token to locate a selling account to be linked."
     )
-    sellingProgram: Annotated[SellingProgram | str, lenient_enum(SellingProgram)] | None = Field(default=None)
+    sellingProgram: Annotated[GeneralSellingProgram | str, lenient_enum(GeneralSellingProgram)] | None = Field(
+        default=None
+    )
 
 
 class SellingAccountLinkRequest(BaseModel):
@@ -620,19 +624,19 @@ __all__ = [
     "AdvertiserAccountCreate",
     "AdvertiserAccountIsGlobalAccountFilter",
     "AdvertiserAccountUpdate",
-    "CountryCode",
     "CreateAddress",
     "CreateAdvertiserAccountRequest",
     "CreateBusinessDetail",
     "CreateSellingAccountLinkDetails",
     "CreateSellingAccountLinkRequest",
     "CurrencyCode",
-    "ErrorCode",
+    "GeneralCountryCode",
+    "GeneralErrorCode",
+    "GeneralSellingProgram",
     "IndustryVertical",
     "QueryAdvertiserAccountRequest",
     "RegionCode",
     "SellingAccountLinkState",
-    "SellingProgram",
     "TimeZoneIana",
     "UpdateAdvertiserAccountRequest",
 ]

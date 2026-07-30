@@ -100,7 +100,7 @@ def discover_schema_sets(spec, endpoints) -> tuple[request_schemas, response_sch
 
 - **请求种子**：`requestBody` 中的 `$ref`
 - **响应种子**：`200` / `201` / `207` 响应中的 `$ref`
-- **不遍历**非 2xx 错误 schema（已在 `errors.py` 定义）
+- **不遍历**非 2xx 错误 schema（4xx `*ResponseContent` 暂不生成）
 
 ### 判定规则
 

@@ -8,20 +8,20 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
-from .campaigns import (
+from .enums import (
     SPAdProduct,
     SPCreateState,
     SPDeliveryReason,
     SPDeliveryStatus,
+    SPErrorCode,
     SPMarketplace,
     SPMarketplaceScope,
     SPState,
-    SPStatus,
     SPUpdateState,
 )
+from .shared import SPErrorsIndex, SPStatus
 
 
 class SPAdExtensionStatus(StrEnum):
@@ -187,7 +187,7 @@ class SPAdExtensionCreate(BaseModel):
 class SPAdExtensionMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=50)
+    error: list[SPErrorsIndex] | None = Field(default=None, min_length=0, max_length=50)
     success: list[SPAdExtensionMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=50)
 
 
@@ -304,7 +304,6 @@ class SPVideoExtension(BaseModel):
 
 
 __all__ = [
-    "ErrorCode",
     "SPAdExtensionAdExtensionIdFilter",
     "SPAdExtensionAdExtensionStatusFilter",
     "SPAdExtensionAdExtensionTypeFilter",
@@ -324,6 +323,7 @@ __all__ = [
     "SPCreateVideoExtension",
     "SPDeliveryReason",
     "SPDeliveryStatus",
+    "SPErrorCode",
     "SPMarketplace",
     "SPMarketplaceScope",
     "SPQueryAdExtensionRequest",

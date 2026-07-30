@@ -177,12 +177,41 @@ def build_python_name(
     raise ValueError(f"Unknown role: {role}")
 
 
+def prefixed_enum_name(openapi_name: str, prefix: str, stem_rename: Callable[[str], str]) -> str:
+    """Apply product prefix to a cross-tag shared enum (skip if already prefixed)."""
+    base = stem_rename(openapi_name)
+    if prefix and not base.startswith(prefix):
+        return f"{prefix}{base}"
+    return base
+
+
+def prefixed_shared_model_name(
+    openapi_name: str,
+    role: SchemaRole,
+    prefix: str,
+    stem_rename: Callable[[str], str],
+    shared_entities: set[str],
+) -> str:
+    """Apply product prefix to a cross-tag shared model (skip if already prefixed)."""
+    base = build_python_name(
+        openapi_name,
+        role,
+        stem_rename=stem_rename,
+        shared_entities=shared_entities,
+    )
+    if prefix and not base.startswith(prefix):
+        return f"{prefix}{base}"
+    return base
+
+
 def discover_role_emissions(
     spec: dict,
     endpoints: list[tuple[str, str, dict]],
     stem_rename: Callable[[str], str] | None = None,
     *,
     schema_renames: dict[str, str] | None = None,
+    shared_enum_names: dict[str, str] | None = None,
+    shared_model_names: dict[SchemaKey, str] | None = None,
 ) -> tuple[list[EmittedModel], set[str], set[str], set[str]]:
     """Discover emitted models with roles for a tag's endpoints."""
     overrides = schema_renames or {}
@@ -223,12 +252,17 @@ def discover_role_emissions(
 
     for key in keys_to_emit:
         schema = all_schemas[key.openapi_name]
-        python_name = build_python_name(
-            key.openapi_name,
-            key.role,
-            stem_rename=rename,
-            shared_entities=shared_entities,
-        )
+        if shared_model_names and key in shared_model_names:
+            python_name = shared_model_names[key]
+        elif key.role == SchemaRole.NEUTRAL and shared_enum_names and key.openapi_name in shared_enum_names:
+            python_name = shared_enum_names[key.openapi_name]
+        else:
+            python_name = build_python_name(
+                key.openapi_name,
+                key.role,
+                stem_rename=rename,
+                shared_entities=shared_entities,
+            )
         extra: ExtraMode = "forbid" if key.role == SchemaRole.INPUT else "allow"
         public = key.role in (SchemaRole.INPUT, SchemaRole.NEUTRAL)
         emitted.append(

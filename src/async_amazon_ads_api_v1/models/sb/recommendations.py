@@ -7,8 +7,10 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
+
+from .enums import SBErrorCode
+from .shared import SBErrorsIndex
 
 
 class SBAlternateBrandIdType(StrEnum):
@@ -131,7 +133,7 @@ class SBRecommendationCreate(BaseModel):
 class SBRecommendationMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=1)
+    error: list[SBErrorsIndex] | None = Field(default=None, min_length=0, max_length=1)
     success: list[SBRecommendationMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=1)
 
 
@@ -157,11 +159,11 @@ class SBRecommendedObject(BaseModel):
 
 
 __all__ = [
-    "ErrorCode",
     "SBAlternateBrandIdType",
     "SBCreateBrandAlternateId",
     "SBCreateBrandedKeywordRecommendationTypeDetails",
     "SBCreateRecommendationRequest",
     "SBCreateRecommendationTypeDetails",
+    "SBErrorCode",
     "SBRecommendationCreate",
 ]

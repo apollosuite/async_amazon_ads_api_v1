@@ -8,20 +8,21 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
-from .campaigns import (
+from .enums import (
     SDAdProduct,
     SDCreateState,
     SDDeliveryReason,
     SDDeliveryStatus,
+    SDErrorCode,
     SDMarketplace,
     SDMarketplaceScope,
+    SDProductIdType,
     SDState,
-    SDStatus,
     SDUpdateState,
 )
+from .shared import SDErrorsIndex, SDStatus
 
 
 class SDAdType(StrEnum):
@@ -62,20 +63,6 @@ class SDModerationStatus(StrEnum):
     PUBLISHED = "PUBLISHED"
     REJECTED_BY_MODERATION = "REJECTED_BY_MODERATION"
     SUBMITTED_FOR_MODERATION = "SUBMITTED_FOR_MODERATION"
-
-
-class SDProductIdType(StrEnum):
-    """
-    **ProductIdType Enum:**
-
-    | ProductIdType | Description |
-    |------|------|
-    | `ASIN` | ASIN identifier type. |
-    | `SKU` | SKU identifier type. |
-    """
-
-    ASIN = "ASIN"
-    SKU = "SKU"
 
 
 class SDResponsiveEcommerceLandingPageType(StrEnum):
@@ -162,7 +149,7 @@ class SDAdCreate(BaseModel):
 class SDAdMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=100)
+    error: list[SDErrorsIndex] | None = Field(default=None, min_length=0, max_length=100)
     success: list[SDAdMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=100)
 
 
@@ -507,7 +494,6 @@ class SDVideoLandingPage(BaseModel):
 
 
 __all__ = [
-    "ErrorCode",
     "SDAdAdProductFilter",
     "SDAdCreate",
     "SDAdProduct",
@@ -528,6 +514,7 @@ __all__ = [
     "SDDeleteAdRequest",
     "SDDeliveryReason",
     "SDDeliveryStatus",
+    "SDErrorCode",
     "SDMarketplace",
     "SDMarketplaceScope",
     "SDModerationStatus",

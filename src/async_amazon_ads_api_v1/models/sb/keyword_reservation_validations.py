@@ -4,7 +4,8 @@ from __future__ import annotations
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
+from .enums import SBErrorCode
+from .shared import SBErrorsIndex
 
 
 class SBCreateKeywordReservationValidationRequest(BaseModel):
@@ -38,7 +39,7 @@ class SBKeywordReservationValidationCreate(BaseModel):
 class SBKeywordReservationValidationMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=1000)
+    error: list[SBErrorsIndex] | None = Field(default=None, min_length=0, max_length=1000)
     success: list[SBKeywordReservationValidationMultiStatusSuccess] | None = Field(
         default=None, min_length=0, max_length=1000
     )
@@ -51,4 +52,4 @@ class SBKeywordReservationValidationMultiStatusSuccess(BaseModel):
     keywordReservationValidation: SBKeywordReservationValidation | None = Field(default=None)
 
 
-__all__ = ["ErrorCode", "SBCreateKeywordReservationValidationRequest", "SBKeywordReservationValidationCreate"]
+__all__ = ["SBCreateKeywordReservationValidationRequest", "SBErrorCode", "SBKeywordReservationValidationCreate"]

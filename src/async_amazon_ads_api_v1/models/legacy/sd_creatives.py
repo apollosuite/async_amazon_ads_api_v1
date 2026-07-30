@@ -9,7 +9,6 @@ from typing import Annotated, Any
 from pydantic import BaseModel, ConfigDict, Field
 
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
-from async_amazon_ads_api_v1.models.sd.ads import SDBackground, SDCreateCreative, SDImage, SDVideo
 
 
 class SDCreativeTypeInCreativeRequest(StrEnum):
@@ -54,6 +53,16 @@ type SDAdGroupId = int  # The identifier of the ad group.
 type SDAdName = str  # The name of the ad. Note that this field is not supported when using ASIN or SKU fields.
 
 
+class SDBackground(BaseModel):
+    """This field denotes background which are displayed on the ad. This field is optional and mutable."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    color: str | None = Field(
+        default=None, description="The standard HTML hex color codes of the background (e.g. '#3cb371')."
+    )
+
+
 class SDBackgroundCreativeProperties(BaseModel):
     """User-customizable properties of a creative with background. Only supported for productAds with landingPageType of OFF_AMAZON_LINK."""
 
@@ -82,6 +91,36 @@ class SDBackgroundOut(BaseModel):
     color: str | None = Field(
         default=None, description="The standard HTML hex color codes of the background (e.g. '#3cb371')."
     )
+
+
+class SDCreateCreative(BaseModel):
+    """Creative create model."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    adGroupId: int = Field(description="Unqiue identifier for the ad group associated with the creative.")
+    creativeType: (
+        Annotated[SDCreativeTypeInCreativeRequest | str, lenient_enum(SDCreativeTypeInCreativeRequest)] | None
+    ) = Field(default=None)
+    properties: SDCreativeProperties
+    consentToTranslate: bool | None = Field(
+        default=None,
+        description="If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation. We only support translating headlines and videos from English to German, French, Italian, Spanish, Japanese, and Dutch.",
+    )
+
+
+class SDCreative(BaseModel):
+    """Creative model."""
+
+    model_config = ConfigDict(extra="allow")
+
+    creativeId: int | None = Field(default=None, description="Unique identifier of the creative.")
+    adGroupId: SDAdGroupId | None = Field(default=None)
+    creativeType: (
+        Annotated[SDCreativeTypeInCreativeResponse | str, lenient_enum(SDCreativeTypeInCreativeResponse)] | None
+    ) = Field(default=None)
+    properties: SDCreativePropertiesOut | None = Field(default=None)
+    moderationStatus: str | None = Field(default=None, description="The moderation status of the creative")
 
 
 class SDCreativeModeration(BaseModel):
@@ -249,6 +288,25 @@ class SDHeadlineCreativePropertiesOut(BaseModel):
     )
 
 
+class SDImage(BaseModel):
+    """This field denotes image which is displayed on the ad. This can either be a brand logo or a custom image. This field is optional and mutable. For custom image, both rectCustomImage and squareCustomImage should use the same asset id and asset version. Specific restrictions based on the Image type are listed in the following table.
+    |Image type|Maximum file size|Minimum width|Minimum height|Accepted file formats|
+    |------|-----------|-----------|-----------|-----------|
+    |Custom Image|5MB|1200|628|JPEG, JPG, PNG, GIF|
+    |Brand Logo|1MB|600|100|JPEG, JPG, PNG|
+    Note: For square custom images the cropped image should be 628x628 at minimum."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    assetId: str = Field(
+        description="The unique identifier of the image asset. This assetId comes from the Creative Asset Library."
+    )
+    assetVersion: str = Field(description="The identifier of the particular image assetversion.")
+    croppingCoordinates: dict[str, Any] | None = Field(
+        default=None, description="Optional cropping coordinates to apply to the image."
+    )
+
+
 class SDImageOut(BaseModel):
     """This field denotes image which is displayed on the ad. This can either be a brand logo or a custom image. This field is optional and mutable. For custom image, both rectCustomImage and squareCustomImage should use the same asset id and asset version. Specific restrictions based on the Image type are listed in the following table.
     |Image type|Maximum file size|Minimum width|Minimum height|Accepted file formats|
@@ -297,6 +355,42 @@ class SDPreviewCreativeModel(BaseModel):
         Annotated[SDCreativeTypeInCreativeRequest | str, lenient_enum(SDCreativeTypeInCreativeRequest)] | None
     ) = Field(default=None)
     properties: SDCreativeProperties | None = Field(default=None)
+
+
+class SDVideo(BaseModel):
+    """This field denotes video which is displayed on the ad. This field is optional and mutable. A video asset must be provided for a VIDEO creative. Specific restrictions based on the video are listed in the following table.
+    ||Specifications|
+    |------------------|------------------|
+    |Maximum file size|500MB|
+    |Aspect ratio|16:9|
+    |Minimum duration|6s|
+    |Maximum duration|45s|
+    |Minimum frame size|1920x1080|
+    |Minimum video bitrate|4mbps|
+    |Video frame rate(fps)|23.976(recommended), 24, 25, or 29.97|
+    |Video frame rate mode|Constant|
+    |Minimum audio bitrate|192kbps|
+    |Audio sample rate|44.1kHz or 48kHz|
+    |Supported Formats|Video: H.264, MPEG-2, or MPEG-4; Audio: PCM or AAC|
+    |Audio Channel|Audio format needs to be stereo or mono.|
+    |Recommended video bitrate|8mbps|
+    |Recommended duration|A duration of exactly 6s, 15s, 20s, or 30s is recommended. Use of videos outside of these durations may negatively impact your campaign performance. Shorter lengths will drive higher VCR (although scale on 6s may be limited).|
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    assetId: str = Field(
+        description="The unique identifier of the video asset. This assetId comes from the Creative Asset Library."
+    )
+    assetVersion: str = Field(description="The identifier of the particular video assetversion.")
+    originalAssetId: str | None = Field(
+        default=None,
+        description="The assetId of the original video submitted by the advertiser. If 'consentToTranslate' is set to true and translation is SUCCESSFUL then `originalAssetId` will return the assetId of the original video whereas `assetId` will return the assetId of the translated video. In all other cases, 'originalAssetId' and `assetId` both will return the assetId of the original video.",
+    )
+    originalAssetVersion: str | None = Field(
+        default=None,
+        description="The asset version of the original video submitted by the advertiser. If 'consentToTranslate' is set to true and translation is SUCCESSFUL then `originalAssetVersion` will return the asset version of the original video whereas `assetVersion` will return the asset version of the translated video. In all other cases, 'originalAssetVersion' and `assetVersion` both will return the asset version of the original video.",
+    )
 
 
 class SDVideoCreativeProperties(BaseModel):

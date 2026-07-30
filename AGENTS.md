@@ -22,7 +22,6 @@ Pure async Python SDK for the Amazon Advertising API — Sponsored Products / Sp
 └── src/async_amazon_ads_api_v1/
     ├── __init__.py                         # 导出所有公开 API
     ├── _base.py                            # ClientContext + BaseResource
-    ├── errors.py                           # 共享 HTTP 错误模型
     ├── config/
     │   ├── region.py                       # Region 枚举 + ENDPOINT_MAP
     │   ├── settings.py                     # AmazonAdsConfig / CacheBackend
@@ -84,6 +83,8 @@ uv run black src/ scripts/
 ```
 
 - 每次修改上游 JSON Schema 后，重新运行生成脚本
+- 跨 tag 共用枚举写入各产品包的 `enums.py`，并加产品前缀（如 `SPErrorCode`、`SBErrorCode`、`GeneralCountryCode`）
+- 跨 tag 共用 model 写入各产品包的 `shared.py`（如 `SPError`、`SPErrorsIndex`、`SPTag`），并加产品前缀
 - 枚举使用 `StrEnum`，可选字段使用 `X | None` 语法
 - 详细改造指南见 `scripts/CODEGEN_FORWARD_COMPAT.md`
 

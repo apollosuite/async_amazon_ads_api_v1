@@ -124,11 +124,6 @@ def discover_known_schemas(
     """Return ``{class_name → import_source}`` for schemas already defined in the project."""
     known: dict[str, str] = {}
 
-    errors_path = project / "errors.py"
-    if errors_path.exists():
-        for m in re.finditer(r"^class (\w+)", errors_path.read_text(), re.MULTILINE):
-            known[m.group(1)] = "errors"
-
     for prod_dir in ("sp", "sb", "sd", "general"):
         model_dir = project / "models" / prod_dir
         if model_dir.exists():

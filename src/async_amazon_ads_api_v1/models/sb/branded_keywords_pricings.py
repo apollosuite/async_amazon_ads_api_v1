@@ -6,10 +6,8 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
-
-from .advertising_deals import SBAdvertisingDealPrice, SBAdvertisingDealPriceType
-from .campaigns import SBCurrencyCode
+from .enums import SBAdvertisingDealPriceType, SBCurrencyCode, SBErrorCode
+from .shared import SBAdvertisingDealPrice, SBErrorsIndex
 
 
 class SBBrandedKeywordsPricing(BaseModel):
@@ -54,7 +52,7 @@ class SBBrandedKeywordsPricingCreate(BaseModel):
 class SBBrandedKeywordsPricingMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=10)
+    error: list[SBErrorsIndex] | None = Field(default=None, min_length=0, max_length=10)
     success: list[SBBrandedKeywordsPricingMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=10)
 
 
@@ -94,9 +92,9 @@ class SBRejectedKeyword(BaseModel):
 
 
 __all__ = [
-    "ErrorCode",
     "SBAdvertisingDealPriceType",
     "SBBrandedKeywordsPricingCreate",
     "SBCreateBrandedKeywordsPricingRequest",
     "SBCurrencyCode",
+    "SBErrorCode",
 ]

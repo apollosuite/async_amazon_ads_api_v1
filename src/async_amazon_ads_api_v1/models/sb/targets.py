@@ -8,22 +8,22 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
-from .ads import SBProductIdType
-from .campaigns import (
+from .enums import (
     SBAdProduct,
     SBCreateState,
     SBCurrencyCode,
     SBDeliveryReason,
     SBDeliveryStatus,
+    SBErrorCode,
     SBMarketplace,
     SBMarketplaceScope,
+    SBProductIdType,
     SBState,
-    SBStatus,
     SBUpdateState,
 )
+from .shared import SBErrorsIndex, SBStatus
 
 
 class SBKeywordMatchType(StrEnum):
@@ -477,7 +477,7 @@ class SBTargetMatchTypeFilter(BaseModel):
 class SBTargetMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=1000)
+    error: list[SBErrorsIndex] | None = Field(default=None, min_length=0, max_length=1000)
     success: list[SBTargetMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=1000)
 
 
@@ -571,7 +571,6 @@ class SBUpdateTargetRequest(BaseModel):
 
 
 __all__ = [
-    "ErrorCode",
     "SBAdProduct",
     "SBCreateKeywordTarget",
     "SBCreateProductCategoryRefinement",
@@ -588,6 +587,7 @@ __all__ = [
     "SBDeleteTargetRequest",
     "SBDeliveryReason",
     "SBDeliveryStatus",
+    "SBErrorCode",
     "SBKeywordMatchType",
     "SBLanguageLocale",
     "SBMarketplace",

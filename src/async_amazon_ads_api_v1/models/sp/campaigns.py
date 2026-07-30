@@ -8,20 +8,21 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
-
-class SPAdProduct(StrEnum):
-    """
-    **AdProduct Enum:**
-
-    | AdProduct | Description |
-    |------|------|
-    | `SPONSORED_PRODUCTS` | Sponsored Products ad product. |
-    """
-
-    SPONSORED_PRODUCTS = "SPONSORED_PRODUCTS"
+from .enums import (
+    SPAdProduct,
+    SPCreateState,
+    SPCurrencyCode,
+    SPDeliveryReason,
+    SPDeliveryStatus,
+    SPErrorCode,
+    SPMarketplace,
+    SPMarketplaceScope,
+    SPState,
+    SPUpdateState,
+)
+from .shared import SPCreateTag, SPErrorsIndex, SPStatus, SPTag
 
 
 class SPAutoScaleGlobalCampaignSetting(StrEnum):
@@ -99,21 +100,6 @@ class SPCountryCode(StrEnum):
     ZA = "ZA"
 
 
-class SPCreateState(StrEnum):
-    """
-    The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-    **CreateState Enum:**
-
-    | CreateState | Description |
-    |------|------|
-    | `ENABLED` | The object is set active by user and eligible for delivery. |
-    | `PAUSED` | The object is stopped by user and not eligible for delivery. |
-    """
-
-    ENABLED = "ENABLED"
-    PAUSED = "PAUSED"
-
-
 class SPCreativeBidAdjustmentType(StrEnum):
     """
     **CreativeBidAdjustmentType Enum:**
@@ -124,315 +110,6 @@ class SPCreativeBidAdjustmentType(StrEnum):
     """
 
     SPOTLIGHT = "SPOTLIGHT"
-
-
-class SPCurrencyCode(StrEnum):
-    """
-    **CurrencyCode Enum:**
-
-    | CurrencyCode | Description |
-    |------|------|
-    | `AED` | United Arab Emirates Dirham |
-    | `AUD` | Australian Dollar |
-    | `BRL` | Brazilian Real |
-    | `CAD` | Canadian Dollar |
-    | `CHF` | Swiss Franc |
-    | `CNY` | Chinese Yuan |
-    | `DKK` | Danish Krone |
-    | `EGP` | Egyptian Pound |
-    | `EUR` | Euro |
-    | `GBP` | British Pound Sterling |
-    | `INR` | Indian Rupee |
-    | `JPY` | Japanese Yen |
-    | `MXN` | Mexican Peso |
-    | `MXP` | Mexican Peso |
-    | `NGN` | Nigerian Naira |
-    | `NOK` | Norwegian Krone |
-    | `NZD` | New Zealand Dollar |
-    | `PLN` | Polish Złoty |
-    | `SAR` | Saudi Riyal |
-    | `SEK` | Swedish Krona |
-    | `SGD` | Singapore Dollar |
-    | `TRY` | Turkish Lira |
-    | `USD` | United States Dollar |
-    | `ZAR` | South African Rand |
-    """
-
-    AED = "AED"
-    AUD = "AUD"
-    BRL = "BRL"
-    CAD = "CAD"
-    CHF = "CHF"
-    CNY = "CNY"
-    DKK = "DKK"
-    EGP = "EGP"
-    EUR = "EUR"
-    GBP = "GBP"
-    INR = "INR"
-    JPY = "JPY"
-    MXN = "MXN"
-    MXP = "MXP"
-    NGN = "NGN"
-    NOK = "NOK"
-    NZD = "NZD"
-    PLN = "PLN"
-    SAR = "SAR"
-    SEK = "SEK"
-    SGD = "SGD"
-    TRY = "TRY"
-    USD = "USD"
-    ZAR = "ZAR"
-
-
-class SPDeliveryReason(StrEnum):
-    """
-    **DeliveryReason Enum:**
-
-    | DeliveryReason | Description |
-    |------|------|
-    | `ADVERTISER_ARCHIVED` |  |
-    | `ADVERTISER_OUT_OF_BUDGET` | Indicates that an advertiser is out of budget for Sponsored Products campaigns for sellers. |
-    | `ADVERTISER_OUT_OF_POSTPAY_CREDIT_LIMIT` | Indicates that a postpay advertiser is out of credit limit for all Sponsored Ads campaigns. |
-    | `ADVERTISER_OUT_OF_POSTPAY_MONTHLY_BUDGET` | Indicates that a postpay advertiser is out of monthly budget for all Sponsored Ads campaigns. |
-    | `ADVERTISER_OUT_OF_PREPAY_BALANCE` | Indicates that a prepay advertiser is out of prepay balance for all Sponsored Ads campaigns. |
-    | `ADVERTISER_PAUSED` |  |
-    | `ADVERTISER_PAYMENT_FAILURE` |  |
-    | `ADVERTISER_POLICING_PENDING_REVIEW` |  |
-    | `ADVERTISER_POLICING_SUSPENDED` |  |
-    | `AD_ARCHIVED` |  |
-    | `AD_CREATION_FAILED` |  |
-    | `AD_CREATION_IN_PROGRESS` |  |
-    | `AD_EXTENSION_ARCHIVED` |  |
-    | `AD_EXTENSION_PAUSED` |  |
-    | `AD_EXTENSION_POLICING_PENDING_REVIEW` |  |
-    | `AD_EXTENSION_POLICING_SUSPENDED` |  |
-    | `AD_GROUP_ARCHIVED` |  |
-    | `AD_GROUP_INCOMPLETE` |  |
-    | `AD_GROUP_LOW_BID` |  |
-    | `AD_GROUP_PAUSED` |  |
-    | `AD_GROUP_PENDING_REVIEW` |  |
-    | `AD_GROUP_POLICING_PENDING_REVIEW` |  |
-    | `AD_GROUP_REJECTED` |  |
-    | `AD_INELIGIBLE` |  |
-    | `AD_MISSING_DECORATION` |  |
-    | `AD_MISSING_IMAGE` |  |
-    | `AD_NOT_DELIVERING` |  |
-    | `AD_PAUSED` |  |
-    | `AD_POLICING_PENDING_REVIEW` |  |
-    | `AD_POLICING_SUSPENDED` |  |
-    | `BRAND_INELIGIBLE` |  |
-    | `CAMPAIGN_ARCHIVED` |  |
-    | `CAMPAIGN_END_DATE_REACHED` |  |
-    | `CAMPAIGN_INCOMPLETE` |  |
-    | `CAMPAIGN_OUT_OF_BUDGET` |  |
-    | `CAMPAIGN_PAUSED` |  |
-    | `CAMPAIGN_PENDING_REVIEW` |  |
-    | `CAMPAIGN_PENDING_START_DATE` |  |
-    | `CAMPAIGN_REJECTED` |  |
-    | `CREATIVE_MISSING_ASSET` |  |
-    | `CREATIVE_PENDING_REVIEW` |  |
-    | `CREATIVE_REJECTED` |  |
-    | `LANDING_PAGE_INELIGIBLE` |  |
-    | `LANDING_PAGE_NOT_AVAILABLE` |  |
-    | `MODERATION_ADULT_NOVELTY_POLICY_VIOLATION` |  |
-    | `MODERATION_ADULT_PRODUCT_POLICY_VIOLATION` |  |
-    | `MODERATION_ADULT_SOFTLINES_POLICY_VIOLATION` |  |
-    | `MODERATION_CLAIM_WEIGHTLOSS_POLICY_VIOLATION` |  |
-    | `MODERATION_CONTENT_NUDITY_POLICY_VIOLATION` |  |
-    | `MODERATION_CONTENT_PROVOCATIVE_POLICY_VIOLATION` |  |
-    | `MODERATION_CONTENT_SMOKING_POLICY_VIOLATION` |  |
-    | `MODERATION_CRITICAL_EVENTS_POLICY_VIOLATION` |  |
-    | `MODERATION_ERROR_404` |  |
-    | `MODERATION_GRAPHICAL_SEXUAL_IMAGES_POLICY_VIOLATION` |  |
-    | `MODERATION_HFSS_PRODUCT_POLICY_VIOLATION` |  |
-    | `MODERATION_LANGUAGE_OFFENSIVE_POLICY_VIOLATION` |  |
-    | `MODERATION_NOT_COMPLIANT_TO_AD_POLICY` |  |
-    | `MODERATION_SMOKING_RELATED_POLICY_VIOLATION` |  |
-    | `NOT_BUYABLE` |  |
-    | `NOT_IN_BUYBOX` |  |
-    | `NOT_IN_POLICY` |  |
-    | `NO_INVENTORY` |  |
-    | `NO_PURCHASABLE_OFFER` |  |
-    | `OTHER` |  |
-    | `OUT_OF_REWARD_BUDGET` |  |
-    | `OUT_OF_STOCK` |  |
-    | `PIR_RULE_EXCLUDED` |  |
-    | `PORTFOLIO_ARCHIVED` |  |
-    | `PORTFOLIO_END_DATE_REACHED` |  |
-    | `PORTFOLIO_OUT_OF_BUDGET` |  |
-    | `PORTFOLIO_PAUSED` |  |
-    | `PORTFOLIO_PENDING_START_DATE` |  |
-    | `SECURITY_SCAN_PENDING_REVIEW` |  |
-    | `SECURITY_SCAN_REJECTED` |  |
-    | `SPEND_LIMIT_EXCEEDED` |  |
-    | `STATUS_UNAVAILABLE` |  |
-    | `TARGET_ARCHIVED` |  |
-    | `TARGET_BLOCKED` |  |
-    | `TARGET_PAUSED` |  |
-    | `TARGET_POLICING_SUSPENDED` |  |
-    """
-
-    ADVERTISER_ARCHIVED = "ADVERTISER_ARCHIVED"
-    ADVERTISER_OUT_OF_BUDGET = "ADVERTISER_OUT_OF_BUDGET"
-    ADVERTISER_OUT_OF_POSTPAY_CREDIT_LIMIT = "ADVERTISER_OUT_OF_POSTPAY_CREDIT_LIMIT"
-    ADVERTISER_OUT_OF_POSTPAY_MONTHLY_BUDGET = "ADVERTISER_OUT_OF_POSTPAY_MONTHLY_BUDGET"
-    ADVERTISER_OUT_OF_PREPAY_BALANCE = "ADVERTISER_OUT_OF_PREPAY_BALANCE"
-    ADVERTISER_PAUSED = "ADVERTISER_PAUSED"
-    ADVERTISER_PAYMENT_FAILURE = "ADVERTISER_PAYMENT_FAILURE"
-    ADVERTISER_POLICING_PENDING_REVIEW = "ADVERTISER_POLICING_PENDING_REVIEW"
-    ADVERTISER_POLICING_SUSPENDED = "ADVERTISER_POLICING_SUSPENDED"
-    AD_ARCHIVED = "AD_ARCHIVED"
-    AD_CREATION_FAILED = "AD_CREATION_FAILED"
-    AD_CREATION_IN_PROGRESS = "AD_CREATION_IN_PROGRESS"
-    AD_EXTENSION_ARCHIVED = "AD_EXTENSION_ARCHIVED"
-    AD_EXTENSION_PAUSED = "AD_EXTENSION_PAUSED"
-    AD_EXTENSION_POLICING_PENDING_REVIEW = "AD_EXTENSION_POLICING_PENDING_REVIEW"
-    AD_EXTENSION_POLICING_SUSPENDED = "AD_EXTENSION_POLICING_SUSPENDED"
-    AD_GROUP_ARCHIVED = "AD_GROUP_ARCHIVED"
-    AD_GROUP_INCOMPLETE = "AD_GROUP_INCOMPLETE"
-    AD_GROUP_LOW_BID = "AD_GROUP_LOW_BID"
-    AD_GROUP_PAUSED = "AD_GROUP_PAUSED"
-    AD_GROUP_PENDING_REVIEW = "AD_GROUP_PENDING_REVIEW"
-    AD_GROUP_POLICING_PENDING_REVIEW = "AD_GROUP_POLICING_PENDING_REVIEW"
-    AD_GROUP_REJECTED = "AD_GROUP_REJECTED"
-    AD_INELIGIBLE = "AD_INELIGIBLE"
-    AD_MISSING_DECORATION = "AD_MISSING_DECORATION"
-    AD_MISSING_IMAGE = "AD_MISSING_IMAGE"
-    AD_NOT_DELIVERING = "AD_NOT_DELIVERING"
-    AD_PAUSED = "AD_PAUSED"
-    AD_POLICING_PENDING_REVIEW = "AD_POLICING_PENDING_REVIEW"
-    AD_POLICING_SUSPENDED = "AD_POLICING_SUSPENDED"
-    BRAND_INELIGIBLE = "BRAND_INELIGIBLE"
-    CAMPAIGN_ARCHIVED = "CAMPAIGN_ARCHIVED"
-    CAMPAIGN_END_DATE_REACHED = "CAMPAIGN_END_DATE_REACHED"
-    CAMPAIGN_INCOMPLETE = "CAMPAIGN_INCOMPLETE"
-    CAMPAIGN_OUT_OF_BUDGET = "CAMPAIGN_OUT_OF_BUDGET"
-    CAMPAIGN_PAUSED = "CAMPAIGN_PAUSED"
-    CAMPAIGN_PENDING_REVIEW = "CAMPAIGN_PENDING_REVIEW"
-    CAMPAIGN_PENDING_START_DATE = "CAMPAIGN_PENDING_START_DATE"
-    CAMPAIGN_REJECTED = "CAMPAIGN_REJECTED"
-    CREATIVE_MISSING_ASSET = "CREATIVE_MISSING_ASSET"
-    CREATIVE_PENDING_REVIEW = "CREATIVE_PENDING_REVIEW"
-    CREATIVE_REJECTED = "CREATIVE_REJECTED"
-    LANDING_PAGE_INELIGIBLE = "LANDING_PAGE_INELIGIBLE"
-    LANDING_PAGE_NOT_AVAILABLE = "LANDING_PAGE_NOT_AVAILABLE"
-    MODERATION_ADULT_NOVELTY_POLICY_VIOLATION = "MODERATION_ADULT_NOVELTY_POLICY_VIOLATION"
-    MODERATION_ADULT_PRODUCT_POLICY_VIOLATION = "MODERATION_ADULT_PRODUCT_POLICY_VIOLATION"
-    MODERATION_ADULT_SOFTLINES_POLICY_VIOLATION = "MODERATION_ADULT_SOFTLINES_POLICY_VIOLATION"
-    MODERATION_CLAIM_WEIGHTLOSS_POLICY_VIOLATION = "MODERATION_CLAIM_WEIGHTLOSS_POLICY_VIOLATION"
-    MODERATION_CONTENT_NUDITY_POLICY_VIOLATION = "MODERATION_CONTENT_NUDITY_POLICY_VIOLATION"
-    MODERATION_CONTENT_PROVOCATIVE_POLICY_VIOLATION = "MODERATION_CONTENT_PROVOCATIVE_POLICY_VIOLATION"
-    MODERATION_CONTENT_SMOKING_POLICY_VIOLATION = "MODERATION_CONTENT_SMOKING_POLICY_VIOLATION"
-    MODERATION_CRITICAL_EVENTS_POLICY_VIOLATION = "MODERATION_CRITICAL_EVENTS_POLICY_VIOLATION"
-    MODERATION_ERROR_404 = "MODERATION_ERROR_404"
-    MODERATION_GRAPHICAL_SEXUAL_IMAGES_POLICY_VIOLATION = "MODERATION_GRAPHICAL_SEXUAL_IMAGES_POLICY_VIOLATION"
-    MODERATION_HFSS_PRODUCT_POLICY_VIOLATION = "MODERATION_HFSS_PRODUCT_POLICY_VIOLATION"
-    MODERATION_LANGUAGE_OFFENSIVE_POLICY_VIOLATION = "MODERATION_LANGUAGE_OFFENSIVE_POLICY_VIOLATION"
-    MODERATION_NOT_COMPLIANT_TO_AD_POLICY = "MODERATION_NOT_COMPLIANT_TO_AD_POLICY"
-    MODERATION_SMOKING_RELATED_POLICY_VIOLATION = "MODERATION_SMOKING_RELATED_POLICY_VIOLATION"
-    NOT_BUYABLE = "NOT_BUYABLE"
-    NOT_IN_BUYBOX = "NOT_IN_BUYBOX"
-    NOT_IN_POLICY = "NOT_IN_POLICY"
-    NO_INVENTORY = "NO_INVENTORY"
-    NO_PURCHASABLE_OFFER = "NO_PURCHASABLE_OFFER"
-    OTHER = "OTHER"
-    OUT_OF_REWARD_BUDGET = "OUT_OF_REWARD_BUDGET"
-    OUT_OF_STOCK = "OUT_OF_STOCK"
-    PIR_RULE_EXCLUDED = "PIR_RULE_EXCLUDED"
-    PORTFOLIO_ARCHIVED = "PORTFOLIO_ARCHIVED"
-    PORTFOLIO_END_DATE_REACHED = "PORTFOLIO_END_DATE_REACHED"
-    PORTFOLIO_OUT_OF_BUDGET = "PORTFOLIO_OUT_OF_BUDGET"
-    PORTFOLIO_PAUSED = "PORTFOLIO_PAUSED"
-    PORTFOLIO_PENDING_START_DATE = "PORTFOLIO_PENDING_START_DATE"
-    SECURITY_SCAN_PENDING_REVIEW = "SECURITY_SCAN_PENDING_REVIEW"
-    SECURITY_SCAN_REJECTED = "SECURITY_SCAN_REJECTED"
-    SPEND_LIMIT_EXCEEDED = "SPEND_LIMIT_EXCEEDED"
-    STATUS_UNAVAILABLE = "STATUS_UNAVAILABLE"
-    TARGET_ARCHIVED = "TARGET_ARCHIVED"
-    TARGET_BLOCKED = "TARGET_BLOCKED"
-    TARGET_PAUSED = "TARGET_PAUSED"
-    TARGET_POLICING_SUSPENDED = "TARGET_POLICING_SUSPENDED"
-
-
-class SPDeliveryStatus(StrEnum):
-    """
-    **DeliveryStatus Enum:**
-
-    | DeliveryStatus | Description |
-    |------|------|
-    | `DELIVERING` | Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces |
-    | `NOT_DELIVERING` | Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces |
-    | `UNAVAILABLE` | Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces |
-    """
-
-    DELIVERING = "DELIVERING"
-    NOT_DELIVERING = "NOT_DELIVERING"
-    UNAVAILABLE = "UNAVAILABLE"
-
-
-class SPMarketplace(StrEnum):
-    """
-    A list of country codes representing Amazon marketplaces
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    """
-
-    AE = "AE"
-    AU = "AU"
-    BE = "BE"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    EG = "EG"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IE = "IE"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    NL = "NL"
-    PL = "PL"
-    SA = "SA"
-    SE = "SE"
-    SG = "SG"
-    TR = "TR"
-    US = "US"
-    ZA = "ZA"
 
 
 class SPMarketplaceBudgetAllocation(StrEnum):
@@ -447,10 +124,6 @@ class SPMarketplaceBudgetAllocation(StrEnum):
 
     AUTO = "AUTO"
     MANUAL = "MANUAL"
-
-
-class SPMarketplaceScope(StrEnum):
-    SINGLE_MARKETPLACE = "SINGLE_MARKETPLACE"
 
 
 class SPOffAmazonBudgetControlStrategy(StrEnum):
@@ -501,38 +174,6 @@ class SPSiteRestriction(StrEnum):
 
     AMAZON_BUSINESS = "AMAZON_BUSINESS"
     AMAZON_HAUL = "AMAZON_HAUL"
-
-
-class SPState(StrEnum):
-    """
-    The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-    **State Enum:**
-
-    | State | Description |
-    |------|------|
-    | `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |
-    | `ENABLED` | The object is set active by user and eligible for delivery. |
-    | `PAUSED` | The object is stopped by user and not eligible for delivery. |
-    """
-
-    ARCHIVED = "ARCHIVED"
-    ENABLED = "ENABLED"
-    PAUSED = "PAUSED"
-
-
-class SPUpdateState(StrEnum):
-    """
-    The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-    **UpdateState Enum:**
-
-    | UpdateState | Description |
-    |------|------|
-    | `ENABLED` | The object is set active by user and eligible for delivery. |
-    | `PAUSED` | The object is stopped by user and not eligible for delivery. |
-    """
-
-    ENABLED = "ENABLED"
-    PAUSED = "PAUSED"
 
 
 class SPAudienceBidAdjustment(BaseModel):
@@ -728,7 +369,7 @@ class SPCampaignCreate(BaseModel):
 class SPCampaignMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=1000)
+    error: list[SPErrorsIndex] | None = Field(default=None, min_length=0, max_length=1000)
     success: list[SPCampaignMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=1000)
 
 
@@ -924,15 +565,6 @@ class SPCreatePlacementBidAdjustment(BaseModel):
     placement: Annotated[SPPlacement | str, lenient_enum(SPPlacement)]
 
 
-class SPCreateTag(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    key: str = Field(
-        description="A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI."
-    )
-    value: str = Field(description="A custom key value pair entered by the advertiser.")
-
-
 class SPCreativeBidAdjustment(BaseModel):
     model_config = ConfigDict(extra="allow")
 
@@ -991,25 +623,6 @@ class SPQueryCampaignRequest(BaseModel):
     stateFilter: SPCampaignStateFilter | None = Field(default=None)
 
 
-class SPStatus(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-    deliveryReasons: list[Annotated[SPDeliveryReason | str, lenient_enum(SPDeliveryReason)]] | None = Field(
-        default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
-    )
-    deliveryStatus: Annotated[SPDeliveryStatus | str, lenient_enum(SPDeliveryStatus)] | None = Field(default=None)
-
-
-class SPTag(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-    key: str | None = Field(
-        default=None,
-        description="A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI.",
-    )
-    value: str | None = Field(default=None, description="A custom key value pair entered by the advertiser.")
-
-
 class SPUpdateBidAdjustments(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -1059,7 +672,6 @@ class SPUpdateCampaignRequest(BaseModel):
 
 
 __all__ = [
-    "ErrorCode",
     "SPAdProduct",
     "SPAutoScaleGlobalCampaignSetting",
     "SPBidStrategy",
@@ -1093,6 +705,7 @@ __all__ = [
     "SPDeleteCampaignRequest",
     "SPDeliveryReason",
     "SPDeliveryStatus",
+    "SPErrorCode",
     "SPMarketplace",
     "SPMarketplaceBudgetAllocation",
     "SPMarketplaceScope",

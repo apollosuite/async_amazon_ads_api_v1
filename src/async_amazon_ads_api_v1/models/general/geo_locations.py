@@ -7,8 +7,10 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
+
+from .enums import GeneralErrorCode
+from .shared import GeneralErrorsIndex
 
 
 class DistanceUnit(StrEnum):
@@ -106,7 +108,7 @@ class GeoLocationCreate(BaseModel):
 class GeoLocationMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=100)
+    error: list[GeneralErrorsIndex] | None = Field(default=None, min_length=0, max_length=100)
     success: list[GeoLocationMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=100)
 
 
@@ -166,6 +168,6 @@ __all__ = [
     "CreateRadiusLocation",
     "CreateSmartLocation",
     "DistanceUnit",
-    "ErrorCode",
+    "GeneralErrorCode",
     "GeoLocationCreate",
 ]

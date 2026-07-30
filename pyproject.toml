@@ -72,7 +72,6 @@ target-version = "py313"
 select = ["E", "F", "I", "N", "UP", "W"]
 
 [tool.ruff.lint.per-file-ignores]
-"src/async_amazon_ads_api_v1/errors.py" = ["N815"]
 "src/async_amazon_ads_api_v1/models/*" = ["E501", "F403", "N815"]
 "src/async_amazon_ads_api_v1/models/legacy*" = ["E501"]
 "src/async_amazon_ads_api_v1/client/general/*" = ["E501"]
@@ -89,7 +88,10 @@ strict = true
 warn_return_any = true
 warn_unused_ignores = true
 exclude = [
-    "src/async_amazon_ads_api_v1/models/sp/",
-    "src/async_amazon_ads_api_v1/models/sb/",
-    "scripts/",
 ]
+
+[tool.pyrefly]
+project-excludes = [
+]
+python-version = "3.13.0"
+preset = "legacy"

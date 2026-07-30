@@ -8,22 +8,21 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
-from .campaigns import (
+from .enums import (
     SBAdProduct,
     SBCreateState,
-    SBCreateTag,
     SBDeliveryReason,
     SBDeliveryStatus,
+    SBErrorCode,
     SBMarketplace,
     SBMarketplaceScope,
+    SBProductIdType,
     SBState,
-    SBStatus,
-    SBTag,
     SBUpdateState,
 )
+from .shared import SBCreateTag, SBErrorsIndex, SBStatus, SBTag
 
 
 class SBAdNameFilterType(StrEnum):
@@ -123,18 +122,6 @@ class SBProductCollectionLandingPageType(StrEnum):
     ASIN_LIST = "ASIN_LIST"
     CUSTOM_URL = "CUSTOM_URL"
     STORE = "STORE"
-
-
-class SBProductIdType(StrEnum):
-    """
-    **ProductIdType Enum:**
-
-    | ProductIdType | Description |
-    |------|------|
-    | `ASIN` | ASIN identifier type. |
-    """
-
-    ASIN = "ASIN"
 
 
 class SBStoreSpotlightCreativePropertiesToOptimize(StrEnum):
@@ -262,7 +249,7 @@ class SBAdCreate(BaseModel):
 class SBAdMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=10)
+    error: list[SBErrorsIndex] | None = Field(default=None, min_length=0, max_length=10)
     success: list[SBAdMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=10)
 
 
@@ -1280,7 +1267,6 @@ class SBVideoLandingPage(BaseModel):
 
 
 __all__ = [
-    "ErrorCode",
     "SBAdAdGroupIdFilter",
     "SBAdAdIdFilter",
     "SBAdAdProductFilter",
@@ -1320,6 +1306,7 @@ __all__ = [
     "SBDeleteAdRequest",
     "SBDeliveryReason",
     "SBDeliveryStatus",
+    "SBErrorCode",
     "SBMarketplace",
     "SBMarketplaceScope",
     "SBModerationStatus",

@@ -7,8 +7,10 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
+
+from .enums import GeneralErrorCode
+from .shared import GeneralErrorsIndex
 
 
 class StorePublishState(StrEnum):
@@ -70,7 +72,7 @@ class BrandStoreEditionPublishVersionBrandStoreIdFilter(BaseModel):
 class BrandStoreEditionPublishVersionMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=1)
+    error: list[GeneralErrorsIndex] | None = Field(default=None, min_length=0, max_length=1)
     success: list[BrandStoreEditionPublishVersionMultiStatusSuccess] | None = Field(
         default=None, min_length=0, max_length=1
     )
@@ -148,7 +150,7 @@ __all__ = [
     "BrandStoreEditionPublishVersionBrandStoreIdFilter",
     "BrandStoreEditionPublishVersionStorePublishStatusFilter",
     "BrandStoreEditionPublishVersionUpdate",
-    "ErrorCode",
+    "GeneralErrorCode",
     "QueryBrandStoreEditionPublishVersionRequest",
     "StorePublishState",
     "StorePublishStatus",

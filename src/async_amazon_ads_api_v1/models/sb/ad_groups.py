@@ -8,22 +8,20 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
-from .campaigns import (
+from .enums import (
     SBAdProduct,
     SBCreateState,
-    SBCreateTag,
     SBDeliveryReason,
     SBDeliveryStatus,
+    SBErrorCode,
     SBMarketplace,
     SBMarketplaceScope,
     SBState,
-    SBStatus,
-    SBTag,
     SBUpdateState,
 )
+from .shared import SBCreateTag, SBErrorsIndex, SBStatus, SBTag
 
 
 class SBAdGroupNameFilterType(StrEnum):
@@ -114,7 +112,7 @@ class SBAdGroupCreate(BaseModel):
 class SBAdGroupMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=10)
+    error: list[SBErrorsIndex] | None = Field(default=None, min_length=0, max_length=10)
     success: list[SBAdGroupMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=10)
 
 
@@ -201,7 +199,6 @@ class SBUpdateAdGroupRequest(BaseModel):
 
 
 __all__ = [
-    "ErrorCode",
     "SBAdGroupAdGroupIdFilter",
     "SBAdGroupAdProductFilter",
     "SBAdGroupCampaignIdFilter",
@@ -217,6 +214,7 @@ __all__ = [
     "SBDeleteAdGroupRequest",
     "SBDeliveryReason",
     "SBDeliveryStatus",
+    "SBErrorCode",
     "SBMarketplace",
     "SBMarketplaceScope",
     "SBQueryAdGroupRequest",

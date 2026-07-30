@@ -9,12 +9,14 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
-from _schema_roles import (  # noqa: E402
+from _schema_roles import (
     SchemaNamingCollisionError,
     SchemaRole,
     build_python_name,
     discover_role_emissions,
     is_mutation_result_schema,
+    prefixed_enum_name,
+    prefixed_shared_model_name,
 )
 
 
@@ -44,6 +46,18 @@ def test_build_python_name_request_primary() -> None:
 def test_is_mutation_result_schema() -> None:
     assert is_mutation_result_schema({"properties": {"code": {}, "details": {}, "ruleId": {}}})
     assert not is_mutation_result_schema({"properties": {"budgetRule": {}}})
+
+
+def test_prefixed_enum_name() -> None:
+    assert prefixed_enum_name("ErrorCode", "SP", lambda n: n) == "SPErrorCode"
+    assert prefixed_enum_name("SPState", "SP", lambda n: n) == "SPState"
+    assert prefixed_enum_name("CountryCode", "General", lambda n: n) == "GeneralCountryCode"
+
+
+def test_prefixed_shared_model_name() -> None:
+    assert prefixed_shared_model_name("Error", SchemaRole.OUTPUT, "SP", lambda n: n, set()) == "SPError"
+    assert prefixed_shared_model_name("SPTag", SchemaRole.OUTPUT, "SP", lambda n: n, set()) == "SPTag"
+    assert prefixed_shared_model_name("Error", SchemaRole.OUTPUT, "General", lambda n: n, set()) == "GeneralError"
 
 
 def test_discover_role_emissions_splits_shared_entity() -> None:

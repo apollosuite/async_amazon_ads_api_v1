@@ -8,22 +8,21 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
-from .campaigns import (
+from .enums import (
     SPAdProduct,
     SPCreateState,
-    SPCreateTag,
     SPDeliveryReason,
     SPDeliveryStatus,
+    SPErrorCode,
     SPMarketplace,
     SPMarketplaceScope,
+    SPProductIdType,
     SPState,
-    SPStatus,
-    SPTag,
     SPUpdateState,
 )
+from .shared import SPCreateTag, SPErrorsIndex, SPStatus, SPTag
 
 
 class SPAdType(StrEnum):
@@ -36,20 +35,6 @@ class SPAdType(StrEnum):
     """
 
     PRODUCT_AD = "PRODUCT_AD"
-
-
-class SPProductIdType(StrEnum):
-    """
-    **ProductIdType Enum:**
-
-    | ProductIdType | Description |
-    |------|------|
-    | `ASIN` | ASIN identifier type. |
-    | `SKU` | SKU identifier type. |
-    """
-
-    ASIN = "ASIN"
-    SKU = "SKU"
 
 
 class SPAd(BaseModel):
@@ -139,7 +124,7 @@ class SPAdCreate(BaseModel):
 class SPAdMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=1000)
+    error: list[SPErrorsIndex] | None = Field(default=None, min_length=0, max_length=1000)
     success: list[SPAdMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=1000)
 
 
@@ -381,7 +366,6 @@ class SPVideo(BaseModel):
 
 
 __all__ = [
-    "ErrorCode",
     "SPAdAdGroupIdFilter",
     "SPAdAdIdFilter",
     "SPAdAdProductFilter",
@@ -404,6 +388,7 @@ __all__ = [
     "SPDeleteAdRequest",
     "SPDeliveryReason",
     "SPDeliveryStatus",
+    "SPErrorCode",
     "SPMarketplace",
     "SPMarketplaceScope",
     "SPProductIdType",

@@ -8,20 +8,20 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
-from .ads import SDProductIdType
-from .campaigns import (
+from .enums import (
     SDAdProduct,
     SDCreateState,
     SDCurrencyCode,
     SDDeliveryReason,
     SDDeliveryStatus,
+    SDErrorCode,
+    SDProductIdType,
     SDState,
-    SDStatus,
     SDUpdateState,
 )
+from .shared import SDErrorsIndex, SDStatus
 
 
 class SDKeywordMatchType(StrEnum):
@@ -566,7 +566,7 @@ class SDTargetDetails(BaseModel):
 class SDTargetMultiStatusResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[ErrorsIndex] | None = Field(default=None, min_length=0, max_length=1000)
+    error: list[SDErrorsIndex] | None = Field(default=None, min_length=0, max_length=1000)
     success: list[SDTargetMultiStatusSuccess] | None = Field(default=None, min_length=0, max_length=1000)
 
 
@@ -636,7 +636,6 @@ class SDUpdateTargetRequest(BaseModel):
 
 
 __all__ = [
-    "ErrorCode",
     "SDAdProduct",
     "SDCreateAudienceTarget",
     "SDCreateContentCategoryTarget",
@@ -658,6 +657,7 @@ __all__ = [
     "SDDeleteTargetRequest",
     "SDDeliveryReason",
     "SDDeliveryStatus",
+    "SDErrorCode",
     "SDKeywordMatchType",
     "SDLanguageLocale",
     "SDLookback",

@@ -79,19 +79,13 @@ def main(*, output_dir: Path | None = None, product: str | None = None) -> None:
         sys.exit(1)
     assert output_dir is not None
 
-    # Remove stale shared/enums files before generation — their schemas are now in tag files
-    for stale in ("enums.py", "shared.py"):
-        path = output_dir / stale
-        if path.exists():
-            path.unlink()
-            print(f"Removed stale file: {path}")
-
     run(
         GenerationProject(
             spec_path=SPECS[product],
             model_dir=output_dir,
             models_package=f"models.{product}",
             client_dir=None,
+            enum_prefix=product.upper(),
             patch_spec=PATCHES[product],
         ),
         [TagSpec(tag=tag, snake_name=snake_name) for tag, snake_name in TAGS[product]],
