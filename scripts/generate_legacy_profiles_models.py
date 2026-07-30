@@ -13,7 +13,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from _codegen_runner import GenerationProject, TagSpec, run
-from _openapi_schema import PACKAGE_ROOT
+from _openapi_schema import PACKAGE_ROOT, normalize_split_schema_name
 
 HERE = Path(__file__).parent
 SPEC_PATH = HERE / "profiles_openapi.yaml"
@@ -23,6 +23,7 @@ MODELS_PACKAGE = "models.legacy.accounts"
 
 def _profile_model_name(name: str) -> str:
     """Capitalize first letter (e.g. ``countryCode`` → ``CountryCode``)."""
+    name = normalize_split_schema_name(name)
     if name and name[0].islower():
         return name[0].upper() + name[1:]
     return name

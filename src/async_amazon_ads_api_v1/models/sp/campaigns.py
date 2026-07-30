@@ -538,17 +538,21 @@ class SPUpdateState(StrEnum):
 class SPAudienceBidAdjustment(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    audienceId: str = Field(description="The unique identifier of the Audience to apply bid adjustment.")
-    percentage: int = Field(
-        description="The selection of the percentage change associated with a given audience and bid adjustment settings."
+    audienceId: str | None = Field(
+        default=None, description="The unique identifier of the Audience to apply bid adjustment."
+    )
+    percentage: int | None = Field(
+        default=None,
+        description="The selection of the percentage change associated with a given audience and bid adjustment settings.",
     )
 
 
 class SPAutoCreationSettings(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    autoCreateTargets: bool = Field(
-        description="Gives Amazon permission to automatically create targets associated with the campaign based on the products being advertised."
+    autoCreateTargets: bool | None = Field(
+        default=None,
+        description="Gives Amazon permission to automatically create targets associated with the campaign based on the products being advertised.",
     )
     autoManageCampaign: bool | None = Field(
         default=None, description="Flag that allows Amazon to manage the lifecycle of your Campaign."
@@ -585,9 +589,9 @@ class SPBidSettings(BaseModel):
 class SPBudget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    budgetType: Annotated[SPBudgetType | str, lenient_enum(SPBudgetType)]
-    budgetValue: SPBudgetValue
-    recurrenceTimePeriod: Annotated[SPRecurrence | str, lenient_enum(SPRecurrence)]
+    budgetType: Annotated[SPBudgetType | str, lenient_enum(SPBudgetType)] | None = Field(default=None)
+    budgetValue: SPBudgetValue | None = Field(default=None)
+    recurrenceTimePeriod: Annotated[SPRecurrence | str, lenient_enum(SPRecurrence)] | None = Field(default=None)
 
 
 class SPBudgetSettings(BaseModel):
@@ -610,44 +614,47 @@ class SPBudgetValue(BaseModel):
 class SPCampaign(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
-    autoCreationSettings: SPAutoCreationSettings
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)] | None = Field(default=None)
+    autoCreationSettings: SPAutoCreationSettings | None = Field(default=None)
     autoScaleGlobalCampaign: (
         Annotated[SPAutoScaleGlobalCampaignSetting | str, lenient_enum(SPAutoScaleGlobalCampaignSetting)] | None
     ) = Field(default=None)
-    budgets: list[SPBudget] = Field(
+    budgets: list[SPBudget] | None = Field(
+        default=None,
         min_length=1,
         max_length=1,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
-    campaignId: str = Field(description="A unique identifier for a campaign.")
+    campaignId: str | None = Field(default=None, description="A unique identifier for a campaign.")
     countries: list[Annotated[SPCountryCode | str, lenient_enum(SPCountryCode)]] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
         description="This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.",
     )
-    creationDateTime: datetime = Field(description="The date time that the campaign was created.")
+    creationDateTime: datetime | None = Field(default=None, description="The date time that the campaign was created.")
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
     globalCampaignId: str | None = Field(
         default=None, description="The global campaign identifier that manages this marketplace campaign."
     )
-    lastUpdatedDateTime: datetime = Field(description="The date time that the campaign was last updated.")
-    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
+    lastUpdatedDateTime: datetime | None = Field(
+        default=None, description="The date time that the campaign was last updated."
+    )
+    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)] | None = Field(default=None)
     marketplaces: list[Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
         description="This represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. ADSP campaigns can be created by specifying either countries or marketplaces, but at least one of these attributes must be provided. In ADSP, this field acts as an implicit filter on your inventory targets. For example, if you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties.",
     )
-    name: str = Field(description="The name of the campaign.")
+    name: str | None = Field(default=None, description="The name of the campaign.")
     optimizations: SPCampaignOptimizations | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
     siteRestrictions: list[Annotated[SPSiteRestriction | str, lenient_enum(SPSiteRestriction)]] | None = Field(
         default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site"
     )
-    startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: Annotated[SPState | str, lenient_enum(SPState)]
+    startDateTime: datetime | None = Field(default=None, description="The start date time for the campaign.")
+    state: Annotated[SPState | str, lenient_enum(SPState)] | None = Field(default=None)
     status: SPStatus | None = Field(default=None)
     tags: list[SPTag] | None = Field(
         default=None,
@@ -728,8 +735,8 @@ class SPCampaignMultiStatusResponse(BaseModel):
 class SPCampaignMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    campaign: SPCampaign
-    index: int = Field(ge=0, le=999)
+    campaign: SPCampaign | None = Field(default=None)
+    index: int | None = Field(default=None, ge=0, le=999)
 
 
 class SPCampaignNameFilter(BaseModel):
@@ -932,8 +939,9 @@ class SPCreativeBidAdjustment(BaseModel):
     creativeType: Annotated[SPCreativeBidAdjustmentType | str, lenient_enum(SPCreativeBidAdjustmentType)] | None = (
         Field(default=None)
     )
-    percentage: int = Field(
-        description="The selection of the percentage change associated with the creative type and bid adjustment settings."
+    percentage: int | None = Field(
+        default=None,
+        description="The selection of the percentage change associated with the creative type and bid adjustment settings.",
     )
 
 
@@ -946,26 +954,29 @@ class SPDeleteCampaignRequest(BaseModel):
 class SPMonetaryBudget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    currencyCode: Annotated[SPCurrencyCode | str, lenient_enum(SPCurrencyCode)]
+    currencyCode: Annotated[SPCurrencyCode | str, lenient_enum(SPCurrencyCode)] | None = Field(default=None)
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )
-    value: float = Field(description="The monetary amount of the budget cap in the given currency.")
+    value: float | None = Field(
+        default=None, description="The monetary amount of the budget cap in the given currency."
+    )
 
 
 class SPMonetaryBudgetValue(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    monetaryBudget: SPMonetaryBudget
+    monetaryBudget: SPMonetaryBudget | None = Field(default=None)
 
 
 class SPPlacementBidAdjustment(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    percentage: int = Field(
-        description="The selection of the percentage change associated with a given placement and bid adjustment settings."
+    percentage: int | None = Field(
+        default=None,
+        description="The selection of the percentage change associated with a given placement and bid adjustment settings.",
     )
-    placement: Annotated[SPPlacement | str, lenient_enum(SPPlacement)]
+    placement: Annotated[SPPlacement | str, lenient_enum(SPPlacement)] | None = Field(default=None)
 
 
 class SPQueryCampaignRequest(BaseModel):
@@ -986,16 +997,17 @@ class SPStatus(BaseModel):
     deliveryReasons: list[Annotated[SPDeliveryReason | str, lenient_enum(SPDeliveryReason)]] | None = Field(
         default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
     )
-    deliveryStatus: Annotated[SPDeliveryStatus | str, lenient_enum(SPDeliveryStatus)]
+    deliveryStatus: Annotated[SPDeliveryStatus | str, lenient_enum(SPDeliveryStatus)] | None = Field(default=None)
 
 
 class SPTag(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    key: str = Field(
-        description="A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI."
+    key: str | None = Field(
+        default=None,
+        description="A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI.",
     )
-    value: str = Field(description="A custom key value pair entered by the advertiser.")
+    value: str | None = Field(default=None, description="A custom key value pair entered by the advertiser.")
 
 
 class SPUpdateBidAdjustments(BaseModel):

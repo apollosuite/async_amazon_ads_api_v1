@@ -21,9 +21,72 @@ from _openapi_schema import (
     discover_known_schemas,
     discover_schema_sets,
     find_endpoints_by_tag,
+    normalize_split_schema_name,
     rename_schema,
+    split_shared_response_schemas,
 )
-from _pydantic_emit import emit_model, is_enum, split_types
+from _pydantic_emit import emit_model, is_enum, is_type_alias, split_types
+
+
+class SharedModelSchemaError(RuntimeError):
+    """Raised when a schema is used in both request and response as a model."""
+
+    def __init__(self, tag: str, models: list[str]) -> None:
+        self.tag = tag
+        self.models = models
+        super().__init__(
+            f"Tag '{tag}' has shared model schemas (request ∩ response): "
+            f"{', '.join(models)}. "
+            "Split or handle separately — see scripts/CODEGEN_FORWARD_COMPAT.md."
+        )
+
+
+def _resolve_needed_schema(
+    name: str,
+    needed: dict[str, Any],
+    rename: Callable[[str], str],
+) -> dict[str, Any]:
+    if name in needed:
+        return needed[name]
+    for key, schema in needed.items():
+        if rename(key) == name:
+            return schema
+    return {}
+
+
+def _classify_schema(schema: dict[str, Any]) -> str:
+    if is_enum(schema) and schema.get("enum"):
+        return "enum"
+    if is_type_alias(schema):
+        return "type_alias"
+    return "model"
+
+
+def _check_shared_schemas(
+    tag: str,
+    shared_schema_names: list[str],
+    needed: dict[str, Any],
+    rename: Callable[[str], str],
+) -> list[str]:
+    """Print shared schemas and raise if any are models."""
+    allowed_shared: list[str] = []
+    shared_models: list[str] = []
+    if not shared_schema_names:
+        return allowed_shared
+
+    print(f"  Shared schemas (request ∩ response): {len(shared_schema_names)}")
+    for name in shared_schema_names:
+        schema = _resolve_needed_schema(name, needed, rename)
+        kind = _classify_schema(schema)
+        print(f"    {name} ({kind})")
+        if kind == "model":
+            shared_models.append(name)
+        else:
+            allowed_shared.append(name)
+
+    if shared_models:
+        raise SharedModelSchemaError(tag, shared_models)
+    return allowed_shared
 
 
 @dataclass(frozen=True)
@@ -82,8 +145,24 @@ def _resolve_tag_spec(spec: dict, tag: TagSpec) -> TagSpec:
         tag=tag.tag,
         snake_name=tag.snake_name,
         schema_renames=renames,
+        rename_fn=tag.rename_fn,
         client=tag.client,
     )
+
+
+def _resolve_schema_renames(tag: TagSpec, needed: dict[str, Any]) -> dict[str, str]:
+    renames: dict[str, str] = dict(tag.schema_renames)
+    for name in needed:
+        if name in renames:
+            continue
+        normalized = normalize_split_schema_name(name)
+        if tag.rename_fn:
+            renames[name] = tag.rename_fn(normalized)
+        elif normalized != name:
+            renames[name] = normalized
+        else:
+            renames[name] = name
+    return renames
 
 
 def generate_models_for_tag(
@@ -93,13 +172,9 @@ def generate_models_for_tag(
     *,
     model_dir: Path,
     models_package: str,
-) -> tuple[set[str], list[tuple[str, str, dict]], dict[str, Any]] | None:
+) -> tuple[set[str], list[tuple[str, str, dict]], dict[str, Any], dict[str, str]] | None:
     """Generate a Pydantic model file for a single tag."""
-    schema_renames = tag.schema_renames
     snake_name = tag.resolved_snake_name()
-
-    def rename(n: str) -> str:
-        return tag.rename(n, schema_renames)
 
     endpoints = find_endpoints_by_tag(spec, tag.tag)
     if not endpoints:
@@ -112,9 +187,18 @@ def generate_models_for_tag(
     for method, path, op in endpoints:
         print(f"  {method:6s} {path}  ({op.get('operationId', '?')})")
 
+    split = split_shared_response_schemas(spec, tag=tag.tag)
+    if split:
+        print(f"  Split shared response schemas: {', '.join(split)}")
+
     model_dir.mkdir(parents=True, exist_ok=True)
 
     request_schemas, response_schemas, needed = discover_schema_sets(spec, endpoints)
+    schema_renames = _resolve_schema_renames(tag, needed)
+
+    def rename(n: str) -> str:
+        return tag.rename(n, schema_renames)
+
     print(f"  Referenced schemas: {len(needed)} " f"(request={len(request_schemas)}, response={len(response_schemas)})")
 
     schemas_for_resolution: dict[str, Any] = dict(needed)
@@ -131,15 +215,7 @@ def generate_models_for_tag(
     response_schema_names = {rename(n) for n in response_schemas}
     request_schema_names = {rename(n) for n in request_schemas}
     shared_schema_names = sorted(request_schema_names & response_schema_names)
-    if shared_schema_names:
-        print(f"  Shared schemas (request ∩ response): {len(shared_schema_names)}")
-        for name in shared_schema_names:
-            schema = needed.get(name) or next(
-                (needed[k] for k in needed if rename(k) == name),
-                {},
-            )
-            kind = "enum" if is_enum(schema) and schema.get("enum") else "model"
-            print(f"    {name} ({kind})")
+    allowed_shared = _check_shared_schemas(tag.tag, shared_schema_names, needed, rename)
 
     to_import: dict[str, str] = {}
     to_generate: dict[str, Any] = {}
@@ -217,7 +293,7 @@ def generate_models_for_tag(
     model_path.write_text(buf)
     print(f"\n  Wrote model file: {model_path}")
 
-    return set(shared_schema_names), endpoints, schemas_for_resolution
+    return set(allowed_shared), endpoints, schemas_for_resolution, schema_renames
 
 
 def generate_for_tag(
@@ -240,7 +316,7 @@ def generate_for_tag(
     if result is None:
         return set()
 
-    shared_schema_names, endpoints, schemas_for_resolution = result
+    shared_schema_names, endpoints, schemas_for_resolution, schema_renames = result
     client_dir.mkdir(parents=True, exist_ok=True)
 
     client_config = tag.client or ClientGenerationConfig(resource_name=tag.resolved_resource_name())
@@ -252,7 +328,7 @@ def generate_for_tag(
         models_package=models_package,
         endpoints=endpoints,
         schemas_for_resolution=schemas_for_resolution,
-        schema_renames=tag.schema_renames,
+        schema_renames=schema_renames,
         client_config=client_config,
     )
     client_path = client_dir / f"{tag.resolved_snake_name()}.py"

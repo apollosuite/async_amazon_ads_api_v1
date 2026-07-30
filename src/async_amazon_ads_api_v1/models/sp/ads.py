@@ -53,24 +53,29 @@ class SPProductIdType(StrEnum):
 class SPAd(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    adGroupId: str = Field(description="The ad group associated with the ad.")
-    adId: str = Field(description="The identifier of the ad.")
-    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
-    adType: Annotated[SPAdType | str, lenient_enum(SPAdType)]
-    campaignId: str = Field(description="The campaign associated with the ad. It's a read-only field.")
-    creationDateTime: datetime = Field(description="The date time that the ad was created.")
-    creative: SPCreative
+    adGroupId: str | None = Field(default=None, description="The ad group associated with the ad.")
+    adId: str | None = Field(default=None, description="The identifier of the ad.")
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)] | None = Field(default=None)
+    adType: Annotated[SPAdType | str, lenient_enum(SPAdType)] | None = Field(default=None)
+    campaignId: str | None = Field(
+        default=None, description="The campaign associated with the ad. It's a read-only field."
+    )
+    creationDateTime: datetime | None = Field(default=None, description="The date time that the ad was created.")
+    creative: SPCreative | None = Field(default=None)
     globalAdId: str | None = Field(
         default=None, description="The global ad identifier that manages this marketplace ad."
     )
-    lastUpdatedDateTime: datetime = Field(description="The date time that the ad was last updated.")
-    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
-    marketplaces: list[Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]] = Field(
+    lastUpdatedDateTime: datetime | None = Field(
+        default=None, description="The date time that the ad was last updated."
+    )
+    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)] | None = Field(default=None)
+    marketplaces: list[Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]] | None = Field(
+        default=None,
         min_length=1,
         max_length=1,
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
-    state: Annotated[SPState | str, lenient_enum(SPState)]
+    state: Annotated[SPState | str, lenient_enum(SPState)] | None = Field(default=None)
     status: SPStatus | None = Field(default=None)
     tags: list[SPTag] | None = Field(
         default=None,
@@ -139,8 +144,8 @@ class SPAdMultiStatusResponse(BaseModel):
 class SPAdMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    ad: SPAd
-    index: int = Field(ge=0, le=999)
+    ad: SPAd | None = Field(default=None)
+    index: int | None = Field(default=None, ge=0, le=999)
 
 
 class SPAdStateFilter(BaseModel):
@@ -185,8 +190,8 @@ class SPAdvertisedProducts(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     globalStoreSetting: SPGlobalStoreSettings | None = Field(default=None)
-    productId: str = Field(description="The identifier of the advertised product.")
-    productIdType: Annotated[SPProductIdType | str, lenient_enum(SPProductIdType)]
+    productId: str | None = Field(default=None, description="The identifier of the advertised product.")
+    productIdType: Annotated[SPProductIdType | str, lenient_enum(SPProductIdType)] | None = Field(default=None)
     resolvedProductId: str | None = Field(
         default=None,
         description="The identifier of product associated with the advertised product. It's a read-only field.",
@@ -279,7 +284,7 @@ class SPGlobalStoreSettings(BaseModel):
 class SPProductCreative(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    productCreativeSettings: SPProductCreativeSettings
+    productCreativeSettings: SPProductCreativeSettings | None = Field(default=None)
 
 
 class SPProductCreativeSettings(BaseModel):
@@ -287,7 +292,7 @@ class SPProductCreativeSettings(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    advertisedProduct: SPAdvertisedProducts
+    advertisedProduct: SPAdvertisedProducts | None = Field(default=None)
     headline: str | None = Field(default=None, description="The headline/custom text associated with the ad creative.")
     spotlightVideos: SPSpotlightVideoSettings | None = Field(default=None)
 
@@ -309,11 +314,14 @@ class SPSpotlightVideoSettings(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    optimizeText: bool = Field(
-        description="If the advertiser wants text they provided to be optimized by Amazon or not."
+    optimizeText: bool | None = Field(
+        default=None, description="If the advertiser wants text they provided to be optimized by Amazon or not."
     )
-    videos: list[SPVideo] = Field(
-        min_length=1, max_length=5, description="The video asset(s) to use for the Sponsored Product experience."
+    videos: list[SPVideo] | None = Field(
+        default=None,
+        min_length=1,
+        max_length=5,
+        description="The video asset(s) to use for the Sponsored Product experience.",
     )
 
 
@@ -362,8 +370,10 @@ class SPUpdateSpotlightVideoSettings(BaseModel):
 class SPVideo(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    assetId: str = Field(description="The asset library ID associated with the video asset.")
-    assetVersion: str = Field(description="The asset library version associated with the video asset.")
+    assetId: str | None = Field(default=None, description="The asset library ID associated with the video asset.")
+    assetVersion: str | None = Field(
+        default=None, description="The asset library version associated with the video asset."
+    )
     description: str | None = Field(default=None, description="The description of the video content.")
     headline: str | None = Field(default=None, description="The headline/custom text associated with the video.")
 

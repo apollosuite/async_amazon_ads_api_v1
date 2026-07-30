@@ -28,15 +28,17 @@ class SBBrandAlternateId(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    alternateBrandId: str = Field(description="The alternative brand identifier for the brandId.")
-    alternateBrandIdType: Annotated[SBAlternateBrandIdType | str, lenient_enum(SBAlternateBrandIdType)]
+    alternateBrandId: str | None = Field(default=None, description="The alternative brand identifier for the brandId.")
+    alternateBrandIdType: Annotated[SBAlternateBrandIdType | str, lenient_enum(SBAlternateBrandIdType)] | None = Field(
+        default=None
+    )
 
 
 class SBBrandedKeyword(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    brandAlternateId: SBBrandAlternateId
-    keyword: str = Field(description="Branded keyword")
+    brandAlternateId: SBBrandAlternateId | None = Field(default=None)
+    keyword: str | None = Field(default=None, description="Branded keyword")
 
 
 class SBBrandedKeywordList(BaseModel):
@@ -56,7 +58,7 @@ class SBBrandedKeywordList(BaseModel):
 class SBBrandedKeywordRecommendationTypeDetails(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    brandAlternateId: list[SBBrandAlternateId] = Field(min_length=1, max_length=1)
+    brandAlternateId: list[SBBrandAlternateId] | None = Field(default=None, min_length=1, max_length=1)
     brandIds: list[str] | None = Field(
         default=None,
         min_length=0,
@@ -107,13 +109,13 @@ class SBObjectSettings(BaseModel):
 class SBRecommendation(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    recommendationId: str = Field(description="The identifier of the recommendation")
-    recommendationType: str = Field(
-        description="A unique value to indicate similar recommendations, used for internal purposes only"
+    recommendationId: str | None = Field(default=None, description="The identifier of the recommendation")
+    recommendationType: str | None = Field(
+        default=None, description="A unique value to indicate similar recommendations, used for internal purposes only"
     )
     recommendationTypeDetails: SBRecommendationTypeDetails | None = Field(default=None)
-    recommendedObjects: list[SBRecommendedObject] = Field(
-        min_length=1, max_length=10, description="The target objects of the recommendation"
+    recommendedObjects: list[SBRecommendedObject] | None = Field(
+        default=None, min_length=1, max_length=10, description="The target objects of the recommendation"
     )
 
 
@@ -136,8 +138,8 @@ class SBRecommendationMultiStatusResponse(BaseModel):
 class SBRecommendationMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    index: int = Field(ge=0, le=0)
-    recommendation: SBRecommendation
+    index: int | None = Field(default=None, ge=0, le=0)
+    recommendation: SBRecommendation | None = Field(default=None)
 
 
 class SBRecommendationTypeDetails(BaseModel):

@@ -43,28 +43,31 @@ class SBAdExtensionType(StrEnum):
 class SBAdExtension(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    adExtensionId: str = Field(description="A unique identifier for the ad_extension.")
-    adExtensionSettings: SBAdExtensionSettings
+    adExtensionId: str | None = Field(default=None, description="A unique identifier for the ad_extension.")
+    adExtensionSettings: SBAdExtensionSettings | None = Field(default=None)
     adExtensionStatus: Annotated[SBAdExtensionStatus | str, lenient_enum(SBAdExtensionStatus)] | None = Field(
         default=None
     )
-    adExtensionType: Annotated[SBAdExtensionType | str, lenient_enum(SBAdExtensionType)]
+    adExtensionType: Annotated[SBAdExtensionType | str, lenient_enum(SBAdExtensionType)] | None = Field(default=None)
     adGroupId: str | None = Field(
         default=None, description="A unique identifier for the ad group associated with the ad_extension."
     )
     adId: str | None = Field(
         default=None, description="A unique identifier for the ad associated with the ad_extension."
     )
-    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
-    creationDateTime: datetime = Field(description="The date time the ad_extension was created.")
-    lastUpdatedDateTime: datetime = Field(description="The date time the ad_extension was last updated.")
-    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)]
-    marketplaces: list[Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]] = Field(
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)] | None = Field(default=None)
+    creationDateTime: datetime | None = Field(default=None, description="The date time the ad_extension was created.")
+    lastUpdatedDateTime: datetime | None = Field(
+        default=None, description="The date time the ad_extension was last updated."
+    )
+    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)] | None = Field(default=None)
+    marketplaces: list[Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]] | None = Field(
+        default=None,
         min_length=1,
         max_length=1,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
     )
-    state: Annotated[SBState | str, lenient_enum(SBState)]
+    state: Annotated[SBState | str, lenient_enum(SBState)] | None = Field(default=None)
 
 
 class SBAdExtensionAdExtensionIdFilter(BaseModel):
@@ -164,8 +167,8 @@ class SBAdExtensionMultiStatusResponse(BaseModel):
 class SBAdExtensionMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    adExtension: SBAdExtension
-    index: int = Field(ge=0, le=49)
+    adExtension: SBAdExtension | None = Field(default=None)
+    index: int | None = Field(default=None, ge=0, le=49)
 
 
 class SBAdExtensionSettings(BaseModel):
@@ -230,7 +233,7 @@ class SBPromptExtension(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    promptText: str = Field(description="The prompt text rendered in the ads")
+    promptText: str | None = Field(default=None, description="The prompt text rendered in the ads")
 
 
 class SBQueryAdExtensionRequest(BaseModel):

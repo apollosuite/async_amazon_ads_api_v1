@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import re
 from pathlib import Path
 from typing import Any
@@ -9,6 +10,13 @@ from typing import Any
 HERE = Path(__file__).parent
 PROJECT_ROOT = HERE.parent
 PACKAGE_ROOT = PROJECT_ROOT / "src" / "async_amazon_ads_api_v1"
+
+
+def normalize_split_schema_name(name: str) -> str:
+    """Map ``FooForResponse`` split schemas to ``FooResponse`` before renaming."""
+    if name.endswith("ForResponse"):
+        return f"{name[: -len('ForResponse')]}Response"
+    return name
 
 
 def rename_schema(name: str, schema_renames: dict[str, str]) -> str:
@@ -182,6 +190,72 @@ def discover_schema_sets(
     return request_schemas, response_schemas, all_needed
 
 
+def replace_schema_refs(obj: Any, mapping: dict[str, str]) -> None:
+    """In-place replace ``$ref`` targets according to *mapping*."""
+    if isinstance(obj, dict):
+        if "$ref" in obj:
+            ref_name = obj["$ref"].split("/")[-1]
+            if ref_name in mapping:
+                obj["$ref"] = f"#/components/schemas/{mapping[ref_name]}"
+            return
+        for value in obj.values():
+            replace_schema_refs(value, mapping)
+    elif isinstance(obj, list):
+        for item in obj:
+            replace_schema_refs(item, mapping)
+
+
+def split_shared_response_schemas(spec: dict, *, tag: str) -> list[str]:
+    """Duplicate request∩response model schemas for response-only references.
+
+    Request models keep the original concise names; response copies are suffixed
+    with ``ForResponse`` in the spec and ``Response`` after renaming.
+
+    Returns the original schema names that were split.
+    """
+    from _pydantic_emit import is_enum, is_type_alias
+
+    endpoints = find_endpoints_by_tag(spec, tag)
+    if not endpoints:
+        return []
+
+    all_schemas = spec.setdefault("components", {}).setdefault("schemas", {})
+    request_schemas, response_schemas, needed = discover_schema_sets(spec, endpoints)
+    shared_names = set(request_schemas) & set(response_schemas)
+
+    to_split: list[str] = []
+    for name in sorted(shared_names):
+        schema = needed[name]
+        if is_enum(schema) and schema.get("enum"):
+            continue
+        if is_type_alias(schema):
+            continue
+        to_split.append(name)
+
+    if not to_split:
+        return []
+
+    mapping = {name: f"{name}ForResponse" for name in to_split}
+
+    for old_name, new_name in mapping.items():
+        all_schemas[new_name] = copy.deepcopy(all_schemas[old_name])
+        replace_schema_refs(all_schemas[new_name], mapping)
+
+    for name in response_schemas:
+        if name in to_split:
+            continue
+        replace_schema_refs(all_schemas[name], mapping)
+
+    for _method, _path, operation in endpoints:
+        for code, resp in operation.get("responses", {}).items():
+            if str(code) not in ("200", "201", "207"):
+                continue
+            for media in resp.get("content", {}).values():
+                replace_schema_refs(media.get("schema", {}), mapping)
+
+    return to_split
+
+
 def discover_schemas(
     spec: dict,
     endpoints: list[tuple[str, str, dict]],
@@ -198,4 +272,4 @@ def build_schema_renames(
     """Build a rename map for all schemas referenced by *tag* endpoints."""
     endpoints = find_endpoints_by_tag(spec, tag)
     _, _, needed = discover_schema_sets(spec, endpoints)
-    return {name: rename_fn(name) for name in needed}
+    return {name: rename_fn(normalize_split_schema_name(name)) for name in needed}

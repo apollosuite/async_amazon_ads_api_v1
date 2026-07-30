@@ -57,10 +57,30 @@ type SDAdName = str  # The name of the ad. Note that this field is not supported
 class SDBackgroundCreativeProperties(BaseModel):
     """User-customizable properties of a creative with background. Only supported for productAds with landingPageType of OFF_AMAZON_LINK."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     backgrounds: list[SDBackground] | None = Field(
         default=None, description="An optional collection of backgrounds which are displayed on the ad."
+    )
+
+
+class SDBackgroundCreativePropertiesResponse(BaseModel):
+    """User-customizable properties of a creative with background. Only supported for productAds with landingPageType of OFF_AMAZON_LINK."""
+
+    model_config = ConfigDict(extra="allow")
+
+    backgrounds: list[SDBackgroundResponse] | None = Field(
+        default=None, description="An optional collection of backgrounds which are displayed on the ad."
+    )
+
+
+class SDBackgroundResponse(BaseModel):
+    """This field denotes background which are displayed on the ad. This field is optional and mutable."""
+
+    model_config = ConfigDict(extra="allow")
+
+    color: str | None = Field(
+        default=None, description="The standard HTML hex color codes of the background (e.g. '#3cb371')."
     )
 
 
@@ -69,19 +89,26 @@ class SDCreativeModeration(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    creativeId: int = Field(description="Unique identifier of the creative.")
-    creativeType: Annotated[SDCreativeTypeInCreativeResponse | str, lenient_enum(SDCreativeTypeInCreativeResponse)]
-    moderationStatus: str = Field(description="""
+    creativeId: int | None = Field(default=None, description="Unique identifier of the creative.")
+    creativeType: (
+        Annotated[SDCreativeTypeInCreativeResponse | str, lenient_enum(SDCreativeTypeInCreativeResponse)] | None
+    ) = Field(default=None)
+    moderationStatus: str | None = Field(
+        default=None,
+        description="""
 The moderation status of the creative.
 |Status|Description|
 |------|-----------|
 |APPROVED|Moderation for the creative is complete.|
 |IN_PROGRESS|Moderation for the creative is in progress. The expected date and time for completion are specfied in the `etaForModeration` field.|
 |REJECTED|The creative has failed moderation. Specific information about the content that violated policy is available in `policyViolations`.|
-""")
-    etaForModeration: datetime = Field(description="Expected date and time by which moderation will be complete.")
-    policyViolations: list[dict[str, Any]] = Field(
-        description="A list of policy violations for a creative that has failed moderation."
+""",
+    )
+    etaForModeration: datetime | None = Field(
+        default=None, description="Expected date and time by which moderation will be complete."
+    )
+    policyViolations: list[dict[str, Any]] | None = Field(
+        default=None, description="A list of policy violations for a creative that has failed moderation."
     )
 
 
@@ -122,7 +149,7 @@ class SDCreativePreviewRequest(BaseModel):
 class SDCreativePreviewResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    previewHtml: str
+    previewHtml: str | None = Field(default=None)
     previewHtmls: list[str] | None = Field(default=None)
 
 
@@ -149,7 +176,7 @@ class SDCreativeUpdate(BaseModel):
 class SDCustomImageCreativeProperties(BaseModel):
     """User-customizable properties of a custom image creative."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     rectCustomImage: SDImage | None = Field(default=None)
     squareCustomImage: SDImage | None = Field(default=None)
@@ -164,7 +191,45 @@ class SDCustomImageCreativeProperties(BaseModel):
     )
 
 
+class SDCustomImageCreativePropertiesResponse(BaseModel):
+    """User-customizable properties of a custom image creative."""
+
+    model_config = ConfigDict(extra="allow")
+
+    rectCustomImage: SDImageResponse | None = Field(default=None)
+    squareCustomImage: SDImageResponse | None = Field(default=None)
+    squareImages: list[SDImageResponse] | None = Field(
+        default=None, description="An optional collection of 1:1 square images which are displayed on the ad."
+    )
+    horizontalImages: list[SDImageResponse] | None = Field(
+        default=None, description="An optional collection of 1.91:1 horizontal images which are displayed on the ad."
+    )
+    verticalImages: list[SDImageResponse] | None = Field(
+        default=None, description="An optional collection of 9:16 vertical images which are displayed on the ad."
+    )
+
+
 class SDHeadlineCreativeProperties(BaseModel):
+    """User-customizable properties of a creative with headline."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    headline: str | None = Field(
+        default=None,
+        max_length=50,
+        description="A marketing phrase to display on the ad. This field is optional and mutable. Maximum number of characters allowed is 50.",
+    )
+    hasTermsAndConditions: bool | None = Field(
+        default=None,
+        description="Indicates that the ad promotes a free product or service (e.g., 'buy one get one free' or 'free one-month trial') and has qualifying terms and conditions applicable to your customer. Only supported for productAds with landingPageType of OFF_AMAZON_LINK. LandingPageURL must link out to a page detailing terms and conditions or contain a link to those.",
+    )
+    originalHeadline: str | None = Field(
+        default=None,
+        description="The original headline submitted by the advertiser. If 'consentToTranslate' is set to true and translation is SUCCESSFUL then `headline` will return the translated headline whereas `originalHeadline` will return the original headline. In all other cases, 'originalHeadline' and `headline` both will return the original headline.",
+    )
+
+
+class SDHeadlineCreativePropertiesResponse(BaseModel):
     """User-customizable properties of a creative with headline."""
 
     model_config = ConfigDict(extra="allow")
@@ -184,15 +249,43 @@ class SDHeadlineCreativeProperties(BaseModel):
     )
 
 
+class SDImageResponse(BaseModel):
+    """This field denotes image which is displayed on the ad. This can either be a brand logo or a custom image. This field is optional and mutable. For custom image, both rectCustomImage and squareCustomImage should use the same asset id and asset version. Specific restrictions based on the Image type are listed in the following table.
+    |Image type|Maximum file size|Minimum width|Minimum height|Accepted file formats|
+    |------|-----------|-----------|-----------|-----------|
+    |Custom Image|5MB|1200|628|JPEG, JPG, PNG, GIF|
+    |Brand Logo|1MB|600|100|JPEG, JPG, PNG|
+    Note: For square custom images the cropped image should be 628x628 at minimum."""
+
+    model_config = ConfigDict(extra="allow")
+
+    assetId: str | None = Field(
+        default=None,
+        description="The unique identifier of the image asset. This assetId comes from the Creative Asset Library.",
+    )
+    assetVersion: str | None = Field(default=None, description="The identifier of the particular image assetversion.")
+    croppingCoordinates: dict[str, Any] | None = Field(
+        default=None, description="Optional cropping coordinates to apply to the image."
+    )
+
+
 type SDLandingPageURL = str
 
 
 class SDLogoCreativeProperties(BaseModel):
     """User-customizable properties of a creative with a logo."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     brandLogo: SDImage | None = Field(default=None)
+
+
+class SDLogoCreativePropertiesResponse(BaseModel):
+    """User-customizable properties of a creative with a logo."""
+
+    model_config = ConfigDict(extra="allow")
+
+    brandLogo: SDImageResponse | None = Field(default=None)
 
 
 class SDPreviewCreativeModel(BaseModel):
@@ -209,7 +302,7 @@ class SDPreviewCreativeModel(BaseModel):
 class SDVideoCreativeProperties(BaseModel):
     """User-customizable properties of a video creative. Use either the 'video' property for a single video, OR one or more of the aspect-ratio-specific collections (squareVideos, horizontalVideos, verticalVideos)."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     video: SDVideo | None = Field(default=None)
     squareVideos: list[SDVideo] | None = Field(
@@ -226,12 +319,83 @@ class SDVideoCreativeProperties(BaseModel):
     )
 
 
+class SDVideoCreativePropertiesResponse(BaseModel):
+    """User-customizable properties of a video creative. Use either the 'video' property for a single video, OR one or more of the aspect-ratio-specific collections (squareVideos, horizontalVideos, verticalVideos)."""
+
+    model_config = ConfigDict(extra="allow")
+
+    video: SDVideoResponse | None = Field(default=None)
+    squareVideos: list[SDVideoResponse] | None = Field(
+        default=None,
+        description="An optional collection of 1:1 square videos which are displayed on the ad. Currently, only one asset is supported in the array.",
+    )
+    horizontalVideos: list[SDVideoResponse] | None = Field(
+        default=None,
+        description="An optional collection of 16:9 horizontal videos which are displayed on the ad. Currently, only one asset is supported in the array.",
+    )
+    verticalVideos: list[SDVideoResponse] | None = Field(
+        default=None,
+        description="An optional collection of 9:16 vertical videos which are displayed on the ad. Currently, only one asset is supported in the array.",
+    )
+
+
+class SDVideoResponse(BaseModel):
+    """This field denotes video which is displayed on the ad. This field is optional and mutable. A video asset must be provided for a VIDEO creative. Specific restrictions based on the video are listed in the following table.
+    ||Specifications|
+    |------------------|------------------|
+    |Maximum file size|500MB|
+    |Aspect ratio|16:9|
+    |Minimum duration|6s|
+    |Maximum duration|45s|
+    |Minimum frame size|1920x1080|
+    |Minimum video bitrate|4mbps|
+    |Video frame rate(fps)|23.976(recommended), 24, 25, or 29.97|
+    |Video frame rate mode|Constant|
+    |Minimum audio bitrate|192kbps|
+    |Audio sample rate|44.1kHz or 48kHz|
+    |Supported Formats|Video: H.264, MPEG-2, or MPEG-4; Audio: PCM or AAC|
+    |Audio Channel|Audio format needs to be stereo or mono.|
+    |Recommended video bitrate|8mbps|
+    |Recommended duration|A duration of exactly 6s, 15s, 20s, or 30s is recommended. Use of videos outside of these durations may negatively impact your campaign performance. Shorter lengths will drive higher VCR (although scale on 6s may be limited).|
+    """
+
+    model_config = ConfigDict(extra="allow")
+
+    assetId: str | None = Field(
+        default=None,
+        description="The unique identifier of the video asset. This assetId comes from the Creative Asset Library.",
+    )
+    assetVersion: str | None = Field(default=None, description="The identifier of the particular video assetversion.")
+    originalAssetId: str | None = Field(
+        default=None,
+        description="The assetId of the original video submitted by the advertiser. If 'consentToTranslate' is set to true and translation is SUCCESSFUL then `originalAssetId` will return the assetId of the original video whereas `assetId` will return the assetId of the translated video. In all other cases, 'originalAssetId' and `assetId` both will return the assetId of the original video.",
+    )
+    originalAssetVersion: str | None = Field(
+        default=None,
+        description="The asset version of the original video submitted by the advertiser. If 'consentToTranslate' is set to true and translation is SUCCESSFUL then `originalAssetVersion` will return the asset version of the original video whereas `assetVersion` will return the asset version of the translated video. In all other cases, 'originalAssetVersion' and `assetVersion` both will return the asset version of the original video.",
+    )
+
+
 class SDCreativeProperties(
     SDHeadlineCreativeProperties,
     SDLogoCreativeProperties,
     SDCustomImageCreativeProperties,
     SDVideoCreativeProperties,
     SDBackgroundCreativeProperties,
+):
+    """Select customizations on your creative from any combination of headline, logo, custom image and backgrounds."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    pass
+
+
+class SDCreativePropertiesResponse(
+    SDHeadlineCreativePropertiesResponse,
+    SDLogoCreativePropertiesResponse,
+    SDCustomImageCreativePropertiesResponse,
+    SDVideoCreativePropertiesResponse,
+    SDBackgroundCreativePropertiesResponse,
 ):
     """Select customizations on your creative from any combination of headline, logo, custom image and backgrounds."""
 
@@ -247,6 +411,8 @@ __all__ = [
     "SDAdGroupId",
     "SDAdName",
     "SDBackgroundCreativeProperties",
+    "SDBackgroundCreativePropertiesResponse",
+    "SDBackgroundResponse",
     "SDCreativeModeration",
     "SDCreativePreviewConfiguration",
     "SDCreativePreviewConfigurations",
@@ -255,10 +421,17 @@ __all__ = [
     "SDCreativeResponse",
     "SDCreativeUpdate",
     "SDCustomImageCreativeProperties",
+    "SDCustomImageCreativePropertiesResponse",
     "SDHeadlineCreativeProperties",
+    "SDHeadlineCreativePropertiesResponse",
+    "SDImageResponse",
     "SDLandingPageURL",
     "SDLogoCreativeProperties",
+    "SDLogoCreativePropertiesResponse",
     "SDPreviewCreativeModel",
     "SDVideoCreativeProperties",
+    "SDVideoCreativePropertiesResponse",
+    "SDVideoResponse",
     "SDCreativeProperties",
+    "SDCreativePropertiesResponse",
 ]

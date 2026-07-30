@@ -40,19 +40,24 @@ class SBAdGroupNameFilterType(StrEnum):
 class SBAdGroup(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    adGroupId: str = Field(description="The unique identifier of the ad group.")
-    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
-    campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
-    creationDateTime: datetime = Field(description="The date time that the ad group was created.")
-    lastUpdatedDateTime: datetime = Field(description="The date time that the ad group was last updated.")
-    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)]
-    marketplaces: list[Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]] = Field(
+    adGroupId: str | None = Field(default=None, description="The unique identifier of the ad group.")
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)] | None = Field(default=None)
+    campaignId: str | None = Field(
+        default=None, description="The unique identifier of the campaign the ad group belongs to."
+    )
+    creationDateTime: datetime | None = Field(default=None, description="The date time that the ad group was created.")
+    lastUpdatedDateTime: datetime | None = Field(
+        default=None, description="The date time that the ad group was last updated."
+    )
+    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)] | None = Field(default=None)
+    marketplaces: list[Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]] | None = Field(
+        default=None,
         min_length=1,
         max_length=1,
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
     )
-    name: str = Field(description="The name of the ad group.")
-    state: Annotated[SBState | str, lenient_enum(SBState)]
+    name: str | None = Field(default=None, description="The name of the ad group.")
+    state: Annotated[SBState | str, lenient_enum(SBState)] | None = Field(default=None)
     status: SBStatus | None = Field(default=None)
     tags: list[SBTag] | None = Field(
         default=None,
@@ -114,8 +119,8 @@ class SBAdGroupMultiStatusResponse(BaseModel):
 class SBAdGroupMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    adGroup: SBAdGroup
-    index: int = Field(ge=0, le=9)
+    adGroup: SBAdGroup | None = Field(default=None)
+    index: int | None = Field(default=None, ge=0, le=9)
 
 
 class SBAdGroupNameFilter(BaseModel):

@@ -107,10 +107,7 @@ class ListStoresResponse(BaseModel):
     )
 
 
-class StoreId(BaseModel):
-    """The Store Identifier."""
-
-    model_config = ConfigDict(extra="allow")
+type StoreId = str  # The Store Identifier.
 
 
 class StoreInfo(BaseModel):

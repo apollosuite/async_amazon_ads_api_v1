@@ -166,7 +166,7 @@ def generate_model(
     fields: list[str] = []
     for fname, fschema in props.items():
         typ = type_fn(fschema, schemas)
-        is_required = fname in required
+        is_required = fname in required and extra == "forbid"
         if not is_required and typ not in ("Any",):
             typ = f"{typ} | None"
 

@@ -76,6 +76,25 @@ class CountryCode(StrEnum):
 
 
 class AccountInfo(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    marketplaceStringId: str | None = Field(
+        default=None, description="The identifier of the marketplace to which the account is associated."
+    )
+    id: str | None = Field(
+        default=None,
+        description="Identifier for sellers and vendors. Note that this value is not unique and may be the same across marketplace.",
+    )
+    type: Annotated[AccountType | str, lenient_enum(AccountType)] | None = Field(default=None)
+    name: str | None = Field(default=None, description="Account name.")
+    subType: str | None = Field(default=None, description="The account subtype.")
+    validPaymentMethod: bool | None = Field(
+        default=None,
+        description="Only present for Vendors, this returns whether the Advertiser has set up a valid payment method or not.",
+    )
+
+
+class AccountInfoResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     marketplaceStringId: str | None = Field(
@@ -95,7 +114,7 @@ class AccountInfo(BaseModel):
 
 
 class Profile(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     profileId: int | None = Field(default=None)
     countryCode: Annotated[CountryCode | str, lenient_enum(CountryCode)] | None = Field(default=None)
@@ -130,7 +149,7 @@ The currency used for all monetary values for entities under this profile.
 |FE|SG|Singapore|SGD|
 """,
     )
-    dailyBudget: float | None = Field(
+    dailyBudget: int | None = Field(
         default=None,
         description="Note that this field applies to Sponsored Product campaigns for seller type accounts only. Not supported for vendor type accounts.",
     )
@@ -172,8 +191,74 @@ class ProfileResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     profileId: int | None = Field(default=None)
-    code: str | None = Field(default=None)
-    details: str | None = Field(default=None)
+    countryCode: Annotated[CountryCode | str, lenient_enum(CountryCode)] | None = Field(default=None)
+    currencyCode: str | None = Field(
+        default=None,
+        description="""
+The currency used for all monetary values for entities under this profile.
+|Region|`countryCode`|Country Name|`currencyCode`|
+|-----|------|------|------|
+|NA|BR|Brazil|BRL|
+|NA|CA|Canada|CAD|
+|NA|MX|Mexico|MXN|
+|NA|US|United States|USD|
+|EU|AE|United Arab Emirates|AED|
+|EU|BE|Belgium|EUR|
+|EU|DE|Germany|EUR|
+|EU|EG|Egypt|EGP|
+|EU|ES|Spain|EUR|
+|EU|FR|France|EUR|
+|EU|IE|Ireland|EUR|
+|EU|IN|India|INR|
+|EU|IT|Italy|EUR|
+|EU|NL|The Netherlands|EUR|
+|EU|PL|Poland|PLN|
+|EU|SA|Saudi Arabia|SAR|
+|EU|SE|Sweden|SEK|
+|EU|TR|Turkey|TRY|
+|EU|UK|United Kingdom|GBP|
+|EU|ZA| South Africa | ZAR|
+|FE|AU|Australia|AUD|
+|FE|JP|Japan|JPY|
+|FE|SG|Singapore|SGD|
+""",
+    )
+    dailyBudget: int | None = Field(
+        default=None,
+        description="Note that this field applies to Sponsored Product campaigns for seller type accounts only. Not supported for vendor type accounts.",
+    )
+    timezone: str | None = Field(
+        default=None,
+        description="""
+The time zone used for all date-based campaign management and reporting.
+|Region|`countryCode`|Country Name|`timezone`|
+|------|-----|-----|------|
+|NA|BR|Brazil|America/Sao_Paulo|
+|NA|CA|Canada|America/Los_Angeles|
+|NA|MX|Mexico|America/Los_Angeles|
+|NA|US|United States|America/Los_Angeles|
+|EU|AE|United Arab Emirates|Asia/Dubai|
+|EU|BE|Belgium|Europe/Brussels|
+|EU|DE|Germany|Europe/Paris|
+|EU|EG|Egypt|Africa/Cairo|
+|EU|ES|Spain|Europe/Paris|
+|EU|FR|France|Europe/Paris|
+|EU|IE|Ireland|Europe/Dublin|
+|EU|IN|India|Asia/Kolkata|
+|EU|IT|Italy|Europe/Paris|
+|EU|NL|The Netherlands|Europe/Amsterdam|
+|EU|PL|Poland|Europe/Warsaw|
+|EU|SA|Saudi Arabia|Asia/Riyadh|
+|EU|SE|Sweden|Europe/Stockholm|
+|EU|TR|Turkey|Europe/Istanbul|
+|EU|UK|United Kingdom|Europe/London|
+|EU|ZA| South Africa | Africa/Johannesburg |
+|FE|AU|Australia|Australia/Sydney|
+|FE|JP|Japan|Asia/Tokyo|
+|FE|SG|Singapore|Asia/Singapore|
+""",
+    )
+    accountInfo: AccountInfoResponse | None = Field(default=None)
 
 
-__all__ = ["AccountType", "CountryCode", "AccountInfo", "Profile", "ProfileResponse"]
+__all__ = ["AccountType", "CountryCode", "AccountInfo", "AccountInfoResponse", "Profile", "ProfileResponse"]

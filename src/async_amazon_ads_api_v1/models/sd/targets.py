@@ -172,7 +172,7 @@ class SDAudienceTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    audienceId: SDMarketplaceStringValue
+    audienceId: SDMarketplaceStringValue | None = Field(default=None)
 
 
 class SDContentCategoryTarget(BaseModel):
@@ -180,7 +180,7 @@ class SDContentCategoryTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    contentCategoryId: str = Field(description="The content category being targeted.")
+    contentCategoryId: str | None = Field(default=None, description="The content category being targeted.")
 
 
 class SDCreateAudienceTarget(BaseModel):
@@ -352,10 +352,11 @@ class SDKeywordTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    keyword: str = Field(
-        description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints)."
+    keyword: str | None = Field(
+        default=None,
+        description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints).",
     )
-    matchType: Annotated[SDKeywordMatchType | str, lenient_enum(SDKeywordMatchType)]
+    matchType: Annotated[SDKeywordMatchType | str, lenient_enum(SDKeywordMatchType)] | None = Field(default=None)
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser."
     )
@@ -367,7 +368,7 @@ class SDLocationTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    locationId: str = Field(description="The ID of the geographic location to target.")
+    locationId: str | None = Field(default=None, description="The ID of the geographic location to target.")
     locationIdResolved: str | None = Field(
         default=None, description="A human-readable location text. It's a read-only field."
     )
@@ -387,10 +388,12 @@ class SDProductAudienceTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    asin: SDMarketplaceStringValue
-    event: Annotated[SDTargetEvent | str, lenient_enum(SDTargetEvent)]
-    lookback: Annotated[SDLookback | str, lenient_enum(SDLookback)]
-    matchType: Annotated[SDProductAudienceMatchType | str, lenient_enum(SDProductAudienceMatchType)]
+    asin: SDMarketplaceStringValue | None = Field(default=None)
+    event: Annotated[SDTargetEvent | str, lenient_enum(SDTargetEvent)] | None = Field(default=None)
+    lookback: Annotated[SDLookback | str, lenient_enum(SDLookback)] | None = Field(default=None)
+    matchType: Annotated[SDProductAudienceMatchType | str, lenient_enum(SDProductAudienceMatchType)] | None = Field(
+        default=None
+    )
 
 
 class SDProductCategoryRefinement(BaseModel):
@@ -434,7 +437,7 @@ class SDProductCategoryTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    productCategoryRefinement: SDProductCategoryRefinementValue
+    productCategoryRefinement: SDProductCategoryRefinementValue | None = Field(default=None)
 
 
 class SDProductTarget(BaseModel):
@@ -442,9 +445,9 @@ class SDProductTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    matchType: Annotated[SDProductMatchType | str, lenient_enum(SDProductMatchType)]
-    product: SDProductValue
-    productIdType: Annotated[SDProductIdType | str, lenient_enum(SDProductIdType)]
+    matchType: Annotated[SDProductMatchType | str, lenient_enum(SDProductMatchType)] | None = Field(default=None)
+    product: SDProductValue | None = Field(default=None)
+    productIdType: Annotated[SDProductIdType | str, lenient_enum(SDProductIdType)] | None = Field(default=None)
 
 
 class SDProductValue(BaseModel):
@@ -475,21 +478,21 @@ class SDTarget(BaseModel):
         default=None,
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets.",
     )
-    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
+    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)] | None = Field(default=None)
     bid: SDTargetBid | None = Field(default=None)
     campaignId: str | None = Field(
         default=None,
         description="A unique identifier for the campaign associated with the target. Only used for campaign-level targets.",
     )
-    creationDateTime: datetime = Field(description="The date time the target was created.")
-    lastUpdatedDateTime: datetime = Field(description="The date time the target was last updated.")
-    negative: bool = Field(description="Indicates whether the target is negative or not.")
-    state: Annotated[SDState | str, lenient_enum(SDState)]
+    creationDateTime: datetime | None = Field(default=None, description="The date time the target was created.")
+    lastUpdatedDateTime: datetime | None = Field(default=None, description="The date time the target was last updated.")
+    negative: bool | None = Field(default=None, description="Indicates whether the target is negative or not.")
+    state: Annotated[SDState | str, lenient_enum(SDState)] | None = Field(default=None)
     status: SDStatus | None = Field(default=None)
-    targetDetails: SDTargetDetails
-    targetId: str = Field(description="A unique identifier for the target.")
-    targetLevel: Annotated[SDTargetLevel | str, lenient_enum(SDTargetLevel)]
-    targetType: Annotated[SDTargetType | str, lenient_enum(SDTargetType)]
+    targetDetails: SDTargetDetails | None = Field(default=None)
+    targetId: str | None = Field(default=None, description="A unique identifier for the target.")
+    targetLevel: Annotated[SDTargetLevel | str, lenient_enum(SDTargetLevel)] | None = Field(default=None)
+    targetType: Annotated[SDTargetType | str, lenient_enum(SDTargetType)] | None = Field(default=None)
 
 
 class SDTargetAdGroupIdFilter(BaseModel):
@@ -517,7 +520,7 @@ class SDTargetBid(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     bid: float | None = Field(default=None, description="The maximum bid for a target.")
-    currencyCode: Annotated[SDCurrencyCode | str, lenient_enum(SDCurrencyCode)]
+    currencyCode: Annotated[SDCurrencyCode | str, lenient_enum(SDCurrencyCode)] | None = Field(default=None)
 
 
 class SDTargetCampaignIdFilter(BaseModel):
@@ -568,8 +571,8 @@ class SDTargetMultiStatusResponse(BaseModel):
 class SDTargetMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    index: int = Field(ge=0, le=999)
-    target: SDTarget
+    index: int | None = Field(default=None, ge=0, le=999)
+    target: SDTarget | None = Field(default=None)
 
 
 class SDTargetStateFilter(BaseModel):
@@ -615,7 +618,7 @@ class SDThemeTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    matchType: Annotated[SDThemeMatchType | str, lenient_enum(SDThemeMatchType)]
+    matchType: Annotated[SDThemeMatchType | str, lenient_enum(SDThemeMatchType)] | None = Field(default=None)
 
 
 class SDUpdateTargetBid(BaseModel):

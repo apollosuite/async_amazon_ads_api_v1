@@ -69,7 +69,7 @@ class SBCreateOptimizationRuleSuccessResponseItem(BaseModel):
 
     optimizationRule: SBOptimizationRule | None = Field(default=None)
     entityType: str | None = Field(default=None)
-    index: float | None = Field(
+    index: int | None = Field(
         default=None, ge=0, le=10, description="The index of the entityId in the array from the request body."
     )
     entityId: str | None = Field(default=None, description="Entity object identifier.")
@@ -120,7 +120,7 @@ class SBListOptimizationRulesRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     entityFilter: SBEntityFilter | None = Field(default=None)
-    maxResults: float | None = Field(
+    maxResults: int | None = Field(
         default=None,
         ge=1,
         le=100,
@@ -138,7 +138,7 @@ class SBListOptimizationRulesResponse(BaseModel):
     nextToken: str | None = Field(
         default=None, description="Token value allowing to navigate to the next response page."
     )
-    totalCount: float | None = Field(default=None, description="The total number of entities.")
+    totalCount: int | None = Field(default=None, description="The total number of entities.")
     optimizationRules: list[SBOptimizationRule] | None = Field(default=None, min_length=1, max_length=100)
 
 
@@ -146,13 +146,13 @@ class SBOptimizationRule(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     optimizationRuleId: str | None = Field(default=None, description="The identifier of the optimization rule.")
-    conditions: list[SBRuleCondition] | None = Field(default=None, min_length=1, max_length=1)
+    conditions: list[SBRuleConditionResponse] | None = Field(default=None, min_length=1, max_length=1)
 
 
 class SBOptimizationRuleFailureResponseItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    index: float | None = Field(
+    index: int | None = Field(
         default=None,
         ge=0,
         le=10,
@@ -187,7 +187,7 @@ class SBOptimizationRuleToEntityMappingSuccessResponseItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     entityType: str | None = Field(default=None)
-    index: float | None = Field(
+    index: int | None = Field(
         default=None,
         ge=0,
         le=10,
@@ -205,9 +205,25 @@ class SBOptimizationRulesError(BaseModel):
 
 
 class SBRuleCondition(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    criteria: SBValueTypeRuleCriteria
+    attributeName: str = Field(description="""
+Enum: "COST_PER_CLICK"
+
+The name of the attribute.
+
+ Supported rule metrics and corresponding supported comparisonOperators:
+| AttributeName                      |  ComparisonOperator       |  Description                                                                            |
+|------------------------------------|---------------------------|-----------------------------------------------------------------------------------------|
+| COST_PER_CLICK                     | LESS_THAN_OR_EQUAL_TO     | Maximize page visits while cost per click less than or equal to threshold.              |
+""")
+
+
+class SBRuleConditionResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    criteria: SBValueTypeRuleCriteria | None = Field(default=None)
+    criteria: SBValueTypeRuleCriteriaResponse | None = Field(default=None)
     attributeName: str | None = Field(
         default=None,
         description="""
@@ -234,7 +250,7 @@ class SBUpdateOptimizationRuleSuccessResponseItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     optimizationRule: SBOptimizationRule | None = Field(default=None)
-    index: float | None = Field(
+    index: int | None = Field(
         default=None, ge=0, le=10, description="The index of the entityId in the array from the request body."
     )
     optimizationRuleId: str | None = Field(default=None, description="The identifier of the optimization rule.")
@@ -253,6 +269,20 @@ class SBUpdateOptimizationRulesResponse(BaseModel):
 
 
 class SBValueTypeRuleCriteria(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    comparisonOperator: str | None = Field(
+        default=None,
+        description="""
+Enum: "LESS_THAN_OR_EQUAL_TO"
+
+The comparison operator.
+""",
+    )
+    value: float | None = Field(default=None, description="The value of the threshold associated with the attribute.")
+
+
+class SBValueTypeRuleCriteriaResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     comparisonOperator: str | None = Field(
@@ -289,9 +319,11 @@ __all__ = [
     "SBOptimizationRuleToEntityMappingSuccessResponseItem",
     "SBOptimizationRulesError",
     "SBRuleCondition",
+    "SBRuleConditionResponse",
     "SBUpdateOptimizationRule",
     "SBUpdateOptimizationRuleSuccessResponseItem",
     "SBUpdateOptimizationRulesRequest",
     "SBUpdateOptimizationRulesResponse",
     "SBValueTypeRuleCriteria",
+    "SBValueTypeRuleCriteriaResponse",
 ]

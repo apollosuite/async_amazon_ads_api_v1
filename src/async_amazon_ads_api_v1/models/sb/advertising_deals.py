@@ -65,16 +65,16 @@ class SBAdvertisingDealStatusEnum(StrEnum):
 class SBAdvertisingDeal(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    advertisingDealId: str = Field(description="A unique identifier for a deal.")
-    endDateTime: datetime = Field(description="The end date time for the deal.")
-    name: str = Field(description="The name of the deal.")
+    advertisingDealId: str | None = Field(default=None, description="A unique identifier for a deal.")
+    endDateTime: datetime | None = Field(default=None, description="The end date time for the deal.")
+    name: str | None = Field(default=None, description="The name of the deal.")
     price: SBAdvertisingDealPrice | None = Field(default=None)
     replacingDealId: str | None = Field(
         default=None, description="The ID of an advertising deal that this deal intends to replace."
     )
-    startDateTime: datetime = Field(description="The start date time for the deal.")
+    startDateTime: datetime | None = Field(default=None, description="The start date time for the deal.")
     state: Annotated[SBAdvertisingDealState | str, lenient_enum(SBAdvertisingDealState)] | None = Field(default=None)
-    status: SBAdvertisingDealStatus
+    status: SBAdvertisingDealStatus | None = Field(default=None)
 
 
 class SBAdvertisingDealAdvertisingDealIdFilter(BaseModel):
@@ -106,8 +106,8 @@ class SBAdvertisingDealMultiStatusResponse(BaseModel):
 class SBAdvertisingDealMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    advertisingDeal: SBAdvertisingDeal
-    index: int = Field(ge=0, le=9)
+    advertisingDeal: SBAdvertisingDeal | None = Field(default=None)
+    index: int | None = Field(default=None, ge=0, le=9)
 
 
 class SBAdvertisingDealNameFilter(BaseModel):
@@ -120,15 +120,19 @@ class SBAdvertisingDealNameFilter(BaseModel):
 class SBAdvertisingDealPrice(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    currencyCode: Annotated[SBCurrencyCode | str, lenient_enum(SBCurrencyCode)]
-    priceType: Annotated[SBAdvertisingDealPriceType | str, lenient_enum(SBAdvertisingDealPriceType)]
-    value: float = Field(description="The monetary amount of the price in the given currency.")
+    currencyCode: Annotated[SBCurrencyCode | str, lenient_enum(SBCurrencyCode)] | None = Field(default=None)
+    priceType: Annotated[SBAdvertisingDealPriceType | str, lenient_enum(SBAdvertisingDealPriceType)] | None = Field(
+        default=None
+    )
+    value: float | None = Field(default=None, description="The monetary amount of the price in the given currency.")
 
 
 class SBAdvertisingDealStatus(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    status: Annotated[SBAdvertisingDealStatusEnum | str, lenient_enum(SBAdvertisingDealStatusEnum)]
+    status: Annotated[SBAdvertisingDealStatusEnum | str, lenient_enum(SBAdvertisingDealStatusEnum)] | None = Field(
+        default=None
+    )
 
 
 class SBAdvertisingDealSuccessResponse(BaseModel):

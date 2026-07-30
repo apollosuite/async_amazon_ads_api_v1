@@ -86,20 +86,29 @@ class SPAssociatedBudgetRuleResponse(BaseModel):
 class SPAssociatedCampaign(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    campaignId: str = Field(description="The campaign identifier.")
-    campaignName: str = Field(description="The campaign name.")
-    ruleStatus: str = Field(description="The budget rule evaluation status for this campaign. Read-only.")
+    campaignId: str | None = Field(default=None, description="The campaign identifier.")
+    campaignName: str | None = Field(default=None, description="The campaign name.")
+    ruleStatus: str | None = Field(
+        default=None, description="The budget rule evaluation status for this campaign. Read-only."
+    )
 
 
 class SPBudgetIncreaseBy(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     type: Annotated[SPBudgetChangeType | str, lenient_enum(SPBudgetChangeType)]
     value: float = Field(description="The budget value.")
 
 
-class SPBudgetRule(BaseModel):
+class SPBudgetIncreaseByResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
+
+    type: Annotated[SPBudgetChangeType | str, lenient_enum(SPBudgetChangeType)] | None = Field(default=None)
+    value: float | None = Field(default=None, description="The budget value.")
+
+
+class SPBudgetRule(BaseModel):
+    model_config = ConfigDict(extra="forbid")
 
     createdDate: int | None = Field(default=None, description="Epoch time of budget rule creation. Read-only.")
     lastUpdatedDate: int | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
@@ -112,7 +121,7 @@ class SPBudgetRule(BaseModel):
 class SPBudgetRuleDetails(BaseModel):
     """Object representing details of a budget rule for SP campaign"""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     budgetIncreaseBy: SPBudgetIncreaseBy | None = Field(default=None)
     duration: SPRuleDuration | None = Field(default=None)
@@ -121,6 +130,21 @@ class SPBudgetRuleDetails(BaseModel):
     )
     performanceMeasureCondition: SPPerformanceMeasureCondition | None = Field(default=None)
     recurrence: SPRecurrence | None = Field(default=None)
+    ruleType: Annotated[SPRuleType | str, lenient_enum(SPRuleType)] | None = Field(default=None)
+
+
+class SPBudgetRuleDetailsResponse(BaseModel):
+    """Object representing details of a budget rule for SP campaign"""
+
+    model_config = ConfigDict(extra="allow")
+
+    budgetIncreaseBy: SPBudgetIncreaseByResponse | None = Field(default=None)
+    duration: SPRuleDurationResponse | None = Field(default=None)
+    name: str | None = Field(
+        default=None, max_length=355, description="The budget rule name. Required to be unique within a campaign."
+    )
+    performanceMeasureCondition: SPPerformanceMeasureConditionResponse | None = Field(default=None)
+    recurrence: SPRecurrenceResponse | None = Field(default=None)
     ruleType: Annotated[SPRuleType | str, lenient_enum(SPRuleType)] | None = Field(default=None)
 
 
@@ -183,8 +207,8 @@ class SPCampaignBudgetRule(BaseModel):
 
     createdDate: int | None = Field(default=None, description="Epoch time of budget rule creation. Read-only.")
     lastUpdatedDate: int | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
-    ruleDetails: SPBudgetRuleDetails | None = Field(default=None)
-    ruleId: str = Field(description="The budget rule identifier.")
+    ruleDetails: SPBudgetRuleDetailsResponse | None = Field(default=None)
+    ruleId: str | None = Field(default=None, description="The budget rule identifier.")
     ruleState: Annotated[SPBudgetRuleState | str, lenient_enum(SPBudgetRuleState)] | None = Field(default=None)
     ruleStatus: str | None = Field(default=None, description="The budget rule evaluation status. Read-only.")
 
@@ -220,7 +244,7 @@ class SPCreateBudgetRulesResponse(BaseModel):
 class SPDateRangeTypeRuleDuration(BaseModel):
     """Object representing date range type rule duration."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     endDate: str | None = Field(
         default=None,
@@ -231,6 +255,21 @@ class SPDateRangeTypeRuleDuration(BaseModel):
     )
 
 
+class SPDateRangeTypeRuleDurationResponse(BaseModel):
+    """Object representing date range type rule duration."""
+
+    model_config = ConfigDict(extra="allow")
+
+    endDate: str | None = Field(
+        default=None,
+        description="The end date of the budget rule in YYYYMMDD format. The end date is inclusive. Required to be equal or greater than `startDate`.",
+    )
+    startDate: str | None = Field(
+        default=None,
+        description="The start date of the budget rule in YYYYMMDD format. The start date is inclusive. Required to be greater than or equal to current date.",
+    )
+
+
 class SPDisassociateAssociatedBudgetRuleResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
@@ -238,11 +277,28 @@ class SPDisassociateAssociatedBudgetRuleResponse(BaseModel):
 class SPEventTypeRuleDuration(BaseModel):
     """Object representing event type rule duration."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     endDate: str | None = Field(default=None, description="The event end date in YYYYMMDD format. Read-only.")
     eventId: str = Field(
         description="The event identifier. This value is available from the budget rules recommendation API."
+    )
+    eventName: str | None = Field(default=None, description="The event name. Read-only.")
+    startDate: str | None = Field(
+        default=None,
+        description="The event start date in YYYYMMDD format. Read-only. Note that this field is present only for announced events.",
+    )
+
+
+class SPEventTypeRuleDurationResponse(BaseModel):
+    """Object representing event type rule duration."""
+
+    model_config = ConfigDict(extra="allow")
+
+    endDate: str | None = Field(default=None, description="The event end date in YYYYMMDD format. Read-only.")
+    eventId: str | None = Field(
+        default=None,
+        description="The event identifier. This value is available from the budget rules recommendation API.",
     )
     eventName: str | None = Field(default=None, description="The event name. Read-only.")
     startDate: str | None = Field(
@@ -269,13 +325,13 @@ class SPGetAssociatedCampaignsResponse(BaseModel):
 class SPGetBudgetRuleResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    budgetRule: SPBudgetRule | None = Field(default=None)
+    budgetRule: SPBudgetRuleResponse | None = Field(default=None)
 
 
 class SPGetBudgetRulesForAdvertiserResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    budgetRulesForAdvertiserResponse: list[SPBudgetRule] | None = Field(
+    budgetRulesForAdvertiserResponse: list[SPBudgetRuleResponse] | None = Field(
         default=None, min_length=0, max_length=30, description="A list of rules created by the advertiser."
     )
     nextToken: str | None = Field(
@@ -293,21 +349,65 @@ class SPListAssociatedBudgetRulesResponse(BaseModel):
 
 
 class SPPerformanceMeasureCondition(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     comparisonOperator: Annotated[SPComparisonOperator | str, lenient_enum(SPComparisonOperator)]
     metricName: Annotated[SPPerformanceMetric | str, lenient_enum(SPPerformanceMetric)]
     threshold: float = Field(description="The performance threshold value.")
 
 
-class SPRuleDuration(BaseModel):
+class SPPerformanceMeasureConditionResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
+
+    comparisonOperator: Annotated[SPComparisonOperator | str, lenient_enum(SPComparisonOperator)] | None = Field(
+        default=None
+    )
+    metricName: Annotated[SPPerformanceMetric | str, lenient_enum(SPPerformanceMetric)] | None = Field(default=None)
+    threshold: float | None = Field(default=None, description="The performance threshold value.")
+
+
+class SPRecurrenceResponse(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    daysOfWeek: list[Annotated[SPDayOfWeek | str, lenient_enum(SPDayOfWeek)]] | None = Field(
+        default=None,
+        description="Object representing days of the week for weekly type rule. It is not required for daily recurrence type",
+    )
+    intraDaySchedule: list[SPTimeOfDayResponse] | None = Field(
+        default=None,
+        max_length=1,
+        description="List of objects representing start and end time of desired intra-day budget rule window",
+    )
+    type: Annotated[SPRecurrenceType | str, lenient_enum(SPRecurrenceType)] | None = Field(default=None)
+
+
+class SPRuleDuration(BaseModel):
+    model_config = ConfigDict(extra="forbid")
 
     dateRangeTypeRuleDuration: SPDateRangeTypeRuleDuration | None = Field(default=None)
     eventTypeRuleDuration: SPEventTypeRuleDuration | None = Field(default=None)
 
 
+class SPRuleDurationResponse(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    dateRangeTypeRuleDuration: SPDateRangeTypeRuleDurationResponse | None = Field(default=None)
+    eventTypeRuleDuration: SPEventTypeRuleDurationResponse | None = Field(default=None)
+
+
 class SPTimeOfDay(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    endTime: str | None = Field(
+        default=None,
+        description="The end time of intra-day budget rule window in the format 'hh:mm:ss'. Required to be greater than start-time.",
+    )
+    startTime: str | None = Field(
+        default=None, description="The start time of intra-day budget rule window in the format 'hh:mm:ss'"
+    )
+
+
+class SPTimeOfDayResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     endTime: str | None = Field(
@@ -345,8 +445,10 @@ __all__ = [
     "SPAssociatedBudgetRuleResponse",
     "SPAssociatedCampaign",
     "SPBudgetIncreaseBy",
+    "SPBudgetIncreaseByResponse",
     "SPBudgetRule",
     "SPBudgetRuleDetails",
+    "SPBudgetRuleDetailsResponse",
     "SPBudgetRuleResponse",
     "SPBudgetRulesRelations",
     "SPBulkBudgetRulesAssociationRequest",
@@ -360,15 +462,21 @@ __all__ = [
     "SPCreateBudgetRulesRequest",
     "SPCreateBudgetRulesResponse",
     "SPDateRangeTypeRuleDuration",
+    "SPDateRangeTypeRuleDurationResponse",
     "SPDisassociateAssociatedBudgetRuleResponse",
     "SPEventTypeRuleDuration",
+    "SPEventTypeRuleDurationResponse",
     "SPGetAssociatedCampaignsResponse",
     "SPGetBudgetRuleResponse",
     "SPGetBudgetRulesForAdvertiserResponse",
     "SPListAssociatedBudgetRulesResponse",
     "SPPerformanceMeasureCondition",
+    "SPPerformanceMeasureConditionResponse",
+    "SPRecurrenceResponse",
     "SPRuleDuration",
+    "SPRuleDurationResponse",
     "SPTimeOfDay",
+    "SPTimeOfDayResponse",
     "SPUpdateBudgetRulesRequest",
     "SPUpdateBudgetRulesResponse",
 ]

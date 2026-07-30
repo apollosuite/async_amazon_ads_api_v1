@@ -72,7 +72,7 @@ class AlternateId(BaseModel):
 
     countryCode: str | None = Field(default=None, description="The country code of the advertising account")
     entityId: str | None = Field(default=None, description="The entity id of the advertising account")
-    profileId: float | None = Field(default=None, description="The Profile Id of the advertising account")
+    profileId: int | None = Field(default=None, description="The Profile Id of the advertising account")
 
 
 class AmazonAuthor(BaseModel):
@@ -140,7 +140,7 @@ class Error(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     errorCode: str | None = Field(default=None, min_length=1)
-    errorId: float | None = Field(default=None)
+    errorId: int | None = Field(default=None)
     errorMessage: str | None = Field(default=None, min_length=1)
 
 
@@ -153,7 +153,7 @@ class GetAccountResponseContent(BaseModel):
 class ListAdsAccountsRequestContent(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    maxResults: float | None = Field(default=100.0, ge=1, le=100)
+    maxResults: int | None = Field(default=100, ge=1, le=100)
     nextToken: str | None = Field(
         default=None, description="The token is used to fetch the next page of results if they exist."
     )

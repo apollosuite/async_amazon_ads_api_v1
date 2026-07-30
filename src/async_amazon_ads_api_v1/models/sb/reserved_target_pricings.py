@@ -16,7 +16,9 @@ class SBCreateReservedTargetPricingRequest(BaseModel):
 class SBReservedTargetPricing(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    targetPricingId: str = Field(description="A unique identifier for the reserved target pricing.")
+    targetPricingId: str | None = Field(
+        default=None, description="A unique identifier for the reserved target pricing."
+    )
 
 
 class SBReservedTargetPricingCreate(BaseModel):
@@ -33,8 +35,8 @@ class SBReservedTargetPricingMultiStatusResponse(BaseModel):
 class SBReservedTargetPricingMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    index: int = Field(ge=0, le=9)
-    reservedTargetPricing: SBReservedTargetPricing
+    index: int | None = Field(default=None, ge=0, le=9)
+    reservedTargetPricing: SBReservedTargetPricing | None = Field(default=None)
 
 
 __all__ = [
