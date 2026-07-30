@@ -14,14 +14,15 @@ from collections.abc import Callable
 from pathlib import Path
 
 from _codegen_runner import GenerationProject, TagSpec, run
+from _openapi_schema import SPECS_DIR
 
 HERE = Path(__file__).parent
 PROJECT = HERE.parent / "src" / "async_amazon_ads_api_v1"
 
 SPECS: dict[str, Path] = {
-    "sp": HERE / "AmazonAdsAPISPMerged_prod_3p.json",
-    "sb": HERE / "AmazonAdsAPISBMerged_prod_3p.json",
-    "sd": HERE / "AmazonAdsAPISDMerged_prod_3p.json",
+    "sp": SPECS_DIR / "AmazonAdsAPISPMerged_prod_3p.json",
+    "sb": SPECS_DIR / "AmazonAdsAPISBMerged_prod_3p.json",
+    "sd": SPECS_DIR / "AmazonAdsAPISDMerged_prod_3p.json",
 }
 
 TAGS: dict[str, list[tuple[str, str]]] = {

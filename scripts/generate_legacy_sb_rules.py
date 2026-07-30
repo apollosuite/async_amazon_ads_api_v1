@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate Pydantic models for legacy SB optimization rules.
 
-Reads ``scripts/sponsoredBrands_40_openapi.json`` (tag: ``Optimization rules``)
+Reads ``scripts/specs/sponsoredBrands_40_openapi.json`` (tag: ``Optimization rules``)
 and generates ``models/legacy/sb_rules.py``.
 
 Usage:
@@ -10,13 +10,11 @@ Usage:
 
 from __future__ import annotations
 
-from pathlib import Path
-
 from _codegen_runner import GenerationProject, TagSpec, run
+from _openapi_schema import PACKAGE_ROOT, SPECS_DIR
 
-HERE = Path(__file__).parent
-SPEC_PATH = HERE / "sponsoredBrands_40_openapi.json"
-MODEL_DIR = HERE.parent / "src" / "async_amazon_ads_api_v1" / "models" / "legacy"
+SPEC_PATH = SPECS_DIR / "sponsoredBrands_40_openapi.json"
+MODEL_DIR = PACKAGE_ROOT / "models" / "legacy"
 MODELS_PACKAGE = "models.legacy"
 TAG = "Optimization rules"
 PREFIX_STRIPS = ["SponsoredBrands", "Content"]

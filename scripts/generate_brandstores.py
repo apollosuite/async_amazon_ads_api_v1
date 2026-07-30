@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate client interface code for all general-purpose API tags.
 
-Reads ``scripts/AmazonAdsAPIALLMerged_prod_3p.json`` and for each tag in
+Reads ``scripts/specs/AmazonAdsAPIALLMerged_prod_3p.json`` and for each tag in
 ``CONFIGS`` generates model + client modules under ``models/general/`` and
 ``client/general/``.
 
@@ -11,14 +11,11 @@ Usage:
 
 from __future__ import annotations
 
-from pathlib import Path
-
 from _client_emit import ClientGenerationConfig
 from _codegen_runner import GenerationProject, TagSpec, run
-from _openapi_schema import PACKAGE_ROOT
+from _openapi_schema import PACKAGE_ROOT, SPECS_DIR
 
-HERE = Path(__file__).parent
-SPEC_PATH = HERE / "AmazonAdsAPIALLMerged_prod_3p.json"
+SPEC_PATH = SPECS_DIR / "AmazonAdsAPIALLMerged_prod_3p.json"
 MODEL_DIR = PACKAGE_ROOT / "models" / "general"
 CLIENT_DIR = PACKAGE_ROOT / "client" / "general"
 MODELS_PACKAGE = "models.general"

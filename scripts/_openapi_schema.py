@@ -9,6 +9,7 @@ from typing import Any
 HERE = Path(__file__).parent
 PROJECT_ROOT = HERE.parent
 PACKAGE_ROOT = PROJECT_ROOT / "src" / "async_amazon_ads_api_v1"
+SPECS_DIR = HERE / "specs"
 
 
 def rename_schema(name: str, schema_renames: dict[str, str]) -> str:

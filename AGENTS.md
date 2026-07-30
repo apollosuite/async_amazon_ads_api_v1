@@ -7,9 +7,10 @@ Pure async Python SDK for the Amazon Advertising API — Sponsored Products / Sp
 ```
 .
 ├── scripts/
-│   ├── AmazonAdsAPISPMerged_prod_3p.json   # SP OpenAPI 规范（不修改）
-│   ├── AmazonAdsAPISBMerged_prod_3p.json   # SB OpenAPI 规范
-│   ├── AmazonAdsAPISDMerged_prod_3p.json   # SD OpenAPI 规范
+│   ├── specs/                              # OpenAPI 规范文件
+│   │   ├── AmazonAdsAPISPMerged_prod_3p.json   # SP OpenAPI 规范（不修改）
+│   │   ├── AmazonAdsAPISBMerged_prod_3p.json   # SB OpenAPI 规范
+│   │   └── AmazonAdsAPISDMerged_prod_3p.json   # SD OpenAPI 规范
 │   ├── download_spec.py                    # 下载 OpenAPI 规范
 │   ├── generate_all.py                     # 一键生成所有产品模型
 │   ├── generate_models.py                  # SP/SB/SD 模型 + Client 生成入口

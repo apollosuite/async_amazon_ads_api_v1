@@ -7,13 +7,11 @@ Usage:
 from __future__ import annotations
 
 import re
-from pathlib import Path
 
 from _codegen_runner import GenerationProject, TagSpec, run
-from _openapi_schema import PACKAGE_ROOT
+from _openapi_schema import PACKAGE_ROOT, SPECS_DIR
 
-HERE = Path(__file__).parent
-SPEC_PATH = HERE / "sponsoredDisplay_30_openapi.yaml"
+SPEC_PATH = SPECS_DIR / "sponsoredDisplay_30_openapi.yaml"
 MODEL_DIR = PACKAGE_ROOT / "models" / "legacy"
 MODELS_PACKAGE = "models.legacy"
 

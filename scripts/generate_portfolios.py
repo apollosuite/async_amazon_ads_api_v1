@@ -6,13 +6,10 @@ Usage:
 
 from __future__ import annotations
 
-from pathlib import Path
-
 from _codegen_runner import GenerationProject, TagSpec, run
-from _openapi_schema import PACKAGE_ROOT
+from _openapi_schema import PACKAGE_ROOT, SPECS_DIR
 
-HERE = Path(__file__).parent
-SPEC_PATH = HERE / "Portfolios_prod_3p.json"
+SPEC_PATH = SPECS_DIR / "Portfolios_prod_3p.json"
 MODEL_DIR = PACKAGE_ROOT / "models" / "legacy"
 MODELS_PACKAGE = "models.legacy"
 

@@ -4,8 +4,7 @@ import json
 from pathlib import Path
 
 import httpx
-
-HERE = Path(__file__).parent
+from _openapi_schema import SPECS_DIR
 
 specs: dict[str, str] = {
     "AmazonAdsAPISPMerged_prod_3p.json": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISPMerged_prod_3p.json",
@@ -39,8 +38,9 @@ def download(url: str, dest: Path) -> None:
 
 
 def main() -> None:
+    SPECS_DIR.mkdir(parents=True, exist_ok=True)
     for filename, url in specs.items():
-        download(url, HERE / filename)
+        download(url, SPECS_DIR / filename)
 
 
 if __name__ == "__main__":
