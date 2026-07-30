@@ -1,4 +1,4 @@
-"""Generate Pydantic models for all three product APIs and format the codebase.
+"""Generate all Pydantic models (and general API clients) and format the codebase.
 
 Usage:
     uv run python scripts/generate_all.py
@@ -26,24 +26,24 @@ def run(cmd: list[str], cwd: Path | None = None) -> None:
         print(result.stdout)
 
 
+def run_script(script: str, *args: str) -> None:
+    run([sys.executable, str(SCRIPTS / script), *args])
+
+
 def main() -> None:
-    products = ["sp", "sb", "sd"]
     output_base = SRC / "async_amazon_ads_api_v1" / "models"
 
-    for product in products:
-        run(
-            [
-                sys.executable,
-                str(SCRIPTS / "generate_models.py"),
-                "--product",
-                product,
-                "--output-dir",
-                str(output_base / product),
-            ]
+    for product in ("sp", "sb", "sd"):
+        run_script(
+            "generate_models.py",
+            "--product",
+            product,
+            "--output-dir",
+            str(output_base / product),
         )
 
-    # Legacy model generators
-    legacy_scripts = [
+    # Legacy models (clients remain hand-maintained)
+    for script in (
         "generate_legacy_sb_rules.py",
         "generate_legacy_sd_rules.py",
         "generate_sp_budget_rules.py",
@@ -53,13 +53,14 @@ def main() -> None:
         "generate_portfolios.py",
         "generate_legacy_accounts_models.py",
         "generate_legacy_profiles_models.py",
-        "generate_brandhome.py",
-        "generate_brandstores.py",
-    ]
-    for script in legacy_scripts:
-        run(["uv", "run", "python", str(SCRIPTS / script)])
+    ):
+        run_script(script)
 
-    run(["uv", "run", "ruff", "check", "--fix", str(SRC)])
+    # General API: models + auto-generated clients
+    for script in ("generate_brandhome.py", "generate_brandstores.py"):
+        run_script(script)
+
+    run(["uv", "run", "ruff", "check", "--fix", str(SRC), str(SCRIPTS)])
     run(["uv", "run", "black", str(SRC), str(SCRIPTS)])
 
     print("Done — all models regenerated and code formatted.")

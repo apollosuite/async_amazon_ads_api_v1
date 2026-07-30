@@ -23,6 +23,34 @@ def rename_schema(name: str, schema_renames: dict[str, str]) -> str:
     return schema_renames.get(name, name)
 
 
+def flatten_allof(schema: dict, schemas: dict[str, Any]) -> dict:
+    """Flatten allOf entries into a single properties + required dict."""
+    if "allOf" not in schema:
+        return schema
+
+    merged_props: dict[str, Any] = {}
+    merged_required: set[str] = set()
+
+    for entry in schema["allOf"]:
+        if "$ref" in entry:
+            ref_name = entry["$ref"].split("/")[-1]
+            ref_schema = schemas.get(ref_name, {})
+            resolved = flatten_allof(ref_schema, schemas)
+            for k, v in resolved.get("properties", {}).items():
+                merged_props.setdefault(k, v)
+            merged_required.update(resolved.get("required", []))
+        else:
+            for k, v in entry.get("properties", {}).items():
+                merged_props.setdefault(k, v)
+            merged_required.update(entry.get("required", []))
+
+    merged_required.update(schema.get("required", []))
+    result = dict(schema)
+    result["properties"] = merged_props
+    result["required"] = list(merged_required)
+    return result
+
+
 def extract_refs(schema: dict) -> set[str]:
     """Recursively collect all ``$ref`` target names from a schema."""
     refs: set[str] = set()

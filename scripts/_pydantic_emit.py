@@ -5,8 +5,7 @@ from __future__ import annotations
 import re
 from typing import Any
 
-from _gen_utils import flatten_allof
-from _openapi_schema import rename_schema
+from _openapi_schema import flatten_allof, rename_schema
 
 
 def schema_type(schema: dict, schemas: dict[str, Any], schema_renames: dict[str, str]) -> str:
