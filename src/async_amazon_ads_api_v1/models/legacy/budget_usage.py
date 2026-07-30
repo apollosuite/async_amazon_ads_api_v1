@@ -19,7 +19,7 @@ class BudgetUsagePortfolio(BaseModel):
     usageUpdatedTimestamp: datetime | None = Field(default=None, description="Last evaluation time for budget usage")
 
 
-class BudgetUsagePortfolioBatchError(BaseModel):
+class BudgetUsagePortfolioBatchErrorResult(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     code: str | None = Field(default=None, description="An enumerated error code for machine use.")
@@ -39,7 +39,7 @@ class BudgetUsagePortfolioRequest(BaseModel):
 class BudgetUsagePortfolioResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    error: list[BudgetUsagePortfolioBatchError] | None = Field(
+    error: list[BudgetUsagePortfolioBatchErrorResult] | None = Field(
         default=None, description="List of budget usage percentages that failed to pull"
     )
     success: list[BudgetUsagePortfolio] | None = Field(
@@ -47,9 +47,4 @@ class BudgetUsagePortfolioResponse(BaseModel):
     )
 
 
-__all__ = [
-    "BudgetUsagePortfolio",
-    "BudgetUsagePortfolioBatchError",
-    "BudgetUsagePortfolioRequest",
-    "BudgetUsagePortfolioResponse",
-]
+__all__ = ["BudgetUsagePortfolioRequest"]

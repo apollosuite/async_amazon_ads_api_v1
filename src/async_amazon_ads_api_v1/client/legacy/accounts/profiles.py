@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from async_amazon_ads_api_v1.client.legacy.accounts._base import _AccountsAPIBase
-from async_amazon_ads_api_v1.models.legacy.accounts.profiles import Profile, ProfileResponse
+from async_amazon_ads_api_v1.models.legacy.accounts.profiles import Profile, ProfileOut, ProfileResult
 
 
 class Profiles(_AccountsAPIBase):
@@ -18,7 +18,7 @@ class Profiles(_AccountsAPIBase):
         access_level: str | None = None,
         profile_type_filter: str | None = None,
         valid_payment_method_filter: str | None = None,
-    ) -> list[Profile]:
+    ) -> list[ProfileOut]:
         """获取所有 profile 列表。
 
         Args:
@@ -43,12 +43,12 @@ class Profiles(_AccountsAPIBase):
             params=params or None,
             headers=self._client_id_header(),
         )
-        return self._response_list(Profile, resp)
+        return self._response_list(ProfileOut, resp)
 
     async def update(
         self,
         profiles: list[Profile],
-    ) -> list[ProfileResponse]:
+    ) -> list[ProfileResult]:
         """批量更新 profile 的每日预算。
 
         Args:
@@ -60,16 +60,16 @@ class Profiles(_AccountsAPIBase):
             json=[p.model_dump(exclude_none=True) for p in profiles],
             headers=self._client_id_header(),
         )
-        return self._response_list(ProfileResponse, resp)
+        return self._response_list(ProfileResult, resp)
 
     async def get(
         self,
         profile_id: int,
-    ) -> Profile:
+    ) -> ProfileOut:
         """获取指定 profile 的详细信息。"""
         resp = await self._request(
             "GET",
             f"/v2/profiles/{profile_id}",
             headers=self._client_id_header(),
         )
-        return self._response(Profile, resp)
+        return self._response(ProfileOut, resp)

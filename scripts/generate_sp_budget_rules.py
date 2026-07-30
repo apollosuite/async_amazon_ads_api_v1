@@ -10,7 +10,7 @@ import re
 from pathlib import Path
 
 from _codegen_runner import GenerationProject, TagSpec, run
-from _openapi_schema import PACKAGE_ROOT, normalize_split_schema_name
+from _openapi_schema import PACKAGE_ROOT
 
 HERE = Path(__file__).parent
 SPEC_PATH = HERE / "SponsoredProducts_prod_3p.json"
@@ -22,7 +22,6 @@ _EMBEDDED_SP = re.compile(r"^(Create|Get|Update)SP(.+)$")
 
 
 def model_name(schema_name: str) -> str:
-    schema_name = normalize_split_schema_name(schema_name)
     if schema_name in _LOWERCASE_MAP:
         return _LOWERCASE_MAP[schema_name]
     if schema_name.endswith("Response"):

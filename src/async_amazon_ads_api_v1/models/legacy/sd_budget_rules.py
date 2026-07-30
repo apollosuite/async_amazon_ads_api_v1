@@ -82,7 +82,7 @@ class SDRuleType(StrEnum):
     PERFORMANCE = "PERFORMANCE"
 
 
-class SDAssociatedBudgetRuleResponse(BaseModel):
+class SDAssociatedBudgetRuleResult(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     code: str | None = Field(default=None, description="An enumerated success or error code for machine use.")
@@ -107,7 +107,7 @@ class SDBudgetIncreaseBy(BaseModel):
     value: float = Field(description="The budget value.")
 
 
-class SDBudgetIncreaseByResponse(BaseModel):
+class SDBudgetIncreaseByOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     type: Annotated[SDBudgetChangeType | str, lenient_enum(SDBudgetChangeType)] | None = Field(default=None)
@@ -140,22 +140,33 @@ class SDBudgetRuleDetails(BaseModel):
     performanceMeasureCondition: SDPerformanceMeasureCondition | None = Field(default=None)
 
 
-class SDBudgetRuleDetailsResponse(BaseModel):
+class SDBudgetRuleDetailsOut(BaseModel):
     """Object representing details of a budget rule for SD campaign"""
 
     model_config = ConfigDict(extra="allow")
 
-    duration: SDRuleDurationResponse | None = Field(default=None)
-    recurrence: SDRecurrenceResponse | None = Field(default=None)
+    duration: SDRuleDurationOut | None = Field(default=None)
+    recurrence: SDRecurrenceOut | None = Field(default=None)
     ruleType: Annotated[SDRuleType | str, lenient_enum(SDRuleType)] | None = Field(default=None)
-    budgetIncreaseBy: SDBudgetIncreaseByResponse | None = Field(default=None)
+    budgetIncreaseBy: SDBudgetIncreaseByOut | None = Field(default=None)
     name: str | None = Field(
         default=None, max_length=355, description="The budget rule name. Required to be unique within a campaign."
     )
-    performanceMeasureCondition: SDPerformanceMeasureConditionResponse | None = Field(default=None)
+    performanceMeasureCondition: SDPerformanceMeasureConditionOut | None = Field(default=None)
 
 
-class SDBudgetRuleResponse(BaseModel):
+class SDBudgetRuleOut(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    ruleState: Annotated[SDBudgetRuleState | str, lenient_enum(SDBudgetRuleState)] | None = Field(default=None)
+    lastUpdatedDate: int | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
+    createdDate: int | None = Field(default=None, description="Epoch time of budget rule creation. Read-only.")
+    ruleDetails: SDBudgetRuleDetailsOut | None = Field(default=None)
+    ruleId: str | None = Field(default=None, description="The budget rule identifier.")
+    ruleStatus: str | None = Field(default=None, description="The budget rule status. Read-only.")
+
+
+class SDBudgetRuleResult(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     code: str | None = Field(default=None, description="An enumerated success or error code for machine use.")
@@ -175,7 +186,7 @@ class SDCreateAssociatedBudgetRulesRequest(BaseModel):
 class SDCreateAssociatedBudgetRulesResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    responses: list[SDAssociatedBudgetRuleResponse] | None = Field(default=None)
+    responses: list[SDAssociatedBudgetRuleResult] | None = Field(default=None)
 
 
 class SDCreateBudgetRulesRequest(BaseModel):
@@ -189,7 +200,7 @@ class SDCreateBudgetRulesRequest(BaseModel):
 class SDCreateBudgetRulesResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    responses: list[SDBudgetRuleResponse] | None = Field(default=None)
+    responses: list[SDBudgetRuleResult] | None = Field(default=None)
 
 
 class SDDateRangeTypeRuleDuration(BaseModel):
@@ -206,7 +217,7 @@ class SDDateRangeTypeRuleDuration(BaseModel):
     )
 
 
-class SDDateRangeTypeRuleDurationResponse(BaseModel):
+class SDDateRangeTypeRuleDurationOut(BaseModel):
     """Object representing date range type rule duration."""
 
     model_config = ConfigDict(extra="allow")
@@ -241,7 +252,7 @@ class SDEventTypeRuleDuration(BaseModel):
     )
 
 
-class SDEventTypeRuleDurationResponse(BaseModel):
+class SDEventTypeRuleDurationOut(BaseModel):
     """Object representing event type rule duration."""
 
     model_config = ConfigDict(extra="allow")
@@ -276,13 +287,13 @@ class SDGetAssociatedCampaignsResponse(BaseModel):
 class SDGetBudgetRuleResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    budgetRule: SDBudgetRuleResponse | None = Field(default=None)
+    budgetRule: SDBudgetRuleOut | None = Field(default=None)
 
 
 class SDGetBudgetRulesForAdvertiserResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    budgetRulesForAdvertiserResponse: list[SDBudgetRuleResponse] | None = Field(
+    budgetRulesForAdvertiserResponse: list[SDBudgetRuleOut] | None = Field(
         default=None, min_length=0, max_length=30, description="A list of rules created by the advertiser."
     )
     nextToken: str | None = Field(
@@ -294,7 +305,7 @@ class SDGetBudgetRulesForAdvertiserResponse(BaseModel):
 class SDListAssociatedBudgetRulesResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    associatedRules: list[SDBudgetRuleResponse] | None = Field(
+    associatedRules: list[SDBudgetRuleOut] | None = Field(
         default=None, description="A list of associated budget rules."
     )
 
@@ -307,7 +318,7 @@ class SDPerformanceMeasureCondition(BaseModel):
     threshold: float = Field(description="The performance threshold value.")
 
 
-class SDPerformanceMeasureConditionResponse(BaseModel):
+class SDPerformanceMeasureConditionOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     metricName: Annotated[SDPerformanceMetric | str, lenient_enum(SDPerformanceMetric)] | None = Field(default=None)
@@ -317,7 +328,7 @@ class SDPerformanceMeasureConditionResponse(BaseModel):
     threshold: float | None = Field(default=None, description="The performance threshold value.")
 
 
-class SDRecurrenceResponse(BaseModel):
+class SDRecurrenceOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     type: Annotated[SDRecurrenceType | str, lenient_enum(SDRecurrenceType)] | None = Field(default=None)
@@ -325,7 +336,7 @@ class SDRecurrenceResponse(BaseModel):
         default=None,
         description="Object representing days of the week for weekly type rule. It is not required for daily recurrence type",
     )
-    intraDaySchedule: list[SDTimeOfDayResponse] | None = Field(
+    intraDaySchedule: list[SDTimeOfDayOut] | None = Field(
         default=None,
         max_length=1,
         description="List of objects representing start and end time of desired intra-day budget rule window",
@@ -339,11 +350,11 @@ class SDRuleDuration(BaseModel):
     dateRangeTypeRuleDuration: SDDateRangeTypeRuleDuration | None = Field(default=None)
 
 
-class SDRuleDurationResponse(BaseModel):
+class SDRuleDurationOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    eventTypeRuleDuration: SDEventTypeRuleDurationResponse | None = Field(default=None)
-    dateRangeTypeRuleDuration: SDDateRangeTypeRuleDurationResponse | None = Field(default=None)
+    eventTypeRuleDuration: SDEventTypeRuleDurationOut | None = Field(default=None)
+    dateRangeTypeRuleDuration: SDDateRangeTypeRuleDurationOut | None = Field(default=None)
 
 
 class SDTimeOfDay(BaseModel):
@@ -358,7 +369,7 @@ class SDTimeOfDay(BaseModel):
     )
 
 
-class SDTimeOfDayResponse(BaseModel):
+class SDTimeOfDayOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     startTime: str | None = Field(
@@ -383,45 +394,27 @@ class SDUpdateBudgetRulesRequest(BaseModel):
 class SDUpdateBudgetRulesResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    responses: list[SDBudgetRuleResponse] | None = Field(default=None)
+    responses: list[SDBudgetRuleResult] | None = Field(default=None)
 
 
 __all__ = [
     "SDBudgetChangeType",
-    "SDBudgetRuleState",
-    "SDComparisonOperator",
-    "SDDayOfWeek",
-    "SDPerformanceMetric",
-    "SDRecurrenceType",
-    "SDRuleType",
-    "SDAssociatedBudgetRuleResponse",
-    "SDAssociatedCampaign",
     "SDBudgetIncreaseBy",
-    "SDBudgetIncreaseByResponse",
     "SDBudgetRule",
     "SDBudgetRuleDetails",
-    "SDBudgetRuleDetailsResponse",
-    "SDBudgetRuleResponse",
+    "SDBudgetRuleState",
+    "SDComparisonOperator",
     "SDCreateAssociatedBudgetRulesRequest",
-    "SDCreateAssociatedBudgetRulesResponse",
     "SDCreateBudgetRulesRequest",
-    "SDCreateBudgetRulesResponse",
     "SDDateRangeTypeRuleDuration",
-    "SDDateRangeTypeRuleDurationResponse",
-    "SDDisassociateAssociatedBudgetRuleResponse",
+    "SDDayOfWeek",
     "SDEventTypeRuleDuration",
-    "SDEventTypeRuleDurationResponse",
-    "SDGetAssociatedCampaignsResponse",
-    "SDGetBudgetRuleResponse",
-    "SDGetBudgetRulesForAdvertiserResponse",
-    "SDListAssociatedBudgetRulesResponse",
     "SDPerformanceMeasureCondition",
-    "SDPerformanceMeasureConditionResponse",
-    "SDRecurrenceResponse",
+    "SDPerformanceMetric",
+    "SDRecurrence",
+    "SDRecurrenceType",
     "SDRuleDuration",
-    "SDRuleDurationResponse",
+    "SDRuleType",
     "SDTimeOfDay",
-    "SDTimeOfDayResponse",
     "SDUpdateBudgetRulesRequest",
-    "SDUpdateBudgetRulesResponse",
 ]

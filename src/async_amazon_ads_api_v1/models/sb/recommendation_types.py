@@ -31,4 +31,4 @@ class SBRecommendationTypeSuccessResponse(BaseModel):
     recommendationTypes: list[SBRecommendationType] | None = Field(default=None, min_length=0, max_length=500)
 
 
-__all__ = ["SBQueryRecommendationTypeRequest", "SBRecommendationType", "SBRecommendationTypeSuccessResponse"]
+__all__ = ["SBQueryRecommendationTypeRequest"]

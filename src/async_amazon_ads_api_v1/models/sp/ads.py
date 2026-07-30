@@ -8,13 +8,15 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorsIndex
+from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 from .campaigns import (
     SPAdProduct,
     SPCreateState,
     SPCreateTag,
+    SPDeliveryReason,
+    SPDeliveryStatus,
     SPMarketplace,
     SPMarketplaceScope,
     SPState,
@@ -379,20 +381,16 @@ class SPVideo(BaseModel):
 
 
 __all__ = [
-    "SPAdType",
-    "SPProductIdType",
-    "SPAd",
+    "ErrorCode",
     "SPAdAdGroupIdFilter",
     "SPAdAdIdFilter",
     "SPAdAdProductFilter",
     "SPAdCampaignIdFilter",
     "SPAdCreate",
-    "SPAdMultiStatusResponse",
-    "SPAdMultiStatusSuccess",
+    "SPAdProduct",
     "SPAdStateFilter",
-    "SPAdSuccessResponse",
+    "SPAdType",
     "SPAdUpdate",
-    "SPAdvertisedProducts",
     "SPCreateAdRequest",
     "SPCreateAdvertisedProducts",
     "SPCreateCreative",
@@ -400,18 +398,21 @@ __all__ = [
     "SPCreateProductCreative",
     "SPCreateProductCreativeSettings",
     "SPCreateSpotlightVideoSettings",
+    "SPCreateState",
+    "SPCreateTag",
     "SPCreateVideo",
-    "SPCreative",
     "SPDeleteAdRequest",
-    "SPGlobalStoreSettings",
-    "SPProductCreative",
-    "SPProductCreativeSettings",
+    "SPDeliveryReason",
+    "SPDeliveryStatus",
+    "SPMarketplace",
+    "SPMarketplaceScope",
+    "SPProductIdType",
     "SPQueryAdRequest",
-    "SPSpotlightVideoSettings",
+    "SPState",
     "SPUpdateAdRequest",
     "SPUpdateCreative",
     "SPUpdateProductCreative",
     "SPUpdateProductCreativeSettings",
     "SPUpdateSpotlightVideoSettings",
-    "SPVideo",
+    "SPUpdateState",
 ]

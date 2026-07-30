@@ -7,7 +7,7 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorsIndex
+from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 
@@ -157,20 +157,11 @@ class SBRecommendedObject(BaseModel):
 
 
 __all__ = [
+    "ErrorCode",
     "SBAlternateBrandIdType",
-    "SBBrandAlternateId",
-    "SBBrandedKeyword",
-    "SBBrandedKeywordList",
-    "SBBrandedKeywordRecommendationTypeDetails",
     "SBCreateBrandAlternateId",
     "SBCreateBrandedKeywordRecommendationTypeDetails",
     "SBCreateRecommendationRequest",
     "SBCreateRecommendationTypeDetails",
-    "SBObjectSettings",
-    "SBRecommendation",
     "SBRecommendationCreate",
-    "SBRecommendationMultiStatusResponse",
-    "SBRecommendationMultiStatusSuccess",
-    "SBRecommendationTypeDetails",
-    "SBRecommendedObject",
 ]

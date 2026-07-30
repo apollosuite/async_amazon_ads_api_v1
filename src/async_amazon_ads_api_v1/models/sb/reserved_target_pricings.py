@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorsIndex
+from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 
 
 class SBCreateReservedTargetPricingRequest(BaseModel):
@@ -39,10 +39,4 @@ class SBReservedTargetPricingMultiStatusSuccess(BaseModel):
     reservedTargetPricing: SBReservedTargetPricing | None = Field(default=None)
 
 
-__all__ = [
-    "SBCreateReservedTargetPricingRequest",
-    "SBReservedTargetPricing",
-    "SBReservedTargetPricingCreate",
-    "SBReservedTargetPricingMultiStatusResponse",
-    "SBReservedTargetPricingMultiStatusSuccess",
-]
+__all__ = ["ErrorCode", "SBCreateReservedTargetPricingRequest", "SBReservedTargetPricingCreate"]

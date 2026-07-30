@@ -195,20 +195,12 @@ class RegisterAdsAccountResponseContent(BaseModel):
 
 
 __all__ = [
-    "Status",
-    "AdsAccount",
-    "AdsAccountWithMetaData",
-    "AlternateId",
     "AmazonAuthor",
     "AmazonSeller",
     "AmazonVendor",
     "Association",
     "Business",
-    "CountryCodeToErrorListMap",
-    "Error",
-    "GetAccountResponseContent",
     "ListAdsAccountsRequestContent",
-    "ListAdsAccountsResponseContent",
     "RegisterAdsAccountRequestContent",
-    "RegisterAdsAccountResponseContent",
+    "Status",
 ]

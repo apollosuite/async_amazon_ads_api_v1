@@ -5,8 +5,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Literal
 
-from _openapi_schema import _schema_ref_seeds, camel_to_snake, method_name, rename_schema
+from _openapi_schema import _schema_ref_seeds, camel_to_snake, method_name
 from _pydantic_emit import schema_type
+from _schema_roles import RoleNameMap
 
 
 @dataclass(frozen=True)
@@ -45,7 +46,7 @@ def _append_client_method(
     path: str,
     operation: dict,
     schemas_for_resolution: dict[str, Any],
-    schema_renames: dict[str, str],
+    name_map: RoleNameMap,
     idx: int,
 ) -> None:
     op_id = operation.get("operationId", f"endpoint_{idx}")
@@ -58,12 +59,14 @@ def _append_client_method(
         if content_dict:
             content_type = next(iter(content_dict))
 
+    all_schemas = spec.get("components", {}).get("schemas", {})
+
     req_model = None
     request_required = operation.get("requestBody", {}).get("required", False)
     for _, media in operation.get("requestBody", {}).get("content", {}).items():
         ref = media.get("schema", {}).get("$ref", "")
         if ref:
-            req_model = rename_schema(ref.split("/")[-1], schema_renames)
+            req_model = name_map.resolve_request_ref(ref.split("/")[-1])
             break
 
     resp_model = None
@@ -72,7 +75,8 @@ def _append_client_method(
             for _, media in resp.get("content", {}).items():
                 seeds = _schema_ref_seeds(media.get("schema", {}))
                 if seeds:
-                    resp_model = rename_schema(next(iter(seeds)), schema_renames)
+                    seed = next(iter(seeds))
+                    resp_model = name_map.resolve_response_ref(seed, all_schemas.get(seed, {}))
                     break
             if resp_model:
                 break
@@ -80,7 +84,9 @@ def _append_client_method(
     query_params = [p for p in _resolve_operation_params(spec, operation) if p.get("in") == "query"]
 
     def type_fn(s: dict, sc: dict[str, Any]) -> str:
-        return schema_type(s, sc, schema_renames)
+        from _schema_roles import SchemaRole
+
+        return schema_type(s, sc, name_map, SchemaRole.OUTPUT)
 
     sig_parts = ["self"]
     if req_model:
@@ -172,11 +178,10 @@ def generate_client_file(
     models_package: str,
     endpoints: list[tuple[str, str, dict]],
     schemas_for_resolution: dict[str, Any],
-    schema_renames: dict[str, str],
+    name_map: RoleNameMap,
     client_config: ClientGenerationConfig,
 ) -> str:
-    def rename(n: str) -> str:
-        return rename_schema(n, schema_renames)
+    all_schemas = spec.get("components", {}).get("schemas", {})
 
     model_import_prefix = f"async_amazon_ads_api_v1.{models_package}.{snake_name}"
 
@@ -185,12 +190,12 @@ def generate_client_file(
         for _, media in operation.get("requestBody", {}).get("content", {}).items():
             ref = media.get("schema", {}).get("$ref", "")
             if ref:
-                sig_imports.add(rename(ref.split("/")[-1]))
+                sig_imports.add(name_map.resolve_request_ref(ref.split("/")[-1]))
         for code, resp in operation.get("responses", {}).items():
             if str(code) in ("200", "207", "201"):
                 for _, media in resp.get("content", {}).items():
                     for seed in _schema_ref_seeds(media.get("schema", {})):
-                        sig_imports.add(rename(seed))
+                        sig_imports.add(name_map.resolve_response_ref(seed, all_schemas.get(seed, {})))
 
     client_doc_title = client_config.resource_name or resource_name
     client_lines = [
@@ -223,7 +228,7 @@ def generate_client_file(
             path=path,
             operation=operation,
             schemas_for_resolution=schemas_for_resolution,
-            schema_renames=schema_renames,
+            name_map=name_map,
             idx=idx,
         )
 

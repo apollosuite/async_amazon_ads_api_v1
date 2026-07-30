@@ -9,7 +9,7 @@ from typing import Annotated, Any
 from pydantic import BaseModel, ConfigDict, Field
 
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
-from async_amazon_ads_api_v1.models.sd.ads import SDBackground, SDImage, SDVideo
+from async_amazon_ads_api_v1.models.sd.ads import SDBackground, SDCreateCreative, SDImage, SDVideo
 
 
 class SDCreativeTypeInCreativeRequest(StrEnum):
@@ -64,17 +64,17 @@ class SDBackgroundCreativeProperties(BaseModel):
     )
 
 
-class SDBackgroundCreativePropertiesResponse(BaseModel):
+class SDBackgroundCreativePropertiesOut(BaseModel):
     """User-customizable properties of a creative with background. Only supported for productAds with landingPageType of OFF_AMAZON_LINK."""
 
     model_config = ConfigDict(extra="allow")
 
-    backgrounds: list[SDBackgroundResponse] | None = Field(
+    backgrounds: list[SDBackgroundOut] | None = Field(
         default=None, description="An optional collection of backgrounds which are displayed on the ad."
     )
 
 
-class SDBackgroundResponse(BaseModel):
+class SDBackgroundOut(BaseModel):
     """This field denotes background which are displayed on the ad. This field is optional and mutable."""
 
     model_config = ConfigDict(extra="allow")
@@ -191,20 +191,20 @@ class SDCustomImageCreativeProperties(BaseModel):
     )
 
 
-class SDCustomImageCreativePropertiesResponse(BaseModel):
+class SDCustomImageCreativePropertiesOut(BaseModel):
     """User-customizable properties of a custom image creative."""
 
     model_config = ConfigDict(extra="allow")
 
-    rectCustomImage: SDImageResponse | None = Field(default=None)
-    squareCustomImage: SDImageResponse | None = Field(default=None)
-    squareImages: list[SDImageResponse] | None = Field(
+    rectCustomImage: SDImageOut | None = Field(default=None)
+    squareCustomImage: SDImageOut | None = Field(default=None)
+    squareImages: list[SDImageOut] | None = Field(
         default=None, description="An optional collection of 1:1 square images which are displayed on the ad."
     )
-    horizontalImages: list[SDImageResponse] | None = Field(
+    horizontalImages: list[SDImageOut] | None = Field(
         default=None, description="An optional collection of 1.91:1 horizontal images which are displayed on the ad."
     )
-    verticalImages: list[SDImageResponse] | None = Field(
+    verticalImages: list[SDImageOut] | None = Field(
         default=None, description="An optional collection of 9:16 vertical images which are displayed on the ad."
     )
 
@@ -229,7 +229,7 @@ class SDHeadlineCreativeProperties(BaseModel):
     )
 
 
-class SDHeadlineCreativePropertiesResponse(BaseModel):
+class SDHeadlineCreativePropertiesOut(BaseModel):
     """User-customizable properties of a creative with headline."""
 
     model_config = ConfigDict(extra="allow")
@@ -249,7 +249,7 @@ class SDHeadlineCreativePropertiesResponse(BaseModel):
     )
 
 
-class SDImageResponse(BaseModel):
+class SDImageOut(BaseModel):
     """This field denotes image which is displayed on the ad. This can either be a brand logo or a custom image. This field is optional and mutable. For custom image, both rectCustomImage and squareCustomImage should use the same asset id and asset version. Specific restrictions based on the Image type are listed in the following table.
     |Image type|Maximum file size|Minimum width|Minimum height|Accepted file formats|
     |------|-----------|-----------|-----------|-----------|
@@ -280,12 +280,12 @@ class SDLogoCreativeProperties(BaseModel):
     brandLogo: SDImage | None = Field(default=None)
 
 
-class SDLogoCreativePropertiesResponse(BaseModel):
+class SDLogoCreativePropertiesOut(BaseModel):
     """User-customizable properties of a creative with a logo."""
 
     model_config = ConfigDict(extra="allow")
 
-    brandLogo: SDImageResponse | None = Field(default=None)
+    brandLogo: SDImageOut | None = Field(default=None)
 
 
 class SDPreviewCreativeModel(BaseModel):
@@ -319,27 +319,27 @@ class SDVideoCreativeProperties(BaseModel):
     )
 
 
-class SDVideoCreativePropertiesResponse(BaseModel):
+class SDVideoCreativePropertiesOut(BaseModel):
     """User-customizable properties of a video creative. Use either the 'video' property for a single video, OR one or more of the aspect-ratio-specific collections (squareVideos, horizontalVideos, verticalVideos)."""
 
     model_config = ConfigDict(extra="allow")
 
-    video: SDVideoResponse | None = Field(default=None)
-    squareVideos: list[SDVideoResponse] | None = Field(
+    video: SDVideoOut | None = Field(default=None)
+    squareVideos: list[SDVideoOut] | None = Field(
         default=None,
         description="An optional collection of 1:1 square videos which are displayed on the ad. Currently, only one asset is supported in the array.",
     )
-    horizontalVideos: list[SDVideoResponse] | None = Field(
+    horizontalVideos: list[SDVideoOut] | None = Field(
         default=None,
         description="An optional collection of 16:9 horizontal videos which are displayed on the ad. Currently, only one asset is supported in the array.",
     )
-    verticalVideos: list[SDVideoResponse] | None = Field(
+    verticalVideos: list[SDVideoOut] | None = Field(
         default=None,
         description="An optional collection of 9:16 vertical videos which are displayed on the ad. Currently, only one asset is supported in the array.",
     )
 
 
-class SDVideoResponse(BaseModel):
+class SDVideoOut(BaseModel):
     """This field denotes video which is displayed on the ad. This field is optional and mutable. A video asset must be provided for a VIDEO creative. Specific restrictions based on the video are listed in the following table.
     ||Specifications|
     |------------------|------------------|
@@ -390,12 +390,12 @@ class SDCreativeProperties(
     pass
 
 
-class SDCreativePropertiesResponse(
-    SDHeadlineCreativePropertiesResponse,
-    SDLogoCreativePropertiesResponse,
-    SDCustomImageCreativePropertiesResponse,
-    SDVideoCreativePropertiesResponse,
-    SDBackgroundCreativePropertiesResponse,
+class SDCreativePropertiesOut(
+    SDHeadlineCreativePropertiesOut,
+    SDLogoCreativePropertiesOut,
+    SDCustomImageCreativePropertiesOut,
+    SDVideoCreativePropertiesOut,
+    SDBackgroundCreativePropertiesOut,
 ):
     """Select customizations on your creative from any combination of headline, logo, custom image and backgrounds."""
 
@@ -405,33 +405,25 @@ class SDCreativePropertiesResponse(
 
 
 __all__ = [
-    "SDCreativeTypeInCreativeRequest",
-    "SDCreativeTypeInCreativeResponse",
-    "SDLandingPageType",
     "SDAdGroupId",
     "SDAdName",
+    "SDBackground",
     "SDBackgroundCreativeProperties",
-    "SDBackgroundCreativePropertiesResponse",
-    "SDBackgroundResponse",
-    "SDCreativeModeration",
+    "SDCreateCreative",
     "SDCreativePreviewConfiguration",
     "SDCreativePreviewConfigurations",
     "SDCreativePreviewRequest",
-    "SDCreativePreviewResponse",
-    "SDCreativeResponse",
+    "SDCreativeProperties",
+    "SDCreativeTypeInCreativeRequest",
+    "SDCreativeTypeInCreativeResponse",
     "SDCreativeUpdate",
     "SDCustomImageCreativeProperties",
-    "SDCustomImageCreativePropertiesResponse",
     "SDHeadlineCreativeProperties",
-    "SDHeadlineCreativePropertiesResponse",
-    "SDImageResponse",
+    "SDImage",
+    "SDLandingPageType",
     "SDLandingPageURL",
     "SDLogoCreativeProperties",
-    "SDLogoCreativePropertiesResponse",
     "SDPreviewCreativeModel",
+    "SDVideo",
     "SDVideoCreativeProperties",
-    "SDVideoCreativePropertiesResponse",
-    "SDVideoResponse",
-    "SDCreativeProperties",
-    "SDCreativePropertiesResponse",
 ]

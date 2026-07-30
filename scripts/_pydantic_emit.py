@@ -5,13 +5,19 @@ from __future__ import annotations
 import re
 from typing import Any
 
-from _openapi_schema import flatten_allof, rename_schema
+from _openapi_schema import flatten_allof, is_enum, is_type_alias
+from _schema_roles import RoleNameMap, SchemaRole
 
 
-def schema_type(schema: dict, schemas: dict[str, Any], schema_renames: dict[str, str]) -> str:
+def schema_type(
+    schema: dict,
+    schemas: dict[str, Any],
+    name_map: RoleNameMap,
+    context_role: SchemaRole,
+) -> str:
     """Resolve an OpenAPI property schema to a Python type string."""
     if "$ref" in schema:
-        ref_name = rename_schema(schema["$ref"].split("/")[-1], schema_renames)
+        ref_name = name_map.resolve_ref(schema["$ref"].split("/")[-1], context_role)
         ref = schemas.get(ref_name, {})
         if ref.get("enum"):
             return f"Annotated[{ref_name} | str, lenient_enum({ref_name})]"
@@ -19,11 +25,11 @@ def schema_type(schema: dict, schemas: dict[str, Any], schema_renames: dict[str,
     t = schema.get("type", "object")
     fmt = schema.get("format", "")
     if t == "array":
-        inner = schema_type(schema["items"], schemas, schema_renames)
+        inner = schema_type(schema["items"], schemas, name_map, context_role)
         return f"list[{inner}]"
     if t == "object":
         if schema.get("additionalProperties"):
-            val = schema_type(schema["additionalProperties"], schemas, schema_renames)
+            val = schema_type(schema["additionalProperties"], schemas, name_map, context_role)
             return f"dict[str, {val}]"
         if any(k in schema for k in ("oneOf", "anyOf", "allOf")):
             return "Any"
@@ -37,10 +43,6 @@ def schema_type(schema: dict, schemas: dict[str, Any], schema_renames: dict[str,
     if t == "number":
         return "int" if not fmt or fmt in ("int32", "int64") else "float"
     return {"integer": "int", "boolean": "bool"}.get(t, "Any")
-
-
-def is_enum(schema: dict) -> bool:
-    return bool(schema.get("enum"))
 
 
 def _format_enum_doc(doc: str) -> str:
@@ -81,16 +83,6 @@ def generate_enum(name: str, schema: dict) -> str:
 """
 
 
-def is_type_alias(schema: dict) -> bool:
-    return (
-        "type" in schema
-        and schema["type"] in ("string", "integer", "boolean", "number")
-        and "properties" not in schema
-        and "allOf" not in schema
-        and not schema.get("enum")
-    )
-
-
 def generate_type_alias(name: str, schema: dict) -> str:
     t = schema["type"]
     if t == "number":
@@ -118,7 +110,8 @@ def generate_model(
     name: str,
     schema: dict,
     schemas: dict[str, Any],
-    schema_renames: dict[str, str],
+    name_map: RoleNameMap,
+    context_role: SchemaRole,
     *,
     extra: str = "forbid",
 ) -> str:
@@ -128,7 +121,7 @@ def generate_model(
     docstring = f'\n    """{doc}"""' if doc else ""
 
     def type_fn(s: dict, sc: dict[str, Any]) -> str:
-        return schema_type(s, sc, schema_renames)
+        return schema_type(s, sc, name_map, context_role)
 
     if not schema.get("properties") and schema.get("oneOf"):
         fields = []
@@ -149,7 +142,7 @@ def generate_model(
         for entry in schema["anyOf"]:
             if "$ref" not in entry:
                 break
-            parents.append(rename_schema(entry["$ref"].split("/")[-1], schema_renames))
+            parents.append(name_map.resolve_ref(entry["$ref"].split("/")[-1], context_role))
         else:
             return f"""class {name}({', '.join(parents)}):{docstring}
     model_config = ConfigDict(extra="{extra}")
@@ -210,7 +203,8 @@ def emit_model(
     name: str,
     schema: dict,
     schemas: dict[str, Any],
-    schema_renames: dict[str, str],
+    name_map: RoleNameMap,
+    context_role: SchemaRole,
     *,
     extra: str = "forbid",
 ) -> str:
@@ -218,7 +212,7 @@ def emit_model(
         return generate_type_alias(name, schema)
     if is_enum(schema) and schema.get("enum"):
         return generate_enum(name, schema)
-    return generate_model(name, schema, schemas, schema_renames, extra=extra)
+    return generate_model(name, schema, schemas, name_map, context_role, extra=extra)
 
 
 def is_anyof_composition(schema: dict) -> bool:

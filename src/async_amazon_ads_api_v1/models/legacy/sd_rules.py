@@ -18,12 +18,12 @@ class SDBaseOptimizationRule(BaseModel):
     )
 
 
-class SDBaseOptimizationRuleResponse(BaseModel):
+class SDBaseOptimizationRuleOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     state: str | None = Field(default=None, description="The state of the optimization rule.")
     ruleName: str | None = Field(default=None, description="The name of the optimization rule.")
-    ruleConditions: list[SDRuleConditionResponse] | None = Field(
+    ruleConditions: list[SDRuleConditionOut] | None = Field(
         default=None,
         min_length=1,
         max_length=1,
@@ -42,26 +42,10 @@ class SDCreateAssociatedOptimizationRulesRequest(BaseModel):
 class SDCreateOptimizationRule(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    state: str = Field(description="The state of the optimization rule.")
-    ruleName: str | None = Field(default=None, description="The name of the optimization rule.")
-    ruleConditions: list[SDRuleCondition] = Field(
-        min_length=1,
-        max_length=1,
-        description="A list of rule conditions that define the advertiser's intent for the outcome of the rule. The rule uses 'AND' logic to combine every condition in this list, and will validate the combination when the rule is created or updated.",
-    )
-
 
 class SDOptimizationRule(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    state: str | None = Field(default=None, description="The state of the optimization rule.")
-    ruleName: str | None = Field(default=None, description="The name of the optimization rule.")
-    ruleConditions: list[SDRuleConditionResponse] | None = Field(
-        default=None,
-        min_length=1,
-        max_length=1,
-        description="A list of rule conditions that define the advertiser's intent for the outcome of the rule. The rule uses 'AND' logic to combine every condition in this list, and will validate the combination when the rule is created or updated.",
-    )
     ruleId: SDRuleId | None = Field(default=None)
 
 
@@ -69,7 +53,7 @@ class SDOptimizationRuleAssociationResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     code: str | None = Field(default=None, description="The HTTP status code of the response.")
-    responses: list[SDSingleOptimizationRuleAssociationResponse] | None = Field(
+    responses: list[SDSingleOptimizationRuleAssociationResult] | None = Field(
         default=None,
         max_length=1,
         description="An array of response objects. Each response object has code, details and optimizationRuleId.",
@@ -110,7 +94,7 @@ The value of the threshold associated with the metric. The threshold values has 
 """)
 
 
-class SDRuleConditionResponse(BaseModel):
+class SDRuleConditionOut(BaseModel):
     """A rule condition that defines the advertiser's intent for the outcome of the rule.
     Certain actions are performed by the product to achieve and maintain the rule condition."""
 
@@ -145,7 +129,7 @@ The value of the threshold associated with the metric. The threshold values has 
 type SDRuleId = str  # The identifier of the optimization rule.
 
 
-class SDSingleOptimizationRuleAssociationResponse(BaseModel):
+class SDSingleOptimizationRuleAssociationResult(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     code: str | None = Field(default=None, description="The HTTP status code of the response.")
@@ -156,28 +140,14 @@ class SDSingleOptimizationRuleAssociationResponse(BaseModel):
 class SDUpdateOptimizationRule(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    state: str | None = Field(default=None, description="The state of the optimization rule.")
-    ruleName: str | None = Field(default=None, description="The name of the optimization rule.")
-    ruleConditions: list[SDRuleCondition] | None = Field(
-        default=None,
-        min_length=1,
-        max_length=1,
-        description="A list of rule conditions that define the advertiser's intent for the outcome of the rule. The rule uses 'AND' logic to combine every condition in this list, and will validate the combination when the rule is created or updated.",
-    )
     ruleId: SDRuleId
 
 
 __all__ = [
     "SDBaseOptimizationRule",
-    "SDBaseOptimizationRuleResponse",
     "SDCreateAssociatedOptimizationRulesRequest",
     "SDCreateOptimizationRule",
-    "SDOptimizationRule",
-    "SDOptimizationRuleAssociationResponse",
-    "SDOptimizationRuleResponse",
     "SDRuleCondition",
-    "SDRuleConditionResponse",
     "SDRuleId",
-    "SDSingleOptimizationRuleAssociationResponse",
     "SDUpdateOptimizationRule",
 ]

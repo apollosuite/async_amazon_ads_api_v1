@@ -146,7 +146,7 @@ class SBOptimizationRule(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     optimizationRuleId: str | None = Field(default=None, description="The identifier of the optimization rule.")
-    conditions: list[SBRuleConditionResponse] | None = Field(default=None, min_length=1, max_length=1)
+    conditions: list[SBRuleConditionOut] | None = Field(default=None, min_length=1, max_length=1)
 
 
 class SBOptimizationRuleFailureResponseItem(BaseModel):
@@ -220,10 +220,10 @@ The name of the attribute.
 """)
 
 
-class SBRuleConditionResponse(BaseModel):
+class SBRuleConditionOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    criteria: SBValueTypeRuleCriteriaResponse | None = Field(default=None)
+    criteria: SBValueTypeRuleCriteriaOut | None = Field(default=None)
     attributeName: str | None = Field(
         default=None,
         description="""
@@ -282,7 +282,7 @@ The comparison operator.
     value: float | None = Field(default=None, description="The value of the threshold associated with the attribute.")
 
 
-class SBValueTypeRuleCriteriaResponse(BaseModel):
+class SBValueTypeRuleCriteriaOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     comparisonOperator: str | None = Field(
@@ -298,32 +298,15 @@ The comparison operator.
 
 __all__ = [
     "SBAssociateOptimizationRulesRequest",
-    "SBAssociateOptimizationRulesResponse",
-    "SBBulkAssociationsOptimizationRuleResponse",
-    "SBBulkCreateOptimizationRuleOperationResponse",
-    "SBBulkDisassociationsOptimizationRuleResponse",
-    "SBBulkUpdateOptimizationRuleOperationResponse",
     "SBCreateOptimizationRule",
-    "SBCreateOptimizationRuleSuccessResponseItem",
     "SBCreateOptimizationRulesRequest",
-    "SBCreateOptimizationRulesResponse",
     "SBDisassociateOptimizationRulesRequest",
-    "SBDisassociateOptimizationRulesResponse",
     "SBEntityFilter",
     "SBListOptimizationRulesRequest",
-    "SBListOptimizationRulesResponse",
-    "SBOptimizationRule",
-    "SBOptimizationRuleFailureResponseItem",
     "SBOptimizationRuleIdFilter",
     "SBOptimizationRuleToEntityMapping",
-    "SBOptimizationRuleToEntityMappingSuccessResponseItem",
-    "SBOptimizationRulesError",
     "SBRuleCondition",
-    "SBRuleConditionResponse",
     "SBUpdateOptimizationRule",
-    "SBUpdateOptimizationRuleSuccessResponseItem",
     "SBUpdateOptimizationRulesRequest",
-    "SBUpdateOptimizationRulesResponse",
     "SBValueTypeRuleCriteria",
-    "SBValueTypeRuleCriteriaResponse",
 ]

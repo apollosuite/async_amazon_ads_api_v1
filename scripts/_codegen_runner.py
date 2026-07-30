@@ -15,78 +15,18 @@ import yaml
 from _client_emit import ClientGenerationConfig, generate_client_file
 from _openapi_schema import (
     PROJECT_ROOT,
-    build_schema_renames,
     camel_to_snake,
     collect_class_names,
     discover_known_schemas,
-    discover_schema_sets,
     find_endpoints_by_tag,
-    normalize_split_schema_name,
-    rename_schema,
-    split_shared_response_schemas,
 )
-from _pydantic_emit import emit_model, is_enum, is_type_alias, split_types
-
-
-class SharedModelSchemaError(RuntimeError):
-    """Raised when a schema is used in both request and response as a model."""
-
-    def __init__(self, tag: str, models: list[str]) -> None:
-        self.tag = tag
-        self.models = models
-        super().__init__(
-            f"Tag '{tag}' has shared model schemas (request ∩ response): "
-            f"{', '.join(models)}. "
-            "Split or handle separately — see scripts/CODEGEN_FORWARD_COMPAT.md."
-        )
-
-
-def _resolve_needed_schema(
-    name: str,
-    needed: dict[str, Any],
-    rename: Callable[[str], str],
-) -> dict[str, Any]:
-    if name in needed:
-        return needed[name]
-    for key, schema in needed.items():
-        if rename(key) == name:
-            return schema
-    return {}
-
-
-def _classify_schema(schema: dict[str, Any]) -> str:
-    if is_enum(schema) and schema.get("enum"):
-        return "enum"
-    if is_type_alias(schema):
-        return "type_alias"
-    return "model"
-
-
-def _check_shared_schemas(
-    tag: str,
-    shared_schema_names: list[str],
-    needed: dict[str, Any],
-    rename: Callable[[str], str],
-) -> list[str]:
-    """Print shared schemas and raise if any are models."""
-    allowed_shared: list[str] = []
-    shared_models: list[str] = []
-    if not shared_schema_names:
-        return allowed_shared
-
-    print(f"  Shared schemas (request ∩ response): {len(shared_schema_names)}")
-    for name in shared_schema_names:
-        schema = _resolve_needed_schema(name, needed, rename)
-        kind = _classify_schema(schema)
-        print(f"    {name} ({kind})")
-        if kind == "model":
-            shared_models.append(name)
-        else:
-            allowed_shared.append(name)
-
-    if shared_models:
-        raise SharedModelSchemaError(tag, shared_models)
-    return allowed_shared
+from _pydantic_emit import emit_model, is_enum, split_types
+from _schema_roles import (
+    EmittedModel,
+    RoleNameMap,
+    discover_role_emissions,
+    schemas_for_resolution,
+)
 
 
 @dataclass(frozen=True)
@@ -126,44 +66,6 @@ class TagSpec:
             return self.client.resource_name
         return self.tag
 
-    def resolved_schema_renames(self, spec: dict) -> dict[str, str]:
-        if self.schema_renames:
-            return dict(self.schema_renames)
-        if self.rename_fn:
-            return build_schema_renames(spec, self.tag, self.rename_fn)
-        return {}
-
-    def rename(self, name: str, renames: dict[str, str]) -> str:
-        return rename_schema(name, renames)
-
-
-def _resolve_tag_spec(spec: dict, tag: TagSpec) -> TagSpec:
-    renames = tag.resolved_schema_renames(spec)
-    if renames == tag.schema_renames:
-        return tag
-    return TagSpec(
-        tag=tag.tag,
-        snake_name=tag.snake_name,
-        schema_renames=renames,
-        rename_fn=tag.rename_fn,
-        client=tag.client,
-    )
-
-
-def _resolve_schema_renames(tag: TagSpec, needed: dict[str, Any]) -> dict[str, str]:
-    renames: dict[str, str] = dict(tag.schema_renames)
-    for name in needed:
-        if name in renames:
-            continue
-        normalized = normalize_split_schema_name(name)
-        if tag.rename_fn:
-            renames[name] = tag.rename_fn(normalized)
-        elif normalized != name:
-            renames[name] = normalized
-        else:
-            renames[name] = name
-    return renames
-
 
 def generate_models_for_tag(
     spec: dict,
@@ -172,7 +74,7 @@ def generate_models_for_tag(
     *,
     model_dir: Path,
     models_package: str,
-) -> tuple[set[str], list[tuple[str, str, dict]], dict[str, Any], dict[str, str]] | None:
+) -> tuple[set[str], list[tuple[str, str, dict]], dict[str, Any], RoleNameMap] | None:
     """Generate a Pydantic model file for a single tag."""
     snake_name = tag.resolved_snake_name()
 
@@ -187,45 +89,37 @@ def generate_models_for_tag(
     for method, path, op in endpoints:
         print(f"  {method:6s} {path}  ({op.get('operationId', '?')})")
 
-    split = split_shared_response_schemas(spec, tag=tag.tag)
-    if split:
-        print(f"  Split shared response schemas: {', '.join(split)}")
-
     model_dir.mkdir(parents=True, exist_ok=True)
 
-    request_schemas, response_schemas, needed = discover_schema_sets(spec, endpoints)
-    schema_renames = _resolve_schema_renames(tag, needed)
+    emitted, shared_entities, request_names, response_names = discover_role_emissions(
+        spec,
+        endpoints,
+        tag.rename_fn,
+        schema_renames=tag.schema_renames,
+    )
+    name_map = RoleNameMap.from_emitted(emitted, shared_entities)
+    resolution_schemas = schemas_for_resolution(emitted)
 
-    def rename(n: str) -> str:
-        return tag.rename(n, schema_renames)
+    print(
+        f"  Emitted models: {len(emitted)} "
+        f"(request={len(request_names)}, response={len(response_names)}, shared={len(shared_entities)})"
+    )
 
-    print(f"  Referenced schemas: {len(needed)} " f"(request={len(request_schemas)}, response={len(response_schemas)})")
+    for item in emitted:
+        if item.key.openapi_name != item.python_name or item.key.role.value != "input":
+            print(f"  {item.key.openapi_name}[{item.key.role}] → {item.python_name}")
 
-    schemas_for_resolution: dict[str, Any] = dict(needed)
-    for name, schema in needed.items():
-        renamed = rename(name)
-        if renamed != name:
-            schemas_for_resolution[renamed] = schema
-
-    renamed_from = {rename(k): k for k in needed if rename(k) != k}
-    if renamed_from:
-        for new, old in renamed_from.items():
-            print(f"  Renamed schema: {old} → {new}")
-
-    response_schema_names = {rename(n) for n in response_schemas}
-    request_schema_names = {rename(n) for n in request_schemas}
-    shared_schema_names = sorted(request_schema_names & response_schema_names)
-    allowed_shared = _check_shared_schemas(tag.tag, shared_schema_names, needed, rename)
+    if shared_entities:
+        print(f"  Shared entities (input + output): {', '.join(sorted(shared_entities))}")
 
     to_import: dict[str, str] = {}
-    to_generate: dict[str, Any] = {}
+    to_generate: dict[str, EmittedModel] = {}
     current_module = f"{models_package}.{snake_name}"
-    for name, schema in needed.items():
-        renamed = rename(name)
-        if renamed in known_schemas and known_schemas[renamed] != current_module:
-            to_import[renamed] = known_schemas[renamed]
+    for item in emitted:
+        if item.python_name in known_schemas and known_schemas[item.python_name] != current_module:
+            to_import[item.python_name] = known_schemas[item.python_name]
         else:
-            to_generate[renamed] = schema
+            to_generate[item.python_name] = item
 
     if to_import:
         print(f"  Already known (will import): {len(to_import)}")
@@ -249,7 +143,9 @@ def generate_models_for_tag(
             else:
                 import_lines.append(f"from async_amazon_ads_api_v1.{source} import {', '.join(sorted(names))}")
 
-    enums, regular_models, composition_models = split_types(to_generate)
+    generate_schemas = {name: item.schema for name, item in to_generate.items()}
+    enums, regular_models, composition_models = split_types(generate_schemas)
+
     header = [
         f'"""Auto-generated models for {tag.tag} from Amazon Ads API schema."""',
         "",
@@ -275,25 +171,35 @@ def generate_models_for_tag(
     header.append("")
     header.append("")
 
-    all_models = list(regular_models) + list(composition_models)
+    emitted_by_name = {item.python_name: item for item in emitted}
     buf = "\n".join(header)
-    for name, schema in enums:
-        buf += emit_model(name, schema, schemas_for_resolution, schema_renames) + "\n\n"
-    for name, schema in regular_models:
-        extra = "allow" if name in response_schema_names else "forbid"
-        buf += emit_model(name, schema, schemas_for_resolution, schema_renames, extra=extra) + "\n\n"
-    for name, schema in composition_models:
-        extra = "allow" if name in response_schema_names else "forbid"
-        buf += emit_model(name, schema, schemas_for_resolution, schema_renames, extra=extra) + "\n\n"
 
-    all_names = [n for n, _ in (enums + all_models)]
-    if all_names:
-        buf += f"__all__ = [{', '.join(repr(n) for n in all_names)}]\n"
+    def _emit(name: str, schema: dict) -> str:
+        item = emitted_by_name[name]
+        return emit_model(
+            name,
+            schema,
+            resolution_schemas,
+            name_map,
+            item.key.role,
+            extra=item.extra,
+        )
+
+    for name, schema in enums:
+        buf += _emit(name, schema) + "\n\n"
+    for name, schema in regular_models:
+        buf += _emit(name, schema) + "\n\n"
+    for name, schema in composition_models:
+        buf += _emit(name, schema) + "\n\n"
+
+    public_names = sorted(item.python_name for item in emitted if item.public)
+    if public_names:
+        buf += f"__all__ = [{', '.join(repr(n) for n in public_names)}]\n"
 
     model_path.write_text(buf)
     print(f"\n  Wrote model file: {model_path}")
 
-    return set(allowed_shared), endpoints, schemas_for_resolution, schema_renames
+    return shared_entities, endpoints, resolution_schemas, name_map
 
 
 def generate_for_tag(
@@ -316,7 +222,7 @@ def generate_for_tag(
     if result is None:
         return set()
 
-    shared_schema_names, endpoints, schemas_for_resolution, schema_renames = result
+    shared_entities, endpoints, resolution_schemas, name_map = result
     client_dir.mkdir(parents=True, exist_ok=True)
 
     client_config = tag.client or ClientGenerationConfig(resource_name=tag.resolved_resource_name())
@@ -327,14 +233,14 @@ def generate_for_tag(
         snake_name=tag.resolved_snake_name(),
         models_package=models_package,
         endpoints=endpoints,
-        schemas_for_resolution=schemas_for_resolution,
-        schema_renames=schema_renames,
+        schemas_for_resolution=resolution_schemas,
+        name_map=name_map,
         client_config=client_config,
     )
     client_path = client_dir / f"{tag.resolved_snake_name()}.py"
     client_path.write_text(client_content)
     print(f"  Wrote client file: {client_path}")
-    return shared_schema_names
+    return shared_entities
 
 
 def run_tool(cmd: list[str], label: str, *, cwd: Path = PROJECT_ROOT) -> None:
@@ -363,9 +269,9 @@ def print_shared_schemas_summary(all_shared: dict[str, list[str]], *, single_tag
     print("\n" + "=" * 60)
     if not all_shared:
         suffix = "" if single_tag else " across all tags"
-        print(f"No shared schemas (request ∩ response){suffix}.")
+        print(f"No shared entity schemas{suffix}.")
         return
-    print("Shared schemas summary (request ∩ response)")
+    print("Shared entity schemas summary")
     for tag_name, names in all_shared.items():
         print(f"  {tag_name}: {', '.join(names)}")
 
@@ -394,8 +300,7 @@ def run(project: GenerationProject, tags: list[TagSpec]) -> None:
         project.patch_spec(spec)
 
     all_shared: dict[str, list[str]] = {}
-    for raw_tag in tags:
-        tag = _resolve_tag_spec(spec, raw_tag)
+    for tag in tags:
         if project.models_only:
             result = generate_models_for_tag(
                 spec,

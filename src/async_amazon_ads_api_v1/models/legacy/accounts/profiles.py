@@ -94,7 +94,7 @@ class AccountInfo(BaseModel):
     )
 
 
-class AccountInfoResponse(BaseModel):
+class AccountInfoOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     marketplaceStringId: str | None = Field(
@@ -187,7 +187,7 @@ The time zone used for all date-based campaign management and reporting.
     accountInfo: AccountInfo | None = Field(default=None)
 
 
-class ProfileResponse(BaseModel):
+class ProfileOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     profileId: int | None = Field(default=None)
@@ -258,7 +258,15 @@ The time zone used for all date-based campaign management and reporting.
 |FE|SG|Singapore|Asia/Singapore|
 """,
     )
-    accountInfo: AccountInfoResponse | None = Field(default=None)
+    accountInfo: AccountInfoOut | None = Field(default=None)
 
 
-__all__ = ["AccountType", "CountryCode", "AccountInfo", "AccountInfoResponse", "Profile", "ProfileResponse"]
+class ProfileResult(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    profileId: int | None = Field(default=None)
+    code: str | None = Field(default=None)
+    details: str | None = Field(default=None)
+
+
+__all__ = ["AccountInfo", "AccountType", "CountryCode", "Profile"]

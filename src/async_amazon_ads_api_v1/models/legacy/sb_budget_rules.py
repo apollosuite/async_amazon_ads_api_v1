@@ -81,7 +81,7 @@ class SBRuleType(StrEnum):
     PERFORMANCE = "PERFORMANCE"
 
 
-class SBAssociatedBudgetRuleResponse(BaseModel):
+class SBAssociatedBudgetRuleResult(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     code: str | None = Field(default=None, description="An enumerated success or error code for machine use.")
@@ -106,7 +106,7 @@ class SBBudgetIncreaseBy(BaseModel):
     value: float = Field(description="The budget value.")
 
 
-class SBBudgetIncreaseByResponse(BaseModel):
+class SBBudgetIncreaseByOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     type: Annotated[SBBudgetChangeType | str, lenient_enum(SBBudgetChangeType)] | None = Field(default=None)
@@ -137,20 +137,31 @@ class SBBudgetRuleDetails(BaseModel):
     performanceMeasureCondition: SBPerformanceMeasureCondition | None = Field(default=None)
 
 
-class SBBudgetRuleDetailsResponse(BaseModel):
+class SBBudgetRuleDetailsOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    duration: SBRuleDurationResponse | None = Field(default=None)
-    recurrence: SBRecurrenceResponse | None = Field(default=None)
+    duration: SBRuleDurationOut | None = Field(default=None)
+    recurrence: SBRecurrenceOut | None = Field(default=None)
     ruleType: Annotated[SBRuleType | str, lenient_enum(SBRuleType)] | None = Field(default=None)
-    budgetIncreaseBy: SBBudgetIncreaseByResponse | None = Field(default=None)
+    budgetIncreaseBy: SBBudgetIncreaseByOut | None = Field(default=None)
     name: str | None = Field(
         default=None, max_length=355, description="The budget rule name. Required to be unique within a campaign."
     )
-    performanceMeasureCondition: SBPerformanceMeasureConditionForSBResponse | None = Field(default=None)
+    performanceMeasureCondition: SBPerformanceMeasureConditionOut | None = Field(default=None)
 
 
-class SBBudgetRuleResponse(BaseModel):
+class SBBudgetRuleOut(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    ruleState: Annotated[SBBudgetRuleState | str, lenient_enum(SBBudgetRuleState)] | None = Field(default=None)
+    lastUpdatedDate: int | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
+    createdDate: int | None = Field(default=None, description="Epoch time of budget rule creation. Read-only.")
+    ruleDetails: SBBudgetRuleDetailsOut | None = Field(default=None)
+    ruleId: str | None = Field(default=None, description="The budget rule identifier.")
+    ruleStatus: str | None = Field(default=None, description="The budget rule status. Read-only.")
+
+
+class SBBudgetRuleResult(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     code: str | None = Field(default=None, description="An enumerated success or error code for machine use.")
@@ -165,7 +176,7 @@ class SBCampaignBudgetRule(BaseModel):
     ruleState: Annotated[SBBudgetRuleState | str, lenient_enum(SBBudgetRuleState)] | None = Field(default=None)
     lastUpdatedDate: int | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
     createdDate: int | None = Field(default=None, description="Epoch time of budget rule creation. Read-only.")
-    ruleDetails: SBBudgetRuleDetailsResponse | None = Field(default=None)
+    ruleDetails: SBBudgetRuleDetailsOut | None = Field(default=None)
     ruleId: str | None = Field(default=None, description="The budget rule identifier.")
     ruleStatus: str | None = Field(default=None, description="The budget rule evaluation status. Read-only.")
 
@@ -181,7 +192,7 @@ class SBCreateAssociatedBudgetRulesRequest(BaseModel):
 class SBCreateAssociatedBudgetRulesResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    responses: list[SBAssociatedBudgetRuleResponse] | None = Field(default=None)
+    responses: list[SBAssociatedBudgetRuleResult] | None = Field(default=None)
 
 
 class SBCreateBudgetRulesRequest(BaseModel):
@@ -195,7 +206,7 @@ class SBCreateBudgetRulesRequest(BaseModel):
 class SBCreateBudgetRulesResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    responses: list[SBBudgetRuleResponse] | None = Field(default=None)
+    responses: list[SBBudgetRuleResult] | None = Field(default=None)
 
 
 class SBDateRangeTypeRuleDuration(BaseModel):
@@ -212,7 +223,7 @@ class SBDateRangeTypeRuleDuration(BaseModel):
     )
 
 
-class SBDateRangeTypeRuleDurationResponse(BaseModel):
+class SBDateRangeTypeRuleDurationOut(BaseModel):
     """Object representing date range type rule duration."""
 
     model_config = ConfigDict(extra="allow")
@@ -247,7 +258,7 @@ class SBEventTypeRuleDuration(BaseModel):
     )
 
 
-class SBEventTypeRuleDurationResponse(BaseModel):
+class SBEventTypeRuleDurationOut(BaseModel):
     """Object representing event type rule duration."""
 
     model_config = ConfigDict(extra="allow")
@@ -282,13 +293,13 @@ class SBGetAssociatedCampaignsResponse(BaseModel):
 class SBGetBudgetRuleResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    budgetRule: SBBudgetRuleResponse | None = Field(default=None)
+    budgetRule: SBBudgetRuleOut | None = Field(default=None)
 
 
 class SBGetBudgetRulesForAdvertiserResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    budgetRulesForAdvertiserResponse: list[SBBudgetRuleResponse] | None = Field(
+    budgetRulesForAdvertiserResponse: list[SBBudgetRuleOut] | None = Field(
         default=None, min_length=0, max_length=30, description="A list of rules created by the advertiser."
     )
     nextToken: str | None = Field(
@@ -313,7 +324,7 @@ class SBPerformanceMeasureCondition(BaseModel):
     threshold: float = Field(description="The performance threshold value.")
 
 
-class SBPerformanceMeasureConditionForSBResponse(BaseModel):
+class SBPerformanceMeasureConditionOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     metricName: Annotated[SBPerformanceMetric | str, lenient_enum(SBPerformanceMetric)] | None = Field(default=None)
@@ -323,7 +334,7 @@ class SBPerformanceMeasureConditionForSBResponse(BaseModel):
     threshold: float | None = Field(default=None, description="The performance threshold value.")
 
 
-class SBRecurrenceResponse(BaseModel):
+class SBRecurrenceOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     type: Annotated[SBRecurrenceType | str, lenient_enum(SBRecurrenceType)] | None = Field(default=None)
@@ -331,7 +342,7 @@ class SBRecurrenceResponse(BaseModel):
         default=None,
         description="Object representing days of the week for weekly type rule. It is not required for daily recurrence type",
     )
-    intraDaySchedule: list[SBTimeOfDayResponse] | None = Field(
+    intraDaySchedule: list[SBTimeOfDayOut] | None = Field(
         default=None,
         max_length=1,
         description="List of objects representing start and end time of desired intra-day budget rule window",
@@ -345,11 +356,11 @@ class SBRuleDuration(BaseModel):
     dateRangeTypeRuleDuration: SBDateRangeTypeRuleDuration | None = Field(default=None)
 
 
-class SBRuleDurationResponse(BaseModel):
+class SBRuleDurationOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    eventTypeRuleDuration: SBEventTypeRuleDurationResponse | None = Field(default=None)
-    dateRangeTypeRuleDuration: SBDateRangeTypeRuleDurationResponse | None = Field(default=None)
+    eventTypeRuleDuration: SBEventTypeRuleDurationOut | None = Field(default=None)
+    dateRangeTypeRuleDuration: SBDateRangeTypeRuleDurationOut | None = Field(default=None)
 
 
 class SBTimeOfDay(BaseModel):
@@ -364,7 +375,7 @@ class SBTimeOfDay(BaseModel):
     )
 
 
-class SBTimeOfDayResponse(BaseModel):
+class SBTimeOfDayOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     startTime: str | None = Field(
@@ -387,46 +398,27 @@ class SBUpdateBudgetRulesRequest(BaseModel):
 class SBUpdateBudgetRulesResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    responses: list[SBBudgetRuleResponse] | None = Field(default=None)
+    responses: list[SBBudgetRuleResult] | None = Field(default=None)
 
 
 __all__ = [
     "SBBudgetChangeType",
-    "SBBudgetRuleState",
-    "SBComparisonOperator",
-    "SBDayOfWeek",
-    "SBPerformanceMetric",
-    "SBRecurrenceType",
-    "SBRuleType",
-    "SBAssociatedBudgetRuleResponse",
-    "SBAssociatedCampaign",
     "SBBudgetIncreaseBy",
-    "SBBudgetIncreaseByResponse",
     "SBBudgetRule",
     "SBBudgetRuleDetails",
-    "SBBudgetRuleDetailsResponse",
-    "SBBudgetRuleResponse",
-    "SBCampaignBudgetRule",
+    "SBBudgetRuleState",
+    "SBComparisonOperator",
     "SBCreateAssociatedBudgetRulesRequest",
-    "SBCreateAssociatedBudgetRulesResponse",
     "SBCreateBudgetRulesRequest",
-    "SBCreateBudgetRulesResponse",
     "SBDateRangeTypeRuleDuration",
-    "SBDateRangeTypeRuleDurationResponse",
-    "SBDisassociateAssociatedBudgetRuleResponse",
+    "SBDayOfWeek",
     "SBEventTypeRuleDuration",
-    "SBEventTypeRuleDurationResponse",
-    "SBGetAssociatedCampaignsResponse",
-    "SBGetBudgetRuleResponse",
-    "SBGetBudgetRulesForAdvertiserResponse",
-    "SBListAssociatedBudgetRulesResponse",
     "SBPerformanceMeasureCondition",
-    "SBPerformanceMeasureConditionForSBResponse",
-    "SBRecurrenceResponse",
+    "SBPerformanceMetric",
+    "SBRecurrence",
+    "SBRecurrenceType",
     "SBRuleDuration",
-    "SBRuleDurationResponse",
+    "SBRuleType",
     "SBTimeOfDay",
-    "SBTimeOfDayResponse",
     "SBUpdateBudgetRulesRequest",
-    "SBUpdateBudgetRulesResponse",
 ]

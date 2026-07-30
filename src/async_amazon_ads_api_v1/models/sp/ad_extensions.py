@@ -8,12 +8,14 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorsIndex
+from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 from .campaigns import (
     SPAdProduct,
     SPCreateState,
+    SPDeliveryReason,
+    SPDeliveryStatus,
     SPMarketplace,
     SPMarketplaceScope,
     SPState,
@@ -302,10 +304,7 @@ class SPVideoExtension(BaseModel):
 
 
 __all__ = [
-    "SPAdExtensionStatus",
-    "SPAdExtensionType",
-    "SPVideoType",
-    "SPAdExtension",
+    "ErrorCode",
     "SPAdExtensionAdExtensionIdFilter",
     "SPAdExtensionAdExtensionStatusFilter",
     "SPAdExtensionAdExtensionTypeFilter",
@@ -313,18 +312,23 @@ __all__ = [
     "SPAdExtensionAdIdFilter",
     "SPAdExtensionAdProductFilter",
     "SPAdExtensionCreate",
-    "SPAdExtensionMultiStatusResponse",
-    "SPAdExtensionMultiStatusSuccess",
-    "SPAdExtensionSettings",
     "SPAdExtensionStateFilter",
-    "SPAdExtensionSuccessResponse",
+    "SPAdExtensionStatus",
+    "SPAdExtensionType",
     "SPAdExtensionUpdate",
+    "SPAdProduct",
     "SPCreateAdExtensionRequest",
     "SPCreateAdExtensionSettings",
     "SPCreatePromptExtension",
+    "SPCreateState",
     "SPCreateVideoExtension",
-    "SPPromptExtension",
+    "SPDeliveryReason",
+    "SPDeliveryStatus",
+    "SPMarketplace",
+    "SPMarketplaceScope",
     "SPQueryAdExtensionRequest",
+    "SPState",
     "SPUpdateAdExtensionRequest",
-    "SPVideoExtension",
+    "SPUpdateState",
+    "SPVideoType",
 ]

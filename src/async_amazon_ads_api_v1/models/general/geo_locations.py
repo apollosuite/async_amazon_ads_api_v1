@@ -7,7 +7,7 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorsIndex
+from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 
@@ -160,18 +160,12 @@ class SmartLocation(BaseModel):
 
 
 __all__ = [
-    "DistanceUnit",
     "CreateGeoLocationCoordinates",
     "CreateGeoLocationRequest",
     "CreateGeoLocationUnion",
     "CreateRadiusLocation",
     "CreateSmartLocation",
-    "GeoLocation",
-    "GeoLocationCoordinates",
+    "DistanceUnit",
+    "ErrorCode",
     "GeoLocationCreate",
-    "GeoLocationMultiStatusResponse",
-    "GeoLocationMultiStatusSuccess",
-    "GeoLocationUnion",
-    "RadiusLocation",
-    "SmartLocation",
 ]

@@ -8,7 +8,7 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_amazon_ads_api_v1.errors import ErrorsIndex
+from async_amazon_ads_api_v1.errors import ErrorCode, ErrorsIndex
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 from .campaigns import SBCurrencyCode
@@ -200,22 +200,18 @@ class SBUpdateAdvertisingDealRequest(BaseModel):
 
 
 __all__ = [
+    "ErrorCode",
+    "SBAdvertisingDealAdvertisingDealIdFilter",
+    "SBAdvertisingDealCreate",
+    "SBAdvertisingDealNameFilter",
     "SBAdvertisingDealNameFilterType",
     "SBAdvertisingDealPriceType",
     "SBAdvertisingDealState",
     "SBAdvertisingDealStatusEnum",
-    "SBAdvertisingDeal",
-    "SBAdvertisingDealAdvertisingDealIdFilter",
-    "SBAdvertisingDealCreate",
-    "SBAdvertisingDealMultiStatusResponse",
-    "SBAdvertisingDealMultiStatusSuccess",
-    "SBAdvertisingDealNameFilter",
-    "SBAdvertisingDealPrice",
-    "SBAdvertisingDealStatus",
-    "SBAdvertisingDealSuccessResponse",
     "SBAdvertisingDealUpdate",
     "SBCreateAdvertisingDealPrice",
     "SBCreateAdvertisingDealRequest",
+    "SBCurrencyCode",
     "SBDeleteAdvertisingDealRequest",
     "SBQueryAdvertisingDealRequest",
     "SBUpdateAdvertisingDealPrice",
