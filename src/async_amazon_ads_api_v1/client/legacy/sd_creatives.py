@@ -4,13 +4,14 @@ from __future__ import annotations
 
 from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.legacy.sd_creatives import (
+    SDCreateCreative,
+    SDCreative,
     SDCreativeModeration,
     SDCreativePreviewRequest,
     SDCreativePreviewResponse,
     SDCreativeResponse,
     SDCreativeUpdate,
 )
-from async_amazon_ads_api_v1.models.sd.ads import SDCreateCreative, SDCreative
 
 
 class SDCreatives(BaseResource):

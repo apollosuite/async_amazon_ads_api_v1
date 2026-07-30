@@ -211,14 +211,16 @@ await pf.update(UpdatePortfoliosRequestContent(portfolios=[...]))
 
 ```python
 from async_amazon_ads_api_v1.client.legacy import SBOptimizationRules
-from async_amazon_ads_api_v1.models.legacy import SBEntityFilter, SBListOptimizationRulesRequest
+from async_amazon_ads_api_v1.models.legacy.sb_rules import (
+    SBEntityFilter,
+    SBListOptimizationRulesRequest,
+)
 
 rules = SBOptimizationRules(ctx)
 request = SBListOptimizationRulesRequest(
     entityFilter=SBEntityFilter(entityType="CAMPAIGN", entityId="..."),
 )
 await rules.list_optimization_rules(request)
-await rules.disassociate_optimization_rules(request)
 ```
 
 ### SDOptimizationRules — SD 优化规则 (Beta)
@@ -249,9 +251,19 @@ await rules.disassociate_optimization_rules(
 
 ```python
 from async_amazon_ads_api_v1.client.legacy import SDCreatives
+from async_amazon_ads_api_v1.models.legacy.sd_creatives import (
+    SDCreateCreative,
+    SDCreativeProperties,
+)
 
 creatives = SDCreatives(ctx)
-await creatives.create([{...}])
+await creatives.create_creatives([
+    SDCreateCreative(
+        adGroupId=21035454911234,
+        properties=SDCreativeProperties(headline="Your headline"),
+    ),
+])
+await creatives.list_creatives()
 ```
 
 ## License
