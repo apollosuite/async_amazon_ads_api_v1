@@ -41,13 +41,11 @@ class SellingAccount(BaseModel):
         description="The countries of the selling account user can advertise in.",
     )
     displayName: str | None = Field(default=None, description="Display name for the selling account.")
-    portals: list[Annotated[Portal | str, lenient_enum(Portal)]] | None = Field(
-        default=None, min_length=1, max_length=6, description="The portal(s) used to access the selling account."
+    portals: list[Annotated[Portal | str, lenient_enum(Portal)]] = Field(
+        min_length=1, max_length=6, description="The portal(s) used to access the selling account."
     )
-    sellingAccountLinkToken: str | None = Field(default=None, description="The token to locate a selling account.")
-    sellingProgram: Annotated[GeneralSellingProgram | str, lenient_enum(GeneralSellingProgram)] | None = Field(
-        default=None
-    )
+    sellingAccountLinkToken: str = Field(description="The token to locate a selling account.")
+    sellingProgram: Annotated[GeneralSellingProgram | str, lenient_enum(GeneralSellingProgram)]
 
 
 class SellingAccountAddress(BaseModel):
@@ -55,15 +53,15 @@ class SellingAccountAddress(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    addressLine1: str | None = Field(default=None, description="The address details - 1 of business.")
+    addressLine1: str = Field(description="The address details - 1 of business.")
     addressLine2: str | None = Field(default=None, description="The address details - 2 of business.")
-    addressToken: str | None = Field(default=None, description="The token to locate a business address.")
-    businessName: str | None = Field(default=None, description="The name of business.")
-    city: str | None = Field(default=None, description="The city where business is located.")
-    countryCode: str | None = Field(default=None, description="The country where business is located.")
+    addressToken: str = Field(description="The token to locate a business address.")
+    businessName: str = Field(description="The name of business.")
+    city: str = Field(description="The city where business is located.")
+    countryCode: str = Field(description="The country where business is located.")
     phoneNumber: str | None = Field(default=None, description="The phone number of business.")
-    state: str | None = Field(default=None, description="The city where business is located.")
-    zipCode: str | None = Field(default=None, description="The zipCode where business is located.")
+    state: str = Field(description="The city where business is located.")
+    zipCode: str = Field(description="The zipCode where business is located.")
 
 
 class SellingAccountBusiness(BaseModel):

@@ -339,11 +339,11 @@ class Address(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    addressLine1: str | None = Field(default=None, description="The address details - 1 of business.")
+    addressLine1: str = Field(description="The address details - 1 of business.")
     addressLine2: str | None = Field(default=None, description="The address details - 2 of business.")
-    businessName: str | None = Field(default=None, description="The name of business.")
-    city: str | None = Field(default=None, description="The city where business is located.")
-    countryCode: str | None = Field(default=None, description="The country where business is located.")
+    businessName: str = Field(description="The name of business.")
+    city: str = Field(description="The city where business is located.")
+    countryCode: str = Field(description="The country where business is located.")
     phoneNumber: str | None = Field(default=None, description="The phone number of business.")
     state: str | None = Field(default=None, description="The city where business is located.")
     zipCode: str | None = Field(default=None, description="The zipCode where business is located.")
@@ -352,17 +352,14 @@ class Address(BaseModel):
 class AdvertiserAccount(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    advertiserAccountId: str | None = Field(
-        default=None, description="The unique identifier for the advertiser account."
-    )
+    advertiserAccountId: str = Field(description="The unique identifier for the advertiser account.")
     alternateIds: list[AlternateIdentifier] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
         description="The list of additional identifiers associated with advertising account.",
     )
-    businessDetails: list[BusinessDetail] | None = Field(
-        default=None,
+    businessDetails: list[BusinessDetail] = Field(
         min_length=1,
         max_length=1,
         description="The business details for an advertising account, containing either an address token for sellingAccount, or an address object if the sellingAccount lacks a valid address.",
@@ -386,7 +383,7 @@ class AdvertiserAccount(BaseModel):
         max_length=1,
         description="The selling account link requests for an advertiser account, containing details for linking.",
     )
-    status: AdvertiserAccountStatus | None = Field(default=None)
+    status: AdvertiserAccountStatus
     timeZoneIana: Annotated[TimeZoneIana | str, lenient_enum(TimeZoneIana)] | None = Field(default=None)
 
 
@@ -442,8 +439,8 @@ class AdvertiserAccountMultiStatusResponse(BaseModel):
 class AdvertiserAccountMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    advertiserAccount: AdvertiserAccount | None = Field(default=None)
-    index: int | None = Field(default=None, ge=0, le=99)
+    advertiserAccount: AdvertiserAccount
+    index: int = Field(ge=0, le=99)
 
 
 class AdvertiserAccountStatus(BaseModel):
@@ -451,10 +448,8 @@ class AdvertiserAccountStatus(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    statusCode: Annotated[AccountState | str, lenient_enum(AccountState)] | None = Field(default=None)
-    statusMessage: str | None = Field(
-        default=None, description="A human-friendly message describing the status of the advertising account."
-    )
+    statusCode: Annotated[AccountState | str, lenient_enum(AccountState)]
+    statusMessage: str = Field(description="A human-friendly message describing the status of the advertising account.")
 
 
 class AdvertiserAccountSuccessResponse(BaseModel):
@@ -588,10 +583,8 @@ class QueryAdvertiserAccountRequest(BaseModel):
 class SellingAccountLinkDetails(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    linkStatus: SellingAccountLinkStatus | None = Field(default=None)
-    sellingAccountLinkToken: str | None = Field(
-        default=None, description="The token to locate a selling account to be linked."
-    )
+    linkStatus: SellingAccountLinkStatus
+    sellingAccountLinkToken: str = Field(description="The token to locate a selling account to be linked.")
     sellingProgram: Annotated[GeneralSellingProgram | str, lenient_enum(GeneralSellingProgram)] | None = Field(
         default=None
     )
@@ -606,10 +599,8 @@ class SellingAccountLinkRequest(BaseModel):
 class SellingAccountLinkStatus(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    statusCode: Annotated[SellingAccountLinkState | str, lenient_enum(SellingAccountLinkState)] | None = Field(
-        default=None
-    )
-    statusMessage: str | None = Field(default=None, description="The human friendly status message.")
+    statusCode: Annotated[SellingAccountLinkState | str, lenient_enum(SellingAccountLinkState)]
+    statusMessage: str = Field(description="The human friendly status message.")
 
 
 class UpdateAdvertiserAccountRequest(BaseModel):

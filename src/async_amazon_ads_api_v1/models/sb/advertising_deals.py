@@ -55,16 +55,16 @@ class SBAdvertisingDealStatusEnum(StrEnum):
 class SBAdvertisingDeal(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    advertisingDealId: str | None = Field(default=None, description="A unique identifier for a deal.")
-    endDateTime: datetime | None = Field(default=None, description="The end date time for the deal.")
-    name: str | None = Field(default=None, description="The name of the deal.")
+    advertisingDealId: str = Field(description="A unique identifier for a deal.")
+    endDateTime: datetime = Field(description="The end date time for the deal.")
+    name: str = Field(description="The name of the deal.")
     price: SBAdvertisingDealPrice | None = Field(default=None)
     replacingDealId: str | None = Field(
         default=None, description="The ID of an advertising deal that this deal intends to replace."
     )
-    startDateTime: datetime | None = Field(default=None, description="The start date time for the deal.")
+    startDateTime: datetime = Field(description="The start date time for the deal.")
     state: Annotated[SBAdvertisingDealState | str, lenient_enum(SBAdvertisingDealState)] | None = Field(default=None)
-    status: SBAdvertisingDealStatus | None = Field(default=None)
+    status: SBAdvertisingDealStatus
 
 
 class SBAdvertisingDealAdvertisingDealIdFilter(BaseModel):
@@ -96,8 +96,8 @@ class SBAdvertisingDealMultiStatusResponse(BaseModel):
 class SBAdvertisingDealMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    advertisingDeal: SBAdvertisingDeal | None = Field(default=None)
-    index: int | None = Field(default=None, ge=0, le=9)
+    advertisingDeal: SBAdvertisingDeal
+    index: int = Field(ge=0, le=9)
 
 
 class SBAdvertisingDealNameFilter(BaseModel):
@@ -110,9 +110,7 @@ class SBAdvertisingDealNameFilter(BaseModel):
 class SBAdvertisingDealStatus(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    status: Annotated[SBAdvertisingDealStatusEnum | str, lenient_enum(SBAdvertisingDealStatusEnum)] | None = Field(
-        default=None
-    )
+    status: Annotated[SBAdvertisingDealStatusEnum | str, lenient_enum(SBAdvertisingDealStatusEnum)]
 
 
 class SBAdvertisingDealSuccessResponse(BaseModel):

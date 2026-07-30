@@ -91,18 +91,17 @@ uv run black src/ scripts/
 
 ### 核心设计：请求严格 / 响应向前兼容
 
-Amazon Ads API 的响应可能在 OpenAPI schema 之外变化（新增字段、未知枚举值、缺失字段）。SDK 采用**请求严格、响应宽松**策略：
+Amazon Ads API 的响应可能在 OpenAPI schema 之外变化（新增字段、未知枚举值）。SDK 采用**请求严格、响应向前兼容**策略：
 
 | 场景 | `extra` | 必填字段 | 未知枚举 |
 |------|---------|---------|---------|
 | 请求模型 | `forbid` | 保留 OpenAPI `required` | 拒绝（`ValidationError`） |
-| 响应模型 | `allow` | 全部可选 | 保留为 `str`（`lenient_enum`） |
+| 响应模型 | `allow` | 保留 OpenAPI `required` | 保留为 `str`（`lenient_enum`） |
 
-**响应三层容忍**（仅响应模型）：
+**响应两层容忍**（仅响应模型）：
 
 1. `extra="allow"` — 保留 API 新增字段
-2. 字段全可选 — 容忍响应体缺失字段
-3. `lenient_enum` + `model_validate_json` — 容忍未知枚举值
+2. `lenient_enum` + `model_validate_json` — 容忍未知枚举值
 
 ### 生成器架构
 
@@ -116,7 +115,7 @@ OpenAPI spec
 
 - **Schema 分流**：`discover_schema_sets()` 将 schema 分为请求闭包与响应闭包（种子来自 `requestBody` 与 `200/201/207` 响应），据此决定 `extra` 与字段必填性
 - **共用 schema 拆分**：若同一 model 同时出现在请求和响应闭包，生成器自动复制为 `FooForResponse`（重命名为 `FooResponse`）；请求侧保留原名。enum / type alias 允许共用；model 共用且未拆分会抛 `SharedModelSchemaError`
-- **字段规则**：`is_required = fname in required and extra == "forbid"` — 仅请求模型保留 OpenAPI `required`
+- **字段规则**：`is_required = fname in required` — 请求/响应模型均保留 OpenAPI `required`
 
 ### 运行时解析
 

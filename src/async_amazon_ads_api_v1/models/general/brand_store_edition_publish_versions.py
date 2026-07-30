@@ -44,17 +44,17 @@ class StorePublishStatus(StrEnum):
 class BrandStoreEditionPublishVersion(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    editionId: str | None = Field(default=None, description="Reference to the store edition")
+    editionId: str = Field(description="Reference to the store edition")
     pages: list[StorePageVersion] | None = Field(
         default=None,
         min_length=0,
         max_length=5000,
         description="Collection of page versions included in this publish version",
     )
-    publishState: Annotated[StorePublishState | str, lenient_enum(StorePublishState)] | None = Field(default=None)
-    publishStatus: Annotated[StorePublishStatus | str, lenient_enum(StorePublishStatus)] | None = Field(default=None)
-    storeEditionPublishId: str | None = Field(default=None, description="Unique identifier for the publish version")
-    storeId: str | None = Field(default=None, description="Identifier of the associated store")
+    publishState: Annotated[StorePublishState | str, lenient_enum(StorePublishState)]
+    publishStatus: Annotated[StorePublishStatus | str, lenient_enum(StorePublishStatus)]
+    storeEditionPublishId: str = Field(description="Unique identifier for the publish version")
+    storeId: str = Field(description="Identifier of the associated store")
 
 
 class BrandStoreEditionPublishVersionBrandStoreEditionIdFilter(BaseModel):
@@ -81,8 +81,8 @@ class BrandStoreEditionPublishVersionMultiStatusResponse(BaseModel):
 class BrandStoreEditionPublishVersionMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    brandStoreEditionPublishVersion: BrandStoreEditionPublishVersion | None = Field(default=None)
-    index: int | None = Field(default=None, ge=0, le=0)
+    brandStoreEditionPublishVersion: BrandStoreEditionPublishVersion
+    index: int = Field(ge=0, le=0)
 
 
 class BrandStoreEditionPublishVersionStorePublishStatusFilter(BaseModel):
@@ -133,8 +133,8 @@ class StorePageVersion(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    pageId: str | None = Field(default=None, description="Identifier of the page")
-    version: int | None = Field(default=None, description="Version number of the page")
+    pageId: str = Field(description="Identifier of the page")
+    version: int = Field(description="Version number of the page")
 
 
 class UpdateBrandStoreEditionPublishVersionRequest(BaseModel):

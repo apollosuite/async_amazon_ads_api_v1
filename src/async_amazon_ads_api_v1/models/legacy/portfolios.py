@@ -219,7 +219,7 @@ class CampaignUnspentBudgetSharing(BaseModel):
 class CampaignUnspentBudgetSharingOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    featureState: Annotated[FeatureState | str, lenient_enum(FeatureState)] | None = Field(default=None)
+    featureState: Annotated[FeatureState | str, lenient_enum(FeatureState)]
 
 
 class CreatePortfolio(BaseModel):
@@ -242,7 +242,7 @@ class CreatePortfoliosRequestContent(BaseModel):
 class CreatePortfoliosResponseContent(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    portfolios: BulkPortfolioOperationResponse | None = Field(default=None)
+    portfolios: BulkPortfolioOperationResponse
 
 
 class EntityStateFilter(BaseModel):
@@ -260,8 +260,8 @@ class ErrorCause(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    location: str | None = Field(
-        default=None, description="Error location, JSON Path expression specifying element of API payload causing error"
+    location: str = Field(
+        description="Error location, JSON Path expression specifying element of API payload causing error"
     )
     trigger: str | None = Field(default=None, description="optional value causing error")
 
@@ -317,9 +317,9 @@ class Portfolio(BaseModel):
     budgetControls: BudgetControlsOut | None = Field(default=None)
     extendedData: PortfolioExtendedData | None = Field(default=None)
     inBudget: bool | None = Field(default=None, description="States if the portfolio is still within budget.")
-    name: str | None = Field(default=None, description="The name of the portfolio.")
-    portfolioId: str | None = Field(default=None, description="The ID of the portfolio.")
-    state: Annotated[EntityState | str, lenient_enum(EntityState)] | None = Field(default=None)
+    name: str = Field(description="The name of the portfolio.")
+    portfolioId: str = Field(description="The ID of the portfolio.")
+    state: Annotated[EntityState | str, lenient_enum(EntityState)]
 
 
 class PortfolioBillingError(BaseModel):
@@ -327,12 +327,10 @@ class PortfolioBillingError(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    cause: ErrorCause | None = Field(default=None)
+    cause: ErrorCause
     marketplace: str | None = Field(default=None)
-    message: str | None = Field(default=None, description="Human readable error message")
-    reason: Annotated[PortfolioBillingErrorReason | str, lenient_enum(PortfolioBillingErrorReason)] | None = Field(
-        default=None
-    )
+    message: str = Field(description="Human readable error message")
+    reason: Annotated[PortfolioBillingErrorReason | str, lenient_enum(PortfolioBillingErrorReason)]
 
 
 class PortfolioBudget(BaseModel):
@@ -354,13 +352,11 @@ class PortfolioBudget(BaseModel):
 class PortfolioBudgetError(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    cause: ErrorCause | None = Field(default=None)
+    cause: ErrorCause
     lowerLimit: str | None = Field(default=None)
     marketplace: str | None = Field(default=None)
-    message: str | None = Field(default=None, description="Human readable error message")
-    reason: Annotated[PortfolioBudgetErrorReason | str, lenient_enum(PortfolioBudgetErrorReason)] | None = Field(
-        default=None
-    )
+    message: str = Field(description="Human readable error message")
+    reason: Annotated[PortfolioBudgetErrorReason | str, lenient_enum(PortfolioBudgetErrorReason)]
     upperLimit: str | None = Field(default=None)
 
 
@@ -383,36 +379,30 @@ class PortfolioBudgetOut(BaseModel):
 class PortfolioDateError(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    cause: ErrorCause | None = Field(default=None)
+    cause: ErrorCause
     marketplace: str | None = Field(default=None)
-    message: str | None = Field(default=None, description="Human readable error message")
-    reason: Annotated[PortfolioDateErrorReason | str, lenient_enum(PortfolioDateErrorReason)] | None = Field(
-        default=None
-    )
+    message: str = Field(description="Human readable error message")
+    reason: Annotated[PortfolioDateErrorReason | str, lenient_enum(PortfolioDateErrorReason)]
 
 
 class PortfolioDuplicateValueError(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    cause: ErrorCause | None = Field(default=None)
+    cause: ErrorCause
     marketplace: str | None = Field(default=None)
-    message: str | None = Field(default=None, description="Human readable error message")
-    reason: (
-        Annotated[PortfolioDuplicateValueErrorReason | str, lenient_enum(PortfolioDuplicateValueErrorReason)] | None
-    ) = Field(default=None)
+    message: str = Field(description="Human readable error message")
+    reason: Annotated[PortfolioDuplicateValueErrorReason | str, lenient_enum(PortfolioDuplicateValueErrorReason)]
 
 
 class PortfolioEntityNotFoundError(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    cause: ErrorCause | None = Field(default=None)
-    entityId: str | None = Field(default=None, description="The entity id in the request")
-    entityType: Annotated[PortfolioEntityType | str, lenient_enum(PortfolioEntityType)] | None = Field(default=None)
+    cause: ErrorCause
+    entityId: str = Field(description="The entity id in the request")
+    entityType: Annotated[PortfolioEntityType | str, lenient_enum(PortfolioEntityType)]
     marketplace: str | None = Field(default=None)
-    message: str | None = Field(default=None, description="Human readable error message")
-    reason: (
-        Annotated[PortfolioEntityNotFoundErrorReason | str, lenient_enum(PortfolioEntityNotFoundErrorReason)] | None
-    ) = Field(default=None)
+    message: str = Field(description="Human readable error message")
+    reason: Annotated[PortfolioEntityNotFoundErrorReason | str, lenient_enum(PortfolioEntityNotFoundErrorReason)]
 
 
 class PortfolioEntityQuotaError(BaseModel):
@@ -420,15 +410,13 @@ class PortfolioEntityQuotaError(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    cause: ErrorCause | None = Field(default=None)
-    entityType: Annotated[PortfolioEntityType | str, lenient_enum(PortfolioEntityType)] | None = Field(default=None)
+    cause: ErrorCause
+    entityType: Annotated[PortfolioEntityType | str, lenient_enum(PortfolioEntityType)]
     marketplace: str | None = Field(default=None)
-    message: str | None = Field(default=None, description="Human readable error message")
+    message: str = Field(description="Human readable error message")
     quota: str | None = Field(default=None, description="optional current quota")
     quotaScope: Annotated[PortfolioQuotaScope | str, lenient_enum(PortfolioQuotaScope)] | None = Field(default=None)
-    reason: Annotated[PortfolioEntityQuotaErrorReason | str, lenient_enum(PortfolioEntityQuotaErrorReason)] | None = (
-        Field(default=None)
-    )
+    reason: Annotated[PortfolioEntityQuotaErrorReason | str, lenient_enum(PortfolioEntityQuotaErrorReason)]
 
 
 class PortfolioExtendedData(BaseModel):
@@ -450,9 +438,7 @@ class PortfolioFailureResponseItem(BaseModel):
     errors: list[PortfolioMutationError] | None = Field(
         default=None, min_length=0, max_length=100, description="a list of validation errors"
     )
-    index: int | None = Field(
-        default=None, ge=0, description="the index of the portfolio in the array from the request body"
-    )
+    index: int = Field(ge=0, description="the index of the portfolio in the array from the request body")
 
 
 class PortfolioMalformedValueError(BaseModel):
@@ -461,13 +447,11 @@ class PortfolioMalformedValueError(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    cause: ErrorCause | None = Field(default=None)
+    cause: ErrorCause
     fragment: str | None = Field(default=None, description="fragment of the value which is wrong")
     marketplace: str | None = Field(default=None)
-    message: str | None = Field(default=None, description="Human readable error message")
-    reason: (
-        Annotated[PortfolioMalformedValueErrorReason | str, lenient_enum(PortfolioMalformedValueErrorReason)] | None
-    ) = Field(default=None)
+    message: str = Field(description="Human readable error message")
+    reason: Annotated[PortfolioMalformedValueErrorReason | str, lenient_enum(PortfolioMalformedValueErrorReason)]
 
 
 class PortfolioMissingValueError(BaseModel):
@@ -475,19 +459,17 @@ class PortfolioMissingValueError(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    cause: ErrorCause | None = Field(default=None)
+    cause: ErrorCause
     marketplace: str | None = Field(default=None)
-    message: str | None = Field(default=None, description="Human readable error message")
-    reason: Annotated[PortfolioMissingValueErrorReason | str, lenient_enum(PortfolioMissingValueErrorReason)] | None = (
-        Field(default=None)
-    )
+    message: str = Field(description="Human readable error message")
+    reason: Annotated[PortfolioMissingValueErrorReason | str, lenient_enum(PortfolioMissingValueErrorReason)]
 
 
 class PortfolioMutationError(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    errorType: str | None = Field(default=None, description="The type of the error")
-    errorValue: PortfolioMutationErrorSelector | None = Field(default=None)
+    errorType: str = Field(description="The type of the error")
+    errorValue: PortfolioMutationErrorSelector
 
 
 class PortfolioMutationErrorSelector(BaseModel):
@@ -510,12 +492,10 @@ class PortfolioOtherError(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    cause: ErrorCause | None = Field(default=None)
+    cause: ErrorCause
     marketplace: str | None = Field(default=None)
-    message: str | None = Field(default=None, description="Human readable error message")
-    reason: Annotated[PortfolioOtherErrorReason | str, lenient_enum(PortfolioOtherErrorReason)] | None = Field(
-        default=None
-    )
+    message: str = Field(description="Human readable error message")
+    reason: Annotated[PortfolioOtherErrorReason | str, lenient_enum(PortfolioOtherErrorReason)]
 
 
 class PortfolioRangeError(BaseModel):
@@ -524,22 +504,18 @@ class PortfolioRangeError(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     allowed: list[str] | None = Field(default=None, min_length=1, max_length=100, description="allowed values")
-    cause: ErrorCause | None = Field(default=None)
+    cause: ErrorCause
     lowerLimit: str | None = Field(default=None, description="optional lower limit")
     marketplace: str | None = Field(default=None)
-    message: str | None = Field(default=None, description="Human readable error message")
-    reason: Annotated[PortfolioValueLimitErrorReason | str, lenient_enum(PortfolioValueLimitErrorReason)] | None = (
-        Field(default=None)
-    )
+    message: str = Field(description="Human readable error message")
+    reason: Annotated[PortfolioValueLimitErrorReason | str, lenient_enum(PortfolioValueLimitErrorReason)]
     upperLimit: str | None = Field(default=None, description="optional upper limit")
 
 
 class PortfolioSuccessResponseItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    index: int | None = Field(
-        default=None, ge=0, description="the index of the portfolio in the array from the request body"
-    )
+    index: int = Field(ge=0, description="the index of the portfolio in the array from the request body")
     portfolio: Portfolio | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="the Portfolio ID")
 
@@ -565,7 +541,7 @@ class UpdatePortfoliosRequestContent(BaseModel):
 class UpdatePortfoliosResponseContent(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    portfolios: BulkPortfolioOperationResponse | None = Field(default=None)
+    portfolios: BulkPortfolioOperationResponse
 
 
 __all__ = [

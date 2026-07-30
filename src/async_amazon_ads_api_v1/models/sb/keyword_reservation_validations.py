@@ -19,11 +19,9 @@ class SBCreateKeywordReservationValidationRequest(BaseModel):
 class SBKeywordReservationValidation(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    isReservable: bool | None = Field(default=None, description="Whether the keyword can be reserved or not.")
-    keyword: str | None = Field(default=None, description="Keyword to be validated.")
-    keywordReservationValidationId: str | None = Field(
-        default=None, description="The identifier of the KeywordReservationValidation."
-    )
+    isReservable: bool = Field(description="Whether the keyword can be reserved or not.")
+    keyword: str = Field(description="Keyword to be validated.")
+    keywordReservationValidationId: str = Field(description="The identifier of the KeywordReservationValidation.")
     reservationRejectedReason: str | None = Field(
         default=None,
         description="Reason why the keyword cannot be reserved. It is present only when isReservable is false.",
@@ -48,8 +46,8 @@ class SBKeywordReservationValidationMultiStatusResponse(BaseModel):
 class SBKeywordReservationValidationMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    index: int | None = Field(default=None, ge=0, le=999)
-    keywordReservationValidation: SBKeywordReservationValidation | None = Field(default=None)
+    index: int = Field(ge=0, le=999)
+    keywordReservationValidation: SBKeywordReservationValidation
 
 
 __all__ = ["SBCreateKeywordReservationValidationRequest", "SBErrorCode", "SBKeywordReservationValidationCreate"]

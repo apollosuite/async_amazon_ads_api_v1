@@ -93,7 +93,13 @@ class TestGeneratedSDModels:
 
         data = {
             "adProduct": "SPONSORED_DISPLAY",
-            "budgets": [{"budgetType": "MONETARY", "budgetValue": {"monetaryBudgetValue": {"monetaryBudget": {"value": 10.0}}}, "recurrenceTimePeriod": "DAILY"}],
+            "budgets": [
+                {
+                    "budgetType": "MONETARY",
+                    "budgetValue": {"monetaryBudgetValue": {"monetaryBudget": {"currencyCode": "USD", "value": 10.0}}},
+                    "recurrenceTimePeriod": "DAILY",
+                }
+            ],
             "campaignId": "123",
             "costType": "CPC",
             "creationDateTime": "2024-01-01T00:00:00Z",
@@ -111,7 +117,13 @@ class TestGeneratedSDModels:
 
         data = {
             "adProduct": "SPONSORED_DISPLAY",
-            "budgets": [{"budgetType": "MONETARY", "budgetValue": {"monetaryBudgetValue": {"monetaryBudget": {"value": 10.0}}}, "recurrenceTimePeriod": "DAILY"}],
+            "budgets": [
+                {
+                    "budgetType": "MONETARY",
+                    "budgetValue": {"monetaryBudgetValue": {"monetaryBudget": {"currencyCode": "USD", "value": 10.0}}},
+                    "recurrenceTimePeriod": "DAILY",
+                }
+            ],
             "campaignId": "123",
             "costType": "CPC",
             "creationDateTime": "2024-01-01T00:00:00Z",
@@ -129,7 +141,13 @@ class TestGeneratedSDModels:
 
         data = {
             "adProduct": "SPONSORED_DISPLAY",
-            "budgets": [{"budgetType": "MONETARY", "budgetValue": {"monetaryBudgetValue": {"monetaryBudget": {"value": 10.0}}}, "recurrenceTimePeriod": "DAILY"}],
+            "budgets": [
+                {
+                    "budgetType": "MONETARY",
+                    "budgetValue": {"monetaryBudgetValue": {"monetaryBudget": {"currencyCode": "USD", "value": 10.0}}},
+                    "recurrenceTimePeriod": "DAILY",
+                }
+            ],
             "campaignId": "123",
             "costType": "CPC",
             "creationDateTime": "2024-01-01T00:00:00Z",

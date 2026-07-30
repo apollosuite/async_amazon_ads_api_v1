@@ -96,27 +96,22 @@ class SDVideoLandingPageType(StrEnum):
 class SDAd(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    adGroupId: str | None = Field(default=None, description="The ad group associated with the ad.")
-    adId: str | None = Field(default=None, description="The identifier of the ad.")
-    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)] | None = Field(default=None)
-    adType: Annotated[SDAdType | str, lenient_enum(SDAdType)] | None = Field(default=None)
-    campaignId: str | None = Field(
-        default=None, description="The campaign associated with the ad. It's a read-only field."
-    )
-    creationDateTime: datetime | None = Field(default=None, description="The date time that the ad was created.")
-    creative: SDCreative | None = Field(default=None)
-    lastUpdatedDateTime: datetime | None = Field(
-        default=None, description="The date time that the ad was last updated."
-    )
-    marketplaceScope: Annotated[SDMarketplaceScope | str, lenient_enum(SDMarketplaceScope)] | None = Field(default=None)
-    marketplaces: list[Annotated[SDMarketplace | str, lenient_enum(SDMarketplace)]] | None = Field(
-        default=None,
+    adGroupId: str = Field(description="The ad group associated with the ad.")
+    adId: str = Field(description="The identifier of the ad.")
+    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
+    adType: Annotated[SDAdType | str, lenient_enum(SDAdType)]
+    campaignId: str = Field(description="The campaign associated with the ad. It's a read-only field.")
+    creationDateTime: datetime = Field(description="The date time that the ad was created.")
+    creative: SDCreative
+    lastUpdatedDateTime: datetime = Field(description="The date time that the ad was last updated.")
+    marketplaceScope: Annotated[SDMarketplaceScope | str, lenient_enum(SDMarketplaceScope)]
+    marketplaces: list[Annotated[SDMarketplace | str, lenient_enum(SDMarketplace)]] = Field(
         min_length=1,
         max_length=1,
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
     name: str | None = Field(default=None, description="The name of the ad.")
-    state: Annotated[SDState | str, lenient_enum(SDState)] | None = Field(default=None)
+    state: Annotated[SDState | str, lenient_enum(SDState)]
     status: SDStatus | None = Field(default=None)
 
 
@@ -156,8 +151,8 @@ class SDAdMultiStatusResponse(BaseModel):
 class SDAdMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    ad: SDAd | None = Field(default=None)
-    index: int | None = Field(default=None, ge=0, le=99)
+    ad: SDAd
+    index: int = Field(ge=0, le=99)
 
 
 class SDAdSuccessResponse(BaseModel):
@@ -178,8 +173,8 @@ class SDAdUpdate(BaseModel):
 class SDAdvertisedProducts(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    productId: str | None = Field(default=None, description="The identifier of the advertised product.")
-    productIdType: Annotated[SDProductIdType | str, lenient_enum(SDProductIdType)] | None = Field(default=None)
+    productId: str = Field(description="The identifier of the advertised product.")
+    productIdType: Annotated[SDProductIdType | str, lenient_enum(SDProductIdType)]
 
 
 class SDAssetBasedCreativeSettings(BaseModel):
@@ -196,14 +191,11 @@ class SDAssetBasedCreativeSettings(BaseModel):
         default=None,
         description="Indicates that the ad promotes a free product or service and has qualifying terms and conditions applicable to the customer. LandingPageURL must link out to a page detailing terms and conditions or contain a link to those.",
     )
-    headlines: list[str] | None = Field(
-        default=None,
-        min_length=1,
-        max_length=1,
-        description="The headline(s) to use for the Asset Based Creative experience.",
+    headlines: list[str] = Field(
+        min_length=1, max_length=1, description="The headline(s) to use for the Asset Based Creative experience."
     )
     images: list[SDImage] | None = Field(default=None, min_length=0, max_length=3, description="The image(s) to use.")
-    landingPage: SDComponentLandingPage | None = Field(default=None)
+    landingPage: SDComponentLandingPage
     logos: list[SDImage] | None = Field(
         default=None,
         min_length=0,
@@ -211,8 +203,8 @@ class SDAssetBasedCreativeSettings(BaseModel):
         description="The logos to use for the Asset Based Creative experience.",
     )
     moderationStatus: SDCreativeStatus | None = Field(default=None)
-    untranslatedHeadlines: list[str] | None = Field(
-        default=None, min_length=1, max_length=1, description="The headline entered by the advertiser."
+    untranslatedHeadlines: list[str] = Field(
+        min_length=1, max_length=1, description="The headline entered by the advertiser."
     )
 
 
@@ -233,10 +225,8 @@ class SDComponentCreative(BaseModel):
 class SDComponentLandingPage(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    landingPageType: Annotated[SDComponentLandingPageType | str, lenient_enum(SDComponentLandingPageType)] | None = (
-        Field(default=None)
-    )
-    landingPageUrl: str | None = Field(default=None, description="The URL of landing page where the ad directs.")
+    landingPageType: Annotated[SDComponentLandingPageType | str, lenient_enum(SDComponentLandingPageType)]
+    landingPageUrl: str = Field(description="The URL of landing page where the ad directs.")
 
 
 class SDCreateAdRequest(BaseModel):
@@ -327,7 +317,7 @@ class SDCreative(BaseModel):
 class SDCreativeStatus(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    moderationStatus: Annotated[SDModerationStatus | str, lenient_enum(SDModerationStatus)] | None = Field(default=None)
+    moderationStatus: Annotated[SDModerationStatus | str, lenient_enum(SDModerationStatus)]
 
 
 class SDDeleteAdRequest(BaseModel):
@@ -352,10 +342,8 @@ class SDFormatProperties(BaseModel):
 class SDImage(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    assetId: str | None = Field(default=None, description="The asset library ID associated with the image asset.")
-    assetVersion: str | None = Field(
-        default=None, description="The asset library version associated with the image asset."
-    )
+    assetId: str = Field(description="The asset library ID associated with the image asset.")
+    assetVersion: str = Field(description="The asset library version associated with the image asset.")
     formatProperties: list[SDFormatProperties] | None = Field(
         default=None,
         min_length=0,
@@ -390,15 +378,10 @@ class SDProductVideoSettings(BaseModel):
     untranslatedHeadlines: list[str] | None = Field(
         default=None, min_length=0, max_length=1, description="The headline entered by the advertiser."
     )
-    untranslatedVideos: list[SDVideo] | None = Field(
-        default=None,
-        min_length=1,
-        max_length=2,
-        description="The original video assets submitted as part of the creative.",
+    untranslatedVideos: list[SDVideo] = Field(
+        min_length=1, max_length=2, description="The original video assets submitted as part of the creative."
     )
-    videos: list[SDVideo] | None = Field(
-        default=None, min_length=1, max_length=2, description="The video assets used in the ad."
-    )
+    videos: list[SDVideo] = Field(min_length=1, max_length=2, description="The video assets used in the ad.")
 
 
 class SDQueryAdRequest(BaseModel):
@@ -412,10 +395,10 @@ class SDQueryAdRequest(BaseModel):
 class SDResponsiveEcommerceLandingPage(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    landingPageType: (
-        Annotated[SDResponsiveEcommerceLandingPageType | str, lenient_enum(SDResponsiveEcommerceLandingPageType)] | None
-    ) = Field(default=None)
-    landingPageUrl: str | None = Field(default=None, description="The URL of landing page where the ad directs.")
+    landingPageType: Annotated[
+        SDResponsiveEcommerceLandingPageType | str, lenient_enum(SDResponsiveEcommerceLandingPageType)
+    ]
+    landingPageUrl: str = Field(description="The URL of landing page where the ad directs.")
 
 
 class SDResponsiveEcommerceSettings(BaseModel):
@@ -478,19 +461,15 @@ class SDUpdateResponsiveEcommerceSettings(BaseModel):
 class SDVideo(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    assetId: str | None = Field(default=None, description="The asset library ID associated with the video asset.")
-    assetVersion: str | None = Field(
-        default=None, description="The asset library version associated with the video asset."
-    )
+    assetId: str = Field(description="The asset library ID associated with the video asset.")
+    assetVersion: str = Field(description="The asset library version associated with the video asset.")
 
 
 class SDVideoLandingPage(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    landingPageType: Annotated[SDVideoLandingPageType | str, lenient_enum(SDVideoLandingPageType)] | None = Field(
-        default=None
-    )
-    landingPageUrl: str | None = Field(default=None, description="The URL of landing page where the ad directs.")
+    landingPageType: Annotated[SDVideoLandingPageType | str, lenient_enum(SDVideoLandingPageType)]
+    landingPageUrl: str = Field(description="The URL of landing page where the ad directs.")
 
 
 __all__ = [

@@ -85,11 +85,9 @@ class SPAssociatedBudgetRuleResult(BaseModel):
 class SPAssociatedCampaign(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    campaignId: str | None = Field(default=None, description="The campaign identifier.")
-    campaignName: str | None = Field(default=None, description="The campaign name.")
-    ruleStatus: str | None = Field(
-        default=None, description="The budget rule evaluation status for this campaign. Read-only."
-    )
+    campaignId: str = Field(description="The campaign identifier.")
+    campaignName: str = Field(description="The campaign name.")
+    ruleStatus: str = Field(description="The budget rule evaluation status for this campaign. Read-only.")
 
 
 class SPBudgetIncreaseBy(BaseModel):
@@ -102,8 +100,8 @@ class SPBudgetIncreaseBy(BaseModel):
 class SPBudgetIncreaseByOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    type: Annotated[SPBudgetChangeType | str, lenient_enum(SPBudgetChangeType)] | None = Field(default=None)
-    value: float | None = Field(default=None, description="The budget value.")
+    type: Annotated[SPBudgetChangeType | str, lenient_enum(SPBudgetChangeType)]
+    value: float = Field(description="The budget value.")
 
 
 class SPBudgetRule(BaseModel):
@@ -153,7 +151,7 @@ class SPBudgetRuleOut(BaseModel):
     createdDate: int | None = Field(default=None, description="Epoch time of budget rule creation. Read-only.")
     lastUpdatedDate: int | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
     ruleDetails: SPBudgetRuleDetailsOut | None = Field(default=None)
-    ruleId: str | None = Field(default=None, description="The budget rule identifier.")
+    ruleId: str = Field(description="The budget rule identifier.")
     ruleState: Annotated[SPBudgetRuleState | str, lenient_enum(SPBudgetRuleState)] | None = Field(default=None)
     ruleStatus: str | None = Field(default=None, description="The budget rule status. Read-only.")
 
@@ -218,7 +216,7 @@ class SPCampaignBudgetRule(BaseModel):
     createdDate: int | None = Field(default=None, description="Epoch time of budget rule creation. Read-only.")
     lastUpdatedDate: int | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
     ruleDetails: SPBudgetRuleDetailsOut | None = Field(default=None)
-    ruleId: str | None = Field(default=None, description="The budget rule identifier.")
+    ruleId: str = Field(description="The budget rule identifier.")
     ruleState: Annotated[SPBudgetRuleState | str, lenient_enum(SPBudgetRuleState)] | None = Field(default=None)
     ruleStatus: str | None = Field(default=None, description="The budget rule evaluation status. Read-only.")
 
@@ -274,9 +272,8 @@ class SPDateRangeTypeRuleDurationOut(BaseModel):
         default=None,
         description="The end date of the budget rule in YYYYMMDD format. The end date is inclusive. Required to be equal or greater than `startDate`.",
     )
-    startDate: str | None = Field(
-        default=None,
-        description="The start date of the budget rule in YYYYMMDD format. The start date is inclusive. Required to be greater than or equal to current date.",
+    startDate: str = Field(
+        description="The start date of the budget rule in YYYYMMDD format. The start date is inclusive. Required to be greater than or equal to current date."
     )
 
 
@@ -306,9 +303,8 @@ class SPEventTypeRuleDurationOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     endDate: str | None = Field(default=None, description="The event end date in YYYYMMDD format. Read-only.")
-    eventId: str | None = Field(
-        default=None,
-        description="The event identifier. This value is available from the budget rules recommendation API.",
+    eventId: str = Field(
+        description="The event identifier. This value is available from the budget rules recommendation API."
     )
     eventName: str | None = Field(default=None, description="The event name. Read-only.")
     startDate: str | None = Field(
@@ -369,11 +365,9 @@ class SPPerformanceMeasureCondition(BaseModel):
 class SPPerformanceMeasureConditionOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    comparisonOperator: Annotated[SPComparisonOperator | str, lenient_enum(SPComparisonOperator)] | None = Field(
-        default=None
-    )
-    metricName: Annotated[SPPerformanceMetric | str, lenient_enum(SPPerformanceMetric)] | None = Field(default=None)
-    threshold: float | None = Field(default=None, description="The performance threshold value.")
+    comparisonOperator: Annotated[SPComparisonOperator | str, lenient_enum(SPComparisonOperator)]
+    metricName: Annotated[SPPerformanceMetric | str, lenient_enum(SPPerformanceMetric)]
+    threshold: float = Field(description="The performance threshold value.")
 
 
 class SPRecurrence(BaseModel):

@@ -91,11 +91,9 @@ class SBAssociatedBudgetRuleResult(BaseModel):
 class SBAssociatedCampaign(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    campaignId: str | None = Field(default=None, description="The campaign identifier.")
-    ruleStatus: str | None = Field(
-        default=None, description="The budget rule evaluation status for this campaign. Read-only."
-    )
-    campaignName: str | None = Field(default=None, description="The campaign name.")
+    campaignId: str = Field(description="The campaign identifier.")
+    ruleStatus: str = Field(description="The budget rule evaluation status for this campaign. Read-only.")
+    campaignName: str = Field(description="The campaign name.")
 
 
 class SBBudgetIncreaseBy(BaseModel):
@@ -108,8 +106,8 @@ class SBBudgetIncreaseBy(BaseModel):
 class SBBudgetIncreaseByOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    type: Annotated[SBBudgetChangeType | str, lenient_enum(SBBudgetChangeType)] | None = Field(default=None)
-    value: float | None = Field(default=None, description="The budget value.")
+    type: Annotated[SBBudgetChangeType | str, lenient_enum(SBBudgetChangeType)]
+    value: float = Field(description="The budget value.")
 
 
 class SBBudgetRule(BaseModel):
@@ -156,7 +154,7 @@ class SBBudgetRuleOut(BaseModel):
     lastUpdatedDate: int | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
     createdDate: int | None = Field(default=None, description="Epoch time of budget rule creation. Read-only.")
     ruleDetails: SBBudgetRuleDetailsOut | None = Field(default=None)
-    ruleId: str | None = Field(default=None, description="The budget rule identifier.")
+    ruleId: str = Field(description="The budget rule identifier.")
     ruleStatus: str | None = Field(default=None, description="The budget rule status. Read-only.")
 
 
@@ -176,7 +174,7 @@ class SBCampaignBudgetRule(BaseModel):
     lastUpdatedDate: int | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
     createdDate: int | None = Field(default=None, description="Epoch time of budget rule creation. Read-only.")
     ruleDetails: SBBudgetRuleDetailsOut | None = Field(default=None)
-    ruleId: str | None = Field(default=None, description="The budget rule identifier.")
+    ruleId: str = Field(description="The budget rule identifier.")
     ruleStatus: str | None = Field(default=None, description="The budget rule evaluation status. Read-only.")
 
 
@@ -231,9 +229,8 @@ class SBDateRangeTypeRuleDurationOut(BaseModel):
         default=None,
         description="The end date of the budget rule in YYYYMMDD format. The end date is inclusive. Required to be equal or greater than `startDate`.",
     )
-    startDate: str | None = Field(
-        default=None,
-        description="The start date of the budget rule in YYYYMMDD format. The start date is inclusive. Required to be greater than or equal to current date.",
+    startDate: str = Field(
+        description="The start date of the budget rule in YYYYMMDD format. The start date is inclusive. Required to be greater than or equal to current date."
     )
 
 
@@ -262,9 +259,8 @@ class SBEventTypeRuleDurationOut(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    eventId: str | None = Field(
-        default=None,
-        description="The event identifier. This value is available from the budget rules recommendation API.",
+    eventId: str = Field(
+        description="The event identifier. This value is available from the budget rules recommendation API."
     )
     endDate: str | None = Field(default=None, description="The event end date in YYYYMMDD format. Read-only.")
     eventName: str | None = Field(default=None, description="The event name. Read-only.")
@@ -326,11 +322,9 @@ class SBPerformanceMeasureCondition(BaseModel):
 class SBPerformanceMeasureConditionOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    metricName: Annotated[SBPerformanceMetric | str, lenient_enum(SBPerformanceMetric)] | None = Field(default=None)
-    comparisonOperator: Annotated[SBComparisonOperator | str, lenient_enum(SBComparisonOperator)] | None = Field(
-        default=None
-    )
-    threshold: float | None = Field(default=None, description="The performance threshold value.")
+    metricName: Annotated[SBPerformanceMetric | str, lenient_enum(SBPerformanceMetric)]
+    comparisonOperator: Annotated[SBComparisonOperator | str, lenient_enum(SBComparisonOperator)]
+    threshold: float = Field(description="The performance threshold value.")
 
 
 class SBRecurrence(BaseModel):

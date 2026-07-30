@@ -100,9 +100,7 @@ class SDRuleConditionOut(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    metricName: str | None = Field(
-        default=None,
-        description="""
+    metricName: str = Field(description="""
 The name of the metric.
 Supported rule metrics and corresponding supported comparisonOperators:
 |      MetricName      |ComparisonOperator  |Description|
@@ -110,20 +108,16 @@ Supported rule metrics and corresponding supported comparisonOperators:
 |COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS     |              LESS_THAN_OR_EQUAL_TO             |Maximize viewable impressions while cost per 1000 views less than or equal to `threshold`|
 |COST_PER_CLICK    |              LESS_THAN_OR_EQUAL_TO            |Maximize page visits while cost per click less than or equal to `threshold`|
 |COST_PER_ORDER    |              LESS_THAN_OR_EQUAL_TO            |Maximize viewable impressions/page visits/conversion while cost per order less than or equal to `threshold`|
-""",
-    )
-    comparisonOperator: str | None = Field(default=None, description="The comparison operator.")
-    threshold: float | None = Field(
-        default=None,
-        description="""
+""")
+    comparisonOperator: str = Field(description="The comparison operator.")
+    threshold: float = Field(description="""
 The value of the threshold associated with the metric. The threshold values has defined minimums depending on the metric names in the following table:
 |                  MetricName            | Minimum of `threshold` Value  |
 |----------------------------------------|-----------------------------------|
 |COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS  | 1                                 |
 |COST_PER_CLICK                          | 0.5                               |
 |COST_PER_ORDER                          | 5                                 |
-""",
-    )
+""")
 
 
 type SDRuleId = str  # The identifier of the optimization rule.

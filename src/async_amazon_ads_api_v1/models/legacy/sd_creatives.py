@@ -114,13 +114,11 @@ class SDCreative(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    creativeId: int | None = Field(default=None, description="Unique identifier of the creative.")
-    adGroupId: SDAdGroupId | None = Field(default=None)
-    creativeType: (
-        Annotated[SDCreativeTypeInCreativeResponse | str, lenient_enum(SDCreativeTypeInCreativeResponse)] | None
-    ) = Field(default=None)
-    properties: SDCreativePropertiesOut | None = Field(default=None)
-    moderationStatus: str | None = Field(default=None, description="The moderation status of the creative")
+    creativeId: int = Field(description="Unique identifier of the creative.")
+    adGroupId: SDAdGroupId
+    creativeType: Annotated[SDCreativeTypeInCreativeResponse | str, lenient_enum(SDCreativeTypeInCreativeResponse)]
+    properties: SDCreativePropertiesOut
+    moderationStatus: str = Field(description="The moderation status of the creative")
 
 
 class SDCreativeModeration(BaseModel):
@@ -128,26 +126,19 @@ class SDCreativeModeration(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    creativeId: int | None = Field(default=None, description="Unique identifier of the creative.")
-    creativeType: (
-        Annotated[SDCreativeTypeInCreativeResponse | str, lenient_enum(SDCreativeTypeInCreativeResponse)] | None
-    ) = Field(default=None)
-    moderationStatus: str | None = Field(
-        default=None,
-        description="""
+    creativeId: int = Field(description="Unique identifier of the creative.")
+    creativeType: Annotated[SDCreativeTypeInCreativeResponse | str, lenient_enum(SDCreativeTypeInCreativeResponse)]
+    moderationStatus: str = Field(description="""
 The moderation status of the creative.
 |Status|Description|
 |------|-----------|
 |APPROVED|Moderation for the creative is complete.|
 |IN_PROGRESS|Moderation for the creative is in progress. The expected date and time for completion are specfied in the `etaForModeration` field.|
 |REJECTED|The creative has failed moderation. Specific information about the content that violated policy is available in `policyViolations`.|
-""",
-    )
-    etaForModeration: datetime | None = Field(
-        default=None, description="Expected date and time by which moderation will be complete."
-    )
-    policyViolations: list[dict[str, Any]] | None = Field(
-        default=None, description="A list of policy violations for a creative that has failed moderation."
+""")
+    etaForModeration: datetime = Field(description="Expected date and time by which moderation will be complete.")
+    policyViolations: list[dict[str, Any]] = Field(
+        description="A list of policy violations for a creative that has failed moderation."
     )
 
 
@@ -188,7 +179,7 @@ class SDCreativePreviewRequest(BaseModel):
 class SDCreativePreviewResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    previewHtml: str | None = Field(default=None)
+    previewHtml: str
     previewHtmls: list[str] | None = Field(default=None)
 
 
@@ -317,11 +308,10 @@ class SDImageOut(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    assetId: str | None = Field(
-        default=None,
-        description="The unique identifier of the image asset. This assetId comes from the Creative Asset Library.",
+    assetId: str = Field(
+        description="The unique identifier of the image asset. This assetId comes from the Creative Asset Library."
     )
-    assetVersion: str | None = Field(default=None, description="The identifier of the particular image assetversion.")
+    assetVersion: str = Field(description="The identifier of the particular image assetversion.")
     croppingCoordinates: dict[str, Any] | None = Field(
         default=None, description="Optional cropping coordinates to apply to the image."
     )
@@ -455,11 +445,10 @@ class SDVideoOut(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    assetId: str | None = Field(
-        default=None,
-        description="The unique identifier of the video asset. This assetId comes from the Creative Asset Library.",
+    assetId: str = Field(
+        description="The unique identifier of the video asset. This assetId comes from the Creative Asset Library."
     )
-    assetVersion: str | None = Field(default=None, description="The identifier of the particular video assetversion.")
+    assetVersion: str = Field(description="The identifier of the particular video assetversion.")
     originalAssetId: str | None = Field(
         default=None,
         description="The assetId of the original video submitted by the advertiser. If 'consentToTranslate' is set to true and translation is SUCCESSFUL then `originalAssetId` will return the assetId of the original video whereas `assetId` will return the assetId of the translated video. In all other cases, 'originalAssetId' and `assetId` both will return the assetId of the original video.",

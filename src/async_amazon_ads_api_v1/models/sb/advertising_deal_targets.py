@@ -28,22 +28,16 @@ class SBAdvertisingDealBrandedKeywordTargetDetails(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    brandedKeyword: str | None = Field(
-        default=None, description="The branded keyword that is an exact match to the shoppers' search term."
-    )
+    brandedKeyword: str = Field(description="The branded keyword that is an exact match to the shoppers' search term.")
 
 
 class SBAdvertisingDealTarget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    advertisingDealId: str | None = Field(
-        default=None, description="A unique identifier for the deal associated with the target."
-    )
-    advertisingDealTargetId: str | None = Field(default=None, description="A unique identifier for a deal target.")
-    targetDetails: SBAdvertisingDealTargetDetails | None = Field(default=None)
-    targetType: Annotated[SBAdvertisingDealTargetType | str, lenient_enum(SBAdvertisingDealTargetType)] | None = Field(
-        default=None
-    )
+    advertisingDealId: str = Field(description="A unique identifier for the deal associated with the target.")
+    advertisingDealTargetId: str = Field(description="A unique identifier for a deal target.")
+    targetDetails: SBAdvertisingDealTargetDetails
+    targetType: Annotated[SBAdvertisingDealTargetType | str, lenient_enum(SBAdvertisingDealTargetType)]
 
 
 class SBAdvertisingDealTargetAdvertisingDealIdFilter(BaseModel):
@@ -76,8 +70,8 @@ class SBAdvertisingDealTargetMultiStatusResponse(BaseModel):
 class SBAdvertisingDealTargetMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    advertisingDealTarget: SBAdvertisingDealTarget | None = Field(default=None)
-    index: int | None = Field(default=None, ge=0, le=999)
+    advertisingDealTarget: SBAdvertisingDealTarget
+    index: int = Field(ge=0, le=999)
 
 
 class SBAdvertisingDealTargetSuccessResponse(BaseModel):

@@ -16,15 +16,10 @@ class SBBrandedKeywordsPricing(BaseModel):
     advertisingDealId: str | None = Field(
         default=None, description="Identifier of the existing deal to price. Omit when pricing a new deal."
     )
-    brandedKeywordsPricingId: str | None = Field(
-        default=None, description="A unique identifier for the branded keywords pricing."
-    )
-    endDateTime: datetime | None = Field(default=None, description="The end date time for the deal.")
-    keywords: list[str] | None = Field(
-        default=None,
-        min_length=1,
-        max_length=1000,
-        description="The list of branded keywords advertiser wants to reserve.",
+    brandedKeywordsPricingId: str = Field(description="A unique identifier for the branded keywords pricing.")
+    endDateTime: datetime = Field(description="The end date time for the deal.")
+    keywords: list[str] = Field(
+        min_length=1, max_length=1000, description="The list of branded keywords advertiser wants to reserve."
     )
     keywordsPricing: SBKeywordsPricing | None = Field(default=None)
     rejectedKeywords: list[SBRejectedKeyword] | None = Field(
@@ -33,7 +28,7 @@ class SBBrandedKeywordsPricing(BaseModel):
         max_length=1000,
         description="The list of branded keywords rejected for reservation by this advertiser.",
     )
-    startDateTime: datetime | None = Field(default=None, description="The start date time for the deal.")
+    startDateTime: datetime = Field(description="The start date time for the deal.")
 
 
 class SBBrandedKeywordsPricingCreate(BaseModel):
@@ -59,8 +54,8 @@ class SBBrandedKeywordsPricingMultiStatusResponse(BaseModel):
 class SBBrandedKeywordsPricingMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    brandedKeywordsPricing: SBBrandedKeywordsPricing | None = Field(default=None)
-    index: int | None = Field(default=None, ge=0, le=9)
+    brandedKeywordsPricing: SBBrandedKeywordsPricing
+    index: int = Field(ge=0, le=9)
 
 
 class SBCreateBrandedKeywordsPricingRequest(BaseModel):
@@ -76,10 +71,8 @@ class SBKeywordsPricing(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    price: SBAdvertisingDealPrice | None = Field(default=None)
-    validKeywords: list[str] | None = Field(
-        default=None, min_length=1, max_length=1000, description="List of valid keywords."
-    )
+    price: SBAdvertisingDealPrice
+    validKeywords: list[str] = Field(min_length=1, max_length=1000, description="List of valid keywords.")
 
 
 class SBRejectedKeyword(BaseModel):
@@ -87,8 +80,8 @@ class SBRejectedKeyword(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    keyword: str | None = Field(default=None, description="The keyword that has been rejected.")
-    reason: str | None = Field(default=None, description="The reason keyword has been rejected for this advertiser.")
+    keyword: str = Field(description="The keyword that has been rejected.")
+    reason: str = Field(description="The reason keyword has been rejected for this advertiser.")
 
 
 __all__ = [

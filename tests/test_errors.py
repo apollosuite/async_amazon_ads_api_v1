@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import pytest
+from pydantic import ValidationError
+
 from async_amazon_ads_api_v1.models.sp.enums import SPErrorCode
 from async_amazon_ads_api_v1.models.sp.shared import SPError, SPErrorsIndex
 
@@ -53,7 +56,6 @@ class TestErrorsIndex:
             {"errors": [{"code": "BAD_REQUEST", "message": "e"}], "index": 0, "extra": "x"},
         )
 
-    def test_missing_fields_allowed(self) -> None:
-        ei = SPErrorsIndex.model_validate({})
-        assert ei.errors is None
-        assert ei.index is None
+    def test_missing_fields_rejected(self) -> None:
+        with pytest.raises(ValidationError):
+            SPErrorsIndex.model_validate({})

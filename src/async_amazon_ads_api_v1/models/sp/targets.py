@@ -318,11 +318,10 @@ class SPKeywordTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    keyword: str | None = Field(
-        default=None,
-        description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints).",
+    keyword: str = Field(
+        description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints)."
     )
-    matchType: Annotated[SPKeywordMatchType | str, lenient_enum(SPKeywordMatchType)] | None = Field(default=None)
+    matchType: Annotated[SPKeywordMatchType | str, lenient_enum(SPKeywordMatchType)]
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser."
     )
@@ -334,7 +333,7 @@ class SPLocationTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    locationId: str | None = Field(default=None, description="The ID of the geographic location to target.")
+    locationId: str = Field(description="The ID of the geographic location to target.")
 
 
 class SPProductCategoryRefinement(BaseModel):
@@ -372,7 +371,7 @@ class SPProductCategoryRefinement(BaseModel):
 class SPProductCategoryRefinementValue(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    productCategoryRefinement: SPProductCategoryRefinement | None = Field(default=None)
+    productCategoryRefinement: SPProductCategoryRefinement
 
 
 class SPProductCategoryTarget(BaseModel):
@@ -380,7 +379,7 @@ class SPProductCategoryTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    productCategoryRefinement: SPProductCategoryRefinementValue | None = Field(default=None)
+    productCategoryRefinement: SPProductCategoryRefinementValue
 
 
 class SPProductTarget(BaseModel):
@@ -388,17 +387,16 @@ class SPProductTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    matchType: Annotated[SPProductMatchType | str, lenient_enum(SPProductMatchType)] | None = Field(default=None)
-    product: SPProductValue | None = Field(default=None)
-    productIdType: Annotated[SPProductIdType | str, lenient_enum(SPProductIdType)] | None = Field(default=None)
+    matchType: Annotated[SPProductMatchType | str, lenient_enum(SPProductMatchType)]
+    product: SPProductValue
+    productIdType: Annotated[SPProductIdType | str, lenient_enum(SPProductIdType)]
 
 
 class SPProductValue(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    productId: str | None = Field(
-        default=None,
-        description="The product identifier. Either the product id or the marketplace settings should always be specified",
+    productId: str = Field(
+        description="The product identifier. Either the product id or the marketplace settings should always be specified"
     )
 
 
@@ -426,26 +424,25 @@ class SPTarget(BaseModel):
         default=None,
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets.",
     )
-    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)] | None = Field(default=None)
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
     bid: SPTargetBid | None = Field(default=None)
     campaignId: str | None = Field(
         default=None,
         description="A unique identifier for the campaign associated with the target. Only used for campaign-level targets.",
     )
-    creationDateTime: datetime | None = Field(default=None, description="The date time the target was created.")
+    creationDateTime: datetime = Field(description="The date time the target was created.")
     globalTargetId: str | None = Field(
         default=None, description="The global target identifier that manages this marketplace target."
     )
-    lastUpdatedDateTime: datetime | None = Field(default=None, description="The date time the target was last updated.")
-    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)] | None = Field(default=None)
-    marketplaces: list[Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]] | None = Field(
-        default=None,
+    lastUpdatedDateTime: datetime = Field(description="The date time the target was last updated.")
+    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
+    marketplaces: list[Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]] = Field(
         min_length=1,
         max_length=1,
         description="The list of marketplace in which the global target is applicable. The marketplaces included should either be same as or subset of parent campaign/ad group",
     )
-    negative: bool | None = Field(default=None, description="Indicates whether the target is negative or not.")
-    state: Annotated[SPState | str, lenient_enum(SPState)] | None = Field(default=None)
+    negative: bool = Field(description="Indicates whether the target is negative or not.")
+    state: Annotated[SPState | str, lenient_enum(SPState)]
     status: SPStatus | None = Field(default=None)
     tags: list[SPTag] | None = Field(
         default=None,
@@ -453,10 +450,10 @@ class SPTarget(BaseModel):
         max_length=50,
         description="Open ended labels with a key value pair applied to the target",
     )
-    targetDetails: SPTargetDetails | None = Field(default=None)
-    targetId: str | None = Field(default=None, description="A unique identifier for the target.")
-    targetLevel: Annotated[SPTargetLevel | str, lenient_enum(SPTargetLevel)] | None = Field(default=None)
-    targetType: Annotated[SPTargetType | str, lenient_enum(SPTargetType)] | None = Field(default=None)
+    targetDetails: SPTargetDetails
+    targetId: str = Field(description="A unique identifier for the target.")
+    targetLevel: Annotated[SPTargetLevel | str, lenient_enum(SPTargetLevel)]
+    targetType: Annotated[SPTargetType | str, lenient_enum(SPTargetType)]
 
 
 class SPTargetAdGroupIdFilter(BaseModel):
@@ -484,7 +481,7 @@ class SPTargetBid(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     bid: float | None = Field(default=None, description="The maximum bid for a target.")
-    currencyCode: Annotated[SPCurrencyCode | str, lenient_enum(SPCurrencyCode)] | None = Field(default=None)
+    currencyCode: Annotated[SPCurrencyCode | str, lenient_enum(SPCurrencyCode)]
 
 
 class SPTargetCampaignIdFilter(BaseModel):
@@ -573,8 +570,8 @@ class SPTargetMultiStatusResponse(BaseModel):
 class SPTargetMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    index: int | None = Field(default=None, ge=0, le=999)
-    target: SPTarget | None = Field(default=None)
+    index: int = Field(ge=0, le=999)
+    target: SPTarget
 
 
 class SPTargetNegativeFilter(BaseModel):
@@ -658,7 +655,7 @@ class SPThemeTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    matchType: Annotated[SPThemeMatchType | str, lenient_enum(SPThemeMatchType)] | None = Field(default=None)
+    matchType: Annotated[SPThemeMatchType | str, lenient_enum(SPThemeMatchType)]
 
 
 class SPUpdateTargetBid(BaseModel):

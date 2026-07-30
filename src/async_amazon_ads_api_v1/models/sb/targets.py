@@ -256,11 +256,10 @@ class SBKeywordTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    keyword: str | None = Field(
-        default=None,
-        description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints).",
+    keyword: str = Field(
+        description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints)."
     )
-    matchType: Annotated[SBKeywordMatchType | str, lenient_enum(SBKeywordMatchType)] | None = Field(default=None)
+    matchType: Annotated[SBKeywordMatchType | str, lenient_enum(SBKeywordMatchType)]
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser."
     )
@@ -301,7 +300,7 @@ class SBProductCategoryTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    productCategoryRefinement: SBProductCategoryRefinementValue | None = Field(default=None)
+    productCategoryRefinement: SBProductCategoryRefinementValue
 
 
 class SBProductTarget(BaseModel):
@@ -309,9 +308,9 @@ class SBProductTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    matchType: Annotated[SBProductMatchType | str, lenient_enum(SBProductMatchType)] | None = Field(default=None)
-    product: SBProductValue | None = Field(default=None)
-    productIdType: Annotated[SBProductIdType | str, lenient_enum(SBProductIdType)] | None = Field(default=None)
+    matchType: Annotated[SBProductMatchType | str, lenient_enum(SBProductMatchType)]
+    product: SBProductValue
+    productIdType: Annotated[SBProductIdType | str, lenient_enum(SBProductIdType)]
 
 
 class SBProductValue(BaseModel):
@@ -343,32 +342,30 @@ class SBQueryTargetRequest(BaseModel):
 class SBTarget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    adGroupId: str | None = Field(
-        default=None,
-        description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets.",
+    adGroupId: str = Field(
+        description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets."
     )
-    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)] | None = Field(default=None)
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
     bid: SBTargetBid | None = Field(default=None)
     campaignId: str | None = Field(
         default=None,
         description="A unique identifier for the campaign associated with the target. Only used for campaign-level targets.",
     )
-    creationDateTime: datetime | None = Field(default=None, description="The date time the target was created.")
-    lastUpdatedDateTime: datetime | None = Field(default=None, description="The date time the target was last updated.")
-    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)] | None = Field(default=None)
-    marketplaces: list[Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]] | None = Field(
-        default=None,
+    creationDateTime: datetime = Field(description="The date time the target was created.")
+    lastUpdatedDateTime: datetime = Field(description="The date time the target was last updated.")
+    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)]
+    marketplaces: list[Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]] = Field(
         min_length=1,
         max_length=1,
         description="The list of marketplace in which the global target is applicable. The marketplaces included should either be same as or subset of parent campaign/ad group",
     )
-    negative: bool | None = Field(default=None, description="Indicates whether the target is negative or not.")
-    state: Annotated[SBState | str, lenient_enum(SBState)] | None = Field(default=None)
+    negative: bool = Field(description="Indicates whether the target is negative or not.")
+    state: Annotated[SBState | str, lenient_enum(SBState)]
     status: SBStatus | None = Field(default=None)
-    targetDetails: SBTargetDetails | None = Field(default=None)
-    targetId: str | None = Field(default=None, description="A unique identifier for the target.")
-    targetLevel: Annotated[SBTargetLevel | str, lenient_enum(SBTargetLevel)] | None = Field(default=None)
-    targetType: Annotated[SBTargetType | str, lenient_enum(SBTargetType)] | None = Field(default=None)
+    targetDetails: SBTargetDetails
+    targetId: str = Field(description="A unique identifier for the target.")
+    targetLevel: Annotated[SBTargetLevel | str, lenient_enum(SBTargetLevel)]
+    targetType: Annotated[SBTargetType | str, lenient_enum(SBTargetType)]
 
 
 class SBTargetAdGroupIdFilter(BaseModel):
@@ -395,8 +392,8 @@ class SBTargetAdProductFilter(BaseModel):
 class SBTargetBid(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    bid: float | None = Field(default=None, description="The maximum bid for a target.")
-    currencyCode: Annotated[SBCurrencyCode | str, lenient_enum(SBCurrencyCode)] | None = Field(default=None)
+    bid: float = Field(description="The maximum bid for a target.")
+    currencyCode: Annotated[SBCurrencyCode | str, lenient_enum(SBCurrencyCode)]
 
 
 class SBTargetCampaignIdFilter(BaseModel):
@@ -484,8 +481,8 @@ class SBTargetMultiStatusResponse(BaseModel):
 class SBTargetMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    index: int | None = Field(default=None, ge=0, le=999)
-    target: SBTarget | None = Field(default=None)
+    index: int = Field(ge=0, le=999)
+    target: SBTarget
 
 
 class SBTargetNegativeFilter(BaseModel):
@@ -555,7 +552,7 @@ class SBThemeTarget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    matchType: Annotated[SBThemeMatchType | str, lenient_enum(SBThemeMatchType)] | None = Field(default=None)
+    matchType: Annotated[SBThemeMatchType | str, lenient_enum(SBThemeMatchType)]
 
 
 class SBUpdateTargetBid(BaseModel):

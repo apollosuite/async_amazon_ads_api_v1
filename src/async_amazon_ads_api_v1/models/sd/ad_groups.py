@@ -91,27 +91,22 @@ class SDKPI(StrEnum):
 class SDAdGroup(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    adGroupId: str | None = Field(default=None, description="The unique identifier of the ad group.")
-    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)] | None = Field(default=None)
+    adGroupId: str = Field(description="The unique identifier of the ad group.")
+    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
     bid: SDAdGroupBid | None = Field(default=None)
-    campaignId: str | None = Field(
-        default=None, description="The unique identifier of the campaign the ad group belongs to."
-    )
-    creationDateTime: datetime | None = Field(default=None, description="The date time that the ad group was created.")
+    campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
+    creationDateTime: datetime = Field(description="The date time that the ad group was created.")
     creativeType: Annotated[SDCreativeType | str, lenient_enum(SDCreativeType)] | None = Field(default=None)
-    lastUpdatedDateTime: datetime | None = Field(
-        default=None, description="The date time that the ad group was last updated."
-    )
-    marketplaceScope: Annotated[SDMarketplaceScope | str, lenient_enum(SDMarketplaceScope)] | None = Field(default=None)
-    marketplaces: list[Annotated[SDMarketplace | str, lenient_enum(SDMarketplace)]] | None = Field(
-        default=None,
+    lastUpdatedDateTime: datetime = Field(description="The date time that the ad group was last updated.")
+    marketplaceScope: Annotated[SDMarketplaceScope | str, lenient_enum(SDMarketplaceScope)]
+    marketplaces: list[Annotated[SDMarketplace | str, lenient_enum(SDMarketplace)]] = Field(
         min_length=1,
         max_length=1,
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
     )
-    name: str | None = Field(default=None, description="The name of the ad group.")
+    name: str = Field(description="The name of the ad group.")
     optimization: SDOptimization | None = Field(default=None)
-    state: Annotated[SDState | str, lenient_enum(SDState)] | None = Field(default=None)
+    state: Annotated[SDState | str, lenient_enum(SDState)]
     status: SDStatus | None = Field(default=None)
 
 
@@ -139,7 +134,7 @@ class SDAdGroupAdProductFilter(BaseModel):
 class SDAdGroupBid(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    currencyCode: Annotated[SDCurrencyCode | str, lenient_enum(SDCurrencyCode)] | None = Field(default=None)
+    currencyCode: Annotated[SDCurrencyCode | str, lenient_enum(SDCurrencyCode)]
     defaultBid: float | None = Field(
         default=None,
         description="The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.",
@@ -186,8 +181,8 @@ class SDAdGroupMultiStatusResponse(BaseModel):
 class SDAdGroupMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    adGroup: SDAdGroup | None = Field(default=None)
-    index: int | None = Field(default=None, ge=0, le=99)
+    adGroup: SDAdGroup
+    index: int = Field(ge=0, le=99)
 
 
 class SDAdGroupNameFilter(BaseModel):

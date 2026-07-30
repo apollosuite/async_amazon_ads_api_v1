@@ -32,9 +32,7 @@ class AdsAccount(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     accountName: str | None = Field(default=None)
-    adsAccountId: str | None = Field(
-        default=None, description="This is the global advertising account Id from the client."
-    )
+    adsAccountId: str = Field(description="This is the global advertising account Id from the client.")
     status: Annotated[Status | str, lenient_enum(Status)] | None = Field(default=None)
 
 
@@ -46,9 +44,7 @@ class AdsAccountWithMetaData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     accountName: str | None = Field(default=None)
-    adsAccountId: str | None = Field(
-        default=None, description="This is the global advertising account Id from the client."
-    )
+    adsAccountId: str = Field(description="This is the global advertising account Id from the client.")
     alternateIds: list[AlternateId] | None = Field(default=None, min_length=0, max_length=100)
     countryCodes: list[str] | None = Field(
         default=None,

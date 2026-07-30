@@ -37,18 +37,18 @@ class ConstituentIndexValue(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    brandSales: float | None = Field(default=None, description="The brand sales value for the postal code.")
-    categorySales: float | None = Field(default=None, description="The category sales value for the postal code.")
-    postalCode: str | None = Field(
-        default=None, description="The postal code for the location index prefixed by country code (i.e. US-10118)."
+    brandSales: float = Field(description="The brand sales value for the postal code.")
+    categorySales: float = Field(description="The category sales value for the postal code.")
+    postalCode: str = Field(
+        description="The postal code for the location index prefixed by country code (i.e. US-10118)."
     )
 
 
 class ConstituentIndexValues(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    values: list[ConstituentIndexValue] | None = Field(
-        default=None, min_length=1, max_length=1000000, description="List of brand and category sales values."
+    values: list[ConstituentIndexValue] = Field(
+        min_length=1, max_length=1000000, description="List of brand and category sales values."
     )
 
 
@@ -109,18 +109,16 @@ class DirectIndexValue(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    indexValue: float | None = Field(default=None, description="The pre-calculated index value.")
-    postalCode: str | None = Field(
-        default=None, description="The postal code for the location index prefixed by country code (i.e. US-10118)."
+    indexValue: float = Field(description="The pre-calculated index value.")
+    postalCode: str = Field(
+        description="The postal code for the location index prefixed by country code (i.e. US-10118)."
     )
 
 
 class DirectIndexValues(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    values: list[DirectIndexValue] | None = Field(
-        default=None, min_length=1, max_length=1000000, description="List of direct index values."
-    )
+    values: list[DirectIndexValue] = Field(min_length=1, max_length=1000000, description="List of direct index values.")
 
 
 class IndexValues(BaseModel):
@@ -134,14 +132,12 @@ class LocationIndex(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     countryCode: Annotated[GeneralCountryCode | str, lenient_enum(GeneralCountryCode)] | None = Field(default=None)
-    creationDateTime: datetime | None = Field(default=None, description="The date time the location index was created.")
-    indexData: IndexValues | None = Field(default=None)
-    indexId: str | None = Field(default=None, description="The identifier of the location index.")
-    indexName: str | None = Field(default=None, description="The name of the location index.")
-    lastUpdatedDateTime: datetime | None = Field(
-        default=None, description="The date time the location index was last updated successfully."
-    )
-    status: Annotated[IndexStatus | str, lenient_enum(IndexStatus)] | None = Field(default=None)
+    creationDateTime: datetime = Field(description="The date time the location index was created.")
+    indexData: IndexValues
+    indexId: str = Field(description="The identifier of the location index.")
+    indexName: str = Field(description="The name of the location index.")
+    lastUpdatedDateTime: datetime = Field(description="The date time the location index was last updated successfully.")
+    status: Annotated[IndexStatus | str, lenient_enum(IndexStatus)]
 
 
 class LocationIndexCreate(BaseModel):
@@ -162,8 +158,8 @@ class LocationIndexMultiStatusResponse(BaseModel):
 class LocationIndexMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    index: int | None = Field(default=None, ge=0, le=9)
-    locationIndex: LocationIndex | None = Field(default=None)
+    index: int = Field(ge=0, le=9)
+    locationIndex: LocationIndex
 
 
 class LocationIndexSuccessResponse(BaseModel):

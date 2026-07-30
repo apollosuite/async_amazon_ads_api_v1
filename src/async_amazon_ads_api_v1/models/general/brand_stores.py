@@ -14,7 +14,7 @@ class BrandStore(BaseModel):
         max_length=30,
         description="Collection of BrandStorePageInfo for all pages tied to the brand store",
     )
-    storeId: str | None = Field(default=None, description="Unique identifier for the store")
+    storeId: str = Field(description="Unique identifier for the store")
     storeName: str | None = Field(default=None, description="The name of the store")
 
 
@@ -23,8 +23,8 @@ class BrandStorePageInfo(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    tag: str | None = Field(default=None, description="Unique tag for the store page")
-    title: str | None = Field(default=None, description="Title of the page")
+    tag: str = Field(description="Unique tag for the store page")
+    title: str = Field(description="Title of the page")
 
 
 class BrandStoreStoreNameFilter(BaseModel):

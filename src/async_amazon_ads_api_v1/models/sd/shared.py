@@ -14,16 +14,16 @@ from .enums import SDDeliveryReason, SDDeliveryStatus, SDErrorCode
 class SDError(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    code: Annotated[SDErrorCode | str, lenient_enum(SDErrorCode)] | None = Field(default=None)
+    code: Annotated[SDErrorCode | str, lenient_enum(SDErrorCode)]
     fieldLocation: str | None = Field(default=None)
-    message: str | None = Field(default=None)
+    message: str
 
 
 class SDErrorsIndex(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    errors: list[SDError] | None = Field(default=None, min_length=1, max_length=20)
-    index: int | None = Field(default=None, ge=0, le=4999)
+    errors: list[SDError] = Field(min_length=1, max_length=20)
+    index: int = Field(ge=0, le=4999)
 
 
 class SDStatus(BaseModel):
@@ -32,4 +32,4 @@ class SDStatus(BaseModel):
     deliveryReasons: list[Annotated[SDDeliveryReason | str, lenient_enum(SDDeliveryReason)]] | None = Field(
         default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
     )
-    deliveryStatus: Annotated[SDDeliveryStatus | str, lenient_enum(SDDeliveryStatus)] | None = Field(default=None)
+    deliveryStatus: Annotated[SDDeliveryStatus | str, lenient_enum(SDDeliveryStatus)]

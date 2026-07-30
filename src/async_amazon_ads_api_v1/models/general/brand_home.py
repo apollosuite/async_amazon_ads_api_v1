@@ -101,9 +101,8 @@ class ListStoresResponse(BaseModel):
     nextToken: str | None = Field(
         default=None, description="Nullable. The next token to be used for paginated querying."
     )
-    stores: list[StoreInfo] | None = Field(
-        default=None,
-        description="Paginated list of `StoreInfo`'s. Result list size <= maxResults. If advertiser has no stores, returns empty list.",
+    stores: list[StoreInfo] = Field(
+        description="Paginated list of `StoreInfo`'s. Result list size <= maxResults. If advertiser has no stores, returns empty list."
     )
 
 

@@ -15,13 +15,10 @@ class SBQueryRecommendationTypeRequest(BaseModel):
 class SBRecommendationType(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    recommendationTypeId: str | None = Field(
-        default=None,
-        description="The ID of the recommendation type. Format: Either a UUID or a unique descriptive string identifier",
+    recommendationTypeId: str = Field(
+        description="The ID of the recommendation type. Format: Either a UUID or a unique descriptive string identifier"
     )
-    recommendationTypeTitle: str | None = Field(
-        default=None, description="Titles or short descriptions of the recommendation"
-    )
+    recommendationTypeTitle: str = Field(description="Titles or short descriptions of the recommendation")
 
 
 class SBRecommendationTypeSuccessResponse(BaseModel):

@@ -447,14 +447,14 @@ class VerticalPosition(StrEnum):
 class BrandStorePage(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    content: StorePageContent | None = Field(default=None)
-    editionId: str | None = Field(default=None, description="Reference to the store edition")
-    pageId: str | None = Field(default=None, description="Unique identifier for the store page")
-    pageType: Annotated[StorePageType | str, lenient_enum(StorePageType)] | None = Field(default=None)
+    content: StorePageContent
+    editionId: str = Field(description="Reference to the store edition")
+    pageId: str = Field(description="Unique identifier for the store page")
+    pageType: Annotated[StorePageType | str, lenient_enum(StorePageType)]
     storeEditionPublishId: str | None = Field(
         default=None, description="Optional identifier for the published version of this page"
     )
-    storeId: str | None = Field(default=None, description="Identifier of the associated store")
+    storeId: str = Field(description="Identifier of the associated store")
 
 
 class BrandStorePageBrandStoreEditionIdFilter(BaseModel):
@@ -493,8 +493,8 @@ class BrandedRecipeDirection(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    body: str | None = Field(default=None, description="Detailed instruction text for the direction step")
-    title: str | None = Field(default=None, description="Title or heading for the direction step")
+    body: str = Field(description="Detailed instruction text for the direction step")
+    title: str = Field(description="Title or heading for the direction step")
 
 
 class BrandedRecipeIngredient(BaseModel):
@@ -505,18 +505,12 @@ class BrandedRecipeIngredient(BaseModel):
     asinOverrides: list[str] | None = Field(
         default=None, min_length=0, max_length=500, description="List of ASIN overrides for the ingredient"
     )
-    brand: str | None = Field(default=None, description="Brand name associated with the ingredient")
-    displayText: str | None = Field(default=None, description="Formatted text for displaying the ingredient")
-    isAsinRestricted: bool | None = Field(
-        default=None, description="Flag indicating if ASIN is restricted for this ingredient"
-    )
-    isBrandRestricted: bool | None = Field(
-        default=None, description="Flag indicating if brand is restricted for this ingredient"
-    )
-    isExclusiveOverride: bool | None = Field(
-        default=None, description="Flag indicating if this ingredient has exclusive override"
-    )
-    name: str | None = Field(default=None, description="Name of the ingredient")
+    brand: str = Field(description="Brand name associated with the ingredient")
+    displayText: str = Field(description="Formatted text for displaying the ingredient")
+    isAsinRestricted: bool = Field(description="Flag indicating if ASIN is restricted for this ingredient")
+    isBrandRestricted: bool = Field(description="Flag indicating if brand is restricted for this ingredient")
+    isExclusiveOverride: bool = Field(description="Flag indicating if this ingredient has exclusive override")
+    name: str = Field(description="Name of the ingredient")
     quantityList: list[BrandedRecipeQuantityItem] | None = Field(
         default=None, min_length=0, max_length=500, description="List of quantity measurements for the ingredient"
     )
@@ -553,8 +547,8 @@ class BrandedRecipeQuantityItem(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    amount: float | None = Field(default=None, description="Numerical amount of the ingredient")
-    unit: str | None = Field(default=None, description="Unit of measurement for the ingredient")
+    amount: float = Field(description="Numerical amount of the ingredient")
+    unit: str = Field(description="Unit of measurement for the ingredient")
 
 
 class BrandedRecipeWidget(BaseModel):
@@ -580,9 +574,9 @@ class BrandedRecipeWidget(BaseModel):
     )
     isInitialLoad: bool | None = Field(default=None, description="Flag indicating if recipe is set to initial load")
     mobileMedia: BrandedRecipeMedia | None = Field(default=None)
-    preparationTime: str | None = Field(default=None, description="Time required to prepare the recipe")
+    preparationTime: str = Field(description="Time required to prepare the recipe")
     refTag: str | None = Field(default=None, description="REF tracking tag for the branded recipe")
-    servingSize: float | None = Field(default=None, description="Number of servings the recipe yields")
+    servingSize: float = Field(description="Number of servings the recipe yields")
     title: str | None = Field(default=None, description="Title of the recipe")
 
 
@@ -597,21 +591,17 @@ class CTI(BaseModel):
 class CommonTileProperties(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    size: Annotated[StoreTileSize | str, lenient_enum(StoreTileSize)] | None = Field(default=None)
-    tag: str | None = Field(default=None, description="The unique tag for the tile to help track on performance.")
-    type: Annotated[StoreTileType | str, lenient_enum(StoreTileType)] | None = Field(default=None)
+    size: Annotated[StoreTileSize | str, lenient_enum(StoreTileSize)]
+    tag: str = Field(description="The unique tag for the tile to help track on performance.")
+    type: Annotated[StoreTileType | str, lenient_enum(StoreTileType)]
 
 
 class CommonWidgetProperties(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    sectionType: Annotated[StoreWidgetSectionType | str, lenient_enum(StoreWidgetSectionType)] | None = Field(
-        default=None
-    )
-    widgetTag: str | None = Field(
-        default=None, description="The unique tag for the widget to help track on performance."
-    )
-    widgetType: Annotated[StoreWidgetType | str, lenient_enum(StoreWidgetType)] | None = Field(default=None)
+    sectionType: Annotated[StoreWidgetSectionType | str, lenient_enum(StoreWidgetSectionType)]
+    widgetTag: str = Field(description="The unique tag for the widget to help track on performance.")
+    widgetType: Annotated[StoreWidgetType | str, lenient_enum(StoreWidgetType)]
 
 
 class Coordinates(BaseModel):
@@ -626,37 +616,33 @@ class PriorityAsin(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    addToCartActionParams: str | None = Field(default=None, description="Parameters for add to cart action")
+    addToCartActionParams: str = Field(description="Parameters for add to cart action")
     bottleDepositFee: str | None = Field(default=None, description="Bottle deposit fee amount")
     bottleDepositFeeString: str | None = Field(default=None, description="Bottle deposit fee as string")
-    cartQuantity: float | None = Field(default=None, description="Quantity of this item in the cart")
+    cartQuantity: float = Field(description="Quantity of this item in the cart")
     catalogDisplayPricePerUnitOfMeasure: str | None = Field(
         default=None, description="Price per unit of measure for display"
     )
     freshButton: str | None = Field(default=None, description="Fresh button information")
-    isAlternateSearchResult: bool | None = Field(
-        default=None, description="Flag indicating if this is an alternate search result"
-    )
-    isRequiredQuantityInCart: bool | None = Field(
-        default=None, description="Flag indicating if a quantity is required in cart"
-    )
-    isSoldByCount: bool | None = Field(default=None, description="Flag indicating if the product is sold by count")
-    itemAvailability: str | None = Field(default=None, description="Status of item availability")
-    offerId: str | None = Field(default=None, description="Unique identifier for the offer")
-    offerName: str | None = Field(default=None, description="Display name of the product offer")
-    offerUnit: str | None = Field(default=None, description="Unit of the offer (e.g., Fl Oz, lb)")
-    productAsin: str | None = Field(default=None, description="ASIN associated with this product")
-    productDetailsUrl: str | None = Field(default=None, description="URL to the product details page")
-    productImageUrl: str | None = Field(default=None, description="URL of the product image")
+    isAlternateSearchResult: bool = Field(description="Flag indicating if this is an alternate search result")
+    isRequiredQuantityInCart: bool = Field(description="Flag indicating if a quantity is required in cart")
+    isSoldByCount: bool = Field(description="Flag indicating if the product is sold by count")
+    itemAvailability: str = Field(description="Status of item availability")
+    offerId: str = Field(description="Unique identifier for the offer")
+    offerName: str = Field(description="Display name of the product offer")
+    offerUnit: str = Field(description="Unit of the offer (e.g., Fl Oz, lb)")
+    productAsin: str = Field(description="ASIN associated with this product")
+    productDetailsUrl: str = Field(description="URL to the product details page")
+    productImageUrl: str = Field(description="URL of the product image")
     promotionDisplay: str | None = Field(default=None, description="Display text for active promotion")
     promotionId: str | None = Field(default=None, description="Identifier for active promotion")
     quantityInStock: float | None = Field(default=None, description="Available quantity in stock")
-    requiredQuantity: float | None = Field(default=None, description="Required quantity for purchase")
+    requiredQuantity: float = Field(description="Required quantity for purchase")
     retailATCButton: str | None = Field(default=None, description="Retail add-to-cart button information")
     reviewStars: ReviewStars | None = Field(default=None)
     searchTerm: str | None = Field(default=None, description="Search term associated with this product")
-    subtotalParams: str | None = Field(default=None, description="Subtotal parameters for pricing calculations")
-    vuomDisplayPrice: str | None = Field(default=None, description="Display price for virtual unit of measure")
+    subtotalParams: str = Field(description="Subtotal parameters for pricing calculations")
+    vuomDisplayPrice: str = Field(description="Display price for virtual unit of measure")
 
 
 class QueryBrandStorePageRequest(BaseModel):
@@ -675,27 +661,25 @@ class ReviewStars(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    hasHalfStar: bool | None = Field(
-        default=None, description="Flag indicating if the product has a half star in the rating"
-    )
-    reviewCount: int | None = Field(default=None, description="Number of reviews for the product")
-    wholeStars: int | None = Field(default=None, description="Number of whole stars in the rating")
+    hasHalfStar: bool = Field(description="Flag indicating if the product has a half star in the rating")
+    reviewCount: int = Field(description="Number of reviews for the product")
+    wholeStars: int = Field(description="Number of whole stars in the rating")
 
 
 class StoreASINSlide(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    productAsin: str | None = Field(default=None, description="The ASIN of the product.")
-    tag: str | None = Field(default=None, description="Unique tag for the slide which will be ASIN.")
-    type: Annotated[StoreSlideType | str, lenient_enum(StoreSlideType)] | None = Field(default=None)
+    productAsin: str = Field(description="The ASIN of the product.")
+    tag: str = Field(description="Unique tag for the slide which will be ASIN.")
+    type: Annotated[StoreSlideType | str, lenient_enum(StoreSlideType)]
 
 
 class StoreAWLSTile(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonTileProperties | None = Field(default=None)
+    commonProperties: CommonTileProperties
     content: StoreAWLSTileContent | None = Field(default=None)
-    externalWidgetId: str | None = Field(default=None, description="External widget identifier.")
+    externalWidgetId: str = Field(description="External widget identifier.")
 
 
 class StoreAWLSTileContent(BaseModel):
@@ -709,12 +693,9 @@ class StoreAWLSTileContent(BaseModel):
 class StoreAWLSWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
-    tiles: list[StoreAWLSTile] | None = Field(
-        default=None,
-        min_length=1,
-        max_length=1,
-        description="The AWLS tile configuration. Exactly one tile is required.",
+    commonProperties: CommonWidgetProperties
+    tiles: list[StoreAWLSTile] = Field(
+        min_length=1, max_length=1, description="The AWLS tile configuration. Exactly one tile is required."
     )
     widgetDependencies: list[str] | None = Field(
         default=None, min_length=0, max_length=10, description="List of widget dependencies."
@@ -732,15 +713,15 @@ class StoreBannerContent(BaseModel):
 class StoreBannerWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
-    content: StoreBannerContent | None = Field(default=None)
+    commonProperties: CommonWidgetProperties
+    content: StoreBannerContent
 
 
 class StoreBanners(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    blackLivesMatter: bool | None = Field(default=None, description="Flag to display Black Lives Matter banner")
-    stopAsianHate: bool | None = Field(default=None, description="Flag to display Stop Asian Hate banner")
+    blackLivesMatter: bool = Field(description="Flag to display Black Lives Matter banner")
+    stopAsianHate: bool = Field(description="Flag to display Stop Asian Hate banner")
 
 
 class StoreCallToActionData(BaseModel):
@@ -775,10 +756,10 @@ class StoreCanvasData(BaseModel):
 class StoreCarouselContent(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    bulk: bool | None = Field(default=None, description="Whether this is a bulk configuration.")
-    callToActionData: StoreCallToActionData | None = Field(default=None)
-    includeOutOfStock: bool | None = Field(default=None, description="Whether to include out of stock items.")
-    keyword: str | None = Field(default=None, description="Keyword for product filtering.")
+    bulk: bool = Field(description="Whether this is a bulk configuration.")
+    callToActionData: StoreCallToActionData
+    includeOutOfStock: bool = Field(description="Whether to include out of stock items.")
+    keyword: str = Field(description="Keyword for product filtering.")
     productAsins: list[str] | None = Field(
         default=None, min_length=0, max_length=500, description="List of ASINs, maximum 500 unique items."
     )
@@ -786,18 +767,18 @@ class StoreCarouselContent(BaseModel):
     slides: list[StoreASINSlide] | None = Field(
         default=None, min_length=0, max_length=500, description="List of ASIN slides."
     )
-    tag: str | None = Field(default=None, description="Unique tag for the content to track performance.")
-    text: str | None = Field(default=None, description="Description text.")
-    title: str | None = Field(default=None, description="Title of the carousel.")
-    type: Annotated[StoreWidgetSectionType | str, lenient_enum(StoreWidgetSectionType)] | None = Field(default=None)
+    tag: str = Field(description="Unique tag for the content to track performance.")
+    text: str = Field(description="Description text.")
+    title: str = Field(description="Title of the carousel.")
+    type: Annotated[StoreWidgetSectionType | str, lenient_enum(StoreWidgetSectionType)]
 
 
 class StoreCarouselSearch(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    includeOutOfStock: bool | None = Field(default=None, description="Whether to include out of stock items in search.")
-    keyword: str | None = Field(default=None, description="Search keyword.")
-    node: str | None = Field(default=None, description="Node identifier for search.")
+    includeOutOfStock: bool = Field(description="Whether to include out of stock items in search.")
+    keyword: str = Field(description="Search keyword.")
+    node: str = Field(description="Node identifier for search.")
     productAsins: list[str] | None = Field(
         default=None, min_length=0, max_length=1, description="List of ASINs for search filtering."
     )
@@ -842,19 +823,16 @@ class StoreCustomCodeContent(BaseModel):
 class StoreCustomCodeTile(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonTileProperties | None = Field(default=None)
+    commonProperties: CommonTileProperties
     content: StoreCustomCodeContent | None = Field(default=None)
 
 
 class StoreCustomCodeWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
-    tiles: list[StoreCustomCodeTile] | None = Field(
-        default=None,
-        min_length=1,
-        max_length=1,
-        description="The custom code tile configuration. Exactly one tile is required.",
+    commonProperties: CommonWidgetProperties
+    tiles: list[StoreCustomCodeTile] = Field(
+        min_length=1, max_length=1, description="The custom code tile configuration. Exactly one tile is required."
     )
 
 
@@ -879,15 +857,15 @@ class StoreDealsContent(BaseModel):
 class StoreDealsWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
+    commonProperties: CommonWidgetProperties
     content: StoreDealsContent | None = Field(default=None)
 
 
 class StoreEmptyTile(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonTileProperties | None = Field(default=None)
-    content: StoreEmptyTileContent | None = Field(default=None)
+    commonProperties: CommonTileProperties
+    content: StoreEmptyTileContent
 
 
 class StoreEmptyTileContent(BaseModel):
@@ -929,7 +907,7 @@ class StoreGallerySlide(BaseModel):
 class StoreGalleryWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
+    commonProperties: CommonWidgetProperties
     content: StoreGalleryContent | None = Field(default=None)
 
 
@@ -944,7 +922,7 @@ class StoreHeroContent(BaseModel):
     imageKey: str | None = Field(default=None, description="Key identifier for the image.")
     imageOffsetLeft: float | None = Field(default=None, description="Left offset of the image.")
     imageOffsetTop: float | None = Field(default=None, description="Top offset of the image.")
-    imageUrl: str | None = Field(default=None, description="URL of the hero image.")
+    imageUrl: str = Field(description="URL of the hero image.")
     imageWidth: float | None = Field(default=None, description="Width of the hero image.")
     mobileContent: StoreMobileContent | None = Field(default=None)
     tag: str | None = Field(default=None, description="Unique tag for the content.")
@@ -954,7 +932,7 @@ class StoreHeroContent(BaseModel):
 class StoreHeroImageWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
+    commonProperties: CommonWidgetProperties
     content: StoreHeroContent | None = Field(default=None)
 
 
@@ -1010,7 +988,7 @@ class StoreImageSlide(BaseModel):
 class StoreImageTile(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonTileProperties | None = Field(default=None)
+    commonProperties: CommonTileProperties
     content: StoreImageContent | None = Field(default=None)
     flexHeight: bool | None = Field(default=None, description="Whether the height is flexible.")
     mobileContent: StoreMobileImageContent | None = Field(default=None)
@@ -1020,12 +998,9 @@ class StoreImageTile(BaseModel):
 class StoreImageWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
-    tiles: list[StoreImageTile] | None = Field(
-        default=None,
-        min_length=1,
-        max_length=1,
-        description="The image tile configuration. Exactly one tile is required.",
+    commonProperties: CommonWidgetProperties
+    tiles: list[StoreImageTile] = Field(
+        min_length=1, max_length=1, description="The image tile configuration. Exactly one tile is required."
     )
 
 
@@ -1068,25 +1043,20 @@ class StoreImageWithTextContent(BaseModel):
 class StoreImageWithTextTile(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonTileProperties | None = Field(default=None)
+    commonProperties: CommonTileProperties
     content: StoreImageWithTextContent | None = Field(default=None)
     flexHeight: bool | None = Field(default=None, description="Whether the height is flexible.")
     mobileContent: StoreMobileImageWithTextContent | None = Field(default=None)
     uploadMobileImage: bool | None = Field(default=None, description="Whether to upload a mobile-specific image.")
-    variation: (
-        Annotated[StoreImageWithTextTileVariation | str, lenient_enum(StoreImageWithTextTileVariation)] | None
-    ) = Field(default=None)
+    variation: Annotated[StoreImageWithTextTileVariation | str, lenient_enum(StoreImageWithTextTileVariation)]
 
 
 class StoreImageWithTextWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
-    tiles: list[StoreImageWithTextTile] | None = Field(
-        default=None,
-        min_length=1,
-        max_length=1,
-        description="The image with text tile configuration. Exactly one tile is required.",
+    commonProperties: CommonWidgetProperties
+    tiles: list[StoreImageWithTextTile] = Field(
+        min_length=1, max_length=1, description="The image with text tile configuration. Exactly one tile is required."
     )
 
 
@@ -1094,21 +1064,21 @@ class StoreLiveVideoContent(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     channel: str | None = Field(default=None, description="Channel of the video.")
-    tag: str | None = Field(default=None, description="Unique tag for the content.")
-    type: Annotated[StoreWidgetType | str, lenient_enum(StoreWidgetType)] | None = Field(default=None)
+    tag: str = Field(description="Unique tag for the content.")
+    type: Annotated[StoreWidgetType | str, lenient_enum(StoreWidgetType)]
 
 
 class StoreLiveVideoWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
-    content: StoreLiveVideoContent | None = Field(default=None)
+    commonProperties: CommonWidgetProperties
+    content: StoreLiveVideoContent
 
 
 class StoreManuallyCuratedProductCarouselWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
+    commonProperties: CommonWidgetProperties
     content: StoreCarouselContent | None = Field(default=None)
 
 
@@ -1200,7 +1170,7 @@ class StorePageContent(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     description: str | None = Field(default=None, description="Description of the page")
-    template: Annotated[StorePageTemplate | str, lenient_enum(StorePageTemplate)] | None = Field(default=None)
+    template: Annotated[StorePageTemplate | str, lenient_enum(StorePageTemplate)]
     title: str | None = Field(
         default=None, description="For store page, title of the page; for SB landing page, this can be optional"
     )
@@ -1240,8 +1210,8 @@ class StoreProductCarouselContent(BaseModel):
 
     callToActionData: StoreCallToActionProductData | None = Field(default=None)
     searchContent: StoreProductCarouselSearch | None = Field(default=None)
-    tag: str | None = Field(default=None, description="Unique tag for the content.")
-    type: Annotated[StoreWidgetSectionType | str, lenient_enum(StoreWidgetSectionType)] | None = Field(default=None)
+    tag: str = Field(description="Unique tag for the content.")
+    type: Annotated[StoreWidgetSectionType | str, lenient_enum(StoreWidgetSectionType)]
 
 
 class StoreProductCarouselSearch(BaseModel):
@@ -1256,8 +1226,8 @@ class StoreProductCarouselSearch(BaseModel):
 class StoreProductCarouselWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
-    content: StoreProductCarouselContent | None = Field(default=None)
+    commonProperties: CommonWidgetProperties
+    content: StoreProductCarouselContent
 
 
 class StoreProductCollectionASINGrid(BaseModel):
@@ -1279,7 +1249,7 @@ class StoreProductCollectionASINGrid(BaseModel):
     sort: str | None = Field(default=None, description="Sort order for products.")
     tag: str | None = Field(default=None, description="Unique tag for the tile to track performance.")
     title: str | None = Field(default=None, description="Title of the product grid.")
-    type: Annotated[StoreWidgetSectionType | str, lenient_enum(StoreWidgetSectionType)] | None = Field(default=None)
+    type: Annotated[StoreWidgetSectionType | str, lenient_enum(StoreWidgetSectionType)]
     variation: str | None = Field(default=None, description="Variation of the product grid.")
 
 
@@ -1297,14 +1267,12 @@ class StoreProductCollectionContent(BaseModel):
 class StoreProductCollectionImageTile(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonTileProperties | None = Field(default=None)
+    commonProperties: CommonTileProperties
     content: StoreImageWithTextContent | None = Field(default=None)
     flexHeight: bool | None = Field(default=None, description="Whether the height is flexible.")
     mobileContent: StoreMobileImageWithTextContent | None = Field(default=None)
     uploadMobileImage: bool | None = Field(default=None, description="Whether to upload a mobile-specific image.")
-    variation: (
-        Annotated[StoreImageWithTextTileVariation | str, lenient_enum(StoreImageWithTextTileVariation)] | None
-    ) = Field(default=None)
+    variation: Annotated[StoreImageWithTextTileVariation | str, lenient_enum(StoreImageWithTextTileVariation)]
 
 
 class StoreProductCollectionTile(BaseModel):
@@ -1320,13 +1288,10 @@ class StoreProductCollectionWidget(BaseModel):
     aiMetadata: list[Tag] | None = Field(
         default=None, min_length=0, max_length=1000, description="Metadata about AI generated fields."
     )
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
+    commonProperties: CommonWidgetProperties
     content: StoreProductCollectionContent | None = Field(default=None)
-    tiles: list[StoreProductCollectionTile] | None = Field(
-        default=None,
-        min_length=2,
-        max_length=2,
-        description="The tiles for the product collection. Exactly two tiles are required.",
+    tiles: list[StoreProductCollectionTile] = Field(
+        min_length=2, max_length=2, description="The tiles for the product collection. Exactly two tiles are required."
     )
 
 
@@ -1377,8 +1342,8 @@ class StoreProductGridSearch(BaseModel):
 class StoreProductGridWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
-    content: StoreProductGridContent | None = Field(default=None)
+    commonProperties: CommonWidgetProperties
+    content: StoreProductGridContent
 
 
 class StoreProductSelectorAnswer(BaseModel):
@@ -1387,13 +1352,11 @@ class StoreProductSelectorAnswer(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     image: StoreProductSelectorImage | None = Field(default=None)
-    nextStep: str | None = Field(
-        default=None, description="Reference to the next question or step in the selection flow"
-    )
+    nextStep: str = Field(description="Reference to the next question or step in the selection flow")
     productAsins: list[str] | None = Field(
         default=None, min_length=0, max_length=500, description="List of ASINs associated with this answer"
     )
-    tag: str | None = Field(default=None, description="Unique identifier for the answer")
+    tag: str = Field(description="Unique identifier for the answer")
     text: str | None = Field(default=None, description="Display text for the answer option")
 
 
@@ -1402,16 +1365,16 @@ class StoreProductSelectorDesignOptions(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    backgroundColor: str | None = Field(default=None, description="Background color in hex or named color value")
-    backgroundShape: str | None = Field(default=None, description="Shape of the background container")
+    backgroundColor: str = Field(description="Background color in hex or named color value")
+    backgroundShape: str = Field(description="Shape of the background container")
     buttonColor: (
         Annotated[StoreProductSelectorButtonColor | str, lenient_enum(StoreProductSelectorButtonColor)] | None
     ) = Field(default=None)
-    buttonShape: str | None = Field(default=None, description="Shape style for buttons in the selector")
-    textAlignment: str | None = Field(default=None, description="Alignment of text elements (left, center, right)")
-    textSize: str | None = Field(default=None, description="Size of the text elements")
-    textStyle: str | None = Field(default=None, description="Font family or style to be used")
-    textWeight: str | None = Field(default=None, description="Font weight for text elements")
+    buttonShape: str = Field(description="Shape style for buttons in the selector")
+    textAlignment: str = Field(description="Alignment of text elements (left, center, right)")
+    textSize: str = Field(description="Size of the text elements")
+    textStyle: str = Field(description="Font family or style to be used")
+    textWeight: str = Field(description="Font weight for text elements")
 
 
 class StoreProductSelectorImage(BaseModel):
@@ -1419,9 +1382,9 @@ class StoreProductSelectorImage(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    assetId: str | None = Field(default=None, description="Asset ID of the image")
+    assetId: str = Field(description="Asset ID of the image")
     fileName: str | None = Field(default=None, description="File name of the image")
-    imageUrl: str | None = Field(default=None, description="URL of the image")
+    imageUrl: str = Field(description="URL of the image")
     layout: Annotated[StoreProductSelectorImageLayout | str, lenient_enum(StoreProductSelectorImageLayout)] | None = (
         Field(default=None)
     )
@@ -1432,8 +1395,8 @@ class StoreProductSelectorImageOptions(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    image: StoreProductSelectorImage | None = Field(default=None)
-    layoutConfiguration: StoreProductSelectorLayoutConfiguration | None = Field(default=None)
+    image: StoreProductSelectorImage
+    layoutConfiguration: StoreProductSelectorLayoutConfiguration
 
 
 class StoreProductSelectorIntroduction(BaseModel):
@@ -1441,12 +1404,12 @@ class StoreProductSelectorIntroduction(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    buttonText: str | None = Field(default=None, description="Text displayed on the introduction button")
-    description: str | None = Field(default=None, description="Description text for the introduction section")
-    heading: str | None = Field(default=None, description="Heading text for the introduction section")
+    buttonText: str = Field(description="Text displayed on the introduction button")
+    description: str = Field(description="Description text for the introduction section")
+    heading: str = Field(description="Heading text for the introduction section")
     headline: str | None = Field(default=None, description="Headline text for the introduction section")
-    imageOptions: StoreProductSelectorImageOptions | None = Field(default=None)
-    isEnabled: bool | None = Field(default=None, description="Flag indicating whether the introduction is enabled")
+    imageOptions: StoreProductSelectorImageOptions
+    isEnabled: bool = Field(description="Flag indicating whether the introduction is enabled")
 
 
 class StoreProductSelectorLayoutConfiguration(BaseModel):
@@ -1454,12 +1417,8 @@ class StoreProductSelectorLayoutConfiguration(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    desktopLayout: (
-        Annotated[StoreProductSelectorImageLayout | str, lenient_enum(StoreProductSelectorImageLayout)] | None
-    ) = Field(default=None)
-    mobileLayout: (
-        Annotated[StoreProductSelectorImageLayout | str, lenient_enum(StoreProductSelectorImageLayout)] | None
-    ) = Field(default=None)
+    desktopLayout: Annotated[StoreProductSelectorImageLayout | str, lenient_enum(StoreProductSelectorImageLayout)]
+    mobileLayout: Annotated[StoreProductSelectorImageLayout | str, lenient_enum(StoreProductSelectorImageLayout)]
 
 
 class StoreProductSelectorQuestion(BaseModel):
@@ -1473,7 +1432,7 @@ class StoreProductSelectorQuestion(BaseModel):
     areImagesEnabled: bool | None = Field(default=None, description="Flag indicating whether images are enabled")
     description: str | None = Field(default=None, description="Additional descriptive text or context for the question")
     hasImage: bool | None = Field(default=None, description="Flag indicating whether the question has an image")
-    tag: str | None = Field(default=None, description="Unique identifier for the question")
+    tag: str = Field(description="Unique identifier for the question")
     text: str | None = Field(default=None, description="Main question text displayed to the user")
 
 
@@ -1484,8 +1443,8 @@ class StoreProductSelectorResults(BaseModel):
 
     buttonText: str | None = Field(default=None, description="Text to display on the call-to-action button")
     description: str | None = Field(default=None, description="Descriptive text explaining the results")
-    disclaimer: str | None = Field(default=None, description="Legal or additional information text for the results")
-    headline: str | None = Field(default=None, description="Main heading text for the results section")
+    disclaimer: str = Field(description="Legal or additional information text for the results")
+    headline: str = Field(description="Main heading text for the results section")
     storeUrl: str | None = Field(default=None, description="URL to the store page for the selected products")
 
 
@@ -1494,7 +1453,7 @@ class StoreProductSelectorWidget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    designOptions: StoreProductSelectorDesignOptions | None = Field(default=None)
+    designOptions: StoreProductSelectorDesignOptions
     introduction: StoreProductSelectorIntroduction | None = Field(default=None)
     productAsins: list[str] | None = Field(
         default=None, min_length=0, max_length=500, description="Master list of ASINs available in the selector"
@@ -1502,13 +1461,13 @@ class StoreProductSelectorWidget(BaseModel):
     questionList: list[StoreProductSelectorQuestion] | None = Field(
         default=None, min_length=0, max_length=500, description="Ordered list of questions in the selector flow"
     )
-    results: StoreProductSelectorResults | None = Field(default=None)
+    results: StoreProductSelectorResults
 
 
 class StoreProductTile(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonTileProperties | None = Field(default=None)
+    commonProperties: CommonTileProperties
     content: StoreProductTileContent | None = Field(default=None)
 
 
@@ -1529,12 +1488,9 @@ class StoreProductTileContent(BaseModel):
 class StoreProductWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
-    tiles: list[StoreProductTile] | None = Field(
-        default=None,
-        min_length=1,
-        max_length=1,
-        description="The product tile configuration. Exactly one tile is required.",
+    commonProperties: CommonWidgetProperties
+    tiles: list[StoreProductTile] = Field(
+        min_length=1, max_length=1, description="The product tile configuration. Exactly one tile is required."
     )
 
 
@@ -1579,7 +1535,7 @@ class StoreShopTheLookSlide(BaseModel):
 class StoreShopTheLookWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
+    commonProperties: CommonWidgetProperties
     content: StoreShopTheLookContent | None = Field(default=None)
 
 
@@ -1605,26 +1561,23 @@ class StoreShoppableImageContent(BaseModel):
 class StoreShoppableImageTile(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonTileProperties | None = Field(default=None)
+    commonProperties: CommonTileProperties
     content: StoreShoppableImageContent | None = Field(default=None)
 
 
 class StoreShoppableImageWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
-    tiles: list[StoreShoppableImageTile] | None = Field(
-        default=None,
-        min_length=1,
-        max_length=1,
-        description="The shoppable image tile configuration. Exactly one tile is required.",
+    commonProperties: CommonWidgetProperties
+    tiles: list[StoreShoppableImageTile] = Field(
+        min_length=1, max_length=1, description="The shoppable image tile configuration. Exactly one tile is required."
     )
 
 
 class StoreShoppablePoint(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    coordinates: Coordinates | None = Field(default=None)
+    coordinates: Coordinates
     productAsins: list[str] | None = Field(
         default=None, min_length=0, max_length=1, description="Single ASIN for the point."
     )
@@ -1635,7 +1588,7 @@ class StoreShoppablePoint(BaseModel):
 class StoreTextContent(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    bold: bool | None = Field(default=None, description="Whether text should be bold.")
+    bold: bool = Field(description="Whether text should be bold.")
     bondCustomerServiceLink: bool | None = Field(default=None, description="Whether to include customer service link.")
     callToAction: str | None = Field(default=None, description="Call to action text.")
     customUrl: str | None = Field(default=None, description="Custom URL for the content.")
@@ -1643,26 +1596,24 @@ class StoreTextContent(BaseModel):
     productAsins: list[str] | None = Field(
         default=None, min_length=0, max_length=1, description="Single product ASIN for the content."
     )
-    text: str | None = Field(default=None, description="Main text content.")
+    text: str = Field(description="Main text content.")
     textAlign: Annotated[StoreTextAlignment | str, lenient_enum(StoreTextAlignment)] | None = Field(default=None)
-    title: str | None = Field(default=None, description="Title of the content.")
-    uppercase: bool | None = Field(default=None, description="Whether text should be uppercase.")
+    title: str = Field(description="Title of the content.")
+    uppercase: bool = Field(description="Whether text should be uppercase.")
 
 
 class StoreTextTile(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonTileProperties | None = Field(default=None)
+    commonProperties: CommonTileProperties
     content: StoreTextContent | None = Field(default=None)
 
 
 class StoreTextWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
-    tiles: list[StoreTextTile] | None = Field(
-        default=None, min_length=1, max_length=1, description="Single text tile configuration."
-    )
+    commonProperties: CommonWidgetProperties
+    tiles: list[StoreTextTile] = Field(min_length=1, max_length=1, description="Single text tile configuration.")
 
 
 class StoreTile(BaseModel):
@@ -1727,13 +1678,10 @@ class StoreTilePosition(BaseModel):
 class StoreTileWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
+    commonProperties: CommonWidgetProperties
     rowHeight: int | None = Field(default=None, description="Height of the row in pixels.")
-    tiles: list[StoreTile] | None = Field(
-        default=None,
-        min_length=2,
-        max_length=8,
-        description="The tiles for the widget. Minimum 2 and maximum 8 tiles are allowed.",
+    tiles: list[StoreTile] = Field(
+        min_length=2, max_length=8, description="The tiles for the widget. Minimum 2 and maximum 8 tiles are allowed."
     )
 
 
@@ -1780,8 +1728,8 @@ class StoreVideoRevealVRVideo(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    assetId: str | None = Field(default=None, description="Unique identifier for the video asset")
-    url: str | None = Field(default=None, description="URL of the video content")
+    assetId: str = Field(description="Unique identifier for the video asset")
+    url: str = Field(description="URL of the video content")
 
 
 class StoreVideoRevealVideos(BaseModel):
@@ -1789,8 +1737,8 @@ class StoreVideoRevealVideos(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    desktop: StoreVideoRevealVRVideo | None = Field(default=None)
-    mobile: StoreVideoRevealVRVideo | None = Field(default=None)
+    desktop: StoreVideoRevealVRVideo
+    mobile: StoreVideoRevealVRVideo
 
 
 class StoreVideoRevealWidget(BaseModel):
@@ -1798,36 +1746,36 @@ class StoreVideoRevealWidget(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    backgroundColor: str | None = Field(default=None, description="Background color (CSS property)")
-    csmTag: str | None = Field(default=None, description="CSM tracking tag for the video reveal")
-    fadeoutDuration: str | None = Field(default=None, description="Fadeout duration (in ms)")
-    objectFit: str | None = Field(default=None, description="Object fit (CSS property)")
-    skipReveal: bool | None = Field(default=None, description="Skip reveal (to be used in development only)")
-    throttleLimit: str | None = Field(default=None, description="Play video every X minutes")
-    videos: StoreVideoRevealVideos | None = Field(default=None)
+    backgroundColor: str = Field(description="Background color (CSS property)")
+    csmTag: str = Field(description="CSM tracking tag for the video reveal")
+    fadeoutDuration: str = Field(description="Fadeout duration (in ms)")
+    objectFit: str = Field(description="Object fit (CSS property)")
+    skipReveal: bool = Field(description="Skip reveal (to be used in development only)")
+    throttleLimit: str = Field(description="Play video every X minutes")
+    videos: StoreVideoRevealVideos
 
 
 class StoreVideoTile(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonTileProperties | None = Field(default=None)
+    commonProperties: CommonTileProperties
     content: StoreVideoContent | None = Field(default=None)
 
 
 class StoreVideoWidget(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    commonProperties: CommonWidgetProperties | None = Field(default=None)
-    tiles: list[StoreVideoTile] | None = Field(
-        default=None, min_length=1, max_length=1, description="The content configuration for the video widget."
+    commonProperties: CommonWidgetProperties
+    tiles: list[StoreVideoTile] = Field(
+        min_length=1, max_length=1, description="The content configuration for the video widget."
     )
 
 
 class Tag(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    key: str | None = Field(default=None, description="A custom key value pair entered by the advertiser.")
-    value: str | None = Field(default=None, description="A custom key value pair entered by the advertiser.")
+    key: str = Field(description="A custom key value pair entered by the advertiser.")
+    value: str = Field(description="A custom key value pair entered by the advertiser.")
 
 
 __all__ = [

@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import httpx
 import pytest
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from async_amazon_ads_api_v1._base import BaseResource, ClientContext
 from async_amazon_ads_api_v1.config.settings import AmazonAdsConfig
@@ -185,12 +185,10 @@ class TestBaseResource:
         assert result.publishStatus == StorePublishStatus.DRAFT
 
     @pytest.mark.asyncio
-    async def test_response_allows_missing_required_response_fields(self, resource: BaseResource) -> None:
+    async def test_response_rejects_missing_required_response_fields(self, resource: BaseResource) -> None:
         from async_amazon_ads_api_v1.models.general.ad_associations import AdAssociationSuccessResponse
 
         resp = MagicMock(spec=httpx.Response)
         resp.text = json.dumps({"adAssociations": [{"state": "123"}]})
-        result = resource._response(AdAssociationSuccessResponse, resp)
-        assert result.adAssociations is not None
-        assert result.adAssociations[0].state == "123"
-        assert result.adAssociations[0].adAssociationId is None
+        with pytest.raises(ValidationError):
+            resource._response(AdAssociationSuccessResponse, resp)

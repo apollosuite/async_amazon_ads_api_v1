@@ -49,18 +49,16 @@ class CreateTermsTokenRequestContent(BaseModel):
 class CreateTermsTokenResponseContent(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    termsToken: str | None = Field(
-        default=None, description="A Terms Token refers to an UUID token used for terms and conditions acceptance"
+    termsToken: str = Field(
+        description="A Terms Token refers to an UUID token used for terms and conditions acceptance"
     )
-    termsUrl: str | None = Field(
-        default=None, description="The link to advertising terms page where the advertiser can view and accept."
-    )
+    termsUrl: str = Field(description="The link to advertising terms page where the advertiser can view and accept.")
 
 
 class GetTermsTokenResponseContent(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    termsTokenStatus: Annotated[TermsTokenStatus | str, lenient_enum(TermsTokenStatus)] | None = Field(default=None)
+    termsTokenStatus: Annotated[TermsTokenStatus | str, lenient_enum(TermsTokenStatus)]
     termsType: Annotated[TermsType | str, lenient_enum(TermsType)] | None = Field(default=None)
 
 

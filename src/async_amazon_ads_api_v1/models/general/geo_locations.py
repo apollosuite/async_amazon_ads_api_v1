@@ -86,8 +86,8 @@ class CreateSmartLocation(BaseModel):
 class GeoLocation(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    geoLocationId: str | None = Field(default=None, description="The identifier of the geo location.")
-    location: GeoLocationUnion | None = Field(default=None)
+    geoLocationId: str = Field(description="The identifier of the geo location.")
+    location: GeoLocationUnion
 
 
 class GeoLocationCoordinates(BaseModel):
@@ -95,8 +95,8 @@ class GeoLocationCoordinates(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    latitude: float | None = Field(default=None, description="Latitude coordinate. Example 47.6157")
-    longitude: float | None = Field(default=None, description="Longitude coordinate. Example 122.339")
+    latitude: float = Field(description="Latitude coordinate. Example 47.6157")
+    longitude: float = Field(description="Longitude coordinate. Example 122.339")
 
 
 class GeoLocationCreate(BaseModel):
@@ -115,8 +115,8 @@ class GeoLocationMultiStatusResponse(BaseModel):
 class GeoLocationMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    geoLocation: GeoLocation | None = Field(default=None)
-    index: int | None = Field(default=None, ge=0, le=99)
+    geoLocation: GeoLocation
+    index: int = Field(ge=0, le=99)
 
 
 class GeoLocationUnion(BaseModel):
@@ -136,8 +136,8 @@ class RadiusLocation(BaseModel):
         default=None,
         description="Address. Example '2111 7th Ave, Seattle, WA 98121, United States' or 'Amazon Spheres'",
     )
-    pointOfInterestRadius: float | None = Field(default=None, description="Radius of circle in kilometers or miles")
-    units: Annotated[DistanceUnit | str, lenient_enum(DistanceUnit)] | None = Field(default=None)
+    pointOfInterestRadius: float = Field(description="Radius of circle in kilometers or miles")
+    units: Annotated[DistanceUnit | str, lenient_enum(DistanceUnit)]
 
 
 class SmartLocation(BaseModel):
@@ -145,7 +145,7 @@ class SmartLocation(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    locationIndexId: str | None = Field(default=None, description="The ID of the index used for this smart location.")
+    locationIndexId: str = Field(description="The ID of the index used for this smart location.")
     maxIndexValuePercentile: int | None = Field(
         default=None,
         ge=0,
@@ -158,7 +158,7 @@ class SmartLocation(BaseModel):
         le=100,
         description="Minimum percentile value (0-100). Must be less than maxIndexValuePercentile. Null will be treated as 0.",
     )
-    name: str | None = Field(default=None, description="Name for the smart location.")
+    name: str = Field(description="Name for the smart location.")
 
 
 __all__ = [

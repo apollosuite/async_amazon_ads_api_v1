@@ -41,29 +41,24 @@ class SPAdGroupNameFilterType(StrEnum):
 class SPAdGroup(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    adGroupId: str | None = Field(default=None, description="The unique identifier of the ad group.")
-    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)] | None = Field(default=None)
+    adGroupId: str = Field(description="The unique identifier of the ad group.")
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
     adSettings: SPAdSettings | None = Field(default=None)
-    bid: SPAdGroupBid | None = Field(default=None)
-    campaignId: str | None = Field(
-        default=None, description="The unique identifier of the campaign the ad group belongs to."
-    )
-    creationDateTime: datetime | None = Field(default=None, description="The date time that the ad group was created.")
+    bid: SPAdGroupBid
+    campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
+    creationDateTime: datetime = Field(description="The date time that the ad group was created.")
     globalAdGroupId: str | None = Field(
         default=None, description="The global adGroup identifier that manages this marketplace adGroup."
     )
-    lastUpdatedDateTime: datetime | None = Field(
-        default=None, description="The date time that the ad group was last updated."
-    )
-    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)] | None = Field(default=None)
-    marketplaces: list[Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]] | None = Field(
-        default=None,
+    lastUpdatedDateTime: datetime = Field(description="The date time that the ad group was last updated.")
+    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
+    marketplaces: list[Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]] = Field(
         min_length=1,
         max_length=1,
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
     )
-    name: str | None = Field(default=None, description="The name of the ad group.")
-    state: Annotated[SPState | str, lenient_enum(SPState)] | None = Field(default=None)
+    name: str = Field(description="The name of the ad group.")
+    state: Annotated[SPState | str, lenient_enum(SPState)]
     status: SPStatus | None = Field(default=None)
     tags: list[SPTag] | None = Field(
         default=None,
@@ -97,10 +92,9 @@ class SPAdGroupAdProductFilter(BaseModel):
 class SPAdGroupBid(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    currencyCode: Annotated[SPCurrencyCode | str, lenient_enum(SPCurrencyCode)] | None = Field(default=None)
-    defaultBid: float | None = Field(
-        default=None,
-        description="The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.",
+    currencyCode: Annotated[SPCurrencyCode | str, lenient_enum(SPCurrencyCode)]
+    defaultBid: float = Field(
+        description="The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction."
     )
 
 
@@ -137,8 +131,8 @@ class SPAdGroupMultiStatusResponse(BaseModel):
 class SPAdGroupMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    adGroup: SPAdGroup | None = Field(default=None)
-    index: int | None = Field(default=None, ge=0, le=999)
+    adGroup: SPAdGroup
+    index: int = Field(ge=0, le=999)
 
 
 class SPAdGroupNameFilter(BaseModel):

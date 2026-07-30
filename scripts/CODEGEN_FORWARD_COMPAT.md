@@ -10,12 +10,12 @@ Amazon Ads API 的响应可能在 OpenAPI schema 之外发生变化：
 |---------|------|-----------|
 | 新增字段 | API 返回 `newField` | `extra="forbid"` + `model_construct` 会静默丢弃 |
 | 新增枚举值 | `publishState: "FUTURE_STATE"` | 严格枚举校验导致 `ValidationError` |
-| 缺失字段 | 响应体字段少于 schema `required` | `model_validate` 报 `Field required` |
+| 缺失字段 | 响应体字段少于 schema `required` | 响应模型保留 OpenAPI `required`，缺失时 `ValidationError` |
 
 改造目标：
 
 - **请求**：保持严格校验（`extra="forbid"`、必填字段、未知枚举拒绝）
-- **响应**：容忍 API 变动（多余字段、未知枚举、缺失字段）
+- **响应**：容忍 API 变动（多余字段、未知枚举），但保留 OpenAPI `required` 字段
 
 ---
 
@@ -120,10 +120,10 @@ for name, schema in models:
 ### `generate_model(..., extra: str = "forbid")`
 
 ```python
-# 仅 forbid（请求）模型保留 OpenAPI required
-is_required = fname in required and extra == "forbid"
+# 请求/响应模型均保留 OpenAPI required
+is_required = fname in required
 
-# allow（响应）模型：所有字段可选
+# 非必填字段添加 | None 与 default=None
 if not is_required and typ not in ("Any",):
     typ = f"{typ} | None"
 # 并添加 default=None
@@ -145,15 +145,17 @@ class AdAssociationCreate(BaseModel):
 ```python
 class AdAssociation(BaseModel):
     model_config = ConfigDict(extra="allow")
-    adGroupId: str | None = Field(default=None, ...)
-    state: Annotated[AdState | str, lenient_enum(AdState)] | None = Field(default=None)
+    adAssociationId: str = Field(...)
+    adGroupId: str = Field(...)
+    adId: str = Field(...)
+    state: Annotated[AdState | str, lenient_enum(AdState)]
+    endDateTime: datetime | None = Field(default=None, ...)
 ```
 
-### 三层容忍策略（仅响应）
+### 两层容忍策略（仅响应）
 
 1. `extra="allow"` — 保留 API 新增字段
-2. 字段全可选 — 容忍缺失字段
-3. `lenient_enum` + `model_validate_json` — 容忍未知枚举值
+2. `lenient_enum` + `model_validate_json` — 容忍未知枚举值
 
 ---
 
@@ -230,8 +232,8 @@ assert result.publishState == "FUTURE_STATE"  # str，非枚举
 
 ```python
 resp.text = json.dumps({"adAssociations": [{"state": "123"}]})
-result = resource._response(AdAssociationSuccessResponse, resp)
-assert result.adAssociations[0].adAssociationId is None
+with pytest.raises(ValidationError):
+    resource._response(AdAssociationSuccessResponse, resp)
 ```
 
 已有参考：`tests/test_lenient_enum.py`
@@ -246,7 +248,7 @@ assert result.adAssociations[0].adAssociationId is None
 
 - [ ] 引入 `discover_schema_sets`（或复用共享模块）
 - [ ] `generate_model` 增加 `extra` 参数
-- [ ] 响应 schema：`extra="allow"` + `is_required = fname in required and extra == "forbid"`
+- [ ] 响应 schema：`extra="allow"` + `is_required = fname in required`
 - [ ] 请求 schema：保持 `extra="forbid"`
 - [ ] 枚举字段继续使用 `Annotated[Enum | str, lenient_enum(Enum)]`
 - [ ] 添加公用 schema 诊断打印
@@ -295,7 +297,7 @@ uv run pytest tests/test_base.py tests/test_lenient_enum.py -q
 |------|------|------|
 | 响应类型 | Pydantic + `extra="allow"` | TypedDict / 裸 dict |
 | 响应解析 | `model_validate_json` | `model_construct` |
-| 缺失字段 | 响应字段全可选 | 保持 required（会报错） |
+| 缺失字段 | 响应保留 OpenAPI `required` | 响应字段全可选 |
 | 请求/响应分流 | 按 BFS 闭包来源 | 按命名约定（`*Response`） |
 | 枚举 | 已有 `lenient_enum` | 纯 `StrEnum` |
 

@@ -166,27 +166,22 @@ class SBAd(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     activeCreative: SBCreative | None = Field(default=None)
-    adGroupId: str | None = Field(default=None, description="The ad group associated with the ad.")
-    adId: str | None = Field(default=None, description="The identifier of the ad.")
-    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)] | None = Field(default=None)
-    adType: Annotated[SBAdType | str, lenient_enum(SBAdType)] | None = Field(default=None)
-    campaignId: str | None = Field(
-        default=None, description="The campaign associated with the ad. It's a read-only field."
-    )
-    creationDateTime: datetime | None = Field(default=None, description="The date time that the ad was created.")
-    creative: SBCreative | None = Field(default=None)
-    lastUpdatedDateTime: datetime | None = Field(
-        default=None, description="The date time that the ad was last updated."
-    )
-    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)] | None = Field(default=None)
-    marketplaces: list[Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]] | None = Field(
-        default=None,
+    adGroupId: str = Field(description="The ad group associated with the ad.")
+    adId: str = Field(description="The identifier of the ad.")
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
+    adType: Annotated[SBAdType | str, lenient_enum(SBAdType)]
+    campaignId: str = Field(description="The campaign associated with the ad. It's a read-only field.")
+    creationDateTime: datetime = Field(description="The date time that the ad was created.")
+    creative: SBCreative
+    lastUpdatedDateTime: datetime = Field(description="The date time that the ad was last updated.")
+    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)]
+    marketplaces: list[Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]] = Field(
         min_length=1,
         max_length=1,
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
-    name: str | None = Field(default=None, description="The name of the ad.")
-    state: Annotated[SBState | str, lenient_enum(SBState)] | None = Field(default=None)
+    name: str = Field(description="The name of the ad.")
+    state: Annotated[SBState | str, lenient_enum(SBState)]
     status: SBStatus | None = Field(default=None)
     tags: list[SBTag] | None = Field(
         default=None,
@@ -256,8 +251,8 @@ class SBAdMultiStatusResponse(BaseModel):
 class SBAdMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    ad: SBAd | None = Field(default=None)
-    index: int | None = Field(default=None, ge=0, le=9)
+    ad: SBAd
+    index: int = Field(ge=0, le=9)
 
 
 class SBAdNameFilter(BaseModel):
@@ -310,7 +305,7 @@ class SBAdvertisedProducts(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     productId: str | None = Field(default=None, description="The identifier of the advertised product.")
-    productIdType: Annotated[SBProductIdType | str, lenient_enum(SBProductIdType)] | None = Field(default=None)
+    productIdType: Annotated[SBProductIdType | str, lenient_enum(SBProductIdType)]
 
 
 class SBAutoCollectionSettings(BaseModel):
@@ -321,15 +316,15 @@ class SBAutoCollectionSettings(BaseModel):
     productExclusions: list[SBAdvertisedProducts] | None = Field(
         default=None, min_length=0, max_length=1000, description="Products to exclude from auto collection."
     )
-    sharedSettings: SBSharedCollectionSettings | None = Field(default=None)
+    sharedSettings: SBSharedCollectionSettings
 
 
 class SBBrandGalleryCardCreativeElement(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    customImage: SBImage | None = Field(default=None)
-    headline: str | None = Field(default=None, description="The headline used for the card.")
-    landingPage: SBStoreSpotlightLandingPage | None = Field(default=None)
+    customImage: SBImage
+    headline: str = Field(description="The headline used for the card.")
+    landingPage: SBStoreSpotlightLandingPage
 
 
 class SBBrandGallerySettings(BaseModel):
@@ -337,12 +332,11 @@ class SBBrandGallerySettings(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    brand: str | None = Field(default=None, description="The name of the brand being advertised.")
-    brandLogos: list[SBImage] | None = Field(
-        default=None, min_length=1, max_length=1, description="The brand logo image assets to be used in the ad."
+    brand: str = Field(description="The name of the brand being advertised.")
+    brandLogos: list[SBImage] = Field(
+        min_length=1, max_length=1, description="The brand logo image assets to be used in the ad."
     )
-    cards: list[SBBrandGalleryCardCreativeElement] | None = Field(
-        default=None,
+    cards: list[SBBrandGalleryCardCreativeElement] = Field(
         min_length=3,
         max_length=5,
         description="The sub-elements of the creative. Each card highlights a different category associated to a brand.",
@@ -368,13 +362,12 @@ class SBBrandGallerySettings(BaseModel):
         default=None,
         description="If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.",
     )
-    headlines: list[str] | None = Field(
-        default=None,
+    headlines: list[str] = Field(
         min_length=1,
         max_length=1,
         description="The headline submitted as part of the ad creative. During your campaign, Amazon will optimize amongst the headlines you provide to match customer intent.",
     )
-    landingPage: SBStoreSpotlightLandingPage | None = Field(default=None)
+    landingPage: SBStoreSpotlightLandingPage
     moderationStatus: SBCreativeStatus | None = Field(default=None)
     untranslatedHeadlines: list[str] | None = Field(
         default=None, min_length=0, max_length=1, description="The headline entered by the advertiser."
@@ -384,17 +377,15 @@ class SBBrandGallerySettings(BaseModel):
 class SBCardCreativeElement(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    headline: str | None = Field(default=None, description="The headline used for the card.")
-    landingPage: SBStoreSpotlightLandingPage | None = Field(default=None)
-    products: SBAdvertisedProducts | None = Field(default=None)
+    headline: str = Field(description="The headline used for the card.")
+    landingPage: SBStoreSpotlightLandingPage
+    products: SBAdvertisedProducts
 
 
 class SBCollectionLandingPage(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    landingPageType: Annotated[SBCollectionLandingPageType | str, lenient_enum(SBCollectionLandingPageType)] | None = (
-        Field(default=None)
-    )
+    landingPageType: Annotated[SBCollectionLandingPageType | str, lenient_enum(SBCollectionLandingPageType)]
     landingPageUrl: str | None = Field(default=None, description="The URL associated to the landing page.")
 
 
@@ -725,7 +716,7 @@ class SBCreative(BaseModel):
 class SBCreativeStatus(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    moderationStatus: Annotated[SBModerationStatus | str, lenient_enum(SBModerationStatus)] | None = Field(default=None)
+    moderationStatus: Annotated[SBModerationStatus | str, lenient_enum(SBModerationStatus)]
 
 
 class SBDeleteAdRequest(BaseModel):
@@ -750,10 +741,8 @@ class SBFormatProperties(BaseModel):
 class SBImage(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    assetId: str | None = Field(default=None, description="The asset library ID associated with the image asset.")
-    assetVersion: str | None = Field(
-        default=None, description="The asset library version associated with the image asset."
-    )
+    assetId: str = Field(description="The asset library ID associated with the image asset.")
+    assetVersion: str = Field(description="The asset library version associated with the image asset.")
     formatProperties: list[SBFormatProperties] | None = Field(
         default=None,
         min_length=0,
@@ -765,8 +754,7 @@ class SBImage(BaseModel):
 class SBLandingPageAsins(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    asins: list[str] | None = Field(
-        default=None,
+    asins: list[str] = Field(
         min_length=1,
         max_length=100,
         description="For landing page of type ASIN_LIST, the list of ASINs used to create the landing page.",
@@ -778,14 +766,11 @@ class SBManualCollectionSettings(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    landingPage: SBCollectionLandingPage | None = Field(default=None)
-    productInclusions: list[SBAdvertisedProducts] | None = Field(
-        default=None,
-        min_length=3,
-        max_length=10,
-        description="The products featured in the ad. Required for manual collections.",
+    landingPage: SBCollectionLandingPage
+    productInclusions: list[SBAdvertisedProducts] = Field(
+        min_length=3, max_length=10, description="The products featured in the ad. Required for manual collections."
     )
-    sharedSettings: SBSharedCollectionSettings | None = Field(default=None)
+    sharedSettings: SBSharedCollectionSettings
     title: str | None = Field(
         default=None, description="Optional title for the collection. If not provided, title will be auto-generated."
     )
@@ -795,9 +780,9 @@ class SBProductCollectionLandingPage(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     landingPageAsins: SBLandingPageAsins | None = Field(default=None)
-    landingPageType: (
-        Annotated[SBProductCollectionLandingPageType | str, lenient_enum(SBProductCollectionLandingPageType)] | None
-    ) = Field(default=None)
+    landingPageType: Annotated[
+        SBProductCollectionLandingPageType | str, lenient_enum(SBProductCollectionLandingPageType)
+    ]
     landingPageUrl: str | None = Field(
         default=None, description="The URL associated to the landing page. Read only if landingPageType is ASIN_LIST"
     )
@@ -808,9 +793,9 @@ class SBProductCollectionSettings(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    brand: str | None = Field(default=None, description="The name of the brand being advertised.")
-    brandLogos: list[SBImage] | None = Field(
-        default=None, min_length=1, max_length=2, description="The brand logo image assets to be used in the ad."
+    brand: str = Field(description="The name of the brand being advertised.")
+    brandLogos: list[SBImage] = Field(
+        min_length=1, max_length=2, description="The brand logo image assets to be used in the ad."
     )
     creativePropertiesToOptimize: (
         list[
@@ -826,20 +811,19 @@ class SBProductCollectionSettings(BaseModel):
         max_length=1,
         description="The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.",
     )
-    customImages: list[SBImage] | None = Field(
-        default=None, min_length=1, max_length=5, description="The set of custom images featured in the ad."
+    customImages: list[SBImage] = Field(
+        min_length=1, max_length=5, description="The set of custom images featured in the ad."
     )
     enableCreativeAutoTranslation: bool | None = Field(
         default=None,
         description="If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.",
     )
-    headlines: list[str] | None = Field(
-        default=None,
+    headlines: list[str] = Field(
         min_length=1,
         max_length=1,
         description="The headline submitted as part of the ad creative. During your campaign, Amazon will optimize amongst the headlines you provide to match customer intent.",
     )
-    landingPage: SBProductCollectionLandingPage | None = Field(default=None)
+    landingPage: SBProductCollectionLandingPage
     moderationStatus: SBCreativeStatus | None = Field(default=None)
     products: list[SBAdvertisedProducts] | None = Field(
         default=None, min_length=0, max_length=3, description="The products featured in the ad."
@@ -876,15 +860,10 @@ class SBProductVideoSettings(BaseModel):
     untranslatedHeadlines: list[str] | None = Field(
         default=None, min_length=0, max_length=1, description="The headline entered by the advertiser."
     )
-    untranslatedVideos: list[SBVideo] | None = Field(
-        default=None,
-        min_length=1,
-        max_length=2,
-        description="The original video assets submitted as part of the creative.",
+    untranslatedVideos: list[SBVideo] = Field(
+        min_length=1, max_length=2, description="The original video assets submitted as part of the creative."
     )
-    videos: list[SBVideo] | None = Field(
-        default=None, min_length=1, max_length=1, description="The video assets used in the ad."
-    )
+    videos: list[SBVideo] = Field(min_length=1, max_length=1, description="The video assets used in the ad.")
 
 
 class SBQueryAdRequest(BaseModel):
@@ -905,7 +884,7 @@ class SBSharedCollectionSettings(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    brand: str | None = Field(default=None, description="The name of the brand being advertised.")
+    brand: str = Field(description="The name of the brand being advertised.")
     brandLogos: SBImage | None = Field(default=None)
     moderationStatus: SBCreativeStatus | None = Field(default=None)
 
@@ -913,10 +892,8 @@ class SBSharedCollectionSettings(BaseModel):
 class SBStoreSpotlightLandingPage(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    landingPageType: (
-        Annotated[SBStoreSpotlightLandingPageType | str, lenient_enum(SBStoreSpotlightLandingPageType)] | None
-    ) = Field(default=None)
-    landingPageUrl: str | None = Field(default=None, description="The URL of landing page where the ad directs.")
+    landingPageType: Annotated[SBStoreSpotlightLandingPageType | str, lenient_enum(SBStoreSpotlightLandingPageType)]
+    landingPageUrl: str = Field(description="The URL of landing page where the ad directs.")
 
 
 class SBStoreSpotlightSettings(BaseModel):
@@ -924,12 +901,11 @@ class SBStoreSpotlightSettings(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    brand: str | None = Field(default=None, description="The name of the brand being advertised.")
-    brandLogos: list[SBImage] | None = Field(
-        default=None, min_length=1, max_length=1, description="The brand logo image assets to be used in the ad."
+    brand: str = Field(description="The name of the brand being advertised.")
+    brandLogos: list[SBImage] = Field(
+        min_length=1, max_length=1, description="The brand logo image assets to be used in the ad."
     )
-    cards: list[SBCardCreativeElement] | None = Field(
-        default=None,
+    cards: list[SBCardCreativeElement] = Field(
         min_length=3,
         max_length=3,
         description="The sub-elements of the creative. Each card highlights a different ASIN associated to a brand Store.",
@@ -952,13 +928,12 @@ class SBStoreSpotlightSettings(BaseModel):
         default=None,
         description="If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation.",
     )
-    headlines: list[str] | None = Field(
-        default=None,
+    headlines: list[str] = Field(
         min_length=1,
         max_length=1,
         description="The headline submitted as part of the ad creative. During your campaign, Amazon will optimize amongst the headlines you provide to match customer intent.",
     )
-    landingPage: SBStoreSpotlightLandingPage | None = Field(default=None)
+    landingPage: SBStoreSpotlightLandingPage
     moderationStatus: SBCreativeStatus | None = Field(default=None)
     untranslatedHeadlines: list[str] | None = Field(
         default=None, min_length=0, max_length=1, description="The headline entered by the advertiser."
@@ -1251,18 +1226,14 @@ class SBUpdateVideoLandingPage(BaseModel):
 class SBVideo(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    assetId: str | None = Field(default=None, description="The asset library ID associated with the video asset.")
-    assetVersion: str | None = Field(
-        default=None, description="The asset library version associated with the video asset."
-    )
+    assetId: str = Field(description="The asset library ID associated with the video asset.")
+    assetVersion: str = Field(description="The asset library version associated with the video asset.")
 
 
 class SBVideoLandingPage(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    landingPageType: Annotated[SBVideoLandingPageType | str, lenient_enum(SBVideoLandingPageType)] | None = Field(
-        default=None
-    )
+    landingPageType: Annotated[SBVideoLandingPageType | str, lenient_enum(SBVideoLandingPageType)]
     landingPageUrl: str | None = Field(default=None, description="The URL of landing page where the ad directs.")
 
 

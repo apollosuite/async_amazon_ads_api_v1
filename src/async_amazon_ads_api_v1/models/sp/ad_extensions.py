@@ -68,31 +68,28 @@ class SPVideoType(StrEnum):
 class SPAdExtension(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    adExtensionId: str | None = Field(default=None, description="A unique identifier for the ad_extension.")
-    adExtensionSettings: SPAdExtensionSettings | None = Field(default=None)
+    adExtensionId: str = Field(description="A unique identifier for the ad_extension.")
+    adExtensionSettings: SPAdExtensionSettings
     adExtensionStatus: Annotated[SPAdExtensionStatus | str, lenient_enum(SPAdExtensionStatus)] | None = Field(
         default=None
     )
-    adExtensionType: Annotated[SPAdExtensionType | str, lenient_enum(SPAdExtensionType)] | None = Field(default=None)
+    adExtensionType: Annotated[SPAdExtensionType | str, lenient_enum(SPAdExtensionType)]
     adGroupId: str | None = Field(
         default=None, description="A unique identifier for the ad group associated with the ad_extension."
     )
     adId: str | None = Field(
         default=None, description="A unique identifier for the ad associated with the ad_extension."
     )
-    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)] | None = Field(default=None)
-    creationDateTime: datetime | None = Field(default=None, description="The date time the ad_extension was created.")
-    lastUpdatedDateTime: datetime | None = Field(
-        default=None, description="The date time the ad_extension was last updated."
-    )
-    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)] | None = Field(default=None)
-    marketplaces: list[Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]] | None = Field(
-        default=None,
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
+    creationDateTime: datetime = Field(description="The date time the ad_extension was created.")
+    lastUpdatedDateTime: datetime = Field(description="The date time the ad_extension was last updated.")
+    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
+    marketplaces: list[Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]] = Field(
         min_length=1,
         max_length=1,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
     )
-    state: Annotated[SPState | str, lenient_enum(SPState)] | None = Field(default=None)
+    state: Annotated[SPState | str, lenient_enum(SPState)]
     status: SPStatus | None = Field(default=None)
 
 
@@ -194,8 +191,8 @@ class SPAdExtensionMultiStatusResponse(BaseModel):
 class SPAdExtensionMultiStatusSuccess(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    adExtension: SPAdExtension | None = Field(default=None)
-    index: int | None = Field(default=None, ge=0, le=49)
+    adExtension: SPAdExtension
+    index: int = Field(ge=0, le=49)
 
 
 class SPAdExtensionSettings(BaseModel):
@@ -268,7 +265,7 @@ class SPPromptExtension(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    promptText: str | None = Field(default=None, description="The prompt text rendered in the ads")
+    promptText: str = Field(description="The prompt text rendered in the ads")
 
 
 class SPQueryAdExtensionRequest(BaseModel):
@@ -300,7 +297,7 @@ class SPVideoExtension(BaseModel):
     renderedCoverImageUrl: str | None = Field(
         default=None, description="The image displayed over the video player before the video is played."
     )
-    videoType: Annotated[SPVideoType | str, lenient_enum(SPVideoType)] | None = Field(default=None)
+    videoType: Annotated[SPVideoType | str, lenient_enum(SPVideoType)]
 
 
 __all__ = [

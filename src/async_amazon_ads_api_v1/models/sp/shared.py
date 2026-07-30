@@ -23,16 +23,16 @@ class SPCreateTag(BaseModel):
 class SPError(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    code: Annotated[SPErrorCode | str, lenient_enum(SPErrorCode)] | None = Field(default=None)
+    code: Annotated[SPErrorCode | str, lenient_enum(SPErrorCode)]
     fieldLocation: str | None = Field(default=None)
-    message: str | None = Field(default=None)
+    message: str
 
 
 class SPErrorsIndex(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    errors: list[SPError] | None = Field(default=None, min_length=1, max_length=20)
-    index: int | None = Field(default=None, ge=0, le=999)
+    errors: list[SPError] = Field(min_length=1, max_length=20)
+    index: int = Field(ge=0, le=999)
 
 
 class SPStatus(BaseModel):
@@ -41,17 +41,16 @@ class SPStatus(BaseModel):
     deliveryReasons: list[Annotated[SPDeliveryReason | str, lenient_enum(SPDeliveryReason)]] | None = Field(
         default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
     )
-    deliveryStatus: Annotated[SPDeliveryStatus | str, lenient_enum(SPDeliveryStatus)] | None = Field(default=None)
+    deliveryStatus: Annotated[SPDeliveryStatus | str, lenient_enum(SPDeliveryStatus)]
 
 
 class SPTag(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    key: str | None = Field(
-        default=None,
-        description="A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI.",
+    key: str = Field(
+        description="A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI."
     )
-    value: str | None = Field(default=None, description="A custom key value pair entered by the advertiser.")
+    value: str = Field(description="A custom key value pair entered by the advertiser.")
 
 
 __all__ = ["SPCreateTag"]

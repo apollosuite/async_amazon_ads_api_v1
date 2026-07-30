@@ -10,10 +10,10 @@ from pydantic import BaseModel, ConfigDict, Field
 class BrandStoreEdition(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    editionId: str | None = Field(default=None, description="Unique identifier for the edition within the store")
-    editionName: str | None = Field(default=None, description="Name of the store edition")
+    editionId: str = Field(description="Unique identifier for the edition within the store")
+    editionName: str = Field(description="Name of the store edition")
     storeEditionSchedule: StoreEditionSchedule | None = Field(default=None)
-    storeId: str | None = Field(default=None, description="Identifier of the associated store")
+    storeId: str = Field(description="Identifier of the associated store")
 
 
 class BrandStoreEditionSuccessResponse(BaseModel):

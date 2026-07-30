@@ -14,7 +14,7 @@ class SBAssociateOptimizationRulesRequest(BaseModel):
 class SBAssociateOptimizationRulesResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    optimizationRuleAssociations: SBBulkAssociationsOptimizationRuleResponse | None = Field(default=None)
+    optimizationRuleAssociations: SBBulkAssociationsOptimizationRuleResponse
 
 
 class SBBulkAssociationsOptimizationRuleResponse(BaseModel):
@@ -67,13 +67,11 @@ The type of entity passed.
 class SBCreateOptimizationRuleSuccessResponseItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    optimizationRule: SBOptimizationRule | None = Field(default=None)
-    entityType: str | None = Field(default=None)
-    index: int | None = Field(
-        default=None, ge=0, le=10, description="The index of the entityId in the array from the request body."
-    )
-    entityId: str | None = Field(default=None, description="Entity object identifier.")
-    optimizationRuleId: str | None = Field(default=None, description="The identifier of the optimization rule.")
+    optimizationRule: SBOptimizationRule
+    entityType: str
+    index: int = Field(ge=0, le=10, description="The index of the entityId in the array from the request body.")
+    entityId: str = Field(description="Entity object identifier.")
+    optimizationRuleId: str = Field(description="The identifier of the optimization rule.")
 
 
 class SBCreateOptimizationRulesRequest(BaseModel):
@@ -85,7 +83,7 @@ class SBCreateOptimizationRulesRequest(BaseModel):
 class SBCreateOptimizationRulesResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    optimizationRules: SBBulkCreateOptimizationRuleOperationResponse | None = Field(default=None)
+    optimizationRules: SBBulkCreateOptimizationRuleOperationResponse
 
 
 class SBDisassociateOptimizationRulesRequest(BaseModel):
@@ -97,7 +95,7 @@ class SBDisassociateOptimizationRulesRequest(BaseModel):
 class SBDisassociateOptimizationRulesResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    optimizationRuleDisassociations: SBBulkDisassociationsOptimizationRuleResponse | None = Field(default=None)
+    optimizationRuleDisassociations: SBBulkDisassociationsOptimizationRuleResponse
 
 
 class SBEntityFilter(BaseModel):
@@ -139,7 +137,7 @@ class SBListOptimizationRulesResponse(BaseModel):
         default=None, description="Token value allowing to navigate to the next response page."
     )
     totalCount: int | None = Field(default=None, description="The total number of entities.")
-    optimizationRules: list[SBOptimizationRule] | None = Field(default=None, min_length=1, max_length=100)
+    optimizationRules: list[SBOptimizationRule] = Field(min_length=1, max_length=100)
 
 
 class SBOptimizationRule(BaseModel):
@@ -152,11 +150,8 @@ class SBOptimizationRule(BaseModel):
 class SBOptimizationRuleFailureResponseItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    index: int | None = Field(
-        default=None,
-        ge=0,
-        le=10,
-        description="the index of the optimization rule id/entity Id in the array from the request body.",
+    index: int = Field(
+        ge=0, le=10, description="the index of the optimization rule id/entity Id in the array from the request body."
     )
     errors: list[SBOptimizationRulesError] | None = Field(
         default=None, min_length=0, max_length=100, description="A list of validation errors"
@@ -186,22 +181,19 @@ The type of entity passed.
 class SBOptimizationRuleToEntityMappingSuccessResponseItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    entityType: str | None = Field(default=None)
-    index: int | None = Field(
-        default=None,
-        ge=0,
-        le=10,
-        description="The index of the entityId/optimizationId in the array from the request body.",
+    entityType: str
+    index: int = Field(
+        ge=0, le=10, description="The index of the entityId/optimizationId in the array from the request body."
     )
-    entityId: str | None = Field(default=None, description="Entity object identifier.")
-    optimizationRuleId: str | None = Field(default=None, description="The identifier of the optimization rule.")
+    entityId: str = Field(description="Entity object identifier.")
+    optimizationRuleId: str = Field(description="The identifier of the optimization rule.")
 
 
 class SBOptimizationRulesError(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    code: str | None = Field(default=None, description="The type of the error.")
-    message: str | None = Field(default=None, description="Human readable error message.")
+    code: str = Field(description="The type of the error.")
+    message: str = Field(description="Human readable error message.")
 
 
 class SBRuleCondition(BaseModel):
@@ -223,10 +215,8 @@ The name of the attribute.
 class SBRuleConditionOut(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    criteria: SBValueTypeRuleCriteriaOut | None = Field(default=None)
-    attributeName: str | None = Field(
-        default=None,
-        description="""
+    criteria: SBValueTypeRuleCriteriaOut
+    attributeName: str = Field(description="""
 Enum: "COST_PER_CLICK"
 
 The name of the attribute.
@@ -235,8 +225,7 @@ The name of the attribute.
 | AttributeName                      |  ComparisonOperator       |  Description                                                                            |
 |------------------------------------|---------------------------|-----------------------------------------------------------------------------------------|
 | COST_PER_CLICK                     | LESS_THAN_OR_EQUAL_TO     | Maximize page visits while cost per click less than or equal to threshold.              |
-""",
-    )
+""")
 
 
 class SBUpdateOptimizationRule(BaseModel):
@@ -249,11 +238,9 @@ class SBUpdateOptimizationRule(BaseModel):
 class SBUpdateOptimizationRuleSuccessResponseItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    optimizationRule: SBOptimizationRule | None = Field(default=None)
-    index: int | None = Field(
-        default=None, ge=0, le=10, description="The index of the entityId in the array from the request body."
-    )
-    optimizationRuleId: str | None = Field(default=None, description="The identifier of the optimization rule.")
+    optimizationRule: SBOptimizationRule
+    index: int = Field(ge=0, le=10, description="The index of the entityId in the array from the request body.")
+    optimizationRuleId: str = Field(description="The identifier of the optimization rule.")
 
 
 class SBUpdateOptimizationRulesRequest(BaseModel):
@@ -265,7 +252,7 @@ class SBUpdateOptimizationRulesRequest(BaseModel):
 class SBUpdateOptimizationRulesResponse(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    optimizationRules: SBBulkUpdateOptimizationRuleOperationResponse | None = Field(default=None)
+    optimizationRules: SBBulkUpdateOptimizationRuleOperationResponse
 
 
 class SBValueTypeRuleCriteria(BaseModel):
