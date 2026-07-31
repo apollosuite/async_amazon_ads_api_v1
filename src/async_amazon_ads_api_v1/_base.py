@@ -9,7 +9,7 @@ from collections.abc import Sequence
 from typing import Any, TypeVar
 
 import httpx
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from .config.settings import AmazonAdsConfig
 
@@ -103,10 +103,18 @@ class BaseResource:
         raise RuntimeError("Retry loop exited unexpectedly")
 
     def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
-        return model_cls.model_validate_json(resp.text)
+        try:
+            return model_cls.model_validate_json(resp.text)
+        except ValidationError:
+            logger.error("Failed to parse response as %s: %s", model_cls.__name__, resp.text)
+            raise
 
     def _response_list(self, model_cls: type[_T], resp: httpx.Response) -> list[_T]:
-        return [model_cls.model_validate(item) for item in resp.json()]
+        try:
+            return [model_cls.model_validate(item) for item in resp.json()]
+        except ValidationError:
+            logger.error("Failed to parse response list as %s: %s", model_cls.__name__, resp.text)
+            raise
 
     def _dump(self, items: Sequence[BaseModel]) -> list[dict[str, Any]]:
         return [item.model_dump(mode="json", exclude_none=True) for item in items]
