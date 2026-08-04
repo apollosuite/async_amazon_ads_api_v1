@@ -12,9 +12,9 @@ from _codegen_runner import GenerationProject, TagSpec, run
 from _openapi_schema import PACKAGE_ROOT, SPECS_DIR
 
 SPEC_PATH = SPECS_DIR / "BrandHome_prod_3p.json"
-MODEL_DIR = PACKAGE_ROOT / "models" / "general"
-CLIENT_DIR = PACKAGE_ROOT / "client" / "general"
-MODELS_PACKAGE = "models.general"
+MODEL_DIR = PACKAGE_ROOT / "models" / "brand_home"
+CLIENT_DIR = PACKAGE_ROOT / "client" / "brand_home"
+MODELS_PACKAGE = "models.brand_home"
 
 CONFIGS: list[TagSpec] = [
     TagSpec(
@@ -39,7 +39,7 @@ def main() -> None:
             model_dir=MODEL_DIR,
             models_package=MODELS_PACKAGE,
             client_dir=CLIENT_DIR,
-            enum_prefix="General",
+            enum_prefix="BrandHome",
         ),
         CONFIGS,
     )
