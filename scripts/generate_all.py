@@ -45,7 +45,7 @@ def main() -> None:
         "generate_accounts_models.py",
         # General API: models + auto-generated clients
         "generate_brandhome.py",
-        "generate_brandstores.py",
+        "generate_general.py",
     )
 
     for script in scripts:

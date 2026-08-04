@@ -6,7 +6,7 @@ Reads ``scripts/specs/AmazonAdsAPIALLMerged_prod_3p.json`` and for each tag in
 ``client/general/``.
 
 Usage:
-    uv run python scripts/generate_brandstores.py
+    uv run python scripts/generate_general.py
 """
 
 from __future__ import annotations
