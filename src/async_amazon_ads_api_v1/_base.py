@@ -6,7 +6,7 @@ import asyncio
 import logging
 import random
 from collections.abc import Sequence
-from typing import Any, TypeVar
+from typing import Any, Literal, TypeVar, overload
 
 import httpx
 from pydantic import BaseModel, ValidationError
@@ -39,15 +39,27 @@ class ClientContext:
         return self._client
 
 
+_R = TypeVar("_R", bound="BaseResource")
+
+
 class BaseResource:
     """Base class providing shared HTTP operations for resource classes."""
 
-    __slots__ = ("_ctx",)
+    __slots__ = ("_ctx", "_raw", "_raw_mode")
 
     ASYNC_ACCEPT = {"Accept": "application/vnd.createasyncrequestresults.v3+json"}
 
     def __init__(self, ctx: ClientContext) -> None:
         self._ctx: ClientContext = ctx
+        self._raw: Any | None = None
+        self._raw_mode: bool = False
+
+    @property
+    def raw(self: _R) -> RawResource[_R]:
+        """Access raw response version of this resource's methods."""
+        if self._raw is None:
+            self._raw = RawResource(self)
+        return self._raw
 
     async def _request(
         self,
@@ -102,7 +114,22 @@ class BaseResource:
                 raise
         raise RuntimeError("Retry loop exited unexpectedly")
 
-    def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
+    @overload
+    def _response(self, model_cls: type[_T], resp: httpx.Response, *, raw_response: Literal[False] = False) -> _T: ...
+
+    @overload
+    def _response(
+        self, model_cls: type[_T], resp: httpx.Response, *, raw_response: Literal[True]
+    ) -> httpx.Response: ...
+
+    @overload
+    def _response(self, model_cls: type[_T], resp: httpx.Response, *, raw_response: bool) -> _T | httpx.Response: ...
+
+    def _response(
+        self, model_cls: type[_T], resp: httpx.Response, *, raw_response: bool = False
+    ) -> _T | httpx.Response:
+        if raw_response or self._raw_mode:
+            return resp
         try:
             return model_cls.model_validate_json(resp.text)
         except ValidationError:
@@ -118,3 +145,27 @@ class BaseResource:
 
     def _dump(self, items: Sequence[BaseModel]) -> list[dict[str, Any]]:
         return [item.model_dump(mode="json", exclude_none=True) for item in items]
+
+
+class RawResource[R: BaseResource]:
+    """Wrapper that bypasses model parsing and returns raw httpx.Response."""
+
+    __slots__ = ("_resource",)
+
+    def __init__(self, resource: _R) -> None:
+        self._resource = resource
+
+    def __getattr__(self, name: str) -> Any:
+        attr = getattr(self._resource, name)
+        if callable(attr) and not name.startswith("_"):
+
+            async def raw_method(*args: Any, **kwargs: Any) -> httpx.Response:
+                self._resource._raw_mode = True
+                try:
+                    res: httpx.Response = await attr(*args, **kwargs)
+                    return res
+                finally:
+                    self._resource._raw_mode = False
+
+            return raw_method
+        return attr

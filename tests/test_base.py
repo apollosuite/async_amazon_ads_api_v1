@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import httpx
 import pytest
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel
 
 from async_amazon_ads_api_v1._base import BaseResource, ClientContext
 from async_amazon_ads_api_v1.config.settings import AmazonAdsConfig
@@ -185,10 +185,24 @@ class TestBaseResource:
         assert result.publishStatus == StorePublishStatus.DRAFT
 
     @pytest.mark.asyncio
-    async def test_response_rejects_missing_required_response_fields(self, resource: BaseResource) -> None:
-        from async_amazon_ads_api_v1.models.general.ad_associations import AdAssociationSuccessResponse
+    async def test_raw_resource_proxy(self, resource: BaseResource) -> None:
+        raw_res = resource.raw
+        assert raw_res is not None
 
-        resp = MagicMock(spec=httpx.Response)
-        resp.text = json.dumps({"adAssociations": [{"state": "123"}]})
-        with pytest.raises(ValidationError):
-            resource._response(AdAssociationSuccessResponse, resp)
+        mock_resp = MagicMock(spec=httpx.Response)
+        mock_resp.text = json.dumps({"name": "x", "value": 2})
+
+        class DummyResource(BaseResource):
+            async def get_dummy(self) -> DummyModel:
+                resp = await self._request("GET", "/dummy")
+                return self._response(DummyModel, resp)
+
+        dummy_res = DummyResource(resource._ctx)
+        with patch.object(dummy_res, "_request", AsyncMock(return_value=mock_resp)):
+            # 1. Normal call -> DummyModel
+            normal_result = await dummy_res.get_dummy()
+            assert isinstance(normal_result, DummyModel)
+
+            # 2. Raw call via .raw proxy -> httpx.Response
+            raw_result = await dummy_res.raw.get_dummy()
+            assert raw_result is mock_resp

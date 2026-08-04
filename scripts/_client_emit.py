@@ -107,7 +107,7 @@ def _append_client_method(
         else:
             sig_parts.append(f"{py_name}: {ptype}")
 
-    ret_type = resp_model or "Any"
+    base_ret_type = resp_model or "Any"
     first_line = desc_lines[0].strip() if desc_lines else ""
     has_query_params = bool(query_params)
     has_param_docs = any(p.get("description", "").strip() for p in query_params)
@@ -116,7 +116,7 @@ def _append_client_method(
         or (config.param_docstring_mode == "if_descriptions" and has_param_docs)
     )
 
-    client_lines.append(f"    async def {mname}({', '.join(sig_parts)}) -> {ret_type}:")
+    client_lines.append(f"    async def {mname}({', '.join(sig_parts)}) -> {base_ret_type}:")
     if not use_multiline_doc:
         client_lines.append(f'        """{first_line}"""' if first_line else '        """')
     else:
@@ -158,14 +158,14 @@ def _append_client_method(
             client_lines.append(f'        resp = await self._request("{http_method}", "{path}", params=params)')
         else:
             client_lines.append(f'        resp = await self._request("{http_method}", "{path}")')
-        client_lines.append(f"        return self._response({ret_type}, resp)")
     else:
         client_lines.append(f'        resp = await self._request("{http_method}", "{path}",')
         client_lines.append("            json=body.model_dump(exclude_none=True),")
         if content_type:
             client_lines.append(f'            headers={{"Content-Type": "{content_type}"}},')
         client_lines.append("        )")
-        client_lines.append(f"        return self._response({ret_type}, resp)")
+
+    client_lines.append(f"        return self._response({base_ret_type}, resp)")
     client_lines.append("")
 
 
