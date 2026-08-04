@@ -31,30 +31,24 @@ def run_script(script: str, *args: str) -> None:
 
 
 def main() -> None:
-    output_base = SRC / "async_amazon_ads_api_v1" / "models"
-
-    for product in ("sp", "sb", "sd"):
-        run_script(
-            "generate_models.py",
-            "--product",
-            product,
-            "--output-dir",
-            str(output_base / product),
-        )
-
-    # Legacy & specialized v3/v4 models and clients
-    for script in (
+    scripts = (
+        # Main products
+        "generate_sp.py",
+        "generate_sb.py",
+        "generate_sd.py",
+        # Legacy & specialized v3/v4 models and clients
         "generate_sbv4_rules.py",
         "generate_sdv3_rules.py",
         "generate_spv3_rules.py",
         "generate_portfolios.py",
         "generate_profiles_models.py",
         "generate_accounts_models.py",
-    ):
-        run_script(script)
+        # General API: models + auto-generated clients
+        "generate_brandhome.py",
+        "generate_brandstores.py",
+    )
 
-    # General API: models + auto-generated clients
-    for script in ("generate_brandhome.py", "generate_brandstores.py"):
+    for script in scripts:
         run_script(script)
 
     run(["uv", "run", "ruff", "check", "--fix", str(SRC), str(SCRIPTS)])

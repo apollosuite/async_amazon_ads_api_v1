@@ -1,51 +1,59 @@
-"""Ad resource operations."""
+"""Ads resource operations.
+
+Generated from OpenAPI spec (tag: Ads).
+"""
 
 from __future__ import annotations
 
 from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.sp.ads import (
-    SPAdCreate,
     SPAdMultiStatusResponse,
     SPAdSuccessResponse,
-    SPAdUpdate,
+    SPCreateAdRequest,
+    SPDeleteAdRequest,
     SPQueryAdRequest,
+    SPUpdateAdRequest,
 )
 
 
 class Ads(BaseResource):
-    """Ad 广告资源操作。"""
 
-    async def create(self, ads: list[SPAdCreate]) -> SPAdMultiStatusResponse:
+    async def sp_create_ad(self, body: SPCreateAdRequest) -> SPAdMultiStatusResponse:
+        """Create ads"""
+
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/ads",
-            json={"ads": self._dump(ads)},
-            headers=self.ASYNC_ACCEPT,
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response(SPAdMultiStatusResponse, resp)
 
-    async def query(self, body: SPQueryAdRequest) -> SPAdSuccessResponse:
-        resp = await self._request(
-            "POST",
-            "/adsApi/v1/query/ads",
-            json=body.model_dump(exclude_none=True),
-        )
-        return self._response(SPAdSuccessResponse, resp)
+    async def sp_delete_ad(self, body: SPDeleteAdRequest) -> SPAdMultiStatusResponse:
+        """Delete ads"""
 
-    async def update(self, ads: list[SPAdUpdate]) -> SPAdMultiStatusResponse:
-        resp = await self._request(
-            "POST",
-            "/adsApi/v1/update/ads",
-            json={"ads": self._dump(ads)},
-            headers=self.ASYNC_ACCEPT,
-        )
-        return self._response(SPAdMultiStatusResponse, resp)
-
-    async def delete(self, ad_ids: list[str]) -> SPAdMultiStatusResponse:
         resp = await self._request(
             "POST",
             "/adsApi/v1/delete/ads",
-            json={"adIds": ad_ids},
-            headers=self.ASYNC_ACCEPT,
+            json=body.model_dump(mode="json", exclude_none=True),
+        )
+        return self._response(SPAdMultiStatusResponse, resp)
+
+    async def sp_query_ad(self, body: SPQueryAdRequest) -> SPAdSuccessResponse:
+        """List ads"""
+
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/query/ads",
+            json=body.model_dump(mode="json", exclude_none=True),
+        )
+        return self._response(SPAdSuccessResponse, resp)
+
+    async def sp_update_ad(self, body: SPUpdateAdRequest) -> SPAdMultiStatusResponse:
+        """Update ads"""
+
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/update/ads",
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response(SPAdMultiStatusResponse, resp)

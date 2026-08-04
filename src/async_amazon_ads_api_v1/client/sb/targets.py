@@ -1,50 +1,59 @@
-"""SB Target resource operations."""
+"""Targets resource operations.
+
+Generated from OpenAPI spec (tag: Targets).
+"""
 
 from __future__ import annotations
 
 from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.sb.targets import (
+    SBCreateTargetRequest,
+    SBDeleteTargetRequest,
     SBQueryTargetRequest,
-    SBTargetCreate,
     SBTargetMultiStatusResponse,
     SBTargetSuccessResponse,
-    SBTargetUpdate,
+    SBUpdateTargetRequest,
 )
 
 
 class Targets(BaseResource):
 
-    async def create(self, targets: list[SBTargetCreate]) -> SBTargetMultiStatusResponse:
+    async def sb_create_target(self, body: SBCreateTargetRequest) -> SBTargetMultiStatusResponse:
+        """Create target"""
+
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/targets",
-            json={"targets": self._dump(targets)},
-            headers=self.ASYNC_ACCEPT,
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response(SBTargetMultiStatusResponse, resp)
 
-    async def query(self, body: SBQueryTargetRequest) -> SBTargetSuccessResponse:
-        resp = await self._request(
-            "POST",
-            "/adsApi/v1/query/targets",
-            json=body.model_dump(exclude_none=True),
-        )
-        return self._response(SBTargetSuccessResponse, resp)
+    async def sb_delete_target(self, body: SBDeleteTargetRequest) -> SBTargetMultiStatusResponse:
+        """Delete target"""
 
-    async def update(self, targets: list[SBTargetUpdate]) -> SBTargetMultiStatusResponse:
-        resp = await self._request(
-            "POST",
-            "/adsApi/v1/update/targets",
-            json={"targets": self._dump(targets)},
-            headers=self.ASYNC_ACCEPT,
-        )
-        return self._response(SBTargetMultiStatusResponse, resp)
-
-    async def delete(self, target_ids: list[str]) -> SBTargetMultiStatusResponse:
         resp = await self._request(
             "POST",
             "/adsApi/v1/delete/targets",
-            json={"targetIds": target_ids},
-            headers=self.ASYNC_ACCEPT,
+            json=body.model_dump(mode="json", exclude_none=True),
+        )
+        return self._response(SBTargetMultiStatusResponse, resp)
+
+    async def sb_query_target(self, body: SBQueryTargetRequest) -> SBTargetSuccessResponse:
+        """List target"""
+
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/query/targets",
+            json=body.model_dump(mode="json", exclude_none=True),
+        )
+        return self._response(SBTargetSuccessResponse, resp)
+
+    async def sb_update_target(self, body: SBUpdateTargetRequest) -> SBTargetMultiStatusResponse:
+        """Update target"""
+
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/update/targets",
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response(SBTargetMultiStatusResponse, resp)

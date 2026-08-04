@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from async_amazon_ads_api_v1._base import BaseResource, ClientContext
+from async_amazon_ads_api_v1._base import ClientContext
 from async_amazon_ads_api_v1.client.sb.ad_groups import AdGroups as SBAdGroups
 from async_amazon_ads_api_v1.client.sb.ads import Ads as SBAds
 from async_amazon_ads_api_v1.client.sb.branded_keywords_pricings import (
@@ -43,57 +43,69 @@ class TestResourceMethodRouting:
     """Verify resource methods delegate to BaseResource with correct args."""
 
     @pytest.mark.parametrize(
-        ("cls", "expected_path", "expected_response"),
+        ("cls", "method_name", "expected_path", "expected_response"),
         [
-            (SPCampaigns, "/adsApi/v1/create/campaigns", "SPCampaignMultiStatusResponse"),
-            (SPAdGroups, "/adsApi/v1/create/adGroups", "SPAdGroupMultiStatusResponse"),
-            (SPAds, "/adsApi/v1/create/ads", "SPAdMultiStatusResponse"),
-            (SPTargets, "/adsApi/v1/create/targets", "SPTargetMultiStatusResponse"),
-            (SBCampaigns, "/adsApi/v1/create/campaigns", "SBCampaignMultiStatusResponse"),
-            (SBAdGroups, "/adsApi/v1/create/adGroups", "SBAdGroupMultiStatusResponse"),
-            (SBAds, "/adsApi/v1/create/ads", "SBAdMultiStatusResponse"),
-            (SBTargets, "/adsApi/v1/create/targets", "SBTargetMultiStatusResponse"),
-            (SDCampaigns, "/adsApi/v1/create/campaigns", "SDCampaignMultiStatusResponse"),
-            (SDAdGroups, "/adsApi/v1/create/adGroups", "SDAdGroupMultiStatusResponse"),
-            (SDAds, "/adsApi/v1/create/ads", "SDAdMultiStatusResponse"),
-            (SDTargets, "/adsApi/v1/create/targets", "SDTargetMultiStatusResponse"),
+            (SPCampaigns, "sp_create_campaign", "/adsApi/v1/create/campaigns", "SPCampaignMultiStatusResponse"),
+            (SPAdGroups, "sp_create_ad_group", "/adsApi/v1/create/adGroups", "SPAdGroupMultiStatusResponse"),
+            (SPAds, "sp_create_ad", "/adsApi/v1/create/ads", "SPAdMultiStatusResponse"),
+            (SPTargets, "sp_create_target", "/adsApi/v1/create/targets", "SPTargetMultiStatusResponse"),
+            (SBCampaigns, "sb_create_campaign", "/adsApi/v1/create/campaigns", "SBCampaignMultiStatusResponse"),
+            (SBAdGroups, "sb_create_ad_group", "/adsApi/v1/create/adGroups", "SBAdGroupMultiStatusResponse"),
+            (SBAds, "sb_create_ad", "/adsApi/v1/create/ads", "SBAdMultiStatusResponse"),
+            (SBTargets, "sb_create_target", "/adsApi/v1/create/targets", "SBTargetMultiStatusResponse"),
+            (SDCampaigns, "sd_create_campaign", "/adsApi/v1/create/campaigns", "SDCampaignMultiStatusResponse"),
+            (SDAdGroups, "sd_create_ad_group", "/adsApi/v1/create/adGroups", "SDAdGroupMultiStatusResponse"),
+            (SDAds, "sd_create_ad", "/adsApi/v1/create/ads", "SDAdMultiStatusResponse"),
+            (SDTargets, "sd_create_target", "/adsApi/v1/create/targets", "SDTargetMultiStatusResponse"),
         ],
     )
     @pytest.mark.asyncio
     async def test_create_routing(
-        self, cls: type, expected_path: str, expected_response: str, config: AmazonAdsConfig
+        self, cls: type, method_name: str, expected_path: str, expected_response: str, config: AmazonAdsConfig
     ) -> None:
         obj = cls(ClientContext(config))
         mock_result = MagicMock()
         mock_resp = MagicMock()
         with patch.object(obj, "_request", AsyncMock(return_value=mock_resp)) as request_mock:
             with patch.object(obj, "_response", return_value=mock_result) as response_mock:
-                with patch.object(obj, "_dump", return_value=[{"ok": True}]):
-                    result = await obj.create([MagicMock()])
+                method = getattr(obj, method_name)
+                result = await method(MagicMock())
             assert result is mock_result
             request_mock.assert_awaited_once()
             assert request_mock.await_args.args[0] == "POST"
             assert request_mock.await_args.args[1] == expected_path
-            assert request_mock.await_args.kwargs["headers"] == BaseResource.ASYNC_ACCEPT
             assert response_mock.call_args.args[0].__name__ == expected_response
             assert response_mock.call_args.args[1] is mock_resp
 
     @pytest.mark.parametrize(
-        "cls,body",
+        "cls,method_name,body",
         [
-            (SPCampaigns, SPQueryCampaignRequest(adProductFilter={"include": ["SPONSORED_PRODUCTS"]})),
-            (SBCampaigns, SBQueryCampaignRequest(adProductFilter={"include": ["SPONSORED_BRANDS"]})),
-            (SDCampaigns, SDQueryCampaignRequest(adProductFilter={"include": ["SPONSORED_DISPLAY"]})),
+            (
+                SPCampaigns,
+                "sp_query_campaign",
+                SPQueryCampaignRequest(adProductFilter={"include": ["SPONSORED_PRODUCTS"]}),
+            ),
+            (
+                SBCampaigns,
+                "sb_query_campaign",
+                SBQueryCampaignRequest(adProductFilter={"include": ["SPONSORED_BRANDS"]}),
+            ),
+            (
+                SDCampaigns,
+                "sd_query_campaign",
+                SDQueryCampaignRequest(adProductFilter={"include": ["SPONSORED_DISPLAY"]}),
+            ),
         ],
     )
     @pytest.mark.asyncio
-    async def test_query_routing(self, cls: type, body: object, config: AmazonAdsConfig) -> None:
+    async def test_query_routing(self, cls: type, method_name: str, body: object, config: AmazonAdsConfig) -> None:
         obj = cls(ClientContext(config))
         mock_result = MagicMock()
         mock_resp = MagicMock()
         with patch.object(obj, "_request", AsyncMock(return_value=mock_resp)) as request_mock:
             with patch.object(obj, "_response", return_value=mock_result) as response_mock:
-                result = await obj.query(body)
+                method = getattr(obj, method_name)
+                result = await method(body)
             assert result is mock_result
             request_mock.assert_awaited_once()
             assert request_mock.await_args.args[0] == "POST"
@@ -101,30 +113,22 @@ class TestResourceMethodRouting:
 
     @pytest.mark.asyncio
     async def test_recommendation_types_query_only(self, config: AmazonAdsConfig) -> None:
-        """RecommendationTypes only has query, no create/update/delete."""
+        """RecommendationTypes has sb_query_recommendation_type."""
         obj = RecommendationTypes(ClientContext(config))
-        assert not hasattr(obj, "create")
-        assert not hasattr(obj, "update")
-        assert not hasattr(obj, "delete")
+        assert hasattr(obj, "sb_query_recommendation_type")
 
     @pytest.mark.asyncio
     async def test_recommendations_create_only(self, config: AmazonAdsConfig) -> None:
-        """Recommendations only has create, no query/update/delete."""
+        """Recommendations has sb_create_recommendation."""
         obj = Recommendations(ClientContext(config))
-        assert not hasattr(obj, "query")
-        assert not hasattr(obj, "update")
-        assert not hasattr(obj, "delete")
+        assert hasattr(obj, "sb_create_recommendation")
 
     @pytest.mark.asyncio
     async def test_branded_keywords_pricings_create_only(self, config: AmazonAdsConfig) -> None:
         obj = BrandedKeywordsPricings(ClientContext(config))
-        assert not hasattr(obj, "query")
-        assert not hasattr(obj, "update")
-        assert not hasattr(obj, "delete")
+        assert hasattr(obj, "sb_create_branded_keywords_pricing")
 
     @pytest.mark.asyncio
     async def test_keyword_reservation_validations_create_only(self, config: AmazonAdsConfig) -> None:
         obj = KeywordReservationValidations(ClientContext(config))
-        assert not hasattr(obj, "query")
-        assert not hasattr(obj, "update")
-        assert not hasattr(obj, "delete")
+        assert hasattr(obj, "sb_create_keyword_reservation_validation")

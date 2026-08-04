@@ -43,7 +43,7 @@ class SDBudgetRules(BaseResource):
         resp = await self._request(
             "POST",
             "/sd/budgetRules",
-            json=body.model_dump(exclude_none=True),
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response(SDCreateBudgetRulesResponse, resp)
 
@@ -76,7 +76,7 @@ class SDBudgetRules(BaseResource):
         resp = await self._request(
             "PUT",
             "/sd/budgetRules",
-            json=body.model_dump(exclude_none=True),
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response(SDUpdateBudgetRulesResponse, resp)
 
@@ -135,7 +135,7 @@ class SDBudgetRules(BaseResource):
         resp = await self._request(
             "POST",
             f"/sd/campaigns/{campaign_id}/budgetRules",
-            json=body.model_dump(exclude_none=True),
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response(SDCreateAssociatedBudgetRulesResponse, resp)
 

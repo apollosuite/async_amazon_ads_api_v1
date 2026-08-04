@@ -1,50 +1,59 @@
-"""SD Campaign resource operations."""
+"""Campaigns resource operations.
+
+Generated from OpenAPI spec (tag: Campaigns).
+"""
 
 from __future__ import annotations
 
 from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.sd.campaigns import (
-    SDCampaignCreate,
     SDCampaignMultiStatusResponse,
     SDCampaignSuccessResponse,
-    SDCampaignUpdate,
+    SDCreateCampaignRequest,
+    SDDeleteCampaignRequest,
     SDQueryCampaignRequest,
+    SDUpdateCampaignRequest,
 )
 
 
 class Campaigns(BaseResource):
 
-    async def create(self, campaigns: list[SDCampaignCreate]) -> SDCampaignMultiStatusResponse:
+    async def sd_create_campaign(self, body: SDCreateCampaignRequest) -> SDCampaignMultiStatusResponse:
+        """Create campaigns"""
+
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/campaigns",
-            json={"campaigns": self._dump(campaigns)},
-            headers=self.ASYNC_ACCEPT,
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response(SDCampaignMultiStatusResponse, resp)
 
-    async def query(self, body: SDQueryCampaignRequest) -> SDCampaignSuccessResponse:
-        resp = await self._request(
-            "POST",
-            "/adsApi/v1/query/campaigns",
-            json=body.model_dump(exclude_none=True),
-        )
-        return self._response(SDCampaignSuccessResponse, resp)
+    async def sd_delete_campaign(self, body: SDDeleteCampaignRequest) -> SDCampaignMultiStatusResponse:
+        """Delete campaigns"""
 
-    async def update(self, campaigns: list[SDCampaignUpdate]) -> SDCampaignMultiStatusResponse:
-        resp = await self._request(
-            "POST",
-            "/adsApi/v1/update/campaigns",
-            json={"campaigns": self._dump(campaigns)},
-            headers=self.ASYNC_ACCEPT,
-        )
-        return self._response(SDCampaignMultiStatusResponse, resp)
-
-    async def delete(self, campaign_ids: list[str]) -> SDCampaignMultiStatusResponse:
         resp = await self._request(
             "POST",
             "/adsApi/v1/delete/campaigns",
-            json={"campaignIds": campaign_ids},
-            headers=self.ASYNC_ACCEPT,
+            json=body.model_dump(mode="json", exclude_none=True),
+        )
+        return self._response(SDCampaignMultiStatusResponse, resp)
+
+    async def sd_query_campaign(self, body: SDQueryCampaignRequest) -> SDCampaignSuccessResponse:
+        """Query campaign"""
+
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/query/campaigns",
+            json=body.model_dump(mode="json", exclude_none=True),
+        )
+        return self._response(SDCampaignSuccessResponse, resp)
+
+    async def sd_update_campaign(self, body: SDUpdateCampaignRequest) -> SDCampaignMultiStatusResponse:
+        """Update campaign"""
+
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/update/campaigns",
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response(SDCampaignMultiStatusResponse, resp)

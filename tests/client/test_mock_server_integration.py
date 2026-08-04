@@ -16,9 +16,12 @@ from async_amazon_ads_api_v1.models.sp.campaigns import (
     SPCreateAutoCreationSettings,
     SPCreateBudget,
     SPCreateBudgetValue,
+    SPCreateCampaignRequest,
     SPCreateMonetaryBudget,
     SPCreateMonetaryBudgetValue,
+    SPDeleteCampaignRequest,
     SPQueryCampaignRequest,
+    SPUpdateCampaignRequest,
 )
 from async_amazon_ads_api_v1.models.sp.enums import (
     SPAdProduct,
@@ -99,49 +102,51 @@ async def test_sp_client_campaign_lifecycle_parses_mock_server_responses(monkeyp
 
     try:
         async with SPClient(config) as sp_client:
-            created = await sp_client.campaigns.create(
-                [
-                    SPCampaignCreate(
-                        adProduct=SPAdProduct.SPONSORED_PRODUCTS,
-                        autoCreationSettings=SPCreateAutoCreationSettings(autoCreateTargets=False),
-                        budgets=[
-                            SPCreateBudget(
-                                budgetType="MONETARY",
-                                budgetValue=SPCreateBudgetValue(
-                                    monetaryBudgetValue=SPCreateMonetaryBudgetValue(
-                                        monetaryBudget=SPCreateMonetaryBudget(value=10.0),
+            created = await sp_client.campaigns.sp_create_campaign(
+                SPCreateCampaignRequest(
+                    campaigns=[
+                        SPCampaignCreate(
+                            adProduct=SPAdProduct.SPONSORED_PRODUCTS,
+                            autoCreationSettings=SPCreateAutoCreationSettings(autoCreateTargets=False),
+                            budgets=[
+                                SPCreateBudget(
+                                    budgetType="MONETARY",
+                                    budgetValue=SPCreateBudgetValue(
+                                        monetaryBudgetValue=SPCreateMonetaryBudgetValue(
+                                            monetaryBudget=SPCreateMonetaryBudget(value=10.0),
+                                        ),
                                     ),
+                                    recurrenceTimePeriod="DAILY",
                                 ),
-                                recurrenceTimePeriod="DAILY",
-                            ),
-                        ],
-                        marketplaceScope=SPMarketplaceScope.SINGLE_MARKETPLACE,
-                        marketplaces=[SPMarketplace.US],
-                        name="Mock campaign",
-                        startDateTime="2026-06-08T00:00:00Z",
-                        state=SPCreateState.ENABLED,
-                    ),
-                ]
+                            ],
+                            marketplaceScope=SPMarketplaceScope.SINGLE_MARKETPLACE,
+                            marketplaces=[SPMarketplace.US],
+                            name="Mock campaign",
+                            startDateTime="2026-06-08T00:00:00Z",
+                            state=SPCreateState.ENABLED,
+                        ),
+                    ]
+                )
             )
             assert isinstance(created, SPCampaignMultiStatusResponse)
             assert created.success is not None
             assert created.success[0].campaign.campaignId == CAMPAIGN_ID
 
-            queried = await sp_client.campaigns.query(
+            queried = await sp_client.campaigns.sp_query_campaign(
                 SPQueryCampaignRequest(adProductFilter={"include": ["SPONSORED_PRODUCTS"]})
             )
             assert isinstance(queried, SPCampaignSuccessResponse)
             assert queried.campaigns is not None
             assert queried.campaigns[0].campaignId == CAMPAIGN_ID
 
-            updated = await sp_client.campaigns.update(
-                [SPCampaignUpdate(campaignId=CAMPAIGN_ID, name="Updated campaign")]
+            updated = await sp_client.campaigns.sp_update_campaign(
+                SPUpdateCampaignRequest(campaigns=[SPCampaignUpdate(campaignId=CAMPAIGN_ID, name="Updated campaign")])
             )
             assert isinstance(updated, SPCampaignMultiStatusResponse)
             assert updated.success is not None
             assert updated.success[0].campaign.name == "Updated campaign"
 
-            deleted = await sp_client.campaigns.delete([CAMPAIGN_ID])
+            deleted = await sp_client.campaigns.sp_delete_campaign(SPDeleteCampaignRequest(campaignIds=[CAMPAIGN_ID]))
             assert isinstance(deleted, SPCampaignMultiStatusResponse)
             assert deleted.success is not None
             assert deleted.success[0].campaign.campaignId == CAMPAIGN_ID

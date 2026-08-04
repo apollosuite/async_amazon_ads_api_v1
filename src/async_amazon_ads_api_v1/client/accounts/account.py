@@ -23,7 +23,7 @@ class Accounts(BaseResource):
         resp = await self._request(
             "POST",
             "/adsAccounts",
-            json=body.model_dump(exclude_none=True),
+            json=body.model_dump(mode="json", exclude_none=True),
             headers={"Content-Type": "application/vnd.registeradsaccountresource.v1+json"},
         )
         return self._response(RegisterAdsAccountResponseContent, resp)
@@ -34,7 +34,7 @@ class Accounts(BaseResource):
         resp = await self._request(
             "POST",
             "/adsAccounts/list",
-            json=body.model_dump(exclude_none=True),
+            json=body.model_dump(mode="json", exclude_none=True),
             headers={
                 "Content-Type": "application/vnd.listaccountsresource.v1+json",
                 "Accept": "application/vnd.listaccountsresource.v1+json",

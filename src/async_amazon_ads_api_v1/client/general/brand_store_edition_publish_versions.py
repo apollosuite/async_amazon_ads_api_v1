@@ -24,7 +24,7 @@ class BrandStoreEditionPublishVersions(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/query/brandStoreEditionPublishVersions",
-            json=body.model_dump(exclude_none=True),
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response(BrandStoreEditionPublishVersionSuccessResponse, resp)
 
@@ -36,6 +36,6 @@ class BrandStoreEditionPublishVersions(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/update/brandStoreEditionPublishVersions",
-            json=body.model_dump(exclude_none=True),
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response(BrandStoreEditionPublishVersionMultiStatusResponse, resp)

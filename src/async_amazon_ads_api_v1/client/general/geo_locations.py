@@ -20,6 +20,6 @@ class GeoLocations(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/geoLocations",
-            json=body.model_dump(exclude_none=True),
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response(GeoLocationMultiStatusResponse, resp)

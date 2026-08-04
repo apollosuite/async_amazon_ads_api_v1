@@ -1,50 +1,59 @@
-"""SB AdGroup resource operations."""
+"""AdGroups resource operations.
+
+Generated from OpenAPI spec (tag: AdGroups).
+"""
 
 from __future__ import annotations
 
 from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.sb.ad_groups import (
-    SBAdGroupCreate,
     SBAdGroupMultiStatusResponse,
     SBAdGroupSuccessResponse,
-    SBAdGroupUpdate,
+    SBCreateAdGroupRequest,
+    SBDeleteAdGroupRequest,
     SBQueryAdGroupRequest,
+    SBUpdateAdGroupRequest,
 )
 
 
 class AdGroups(BaseResource):
 
-    async def create(self, ad_groups: list[SBAdGroupCreate]) -> SBAdGroupMultiStatusResponse:
+    async def sb_create_ad_group(self, body: SBCreateAdGroupRequest) -> SBAdGroupMultiStatusResponse:
+        """Create ad groups"""
+
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/adGroups",
-            json={"adGroups": self._dump(ad_groups)},
-            headers=self.ASYNC_ACCEPT,
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response(SBAdGroupMultiStatusResponse, resp)
 
-    async def query(self, body: SBQueryAdGroupRequest) -> SBAdGroupSuccessResponse:
-        resp = await self._request(
-            "POST",
-            "/adsApi/v1/query/adGroups",
-            json=body.model_dump(exclude_none=True),
-        )
-        return self._response(SBAdGroupSuccessResponse, resp)
+    async def sb_delete_ad_group(self, body: SBDeleteAdGroupRequest) -> SBAdGroupMultiStatusResponse:
+        """Delete ad groups"""
 
-    async def update(self, ad_groups: list[SBAdGroupUpdate]) -> SBAdGroupMultiStatusResponse:
-        resp = await self._request(
-            "POST",
-            "/adsApi/v1/update/adGroups",
-            json={"adGroups": self._dump(ad_groups)},
-            headers=self.ASYNC_ACCEPT,
-        )
-        return self._response(SBAdGroupMultiStatusResponse, resp)
-
-    async def delete(self, ad_group_ids: list[str]) -> SBAdGroupMultiStatusResponse:
         resp = await self._request(
             "POST",
             "/adsApi/v1/delete/adGroups",
-            json={"adGroupIds": ad_group_ids},
-            headers=self.ASYNC_ACCEPT,
+            json=body.model_dump(mode="json", exclude_none=True),
+        )
+        return self._response(SBAdGroupMultiStatusResponse, resp)
+
+    async def sb_query_ad_group(self, body: SBQueryAdGroupRequest) -> SBAdGroupSuccessResponse:
+        """List ad groups"""
+
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/query/adGroups",
+            json=body.model_dump(mode="json", exclude_none=True),
+        )
+        return self._response(SBAdGroupSuccessResponse, resp)
+
+    async def sb_update_ad_group(self, body: SBUpdateAdGroupRequest) -> SBAdGroupMultiStatusResponse:
+        """Update ad groups"""
+
+        resp = await self._request(
+            "POST",
+            "/adsApi/v1/update/adGroups",
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response(SBAdGroupMultiStatusResponse, resp)

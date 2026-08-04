@@ -1,21 +1,27 @@
-"""SB Recommendation resource operations."""
+"""Recommendations resource operations.
+
+Generated from OpenAPI spec (tag: Recommendations).
+"""
 
 from __future__ import annotations
 
 from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.sb.recommendations import (
-    SBRecommendationCreate,
+    SBCreateRecommendationRequest,
     SBRecommendationMultiStatusResponse,
 )
 
 
 class Recommendations(BaseResource):
 
-    async def create(self, items: list[SBRecommendationCreate]) -> SBRecommendationMultiStatusResponse:
+    async def sb_create_recommendation(
+        self, body: SBCreateRecommendationRequest
+    ) -> SBRecommendationMultiStatusResponse:
+        """Create recommendations"""
+
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/recommendations/sb",
-            json={"recommendations": self._dump(items)},
-            headers=self.ASYNC_ACCEPT,
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response(SBRecommendationMultiStatusResponse, resp)

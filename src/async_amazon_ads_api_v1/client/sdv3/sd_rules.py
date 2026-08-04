@@ -71,7 +71,7 @@ class SDOptimizationRules(BaseResource):
         resp = await self._request(
             "PUT",
             "/sd/optimizationRules",
-            json=[x.model_dump(exclude_none=True) for x in body],
+            json=[x.model_dump(mode="json", exclude_none=True) for x in body],
         )
         return self._response_list(SDOptimizationRuleResponse, resp)
 
@@ -81,7 +81,7 @@ class SDOptimizationRules(BaseResource):
         resp = await self._request(
             "POST",
             "/sd/optimizationRules",
-            json=[x.model_dump(exclude_none=True) for x in body],
+            json=[x.model_dump(mode="json", exclude_none=True) for x in body],
         )
         return self._response_list(SDOptimizationRuleResponse, resp)
 
@@ -113,7 +113,7 @@ class SDOptimizationRules(BaseResource):
         resp = await self._request(
             "POST",
             f"/sd/adGroups/{ad_group_id}/optimizationRules",
-            json=body.model_dump(exclude_none=True),
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response_list(SDOptimizationRuleResponse, resp)
 
@@ -145,6 +145,6 @@ class SDOptimizationRules(BaseResource):
         resp = await self._request(
             "POST",
             f"/sd/adGroups/{ad_group_id}/optimizationRules/disassociate",
-            json=body.model_dump(exclude_none=True),
+            json=body.model_dump(mode="json", exclude_none=True),
         )
         return self._response(SDOptimizationRuleAssociationResponse, resp)

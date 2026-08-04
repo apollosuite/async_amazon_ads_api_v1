@@ -22,7 +22,7 @@ class BrandHome(BaseResource):
         resp = await self._request(
             "POST",
             "/brand/stores/v1/storePages/list",
-            json=body.model_dump(exclude_none=True),
+            json=body.model_dump(mode="json", exclude_none=True),
             headers={"Content-Type": "application/brandStore.ListPages.v1+json"},
         )
         return self._response(ListPagesResponse, resp)
@@ -34,7 +34,7 @@ class BrandHome(BaseResource):
         resp = await self._request(
             "POST",
             "/brand/stores/v1/stores/list",
-            json=body.model_dump(exclude_none=True),
+            json=body.model_dump(mode="json", exclude_none=True),
             headers={"Content-Type": "application/brandStores.ListStores.v1+json"},
         )
         return self._response(ListStoresResponse, resp)

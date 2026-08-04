@@ -238,9 +238,11 @@ def _append_client_method(
             client_lines.append(f'        resp = await self._request("{http_method}", {url_str},')
             if req_model:
                 if is_array_req:
-                    client_lines.append("            json=[x.model_dump(exclude_none=True) for x in body],")
+                    client_lines.append(
+                        '            json=[x.model_dump(mode="json", exclude_none=True) for x in body],'
+                    )
                 else:
-                    client_lines.append("            json=body.model_dump(exclude_none=True),")
+                    client_lines.append('            json=body.model_dump(mode="json", exclude_none=True),')
             if headers_dict:
                 headers_str = ", ".join(f'"{k}": "{v}"' for k, v in headers_dict.items())
                 client_lines.append(f"            headers={{{headers_str}}},")
