@@ -3,11 +3,9 @@
 from async_amazon_ads_api_v1.client.legacy.accounts.account import Accounts
 from async_amazon_ads_api_v1.client.legacy.accounts.profiles import Profiles
 from async_amazon_ads_api_v1.client.legacy.accounts.terms_token import TermsToken
-from async_amazon_ads_api_v1.client.legacy.portfolios import Portfolios
 
 __all__ = [
     "Accounts",
-    "Portfolios",
     "Profiles",
     "TermsToken",
 ]
