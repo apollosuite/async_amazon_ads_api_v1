@@ -8,11 +8,13 @@ from __future__ import annotations
 from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.sdv3.sd_creatives import (
     Locale,
+    SDCreateCreative,
     SDCreative,
     SDCreativeModeration,
     SDCreativePreviewRequest,
     SDCreativePreviewResponse,
     SDCreativeResponse,
+    SDCreativeUpdate,
 )
 
 
@@ -49,16 +51,24 @@ class SDCreatives(BaseResource):
         resp = await self._request("GET", "/sd/creatives", params=params)
         return self._response_list(SDCreative, resp)
 
-    async def update_creatives(self) -> list[SDCreativeResponse]:
+    async def update_creatives(self, body: list[SDCreativeUpdate]) -> list[SDCreativeResponse]:
         """ """
 
-        resp = await self._request("PUT", "/sd/creatives")
+        resp = await self._request(
+            "PUT",
+            "/sd/creatives",
+            json=[x.model_dump(exclude_none=True) for x in body],
+        )
         return self._response_list(SDCreativeResponse, resp)
 
-    async def create_creatives(self) -> list[SDCreativeResponse]:
+    async def create_creatives(self, body: list[SDCreateCreative]) -> list[SDCreativeResponse]:
         """ """
 
-        resp = await self._request("POST", "/sd/creatives")
+        resp = await self._request(
+            "POST",
+            "/sd/creatives",
+            json=[x.model_dump(exclude_none=True) for x in body],
+        )
         return self._response_list(SDCreativeResponse, resp)
 
     async def post_creative_preview(self, body: SDCreativePreviewRequest) -> SDCreativePreviewResponse:

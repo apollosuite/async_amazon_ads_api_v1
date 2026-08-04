@@ -8,9 +8,11 @@ from __future__ import annotations
 from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.sdv3.sd_rules import (
     SDCreateAssociatedOptimizationRulesRequest,
+    SDCreateOptimizationRule,
     SDOptimizationRule,
     SDOptimizationRuleAssociationResponse,
     SDOptimizationRuleResponse,
+    SDUpdateOptimizationRule,
 )
 
 
@@ -63,16 +65,24 @@ class SDOptimizationRules(BaseResource):
         resp = await self._request("GET", "/sd/optimizationRules", params=params)
         return self._response_list(SDOptimizationRule, resp)
 
-    async def update_optimization_rules(self) -> list[SDOptimizationRuleResponse]:
+    async def update_optimization_rules(self, body: list[SDUpdateOptimizationRule]) -> list[SDOptimizationRuleResponse]:
         """ """
 
-        resp = await self._request("PUT", "/sd/optimizationRules")
+        resp = await self._request(
+            "PUT",
+            "/sd/optimizationRules",
+            json=[x.model_dump(exclude_none=True) for x in body],
+        )
         return self._response_list(SDOptimizationRuleResponse, resp)
 
-    async def create_optimization_rules(self) -> list[SDOptimizationRuleResponse]:
+    async def create_optimization_rules(self, body: list[SDCreateOptimizationRule]) -> list[SDOptimizationRuleResponse]:
         """When an optimization rule is associated to an ad group, manual bids for individual targets will be overridden."""
 
-        resp = await self._request("POST", "/sd/optimizationRules")
+        resp = await self._request(
+            "POST",
+            "/sd/optimizationRules",
+            json=[x.model_dump(exclude_none=True) for x in body],
+        )
         return self._response_list(SDOptimizationRuleResponse, resp)
 
     async def endpoint_3(self, optimization_rule_id: str) -> SDOptimizationRule:

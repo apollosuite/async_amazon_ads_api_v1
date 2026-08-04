@@ -49,7 +49,7 @@ def main() -> None:
         "generate_spv3_rules.py",
         "generate_portfolios.py",
         "generate_profiles_models.py",
-        "generate_legacy_accounts_models.py",
+        "generate_accounts_models.py",
     ):
         run_script(script)
 

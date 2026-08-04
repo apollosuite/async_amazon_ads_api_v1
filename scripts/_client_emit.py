@@ -278,9 +278,8 @@ def generate_client_file(
             if ref:
                 sig_imports.add(name_map.resolve_ref(ref.split("/")[-1], SchemaRole.OUTPUT))
         for _, media in operation.get("requestBody", {}).get("content", {}).items():
-            ref = media.get("schema", {}).get("$ref", "")
-            if ref:
-                sig_imports.add(name_map.resolve_request_ref(ref.split("/")[-1]))
+            for seed in _schema_ref_seeds(media.get("schema", {})):
+                sig_imports.add(name_map.resolve_request_ref(seed))
         for code, resp in operation.get("responses", {}).items():
             if str(code) in ("200", "207", "201"):
                 for _, media in resp.get("content", {}).items():
