@@ -79,6 +79,7 @@ class BaseResource:
             "Authorization": f"Bearer {token}",
             "Accept": "application/json",
             "Amazon-Ads-ClientId": self._ctx.config.client_id,
+            "Amazon-Advertising-API-ClientId": self._ctx.config.client_id,
             **(headers or {}),
         }
         if self._ctx.config.profile_id is not None:
@@ -136,7 +137,9 @@ class BaseResource:
             logger.error("Failed to parse response as %s: %s", model_cls.__name__, resp.text)
             raise
 
-    def _response_list(self, model_cls: type[_T], resp: httpx.Response) -> list[_T]:
+    def _response_list(self, model_cls: type[_T], resp: httpx.Response) -> list[_T] | httpx.Response:
+        if self._raw_mode:
+            return resp
         try:
             return [model_cls.model_validate(item) for item in resp.json()]
         except ValidationError:

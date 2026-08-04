@@ -78,11 +78,16 @@ def _append_client_method(
     all_schemas = spec.get("components", {}).get("schemas", {})
 
     req_model = None
+    is_array_req = False
     request_required = operation.get("requestBody", {}).get("required", False)
     for _, media in operation.get("requestBody", {}).get("content", {}).items():
-        ref = media.get("schema", {}).get("$ref", "")
-        if ref:
-            req_model = name_map.resolve_request_ref(ref.split("/")[-1])
+        s = media.get("schema", {})
+        if s.get("type") == "array":
+            is_array_req = True
+        seeds = _schema_ref_seeds(s)
+        if seeds:
+            seed = next(iter(seeds))
+            req_model = name_map.resolve_request_ref(seed)
             break
 
     resp_model = None
@@ -119,10 +124,11 @@ def _append_client_method(
         sig_parts.append(f"{py_name}: {ptype}")
 
     if req_model:
+        req_type_str = f"list[{req_model}]" if is_array_req else req_model
         if config.respect_request_body_required and not request_required:
-            sig_parts.append(f"body: {req_model} | None = None")
+            sig_parts.append(f"body: {req_type_str} | None = None")
         else:
-            sig_parts.append(f"body: {req_model}")
+            sig_parts.append(f"body: {req_type_str}")
 
     req_params = []
     opt_params = []
@@ -231,7 +237,10 @@ def _append_client_method(
         if req_model or headers_dict:
             client_lines.append(f'        resp = await self._request("{http_method}", {url_str},')
             if req_model:
-                client_lines.append("            json=body.model_dump(exclude_none=True),")
+                if is_array_req:
+                    client_lines.append("            json=[x.model_dump(exclude_none=True) for x in body],")
+                else:
+                    client_lines.append("            json=body.model_dump(exclude_none=True),")
             if headers_dict:
                 headers_str = ", ".join(f'"{k}": "{v}"' for k, v in headers_dict.items())
                 client_lines.append(f"            headers={{{headers_str}}},")

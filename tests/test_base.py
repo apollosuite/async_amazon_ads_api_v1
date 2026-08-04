@@ -206,3 +206,18 @@ class TestBaseResource:
             # 2. Raw call via .raw proxy -> httpx.Response
             raw_result = await dummy_res.raw.get_dummy()
             assert raw_result is mock_resp
+
+    @pytest.mark.asyncio
+    async def test_raw_resource_proxy_list(self, resource: BaseResource) -> None:
+        mock_resp = MagicMock(spec=httpx.Response)
+        mock_resp.json.return_value = [{"name": "x", "value": 2}]
+
+        class DummyListResource(BaseResource):
+            async def list_dummy(self) -> list[DummyModel]:
+                resp = await self._request("GET", "/dummies")
+                return self._response_list(DummyModel, resp)
+
+        dummy_res = DummyListResource(resource._ctx)
+        with patch.object(dummy_res, "_request", AsyncMock(return_value=mock_resp)):
+            raw_result = await dummy_res.raw.list_dummy()
+            assert raw_result is mock_resp

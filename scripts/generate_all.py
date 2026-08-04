@@ -48,8 +48,8 @@ def main() -> None:
         "generate_sdv3_rules.py",
         "generate_spv3_rules.py",
         "generate_portfolios.py",
+        "generate_profiles_models.py",
         "generate_legacy_accounts_models.py",
-        "generate_legacy_profiles_models.py",
     ):
         run_script(script)
 
