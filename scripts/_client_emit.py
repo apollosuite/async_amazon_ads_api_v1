@@ -17,6 +17,7 @@ class ClientGenerationConfig:
     resource_name: str | None = None
     respect_request_body_required: bool = False
     emit_content_type_header: bool = False
+    emit_accept_header: bool = False
     query_params_on_non_get: bool = False
     param_docstring_mode: Literal["if_descriptions", "if_query_params"] = "if_descriptions"
 
@@ -59,6 +60,21 @@ def _append_client_method(
         if content_dict:
             content_type = next(iter(content_dict))
 
+    accept_type = None
+    if config.emit_accept_header:
+        for code, resp in operation.get("responses", {}).items():
+            if str(code) in ("200", "207", "201"):
+                content_dict = resp.get("content", {})
+                if content_dict:
+                    accept_type = next(iter(content_dict))
+                    break
+
+    headers_dict: dict[str, str] = {}
+    if content_type and content_type != "application/json":
+        headers_dict["Content-Type"] = content_type
+    if accept_type and accept_type != "application/json":
+        headers_dict["Accept"] = accept_type
+
     all_schemas = spec.get("components", {}).get("schemas", {})
 
     req_model = None
@@ -81,7 +97,9 @@ def _append_client_method(
             if resp_model:
                 break
 
-    query_params = [p for p in _resolve_operation_params(spec, operation) if p.get("in") == "query"]
+    resolved_params = _resolve_operation_params(spec, operation)
+    path_params = [p for p in resolved_params if p.get("in") == "path"]
+    query_params = [p for p in resolved_params if p.get("in") == "query"]
 
     def type_fn(s: dict, sc: dict[str, Any]) -> str:
         from _schema_roles import SchemaRole
@@ -89,12 +107,21 @@ def _append_client_method(
         return schema_type(s, sc, name_map, SchemaRole.OUTPUT)
 
     sig_parts = ["self"]
+    for p in path_params:
+        pname = p.get("name", "")
+        pschema = p.get("schema", {})
+        ptype = type_fn(pschema, schemas_for_resolution)
+        py_name = camel_to_snake(pname)
+        sig_parts.append(f"{py_name}: {ptype}")
+
     if req_model:
         if config.respect_request_body_required and not request_required:
             sig_parts.append(f"body: {req_model} | None = None")
         else:
             sig_parts.append(f"body: {req_model}")
 
+    req_params = []
+    opt_params = []
     for p in query_params:
         pname = p.get("name", "")
         pschema = p.get("schema", {})
@@ -103,15 +130,28 @@ def _append_client_method(
         py_name = camel_to_snake(pname)
         if not is_required:
             ptype = f"{ptype} | None"
-            sig_parts.append(f"{py_name}: {ptype} = None")
+            opt_params.append(f"{py_name}: {ptype} = None")
         else:
-            sig_parts.append(f"{py_name}: {ptype}")
+            req_params.append(f"{py_name}: {ptype}")
+    sig_parts.extend(req_params)
+    sig_parts.extend(opt_params)
+
+    # Formatted URL with path parameters
+    url_expr = path
+    if path_params:
+        for p in path_params:
+            pname = p.get("name", "")
+            py_name = camel_to_snake(pname)
+            url_expr = url_expr.replace(f"{{{pname}}}", f"{{{py_name}}}")
+        url_str = f'f"{url_expr}"'
+    else:
+        url_str = f'"{url_expr}"'
 
     base_ret_type = resp_model or "Any"
     first_line = desc_lines[0].strip() if desc_lines else ""
-    has_query_params = bool(query_params)
-    has_param_docs = any(p.get("description", "").strip() for p in query_params)
-    use_multiline_doc = has_query_params and (
+    has_params = bool(path_params or query_params)
+    has_param_docs = any(p.get("description", "").strip() for p in (path_params + query_params))
+    use_multiline_doc = has_params and (
         config.param_docstring_mode == "if_query_params"
         or (config.param_docstring_mode == "if_descriptions" and has_param_docs)
     )
@@ -127,6 +167,13 @@ def _append_client_method(
         client_lines.append("")
         client_lines.append("        Parameters")
         client_lines.append("        ----------")
+        for p in path_params:
+            pname = p.get("name", "")
+            py_name = camel_to_snake(pname)
+            pdesc = p.get("description", "").strip().rstrip()
+            client_lines.append(f"        {py_name} : {type_fn(p.get('schema', {}), schemas_for_resolution)}")
+            if pdesc:
+                client_lines.append(f"            {pdesc}")
         if req_model:
             client_lines.append(f"        body : {req_model}")
             client_lines.append("            API request body.")
@@ -147,6 +194,7 @@ def _append_client_method(
     use_query_request = method_is_get or (config.query_params_on_non_get and query_params)
 
     if use_query_request:
+        kwargs_parts = []
         if query_params:
             param_names = [(p.get("name", ""), camel_to_snake(p.get("name", ""))) for p in query_params]
             client_lines.append("        params = {")
@@ -155,15 +203,27 @@ def _append_client_method(
             client_lines.append("        }")
             if any(not p.get("required", False) for p in query_params):
                 client_lines.append("        params = {k: v for k, v in params.items() if v is not None}")
-            client_lines.append(f'        resp = await self._request("{http_method}", "{path}", params=params)')
+            kwargs_parts.append("params=params")
+        if headers_dict:
+            headers_str = ", ".join(f'"{k}": "{v}"' for k, v in headers_dict.items())
+            kwargs_parts.append(f"headers={{{headers_str}}}")
+
+        if kwargs_parts:
+            kwargs_str = ", ".join(kwargs_parts)
+            client_lines.append(f'        resp = await self._request("{http_method}", {url_str}, {kwargs_str})')
         else:
-            client_lines.append(f'        resp = await self._request("{http_method}", "{path}")')
+            client_lines.append(f'        resp = await self._request("{http_method}", {url_str})')
     else:
-        client_lines.append(f'        resp = await self._request("{http_method}", "{path}",')
-        client_lines.append("            json=body.model_dump(exclude_none=True),")
-        if content_type:
-            client_lines.append(f'            headers={{"Content-Type": "{content_type}"}},')
-        client_lines.append("        )")
+        if req_model or headers_dict:
+            client_lines.append(f'        resp = await self._request("{http_method}", {url_str},')
+            if req_model:
+                client_lines.append("            json=body.model_dump(exclude_none=True),")
+            if headers_dict:
+                headers_str = ", ".join(f'"{k}": "{v}"' for k, v in headers_dict.items())
+                client_lines.append(f"            headers={{{headers_str}}},")
+            client_lines.append("        )")
+        else:
+            client_lines.append(f'        resp = await self._request("{http_method}", {url_str})')
 
     client_lines.append(f"        return self._response({base_ret_type}, resp)")
     client_lines.append("")
