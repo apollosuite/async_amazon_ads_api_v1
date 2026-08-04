@@ -59,21 +59,26 @@ class RoleNameMap:
         by_key: dict[SchemaKey, str],
         shared_entities: set[str],
         neutral: set[str],
+        known_schemas: dict[str, str] | None = None,
     ) -> None:
         self._by_key = by_key
         self._shared_entities = shared_entities
         self._neutral = neutral
+        self._known_schemas = known_schemas or {}
         self._by_openapi: dict[str, dict[SchemaRole, str]] = {}
         for key, python_name in by_key.items():
             self._by_openapi.setdefault(key.openapi_name, {})[key.role] = python_name
 
     @classmethod
-    def from_emitted(cls, emitted: list[EmittedModel], shared_entities: set[str]) -> RoleNameMap:
+    def from_emitted(
+        cls, emitted: list[EmittedModel], shared_entities: set[str], known_schemas: dict[str, str] | None = None
+    ) -> RoleNameMap:
         neutral = {e.key.openapi_name for e in emitted if e.key.role == SchemaRole.NEUTRAL}
         return cls(
             by_key={e.key: e.python_name for e in emitted},
             shared_entities=shared_entities,
             neutral=neutral,
+            known_schemas=known_schemas,
         )
 
     def is_neutral(self, openapi_name: str) -> bool:
@@ -92,12 +97,12 @@ class RoleNameMap:
         if openapi_name in self._neutral:
             return self.python_name(openapi_name, SchemaRole.NEUTRAL)
 
-        for role in (context_role, SchemaRole.OUTPUT, SchemaRole.INPUT, SchemaRole.MUTATION_RESULT):
+        for role in (context_role, SchemaRole.OUTPUT, SchemaRole.INPUT, SchemaRole.NEUTRAL, SchemaRole.MUTATION_RESULT):
             names = self._by_openapi.get(openapi_name, {})
             if role in names:
                 return names[role]
 
-        raise KeyError(f"Cannot resolve ref {openapi_name!r} in context {context_role!r}")
+        return openapi_name
 
     def resolve_request_ref(self, openapi_name: str) -> str:
         if openapi_name in self._neutral:

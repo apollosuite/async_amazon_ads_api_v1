@@ -7,7 +7,7 @@ from typing import Any, Literal
 
 from _openapi_schema import _schema_ref_seeds, camel_to_snake, method_name
 from _pydantic_emit import schema_type
-from _schema_roles import RoleNameMap
+from _schema_roles import RoleNameMap, SchemaRole
 
 
 @dataclass(frozen=True)
@@ -86,10 +86,14 @@ def _append_client_method(
             break
 
     resp_model = None
+    is_array_resp = False
     for code, resp in operation.get("responses", {}).items():
         if str(code) in ("200", "207", "201"):
             for _, media in resp.get("content", {}).items():
-                seeds = _schema_ref_seeds(media.get("schema", {}))
+                s = media.get("schema", {})
+                if s.get("type") == "array":
+                    is_array_resp = True
+                seeds = _schema_ref_seeds(s)
                 if seeds:
                     seed = next(iter(seeds))
                     resp_model = name_map.resolve_response_ref(seed, all_schemas.get(seed, {}))
@@ -147,8 +151,16 @@ def _append_client_method(
     else:
         url_str = f'"{url_expr}"'
 
-    base_ret_type = resp_model or "Any"
-    first_line = desc_lines[0].strip() if desc_lines else ""
+    if resp_model:
+        base_ret_type = f"list[{resp_model}]" if is_array_resp else resp_model
+    else:
+        base_ret_type = "Any"
+
+    def _clean_doc(s: str) -> str:
+        cleaned = s.replace('"""', "").replace('"', "'").lstrip("*").strip()
+        return cleaned
+
+    first_line = _clean_doc(desc_lines[0].strip()) if desc_lines else ""
     has_params = bool(path_params or query_params)
     has_param_docs = any(p.get("description", "").strip() for p in (path_params + query_params))
     use_multiline_doc = has_params and (
@@ -159,6 +171,8 @@ def _append_client_method(
     client_lines.append(f"    async def {mname}({', '.join(sig_parts)}) -> {base_ret_type}:")
     if not use_multiline_doc:
         client_lines.append(f'        """{first_line}"""' if first_line else '        """')
+        if not first_line:
+            client_lines.append('        """')
     else:
         if first_line:
             client_lines.append(f'        """{first_line}')
@@ -170,7 +184,7 @@ def _append_client_method(
         for p in path_params:
             pname = p.get("name", "")
             py_name = camel_to_snake(pname)
-            pdesc = p.get("description", "").strip().rstrip()
+            pdesc = _clean_doc(p.get("description", "").strip().rstrip())
             client_lines.append(f"        {py_name} : {type_fn(p.get('schema', {}), schemas_for_resolution)}")
             if pdesc:
                 client_lines.append(f"            {pdesc}")
@@ -180,7 +194,7 @@ def _append_client_method(
         for p in query_params:
             pname = p.get("name", "")
             py_name = camel_to_snake(pname)
-            pdesc = p.get("description", "").strip().rstrip()
+            pdesc = _clean_doc(p.get("description", "").strip().rstrip())
             client_lines.append(f"        {py_name} : {type_fn(p.get('schema', {}), schemas_for_resolution)}")
             if pdesc:
                 client_lines.append(f"            {pdesc}")
@@ -225,7 +239,10 @@ def _append_client_method(
         else:
             client_lines.append(f'        resp = await self._request("{http_method}", {url_str})')
 
-    client_lines.append(f"        return self._response({base_ret_type}, resp)")
+    if is_array_resp and resp_model:
+        client_lines.append(f"        return self._response_list({resp_model}, resp)")
+    else:
+        client_lines.append(f"        return self._response({base_ret_type}, resp)")
     client_lines.append("")
 
 
@@ -247,6 +264,10 @@ def generate_client_file(
 
     sig_imports: set[str] = set()
     for _method, _path, operation in endpoints:
+        for p in _resolve_operation_params(spec, operation):
+            ref = p.get("schema", {}).get("$ref", "")
+            if ref:
+                sig_imports.add(name_map.resolve_ref(ref.split("/")[-1], SchemaRole.OUTPUT))
         for _, media in operation.get("requestBody", {}).get("content", {}).items():
             ref = media.get("schema", {}).get("$ref", "")
             if ref:

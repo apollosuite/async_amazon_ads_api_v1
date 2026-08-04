@@ -26,7 +26,7 @@ class SBBudgetRules(BaseResource):
     async def create_budget_rules_for_sb_campaigns(
         self, body: SBCreateBudgetRulesRequest
     ) -> SBCreateBudgetRulesResponse:
-        """**Requires one of these permissions**:"""
+        """Requires one of these permissions**:"""
 
         resp = await self._request(
             "POST",
@@ -38,7 +38,7 @@ class SBBudgetRules(BaseResource):
     async def update_budget_rules_for_sb_campaigns(
         self, body: SBUpdateBudgetRulesRequest
     ) -> SBUpdateBudgetRulesResponse:
-        """**Requires one of these permissions**:"""
+        """Requires one of these permissions**:"""
 
         resp = await self._request(
             "PUT",
@@ -69,7 +69,7 @@ class SBBudgetRules(BaseResource):
         return self._response(SBGetBudgetRulesForAdvertiserResponse, resp)
 
     async def get_budget_rule_by_rule_id_for_sb_campaigns(self, budget_rule_id: str) -> SBGetBudgetRuleResponse:
-        """**Requires one of these permissions**:
+        """Requires one of these permissions**:
 
         Parameters
         ----------
@@ -103,7 +103,7 @@ class SBBudgetRules(BaseResource):
     async def list_associated_budget_rules_for_sb_campaigns(
         self, campaign_id: int
     ) -> SBListAssociatedBudgetRulesResponse:
-        """**Requires one of these permissions**:
+        """Requires one of these permissions**:
 
         Parameters
         ----------
@@ -140,7 +140,7 @@ class SBBudgetRules(BaseResource):
     async def disassociate_associated_budget_rule_for_sb_campaigns(
         self, campaign_id: int, budget_rule_id: str
     ) -> SBDisassociateAssociatedBudgetRuleResponse:
-        """**Requires one of these permissions**:
+        """Requires one of these permissions**:
 
         Parameters
         ----------

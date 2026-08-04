@@ -355,7 +355,7 @@ def generate_models_for_tag(
         shared_enum_names=shared_enum_names,
         shared_model_names=shared_model_names,
     )
-    name_map = RoleNameMap.from_emitted(emitted, shared_entities)
+    name_map = RoleNameMap.from_emitted(emitted, shared_entities, known_schemas=known_schemas)
     resolution_schemas = schemas_for_resolution(emitted)
 
     print(

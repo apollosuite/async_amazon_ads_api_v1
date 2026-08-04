@@ -42,13 +42,11 @@ def main() -> None:
             str(output_base / product),
         )
 
-    # Legacy models (clients remain hand-maintained)
+    # Legacy & specialized v3/v4 models and clients
     for script in (
         "generate_sbv4_rules.py",
-        "generate_legacy_sd_rules.py",
+        "generate_sdv3_rules.py",
         "generate_sp_budget_rules.py",
-        "generate_sd_budget_rules.py",
-        "generate_sd_creatives.py",
         "generate_portfolios.py",
         "generate_legacy_accounts_models.py",
         "generate_legacy_profiles_models.py",
