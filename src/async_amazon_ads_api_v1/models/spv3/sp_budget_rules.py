@@ -9,8 +9,6 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
-from .enums import SPRuleType
-
 
 class SPBudgetChangeType(StrEnum):
     """
@@ -72,6 +70,15 @@ class SPRecurrenceType(StrEnum):
     """
 
     DAILY = "DAILY"
+
+
+class SPRuleType(StrEnum):
+    """
+    The type of budget rule. SCHEDULE: A budget rule based on a start and end date. PERFORMANCE: A budget rule based on advertising performance criteria.
+    """
+
+    PERFORMANCE = "PERFORMANCE"
+    SCHEDULE = "SCHEDULE"
 
 
 class SPAssociatedBudgetRuleResult(BaseModel):

@@ -46,7 +46,7 @@ def main() -> None:
     for script in (
         "generate_sbv4_rules.py",
         "generate_sdv3_rules.py",
-        "generate_sp_budget_rules.py",
+        "generate_spv3_rules.py",
         "generate_portfolios.py",
         "generate_legacy_accounts_models.py",
         "generate_legacy_profiles_models.py",
