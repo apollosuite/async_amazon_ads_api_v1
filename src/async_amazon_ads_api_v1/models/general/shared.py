@@ -23,4 +23,4 @@ class GeneralErrorsIndex(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     errors: list[GeneralError] = Field(min_length=1, max_length=20)
-    index: int = Field(ge=0, le=0)
+    index: int = Field(ge=0, le=19)

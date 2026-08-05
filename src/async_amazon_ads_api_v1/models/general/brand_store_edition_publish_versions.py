@@ -16,6 +16,7 @@ from .shared import GeneralErrorsIndex
 class StorePublishState(StrEnum):
     """
     User State for content
+    **StorePublishState Enum:**
 
     | StorePublishState | Description |
     |------|------|
@@ -30,6 +31,7 @@ class StorePublishState(StrEnum):
 class StorePublishStatus(StrEnum):
     """
     Status of content publish
+    **StorePublishStatus Enum:**
 
     | StorePublishStatus | Description |
     |------|------|
@@ -92,6 +94,7 @@ class BrandStoreEditionPublishVersionStorePublishStatusFilter(BaseModel):
         min_length=1,
         max_length=1,
         description="""
+**PublishStatus Enum:**
 | PublishStatus | Description |
 | --- | --- |
 | `DRAFT` | Content is in draft state |
@@ -140,9 +143,7 @@ class StorePageVersion(BaseModel):
 class UpdateBrandStoreEditionPublishVersionRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    brandStoreEditionPublishVersions: list[BrandStoreEditionPublishVersionUpdate] | None = Field(
-        default=None, min_length=1, max_length=1
-    )
+    brandStoreEditionPublishVersions: list[BrandStoreEditionPublishVersionUpdate] = Field(min_length=1, max_length=1)
 
 
 __all__ = [

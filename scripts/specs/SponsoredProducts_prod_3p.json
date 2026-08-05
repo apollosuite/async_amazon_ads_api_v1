@@ -26108,7 +26108,7 @@
     },
     "/sp/targets/categories": {
       "get": {
-        "description": "Returns all targetable categories. This API returns a large JSON string containing a tree of category nodes. Each category node has the fields - category id, category name, and child categories.\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_edit\",\"advertiser_campaign_view\"]",
+        "description": "Returns all targetable categories. This API returns a large JSON string containing a tree of category nodes. Each category node has the fields - category id, category name, and child categories.\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_edit\",\"advertiser_campaign_view\",\"ads_planner_internal_edit\",\"ads_planner_edit\"]",
         "operationId": "getTargetableCategories",
         "parameters": [
           {

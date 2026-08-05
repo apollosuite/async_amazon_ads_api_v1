@@ -259,6 +259,8 @@ class GeneralCountryCode(StrEnum):
 
 class GeneralErrorCode(StrEnum):
     """
+    **ErrorCode Enum:**
+
     | ErrorCode | Description |
     |------|------|
     | `ACCESS_DENIED_FOR_MANAGER_ACCOUNT` | The request does not have access to the manager account provided in the registration request. |

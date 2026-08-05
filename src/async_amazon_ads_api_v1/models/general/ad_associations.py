@@ -22,13 +22,17 @@ class AdState(StrEnum):
     | State | Description |
     |------|------|
     | `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |
+    | `DRAFT` | The resource is in draft status and has not yet been proposed or enabled. |
     | `ENABLED` | The object is set active by user and eligible for delivery. |
     | `PAUSED` | The object is stopped by user and not eligible for delivery. |
+    | `PROPOSED` | Indicates an entity staged for review and adoption by advertisers. |
     """
 
     ARCHIVED = "ARCHIVED"
+    DRAFT = "DRAFT"
     ENABLED = "ENABLED"
     PAUSED = "PAUSED"
+    PROPOSED = "PROPOSED"
 
 
 class CreateState(StrEnum):
@@ -38,12 +42,16 @@ class CreateState(StrEnum):
 
     | CreateState | Description |
     |------|------|
+    | `DRAFT` | The resource is in draft status and has not yet been proposed or enabled. |
     | `ENABLED` | The object is set active by user and eligible for delivery. |
     | `PAUSED` | The object is stopped by user and not eligible for delivery. |
+    | `PROPOSED` | Indicates an entity staged for review and adoption by advertisers. |
     """
 
+    DRAFT = "DRAFT"
     ENABLED = "ENABLED"
     PAUSED = "PAUSED"
+    PROPOSED = "PROPOSED"
 
 
 class UpdateState(StrEnum):
@@ -53,12 +61,16 @@ class UpdateState(StrEnum):
 
     | UpdateState | Description |
     |------|------|
+    | `DRAFT` | The resource is in draft status and has not yet been proposed or enabled. |
     | `ENABLED` | The object is set active by user and eligible for delivery. |
     | `PAUSED` | The object is stopped by user and not eligible for delivery. |
+    | `PROPOSED` | Indicates an entity staged for review and adoption by advertisers. |
     """
 
+    DRAFT = "DRAFT"
     ENABLED = "ENABLED"
     PAUSED = "PAUSED"
+    PROPOSED = "PROPOSED"
 
 
 class AdAssociation(BaseModel):

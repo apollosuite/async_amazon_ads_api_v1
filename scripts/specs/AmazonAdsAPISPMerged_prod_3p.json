@@ -4599,7 +4599,7 @@
     },
     "/adsApi/v1/create/ads": {
       "post": {
-        "description": "Create ads\n\n**Note:** Batch size limits are specific to each ad product. Refer to the ad-product-specific documentation for applicable limits.\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_edit\", \"creatives_edit\"]",
+        "description": "Create ads\n\n**Note:** Batch size limits are specific to each ad product. Refer to the ad-product-specific documentation for applicable limits.\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_edit\", \"dsp_creatives_edit\", \"creatives_edit\"]",
         "operationId": "SPCreateAd",
         "parameters": [
           {
@@ -5939,7 +5939,7 @@
     },
     "/adsApi/v1/query/ads": {
       "post": {
-        "description": "List ads\n\n**Note:** Batch size limits are specific to each ad product. Refer to the ad-product-specific documentation for applicable limits.\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_edit\", \"creatives_view\", \"creatives_edit\", \n\"advertiser_campaign_view\"]",
+        "description": "List ads\n\n**Note:** Batch size limits are specific to each ad product. Refer to the ad-product-specific documentation for applicable limits.\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_edit\", \"dsp_creatives_view\", \"creatives_view\", \n\"dsp_creatives_edit\", \"creatives_edit\", \"advertiser_campaign_view\"]",
         "operationId": "SPQueryAd",
         "parameters": [
           {
@@ -6684,7 +6684,7 @@
     },
     "/adsApi/v1/update/ads": {
       "post": {
-        "description": "Update ads\n\n**Note:** Batch size limits are specific to each ad product. Refer to the ad-product-specific documentation for applicable limits.\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_edit\", \"creatives_edit\"]",
+        "description": "Update ads\n\n**Note:** Batch size limits are specific to each ad product. Refer to the ad-product-specific documentation for applicable limits.\n\n**Requires one of these permissions**:\n[\"advertiser_campaign_edit\", \"dsp_creatives_edit\", \"creatives_edit\"]",
         "operationId": "SPUpdateAd",
         "parameters": [
           {

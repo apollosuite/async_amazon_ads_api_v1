@@ -336,8 +336,9 @@ class SBBrandGallerySettings(BaseModel):
     brandLogos: list[SBImage] = Field(
         min_length=1, max_length=1, description="The brand logo image assets to be used in the ad."
     )
-    cards: list[SBBrandGalleryCardCreativeElement] = Field(
-        min_length=3,
+    cards: list[SBBrandGalleryCardCreativeElement] | None = Field(
+        default=None,
+        min_length=0,
         max_length=5,
         description="The sub-elements of the creative. Each card highlights a different category associated to a brand.",
     )
@@ -441,8 +442,9 @@ class SBCreateBrandGallerySettings(BaseModel):
     brandLogos: list[SBCreateImage] = Field(
         min_length=1, max_length=1, description="The brand logo image assets to be used in the ad."
     )
-    cards: list[SBCreateBrandGalleryCardCreativeElement] = Field(
-        min_length=3,
+    cards: list[SBCreateBrandGalleryCardCreativeElement] | None = Field(
+        default=None,
+        min_length=0,
         max_length=5,
         description="The sub-elements of the creative. Each card highlights a different category associated to a brand.",
     )
@@ -968,7 +970,7 @@ class SBUpdateBrandGallerySettings(BaseModel):
     )
     cards: list[SBCreateBrandGalleryCardCreativeElement] | None = Field(
         default=None,
-        min_length=3,
+        min_length=0,
         max_length=5,
         description="The sub-elements of the creative. Each card highlights a different category associated to a brand.",
     )

@@ -12,6 +12,7 @@ from async_amazon_ads_api_v1.models._core.lenient_enum import lenient_enum
 
 class HorizontalPosition(StrEnum):
     """
+    **HorizontalPosition Enum:**
     | HorizontalPosition | Description |
     | --- | --- |
     | `LEFT` | Left position |
@@ -26,6 +27,7 @@ class HorizontalPosition(StrEnum):
 
 class StoreBleedImageType(StrEnum):
     """
+    **StoreBleedImageType Enum:**
     | StoreBleedImageType | Description |
     | --- | --- |
     | `NONE` | No image bleed |
@@ -42,6 +44,7 @@ class StoreBleedImageType(StrEnum):
 
 class StoreCallToActionType(StrEnum):
     """
+    **StoreCallToActionType Enum:**
     | StoreCallToActionType | Description |
     | --- | --- |
     | `LINK` | Link type call to action |
@@ -54,6 +57,7 @@ class StoreCallToActionType(StrEnum):
 
 class StoreColorPalette(StrEnum):
     """
+    **StoreColorPalette Enum:**
     | StoreColorPalette | Description |
     | --- | --- |
     | `DEFAULT` | Default color scheme |
@@ -78,6 +82,7 @@ class StoreColorPalette(StrEnum):
 
 class StoreDealsMode(StrEnum):
     """
+    **StoreDealsMode Enum:**
     | StoreDealsMode | Description |
     | --- | --- |
     | `BULK` | Bulk mode |
@@ -90,6 +95,7 @@ class StoreDealsMode(StrEnum):
 
 class StoreImageLayout(StrEnum):
     """
+    **StoreImageLayout Enum:**
     | StoreImageLayout | Description |
     | --- | --- |
     | `COVER` | Cover layout |
@@ -104,6 +110,7 @@ class StoreImageLayout(StrEnum):
 
 class StoreImageShape(StrEnum):
     """
+    **StoreImageShape Enum:**
     | StoreImageShape | Description |
     | --- | --- |
     | `SQUARE` | Square shape |
@@ -114,6 +121,7 @@ class StoreImageShape(StrEnum):
 
 class StoreImageTextAlign(StrEnum):
     """
+    **StoreImageTextAlign Enum:**
     | StoreImageTextAlign | Description |
     | --- | --- |
     | `LEFT` | Left text alignment |
@@ -126,6 +134,7 @@ class StoreImageTextAlign(StrEnum):
 
 class StoreImageWithTextTileVariation(StrEnum):
     """
+    **StoreImageWithTextTileVariation Enum:**
     | StoreImageWithTextTileVariation | Description |
     | --- | --- |
     | `IMAGE_WITH_TEXT` | Image with text variation |
@@ -136,6 +145,7 @@ class StoreImageWithTextTileVariation(StrEnum):
 
 class StoreLayoutType(StrEnum):
     """
+    **StoreLayoutType Enum:**
     | StoreLayoutType | Description |
     | --- | --- |
     | `DEFAULT` | Default layout configuration |
@@ -148,6 +158,7 @@ class StoreLayoutType(StrEnum):
 
 class StorePageTemplate(StrEnum):
     """
+    **StorePageTemplate Enum:**
     | StorePageTemplate | Description |
     | --- | --- |
     | `PRODUCT_GRID` | Template displaying products in a grid layout |
@@ -166,6 +177,7 @@ class StorePageTemplate(StrEnum):
 
 class StorePageType(StrEnum):
     """
+    **StorePageType Enum:**
     | StorePageType | Description |
     | --- | --- |
     | `BRAND_STORE_PAGE` | Standard brand store page that allows customization to show case the brand and product |
@@ -178,6 +190,7 @@ class StorePageType(StrEnum):
 
 class StoreProductCarouselSearchType(StrEnum):
     """
+    **StoreProductCarouselSearchType Enum:**
     | StoreProductCarouselSearchType | Description |
     | --- | --- |
     | `RECOMMENDATION_FOR_YOU` | Personalized recommendations |
@@ -190,6 +203,7 @@ class StoreProductCarouselSearchType(StrEnum):
 
 class StoreProductSelectorButtonColor(StrEnum):
     """
+    **StoreProductSelectorButtonColor Enum:**
     | StoreProductSelectorButtonColor | Description |
     | --- | --- |
     | `WHITE` | White button color |
@@ -204,6 +218,7 @@ class StoreProductSelectorButtonColor(StrEnum):
 
 class StoreProductSelectorImageLayout(StrEnum):
     """
+    **StoreProductSelectorImageLayout Enum:**
     | StoreProductSelectorImageLayout | Description |
     | --- | --- |
     | `TOP` | Top image layout |
@@ -220,6 +235,7 @@ class StoreProductSelectorImageLayout(StrEnum):
 
 class StoreShoppableTextOption(StrEnum):
     """
+    **StoreShoppableTextOption Enum:**
     | StoreShoppableTextOption | Description |
     | --- | --- |
     | `TEXT_UNDER_INTERACTIVE_IMAGE` | Text under interactive image |
@@ -234,6 +250,7 @@ class StoreShoppableTextOption(StrEnum):
 
 class StoreSlideType(StrEnum):
     """
+    **StoreSlideType Enum:**
     | StoreSlideType | Description |
     | --- | --- |
     | `IMAGE` | Slide type for StoreGallerySlide, StoreImageSlide |
@@ -246,6 +263,7 @@ class StoreSlideType(StrEnum):
 
 class StoreTextAlignment(StrEnum):
     """
+    **StoreTextAlignment Enum:**
     | StoreTextAlignment | Description |
     | --- | --- |
     | `LEFT` | Left alignment. Default value configured for StoreEmptyTile |
@@ -262,6 +280,7 @@ class StoreTextAlignment(StrEnum):
 
 class StoreTextOption(StrEnum):
     """
+    **StoreTextOption Enum:**
     | StoreTextOption | Description |
     | --- | --- |
     | `TEXT_OVER_IMAGE` | Text overlaid on image |
@@ -274,6 +293,7 @@ class StoreTextOption(StrEnum):
 
 class StoreTextOptionType(StrEnum):
     """
+    **StoreTextOptionType Enum:**
     | StoreTextOptionType | Description |
     | --- | --- |
     | `NO_TEXT_OVER_VIDEO` | No text overlay on video |
@@ -286,6 +306,7 @@ class StoreTextOptionType(StrEnum):
 
 class StoreTileBorderSize(StrEnum):
     """
+    **StoreTileBorderSize Enum:**
     | StoreTileBorderSize | Description |
     | --- | --- |
     | `NONE` | No border |
@@ -302,6 +323,7 @@ class StoreTileBorderSize(StrEnum):
 
 class StoreTileSize(StrEnum):
     """
+    **StoreTileSize Enum:**
     | StoreTileSize | Description |
     | --- | --- |
     | `LARGE` | Large tile size, StoreAWLSTile only uses LARGE |
@@ -318,6 +340,7 @@ class StoreTileSize(StrEnum):
 
 class StoreTileTextSize(StrEnum):
     """
+    **StoreTileTextSize Enum:**
     | StoreTileTextSize | Description |
     | --- | --- |
     | `MINI` | Mini text size |
@@ -334,6 +357,7 @@ class StoreTileTextSize(StrEnum):
 
 class StoreTileType(StrEnum):
     """
+    **StoreTileType Enum:**
     | StoreTileType | Description |
     | --- | --- |
     | `TEXT` | Tile type for StoreTextTile and tile layers |
@@ -358,6 +382,7 @@ class StoreTileType(StrEnum):
 
 class StoreVerticalAlign(StrEnum):
     """
+    **StoreVerticalAlign Enum:**
     | StoreVerticalAlign | Description |
     | --- | --- |
     | `TOP` | Top alignment |
@@ -372,6 +397,7 @@ class StoreVerticalAlign(StrEnum):
 
 class StoreWidgetSectionType(StrEnum):
     """
+    **StoreWidgetSectionType Enum:**
     | StoreWidgetSectionType | Description |
     | --- | --- |
     | `HERO` | Section type for StoreHeroImageWidget |
@@ -406,6 +432,7 @@ class StoreWidgetSectionType(StrEnum):
 
 class StoreWidgetType(StrEnum):
     """
+    **StoreWidgetType Enum:**
     | StoreWidgetType | Description |
     | --- | --- |
     | `HERO` | Widget type for StoreHeroImageWidget |
@@ -432,6 +459,7 @@ class StoreWidgetType(StrEnum):
 
 class VerticalPosition(StrEnum):
     """
+    **VerticalPosition Enum:**
     | VerticalPosition | Description |
     | --- | --- |
     | `TOP` | Top position |
@@ -1774,7 +1802,9 @@ class StoreVideoWidget(BaseModel):
 class Tag(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    key: str = Field(description="A custom key value pair entered by the advertiser.")
+    key: str = Field(
+        description="A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI."
+    )
     value: str = Field(description="A custom key value pair entered by the advertiser.")
 
 
