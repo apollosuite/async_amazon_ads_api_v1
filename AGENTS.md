@@ -127,7 +127,7 @@ OpenAPI spec
 state: Annotated[SPState | str, lenient_enum(SPState)] | None = Field(default=None)
 ```
 
-Client 发出请求走 `body.model_dump(exclude_none=True)`，不经过 `_response`，请求校验不受影响。
+Client 发出请求走 `body.model_dump(exclude_unset=True)`，不经过 `_response`，请求校验不受影响。
 
 ## 使用示例
 

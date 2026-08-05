@@ -38,6 +38,6 @@ class ReservedTargetPricings(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/reservedTargetPricings/sb",
-            json=body.model_dump(mode="json", exclude_none=True),
+            json=body.model_dump(mode="json", exclude_unset=True),
         )
         return self._response(SBReservedTargetPricingMultiStatusResponse, resp, mode=mode)

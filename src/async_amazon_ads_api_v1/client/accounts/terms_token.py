@@ -39,7 +39,7 @@ class TermsToken(BaseResource):
         resp = await self._request(
             "POST",
             "/termsTokens",
-            json=body.model_dump(mode="json", exclude_none=True),
+            json=body.model_dump(mode="json", exclude_unset=True),
             headers={
                 "Content-Type": "application/vnd.GlobalRegistrationService.TermsTokenResource.v1.0+json",
                 "Accept": "application/vnd.termstokenresource.v1+json",

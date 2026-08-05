@@ -164,7 +164,7 @@ class AdAssociation(BaseModel):
 ### 不受影响
 
 - 纯请求 schema（`*Request`、`*Create`、`*Update`、`*Filter`）仍为 `extra="forbid"` + 原始 required
-- Client 发出请求走 `body.model_dump(exclude_none=True)`，不经过 `_response`
+- Client 发出请求走 `body.model_dump(exclude_unset=True)`，不经过 `_response`
 - 用户构造请求对象时仍为 Python 模式严格校验
 
 ### 边界情况：请求 ∩ 响应共用 schema

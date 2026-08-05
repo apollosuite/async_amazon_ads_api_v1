@@ -38,7 +38,7 @@ class Ads(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/ads",
-            json=body.model_dump(mode="json", exclude_none=True),
+            json=body.model_dump(mode="json", exclude_unset=True),
         )
         return self._response(SPAdMultiStatusResponse, resp, mode=mode)
 
@@ -58,7 +58,7 @@ class Ads(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/delete/ads",
-            json=body.model_dump(mode="json", exclude_none=True),
+            json=body.model_dump(mode="json", exclude_unset=True),
         )
         return self._response(SPAdMultiStatusResponse, resp, mode=mode)
 
@@ -78,7 +78,7 @@ class Ads(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/query/ads",
-            json=body.model_dump(mode="json", exclude_none=True),
+            json=body.model_dump(mode="json", exclude_unset=True),
         )
         return self._response(SPAdSuccessResponse, resp, mode=mode)
 
@@ -98,6 +98,6 @@ class Ads(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/update/ads",
-            json=body.model_dump(mode="json", exclude_none=True),
+            json=body.model_dump(mode="json", exclude_unset=True),
         )
         return self._response(SPAdMultiStatusResponse, resp, mode=mode)

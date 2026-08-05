@@ -220,4 +220,4 @@ class BaseResource:
             raise
 
     def _dump(self, items: Sequence[BaseModel]) -> list[dict[str, Any]]:
-        return [item.model_dump(mode="json", exclude_none=True) for item in items]
+        return [item.model_dump(mode="json", exclude_unset=True) for item in items]

@@ -42,7 +42,7 @@ class Portfolios(BaseResource):
         resp = await self._request(
             "POST",
             "/portfolios",
-            json=body.model_dump(mode="json", exclude_none=True),
+            json=body.model_dump(mode="json", exclude_unset=True),
             headers={
                 "Content-Type": "application/vnd.spPortfolio.v3+json",
                 "Accept": "application/vnd.spPortfolio.v3+json",
@@ -70,7 +70,7 @@ class Portfolios(BaseResource):
         resp = await self._request(
             "PUT",
             "/portfolios",
-            json=body.model_dump(mode="json", exclude_none=True),
+            json=body.model_dump(mode="json", exclude_unset=True),
             headers={
                 "Content-Type": "application/vnd.spPortfolio.v3+json",
                 "Accept": "application/vnd.spPortfolio.v3+json",
@@ -94,7 +94,7 @@ class Portfolios(BaseResource):
         resp = await self._request(
             "POST",
             "/portfolios/list",
-            json=body.model_dump(mode="json", exclude_none=True),
+            json=body.model_dump(mode="json", exclude_unset=True),
             headers={
                 "Content-Type": "application/vnd.spPortfolio.v3+json",
                 "Accept": "application/vnd.spPortfolio.v3+json",
