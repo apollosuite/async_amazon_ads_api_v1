@@ -36,6 +36,7 @@ def mock_async_client() -> MagicMock:
 def mock_response() -> MagicMock:
     resp = MagicMock(spec=httpx.Response)
     resp.status_code = 200
+    resp.is_error = False
     resp.content = b'{"dummy": "ok"}'
     return resp
 

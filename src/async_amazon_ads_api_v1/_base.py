@@ -6,12 +6,13 @@ import asyncio
 import logging
 import random
 from collections.abc import Sequence
-from typing import Any, Literal, TypeVar, overload
+from typing import Any, Literal, TypeVar, cast, overload
 
 import httpx
 from pydantic import BaseModel, ValidationError
 
 from .config.settings import AmazonAdsConfig
+from .errors import raise_for_status
 
 logger = logging.getLogger(__name__)
 
@@ -93,21 +94,22 @@ class BaseResource:
                     json=json,
                     headers=headers,
                 )
-                resp.raise_for_status()
-                return resp
-            except httpx.HTTPStatusError as exc:
-                if exc.response.status_code == 401 and self._ctx.config._token_manager is not None and attempt == 0:
-                    token = await self._ctx.config.refresh_access_token()
-                    headers["Authorization"] = f"Bearer {token}"
-                    continue
-                if exc.response.status_code in (429, 503, 504):
-                    if attempt < self._ctx.config.max_retries - 1:
-                        wait_time = 2**attempt + random.uniform(0, 1)
-                        logger.warning("Rate limit exceeded, retrying in %.2f seconds %s", wait_time, exc)
-                        await asyncio.sleep(wait_time)
+                if resp.is_error:
+                    if resp.status_code == 401 and self._ctx.config._token_manager is not None and attempt == 0:
+                        token = await self._ctx.config.refresh_access_token()
+                        headers["Authorization"] = f"Bearer {token}"
                         continue
-                logger.error("%s %s", exc.response.status_code, exc.response.text)
-                raise
+                    if resp.status_code in (429, 503, 504):
+                        if attempt < self._ctx.config.max_retries - 1:
+                            wait_time = 2**attempt + random.uniform(0, 1)
+                            logger.warning(
+                                "Rate limit exceeded, retrying in %.2f seconds %s", wait_time, resp.status_code
+                            )
+                            await asyncio.sleep(wait_time)
+                            continue
+                    logger.error("%s %s", resp.status_code, resp.text)
+                    raise_for_status(resp)
+                return resp
             except httpx.ConnectError:
                 if attempt < self._ctx.config.max_retries - 1:
                     await asyncio.sleep(2**attempt + random.uniform(0, 1))
@@ -137,9 +139,9 @@ class BaseResource:
             logger.error("Failed to parse response as %s: %s", model_cls.__name__, resp.text)
             raise
 
-    def _response_list(self, model_cls: type[_T], resp: httpx.Response) -> list[_T] | httpx.Response:
+    def _response_list(self, model_cls: type[_T], resp: httpx.Response) -> list[_T]:
         if self._raw_mode:
-            return resp
+            return cast("list[_T]", resp)
         try:
             return [model_cls.model_validate(item) for item in resp.json()]
         except ValidationError:

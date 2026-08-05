@@ -4,8 +4,15 @@ import pytest
 
 from async_amazon_ads_api_v1.client.sp import SPClient
 from async_amazon_ads_api_v1.models.sp.campaigns import (
+    SPCampaignCampaignIdFilter,
+    SPCampaignCreate,
     SPCampaignMultiStatusResponse,
     SPCampaignSuccessResponse,
+    SPCampaignUpdate,
+    SPCreateCampaignRequest,
+    SPDeleteCampaignRequest,
+    SPQueryCampaignRequest,
+    SPUpdateCampaignRequest,
 )
 
 from .config import E2ESettings
@@ -18,7 +25,10 @@ async def test_sp_campaigns_lifecycle_contract(
     e2e_settings: E2ESettings,
     unique_name: str,
 ) -> None:
-    create_result = await sp_client.campaigns.create([campaign_payload(unique_name, e2e_settings.marketplace)])
+    create_req = SPCreateCampaignRequest(
+        campaigns=[SPCampaignCreate.model_validate(campaign_payload(unique_name, e2e_settings.marketplace))]
+    )
+    create_result = await sp_client.campaigns.sp_create_campaign(create_req)
     assert isinstance(create_result, SPCampaignMultiStatusResponse)
     assert create_result.error == []
     assert create_result.success is not None
@@ -40,7 +50,8 @@ async def test_sp_campaigns_lifecycle_contract(
     assert monetary_value.monetaryBudget.currencyCode == e2e_settings.expected_currency_code
     assert monetary_value.monetaryBudget.value == 10.0
 
-    queried = await sp_client.campaigns.query(campaign_query_body(campaign_id, state="ENABLED"))
+    query_req = SPQueryCampaignRequest.model_validate(campaign_query_body(campaign_id, state="ENABLED"))
+    queried = await sp_client.campaigns.sp_query_campaign(query_req)
     assert isinstance(queried, SPCampaignSuccessResponse)
     assert queried.nextToken is None
     assert queried.campaigns is not None
@@ -48,26 +59,31 @@ async def test_sp_campaigns_lifecycle_contract(
     assert queried.campaigns[0].name == unique_name
 
     updated_name = f"{unique_name}-updated"
-    update_result = await sp_client.campaigns.update([{"campaignId": campaign_id, "name": updated_name}])
+    update_req = SPUpdateCampaignRequest(
+        campaigns=[SPCampaignUpdate.model_validate({"campaignId": campaign_id, "name": updated_name})]
+    )
+    update_result = await sp_client.campaigns.sp_update_campaign(update_req)
     assert isinstance(update_result, SPCampaignMultiStatusResponse)
     assert update_result.error == []
     assert update_result.success is not None
     assert update_result.success[0].campaign.campaignId == campaign_id
     assert update_result.success[0].campaign.name == updated_name
 
-    queried_after_update = await sp_client.campaigns.query(campaign_query_body(campaign_id, state="ENABLED"))
+    queried_after_update = await sp_client.campaigns.sp_query_campaign(query_req)
     assert isinstance(queried_after_update, SPCampaignSuccessResponse)
     assert queried_after_update.campaigns is not None
     assert [item.name for item in queried_after_update.campaigns] == [updated_name]
 
-    delete_result = await sp_client.campaigns.delete([campaign_id])
+    delete_req = SPDeleteCampaignRequest(campaignIdFilter=SPCampaignCampaignIdFilter(include=[campaign_id]))
+    delete_result = await sp_client.campaigns.sp_delete_campaign(delete_req)
     assert isinstance(delete_result, SPCampaignMultiStatusResponse)
     assert delete_result.error == []
     assert delete_result.success is not None
     assert delete_result.success[0].campaign.campaignId == campaign_id
     assert delete_result.success[0].campaign.state == "ARCHIVED"
 
-    archived = await sp_client.campaigns.query(campaign_query_body(campaign_id, state="ARCHIVED"))
+    archived_query_req = SPQueryCampaignRequest.model_validate(campaign_query_body(campaign_id, state="ARCHIVED"))
+    archived = await sp_client.campaigns.sp_query_campaign(archived_query_req)
     assert isinstance(archived, SPCampaignSuccessResponse)
     assert archived.nextToken is None
     assert archived.campaigns is not None

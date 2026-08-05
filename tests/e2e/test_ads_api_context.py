@@ -4,6 +4,8 @@ import httpx
 import pytest
 
 from async_amazon_ads_api_v1 import AmazonAdsConfig, Region, SPClient
+from async_amazon_ads_api_v1.errors import BadRequestError, UnauthorizedError
+from async_amazon_ads_api_v1.models.sp.campaigns import SPQueryCampaignRequest
 
 from .config import E2ESettings
 
@@ -68,12 +70,11 @@ async def test_sp_campaigns_reject_client_id_mismatch(
     )
 
     async with SPClient(bad_config) as sp_client:
-        with pytest.raises(httpx.HTTPStatusError) as exc_info:
-            await sp_client.campaigns.query(_query_body())
+        with pytest.raises(UnauthorizedError) as exc_info:
+            await sp_client.campaigns.sp_query_campaign(SPQueryCampaignRequest.model_validate(_query_body()))
 
-    resp = exc_info.value.response
-    assert resp.status_code == 401
-    assert resp.json() == {
+    assert exc_info.value.status_code == 401
+    assert exc_info.value.error_body == {
         "code": "UNAUTHORIZED",
         "message": "Amazon-Ads-ClientId does not match the access token",
     }
@@ -91,12 +92,11 @@ async def test_sp_campaigns_reject_non_numeric_profile_scope(
     )
 
     async with SPClient(bad_config) as sp_client:
-        with pytest.raises(httpx.HTTPStatusError) as exc_info:
-            await sp_client.campaigns.query(_query_body())
+        with pytest.raises(BadRequestError) as exc_info:
+            await sp_client.campaigns.sp_query_campaign(SPQueryCampaignRequest.model_validate(_query_body()))
 
-    resp = exc_info.value.response
-    assert resp.status_code == 400
-    assert resp.json() == {
+    assert exc_info.value.status_code == 400
+    assert exc_info.value.error_body == {
         "code": "BAD_REQUEST",
         "message": "Amazon-Advertising-API-Scope must be a profileId",
     }

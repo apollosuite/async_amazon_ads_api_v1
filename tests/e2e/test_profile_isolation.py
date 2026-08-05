@@ -4,8 +4,13 @@ import pytest
 
 from async_amazon_ads_api_v1 import AmazonAdsConfig, Region, SPClient
 from async_amazon_ads_api_v1.models.sp.campaigns import (
+    SPCampaignCampaignIdFilter,
+    SPCampaignCreate,
     SPCampaignMultiStatusResponse,
     SPCampaignSuccessResponse,
+    SPCreateCampaignRequest,
+    SPDeleteCampaignRequest,
+    SPQueryCampaignRequest,
 )
 
 from .config import E2ESettings
@@ -34,21 +39,26 @@ async def test_sp_campaigns_are_isolated_by_profile_scope(
     other_config = _config_for_profile(e2e_settings, e2e_settings.other_profile_id)
 
     async with SPClient(owner_config) as owner_client:
-        create_result = await owner_client.campaigns.create([campaign_payload(unique_name, e2e_settings.marketplace)])
+        create_req = SPCreateCampaignRequest(
+            campaigns=[SPCampaignCreate.model_validate(campaign_payload(unique_name, e2e_settings.marketplace))]
+        )
+        create_result = await owner_client.campaigns.sp_create_campaign(create_req)
         assert isinstance(create_result, SPCampaignMultiStatusResponse)
         assert create_result.error == []
         assert create_result.success is not None
         campaign_id = create_result.success[0].campaign.campaignId
 
-        owner_query = await owner_client.campaigns.query(campaign_query_body(campaign_id, state="ENABLED"))
+        query_req = SPQueryCampaignRequest.model_validate(campaign_query_body(campaign_id, state="ENABLED"))
+        owner_query = await owner_client.campaigns.sp_query_campaign(query_req)
         assert isinstance(owner_query, SPCampaignSuccessResponse)
         assert owner_query.campaigns is not None
         assert [item.campaignId for item in owner_query.campaigns] == [campaign_id]
 
         try:
             async with SPClient(other_config) as other_client:
-                other_query = await other_client.campaigns.query(campaign_query_body(campaign_id, state="ENABLED"))
+                other_query = await other_client.campaigns.sp_query_campaign(query_req)
             assert isinstance(other_query, SPCampaignSuccessResponse)
             assert other_query.campaigns == []
         finally:
-            await owner_client.campaigns.delete([campaign_id])
+            delete_req = SPDeleteCampaignRequest(campaignIdFilter=SPCampaignCampaignIdFilter(include=[campaign_id]))
+            await owner_client.campaigns.sp_delete_campaign(delete_req)
