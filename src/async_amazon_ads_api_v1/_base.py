@@ -47,21 +47,12 @@ _R = TypeVar("_R", bound="BaseResource")
 class BaseResource:
     """Base class providing shared HTTP operations for resource classes."""
 
-    __slots__ = ("_ctx", "_raw", "_raw_mode")
+    __slots__ = ("_ctx",)
 
     ASYNC_ACCEPT = {"Accept": "application/vnd.createasyncrequestresults.v3+json"}
 
     def __init__(self, ctx: ClientContext) -> None:
         self._ctx: ClientContext = ctx
-        self._raw: Any | None = None
-        self._raw_mode: bool = False
-
-    @property
-    def raw(self: _R) -> RawResource[_R]:
-        """Access raw response version of this resource's methods."""
-        if self._raw is None:
-            self._raw = RawResource(self)
-        return self._raw
 
     async def _request(
         self,
@@ -125,7 +116,6 @@ class BaseResource:
         resp: httpx.Response,
         *,
         mode: Literal["pydantic"] = "pydantic",
-        raw_response: bool = False,
     ) -> _T: ...
 
     @overload
@@ -135,7 +125,6 @@ class BaseResource:
         resp: httpx.Response,
         *,
         mode: Literal["dict"],
-        raw_response: bool = False,
     ) -> dict[str, Any]: ...
 
     @overload
@@ -145,7 +134,6 @@ class BaseResource:
         resp: httpx.Response,
         *,
         mode: Literal["raw"],
-        raw_response: bool = False,
     ) -> httpx.Response: ...
 
     @overload
@@ -155,7 +143,6 @@ class BaseResource:
         resp: httpx.Response,
         *,
         mode: ResponseMode = "pydantic",
-        raw_response: bool = False,
     ) -> _T | dict[str, Any] | httpx.Response: ...
 
     def _response(
@@ -164,14 +151,11 @@ class BaseResource:
         resp: httpx.Response,
         *,
         mode: ResponseMode = "pydantic",
-        raw_response: bool = False,
     ) -> _T | dict[str, Any] | httpx.Response:
-        effective_mode = "raw" if (raw_response or self._raw_mode) else mode
-
-        if effective_mode == "raw":
+        if mode == "raw":
             return resp
 
-        if effective_mode == "dict":
+        if mode == "dict":
             return resp.json()
 
         try:
@@ -223,12 +207,10 @@ class BaseResource:
         *,
         mode: ResponseMode = "pydantic",
     ) -> list[_T] | list[dict[str, Any]] | httpx.Response:
-        effective_mode = "raw" if self._raw_mode else mode
-
-        if effective_mode == "raw":
+        if mode == "raw":
             return resp
 
-        if effective_mode == "dict":
+        if mode == "dict":
             return resp.json()
 
         try:
@@ -239,27 +221,3 @@ class BaseResource:
 
     def _dump(self, items: Sequence[BaseModel]) -> list[dict[str, Any]]:
         return [item.model_dump(mode="json", exclude_none=True) for item in items]
-
-
-class RawResource[R: BaseResource]:
-    """Wrapper that bypasses model parsing and returns raw httpx.Response."""
-
-    __slots__ = ("_resource",)
-
-    def __init__(self, resource: _R) -> None:
-        self._resource = resource
-
-    def __getattr__(self, name: str) -> Any:
-        attr = getattr(self._resource, name)
-        if callable(attr) and not name.startswith("_"):
-
-            async def raw_method(*args: Any, **kwargs: Any) -> httpx.Response:
-                self._resource._raw_mode = True
-                try:
-                    res: httpx.Response = await attr(*args, **kwargs)
-                    return res
-                finally:
-                    self._resource._raw_mode = False
-
-            return raw_method
-        return attr
