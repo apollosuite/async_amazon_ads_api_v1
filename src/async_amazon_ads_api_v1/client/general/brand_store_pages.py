@@ -5,6 +5,10 @@ Generated from OpenAPI spec (tag: BrandStorePages).
 
 from __future__ import annotations
 
+from typing import Any, Literal, overload
+
+import httpx
+
 from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.general.brand_store_pages import (
     BrandStorePageSuccessResponse,
@@ -14,7 +18,21 @@ from async_amazon_ads_api_v1.models.general.brand_store_pages import (
 
 class BrandStorePages(BaseResource):
 
-    async def query_brand_store_page(self, body: QueryBrandStorePageRequest) -> BrandStorePageSuccessResponse:
+    @overload
+    async def query_brand_store_page(
+        self, body: QueryBrandStorePageRequest, *, mode: Literal["pydantic"] = "pydantic"
+    ) -> BrandStorePageSuccessResponse: ...
+    @overload
+    async def query_brand_store_page(
+        self, body: QueryBrandStorePageRequest, *, mode: Literal["dict"]
+    ) -> dict[str, Any]: ...
+    @overload
+    async def query_brand_store_page(
+        self, body: QueryBrandStorePageRequest, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def query_brand_store_page(
+        self, body: QueryBrandStorePageRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+    ) -> BrandStorePageSuccessResponse | dict[str, Any] | httpx.Response:
         """Retrieve brand store page content"""
 
         resp = await self._request(
@@ -22,4 +40,4 @@ class BrandStorePages(BaseResource):
             "/adsApi/v1/query/brandStorePages",
             json=body.model_dump(mode="json", exclude_none=True),
         )
-        return self._response(BrandStorePageSuccessResponse, resp)
+        return self._response(BrandStorePageSuccessResponse, resp, mode=mode)

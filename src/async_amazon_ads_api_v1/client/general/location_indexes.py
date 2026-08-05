@@ -5,6 +5,10 @@ Generated from OpenAPI spec (tag: LocationIndexes).
 
 from __future__ import annotations
 
+from typing import Any, Literal, overload
+
+import httpx
+
 from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.general.location_indexes import (
     CreateLocationIndexRequest,
@@ -17,7 +21,21 @@ from async_amazon_ads_api_v1.models.general.location_indexes import (
 
 class LocationIndexes(BaseResource):
 
-    async def create_location_index(self, body: CreateLocationIndexRequest) -> LocationIndexMultiStatusResponse:
+    @overload
+    async def create_location_index(
+        self, body: CreateLocationIndexRequest, *, mode: Literal["pydantic"] = "pydantic"
+    ) -> LocationIndexMultiStatusResponse: ...
+    @overload
+    async def create_location_index(
+        self, body: CreateLocationIndexRequest, *, mode: Literal["dict"]
+    ) -> dict[str, Any]: ...
+    @overload
+    async def create_location_index(
+        self, body: CreateLocationIndexRequest, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def create_location_index(
+        self, body: CreateLocationIndexRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+    ) -> LocationIndexMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create a Smart Location Index. A Smart Location Index is a named dataset that maps postal codes to index values representing relative audience quality or sales potential for a given advertiser. Index data is processed asynchronously; the index status will transition from PENDING to ENABLED once processing is complete."""
 
         resp = await self._request(
@@ -25,11 +43,27 @@ class LocationIndexes(BaseResource):
             "/adsApi/v1/create/locationIndexes",
             json=body.model_dump(mode="json", exclude_none=True),
         )
-        return self._response(LocationIndexMultiStatusResponse, resp)
+        return self._response(LocationIndexMultiStatusResponse, resp, mode=mode)
 
+    @overload
     async def list_location_index(
-        self, next_token: str | None = None, max_results: int | None = None
-    ) -> LocationIndexSuccessResponse:
+        self, *, mode: Literal["pydantic"] = "pydantic", next_token: str | None = None, max_results: int | None = None
+    ) -> LocationIndexSuccessResponse: ...
+    @overload
+    async def list_location_index(
+        self, *, mode: Literal["dict"], next_token: str | None = None, max_results: int | None = None
+    ) -> dict[str, Any]: ...
+    @overload
+    async def list_location_index(
+        self, *, mode: Literal["raw"], next_token: str | None = None, max_results: int | None = None
+    ) -> httpx.Response: ...
+    async def list_location_index(
+        self,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        next_token: str | None = None,
+        max_results: int | None = None,
+    ) -> LocationIndexSuccessResponse | dict[str, Any] | httpx.Response:
         """List all Smart Location Indexes for the authenticated advertiser. Returns a paginated collection of indexes including their current processing status. Use the nextToken from the response to retrieve subsequent pages."""
 
         params = {
@@ -38,9 +72,23 @@ class LocationIndexes(BaseResource):
         }
         params = {k: v for k, v in params.items() if v is not None}
         resp = await self._request("GET", "/adsApi/v1/locationIndexes", params=params)
-        return self._response(LocationIndexSuccessResponse, resp)
+        return self._response(LocationIndexSuccessResponse, resp, mode=mode)
 
-    async def retrieve_location_index(self, body: RetrieveLocationIndexRequest) -> LocationIndexMultiStatusResponse:
+    @overload
+    async def retrieve_location_index(
+        self, body: RetrieveLocationIndexRequest, *, mode: Literal["pydantic"] = "pydantic"
+    ) -> LocationIndexMultiStatusResponse: ...
+    @overload
+    async def retrieve_location_index(
+        self, body: RetrieveLocationIndexRequest, *, mode: Literal["dict"]
+    ) -> dict[str, Any]: ...
+    @overload
+    async def retrieve_location_index(
+        self, body: RetrieveLocationIndexRequest, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def retrieve_location_index(
+        self, body: RetrieveLocationIndexRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+    ) -> LocationIndexMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Retrieve one or more Smart Location Indexes by ID. Returns the current metadata and processing status for each requested index. An index with status PENDING is still being processed and is not yet available for use in smart location targeting."""
 
         resp = await self._request(
@@ -48,9 +96,23 @@ class LocationIndexes(BaseResource):
             "/adsApi/v1/retrieve/locationIndexes",
             json=body.model_dump(mode="json", exclude_none=True),
         )
-        return self._response(LocationIndexMultiStatusResponse, resp)
+        return self._response(LocationIndexMultiStatusResponse, resp, mode=mode)
 
-    async def update_location_index(self, body: UpdateLocationIndexRequest) -> LocationIndexMultiStatusResponse:
+    @overload
+    async def update_location_index(
+        self, body: UpdateLocationIndexRequest, *, mode: Literal["pydantic"] = "pydantic"
+    ) -> LocationIndexMultiStatusResponse: ...
+    @overload
+    async def update_location_index(
+        self, body: UpdateLocationIndexRequest, *, mode: Literal["dict"]
+    ) -> dict[str, Any]: ...
+    @overload
+    async def update_location_index(
+        self, body: UpdateLocationIndexRequest, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def update_location_index(
+        self, body: UpdateLocationIndexRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+    ) -> LocationIndexMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update the data for an existing Smart Location Index. Replaces the index's postal code values with the provided dataset. The update is processed asynchronously; the index status will return to PENDING until the new data has been fully processed."""
 
         resp = await self._request(
@@ -58,4 +120,4 @@ class LocationIndexes(BaseResource):
             "/adsApi/v1/update/locationIndexes",
             json=body.model_dump(mode="json", exclude_none=True),
         )
-        return self._response(LocationIndexMultiStatusResponse, resp)
+        return self._response(LocationIndexMultiStatusResponse, resp, mode=mode)

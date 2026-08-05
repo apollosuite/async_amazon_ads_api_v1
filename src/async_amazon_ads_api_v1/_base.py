@@ -6,7 +6,7 @@ import asyncio
 import logging
 import random
 from collections.abc import Sequence
-from typing import Any, Literal, TypeVar, cast, overload
+from typing import Any, Literal, TypeVar, overload
 
 import httpx
 from pydantic import BaseModel, ValidationError
@@ -17,6 +17,7 @@ from .errors import raise_for_status
 logger = logging.getLogger(__name__)
 
 _T = TypeVar("_T", bound=BaseModel)
+ResponseMode = Literal["pydantic", "dict", "raw"]
 
 
 class ClientContext:
@@ -118,30 +119,118 @@ class BaseResource:
         raise RuntimeError("Retry loop exited unexpectedly")
 
     @overload
-    def _response(self, model_cls: type[_T], resp: httpx.Response, *, raw_response: Literal[False] = False) -> _T: ...
+    def _response(
+        self,
+        model_cls: type[_T],
+        resp: httpx.Response,
+        *,
+        mode: Literal["pydantic"] = "pydantic",
+        raw_response: bool = False,
+    ) -> _T: ...
 
     @overload
     def _response(
-        self, model_cls: type[_T], resp: httpx.Response, *, raw_response: Literal[True]
+        self,
+        model_cls: type[_T],
+        resp: httpx.Response,
+        *,
+        mode: Literal["dict"],
+        raw_response: bool = False,
+    ) -> dict[str, Any]: ...
+
+    @overload
+    def _response(
+        self,
+        model_cls: type[_T],
+        resp: httpx.Response,
+        *,
+        mode: Literal["raw"],
+        raw_response: bool = False,
     ) -> httpx.Response: ...
 
     @overload
-    def _response(self, model_cls: type[_T], resp: httpx.Response, *, raw_response: bool) -> _T | httpx.Response: ...
+    def _response(
+        self,
+        model_cls: type[_T],
+        resp: httpx.Response,
+        *,
+        mode: ResponseMode = "pydantic",
+        raw_response: bool = False,
+    ) -> _T | dict[str, Any] | httpx.Response: ...
 
     def _response(
-        self, model_cls: type[_T], resp: httpx.Response, *, raw_response: bool = False
-    ) -> _T | httpx.Response:
-        if raw_response or self._raw_mode:
+        self,
+        model_cls: type[_T],
+        resp: httpx.Response,
+        *,
+        mode: ResponseMode = "pydantic",
+        raw_response: bool = False,
+    ) -> _T | dict[str, Any] | httpx.Response:
+        effective_mode = "raw" if (raw_response or self._raw_mode) else mode
+
+        if effective_mode == "raw":
             return resp
+
+        if effective_mode == "dict":
+            return resp.json()
+
         try:
             return model_cls.model_validate_json(resp.text)
         except ValidationError:
             logger.error("Failed to parse response as %s: %s", model_cls.__name__, resp.text)
             raise
 
-    def _response_list(self, model_cls: type[_T], resp: httpx.Response) -> list[_T]:
-        if self._raw_mode:
-            return cast("list[_T]", resp)
+    @overload
+    def _response_list(
+        self,
+        model_cls: type[_T],
+        resp: httpx.Response,
+        *,
+        mode: Literal["pydantic"] = "pydantic",
+    ) -> list[_T]: ...
+
+    @overload
+    def _response_list(
+        self,
+        model_cls: type[_T],
+        resp: httpx.Response,
+        *,
+        mode: Literal["dict"],
+    ) -> list[dict[str, Any]]: ...
+
+    @overload
+    def _response_list(
+        self,
+        model_cls: type[_T],
+        resp: httpx.Response,
+        *,
+        mode: Literal["raw"],
+    ) -> httpx.Response: ...
+
+    @overload
+    def _response_list(
+        self,
+        model_cls: type[_T],
+        resp: httpx.Response,
+        *,
+        mode: ResponseMode = "pydantic",
+    ) -> list[_T] | list[dict[str, Any]] | httpx.Response: ...
+
+    def _response_list(
+        self,
+        model_cls: type[_T],
+        resp: httpx.Response,
+        *,
+        mode: ResponseMode = "pydantic",
+    ) -> list[_T] | list[dict[str, Any]] | httpx.Response:
+        effective_mode = "raw" if self._raw_mode else mode
+
+        if effective_mode == "raw":
+            return resp
+
+        if effective_mode == "dict":
+            return resp.json()
+
         try:
             return [model_cls.model_validate(item) for item in resp.json()]
         except ValidationError:

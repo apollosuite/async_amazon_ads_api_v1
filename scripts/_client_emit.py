@@ -115,23 +115,27 @@ def _append_client_method(
 
         return schema_type(s, sc, name_map, SchemaRole.OUTPUT)
 
-    sig_parts = ["self"]
+    # Build parameter list for overload and implementation
+    # 1) Path params
+    pos_args: list[str] = ["self"]
     for p in path_params:
         pname = p.get("name", "")
         pschema = p.get("schema", {})
         ptype = type_fn(pschema, schemas_for_resolution)
         py_name = camel_to_snake(pname)
-        sig_parts.append(f"{py_name}: {ptype}")
+        pos_args.append(f"{py_name}: {ptype}")
 
+    # 2) Body param
     if req_model:
         req_type_str = f"list[{req_model}]" if is_array_req else req_model
         if config.respect_request_body_required and not request_required:
-            sig_parts.append(f"body: {req_type_str} | None = None")
+            pos_args.append(f"body: {req_type_str} | None = None")
         else:
-            sig_parts.append(f"body: {req_type_str}")
+            pos_args.append(f"body: {req_type_str}")
 
-    req_params = []
-    opt_params = []
+    # 3) Query params
+    req_query = []
+    opt_query = []
     for p in query_params:
         pname = p.get("name", "")
         pschema = p.get("schema", {})
@@ -140,11 +144,11 @@ def _append_client_method(
         py_name = camel_to_snake(pname)
         if not is_required:
             ptype = f"{ptype} | None"
-            opt_params.append(f"{py_name}: {ptype} = None")
+            opt_query.append(f"{py_name}: {ptype} = None")
         else:
-            req_params.append(f"{py_name}: {ptype}")
-    sig_parts.extend(req_params)
-    sig_parts.extend(opt_params)
+            req_query.append(f"{py_name}: {ptype}")
+
+    pos_args.extend(req_query)
 
     # Formatted URL with path parameters
     url_expr = path
@@ -157,10 +161,38 @@ def _append_client_method(
     else:
         url_str = f'"{url_expr}"'
 
+    # Base return type
     if resp_model:
-        base_ret_type = f"list[{resp_model}]" if is_array_resp else resp_model
+        model_ret_type = f"list[{resp_model}]" if is_array_resp else resp_model
+        dict_ret_type = "list[dict[str, Any]]" if is_array_resp else "dict[str, Any]"
     else:
-        base_ret_type = "Any"
+        model_ret_type = "Any"
+        dict_ret_type = "Any"
+
+    # Construct overloads
+    def make_sig(mode_type: str, ret_type: str, is_default_mode: bool = False) -> str:
+        kw_parts = []
+        if is_default_mode:
+            kw_parts.append('mode: Literal["pydantic"] = "pydantic"')
+        else:
+            kw_parts.append(f"mode: {mode_type}")
+        kw_parts.extend(opt_query)
+        kw_str = f"*, {', '.join(kw_parts)}"
+        args_str = ", ".join(pos_args + [kw_str])
+        return f"    async def {mname}({args_str}) -> {ret_type}: ..."
+
+    # Emit overloads
+    client_lines.append("    @overload")
+    client_lines.append(make_sig('Literal["pydantic"]', model_ret_type, is_default_mode=True))
+    client_lines.append("    @overload")
+    client_lines.append(make_sig('Literal["dict"]', dict_ret_type))
+    client_lines.append("    @overload")
+    client_lines.append(make_sig('Literal["raw"]', "httpx.Response"))
+
+    # Implementation signature
+    impl_kw_parts = ['mode: Literal["pydantic", "dict", "raw"] = "pydantic"'] + opt_query
+    impl_args_str = ", ".join(pos_args + [f"*, {', '.join(impl_kw_parts)}"])
+    impl_ret_type = f"{model_ret_type} | {dict_ret_type} | httpx.Response" if resp_model else "Any"
 
     def _clean_doc(s: str) -> str:
         cleaned = s.replace('"""', "").replace('"', "'").lstrip("*").strip()
@@ -174,7 +206,7 @@ def _append_client_method(
         or (config.param_docstring_mode == "if_descriptions" and has_param_docs)
     )
 
-    client_lines.append(f"    async def {mname}({', '.join(sig_parts)}) -> {base_ret_type}:")
+    client_lines.append(f"    async def {mname}({impl_args_str}) -> {impl_ret_type}:")
     if not use_multiline_doc:
         client_lines.append(f'        """{first_line}"""' if first_line else '        """')
         if not first_line:
@@ -195,7 +227,8 @@ def _append_client_method(
             if pdesc:
                 client_lines.append(f"            {pdesc}")
         if req_model:
-            client_lines.append(f"        body : {req_model}")
+            req_doc_type = f"list[{req_model}]" if is_array_req else req_model
+            client_lines.append(f"        body : {req_doc_type}")
             client_lines.append("            API request body.")
         for p in query_params:
             pname = p.get("name", "")
@@ -204,6 +237,8 @@ def _append_client_method(
             client_lines.append(f"        {py_name} : {type_fn(p.get('schema', {}), schemas_for_resolution)}")
             if pdesc:
                 client_lines.append(f"            {pdesc}")
+        client_lines.append("        mode : {'pydantic', 'dict', 'raw'}, default 'pydantic'")
+        client_lines.append("            Response parsing mode.")
         client_lines.append('        """')
     client_lines.append("")
 
@@ -251,9 +286,10 @@ def _append_client_method(
             client_lines.append(f'        resp = await self._request("{http_method}", {url_str})')
 
     if is_array_resp and resp_model:
-        client_lines.append(f"        return self._response_list({resp_model}, resp)")
+        client_lines.append(f"        return self._response_list({resp_model}, resp, mode=mode)")
     else:
-        client_lines.append(f"        return self._response({base_ret_type}, resp)")
+        client_lines.append(f"        return self._response({model_ret_type}, resp, mode=mode)")
+    client_lines.append("")
     client_lines.append("")
 
 
@@ -296,6 +332,11 @@ def generate_client_file(
         '"""',
         "",
         "from __future__ import annotations",
+        "",
+        "from typing import Any, Literal, overload",
+        "",
+        "import httpx",
+        "from pydantic import BaseModel",
         "",
         "from async_amazon_ads_api_v1._base import BaseResource",
         "",

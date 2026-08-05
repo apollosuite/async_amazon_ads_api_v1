@@ -5,6 +5,10 @@ Generated from OpenAPI spec (tag: AdAssociations).
 
 from __future__ import annotations
 
+from typing import Any, Literal, overload
+
+import httpx
+
 from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.general.ad_associations import (
     AdAssociationMultiStatusResponse,
@@ -18,7 +22,21 @@ from async_amazon_ads_api_v1.models.general.ad_associations import (
 
 class AdAssociations(BaseResource):
 
-    async def create_ad_association(self, body: CreateAdAssociationRequest) -> AdAssociationMultiStatusResponse:
+    @overload
+    async def create_ad_association(
+        self, body: CreateAdAssociationRequest, *, mode: Literal["pydantic"] = "pydantic"
+    ) -> AdAssociationMultiStatusResponse: ...
+    @overload
+    async def create_ad_association(
+        self, body: CreateAdAssociationRequest, *, mode: Literal["dict"]
+    ) -> dict[str, Any]: ...
+    @overload
+    async def create_ad_association(
+        self, body: CreateAdAssociationRequest, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def create_ad_association(
+        self, body: CreateAdAssociationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+    ) -> AdAssociationMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create Ad Association"""
 
         resp = await self._request(
@@ -26,9 +44,23 @@ class AdAssociations(BaseResource):
             "/adsApi/v1/create/adAssociations",
             json=body.model_dump(mode="json", exclude_none=True),
         )
-        return self._response(AdAssociationMultiStatusResponse, resp)
+        return self._response(AdAssociationMultiStatusResponse, resp, mode=mode)
 
-    async def delete_ad_association(self, body: DeleteAdAssociationRequest) -> AdAssociationMultiStatusResponse:
+    @overload
+    async def delete_ad_association(
+        self, body: DeleteAdAssociationRequest, *, mode: Literal["pydantic"] = "pydantic"
+    ) -> AdAssociationMultiStatusResponse: ...
+    @overload
+    async def delete_ad_association(
+        self, body: DeleteAdAssociationRequest, *, mode: Literal["dict"]
+    ) -> dict[str, Any]: ...
+    @overload
+    async def delete_ad_association(
+        self, body: DeleteAdAssociationRequest, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def delete_ad_association(
+        self, body: DeleteAdAssociationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+    ) -> AdAssociationMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Delete Ad Association"""
 
         resp = await self._request(
@@ -36,9 +68,23 @@ class AdAssociations(BaseResource):
             "/adsApi/v1/delete/adAssociations",
             json=body.model_dump(mode="json", exclude_none=True),
         )
-        return self._response(AdAssociationMultiStatusResponse, resp)
+        return self._response(AdAssociationMultiStatusResponse, resp, mode=mode)
 
-    async def query_ad_association(self, body: QueryAdAssociationRequest) -> AdAssociationSuccessResponse:
+    @overload
+    async def query_ad_association(
+        self, body: QueryAdAssociationRequest, *, mode: Literal["pydantic"] = "pydantic"
+    ) -> AdAssociationSuccessResponse: ...
+    @overload
+    async def query_ad_association(
+        self, body: QueryAdAssociationRequest, *, mode: Literal["dict"]
+    ) -> dict[str, Any]: ...
+    @overload
+    async def query_ad_association(
+        self, body: QueryAdAssociationRequest, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def query_ad_association(
+        self, body: QueryAdAssociationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+    ) -> AdAssociationSuccessResponse | dict[str, Any] | httpx.Response:
         """Query Ad Association"""
 
         resp = await self._request(
@@ -46,9 +92,23 @@ class AdAssociations(BaseResource):
             "/adsApi/v1/query/adAssociations",
             json=body.model_dump(mode="json", exclude_none=True),
         )
-        return self._response(AdAssociationSuccessResponse, resp)
+        return self._response(AdAssociationSuccessResponse, resp, mode=mode)
 
-    async def update_ad_association(self, body: UpdateAdAssociationRequest) -> AdAssociationMultiStatusResponse:
+    @overload
+    async def update_ad_association(
+        self, body: UpdateAdAssociationRequest, *, mode: Literal["pydantic"] = "pydantic"
+    ) -> AdAssociationMultiStatusResponse: ...
+    @overload
+    async def update_ad_association(
+        self, body: UpdateAdAssociationRequest, *, mode: Literal["dict"]
+    ) -> dict[str, Any]: ...
+    @overload
+    async def update_ad_association(
+        self, body: UpdateAdAssociationRequest, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def update_ad_association(
+        self, body: UpdateAdAssociationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+    ) -> AdAssociationMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update Ad Association"""
 
         resp = await self._request(
@@ -56,4 +116,4 @@ class AdAssociations(BaseResource):
             "/adsApi/v1/update/adAssociations",
             json=body.model_dump(mode="json", exclude_none=True),
         )
-        return self._response(AdAssociationMultiStatusResponse, resp)
+        return self._response(AdAssociationMultiStatusResponse, resp, mode=mode)

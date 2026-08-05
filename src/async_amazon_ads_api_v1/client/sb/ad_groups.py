@@ -5,6 +5,10 @@ Generated from OpenAPI spec (tag: AdGroups).
 
 from __future__ import annotations
 
+from typing import Any, Literal, overload
+
+import httpx
+
 from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.sb.ad_groups import (
     SBAdGroupMultiStatusResponse,
@@ -18,7 +22,17 @@ from async_amazon_ads_api_v1.models.sb.ad_groups import (
 
 class AdGroups(BaseResource):
 
-    async def sb_create_ad_group(self, body: SBCreateAdGroupRequest) -> SBAdGroupMultiStatusResponse:
+    @overload
+    async def sb_create_ad_group(
+        self, body: SBCreateAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
+    ) -> SBAdGroupMultiStatusResponse: ...
+    @overload
+    async def sb_create_ad_group(self, body: SBCreateAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    @overload
+    async def sb_create_ad_group(self, body: SBCreateAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
+    async def sb_create_ad_group(
+        self, body: SBCreateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+    ) -> SBAdGroupMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create ad groups"""
 
         resp = await self._request(
@@ -26,9 +40,19 @@ class AdGroups(BaseResource):
             "/adsApi/v1/create/adGroups",
             json=body.model_dump(mode="json", exclude_none=True),
         )
-        return self._response(SBAdGroupMultiStatusResponse, resp)
+        return self._response(SBAdGroupMultiStatusResponse, resp, mode=mode)
 
-    async def sb_delete_ad_group(self, body: SBDeleteAdGroupRequest) -> SBAdGroupMultiStatusResponse:
+    @overload
+    async def sb_delete_ad_group(
+        self, body: SBDeleteAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
+    ) -> SBAdGroupMultiStatusResponse: ...
+    @overload
+    async def sb_delete_ad_group(self, body: SBDeleteAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    @overload
+    async def sb_delete_ad_group(self, body: SBDeleteAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
+    async def sb_delete_ad_group(
+        self, body: SBDeleteAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+    ) -> SBAdGroupMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Delete ad groups"""
 
         resp = await self._request(
@@ -36,9 +60,19 @@ class AdGroups(BaseResource):
             "/adsApi/v1/delete/adGroups",
             json=body.model_dump(mode="json", exclude_none=True),
         )
-        return self._response(SBAdGroupMultiStatusResponse, resp)
+        return self._response(SBAdGroupMultiStatusResponse, resp, mode=mode)
 
-    async def sb_query_ad_group(self, body: SBQueryAdGroupRequest) -> SBAdGroupSuccessResponse:
+    @overload
+    async def sb_query_ad_group(
+        self, body: SBQueryAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
+    ) -> SBAdGroupSuccessResponse: ...
+    @overload
+    async def sb_query_ad_group(self, body: SBQueryAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    @overload
+    async def sb_query_ad_group(self, body: SBQueryAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
+    async def sb_query_ad_group(
+        self, body: SBQueryAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+    ) -> SBAdGroupSuccessResponse | dict[str, Any] | httpx.Response:
         """List ad groups"""
 
         resp = await self._request(
@@ -46,9 +80,19 @@ class AdGroups(BaseResource):
             "/adsApi/v1/query/adGroups",
             json=body.model_dump(mode="json", exclude_none=True),
         )
-        return self._response(SBAdGroupSuccessResponse, resp)
+        return self._response(SBAdGroupSuccessResponse, resp, mode=mode)
 
-    async def sb_update_ad_group(self, body: SBUpdateAdGroupRequest) -> SBAdGroupMultiStatusResponse:
+    @overload
+    async def sb_update_ad_group(
+        self, body: SBUpdateAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
+    ) -> SBAdGroupMultiStatusResponse: ...
+    @overload
+    async def sb_update_ad_group(self, body: SBUpdateAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    @overload
+    async def sb_update_ad_group(self, body: SBUpdateAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
+    async def sb_update_ad_group(
+        self, body: SBUpdateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+    ) -> SBAdGroupMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update ad groups"""
 
         resp = await self._request(
@@ -56,4 +100,4 @@ class AdGroups(BaseResource):
             "/adsApi/v1/update/adGroups",
             json=body.model_dump(mode="json", exclude_none=True),
         )
-        return self._response(SBAdGroupMultiStatusResponse, resp)
+        return self._response(SBAdGroupMultiStatusResponse, resp, mode=mode)
