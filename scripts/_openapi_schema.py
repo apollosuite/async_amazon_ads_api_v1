@@ -174,12 +174,19 @@ def _collect_schema_seeds(
     *,
     from_request: bool,
     from_response: bool,
+    spec: dict | None = None,
 ) -> set[str]:
     seeds: set[str] = set()
+    spec_params = spec.get("components", {}).get("parameters", {}) if spec else {}
     for _method, _path, operation in endpoints:
         if from_request:
             for _, media in operation.get("requestBody", {}).get("content", {}).items():
                 seeds.update(_schema_ref_seeds(media.get("schema", {})))
+            for p in operation.get("parameters", []):
+                if "$ref" in p:
+                    ref_name = p["$ref"].split("/")[-1]
+                    p = spec_params.get(ref_name, p)
+                seeds.update(_schema_ref_seeds(p.get("schema", {})))
         if from_response:
             for code, resp in operation.get("responses", {}).items():
                 if str(code) in ("200", "207", "201"):
@@ -208,8 +215,8 @@ def discover_schema_sets(
     """Return ``(request_schemas, response_schemas, all_needed)``."""
     all_schemas = spec.get("components", {}).get("schemas", {})
 
-    request_seeds = _collect_schema_seeds(endpoints, from_request=True, from_response=False)
-    response_seeds = _collect_schema_seeds(endpoints, from_request=False, from_response=True)
+    request_seeds = _collect_schema_seeds(endpoints, from_request=True, from_response=False, spec=spec)
+    response_seeds = _collect_schema_seeds(endpoints, from_request=False, from_response=True, spec=spec)
 
     request_names = _bfs_schema_closure(all_schemas, request_seeds)
     response_names = _bfs_schema_closure(all_schemas, response_seeds)

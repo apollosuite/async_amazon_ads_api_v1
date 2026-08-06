@@ -113,7 +113,10 @@ def _append_client_method(
     def type_fn(s: dict, sc: dict[str, Any]) -> str:
         from _schema_roles import SchemaRole
 
-        return schema_type(s, sc, name_map, SchemaRole.OUTPUT)
+        t = schema_type(s, sc, name_map, SchemaRole.OUTPUT)
+        if t.startswith("Annotated[") and "lenient_enum(" in t:
+            t = t.split("[", 1)[1].split("|", 1)[0].strip()
+        return t
 
     # Build parameter list for overload and implementation
     # 1) Path params

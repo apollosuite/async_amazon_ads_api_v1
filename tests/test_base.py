@@ -53,11 +53,28 @@ class TestClientContext:
         c2 = await ctx.get_client()
         assert c1 is c2
 
+    @pytest.mark.asyncio
+    async def test_client_context_close(self, config: AmazonAdsConfig) -> None:
+        ctx = ClientContext(config)
+        client = await ctx.get_client()
+        assert not client.is_closed
+        await ctx.close()
+        assert client.is_closed
+        assert ctx._client is None
+
 
 class TestBaseResource:
     @pytest.fixture
     def resource(self, ctx: ClientContext) -> BaseResource:
         return BaseResource(ctx)
+
+    @pytest.mark.asyncio
+    async def test_async_context_manager(self, ctx: ClientContext) -> None:
+        async with BaseResource(ctx) as res:
+            client = await res._ctx.get_client()
+            assert not client.is_closed
+        assert client.is_closed
+        assert res._ctx._client is None
 
     @pytest.mark.asyncio
     async def test_dump_with_model_instances(self, resource: BaseResource) -> None:

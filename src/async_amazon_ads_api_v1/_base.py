@@ -6,7 +6,7 @@ import asyncio
 import logging
 import random
 from collections.abc import Sequence
-from typing import Any, Literal, TypeVar, overload
+from typing import Any, Literal, TypeVar, cast, overload
 
 import httpx
 from pydantic import BaseModel, ValidationError
@@ -34,11 +34,13 @@ class ClientContext:
 
     async def get_client(self) -> httpx.AsyncClient:
         if self._client is None:
-            self._client = httpx.AsyncClient(
-                base_url=self.config.base_url,
-                timeout=httpx.Timeout(self.config.timeout),
-            )
+            self._client = httpx.AsyncClient(base_url=self.config.base_url, timeout=httpx.Timeout(self.config.timeout))
         return self._client
+
+    async def close(self) -> None:
+        if self._client is not None:
+            await self._client.aclose()
+            self._client = None
 
 
 _R = TypeVar("_R", bound="BaseResource")
@@ -53,6 +55,15 @@ class BaseResource:
 
     def __init__(self, ctx: ClientContext) -> None:
         self._ctx: ClientContext = ctx
+
+    async def __aenter__(self: _R) -> _R:
+        return self
+
+    async def __aexit__(self, *args: Any) -> None:
+        await self.close()
+
+    async def close(self) -> None:
+        await self._ctx.close()
 
     async def _request(
         self,
@@ -156,7 +167,7 @@ class BaseResource:
             return resp
 
         if mode == "dict":
-            return resp.json()
+            return cast(dict[str, Any], resp.json())
 
         try:
             return model_cls.model_validate_json(resp.text)
@@ -211,7 +222,7 @@ class BaseResource:
             return resp
 
         if mode == "dict":
-            return resp.json()
+            return cast(list[dict[str, Any]], resp.json())
 
         try:
             return [model_cls.model_validate(item) for item in resp.json()]

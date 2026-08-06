@@ -11,7 +11,6 @@ import httpx
 
 from async_amazon_ads_api_v1._base import BaseResource
 from async_amazon_ads_api_v1.models.sdv3.sd_creatives import (
-    Locale,
     SDCreateCreative,
     SDCreative,
     SDCreativeModeration,
@@ -19,6 +18,7 @@ from async_amazon_ads_api_v1.models.sdv3.sd_creatives import (
     SDCreativePreviewResponse,
     SDCreativeResponse,
     SDCreativeUpdate,
+    SDLocale,
 )
 
 
@@ -160,7 +160,7 @@ class SDCreatives(BaseResource):
     @overload
     async def list_creative_moderations(
         self,
-        language: Locale,
+        language: SDLocale,
         *,
         mode: Literal["pydantic"] = "pydantic",
         start_index: int | None = None,
@@ -171,7 +171,7 @@ class SDCreatives(BaseResource):
     @overload
     async def list_creative_moderations(
         self,
-        language: Locale,
+        language: SDLocale,
         *,
         mode: Literal["dict"],
         start_index: int | None = None,
@@ -182,7 +182,7 @@ class SDCreatives(BaseResource):
     @overload
     async def list_creative_moderations(
         self,
-        language: Locale,
+        language: SDLocale,
         *,
         mode: Literal["raw"],
         start_index: int | None = None,
@@ -192,7 +192,7 @@ class SDCreatives(BaseResource):
     ) -> httpx.Response: ...
     async def list_creative_moderations(
         self,
-        language: Locale,
+        language: SDLocale,
         *,
         mode: Literal["pydantic", "dict", "raw"] = "pydantic",
         start_index: int | None = None,
@@ -204,7 +204,7 @@ class SDCreatives(BaseResource):
 
         Parameters
         ----------
-        language : Locale
+        language : SDLocale
             The language of the returned creative moderation metadata.
         start_index : int
             Sets a cursor into the requested set of creative moderations. Use in conjunction with the `count` parameter to control pagination of the returned array. 0-indexed record offset for the result set, defaults to 0.

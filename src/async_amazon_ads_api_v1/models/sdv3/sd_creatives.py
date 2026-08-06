@@ -48,6 +48,34 @@ class SDLandingPageType(StrEnum):
     OFF_AMAZON_LINK = "OFF_AMAZON_LINK"
 
 
+class SDLocale(StrEnum):
+    """
+    Locale string as described in [BCP 47](https://tools.ietf.org/html/bcp47). For example, `en-US`
+    """
+
+    en_US = "en-US"
+    es_MX = "es-MX"
+    zh_CN = "zh-CN"
+    es_ES = "es-ES"
+    it_IT = "it-IT"
+    fr_FR = "fr-FR"
+    fr_CA = "fr-CA"
+    de_DE = "de-DE"
+    ja_JP = "ja-JP"
+    ko_KR = "ko-KR"
+    en_GB = "en-GB"
+    en_CA = "en-CA"
+    hi_IN = "hi-IN"
+    en_IN = "en-IN"
+    en_DE = "en-DE"
+    en_ES = "en-ES"
+    en_FR = "en-FR"
+    en_IT = "en-IT"
+    en_JP = "en-JP"
+    en_AE = "en-AE"
+    ar_AE = "ar-AE"
+
+
 type SDAdGroupId = int  # The identifier of the ad group.
 
 type SDAdName = str  # The name of the ad. Note that this field is not supported when using ASIN or SKU fields.
@@ -505,6 +533,7 @@ __all__ = [
     "SDImage",
     "SDLandingPageType",
     "SDLandingPageURL",
+    "SDLocale",
     "SDLogoCreativeProperties",
     "SDPreviewCreativeModel",
     "SDVideo",
