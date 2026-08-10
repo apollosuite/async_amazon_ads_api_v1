@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-from datetime import UTC, datetime
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import httpx
@@ -24,11 +23,6 @@ class DummyModel(BaseModel):
 
 class DummyResponse(BaseModel):
     ok: bool
-
-
-class DummyDateModel(BaseModel):
-    startDateTime: datetime  # noqa: N815 - Amazon API 字段使用 camelCase
-    note: str | None = None
 
 
 class TestClientContext:
@@ -75,18 +69,6 @@ class TestBaseResource:
             assert not client.is_closed
         assert client.is_closed
         assert res._ctx._client is None
-
-    @pytest.mark.asyncio
-    async def test_dump_with_model_instances(self, resource: BaseResource) -> None:
-        items = [DummyModel(name="a", value=1)]
-        result = resource._dump(items)
-        assert result == [{"name": "a", "value": 1}]
-
-    @pytest.mark.asyncio
-    async def test_dump_uses_json_mode(self, resource: BaseResource) -> None:
-        items = [DummyDateModel(startDateTime=datetime(2026, 6, 8, tzinfo=UTC))]
-        result = resource._dump(items)
-        assert result == [{"startDateTime": "2026-06-08T00:00:00Z"}]
 
     @pytest.mark.asyncio
     async def test_request_success(

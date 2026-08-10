@@ -5,7 +5,6 @@ from __future__ import annotations
 import asyncio
 import logging
 import random
-from collections.abc import Sequence
 from typing import Any, Literal, TypeVar, cast, overload
 
 import httpx
@@ -229,6 +228,3 @@ class BaseResource:
         except ValidationError:
             logger.error("Failed to parse response list as %s: %s", model_cls.__name__, resp.text)
             raise
-
-    def _dump(self, items: Sequence[BaseModel]) -> list[dict[str, Any]]:
-        return [item.model_dump(mode="json", exclude_unset=True) for item in items]
