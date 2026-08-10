@@ -8,7 +8,7 @@ import random
 from typing import Any, Literal, TypeVar, cast, overload
 
 import httpx
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel, TypeAdapter, ValidationError
 
 from .config.settings import AmazonAdsConfig
 from .errors import raise_for_status
@@ -48,12 +48,14 @@ _R = TypeVar("_R", bound="BaseResource")
 class BaseResource:
     """Base class providing shared HTTP operations for resource classes."""
 
-    __slots__ = ("_ctx",)
+    __slots__ = ("_ctx", "exclude_unset", "exclude_none")
 
     ASYNC_ACCEPT = {"Accept": "application/vnd.createasyncrequestresults.v3+json"}
 
-    def __init__(self, ctx: ClientContext) -> None:
+    def __init__(self, ctx: ClientContext, exclude_unset: bool = True, exclude_none: bool = True) -> None:
         self._ctx: ClientContext = ctx
+        self.exclude_unset = exclude_unset
+        self.exclude_none = exclude_none
 
     async def __aenter__(self: _R) -> _R:
         return self
@@ -63,6 +65,9 @@ class BaseResource:
 
     async def close(self) -> None:
         await self._ctx.close()
+
+    def dump_json(self, body: BaseModel) -> dict[str, Any]:
+        return body.model_dump(mode="json", exclude_unset=self.exclude_unset, exclude_none=self.exclude_none)
 
     async def _request(
         self,
@@ -224,7 +229,8 @@ class BaseResource:
             return cast(list[dict[str, Any]], resp.json())
 
         try:
-            return [model_cls.model_validate(item) for item in resp.json()]
+            # JSON mode so lenient_enum keeps unknown enum values as str
+            return TypeAdapter(list[model_cls]).validate_json(resp.text)
         except ValidationError:
             logger.error("Failed to parse response list as %s: %s", model_cls.__name__, resp.text)
             raise

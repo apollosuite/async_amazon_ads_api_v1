@@ -41,7 +41,7 @@ class AdExtensions(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/adExtensions",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SBAdExtensionMultiStatusResponse, resp, mode=mode)
 
@@ -65,7 +65,7 @@ class AdExtensions(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/query/adExtensions",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SBAdExtensionSuccessResponse, resp, mode=mode)
 
@@ -89,6 +89,6 @@ class AdExtensions(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/update/adExtensions",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SBAdExtensionMultiStatusResponse, resp, mode=mode)

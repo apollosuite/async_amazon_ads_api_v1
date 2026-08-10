@@ -38,6 +38,6 @@ class RecommendationTypes(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/query/recommendationTypes/sb",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SBRecommendationTypeSuccessResponse, resp, mode=mode)

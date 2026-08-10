@@ -159,6 +159,24 @@ class TestBaseResource:
                 await resource._request("GET", "/test")
         assert mock_async_client.request.call_count == 1
 
+    def test_dump_json_excludes_unset_and_none(self, resource: BaseResource) -> None:
+        class OptionalBody(BaseModel):
+            name: str
+            note: str | None = None
+            count: int | None = None
+
+        body = OptionalBody(name="x", note=None)
+        assert resource.dump_json(body) == {"name": "x"}
+
+    def test_dump_json_respects_flags(self, ctx: ClientContext) -> None:
+        class OptionalBody(BaseModel):
+            name: str
+            note: str | None = None
+
+        resource = BaseResource(ctx, exclude_unset=False, exclude_none=False)
+        body = OptionalBody(name="x")
+        assert resource.dump_json(body) == {"name": "x", "note": None}
+
     @pytest.mark.asyncio
     async def test_response(self, resource: BaseResource) -> None:
         resp = MagicMock(spec=httpx.Response)

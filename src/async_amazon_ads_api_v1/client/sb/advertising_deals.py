@@ -42,7 +42,7 @@ class AdvertisingDeals(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/advertisingDeals/sb",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SBAdvertisingDealMultiStatusResponse, resp, mode=mode)
 
@@ -66,7 +66,7 @@ class AdvertisingDeals(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/delete/advertisingDeals/sb",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SBAdvertisingDealMultiStatusResponse, resp, mode=mode)
 
@@ -90,7 +90,7 @@ class AdvertisingDeals(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/query/advertisingDeals/sb",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SBAdvertisingDealSuccessResponse, resp, mode=mode)
 
@@ -114,6 +114,6 @@ class AdvertisingDeals(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/update/advertisingDeals/sb",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SBAdvertisingDealMultiStatusResponse, resp, mode=mode)

@@ -41,7 +41,7 @@ class AdvertiserAccounts(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/advertiserAccounts",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(AdvertiserAccountMultiStatusResponse, resp, mode=mode)
 
@@ -65,7 +65,7 @@ class AdvertiserAccounts(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/query/advertiserAccounts",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(AdvertiserAccountSuccessResponse, resp, mode=mode)
 
@@ -89,6 +89,6 @@ class AdvertiserAccounts(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/update/advertiserAccounts",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(AdvertiserAccountMultiStatusResponse, resp, mode=mode)

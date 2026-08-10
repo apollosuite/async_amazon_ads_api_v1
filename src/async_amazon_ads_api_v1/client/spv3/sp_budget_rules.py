@@ -86,7 +86,7 @@ class SPBudgetRules(BaseResource):
         resp = await self._request(
             "POST",
             "/sp/budgetRules",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SPCreateBudgetRulesResponse, resp, mode=mode)
 
@@ -110,7 +110,7 @@ class SPBudgetRules(BaseResource):
         resp = await self._request(
             "PUT",
             "/sp/budgetRules",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SPUpdateBudgetRulesResponse, resp, mode=mode)
 
@@ -209,7 +209,7 @@ class SPBudgetRules(BaseResource):
         resp = await self._request(
             "POST",
             "/sp/budgetRulesAssociation",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SPBulkBudgetRulesAssociationResponse, resp, mode=mode)
 
@@ -233,7 +233,7 @@ class SPBudgetRules(BaseResource):
         resp = await self._request(
             "POST",
             "/sp/budgetRulesAssociation/delete",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SPBulkBudgetRulesDisAssociationResponse, resp, mode=mode)
 
@@ -299,7 +299,7 @@ class SPBudgetRules(BaseResource):
         resp = await self._request(
             "POST",
             f"/sp/campaigns/{campaign_id}/budgetRules",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SPCreateAssociatedBudgetRulesResponse, resp, mode=mode)
 

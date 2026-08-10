@@ -31,7 +31,7 @@ class DummyResource(BaseResource):
     async def post_dummy(
         self, body: DummyModel, *, mode: ResponseMode = "pydantic"
     ) -> DummyModel | dict | httpx.Response:
-        resp = await self._request("POST", "/dummy", json=body.model_dump(mode="json", exclude_none=True))
+        resp = await self._request("POST", "/dummy", json=self.dump_json(body))
         return self._response(DummyModel, resp, mode=mode)
 
 

@@ -38,7 +38,7 @@ class Campaigns(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/campaigns",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SDCampaignMultiStatusResponse, resp, mode=mode)
 
@@ -58,7 +58,7 @@ class Campaigns(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/delete/campaigns",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SDCampaignMultiStatusResponse, resp, mode=mode)
 
@@ -78,7 +78,7 @@ class Campaigns(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/query/campaigns",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SDCampaignSuccessResponse, resp, mode=mode)
 
@@ -98,6 +98,6 @@ class Campaigns(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/update/campaigns",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SDCampaignMultiStatusResponse, resp, mode=mode)

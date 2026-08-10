@@ -38,6 +38,6 @@ class SellingAccounts(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/query/sellingAccounts",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SellingAccountSuccessResponse, resp, mode=mode)

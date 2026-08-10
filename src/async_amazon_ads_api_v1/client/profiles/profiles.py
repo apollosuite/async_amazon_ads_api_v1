@@ -100,7 +100,7 @@ class Profiles(BaseResource):
         resp = await self._request(
             "PUT",
             "/v2/profiles",
-            json=[x.model_dump(mode="json", exclude_unset=True) for x in body],
+            json=[self.dump_json(x) for x in body],
         )
         return self._response_list(ProfileResult, resp, mode=mode)
 

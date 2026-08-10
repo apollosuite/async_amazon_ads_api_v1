@@ -46,7 +46,7 @@ class SBOptimizationRules(BaseResource):
         resp = await self._request(
             "POST",
             "/sb/rules/optimization",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
             headers={
                 "Content-Type": "application/vnd.sbruleoptimization.v4+json",
                 "Accept": "application/vnd.sbruleoptimization.v4+json",
@@ -74,7 +74,7 @@ class SBOptimizationRules(BaseResource):
         resp = await self._request(
             "PUT",
             "/sb/rules/optimization",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
             headers={
                 "Content-Type": "application/vnd.sbruleoptimization.v4+json",
                 "Accept": "application/vnd.sbruleoptimization.v4+json",
@@ -102,7 +102,7 @@ class SBOptimizationRules(BaseResource):
         resp = await self._request(
             "POST",
             "/sb/rules/optimization/associate",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
             headers={
                 "Content-Type": "application/vnd.sbruleoptimization.v4+json",
                 "Accept": "application/vnd.sbruleoptimization.v4+json",
@@ -130,7 +130,7 @@ class SBOptimizationRules(BaseResource):
         resp = await self._request(
             "POST",
             "/sb/rules/optimization/list",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
             headers={
                 "Content-Type": "application/vnd.sbruleoptimization.v4+json",
                 "Accept": "application/vnd.sbruleoptimization.v4+json",
@@ -158,7 +158,7 @@ class SBOptimizationRules(BaseResource):
         resp = await self._request(
             "POST",
             "/sb/rules/optimization/disassociate",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
             headers={
                 "Content-Type": "application/vnd.sbruleoptimization.v4+json",
                 "Accept": "application/vnd.sbruleoptimization.v4+json",

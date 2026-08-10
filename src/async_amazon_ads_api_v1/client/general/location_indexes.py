@@ -41,7 +41,7 @@ class LocationIndexes(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/locationIndexes",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(LocationIndexMultiStatusResponse, resp, mode=mode)
 
@@ -94,7 +94,7 @@ class LocationIndexes(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/retrieve/locationIndexes",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(LocationIndexMultiStatusResponse, resp, mode=mode)
 
@@ -118,6 +118,6 @@ class LocationIndexes(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/update/locationIndexes",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(LocationIndexMultiStatusResponse, resp, mode=mode)

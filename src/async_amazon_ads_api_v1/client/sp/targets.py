@@ -38,7 +38,7 @@ class Targets(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/targets",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SPTargetMultiStatusResponse, resp, mode=mode)
 
@@ -58,7 +58,7 @@ class Targets(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/delete/targets",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SPTargetMultiStatusResponse, resp, mode=mode)
 
@@ -78,7 +78,7 @@ class Targets(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/query/targets",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SPTargetSuccessResponse, resp, mode=mode)
 
@@ -98,6 +98,6 @@ class Targets(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/update/targets",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SPTargetMultiStatusResponse, resp, mode=mode)

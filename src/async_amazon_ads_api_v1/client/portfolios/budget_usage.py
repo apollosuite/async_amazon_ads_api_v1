@@ -38,7 +38,7 @@ class PortfolioBudgetUsage(BaseResource):
         resp = await self._request(
             "POST",
             "/portfolios/budget/usage",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
             headers={
                 "Content-Type": "application/vnd.portfoliobudgetusage.v1+json",
                 "Accept": "application/vnd.portfoliobudgetusage.v1+json",

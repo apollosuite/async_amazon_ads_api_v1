@@ -107,7 +107,7 @@ class SDCreatives(BaseResource):
         resp = await self._request(
             "PUT",
             "/sd/creatives",
-            json=[x.model_dump(mode="json", exclude_unset=True) for x in body],
+            json=[self.dump_json(x) for x in body],
         )
         return self._response_list(SDCreativeResponse, resp, mode=mode)
 
@@ -129,7 +129,7 @@ class SDCreatives(BaseResource):
         resp = await self._request(
             "POST",
             "/sd/creatives",
-            json=[x.model_dump(mode="json", exclude_unset=True) for x in body],
+            json=[self.dump_json(x) for x in body],
         )
         return self._response_list(SDCreativeResponse, resp, mode=mode)
 
@@ -153,7 +153,7 @@ class SDCreatives(BaseResource):
         resp = await self._request(
             "POST",
             "/sd/creatives/preview",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(SDCreativePreviewResponse, resp, mode=mode)
 

@@ -42,7 +42,7 @@ class AdAssociations(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/create/adAssociations",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(AdAssociationMultiStatusResponse, resp, mode=mode)
 
@@ -66,7 +66,7 @@ class AdAssociations(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/delete/adAssociations",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(AdAssociationMultiStatusResponse, resp, mode=mode)
 
@@ -90,7 +90,7 @@ class AdAssociations(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/query/adAssociations",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(AdAssociationSuccessResponse, resp, mode=mode)
 
@@ -114,6 +114,6 @@ class AdAssociations(BaseResource):
         resp = await self._request(
             "POST",
             "/adsApi/v1/update/adAssociations",
-            json=body.model_dump(mode="json", exclude_unset=True),
+            json=self.dump_json(body),
         )
         return self._response(AdAssociationMultiStatusResponse, resp, mode=mode)
