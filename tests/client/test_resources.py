@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from async_amazon_ads_api_v1._base import ClientContext
+from async_amazon_ads_api_v1.base import ClientContext
 from async_amazon_ads_api_v1.client.sb.ad_groups import AdGroups as SBAdGroups
 from async_amazon_ads_api_v1.client.sb.ads import Ads as SBAds
 from async_amazon_ads_api_v1.client.sb.branded_keywords_pricings import (

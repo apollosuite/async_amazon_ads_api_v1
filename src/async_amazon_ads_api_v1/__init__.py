@@ -13,9 +13,12 @@ from async_amazon_ads_api_v1.config.token_cache import (
 )
 from async_amazon_ads_api_v1.config.token_manager import TokenCredentials, TokenManager
 
+from .base import ClientContext
+
 __all__ = [
     "AmazonAdsConfig",
     "BaseTokenCache",
+    "ClientContext",
     "CacheBackend",
     "FileTokenCache",
     "RedisTokenCache",

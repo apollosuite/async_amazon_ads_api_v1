@@ -341,7 +341,7 @@ def generate_client_file(
         "import httpx",
         "from pydantic import BaseModel",
         "",
-        "from async_amazon_ads_api_v1._base import BaseResource",
+        "from async_amazon_ads_api_v1.base import BaseResource",
         "",
         f"from {model_import_prefix} import (",
     ]

@@ -9,7 +9,7 @@ from typing import Any, Literal, overload
 
 import httpx
 
-from async_amazon_ads_api_v1._base import BaseResource
+from async_amazon_ads_api_v1.base import BaseResource
 from async_amazon_ads_api_v1.models.accounts.terms_token import (
     CreateTermsTokenRequestContent,
     CreateTermsTokenResponseContent,

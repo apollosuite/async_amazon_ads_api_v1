@@ -7,7 +7,7 @@ import pytest
 from pydantic import BaseModel
 
 from async_amazon_ads_api_v1 import AmazonAdsConfig
-from async_amazon_ads_api_v1._base import BaseResource, ClientContext
+from async_amazon_ads_api_v1.base import BaseResource, ClientContext
 
 ResponseMode = Literal["pydantic", "dict", "raw"]
 

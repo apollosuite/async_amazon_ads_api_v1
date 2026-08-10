@@ -8,7 +8,7 @@ import httpx
 import pytest
 from pydantic import BaseModel
 
-from async_amazon_ads_api_v1._base import BaseResource, ClientContext
+from async_amazon_ads_api_v1.base import BaseResource, ClientContext
 from async_amazon_ads_api_v1.config.settings import AmazonAdsConfig
 from async_amazon_ads_api_v1.errors import BadRequestError, InternalServerError
 from async_amazon_ads_api_v1.models.general.brand_store_edition_publish_versions import (

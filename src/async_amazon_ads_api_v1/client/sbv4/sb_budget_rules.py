@@ -9,7 +9,7 @@ from typing import Any, Literal, overload
 
 import httpx
 
-from async_amazon_ads_api_v1._base import BaseResource
+from async_amazon_ads_api_v1.base import BaseResource
 from async_amazon_ads_api_v1.models.sbv4.sb_budget_rules import (
     SBCreateAssociatedBudgetRulesRequest,
     SBCreateAssociatedBudgetRulesResponse,

@@ -7,7 +7,7 @@ import httpx
 import pytest
 
 from async_amazon_ads_api_v1 import AmazonAdsConfig, Region, SPClient
-from async_amazon_ads_api_v1._base import ClientContext
+from async_amazon_ads_api_v1.base import ClientContext
 from async_amazon_ads_api_v1.models.sp.campaigns import (
     SPCampaignCreate,
     SPCampaignMultiStatusResponse,
