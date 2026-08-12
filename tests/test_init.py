@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from async_amazon_ads_api_v1 import (
     AmazonAdsConfig,
+    ClientContext,
     Region,
     SBClient,
     SDClient,
@@ -22,6 +23,7 @@ class TestExports:
             "AmazonAdsConfig",
             "BaseTokenCache",
             "CacheBackend",
+            "ClientContext",
             "FileTokenCache",
             "RedisTokenCache",
             "Region",
@@ -35,6 +37,7 @@ class TestExports:
 
     def test_imports(self) -> None:
         assert AmazonAdsConfig is not None
+        assert ClientContext is not None
         assert Region is not None
         assert SPClient is not None
         assert SBClient is not None

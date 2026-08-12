@@ -36,9 +36,7 @@ class SDClient:
         await self.close()
 
     async def close(self) -> None:
-        if self._ctx._client is not None:
-            await self._ctx._client.aclose()
-            self._ctx._client = None
+        await self._ctx.close()
 
     @property
     def campaigns(self) -> Campaigns:

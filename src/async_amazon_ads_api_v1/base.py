@@ -41,6 +41,12 @@ class ClientContext:
             await self._client.aclose()
             self._client = None
 
+    async def __aenter__(self) -> ClientContext:
+        return self
+
+    async def __aexit__(self, *args: Any) -> None:
+        await self.close()
+
 
 _R = TypeVar("_R", bound="BaseResource")
 
@@ -56,15 +62,6 @@ class BaseResource:
         self._ctx: ClientContext = ctx
         self.exclude_unset = exclude_unset
         self.exclude_none = exclude_none
-
-    async def __aenter__(self: _R) -> _R:
-        return self
-
-    async def __aexit__(self, *args: Any) -> None:
-        await self.close()
-
-    async def close(self) -> None:
-        await self._ctx.close()
 
     def dump_json(self, body: BaseModel) -> dict[str, Any]:
         return body.model_dump(mode="json", exclude_unset=self.exclude_unset, exclude_none=self.exclude_none)
@@ -230,7 +227,8 @@ class BaseResource:
 
         try:
             # JSON mode so lenient_enum keeps unknown enum values as str
-            return TypeAdapter(list[model_cls]).validate_json(resp.text)
+            list_type: Any = list[model_cls]  # type: ignore[valid-type]
+            return TypeAdapter[list[_T]](list_type).validate_json(resp.text)
         except ValidationError:
             logger.error("Failed to parse response list as %s: %s", model_cls.__name__, resp.text)
             raise
