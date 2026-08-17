@@ -8,6 +8,7 @@ from ads_api.base import ClientContext
 from ads_api.client.v0 import AdsClientV0
 from ads_api.client.v1 import AdsClientV1
 from ads_api.config.settings import AmazonAdsConfig
+from ads_api.errors import MissingConfigError
 
 __all__ = ["AdsClient", "AdsClientV0", "AdsClientV1"]
 
@@ -37,7 +38,7 @@ class AdsClient:
             self._ctx = ClientContext(config)
             self._owns_ctx = True
         else:
-            raise ValueError("Either 'config' or 'ctx' must be provided.")
+            raise MissingConfigError()
         self.__v0: AdsClientV0 | None = None
         self.__v1: AdsClientV1 | None = None
 

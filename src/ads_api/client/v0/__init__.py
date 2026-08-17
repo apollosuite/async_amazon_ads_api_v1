@@ -11,6 +11,7 @@ from ads_api.client.v0.exports import Exports
 from ads_api.client.v0.reporting import Reporting
 from ads_api.client.v0.sp_v3 import SPV3
 from ads_api.config.settings import AmazonAdsConfig
+from ads_api.errors import MissingConfigError
 
 
 class AdsClientV0:
@@ -41,7 +42,7 @@ class AdsClientV0:
             self._ctx = ClientContext(config)
             self._owns_ctx = True
         else:
-            raise ValueError("Either 'config' or 'ctx' must be provided.")
+            raise MissingConfigError()
         self.__accounts: Accounts | None = None
         self.__reporting: Reporting | None = None
         self.__ads_data_manager: AdsDataManager | None = None

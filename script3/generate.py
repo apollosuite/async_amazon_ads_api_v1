@@ -216,6 +216,7 @@ def render_v0_client(groups: list[TocGroup]) -> str:
         "",
         "from ads_api.base import ClientContext",
         "from ads_api.config.settings import AmazonAdsConfig",
+        "from ads_api.errors import MissingConfigError",
         "",
     ]
     for group in groups:
@@ -252,7 +253,7 @@ def render_v0_client(groups: list[TocGroup]) -> str:
     lines.append("            self._ctx = ClientContext(config)")
     lines.append("            self._owns_ctx = True")
     lines.append("        else:")
-    lines.append("            raise ValueError(\"Either 'config' or 'ctx' must be provided.\")")
+    lines.append("            raise MissingConfigError()")
     for group in groups:
         lines.append(f"        self.__{group.key}: {group.namespace_class} | None = None")
     lines.append("")

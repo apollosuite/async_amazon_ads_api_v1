@@ -11,6 +11,17 @@ class AmazonAdsError(Exception):
     """Base exception for all Amazon Ads SDK errors."""
 
 
+class ConfigurationError(AmazonAdsError, ValueError):
+    """Base exception for client configuration and initialization errors."""
+
+
+class MissingConfigError(ConfigurationError):
+    """Raised when neither 'config' nor 'ctx' is provided during client initialization."""
+
+    def __init__(self, message: str = "Either 'config' or 'ctx' must be provided.") -> None:
+        super().__init__(message)
+
+
 class AmazonAdsAPIError(AmazonAdsError):
     """Raised when an API request returns an HTTP error status (4xx or 5xx)."""
 
@@ -89,3 +100,21 @@ def raise_for_status(response: httpx.Response) -> None:
     if response.is_error:
         error_cls = STATUS_CODE_ERROR_MAP.get(response.status_code, AmazonAdsAPIError)
         raise error_cls(response)
+
+
+__all__ = [
+    "AmazonAdsAPIError",
+    "AmazonAdsError",
+    "BadRequestError",
+    "ConflictError",
+    "ConfigurationError",
+    "ForbiddenError",
+    "InternalServerError",
+    "MissingConfigError",
+    "NotFoundError",
+    "RateLimitError",
+    "STATUS_CODE_ERROR_MAP",
+    "UnauthorizedError",
+    "UnprocessableEntityError",
+    "raise_for_status",
+]

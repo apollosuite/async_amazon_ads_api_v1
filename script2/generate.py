@@ -111,6 +111,7 @@ def render_v1_client(products: list[Product], entities: list[tuple[str, str]]) -
         "",
         "from ads_api.base import ClientContext",
         "from ads_api.config.settings import AmazonAdsConfig",
+        "from ads_api.errors import MissingConfigError",
         "",
     ]
     for product in products:
@@ -150,7 +151,7 @@ def render_v1_client(products: list[Product], entities: list[tuple[str, str]]) -
     lines.append("            self._ctx = ClientContext(config)")
     lines.append("            self._owns_ctx = True")
     lines.append("        else:")
-    lines.append("            raise ValueError(\"Either 'config' or 'ctx' must be provided.\")")
+    lines.append("            raise MissingConfigError()")
     for name, cls in attrs:
         lines.append(f"        self.__{name}: {cls} | None = None")
     lines.append("")

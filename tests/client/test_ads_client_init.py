@@ -3,6 +3,7 @@ from __future__ import annotations
 import pytest
 
 from ads_api import AdsClient, AdsClientV0, AdsClientV1, AmazonAdsConfig, ClientContext, Region
+from ads_api.errors import AmazonAdsError, ConfigurationError, MissingConfigError
 
 
 @pytest.fixture
@@ -12,6 +13,19 @@ def config() -> AmazonAdsConfig:
         client_id="test_client_id",
         region=Region.NA,
     )
+
+
+class TestMissingConfigError:
+    def test_error_hierarchy_and_message(self) -> None:
+        err = MissingConfigError()
+        assert isinstance(err, ConfigurationError)
+        assert isinstance(err, AmazonAdsError)
+        assert isinstance(err, ValueError)
+        assert str(err) == "Either 'config' or 'ctx' must be provided."
+
+    def test_custom_message(self) -> None:
+        err = MissingConfigError("custom message")
+        assert str(err) == "custom message"
 
 
 class TestAdsClientInit:
@@ -27,7 +41,7 @@ class TestAdsClientInit:
         assert client._owns_ctx is False
 
     def test_init_missing_args(self) -> None:
-        with pytest.raises(ValueError, match="Either 'config' or 'ctx' must be provided"):
+        with pytest.raises(MissingConfigError, match="Either 'config' or 'ctx' must be provided"):
             AdsClient()
 
     def test_lazy_v0_v1_properties(self, config: AmazonAdsConfig) -> None:
@@ -58,7 +72,7 @@ class TestAdsClientV0Init:
         assert client._owns_ctx is False
 
     def test_init_missing_args(self) -> None:
-        with pytest.raises(ValueError, match="Either 'config' or 'ctx' must be provided"):
+        with pytest.raises(MissingConfigError, match="Either 'config' or 'ctx' must be provided"):
             AdsClientV0()
 
 
@@ -75,5 +89,5 @@ class TestAdsClientV1Init:
         assert client._owns_ctx is False
 
     def test_init_missing_args(self) -> None:
-        with pytest.raises(ValueError, match="Either 'config' or 'ctx' must be provided"):
+        with pytest.raises(MissingConfigError, match="Either 'config' or 'ctx' must be provided"):
             AdsClientV1()

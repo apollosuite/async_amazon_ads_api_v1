@@ -19,6 +19,7 @@ from ads_api.client.v1.sp import SP
 from ads_api.client.v1.sp_global import SPGlobal
 from ads_api.client.v1.st import ST
 from ads_api.config.settings import AmazonAdsConfig
+from ads_api.errors import MissingConfigError
 
 
 class AdsClientV1:
@@ -50,7 +51,7 @@ class AdsClientV1:
             self._ctx = ClientContext(config)
             self._owns_ctx = True
         else:
-            raise ValueError("Either 'config' or 'ctx' must be provided.")
+            raise MissingConfigError()
         self.__sp: SP | None = None
         self.__sp_global: SPGlobal | None = None
         self.__sb: SB | None = None
