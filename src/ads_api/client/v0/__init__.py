@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, overload
 
 from ads_api.base import ClientContext
 from ads_api.client.v0.accounts import Accounts
@@ -22,9 +22,26 @@ class AdsClientV0:
         await ads.sp_v3.campaigns.create_sponsored_products_campaigns(body)
     """
 
-    def __init__(self, config: AmazonAdsConfig, *, ctx: ClientContext | None = None) -> None:
-        self._ctx = ctx if ctx is not None else ClientContext(config)
-        self._owns_ctx = ctx is None
+    @overload
+    def __init__(self, config: AmazonAdsConfig) -> None: ...
+
+    @overload
+    def __init__(self, *, ctx: ClientContext) -> None: ...
+
+    def __init__(
+        self,
+        config: AmazonAdsConfig | None = None,
+        *,
+        ctx: ClientContext | None = None,
+    ) -> None:
+        if ctx is not None:
+            self._ctx = ctx
+            self._owns_ctx = False
+        elif config is not None:
+            self._ctx = ClientContext(config)
+            self._owns_ctx = True
+        else:
+            raise ValueError("Either 'config' or 'ctx' must be provided.")
         self.__accounts: Accounts | None = None
         self.__reporting: Reporting | None = None
         self.__ads_data_manager: AdsDataManager | None = None

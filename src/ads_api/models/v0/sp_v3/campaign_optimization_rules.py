@@ -196,7 +196,7 @@ class SPCampaignOptimizationRecommendationAPIResponse(LenientModel):
 class SPCampaignOptimizationRecommendationsAPIRequest(StrictModel):
     campaignIds: list[RuleCampaignId] = Field(max_length=100, description="A list of campaign ids")
     requirePerformanceMetrics: bool | None = Field(
-        default="true",
+        default=True,
         description="If set to false, eligible campaigns without a recommendation for performanceMetrics are also provided in response.Check performanceMetricsExists response field to know if performanceMetrics is available for eligible campaign.",
     )
 

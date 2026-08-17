@@ -209,10 +209,39 @@ def generate_type_alias(name: str, schema: dict[str, Any], imports: ImportSet) -
 def _format_default(default_val: Any, typ: str) -> str:
     if default_val is None:
         return "default=None"
-    if "float" in typ and isinstance(default_val, str):
-        return f"default={float(default_val)}"
-    if "int" in typ and isinstance(default_val, str):
-        return f"default={int(default_val)}"
+    if "bool" in typ:
+        if isinstance(default_val, str) and default_val.lower() in ("true", "false"):
+            return f"default={default_val.lower() == 'true'}"
+        if isinstance(default_val, list):
+            converted_bools = [
+                (x.lower() == "true") if isinstance(x, str) and x.lower() in ("true", "false") else bool(x)
+                for x in default_val
+            ]
+            return f"default={converted_bools!r}"
+    if "int" in typ:
+        if isinstance(default_val, str):
+            try:
+                return f"default={int(default_val)}"
+            except ValueError:
+                pass
+        if isinstance(default_val, list):
+            try:
+                converted_ints = [int(x) if isinstance(x, str) else x for x in default_val]
+                return f"default={converted_ints!r}"
+            except ValueError:
+                pass
+    if "float" in typ:
+        if isinstance(default_val, str):
+            try:
+                return f"default={float(default_val)}"
+            except ValueError:
+                pass
+        if isinstance(default_val, list):
+            try:
+                converted_floats = [float(x) if isinstance(x, str) else x for x in default_val]
+                return f"default={converted_floats!r}"
+            except ValueError:
+                pass
     return f"default={default_val!r}"
 
 

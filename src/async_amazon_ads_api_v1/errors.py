@@ -63,7 +63,7 @@ class Error(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     code: ErrorCode
-    fieldLocation: str | None = None
+    fieldLocation: str | None = None  # noqa: N815
     message: str
 
 

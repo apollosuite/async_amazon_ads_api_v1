@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, overload
 
 from ads_api.base import ClientContext
 from ads_api.client.v0 import AdsClientV0
@@ -23,8 +23,21 @@ class AdsClient:
             await ads.v1.sp.campaigns.create_campaign(body)
     """
 
-    def __init__(self, config: AmazonAdsConfig) -> None:
-        self._ctx = ClientContext(config)
+    @overload
+    def __init__(self, config: AmazonAdsConfig) -> None: ...
+
+    @overload
+    def __init__(self, *, ctx: ClientContext) -> None: ...
+
+    def __init__(self, config: AmazonAdsConfig | None = None, *, ctx: ClientContext | None = None) -> None:
+        if ctx is not None:
+            self._ctx = ctx
+            self._owns_ctx = False
+        elif config is not None:
+            self._ctx = ClientContext(config)
+            self._owns_ctx = True
+        else:
+            raise ValueError("Either 'config' or 'ctx' must be provided.")
         self.__v0: AdsClientV0 | None = None
         self.__v1: AdsClientV1 | None = None
 
@@ -35,16 +48,17 @@ class AdsClient:
         await self.close()
 
     async def close(self) -> None:
-        await self._ctx.close()
+        if self._owns_ctx:
+            await self._ctx.close()
 
     @property
     def v0(self) -> AdsClientV0:
         if self.__v0 is None:
-            self.__v0 = AdsClientV0(self._ctx.config, ctx=self._ctx)
+            self.__v0 = AdsClientV0(ctx=self._ctx)
         return self.__v0
 
     @property
     def v1(self) -> AdsClientV1:
         if self.__v1 is None:
-            self.__v1 = AdsClientV1(self._ctx.config, ctx=self._ctx)
+            self.__v1 = AdsClientV1(ctx=self._ctx)
         return self.__v1

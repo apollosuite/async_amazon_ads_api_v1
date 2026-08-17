@@ -38,7 +38,7 @@ class TargetsUniversalApiExportRequest(StrictModel):
         description="Filters the entities returned in export only to selected states. In case the filter is not provided, it returns only `ENABLED` or `PAUSED` entities.",
     )
     negativeFilter: list[bool] | None = Field(
-        default=["false", "true"],
+        default=[False, True],
         min_length=1,
         max_length=2,
         description="Filters the targets returned in export to negative or positive targets. In case the filter is not provided, it returns both negative and positive targets.",

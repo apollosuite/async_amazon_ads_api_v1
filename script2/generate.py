@@ -107,7 +107,7 @@ def render_v1_client(products: list[Product], entities: list[tuple[str, str]]) -
         "",
         "from __future__ import annotations",
         "",
-        "from typing import Any",
+        "from typing import Any, overload",
         "",
         "from ads_api.base import ClientContext",
         "from ads_api.config.settings import AmazonAdsConfig",
@@ -129,9 +129,28 @@ def render_v1_client(products: list[Product], entities: list[tuple[str, str]]) -
     lines.append("            await ads.selling_accounts.query_selling_account(body)")
     lines.append('    """')
     lines.append("")
-    lines.append("    def __init__(self, config: AmazonAdsConfig, *, ctx: ClientContext | None = None) -> None:")
-    lines.append("        self._ctx = ctx if ctx is not None else ClientContext(config)")
-    lines.append("        self._owns_ctx = ctx is None")
+    lines.append("    @overload")
+    lines.append("    def __init__(self, config: AmazonAdsConfig) -> None: ...")
+    lines.append("")
+    lines.append("    @overload")
+    lines.append("    def __init__(self, *, ctx: ClientContext) -> None: ...")
+    lines.append("")
+    lines.append(
+        "    def __init__(\n"
+        "        self,\n"
+        "        config: AmazonAdsConfig | None = None,\n"
+        "        *,\n"
+        "        ctx: ClientContext | None = None,\n"
+        "    ) -> None:"
+    )
+    lines.append("        if ctx is not None:")
+    lines.append("            self._ctx = ctx")
+    lines.append("            self._owns_ctx = False")
+    lines.append("        elif config is not None:")
+    lines.append("            self._ctx = ClientContext(config)")
+    lines.append("            self._owns_ctx = True")
+    lines.append("        else:")
+    lines.append("            raise ValueError(\"Either 'config' or 'ctx' must be provided.\")")
     for name, cls in attrs:
         lines.append(f"        self.__{name}: {cls} | None = None")
     lines.append("")
