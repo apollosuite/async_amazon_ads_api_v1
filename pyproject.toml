@@ -57,7 +57,21 @@ path = "src/async_amazon_ads_api_v1/__init__.py"
 packages = ["src/async_amazon_ads_api_v1", "src/ads_api"]
 
 [tool.hatch.build.targets.sdist]
-exclude = [".github", ".dist", "dist", "scripts", "tests", "AGENTS.md", "uv.lock", ".idea", ".mypy_cache", ".ruff_cache", ".pytest_cache"]
+exclude = [
+    ".github",
+    ".dist",
+    "dist",
+    "scripts",
+    "script2",
+    "script3",
+    "tests",
+    "AGENTS.md",
+    "uv.lock",
+    ".idea",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".pytest_cache",
+]
 
 [tool.black]
 line-length = 120
