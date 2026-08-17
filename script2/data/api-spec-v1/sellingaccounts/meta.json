@@ -1,0 +1,14 @@
+{
+  "route": "api-spec-v1-sellingaccounts",
+  "entity": "sellingaccounts",
+  "items": [
+    {
+      "name": "All Ad Products",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLSellingAccountsContract_prod_3p.json",
+      "file": "AmazonAdsAPIALLSellingAccountsContract_prod_3p.json",
+      "etag": "\"6d831bf606e001f931a4e3ebce7a6f80\"",
+      "last_modified": "Fri, 14 Aug 2026 01:10:34 GMT",
+      "size": 22570
+    }
+  ]
+}

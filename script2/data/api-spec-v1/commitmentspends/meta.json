@@ -1,0 +1,14 @@
+{
+  "route": "api-spec-v1-commitmentspends",
+  "entity": "commitmentspends",
+  "items": [
+    {
+      "name": "Amazon DSP",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPDspCommitmentSpendsContract_prod_3p.json",
+      "file": "AmazonAdsAPIDSPDspCommitmentSpendsContract_prod_3p.json",
+      "etag": "\"81cbbdb3b124ebc2d88c10213ac5faf5\"",
+      "last_modified": "Fri, 14 Aug 2026 01:10:44 GMT",
+      "size": 17365
+    }
+  ]
+}

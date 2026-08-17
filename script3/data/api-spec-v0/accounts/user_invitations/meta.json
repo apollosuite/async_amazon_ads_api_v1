@@ -1,0 +1,16 @@
+{
+  "group": "accounts",
+  "route": "user-invitations",
+  "entity": "user_invitations",
+  "toc_name": "User invitations",
+  "items": [
+    {
+      "name": "User invitations",
+      "openapi": "https://dtrnk0o2zy01c.cloudfront.net/openapi/en-us/dest/AdvertisingInvitations_prod_3p.json",
+      "file": "AdvertisingInvitations_prod_3p.json",
+      "etag": "\"e10e3ec93f0fc631270f262b4833eb6f\"",
+      "last_modified": "Fri, 14 Aug 2026 22:11:31 GMT",
+      "size": 30786
+    }
+  ]
+}

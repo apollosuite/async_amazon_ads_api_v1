@@ -54,7 +54,7 @@ build-backend = "hatchling.build"
 path = "src/async_amazon_ads_api_v1/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/async_amazon_ads_api_v1"]
+packages = ["src/async_amazon_ads_api_v1", "src/ads_api"]
 
 [tool.hatch.build.targets.sdist]
 exclude = [".github", ".dist", "dist", "scripts", "tests", "AGENTS.md", "uv.lock", ".idea", ".mypy_cache", ".ruff_cache", ".pytest_cache"]
@@ -70,11 +70,15 @@ target-version = "py313"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "UP", "W"]
-ignore = ["E501"]
 
 [tool.ruff.lint.per-file-ignores]
-"src/async_amazon_ads_api_v1/errors.py" = ["N815"]
-"src/async_amazon_ads_api_v1/models/*" = ["F403", "N815"]
+"src/async_amazon_ads_api_v1/models/*" = ["E501", "F403", "N815"]
+"src/async_amazon_ads_api_v1/models/legacy*" = ["E501"]
+"src/async_amazon_ads_api_v1/client/*" = ["E501"]
+"src/ads_api/models/**" = ["E501", "F403", "N815"]
+"src/ads_api/client/**" = ["E501"]
+"script2/codegen/*" = ["E501"]
+"script3/codegen/*" = ["E501"]
 
 
 [tool.pytest.ini_options]
@@ -88,7 +92,10 @@ strict = true
 warn_return_any = true
 warn_unused_ignores = true
 exclude = [
-    "src/async_amazon_ads_api_v1/models/sp/",
-    "src/async_amazon_ads_api_v1/models/sb/",
-    "scripts/",
 ]
+
+[tool.pyrefly]
+project-excludes = [
+]
+python-version = "3.13.0"
+preset = "legacy"

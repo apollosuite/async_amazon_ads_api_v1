@@ -1,0 +1,16 @@
+{
+  "group": "accounts",
+  "route": "test-accounts/openapi",
+  "entity": "test_accounts",
+  "toc_name": "Test accounts",
+  "items": [
+    {
+      "name": "Test accounts",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AdvertisingTestAccount_prod_3p.json",
+      "file": "AdvertisingTestAccount_prod_3p.json",
+      "etag": "\"22fb229f46fb9a73e49d0b6156b21be1\"",
+      "last_modified": "Sun, 16 Aug 2026 01:40:03 GMT",
+      "size": 10163
+    }
+  ]
+}

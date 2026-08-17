@@ -1,0 +1,38 @@
+{
+  "route": "api-spec-v1-adextensions",
+  "entity": "adextensions",
+  "items": [
+    {
+      "name": "All Ad Products",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLAdExtensionsContract_prod_3p.json",
+      "file": "AmazonAdsAPIALLAdExtensionsContract_prod_3p.json",
+      "etag": "\"66fcaff3d8c867c3390ee12261febcbb\"",
+      "last_modified": "Fri, 14 Aug 2026 01:10:43 GMT",
+      "size": 57863
+    },
+    {
+      "name": "Sponsored Products",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISPAdExtensionsContract_prod_3p.json",
+      "file": "AmazonAdsAPISPAdExtensionsContract_prod_3p.json",
+      "etag": "\"075a97b7ee28d53a58c3e73abeac4e8e\"",
+      "last_modified": "Fri, 14 Aug 2026 01:10:45 GMT",
+      "size": 53049
+    },
+    {
+      "name": "SP Global",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISPGLOBALAdExtensionsContract_prod_3p.json",
+      "file": "AmazonAdsAPISPGLOBALAdExtensionsContract_prod_3p.json",
+      "etag": "\"9a51625a9ddc1affd883eb2ba0fbaf56\"",
+      "last_modified": "Fri, 14 Aug 2026 01:10:23 GMT",
+      "size": 44229
+    },
+    {
+      "name": "Sponsored Brands",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBAdExtensionsContract_prod_3p.json",
+      "file": "AmazonAdsAPISBAdExtensionsContract_prod_3p.json",
+      "etag": "\"ba2e56afb9580947a487c0995d890a89\"",
+      "last_modified": "Fri, 14 Aug 2026 01:10:39 GMT",
+      "size": 42752
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "group": "accounts",
+  "route": "account-management",
+  "entity": "advertising_accounts",
+  "toc_name": "Account management (beta)",
+  "items": [
+    {
+      "name": "Account management (beta)",
+      "openapi": "https://dtrnk0o2zy01c.cloudfront.net/openapi/en-us/dest/AdvertisingAccounts_prod_3p.json",
+      "file": "AdvertisingAccounts_prod_3p.json",
+      "etag": "\"bb6b3930aa15a995a2dcae210104fc4c\"",
+      "last_modified": "Fri, 14 Aug 2026 22:11:19 GMT",
+      "size": 32125
+    }
+  ]
+}

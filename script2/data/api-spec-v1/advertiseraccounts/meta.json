@@ -1,0 +1,14 @@
+{
+  "route": "api-spec-v1-advertiseraccounts",
+  "entity": "advertiseraccounts",
+  "items": [
+    {
+      "name": "All Ad Products",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLAdvertiserAccountsContract_prod_3p.json",
+      "file": "AmazonAdsAPIALLAdvertiserAccountsContract_prod_3p.json",
+      "etag": "\"4d6535179a885f97cb6f10cc6ccb8441\"",
+      "last_modified": "Fri, 14 Aug 2026 01:10:23 GMT",
+      "size": 55152
+    }
+  ]
+}

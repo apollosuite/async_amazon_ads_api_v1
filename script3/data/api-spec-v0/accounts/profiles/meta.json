@@ -1,0 +1,16 @@
+{
+  "group": "accounts",
+  "route": "reference/2/profiles",
+  "entity": "profiles",
+  "toc_name": "Profiles",
+  "items": [
+    {
+      "name": "Profiles",
+      "openapi": "https://d3a0d0y2hgofx6.cloudfront.net/openapi/en-us/profiles/3-0/openapi.yaml",
+      "file": "openapi.yaml",
+      "etag": "\"7d3638430400a63c2ace280057f72d47\"",
+      "last_modified": "Thu, 13 Aug 2026 14:41:03 GMT",
+      "size": 13174
+    }
+  ]
+}

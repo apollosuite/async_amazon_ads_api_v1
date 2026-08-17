@@ -1,0 +1,16 @@
+{
+  "group": "reporting",
+  "route": "brand-metrics-openapi",
+  "entity": "brand_metrics",
+  "toc_name": "Brand Metrics (beta)",
+  "items": [
+    {
+      "name": "Brand Metrics (beta)",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/BrandMetrics_prod_3p.json",
+      "file": "BrandMetrics_prod_3p.json",
+      "etag": "\"8ff17f491d025abee883f7b230e6819e\"",
+      "last_modified": "Sun, 16 Aug 2026 01:40:01 GMT",
+      "size": 51676
+    }
+  ]
+}

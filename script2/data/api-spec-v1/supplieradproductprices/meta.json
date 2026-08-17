@@ -1,0 +1,14 @@
+{
+  "route": "api-spec-v1-supplieradproductprices",
+  "entity": "supplieradproductprices",
+  "items": [
+    {
+      "name": "Amazon DSP",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPSupplierAdProductPricesContract_prod_3p.json",
+      "file": "AmazonAdsAPIDSPSupplierAdProductPricesContract_prod_3p.json",
+      "etag": "\"5f71db2222357b24a0b17cab32760c8f\"",
+      "last_modified": "Fri, 14 Aug 2026 01:10:26 GMT",
+      "size": 126297
+    }
+  ]
+}

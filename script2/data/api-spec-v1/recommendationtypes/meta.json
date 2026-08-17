@@ -1,0 +1,14 @@
+{
+  "route": "api-spec-v1-recommendationtypes",
+  "entity": "recommendationtypes",
+  "items": [
+    {
+      "name": "Sponsored Brands",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBSBRecommendationTypesContract_prod_3p.json",
+      "file": "AmazonAdsAPISBSBRecommendationTypesContract_prod_3p.json",
+      "etag": "\"ab54ebe688ded5ead14baca3252e627c\"",
+      "last_modified": "Fri, 14 Aug 2026 01:10:22 GMT",
+      "size": 17073
+    }
+  ]
+}

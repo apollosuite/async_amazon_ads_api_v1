@@ -1,0 +1,14 @@
+{
+  "route": "api-spec-v1-campaignforecasts",
+  "entity": "campaignforecasts",
+  "items": [
+    {
+      "name": "Amazon DSP",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPDspCampaignForecastsContract_prod_3p.json",
+      "file": "AmazonAdsAPIDSPDspCampaignForecastsContract_prod_3p.json",
+      "etag": "\"30b10ac5c6d8d950bd1ab84bff9818ca\"",
+      "last_modified": "Fri, 14 Aug 2026 01:10:28 GMT",
+      "size": 172878
+    }
+  ]
+}

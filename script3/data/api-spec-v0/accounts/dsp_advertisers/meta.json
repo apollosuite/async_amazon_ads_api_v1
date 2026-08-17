@@ -1,0 +1,16 @@
+{
+  "group": "accounts",
+  "route": "dsp-advertiser",
+  "entity": "dsp_advertisers",
+  "toc_name": "DSP Advertiser Accounts",
+  "items": [
+    {
+      "name": "DSP Advertiser Accounts",
+      "openapi": "https://d3a0d0y2hgofx6.cloudfront.net/openapi/en-us/dsp/3-0/advertiser.yaml",
+      "file": "advertiser.yaml",
+      "etag": "\"9c7cbcb8d50ed18a16350f0a5c6ec17d\"",
+      "last_modified": "Thu, 13 Aug 2026 14:41:01 GMT",
+      "size": 16373
+    }
+  ]
+}

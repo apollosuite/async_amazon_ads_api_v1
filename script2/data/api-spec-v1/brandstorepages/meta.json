@@ -1,0 +1,14 @@
+{
+  "route": "api-spec-v1-brandstorepages",
+  "entity": "brandstorepages",
+  "items": [
+    {
+      "name": "All Ad Products",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLBrandStorePagesContract_prod_3p.json",
+      "file": "AmazonAdsAPIALLBrandStorePagesContract_prod_3p.json",
+      "etag": "\"788832a5d137dda5a250e386547b7839\"",
+      "last_modified": "Fri, 14 Aug 2026 01:10:34 GMT",
+      "size": 136175
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "group": "accounts",
+  "route": "reference/1-0/managerAccount",
+  "entity": "manager_accounts",
+  "toc_name": "Manager accounts",
+  "items": [
+    {
+      "name": "Manager accounts",
+      "openapi": "https://dtrnk0o2zy01c.cloudfront.net/openapi/en-us/dest/ManagerAccount_prod_3p.json",
+      "file": "ManagerAccount_prod_3p.json",
+      "etag": "\"7c4dadc43e61f8fbda66c0e0c60d55ff\"",
+      "last_modified": "Fri, 14 Aug 2026 22:11:32 GMT",
+      "size": 22342
+    }
+  ]
+}

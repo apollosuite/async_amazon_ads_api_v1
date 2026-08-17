@@ -1,0 +1,14 @@
+{
+  "route": "api-spec-v1-advertisingdealtargets",
+  "entity": "advertisingdealtargets",
+  "items": [
+    {
+      "name": "Sponsored Brands",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBSBAdvertisingDealTargetsContract_prod_3p.json",
+      "file": "AmazonAdsAPISBSBAdvertisingDealTargetsContract_prod_3p.json",
+      "etag": "\"e0f17e3cf9f161f71551daa87b0a940c\"",
+      "last_modified": "Fri, 14 Aug 2026 01:10:40 GMT",
+      "size": 32374
+    }
+  ]
+}

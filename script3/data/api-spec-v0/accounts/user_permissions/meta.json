@@ -1,0 +1,16 @@
+{
+  "group": "accounts",
+  "route": "user-permissions",
+  "entity": "user_permissions",
+  "toc_name": "User permissions",
+  "items": [
+    {
+      "name": "User permissions",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AdvertisingUserPermissionsManagement_prod_3p.json",
+      "file": "AdvertisingUserPermissionsManagement_prod_3p.json",
+      "etag": "\"ed4f404c54e5ef12db719b15ac840a65\"",
+      "last_modified": "Sun, 16 Aug 2026 01:40:05 GMT",
+      "size": 47134
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "group": "sp_v3",
+  "route": "sponsored-products/3-0/openapi/prod",
+  "entity": "sp_v3",
+  "toc_name": "Version 3",
+  "version": "v3",
+  "items": [
+    {
+      "name": "Version 3",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/SponsoredProducts_prod_3p.json",
+      "file": "SponsoredProducts_prod_3p.json",
+      "etag": "\"060300bb65d614b68ec385cf84aa2993\"",
+      "last_modified": "Sun, 16 Aug 2026 01:40:15 GMT",
+      "size": 1026976
+    }
+  ]
+}

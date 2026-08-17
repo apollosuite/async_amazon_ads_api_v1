@@ -1,0 +1,1062 @@
+[
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-adassociations",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPAdAssociationsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "AdAssociations",
+    "link": "api-spec-v1-adassociations",
+    "items": [
+      {
+        "name": "DSPCreateAdAssociation",
+        "link": "api-spec-v1-adassociations#tag/AdAssociations/operation/DSPCreateAdAssociation"
+      },
+      {
+        "name": "DSPDeleteAdAssociation",
+        "link": "api-spec-v1-adassociations#tag/AdAssociations/operation/DSPDeleteAdAssociation"
+      },
+      {
+        "name": "DSPQueryAdAssociation",
+        "link": "api-spec-v1-adassociations#tag/AdAssociations/operation/DSPQueryAdAssociation"
+      },
+      {
+        "name": "DSPUpdateAdAssociation",
+        "link": "api-spec-v1-adassociations#tag/AdAssociations/operation/DSPUpdateAdAssociation"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-adextensions",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLAdExtensionsContract_prod_3p.json",
+            "name": "All Ad Products"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISPAdExtensionsContract_prod_3p.json",
+            "name": "Sponsored Products"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISPGLOBALAdExtensionsContract_prod_3p.json",
+            "name": "SP Global"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBAdExtensionsContract_prod_3p.json",
+            "name": "Sponsored Brands"
+          }
+        ]
+      }
+    ],
+    "name": "AdExtensions",
+    "link": "api-spec-v1-adextensions",
+    "items": [
+      {
+        "name": "CreateAdExtension",
+        "link": "api-spec-v1-adextensions#tag/AdExtensions/operation/CreateAdExtension"
+      },
+      {
+        "name": "QueryAdExtension",
+        "link": "api-spec-v1-adextensions#tag/AdExtensions/operation/QueryAdExtension"
+      },
+      {
+        "name": "UpdateAdExtension",
+        "link": "api-spec-v1-adextensions#tag/AdExtensions/operation/UpdateAdExtension"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-adgroups",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLAdGroupsContract_prod_3p.json",
+            "name": "All Ad Products"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISPAdGroupsContract_prod_3p.json",
+            "name": "Sponsored Products"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISPGLOBALAdGroupsContract_prod_3p.json",
+            "name": "SP Global"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBAdGroupsContract_prod_3p.json",
+            "name": "Sponsored Brands"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPAdGroupsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISTAdGroupsContract_prod_3p.json",
+            "name": "Sponsored Television"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISDAdGroupsContract_prod_3p.json",
+            "name": "Sponsored Display"
+          }
+        ]
+      }
+    ],
+    "name": "AdGroups",
+    "link": "api-spec-v1-adgroups",
+    "items": [
+      {
+        "name": "CreateAdGroup",
+        "link": "api-spec-v1-adgroups#tag/AdGroups/operation/CreateAdGroup"
+      },
+      {
+        "name": "DeleteAdGroup",
+        "link": "api-spec-v1-adgroups#tag/AdGroups/operation/DeleteAdGroup"
+      },
+      {
+        "name": "QueryAdGroup",
+        "link": "api-spec-v1-adgroups#tag/AdGroups/operation/QueryAdGroup"
+      },
+      {
+        "name": "UpdateAdGroup",
+        "link": "api-spec-v1-adgroups#tag/AdGroups/operation/UpdateAdGroup"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-ads",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLAdsContract_prod_3p.json",
+            "name": "All Ad Products"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISPAdsContract_prod_3p.json",
+            "name": "Sponsored Products"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISPGLOBALAdsContract_prod_3p.json",
+            "name": "SP Global"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBAdsContract_prod_3p.json",
+            "name": "Sponsored Brands"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPAdsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISTAdsContract_prod_3p.json",
+            "name": "Sponsored Television"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISDAdsContract_prod_3p.json",
+            "name": "Sponsored Display"
+          }
+        ]
+      }
+    ],
+    "name": "Ads",
+    "link": "api-spec-v1-ads",
+    "items": [
+      {
+        "name": "CreateAd",
+        "link": "api-spec-v1-ads#tag/Ads/operation/CreateAd"
+      },
+      {
+        "name": "DeleteAd",
+        "link": "api-spec-v1-ads#tag/Ads/operation/DeleteAd"
+      },
+      {
+        "name": "QueryAd",
+        "link": "api-spec-v1-ads#tag/Ads/operation/QueryAd"
+      },
+      {
+        "name": "UpdateAd",
+        "link": "api-spec-v1-ads#tag/Ads/operation/UpdateAd"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-advertiseraccounts",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLAdvertiserAccountsContract_prod_3p.json",
+            "name": "All Ad Products"
+          }
+        ]
+      }
+    ],
+    "name": "AdvertiserAccounts",
+    "link": "api-spec-v1-advertiseraccounts",
+    "items": [
+      {
+        "name": "CreateAdvertiserAccount",
+        "link": "api-spec-v1-advertiseraccounts#tag/AdvertiserAccounts/operation/CreateAdvertiserAccount"
+      },
+      {
+        "name": "QueryAdvertiserAccount",
+        "link": "api-spec-v1-advertiseraccounts#tag/AdvertiserAccounts/operation/QueryAdvertiserAccount"
+      },
+      {
+        "name": "UpdateAdvertiserAccount",
+        "link": "api-spec-v1-advertiseraccounts#tag/AdvertiserAccounts/operation/UpdateAdvertiserAccount"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-advertisingdealtargets",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBSBAdvertisingDealTargetsContract_prod_3p.json",
+            "name": "Sponsored Brands"
+          }
+        ]
+      }
+    ],
+    "name": "AdvertisingDealTargets",
+    "link": "api-spec-v1-advertisingdealtargets",
+    "items": [
+      {
+        "name": "SBCreateAdvertisingDealTarget",
+        "link": "api-spec-v1-advertisingdealtargets#tag/AdvertisingDealTargets/operation/SBCreateAdvertisingDealTarget"
+      },
+      {
+        "name": "SBDeleteAdvertisingDealTarget",
+        "link": "api-spec-v1-advertisingdealtargets#tag/AdvertisingDealTargets/operation/SBDeleteAdvertisingDealTarget"
+      },
+      {
+        "name": "SBQueryAdvertisingDealTarget",
+        "link": "api-spec-v1-advertisingdealtargets#tag/AdvertisingDealTargets/operation/SBQueryAdvertisingDealTarget"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-advertisingdeals",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBSBAdvertisingDealsContract_prod_3p.json",
+            "name": "Sponsored Brands"
+          }
+        ]
+      }
+    ],
+    "name": "AdvertisingDeals",
+    "link": "api-spec-v1-advertisingdeals",
+    "items": [
+      {
+        "name": "SBCreateAdvertisingDeal",
+        "link": "api-spec-v1-advertisingdeals#tag/AdvertisingDeals/operation/SBCreateAdvertisingDeal"
+      },
+      {
+        "name": "SBDeleteAdvertisingDeal",
+        "link": "api-spec-v1-advertisingdeals#tag/AdvertisingDeals/operation/SBDeleteAdvertisingDeal"
+      },
+      {
+        "name": "SBQueryAdvertisingDeal",
+        "link": "api-spec-v1-advertisingdeals#tag/AdvertisingDeals/operation/SBQueryAdvertisingDeal"
+      },
+      {
+        "name": "SBUpdateAdvertisingDeal",
+        "link": "api-spec-v1-advertisingdeals#tag/AdvertisingDeals/operation/SBUpdateAdvertisingDeal"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-brandstoreeditionpublishversions",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLBrandStoreEditionPublishVersionsContract_prod_3p.json",
+            "name": "All Ad Products"
+          }
+        ]
+      }
+    ],
+    "name": "BrandStoreEditionPublishVersions",
+    "link": "api-spec-v1-brandstoreeditionpublishversions",
+    "items": [
+      {
+        "name": "QueryBrandStoreEditionPublishVersion",
+        "link": "api-spec-v1-brandstoreeditionpublishversions#tag/BrandStoreEditionPublishVersions/operation/QueryBrandStoreEditionPublishVersion"
+      },
+      {
+        "name": "UpdateBrandStoreEditionPublishVersion",
+        "link": "api-spec-v1-brandstoreeditionpublishversions#tag/BrandStoreEditionPublishVersions/operation/UpdateBrandStoreEditionPublishVersion"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-brandstoreeditions",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLBrandStoreEditionsContract_prod_3p.json",
+            "name": "All Ad Products"
+          }
+        ]
+      }
+    ],
+    "name": "BrandStoreEditions",
+    "link": "api-spec-v1-brandstoreeditions",
+    "items": [
+      {
+        "name": "ListBrandStoreEdition",
+        "link": "api-spec-v1-brandstoreeditions#tag/BrandStoreEditions/operation/ListBrandStoreEdition"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-brandstorepages",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLBrandStorePagesContract_prod_3p.json",
+            "name": "All Ad Products"
+          }
+        ]
+      }
+    ],
+    "name": "BrandStorePages",
+    "link": "api-spec-v1-brandstorepages",
+    "items": [
+      {
+        "name": "QueryBrandStorePage",
+        "link": "api-spec-v1-brandstorepages#tag/BrandStorePages/operation/QueryBrandStorePage"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-brandstores",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLBrandStoresContract_prod_3p.json",
+            "name": "All Ad Products"
+          }
+        ]
+      }
+    ],
+    "name": "BrandStores",
+    "link": "api-spec-v1-brandstores",
+    "items": [
+      {
+        "name": "QueryBrandStore",
+        "link": "api-spec-v1-brandstores#tag/BrandStores/operation/QueryBrandStore"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-brandedkeywordspricings",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBSBBrandedKeywordsPricingsContract_prod_3p.json",
+            "name": "Sponsored Brands"
+          }
+        ]
+      }
+    ],
+    "name": "BrandedKeywordsPricings",
+    "link": "api-spec-v1-brandedkeywordspricings",
+    "items": [
+      {
+        "name": "SBCreateBrandedKeywordsPricing",
+        "link": "api-spec-v1-brandedkeywordspricings#tag/BrandedKeywordsPricings/operation/SBCreateBrandedKeywordsPricing"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-campaignforecasts",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPDspCampaignForecastsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "CampaignForecasts",
+    "link": "api-spec-v1-campaignforecasts",
+    "items": [
+      {
+        "name": "DSPRetrieveCampaignForecast",
+        "link": "api-spec-v1-campaignforecasts#tag/CampaignForecasts/operation/DSPRetrieveCampaignForecast"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-campaigns",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLCampaignsContract_prod_3p.json",
+            "name": "All Ad Products"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISPCampaignsContract_prod_3p.json",
+            "name": "Sponsored Products"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISPGLOBALCampaignsContract_prod_3p.json",
+            "name": "SP Global"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBCampaignsContract_prod_3p.json",
+            "name": "Sponsored Brands"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPCampaignsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISTCampaignsContract_prod_3p.json",
+            "name": "Sponsored Television"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISDCampaignsContract_prod_3p.json",
+            "name": "Sponsored Display"
+          }
+        ]
+      }
+    ],
+    "name": "Campaigns",
+    "link": "api-spec-v1-campaigns",
+    "items": [
+      {
+        "name": "CreateCampaign",
+        "link": "api-spec-v1-campaigns#tag/Campaigns/operation/CreateCampaign"
+      },
+      {
+        "name": "DeleteCampaign",
+        "link": "api-spec-v1-campaigns#tag/Campaigns/operation/DeleteCampaign"
+      },
+      {
+        "name": "QueryCampaign",
+        "link": "api-spec-v1-campaigns#tag/Campaigns/operation/QueryCampaign"
+      },
+      {
+        "name": "UpdateCampaign",
+        "link": "api-spec-v1-campaigns#tag/Campaigns/operation/UpdateCampaign"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-commitmentspends",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPDspCommitmentSpendsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "CommitmentSpends",
+    "link": "api-spec-v1-commitmentspends",
+    "items": [
+      {
+        "name": "DSPRetrieveCommitmentSpend",
+        "link": "api-spec-v1-commitmentspends#tag/CommitmentSpends/operation/DSPRetrieveCommitmentSpend"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-commitments",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPDspCommitmentsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "Commitments",
+    "link": "api-spec-v1-commitments",
+    "items": [
+      {
+        "name": "DSPCreateCommitment",
+        "link": "api-spec-v1-commitments#tag/Commitments/operation/DSPCreateCommitment"
+      },
+      {
+        "name": "DSPListCommitment",
+        "link": "api-spec-v1-commitments#tag/Commitments/operation/DSPListCommitment"
+      },
+      {
+        "name": "DSPQueryCommitment",
+        "link": "api-spec-v1-commitments#tag/Commitments/operation/DSPQueryCommitment"
+      },
+      {
+        "name": "DSPRetrieveCommitment",
+        "link": "api-spec-v1-commitments#tag/Commitments/operation/DSPRetrieveCommitment"
+      },
+      {
+        "name": "DSPUpdateCommitment",
+        "link": "api-spec-v1-commitments#tag/Commitments/operation/DSPUpdateCommitment"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-dealpreferences",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPDealPreferencesContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "DealPreferences",
+    "link": "api-spec-v1-dealpreferences",
+    "items": [
+      {
+        "name": "DSPCreateDealPreference",
+        "link": "api-spec-v1-dealpreferences#tag/DealPreferences/operation/DSPCreateDealPreference"
+      },
+      {
+        "name": "DSPListDealPreference",
+        "link": "api-spec-v1-dealpreferences#tag/DealPreferences/operation/DSPListDealPreference"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-geolocations",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPGeoLocationsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "GeoLocations",
+    "link": "api-spec-v1-geolocations",
+    "items": [
+      {
+        "name": "DSPCreateGeoLocation",
+        "link": "api-spec-v1-geolocations#tag/GeoLocations/operation/DSPCreateGeoLocation"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-keywordreservationvalidations",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBSBKeywordReservationValidationsContract_prod_3p.json",
+            "name": "Sponsored Brands"
+          }
+        ]
+      }
+    ],
+    "name": "KeywordReservationValidations",
+    "link": "api-spec-v1-keywordreservationvalidations",
+    "items": [
+      {
+        "name": "SBCreateKeywordReservationValidation",
+        "link": "api-spec-v1-keywordreservationvalidations#tag/KeywordReservationValidations/operation/SBCreateKeywordReservationValidation"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-locationindexes",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPLocationIndexesContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "LocationIndexes",
+    "link": "api-spec-v1-locationindexes",
+    "items": [
+      {
+        "name": "DSPCreateLocationIndex",
+        "link": "api-spec-v1-locationindexes#tag/LocationIndexes/operation/DSPCreateLocationIndex"
+      },
+      {
+        "name": "DSPListLocationIndex",
+        "link": "api-spec-v1-locationindexes#tag/LocationIndexes/operation/DSPListLocationIndex"
+      },
+      {
+        "name": "DSPRetrieveLocationIndex",
+        "link": "api-spec-v1-locationindexes#tag/LocationIndexes/operation/DSPRetrieveLocationIndex"
+      },
+      {
+        "name": "DSPUpdateLocationIndex",
+        "link": "api-spec-v1-locationindexes#tag/LocationIndexes/operation/DSPUpdateLocationIndex"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-manageraccounts",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLManagerAccountsContract_prod_3p.json",
+            "name": "All Ad Products"
+          }
+        ]
+      }
+    ],
+    "name": "ManagerAccounts",
+    "link": "api-spec-v1-manageraccounts",
+    "items": [
+      {
+        "name": "CreateManagerAccount",
+        "link": "api-spec-v1-manageraccounts#tag/ManagerAccounts/operation/CreateManagerAccount"
+      },
+      {
+        "name": "QueryManagerAccount",
+        "link": "api-spec-v1-manageraccounts#tag/ManagerAccounts/operation/QueryManagerAccount"
+      },
+      {
+        "name": "UpdateManagerAccount",
+        "link": "api-spec-v1-manageraccounts#tag/ManagerAccounts/operation/UpdateManagerAccount"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-recommendationtypes",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBSBRecommendationTypesContract_prod_3p.json",
+            "name": "Sponsored Brands"
+          }
+        ]
+      }
+    ],
+    "name": "RecommendationTypes",
+    "link": "api-spec-v1-recommendationtypes",
+    "items": [
+      {
+        "name": "SBQueryRecommendationType",
+        "link": "api-spec-v1-recommendationtypes#tag/RecommendationTypes/operation/SBQueryRecommendationType"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-recommendations",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBSBRecommendationsContract_prod_3p.json",
+            "name": "Sponsored Brands"
+          }
+        ]
+      }
+    ],
+    "name": "Recommendations",
+    "link": "api-spec-v1-recommendations",
+    "items": [
+      {
+        "name": "SBCreateRecommendation",
+        "link": "api-spec-v1-recommendations#tag/Recommendations/operation/SBCreateRecommendation"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-reservedtargetpricings",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBSBReservedTargetPricingsContract_prod_3p.json",
+            "name": "Sponsored Brands"
+          }
+        ]
+      }
+    ],
+    "name": "ReservedTargetPricings",
+    "link": "api-spec-v1-reservedtargetpricings",
+    "items": [
+      {
+        "name": "SBAdsApiv1CreateReservedTargetPricing",
+        "link": "api-spec-v1-reservedtargetpricings#tag/ReservedTargetPricings/operation/SBAdsApiv1CreateReservedTargetPricing"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-sellingaccounts",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLSellingAccountsContract_prod_3p.json",
+            "name": "All Ad Products"
+          }
+        ]
+      }
+    ],
+    "name": "SellingAccounts",
+    "link": "api-spec-v1-sellingaccounts",
+    "items": [
+      {
+        "name": "QuerySellingAccount",
+        "link": "api-spec-v1-sellingaccounts#tag/SellingAccounts/operation/QuerySellingAccount"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-supplieradproductprices",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPSupplierAdProductPricesContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "SupplierAdProductPrices",
+    "link": "api-spec-v1-supplieradproductprices",
+    "items": [
+      {
+        "name": "DSPCreateSupplierAdProductPrice",
+        "link": "api-spec-v1-supplieradproductprices#tag/SupplierAdProductPrices/operation/DSPCreateSupplierAdProductPrice"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-supplieradproducts",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPSupplierAdProductsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "SupplierAdProducts",
+    "link": "api-spec-v1-supplieradproducts",
+    "items": [
+      {
+        "name": "DSPQuerySupplierAdProduct",
+        "link": "api-spec-v1-supplieradproducts#tag/SupplierAdProducts/operation/DSPQuerySupplierAdProduct"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-supplierproposaldestinations",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPSupplierProposalDestinationsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "SupplierProposalDestinations",
+    "link": "api-spec-v1-supplierproposaldestinations",
+    "items": [
+      {
+        "name": "DSPQuerySupplierProposalDestination",
+        "link": "api-spec-v1-supplierproposaldestinations#tag/SupplierProposalDestinations/operation/DSPQuerySupplierProposalDestination"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-supplierproposals",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPSupplierProposalsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "SupplierProposals",
+    "link": "api-spec-v1-supplierproposals",
+    "items": [
+      {
+        "name": "DSPCreateSupplierProposal",
+        "link": "api-spec-v1-supplierproposals#tag/SupplierProposals/operation/DSPCreateSupplierProposal"
+      },
+      {
+        "name": "DSPQuerySupplierProposal",
+        "link": "api-spec-v1-supplierproposals#tag/SupplierProposals/operation/DSPQuerySupplierProposal"
+      },
+      {
+        "name": "DSPUpdateSupplierProposal",
+        "link": "api-spec-v1-supplierproposals#tag/SupplierProposals/operation/DSPUpdateSupplierProposal"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-supplierproposeddealforecasts",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPSupplierProposedDealForecastsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "SupplierProposedDealForecasts",
+    "link": "api-spec-v1-supplierproposeddealforecasts",
+    "items": [
+      {
+        "name": "DSPCreateSupplierProposedDealForecast",
+        "link": "api-spec-v1-supplierproposeddealforecasts#tag/SupplierProposedDealForecasts/operation/DSPCreateSupplierProposedDealForecast"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-supplierproposeddealhistoricalversions",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPSupplierProposedDealHistoricalVersionsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "SupplierProposedDealHistoricalVersions",
+    "link": "api-spec-v1-supplierproposeddealhistoricalversions",
+    "items": [
+      {
+        "name": "DSPQuerySupplierProposedDealHistoricalVersion",
+        "link": "api-spec-v1-supplierproposeddealhistoricalversions#tag/SupplierProposedDealHistoricalVersions/operation/DSPQuerySupplierProposedDealHistoricalVersion"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-supplierproposeddealrevisions",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPSupplierProposedDealRevisionsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "SupplierProposedDealRevisions",
+    "link": "api-spec-v1-supplierproposeddealrevisions",
+    "items": [
+      {
+        "name": "DSPCreateSupplierProposedDealRevision",
+        "link": "api-spec-v1-supplierproposeddealrevisions#tag/SupplierProposedDealRevisions/operation/DSPCreateSupplierProposedDealRevision"
+      },
+      {
+        "name": "DSPUpdateSupplierProposedDealRevision",
+        "link": "api-spec-v1-supplierproposeddealrevisions#tag/SupplierProposedDealRevisions/operation/DSPUpdateSupplierProposedDealRevision"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-supplierproposeddeals",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPSupplierProposedDealsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "SupplierProposedDeals",
+    "link": "api-spec-v1-supplierproposeddeals",
+    "items": [
+      {
+        "name": "DSPCreateSupplierProposedDeal",
+        "link": "api-spec-v1-supplierproposeddeals#tag/SupplierProposedDeals/operation/DSPCreateSupplierProposedDeal"
+      },
+      {
+        "name": "DSPQuerySupplierProposedDeal",
+        "link": "api-spec-v1-supplierproposeddeals#tag/SupplierProposedDeals/operation/DSPQuerySupplierProposedDeal"
+      },
+      {
+        "name": "DSPUpdateSupplierProposedDeal",
+        "link": "api-spec-v1-supplierproposeddeals#tag/SupplierProposedDeals/operation/DSPUpdateSupplierProposedDeal"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-supplierpublishers",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPSupplierPublishersContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "SupplierPublishers",
+    "link": "api-spec-v1-supplierpublishers",
+    "items": [
+      {
+        "name": "DSPQuerySupplierPublisher",
+        "link": "api-spec-v1-supplierpublishers#tag/SupplierPublishers/operation/DSPQuerySupplierPublisher"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-suppliertargetitems",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPSupplierTargetItemsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          }
+        ]
+      }
+    ],
+    "name": "SupplierTargetItems",
+    "link": "api-spec-v1-suppliertargetitems",
+    "items": [
+      {
+        "name": "DSPQuerySupplierTargetItem",
+        "link": "api-spec-v1-suppliertargetitems#tag/SupplierTargetItems/operation/DSPQuerySupplierTargetItem"
+      }
+    ]
+  },
+  {
+    "routes": [
+      {
+        "route": "api-spec-v1-targets",
+        "inlineSpec": true,
+        "items": [
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLTargetsContract_prod_3p.json",
+            "name": "All Ad Products"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISPTargetsContract_prod_3p.json",
+            "name": "Sponsored Products"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISPGLOBALTargetsContract_prod_3p.json",
+            "name": "SP Global"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBTargetsContract_prod_3p.json",
+            "name": "Sponsored Brands"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPTargetsContract_prod_3p.json",
+            "name": "Amazon DSP"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISTTargetsContract_prod_3p.json",
+            "name": "Sponsored Television"
+          },
+          {
+            "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISDTargetsContract_prod_3p.json",
+            "name": "Sponsored Display"
+          }
+        ]
+      }
+    ],
+    "name": "Targets",
+    "link": "api-spec-v1-targets",
+    "items": [
+      {
+        "name": "CreateTarget",
+        "link": "api-spec-v1-targets#tag/Targets/operation/CreateTarget"
+      },
+      {
+        "name": "DeleteTarget",
+        "link": "api-spec-v1-targets#tag/Targets/operation/DeleteTarget"
+      },
+      {
+        "name": "QueryTarget",
+        "link": "api-spec-v1-targets#tag/Targets/operation/QueryTarget"
+      },
+      {
+        "name": "UpdateTarget",
+        "link": "api-spec-v1-targets#tag/Targets/operation/UpdateTarget"
+      }
+    ]
+  }
+]

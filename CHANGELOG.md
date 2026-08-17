@@ -1,5 +1,8 @@
 # Changelog
 
+> [!WARNING]
+> **废弃与迁移说明**: `async_amazon_ads_api_v1` 包即将废弃，项目正在逐步迁移至全新的统一包 **`ads_api`**（支持 v0 与 v1 全实体）。
+
 ## v0.6.0 (2026-07-08)
 
 ### feat — 新功能

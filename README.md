@@ -1,10 +1,44 @@
 # async-amazon-ads-api-v1
 
+> [!WARNING]
+> **废弃提示 (Deprecation Notice)**:
+> `async_amazon_ads_api_v1` 即将废弃，项目正在逐步迁移到全新的统一包 **`ads_api`**。
+> - `ads_api` 提供了对 Amazon Ads API 的全面支持（涵盖 v0 与 v1，支持 SP、SB、SD、DSP、ST、SP Global、Accounts、Reporting、Ads Data Manager、Exports 等全实体）。
+> - 新功能与维护重心将集中在 `ads_api`，建议新项目直接使用 `ads_api`，现有使用 `async_amazon_ads_api_v1` 的项目请规划逐步迁移。
+
 [![PyPI version](https://img.shields.io/pypi/v/async-amazon-ads-api-v1)](https://pypi.org/project/async-amazon-ads-api-v1/)
 [![Python versions](https://img.shields.io/pypi/pyversions/async-amazon-ads-api-v1)](https://pypi.org/project/async-amazon-ads-api-v1/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Pure async Amazon Ads API v1 client — Sponsored Products, Sponsored Brands, Sponsored Display.
+
+## 迁移指南 (Migration to `ads_api`)
+
+推荐逐步迁移到 `ads_api` 包：
+
+```python
+from ads_api import AdsClient, AmazonAdsConfig, Region
+
+config = AmazonAdsConfig(
+    client_id="your-client-id",
+    client_secret="your-client-secret",
+    refresh_token="your-refresh-token",
+    region=Region.NA,
+)
+
+async with AdsClient(config) as ads:
+    # 调用 v1 API (按产品/实体划分)
+    await ads.v1.sp.campaigns.query_campaigns(body)
+    await ads.v1.selling_accounts.query_selling_account(body)
+
+    # 调用 v0 API (按功能分组/实体划分)
+    await ads.v0.accounts.profiles.list_profiles()
+    await ads.v0.sp_v3.campaigns.create_sponsored_products_campaigns(body)
+```
+
+详细代码生成与说明请参见 [script2/README.md](script2/README.md) (v1) 与 [script3/README.md](script3/README.md) (v0)。
+
+---
 
 ## Installation
 
@@ -211,33 +245,59 @@ await pf.update(UpdatePortfoliosRequestContent(portfolios=[...]))
 
 ```python
 from async_amazon_ads_api_v1.client.legacy import SBOptimizationRules
-from async_amazon_ads_api_v1.models.legacy import SBEntityFilter, SBListOptimizationRulesRequest
+from async_amazon_ads_api_v1.models.legacy.sb_rules import (
+    SBEntityFilter,
+    SBListOptimizationRulesRequest,
+)
 
 rules = SBOptimizationRules(ctx)
 request = SBListOptimizationRulesRequest(
     entityFilter=SBEntityFilter(entityType="CAMPAIGN", entityId="..."),
 )
 await rules.list_optimization_rules(request)
-await rules.disassociate_optimization_rules(request)
 ```
 
 ### SDOptimizationRules — SD 优化规则 (Beta)
 
 ```python
 from async_amazon_ads_api_v1.client.legacy import SDOptimizationRules
+from async_amazon_ads_api_v1.models.legacy.sd_rules import (
+    SDCreateAssociatedOptimizationRulesRequest,
+    SDCreateOptimizationRule,
+)
 
 rules = SDOptimizationRules(ctx)
-await rules.list_optimization_rules("ad-group-id")
-await rules.disassociate_optimization_rules("ad-group-id", request)
+await rules.list_optimization_rules(count=10, state_filter="enabled")
+await rules.get_optimization_rule("rule-id")
+await rules.list_ad_group_optimization_rules(ad_group_id=12345)
+await rules.create_optimization_rules([SDCreateOptimizationRule(...)])
+await rules.associate_optimization_rules(
+    12345,
+    SDCreateAssociatedOptimizationRulesRequest(optimizationRuleIds=["rule-id"]),
+)
+await rules.disassociate_optimization_rules(
+    12345,
+    SDCreateAssociatedOptimizationRulesRequest(optimizationRuleIds=["rule-id"]),
+)
 ```
 
 ### SDCreatives — SD 创意
 
 ```python
 from async_amazon_ads_api_v1.client.legacy import SDCreatives
+from async_amazon_ads_api_v1.models.legacy.sd_creatives import (
+    SDCreateCreative,
+    SDCreativeProperties,
+)
 
 creatives = SDCreatives(ctx)
-await creatives.create([{...}])
+await creatives.create_creatives([
+    SDCreateCreative(
+        adGroupId=21035454911234,
+        properties=SDCreativeProperties(headline="Your headline"),
+    ),
+])
+await creatives.list_creatives()
 ```
 
 ## License

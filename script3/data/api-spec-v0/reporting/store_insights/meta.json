@@ -1,0 +1,16 @@
+{
+  "group": "reporting",
+  "route": "stores/open-api",
+  "entity": "store_insights",
+  "toc_name": "Store insights",
+  "items": [
+    {
+      "name": "Store insights",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/Stores_prod_3p.json",
+      "file": "Stores_prod_3p.json",
+      "etag": "\"7059c2b043b377314e69fd3a6137c6ea\"",
+      "last_modified": "Sun, 16 Aug 2026 01:40:24 GMT",
+      "size": 51912
+    }
+  ]
+}

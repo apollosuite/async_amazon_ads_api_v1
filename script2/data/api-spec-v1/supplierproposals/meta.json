@@ -1,0 +1,14 @@
+{
+  "route": "api-spec-v1-supplierproposals",
+  "entity": "supplierproposals",
+  "items": [
+    {
+      "name": "Amazon DSP",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPSupplierProposalsContract_prod_3p.json",
+      "file": "AmazonAdsAPIDSPSupplierProposalsContract_prod_3p.json",
+      "etag": "\"d4bbfa7af24351be98a6daa604c6e7e4\"",
+      "last_modified": "Fri, 14 Aug 2026 01:10:46 GMT",
+      "size": 49084
+    }
+  ]
+}
