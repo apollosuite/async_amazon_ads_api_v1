@@ -9,10 +9,26 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models._core.lenient_enum import lenient_enum
-from ads_api.models.v0._shared import (
-    ComparisonOperator,
-    RecurrenceType,
-)
+
+
+class ComparisonOperator(StrEnum):
+    """
+    The comparison operator.
+    """
+
+    EQUAL_TO = "EQUAL_TO"
+    GREATER_THAN = "GREATER_THAN"
+    GREATER_THAN_OR_EQUAL_TO = "GREATER_THAN_OR_EQUAL_TO"
+    LESS_THAN = "LESS_THAN"
+    LESS_THAN_OR_EQUAL_TO = "LESS_THAN_OR_EQUAL_TO"
+
+
+class RecurrenceType(StrEnum):
+    """
+    The frequency of the rule application.
+    """
+
+    DAILY = "DAILY"
 
 
 class RuleAction(StrEnum):

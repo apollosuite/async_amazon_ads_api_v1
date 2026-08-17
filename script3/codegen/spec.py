@@ -18,16 +18,19 @@ INCLUDED_TOC_SECTIONS: tuple[str, ...] = (
     "Ads data manager",
     "Exports",
     "Sponsored Products",
+    "Sponsored Brands",
 )
 
 # TOC 分组目录名。未列出的用 camel_to_snake(toc_name)。
 GROUP_KEY_OVERRIDES: dict[str, str] = {
     "Sponsored Products": "sp",
+    "Sponsored Brands": "sb",
 }
 
 # TOC 项名为 Version N 时落到 <product>_vN（如 sp_v3）。列出的分组只下载这些版本。
 INCLUDED_VERSIONS: dict[str, frozenset[str]] = {
     "Sponsored Products": frozenset({"v3"}),
+    "Sponsored Brands": frozenset({"v4"}),
 }
 
 # TOC 项名无法得到稳定 SDK 路径时才手写。默认是去括号 / Version N 后转 snake。

@@ -1,9 +1,9 @@
-"""Auto-generated models for BudgetRules from Amazon Ads API v0."""
+"""Auto-generated models for Budget rules from Amazon Ads API v0."""
 
 from __future__ import annotations
 
 from enum import StrEnum
-from typing import Annotated, Any
+from typing import Annotated
 
 from pydantic import Field
 
@@ -27,11 +27,10 @@ class ComparisonOperator(StrEnum):
     The comparison operator.
     """
 
-    EQUAL_TO = "EQUAL_TO"
     GREATER_THAN = "GREATER_THAN"
-    GREATER_THAN_OR_EQUAL_TO = "GREATER_THAN_OR_EQUAL_TO"
     LESS_THAN = "LESS_THAN"
     LESS_THAN_OR_EQUAL_TO = "LESS_THAN_OR_EQUAL_TO"
+    GREATER_THAN_OR_EQUAL_TO = "GREATER_THAN_OR_EQUAL_TO"
 
 
 class DayOfWeek(StrEnum):
@@ -39,41 +38,41 @@ class DayOfWeek(StrEnum):
     The day of the week.
     """
 
-    FRIDAY = "FRIDAY"
     MONDAY = "MONDAY"
-    SATURDAY = "SATURDAY"
-    SUNDAY = "SUNDAY"
-    THURSDAY = "THURSDAY"
     TUESDAY = "TUESDAY"
     WEDNESDAY = "WEDNESDAY"
+    THURSDAY = "THURSDAY"
+    FRIDAY = "FRIDAY"
+    SATURDAY = "SATURDAY"
+    SUNDAY = "SUNDAY"
 
 
-class PerformanceMetric(StrEnum):
+class PerformanceMetricForSB(StrEnum):
     """
     The advertising performance metric.
     """
 
-    ACOS = "ACOS"
-    CTR = "CTR"
-    CVR = "CVR"
+    IS = "IS"
+    NTB = "NTB"
     ROAS = "ROAS"
 
 
 class RecurrenceType(StrEnum):
     """
-    The frequency of the rule application.
+    depicts the type of recurrence
     """
 
     DAILY = "DAILY"
+    WEEKLY = "WEEKLY"
 
 
-class SPRuleType(StrEnum):
+class SBRuleType(StrEnum):
     """
     The type of budget rule. SCHEDULE: A budget rule based on a start and end date. PERFORMANCE: A budget rule based on advertising performance criteria.
     """
 
-    PERFORMANCE = "PERFORMANCE"
     SCHEDULE = "SCHEDULE"
+    PERFORMANCE = "PERFORMANCE"
 
 
 class State(StrEnum):
@@ -93,8 +92,8 @@ class AssociatedBudgetRuleResult(LenientModel):
 
 class AssociatedCampaign(LenientModel):
     campaignId: str = Field(description="The campaign identifier.")
-    campaignName: str = Field(description="The campaign name.")
     ruleStatus: str = Field(description="The budget rule evaluation status for this campaign. Read-only.")
+    campaignName: str = Field(description="The campaign name.")
 
 
 class BudgetIncreaseBy(StrictModel):
@@ -108,43 +107,10 @@ class BudgetIncreaseByOut(LenientModel):
 
 
 class BudgetRuleResult(LenientModel):
-    associatedCampaignIds: list[str] | None = Field(default=None)
     code: str | None = Field(default=None, description="An enumerated success or error code for machine use.")
     details: str | None = Field(default=None, description="A human-readable description of the error, if unsuccessful")
     ruleId: str | None = Field(default=None, description="The rule identifier.")
-
-
-class BudgetRulesRelations(StrictModel):
-    budgetRuleId: str = Field(description="The rule identifier.")
-    campaignId: str = Field(description="The campaign identifier.")
-
-
-class BulkBudgetRulesAssociationRequest(StrictModel):
-    budgetRulesAssociations: list[BudgetRulesRelations] | None = Field(
-        default=None, max_length=50, description="A list of budget rule campaign details."
-    )
-
-
-class BulkBudgetRulesAssociationResponse(LenientModel):
-    budgetRulesAssociations: dict[str, Any] | None = Field(default=None)
-
-
-class BulkBudgetRulesDisAssociationRequest(StrictModel):
-    budgetRulesDisAssociations: list[BudgetRulesRelations] | None = Field(
-        default=None, max_length=50, description="A list of budget rule campaign details."
-    )
-
-
-class BulkBudgetRulesDisAssociationResponse(LenientModel):
-    budgetRulesDisAssociations: dict[str, Any] | None = Field(default=None)
-
-
-class BulkBudgetRulesRelationsResult(LenientModel):
-    campaignId: str | None = Field(default=None, description="The campaign identifier.")
-    code: str | None = Field(default=None, description="An enumerated success or error code for machine use.")
-    details: str | None = Field(default=None, description="A human-readable description of the error, if unsuccessful")
-    index: int | None = Field(default=None, description="The index of the request in the bulk request.")
-    ruleId: str | None = Field(default=None, description="The budget rule identifier.")
+    associatedCampaignIds: list[str] | None = Field(default=None)
 
 
 class CreateAssociatedBudgetRulesRequest(StrictModel):
@@ -161,8 +127,8 @@ class CreateBudgetRulesResponse(LenientModel):
     responses: list[BudgetRuleResult] | None = Field(default=None)
 
 
-class CreateSPBudgetRulesRequest(StrictModel):
-    budgetRulesDetails: list[SPBudgetRuleDetails] | None = Field(
+class CreateSBBudgetRulesRequest(StrictModel):
+    budgetRulesDetails: list[SBBudgetRuleDetails] | None = Field(
         default=None, max_length=25, description="A list of budget rule details."
     )
 
@@ -194,10 +160,10 @@ class DateRangeTypeRuleDurationOut(LenientModel):
 class EventTypeRuleDuration(StrictModel):
     """Object representing event type rule duration."""
 
-    endDate: str | None = Field(default=None, description="The event end date in YYYYMMDD format. Read-only.")
     eventId: str = Field(
         description="The event identifier. This value is available from the budget rules recommendation API."
     )
+    endDate: str | None = Field(default=None, description="The event end date in YYYYMMDD format. Read-only.")
     eventName: str | None = Field(default=None, description="The event name. Read-only.")
     startDate: str | None = Field(
         default=None,
@@ -208,10 +174,10 @@ class EventTypeRuleDuration(StrictModel):
 class EventTypeRuleDurationOut(LenientModel):
     """Object representing event type rule duration."""
 
-    endDate: str | None = Field(default=None, description="The event end date in YYYYMMDD format. Read-only.")
     eventId: str = Field(
         description="The event identifier. This value is available from the budget rules recommendation API."
     )
+    endDate: str | None = Field(default=None, description="The event end date in YYYYMMDD format. Read-only.")
     eventName: str | None = Field(default=None, description="The event name. Read-only.")
     startDate: str | None = Field(
         default=None,
@@ -219,12 +185,12 @@ class EventTypeRuleDurationOut(LenientModel):
     )
 
 
-class GetSPBudgetRuleResponse(LenientModel):
-    budgetRule: SPBudgetRuleOut | None = Field(default=None)
+class GetSBBudgetRuleResponse(LenientModel):
+    budgetRule: SBBudgetRuleOut | None = Field(default=None)
 
 
-class GetSPBudgetRulesForAdvertiserResponse(LenientModel):
-    budgetRulesForAdvertiserResponse: list[SPBudgetRuleOut] | None = Field(
+class GetSBBudgetRulesForAdvertiserResponse(LenientModel):
+    budgetRulesForAdvertiserResponse: list[SBBudgetRuleOut] | None = Field(
         default=None, min_length=0, max_length=30, description="A list of rules created by the advertiser."
     )
     nextToken: str | None = Field(
@@ -233,19 +199,20 @@ class GetSPBudgetRulesForAdvertiserResponse(LenientModel):
     )
 
 
-class PerformanceMeasureCondition(StrictModel):
+class PerformanceMeasureConditionForSB(StrictModel):
+    metricName: Annotated[PerformanceMetricForSB, lenient_enum(PerformanceMetricForSB)]
     comparisonOperator: Annotated[ComparisonOperator, lenient_enum(ComparisonOperator)]
-    metricName: Annotated[PerformanceMetric, lenient_enum(PerformanceMetric)]
     threshold: float = Field(description="The performance threshold value.")
 
 
-class PerformanceMeasureConditionOut(LenientModel):
+class PerformanceMeasureConditionForSBOut(LenientModel):
+    metricName: Annotated[PerformanceMetricForSB | str, lenient_enum(PerformanceMetricForSB)]
     comparisonOperator: Annotated[ComparisonOperator | str, lenient_enum(ComparisonOperator)]
-    metricName: Annotated[PerformanceMetric | str, lenient_enum(PerformanceMetric)]
     threshold: float = Field(description="The performance threshold value.")
 
 
 class Recurrence(StrictModel):
+    type: Annotated[RecurrenceType, lenient_enum(RecurrenceType)] | None = Field(default=None)
     daysOfWeek: list[Annotated[DayOfWeek, lenient_enum(DayOfWeek)]] | None = Field(
         default=None,
         description="Object representing days of the week for weekly type rule. It is not required for daily recurrence type",
@@ -255,10 +222,10 @@ class Recurrence(StrictModel):
         max_length=1,
         description="List of objects representing start and end time of desired intra-day budget rule window",
     )
-    type: Annotated[RecurrenceType, lenient_enum(RecurrenceType)] | None = Field(default=None)
 
 
 class RecurrenceOut(LenientModel):
+    type: Annotated[RecurrenceType | str, lenient_enum(RecurrenceType)] | None = Field(default=None)
     daysOfWeek: list[Annotated[DayOfWeek | str, lenient_enum(DayOfWeek)]] | None = Field(
         default=None,
         description="Object representing days of the week for weekly type rule. It is not required for daily recurrence type",
@@ -268,73 +235,68 @@ class RecurrenceOut(LenientModel):
         max_length=1,
         description="List of objects representing start and end time of desired intra-day budget rule window",
     )
-    type: Annotated[RecurrenceType | str, lenient_enum(RecurrenceType)] | None = Field(default=None)
 
 
 class RuleDuration(StrictModel):
-    dateRangeTypeRuleDuration: DateRangeTypeRuleDuration | None = Field(default=None)
     eventTypeRuleDuration: EventTypeRuleDuration | None = Field(default=None)
+    dateRangeTypeRuleDuration: DateRangeTypeRuleDuration | None = Field(default=None)
 
 
 class RuleDurationOut(LenientModel):
-    dateRangeTypeRuleDuration: DateRangeTypeRuleDurationOut | None = Field(default=None)
     eventTypeRuleDuration: EventTypeRuleDurationOut | None = Field(default=None)
+    dateRangeTypeRuleDuration: DateRangeTypeRuleDurationOut | None = Field(default=None)
 
 
-class SPBudgetRule(StrictModel):
-    createdDate: float | None = Field(default=None, description="Epoch time of budget rule creation. Read-only.")
-    lastUpdatedDate: float | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
-    ruleDetails: SPBudgetRuleDetails | None = Field(default=None)
-    ruleId: str = Field(description="The budget rule identifier.")
+class SBBudgetRule(StrictModel):
     ruleState: Annotated[State, lenient_enum(State)] | None = Field(default=None)
+    lastUpdatedDate: float | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
+    createdDate: float | None = Field(default=None, description="Epoch time of budget rule creation. Read-only.")
+    ruleDetails: SBBudgetRuleDetails | None = Field(default=None)
+    ruleId: str = Field(description="The budget rule identifier.")
     ruleStatus: str | None = Field(default=None, description="The budget rule status. Read-only.")
 
 
-class SPBudgetRuleDetails(StrictModel):
-    """Object representing details of a budget rule for SP campaign"""
-
-    budgetIncreaseBy: BudgetIncreaseBy | None = Field(default=None)
+class SBBudgetRuleDetails(StrictModel):
     duration: RuleDuration | None = Field(default=None)
-    name: str | None = Field(
-        default=None, max_length=355, description="The budget rule name. Required to be unique within a campaign."
-    )
-    performanceMeasureCondition: PerformanceMeasureCondition | None = Field(default=None)
     recurrence: Recurrence | None = Field(default=None)
-    ruleType: Annotated[SPRuleType, lenient_enum(SPRuleType)] | None = Field(default=None)
-
-
-class SPBudgetRuleDetailsOut(LenientModel):
-    """Object representing details of a budget rule for SP campaign"""
-
-    budgetIncreaseBy: BudgetIncreaseByOut | None = Field(default=None)
-    duration: RuleDurationOut | None = Field(default=None)
+    ruleType: Annotated[SBRuleType, lenient_enum(SBRuleType)] | None = Field(default=None)
+    budgetIncreaseBy: BudgetIncreaseBy | None = Field(default=None)
     name: str | None = Field(
         default=None, max_length=355, description="The budget rule name. Required to be unique within a campaign."
     )
-    performanceMeasureCondition: PerformanceMeasureConditionOut | None = Field(default=None)
+    performanceMeasureCondition: PerformanceMeasureConditionForSB | None = Field(default=None)
+
+
+class SBBudgetRuleDetailsOut(LenientModel):
+    duration: RuleDurationOut | None = Field(default=None)
     recurrence: RecurrenceOut | None = Field(default=None)
-    ruleType: Annotated[SPRuleType | str, lenient_enum(SPRuleType)] | None = Field(default=None)
+    ruleType: Annotated[SBRuleType | str, lenient_enum(SBRuleType)] | None = Field(default=None)
+    budgetIncreaseBy: BudgetIncreaseByOut | None = Field(default=None)
+    name: str | None = Field(
+        default=None, max_length=355, description="The budget rule name. Required to be unique within a campaign."
+    )
+    performanceMeasureCondition: PerformanceMeasureConditionForSBOut | None = Field(default=None)
 
 
-class SPBudgetRuleOut(LenientModel):
-    createdDate: float | None = Field(default=None, description="Epoch time of budget rule creation. Read-only.")
-    lastUpdatedDate: float | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
-    ruleDetails: SPBudgetRuleDetailsOut | None = Field(default=None)
-    ruleId: str = Field(description="The budget rule identifier.")
+class SBBudgetRuleOut(LenientModel):
     ruleState: Annotated[State | str, lenient_enum(State)] | None = Field(default=None)
+    lastUpdatedDate: float | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
+    createdDate: float | None = Field(default=None, description="Epoch time of budget rule creation. Read-only.")
+    ruleDetails: SBBudgetRuleDetailsOut | None = Field(default=None)
+    ruleId: str = Field(description="The budget rule identifier.")
     ruleStatus: str | None = Field(default=None, description="The budget rule status. Read-only.")
 
 
-class SPCampaignBudgetRule(LenientModel):
-    createdDate: float | None = Field(default=None, description="Epoch time of budget rule creation. Read-only.")
-    lastUpdatedDate: float | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
-    ruleDetails: SPBudgetRuleDetailsOut | None = Field(default=None)
-    ruleId: str = Field(description="The budget rule identifier.")
+class SBCampaignBudgetRule(LenientModel):
     ruleState: Annotated[State | str, lenient_enum(State)] | None = Field(default=None)
+    lastUpdatedDate: float | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
+    createdDate: float | None = Field(default=None, description="Epoch time of budget rule creation. Read-only.")
+    ruleDetails: SBBudgetRuleDetailsOut | None = Field(default=None)
+    ruleId: str = Field(description="The budget rule identifier.")
     ruleStatus: str | None = Field(default=None, description="The budget rule evaluation status. Read-only.")
 
 
-class SPGetAssociatedCampaignsResponse(LenientModel):
+class SBGetAssociatedCampaignsResponse(LenientModel):
     associatedCampaigns: list[AssociatedCampaign] | None = Field(
         default=None,
         min_length=0,
@@ -347,29 +309,29 @@ class SPGetAssociatedCampaignsResponse(LenientModel):
     )
 
 
-class SPListAssociatedBudgetRulesResponse(LenientModel):
-    associatedRules: list[SPCampaignBudgetRule] | None = Field(
+class SBListAssociatedBudgetRulesResponse(LenientModel):
+    associatedRules: list[SBCampaignBudgetRule] | None = Field(
         default=None, description="A list of associated budget rules."
     )
 
 
 class TimeOfDay(StrictModel):
+    startTime: str | None = Field(
+        default=None, description="The start time of intra-day budget rule window in the format 'hh:mm:ss'"
+    )
     endTime: str | None = Field(
         default=None,
         description="The end time of intra-day budget rule window in the format 'hh:mm:ss'. Required to be greater than start-time.",
-    )
-    startTime: str | None = Field(
-        default=None, description="The start time of intra-day budget rule window in the format 'hh:mm:ss'"
     )
 
 
 class TimeOfDayOut(LenientModel):
+    startTime: str | None = Field(
+        default=None, description="The start time of intra-day budget rule window in the format 'hh:mm:ss'"
+    )
     endTime: str | None = Field(
         default=None,
         description="The end time of intra-day budget rule window in the format 'hh:mm:ss'. Required to be greater than start-time.",
-    )
-    startTime: str | None = Field(
-        default=None, description="The start time of intra-day budget rule window in the format 'hh:mm:ss'"
     )
 
 
@@ -377,10 +339,8 @@ class UpdateBudgetRulesResponse(LenientModel):
     responses: list[BudgetRuleResult] | None = Field(default=None)
 
 
-class UpdateSPBudgetRulesRequest(StrictModel):
-    """Request object for updating budget rule for SP campaign"""
-
-    budgetRulesDetails: list[SPBudgetRule] | None = Field(
+class UpdateSBBudgetRulesRequest(StrictModel):
+    budgetRulesDetails: list[SBBudgetRule] | None = Field(
         default=None, max_length=25, description="A list of budget rule details."
     )
 
@@ -392,44 +352,38 @@ __all__ = [
     "BudgetIncreaseBy",
     "BudgetIncreaseByOut",
     "BudgetRuleResult",
-    "BudgetRulesRelations",
-    "BulkBudgetRulesAssociationRequest",
-    "BulkBudgetRulesAssociationResponse",
-    "BulkBudgetRulesDisAssociationRequest",
-    "BulkBudgetRulesDisAssociationResponse",
-    "BulkBudgetRulesRelationsResult",
     "ComparisonOperator",
     "CreateAssociatedBudgetRulesRequest",
     "CreateAssociatedBudgetRulesResponse",
     "CreateBudgetRulesResponse",
-    "CreateSPBudgetRulesRequest",
+    "CreateSBBudgetRulesRequest",
     "DateRangeTypeRuleDuration",
     "DateRangeTypeRuleDurationOut",
     "DayOfWeek",
     "DisassociateAssociatedBudgetRuleResponse",
     "EventTypeRuleDuration",
     "EventTypeRuleDurationOut",
-    "GetSPBudgetRuleResponse",
-    "GetSPBudgetRulesForAdvertiserResponse",
-    "PerformanceMeasureCondition",
-    "PerformanceMeasureConditionOut",
-    "PerformanceMetric",
+    "GetSBBudgetRuleResponse",
+    "GetSBBudgetRulesForAdvertiserResponse",
+    "PerformanceMeasureConditionForSB",
+    "PerformanceMeasureConditionForSBOut",
+    "PerformanceMetricForSB",
     "Recurrence",
     "RecurrenceOut",
     "RecurrenceType",
     "RuleDuration",
     "RuleDurationOut",
-    "SPBudgetRule",
-    "SPBudgetRuleDetails",
-    "SPBudgetRuleDetailsOut",
-    "SPBudgetRuleOut",
-    "SPCampaignBudgetRule",
-    "SPGetAssociatedCampaignsResponse",
-    "SPListAssociatedBudgetRulesResponse",
-    "SPRuleType",
+    "SBBudgetRule",
+    "SBBudgetRuleDetails",
+    "SBBudgetRuleDetailsOut",
+    "SBBudgetRuleOut",
+    "SBCampaignBudgetRule",
+    "SBGetAssociatedCampaignsResponse",
+    "SBListAssociatedBudgetRulesResponse",
+    "SBRuleType",
     "State",
     "TimeOfDay",
     "TimeOfDayOut",
     "UpdateBudgetRulesResponse",
-    "UpdateSPBudgetRulesRequest",
+    "UpdateSBBudgetRulesRequest",
 ]

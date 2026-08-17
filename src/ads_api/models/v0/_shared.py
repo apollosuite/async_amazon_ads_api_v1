@@ -11,16 +11,62 @@ from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models._core.lenient_enum import lenient_enum
 
 
-class ComparisonOperator(StrEnum):
+class CreateOrUpdateEntityState(StrEnum):
     """
-    The comparison operator.
+    Entity state for create or update operation.
     """
 
-    EQUAL_TO = "EQUAL_TO"
-    GREATER_THAN = "GREATER_THAN"
-    GREATER_THAN_OR_EQUAL_TO = "GREATER_THAN_OR_EQUAL_TO"
-    LESS_THAN = "LESS_THAN"
-    LESS_THAN_OR_EQUAL_TO = "LESS_THAN_OR_EQUAL_TO"
+    ENABLED = "ENABLED"
+    PAUSED = "PAUSED"
+
+
+class CreativePropertyToOptimize(StrEnum):
+    HEADLINE = "HEADLINE"
+
+
+class CreativeStatus(StrEnum):
+    """
+    The lifecycle status of a creative
+    """
+
+    SUBMITTED_FOR_MODERATION = "SUBMITTED_FOR_MODERATION"
+    PENDING_TRANSLATION = "PENDING_TRANSLATION"
+    PENDING_MODERATION_REVIEW = "PENDING_MODERATION_REVIEW"
+    APPROVED_BY_MODERATION = "APPROVED_BY_MODERATION"
+    REJECTED_BY_MODERATION = "REJECTED_BY_MODERATION"
+    PUBLISHED = "PUBLISHED"
+
+
+class CreativeType(StrEnum):
+    """
+    The creative type of SB ad.
+    """
+
+    PRODUCT_COLLECTION = "PRODUCT_COLLECTION"
+    STORE_SPOTLIGHT = "STORE_SPOTLIGHT"
+    VIDEO = "VIDEO"
+    BRAND_VIDEO = "BRAND_VIDEO"
+
+
+class EntityState(StrEnum):
+    """
+    The current resource state.
+    """
+
+    ENABLED = "ENABLED"
+    PAUSED = "PAUSED"
+    ARCHIVED = "ARCHIVED"
+
+
+class LandingPageType(StrEnum):
+    """
+    The type of landing page, such as store page, product list (simple landing page), custom url.
+    """
+
+    PRODUCT_LIST = "PRODUCT_LIST"
+    STORE = "STORE"
+    CUSTOM_URL = "CUSTOM_URL"
+    DETAIL_PAGE = "DETAIL_PAGE"
 
 
 class MmpName(StrEnum):
@@ -48,12 +94,13 @@ class MmpPlatform(StrEnum):
     IOS = "IOS"
 
 
-class RecurrenceType(StrEnum):
+class QueryTermMatchType(StrEnum):
     """
-    The frequency of the rule application.
+    Defines how would the string resource field (e.g. campaign name, ad group name) be matched with the query term in filter.
     """
 
-    DAILY = "DAILY"
+    BROAD_MATCH = "BROAD_MATCH"
+    EXACT_MATCH = "EXACT_MATCH"
 
 
 class SponsoredProductsBiddingErrorReason(StrEnum):
@@ -380,6 +427,75 @@ class BidAnalysisImpactMetrics(LenientModel):
     estimatedImpressionUpper: int = Field(description="Number indicating an upper bound of the estimated impressions")
 
 
+class BiddingError(LenientModel):
+    """Errors related to bids."""
+
+    reason: str = Field(description="Exact error reason.")
+    cause: ErrorCause
+    upperLimit: str | None = Field(default=None)
+    lowerLimit: str | None = Field(default=None)
+    message: str = Field(description="Human readable error message.")
+
+
+class CustomImage(StrictModel):
+    assetId: str | None = Field(default=None)
+    crop: CustomImageCrop | None = Field(default=None)
+    url: str | None = Field(default=None)
+
+
+class CustomImageCrop(StrictModel):
+    """The crop to apply to the selected Custom image. A Custom image must have a 1200x628 aspect ratio, with a .01 delta for floating point precision. If a customImageAssetId is supplied but a crop is not, the crop will be defaulted to the whole image."""
+
+    top: float | None = Field(default=None)
+    left: float | None = Field(default=None)
+    width: float | None = Field(default=None)
+    height: float | None = Field(default=None)
+
+
+class CustomImageCropOut(LenientModel):
+    """The crop to apply to the selected Custom image. A Custom image must have a 1200x628 aspect ratio, with a .01 delta for floating point precision. If a customImageAssetId is supplied but a crop is not, the crop will be defaulted to the whole image."""
+
+    top: float | None = Field(default=None)
+    left: float | None = Field(default=None)
+    width: float | None = Field(default=None)
+    height: float | None = Field(default=None)
+
+
+class CustomImageOut(LenientModel):
+    assetId: str | None = Field(default=None)
+    crop: CustomImageCropOut | None = Field(default=None)
+    url: str | None = Field(default=None)
+
+
+class DateError(LenientModel):
+    """Errors related to dates."""
+
+    reason: str = Field(description="Exact error reason..")
+    cause: ErrorCause
+    message: str = Field(description="Human readable error message.")
+
+
+class DisassociateAssociatedBudgetRuleResponse(LenientModel):
+    pass
+
+
+class EntityStateFilter(StrictModel):
+    """Filter entities by state."""
+
+    include: list[Annotated[EntityState, lenient_enum(EntityState)]] | None = Field(
+        default=None, min_length=0, max_length=10
+    )
+
+
+class ErrorCause(LenientModel):
+    """Structure describing error cause - location in the payload and data causing error."""
+
+    location: str = Field(
+        description="Error location, JSON Path expression specifying element of API payload causing error."
+    )
+    trigger: str | None = Field(default=None, description="Optional value causing error.")
+
+
 class ExternalIdentity(StrictModel):
     """Support for externalIdentity is planned for the future."""
 
@@ -435,6 +551,21 @@ class ImpactMetrics(LenientModel):
     orders: ImpactMetric | None = Field(default=None)
 
 
+class LandingPage(StrictModel):
+    asins: list[str] | None = Field(default=None, min_length=3, max_length=100)
+    pageType: Annotated[LandingPageType, lenient_enum(LandingPageType)] | None = Field(default=None)
+    url: str | None = Field(
+        default=None,
+        description="""
+URL of an existing simple landing page or Store page. Vendors may also specify the URL of a custom landing page.
+If a custom URL is specified, the landing page must include the ASINs of at least three products that are
+advertised as part of the campaign. Do not include this property in the request if the asins property is also
+included, these properties are mutually exclusive.
+Note that brandVideo ads only support Store page as landing page and does not allow asins property.
+""",
+    )
+
+
 class Metadata(LenientModel):
     """Container for dataset metadata"""
 
@@ -458,11 +589,50 @@ class MmpMetadata(LenientModel):
     )
 
 
+class NameFilter(StrictModel):
+    """Filter entities by name."""
+
+    queryTermMatchType: Annotated[QueryTermMatchType, lenient_enum(QueryTermMatchType)] | None = Field(default=None)
+    include: list[str] | None = Field(default=None, min_length=0, max_length=100)
+
+
+class ObjectIdFilter(StrictModel):
+    """Filter entities by the list of objectIds."""
+
+    include: list[str] | None = Field(default=None, min_length=0, max_length=10)
+
+
+class OtherError(LenientModel):
+    """Errors not related to any of the other error types."""
+
+    reason: str
+    cause: ErrorCause
+    message: str = Field(description="Human readable error message.")
+
+
+class RangeError(LenientModel):
+    """Errors related to range constraints violations."""
+
+    reason: str
+    allowed: list[str] | None = Field(default=None, min_length=0, max_length=100, description="Allowed values.")
+    cause: ErrorCause
+    upperLimit: str | None = Field(default=None, description="Optional upper limit.")
+    lowerLimit: str | None = Field(default=None, description="Optional lower limit.")
+    message: str = Field(description="Human readable error message.")
+
+
 class RangeMetricValue(LenientModel):
     """Describes lower and upper bounds of the range. <br> Note: This object is nullable"""
 
     lower: int | None = Field(default=None)
     upper: int | None = Field(default=None)
+
+
+class SBTargetingBrand(LenientModel):
+    brandRefinementId: str = Field(
+        description="Id of brand. Use /sb/targets/categories/{categoryRefinementId}/refinements to retrieve Brand Refinement IDs."
+    )
+    name: str | None = Field(default=None, description="Name of brand.")
 
 
 class SponsoredProductsAsinFilter(StrictModel):
@@ -739,23 +909,55 @@ class SponsoredProductsThrottledError(LenientModel):
     reason: Annotated[SponsoredProductsThrottledErrorReason | str, lenient_enum(SponsoredProductsThrottledErrorReason)]
 
 
+class Subpage(StrictModel):
+    pageTitle: str | None = Field(default=None)
+    asin: str | None = Field(default=None)
+    url: str | None = Field(default=None)
+
+
+class SubpageOut(LenientModel):
+    pageTitle: str | None = Field(default=None)
+    asin: str | None = Field(default=None)
+    url: str | None = Field(default=None)
+
+
 __all__ = [
     "BidAnalyses",
     "BidAnalysesPerPlacement",
     "BidAnalysis",
     "BidAnalysisImpactMetrics",
-    "ComparisonOperator",
+    "BiddingError",
+    "CreateOrUpdateEntityState",
+    "CreativePropertyToOptimize",
+    "CreativeStatus",
+    "CreativeType",
+    "CustomImage",
+    "CustomImageCrop",
+    "CustomImageCropOut",
+    "CustomImageOut",
+    "DateError",
+    "DisassociateAssociatedBudgetRuleResponse",
+    "EntityState",
+    "EntityStateFilter",
+    "ErrorCause",
     "ExternalIdentity",
     "HashedPii",
     "Identity",
     "ImpactMetric",
     "ImpactMetrics",
+    "LandingPage",
+    "LandingPageType",
     "Metadata",
     "MmpMetadata",
     "MmpName",
     "MmpPlatform",
+    "NameFilter",
+    "ObjectIdFilter",
+    "OtherError",
+    "QueryTermMatchType",
+    "RangeError",
     "RangeMetricValue",
-    "RecurrenceType",
+    "SBTargetingBrand",
     "SponsoredProductsAsinFilter",
     "SponsoredProductsBiddingError",
     "SponsoredProductsBiddingErrorReason",
@@ -812,5 +1014,7 @@ __all__ = [
     "SponsoredProductsThrottledError",
     "SponsoredProductsThrottledErrorReason",
     "SponsoredProductsValueLimitErrorReason",
+    "Subpage",
+    "SubpageOut",
     "Theme",
 ]

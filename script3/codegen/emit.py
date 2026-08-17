@@ -588,6 +588,10 @@ def render_client_module(
                     seed, _ = _first_schema_seed(media.get("schema", {}))
                     if seed:
                         sig_imports.add(name_map.resolve_response(seed, all_schemas.get(seed, {})))
+        for param in _resolve_params(spec, operation):
+            seed, _ = _first_schema_seed(param.get("schema", {}))
+            if seed:
+                sig_imports.add(name_map.resolve(seed, SchemaRole.OUTPUT))
 
     lines = [
         f'"""{resource_name} resource operations.',

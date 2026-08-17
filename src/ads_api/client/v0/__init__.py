@@ -9,6 +9,7 @@ from ads_api.client.v0.accounts import Accounts
 from ads_api.client.v0.ads_data_manager import AdsDataManager
 from ads_api.client.v0.exports import Exports
 from ads_api.client.v0.reporting import Reporting
+from ads_api.client.v0.sb_v4 import SBV4
 from ads_api.client.v0.sp_v3 import SPV3
 from ads_api.config.settings import AmazonAdsConfig
 from ads_api.errors import MissingConfigError
@@ -48,6 +49,7 @@ class AdsClientV0:
         self.__ads_data_manager: AdsDataManager | None = None
         self.__exports: Exports | None = None
         self.__sp_v3: SPV3 | None = None
+        self.__sb_v4: SBV4 | None = None
 
     async def __aenter__(self) -> AdsClientV0:
         return self
@@ -88,3 +90,9 @@ class AdsClientV0:
         if self.__sp_v3 is None:
             self.__sp_v3 = SPV3(self._ctx)
         return self.__sp_v3
+
+    @property
+    def sb_v4(self) -> SBV4:
+        if self.__sb_v4 is None:
+            self.__sb_v4 = SBV4(self._ctx)
+        return self.__sb_v4
