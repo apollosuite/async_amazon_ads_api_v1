@@ -2,6 +2,16 @@
 
 > [!WARNING]
 > **废弃与迁移说明**: `async_amazon_ads_api_v1` 包即将废弃，项目正在逐步迁移至全新的统一包 **`ads_api`**（支持 v0 与 v1 全实体）。
+## v0.6.8 (2026-08-17)
+
+### feat — 新功能
+- **Sponsored Brands v4**: 在 `ads_api.v0` 中引入全新的 Sponsored Brands Version 4 (`sb_v4`) 全量客户端与数据模型（覆盖 ad_creatives, ad_groups, ads, budget_rules, budget_usage, campaigns, forecasts, insights, optimization_rules, product_targeting_categories, recommendations, v3_campaign_migration 共 12 个子资源）。
+- **客户端架构优化**: `AdsClient` / `AdsClientV0` / `AdsClientV1` 统一基于共享 `ClientContext` 构建，支持资源间连接与 Token 管理的高效复用。
+- **生成器优化**: v0 代码生成器支持默认值类型纠偏及操作参数级别的 Schema 依赖自动导入。
+
+### refactor — 重构
+- 统一客户端未传入必要配置时的异常处理，抛出规范的 `MissingConfigError`。
+
 ## v0.6.7 (2026-08-17)
 
 ### fix — 修复
