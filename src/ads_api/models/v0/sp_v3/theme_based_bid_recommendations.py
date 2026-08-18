@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated, Any
+from typing import Any, Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     BidAnalyses,
     BidAnalysesPerPlacement,
@@ -22,19 +20,19 @@ from ads_api.models.v0._shared import (
     Theme,
 )
 
-
-class TargetingExpressionV4Type(StrEnum):
-    CLOSE_MATCH = "CLOSE_MATCH"
-    COMPLEMENTS = "COMPLEMENTS"
-    KEYWORD_BROAD_MATCH = "KEYWORD_BROAD_MATCH"
-    KEYWORD_EXACT_MATCH = "KEYWORD_EXACT_MATCH"
-    KEYWORD_GROUP = "KEYWORD_GROUP"
-    KEYWORD_PHRASE_MATCH = "KEYWORD_PHRASE_MATCH"
-    LOOSE_MATCH = "LOOSE_MATCH"
-    PAT_ASIN = "PAT_ASIN"
-    PAT_CATEGORY = "PAT_CATEGORY"
-    PAT_CATEGORY_REFINEMENT = "PAT_CATEGORY_REFINEMENT"
-    SUBSTITUTES = "SUBSTITUTES"
+type TargetingExpressionV4Type = Literal[
+    "CLOSE_MATCH",
+    "COMPLEMENTS",
+    "KEYWORD_BROAD_MATCH",
+    "KEYWORD_EXACT_MATCH",
+    "KEYWORD_GROUP",
+    "KEYWORD_PHRASE_MATCH",
+    "LOOSE_MATCH",
+    "PAT_ASIN",
+    "PAT_CATEGORY",
+    "PAT_CATEGORY_REFINEMENT",
+    "SUBSTITUTES",
+]
 
 
 class BidAnalysesPerTargetingExpression(LenientModel):
@@ -67,14 +65,14 @@ class BidValue(LenientModel):
 class TargetingExpression(LenientModel):
     """The targeting expression. The `type` property specifies the targeting option. Use `CLOSE_MATCH` to match your auto targeting ads closely to the specified value. Use `LOOSE_MATCH` to match your auto targeting ads broadly to the specified value. Use `SUBSTITUTES` to display your auto targeting ads along with substitutable products. Use `COMPLEMENTS` to display your auto targeting ads along with affiliated products. Use `KEYWORD_BROAD_MATCH` to broadly match your keyword targeting ads with search queries. Use `KEYWORD_EXACT_MATCH` to exactly match your keyword targeting ads with search queries. Use `KEYWORD_PHRASE_MATCH` to match your keyword targeting ads with search phrases. your keyword targeting ads with search phrases."""
 
-    type: Annotated[TargetingExpressionType | str, lenient_enum(TargetingExpressionType)]
+    type: TargetingExpressionType | str
     value: str | None = Field(default=None, description="The targeting expression value.")
 
 
 class TargetingExpressionV4(LenientModel):
     """The targeting expression. The `type` property specifies the targeting option. Use `CLOSE_MATCH` to match your auto targeting ads closely to the specified value. Use `LOOSE_MATCH` to match your auto targeting ads broadly to the specified value. Use `SUBSTITUTES` to display your auto targeting ads along with substitutable products. Use `COMPLEMENTS` to display your auto targeting ads along with affiliated products. Use `KEYWORD_BROAD_MATCH` to broadly match your keyword targeting ads with search queries. Use `KEYWORD_EXACT_MATCH` to exactly match your keyword targeting ads with search queries. Use `KEYWORD_PHRASE_MATCH` to match your keyword targeting ads with search phrases. your keyword targeting ads with search phrases. Use `PAT_ASIN` to match your product attribute targeting ads with product ASIN. Use `PAT_CATEGORY` to match your product attribute targeting ads with product category. Use `PAT_CATEGORY_REFINEMENT` to match your product attribute targeting ads with product attribute, including brand, price, rating, prime shipping eligible, age range and genre. Use `KEYWORD_GROUP` to match your keyword targeting ads with keyword group."""
 
-    type: Annotated[TargetingExpressionV4Type | str, lenient_enum(TargetingExpressionV4Type)]
+    type: TargetingExpressionV4Type | str
     value: str | None = Field(default=None, description="The targeting expression value.")
 
 
@@ -83,7 +81,7 @@ class ThemeBasedBidRecommendation(LenientModel):
         description="The bid recommendations for targeting expressions listed in the request."
     )
     impactMetrics: ImpactMetrics | None = Field(default=None)
-    theme: Annotated[Theme | str, lenient_enum(Theme)]
+    theme: Theme | str
 
 
 class ThemeBasedBidRecommendationResponse(LenientModel):
@@ -108,7 +106,7 @@ class ThemeBasedBidRecommendationV4(LenientModel):
     bidRecommendationsForTargetingExpressions: list[BidRecommendationPerTargetingExpressionV4] = Field(
         description="The bid recommendations for targeting expressions listed in the request."
     )
-    theme: Annotated[Theme | str, lenient_enum(Theme)]
+    theme: Theme | str
 
 
 class ThemeBasedBidRecommendationV5(LenientModel):
@@ -118,7 +116,7 @@ class ThemeBasedBidRecommendationV5(LenientModel):
     bidRecommendationsForTargetingExpressions: list[BidRecommendationPerTargetingExpressionV5] = Field(
         description="The bid recommendations for targeting expressions listed in the request."
     )
-    theme: Annotated[Theme | str, lenient_enum(Theme)]
+    theme: Theme | str
 
 
 __all__ = [

@@ -2,28 +2,25 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 
-
-class Status(StrEnum):
-    """
-    The current state of the account. Statuses include Pending, Partially Created, Created, and Disabled.
-    If the account is in pending, it's registration is in progress and you'll need to call back again for an updated status.
-    Partially Created means that the account is registered for some, but not all marketplaces,
-    and the user may proceed with their global account for those marketplaces.
-    Created means that it has been fully registered, and Disabled means that the account is no longer accessible.
-    """
-
-    CREATED = "CREATED"
-    DISABLED = "DISABLED"
-    PARTIALLY_CREATED = "PARTIALLY_CREATED"
-    PENDING = "PENDING"
+type Status = Literal[
+    "CREATED",
+    "DISABLED",
+    "PARTIALLY_CREATED",
+    "PENDING",
+]
+"""
+The current state of the account. Statuses include Pending, Partially Created, Created, and Disabled.
+If the account is in pending, it's registration is in progress and you'll need to call back again for an updated status.
+Partially Created means that the account is registered for some, but not all marketplaces,
+and the user may proceed with their global account for those marketplaces.
+Created means that it has been fully registered, and Disabled means that the account is no longer accessible.
+"""
 
 
 class AdsAccount(LenientModel):
@@ -34,7 +31,7 @@ class AdsAccount(LenientModel):
     adsAccountId: str = Field(
         pattern="^[A-Za-z0-9.-]+$", description="This is the global advertising account Id from the client."
     )
-    status: Annotated[Status | str, lenient_enum(Status)] | None = Field(default=None)
+    status: Status | str | None = Field(default=None)
 
 
 class AdsAccountWithMetaData(LenientModel):
@@ -58,7 +55,7 @@ For non-endemic, Global Accounts only support US now
 """,
     )
     errors: CountryCodeToErrorListMap | None = Field(default=None)
-    status: Annotated[Status | str, lenient_enum(Status)] | None = Field(default=None)
+    status: Status | str | None = Field(default=None)
 
 
 class AlternateId(LenientModel):

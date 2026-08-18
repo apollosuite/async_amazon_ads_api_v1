@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.sp_global import (
     SPGlobalAdProduct,
     SPGlobalCreateState,
@@ -22,74 +20,90 @@ from ads_api.models.v1._shared.sp_global import (
     SPGlobalUpdateState,
 )
 
+type SPGlobalAdExtensionStatus = Literal["OPTED_OUT",]  # If the advertiser has opted out of this Ad Extension.
+"""
+Ad Extension Status.
 
-class SPGlobalAdExtensionStatus(StrEnum):
-    """
-    Ad Extension Status.
-    """
-
-    OPTED_OUT = "OPTED_OUT"  # If the advertiser has opted out of this Ad Extension.
-
-
-class SPGlobalAdExtensionType(StrEnum):
-    """
-    Ad Extension Type.
-    """
-
-    PROMPTS = "PROMPTS"  # Enables Prompt based Ad Extension.
+Supported values:
+- `OPTED_OUT`: If the advertiser has opted out of this Ad Extension.
+"""
 
 
-class SPGlobalMarketplace(StrEnum):
-    """
-    A list of country codes representing Amazon marketplaces
-    """
+type SPGlobalAdExtensionType = Literal["PROMPTS",]  # Enables Prompt based Ad Extension.
+"""
+Ad Extension Type.
 
-    AE = "AE"
-    AU = "AU"
-    BE = "BE"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    EG = "EG"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    NL = "NL"
-    PL = "PL"
-    SA = "SA"
-    SE = "SE"
-    SG = "SG"
-    TR = "TR"
-    US = "US"
+Supported values:
+- `PROMPTS`: Enables Prompt based Ad Extension.
+"""
+
+
+type SPGlobalMarketplace = Literal[
+    "AE",
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "DE",
+    "EG",
+    "ES",
+    "FR",
+    "GB",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "PL",
+    "SA",
+    "SE",
+    "SG",
+    "TR",
+    "US",
+]
+"""
+A list of country codes representing Amazon marketplaces
+"""
 
 
 class SPGlobalAdExtension(LenientModel):
     adExtensionId: str = Field(description="A unique identifier for the ad_extension.")
     adExtensionSettings: SPGlobalAdExtensionSettings
-    adExtensionStatus: Annotated[SPGlobalAdExtensionStatus | str, lenient_enum(SPGlobalAdExtensionStatus)] | None = (
-        Field(default=None)
+    adExtensionStatus: SPGlobalAdExtensionStatus | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `OPTED_OUT`: If the advertiser has opted out of this Ad Extension.
+""",
     )
-    adExtensionType: Annotated[SPGlobalAdExtensionType | str, lenient_enum(SPGlobalAdExtensionType)]
+    adExtensionType: SPGlobalAdExtensionType | str = Field(description="""
+Supported values:
+- `PROMPTS`: Enables Prompt based Ad Extension.
+""")
     adGroupId: str | None = Field(
         default=None, description="A unique identifier for the ad group associated with the ad_extension."
     )
     adId: str | None = Field(
         default=None, description="A unique identifier for the ad associated with the ad_extension."
     )
-    adProduct: Annotated[SPGlobalAdProduct | str, lenient_enum(SPGlobalAdProduct)]
+    adProduct: SPGlobalAdProduct | str = Field(description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""")
     creationDateTime: datetime = Field(description="The date time the ad_extension was created.")
     lastUpdatedDateTime: datetime = Field(description="The date time the ad_extension was last updated.")
-    marketplaceScope: Annotated[SPGlobalMarketplaceScope | str, lenient_enum(SPGlobalMarketplaceScope)]
-    marketplaces: list[Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]] = Field(
+    marketplaceScope: SPGlobalMarketplaceScope | str
+    marketplaces: list[SPGlobalMarketplace | str] = Field(
         min_length=1,
         max_length=30,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
     )
-    state: Annotated[SPGlobalState | str, lenient_enum(SPGlobalState)]
+    state: SPGlobalState | str = Field(description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
 
 
 class SPGlobalAdExtensionAdExtensionIdFilter(StrictModel):
@@ -97,14 +111,24 @@ class SPGlobalAdExtensionAdExtensionIdFilter(StrictModel):
 
 
 class SPGlobalAdExtensionAdExtensionStatusFilter(StrictModel):
-    include: list[Annotated[SPGlobalAdExtensionStatus | str, lenient_enum(SPGlobalAdExtensionStatus)]] = Field(
-        min_length=1, max_length=1
+    include: list[SPGlobalAdExtensionStatus | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `OPTED_OUT`: If the advertiser has opted out of this Ad Extension.
+""",
     )
 
 
 class SPGlobalAdExtensionAdExtensionTypeFilter(StrictModel):
-    include: list[Annotated[SPGlobalAdExtensionType | str, lenient_enum(SPGlobalAdExtensionType)]] = Field(
-        min_length=1, max_length=1
+    include: list[SPGlobalAdExtensionType | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `PROMPTS`: Enables Prompt based Ad Extension.
+""",
     )
 
 
@@ -117,31 +141,50 @@ class SPGlobalAdExtensionAdIdFilter(StrictModel):
 
 
 class SPGlobalAdExtensionAdProductFilter(StrictModel):
-    include: list[Annotated[SPGlobalAdProduct | str, lenient_enum(SPGlobalAdProduct)]] = Field(
-        min_length=1, max_length=1
+    include: list[SPGlobalAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""",
     )
 
 
 class SPGlobalAdExtensionCreate(StrictModel):
     adExtensionSettings: SPGlobalCreateAdExtensionSettings
-    adExtensionStatus: Annotated[SPGlobalAdExtensionStatus | str, lenient_enum(SPGlobalAdExtensionStatus)] | None = (
-        Field(default=None)
+    adExtensionStatus: SPGlobalAdExtensionStatus | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `OPTED_OUT`: If the advertiser has opted out of this Ad Extension.
+""",
     )
-    adExtensionType: Annotated[SPGlobalAdExtensionType | str, lenient_enum(SPGlobalAdExtensionType)]
+    adExtensionType: SPGlobalAdExtensionType = Field(description="""
+Supported values:
+- `PROMPTS`: Enables Prompt based Ad Extension.
+""")
     adGroupId: str | None = Field(
         default=None, description="A unique identifier for the ad group associated with the ad_extension."
     )
     adId: str | None = Field(
         default=None, description="A unique identifier for the ad associated with the ad_extension."
     )
-    adProduct: Annotated[SPGlobalAdProduct | str, lenient_enum(SPGlobalAdProduct)]
-    marketplaceScope: Annotated[SPGlobalMarketplaceScope | str, lenient_enum(SPGlobalMarketplaceScope)]
-    marketplaces: list[Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]] = Field(
+    adProduct: SPGlobalAdProduct = Field(description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""")
+    marketplaceScope: SPGlobalMarketplaceScope
+    marketplaces: list[SPGlobalMarketplace | str] = Field(
         min_length=1,
         max_length=30,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
     )
-    state: Annotated[SPGlobalCreateState | str, lenient_enum(SPGlobalCreateState)]
+    state: SPGlobalCreateState = Field(description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
 
 
 class SPGlobalAdExtensionMultiStatusResponseWithPartialErrors(LenientModel):
@@ -166,7 +209,16 @@ class SPGlobalAdExtensionSettings(LenientModel):
 
 
 class SPGlobalAdExtensionStateFilter(StrictModel):
-    include: list[Annotated[SPGlobalState | str, lenient_enum(SPGlobalState)]] = Field(min_length=1, max_length=3)
+    include: list[SPGlobalState | str] = Field(
+        min_length=1,
+        max_length=3,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class SPGlobalAdExtensionSuccessResponse(LenientModel):
@@ -176,13 +228,20 @@ class SPGlobalAdExtensionSuccessResponse(LenientModel):
 
 class SPGlobalAdExtensionUpdate(StrictModel):
     adExtensionId: str = Field(description="A unique identifier for the ad_extension.")
-    marketplaces: list[Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]] | None = Field(
+    marketplaces: list[SPGlobalMarketplace | str] | None = Field(
         default=None,
         min_length=1,
         max_length=30,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
     )
-    state: Annotated[SPGlobalUpdateState | str, lenient_enum(SPGlobalUpdateState)] | None = Field(default=None)
+    state: SPGlobalUpdateState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class SPGlobalCreateAdExtensionRequest(StrictModel):

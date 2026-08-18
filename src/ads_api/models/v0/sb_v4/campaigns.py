@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     BiddingError,
     CreateOrUpdateEntityState,
@@ -23,152 +21,155 @@ from ads_api.models.v0._shared import (
     RangeError,
 )
 
+type AudienceSegmentType = Literal[
+    "SPONSORED_ADS_AMC",  # This type refers to the Audience Segments created in AMC for Sponsored Ads. See [AMC API](https://advertising.amazon.com/API/docs/en-us/amc-rba#tag/Rule-based-audience) for details on how to create AMC Audiences. Once the AMC Audiences are created, the Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_BRANDS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "AMC"]]`. Only the audiences retrieved using these filters are usable.
+    "BEHAVIOR_DYNAMIC",  # This type refers to the Audience Segments created by Amazon for Sponsored Ads. The Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_BRANDS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "Product"]]`. Only the audiences retrieved using these filters are usable.
+]
+"""
+The audience segment type is required to specify the type of audience being used to apply bid adjustments.
 
-class AudienceSegmentType(StrEnum):
-    """
-    The audience segment type is required to specify the type of audience being used to apply bid adjustments.
-    """
-
-    SPONSORED_ADS_AMC = "SPONSORED_ADS_AMC"  # This type refers to the Audience Segments created in AMC for Sponsored Ads. See [AMC API](https://advertising.amazon.com/API/docs/en-us/amc-rba#tag/Rule-based-audience) for details on how to create AMC Audiences. Once the AMC Audiences are created, the Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_BRANDS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "AMC"]]`. Only the audiences retrieved using these filters are usable.
-    BEHAVIOR_DYNAMIC = "BEHAVIOR_DYNAMIC"  # This type refers to the Audience Segments created by Amazon for Sponsored Ads. The Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_BRANDS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "Product"]]`. Only the audiences retrieved using these filters are usable.
-
-
-class BudgetType(StrEnum):
-    """
-    For the lifetime budget type, `startDate` and `endDate` must be specified.
-    """
-
-    DAILY = "DAILY"
-    LIFETIME = "LIFETIME"
+Supported values:
+- `SPONSORED_ADS_AMC`: This type refers to the Audience Segments created in AMC for Sponsored Ads. See [AMC API](https://advertising.amazon.com/API/docs/en-us/amc-rba#tag/Rule-based-audience) for details on how to create AMC Audiences. Once the AMC Audiences are created, the Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_BRANDS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "AMC"]]`. Only the audiences retrieved using these filters are usable.
+- `BEHAVIOR_DYNAMIC`: This type refers to the Audience Segments created by Amazon for Sponsored Ads. The Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_BRANDS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "Product"]]`. Only the audiences retrieved using these filters are usable.
+"""
 
 
-class CampaignServingStatus(StrEnum):
-    """
-    `Notice: the servingStatus enums have not been finalized yet.`
-    The campaign serving status determined by system.
-    - ADVERTISER_STATUS_ENABLED - Advertiser's status is enabled
-    - ADVERTISER_POLICING_PENDING_REVIEW - Avertiser is pending review because of policing reason
-    - ADVERTISER_POLICING_SUSPENDED - Advertiser's status is suspended because of policing reason
-    - ADVERTISER_PAUSED - Advertiser's status is paused
-    - ADVERTISER_ARCHIVED - Advertiser's status is archived
-    - ADVERTISER_PAYMENT_FAILURE - Advertiser's internal status is suspended
-    - ADVERTISER_ACCOUNT_OUT_OF_BUDGET - Advertiser is out of budget for all Sponsored Ads campaigns
-    - ADVERTISER_OUT_OF_PREPAY_BALANCE - Advertiser is out of prepay balance for all Sponsored Ads campaigns
-    - ADVERTISER_EXCEED_SPENDS_LIMIT - Advertiser spends over the daily limit
-
-    - CAMPAIGN_STATUS_ENABLED - Campaign's status is enabled.
-    - CAMPAIGN_PAUSED - Campaign's status is paused.
-    - CAMPAIGN_ARCHIVED - Campaign's status is archived.
-    - CAMPAIGN_INCOMPLETE - Campaign does not contain any ads or targeting clauses.
-    - CAMPAIGN_OUT_OF_BUDGET - Campaign is out of budget.
-
-    - PORTFOLIO_STATUS_ENABLED - Portfolio's status is enabled
-    - PORTFOLIO_PAUSED - Portfolio's status is paused
-    - PORTFOLIO_ARCHIVED - Portfolio's status is archived
-    - PORTFOLIO_OUT_OF_BUDGET - Portfolio is out of budget
-    - PORTFOLIO_PENDING_START_DATE - Portfolio's start date is in the future
-    - PORTFOLIO_ENDED - Portfolio's end date is in the past.
-
-    - INELIGIBLE - Ad Offer is ineligible
-    - ELIGIBLE - Ad Offer is eligible
-    - ENDED - Campaign's end date is in the past.
-    - PENDING_REVIEW - Campaign is pending review.
-    - PENDING_START_DATE - Campaign's start date is in the future.
-    - REJECTED - Campaign is rejected by moderation process.
-    - UNKNOWN - Serving status is unknown. Please contact us for support.
-    """
-
-    ADVERTISER_STATUS_ENABLED = "ADVERTISER_STATUS_ENABLED"
-    ADVERTISER_POLICING_PENDING_REVIEW = "ADVERTISER_POLICING_PENDING_REVIEW"
-    ADVERTISER_POLICING_SUSPENDED = "ADVERTISER_POLICING_SUSPENDED"
-    ADVERTISER_PAUSED = "ADVERTISER_PAUSED"
-    ADVERTISER_ARCHIVED = "ADVERTISER_ARCHIVED"
-    ADVERTISER_PAYMENT_FAILURE = "ADVERTISER_PAYMENT_FAILURE"
-    ADVERTISER_ACCOUNT_OUT_OF_BUDGET = "ADVERTISER_ACCOUNT_OUT_OF_BUDGET"
-    ADVERTISER_OUT_OF_PREPAY_BALANCE = "ADVERTISER_OUT_OF_PREPAY_BALANCE"
-    ADVERTISER_EXCEED_SPENDS_LIMIT = "ADVERTISER_EXCEED_SPENDS_LIMIT"
-    CAMPAIGN_STATUS_ENABLED = "CAMPAIGN_STATUS_ENABLED"
-    CAMPAIGN_PAUSED = "CAMPAIGN_PAUSED"
-    CAMPAIGN_ARCHIVED = "CAMPAIGN_ARCHIVED"
-    CAMPAIGN_INCOMPLETE = "CAMPAIGN_INCOMPLETE"
-    CAMPAIGN_OUT_OF_BUDGET = "CAMPAIGN_OUT_OF_BUDGET"
-    PORTFOLIO_STATUS_ENABLED = "PORTFOLIO_STATUS_ENABLED"
-    PORTFOLIO_PAUSED = "PORTFOLIO_PAUSED"
-    PORTFOLIO_ARCHIVED = "PORTFOLIO_ARCHIVED"
-    PORTFOLIO_OUT_OF_BUDGET = "PORTFOLIO_OUT_OF_BUDGET"
-    PORTFOLIO_PENDING_START_DATE = "PORTFOLIO_PENDING_START_DATE"
-    PORTFOLIO_ENDED = "PORTFOLIO_ENDED"
-    INELIGIBLE = "INELIGIBLE"
-    ELIGIBLE = "ELIGIBLE"
-    ENDED = "ENDED"
-    PENDING_REVIEW = "PENDING_REVIEW"
-    PENDING_START_DATE = "PENDING_START_DATE"
-    REJECTED = "REJECTED"
-    UNKNOWN = "UNKNOWN"
+type BudgetType = Literal["DAILY", "LIFETIME"]
+"""
+For the lifetime budget type, `startDate` and `endDate` must be specified.
+"""
 
 
-class Placement(StrEnum):
-    """
-    List of bid adjustments for placements.
-    - HOME - The home page of the Amazon store.
-    - DETAIL_PAGE - Product detail pages within the Amazon store.
-    - OTHER - Other placement groups. Such as search pages in the Amazon Store.
-    - TOP_OF_SEARCH - Top of search ads generally appear above the top search results.
-    """
+type CampaignServingStatus = Literal[
+    "ADVERTISER_STATUS_ENABLED",
+    "ADVERTISER_POLICING_PENDING_REVIEW",
+    "ADVERTISER_POLICING_SUSPENDED",
+    "ADVERTISER_PAUSED",
+    "ADVERTISER_ARCHIVED",
+    "ADVERTISER_PAYMENT_FAILURE",
+    "ADVERTISER_ACCOUNT_OUT_OF_BUDGET",
+    "ADVERTISER_OUT_OF_PREPAY_BALANCE",
+    "ADVERTISER_EXCEED_SPENDS_LIMIT",
+    "CAMPAIGN_STATUS_ENABLED",
+    "CAMPAIGN_PAUSED",
+    "CAMPAIGN_ARCHIVED",
+    "CAMPAIGN_INCOMPLETE",
+    "CAMPAIGN_OUT_OF_BUDGET",
+    "PORTFOLIO_STATUS_ENABLED",
+    "PORTFOLIO_PAUSED",
+    "PORTFOLIO_ARCHIVED",
+    "PORTFOLIO_OUT_OF_BUDGET",
+    "PORTFOLIO_PENDING_START_DATE",
+    "PORTFOLIO_ENDED",
+    "INELIGIBLE",
+    "ELIGIBLE",
+    "ENDED",
+    "PENDING_REVIEW",
+    "PENDING_START_DATE",
+    "REJECTED",
+    "UNKNOWN",
+]
+"""
+`Notice: the servingStatus enums have not been finalized yet.`
+The campaign serving status determined by system.
+- ADVERTISER_STATUS_ENABLED - Advertiser's status is enabled
+- ADVERTISER_POLICING_PENDING_REVIEW - Avertiser is pending review because of policing reason
+- ADVERTISER_POLICING_SUSPENDED - Advertiser's status is suspended because of policing reason
+- ADVERTISER_PAUSED - Advertiser's status is paused
+- ADVERTISER_ARCHIVED - Advertiser's status is archived
+- ADVERTISER_PAYMENT_FAILURE - Advertiser's internal status is suspended
+- ADVERTISER_ACCOUNT_OUT_OF_BUDGET - Advertiser is out of budget for all Sponsored Ads campaigns
+- ADVERTISER_OUT_OF_PREPAY_BALANCE - Advertiser is out of prepay balance for all Sponsored Ads campaigns
+- ADVERTISER_EXCEED_SPENDS_LIMIT - Advertiser spends over the daily limit
 
-    HOME = "HOME"
-    DETAIL_PAGE = "DETAIL_PAGE"
-    OTHER = "OTHER"
-    TOP_OF_SEARCH = "TOP_OF_SEARCH"
+- CAMPAIGN_STATUS_ENABLED - Campaign's status is enabled.
+- CAMPAIGN_PAUSED - Campaign's status is paused.
+- CAMPAIGN_ARCHIVED - Campaign's status is archived.
+- CAMPAIGN_INCOMPLETE - Campaign does not contain any ads or targeting clauses.
+- CAMPAIGN_OUT_OF_BUDGET - Campaign is out of budget.
+
+- PORTFOLIO_STATUS_ENABLED - Portfolio's status is enabled
+- PORTFOLIO_PAUSED - Portfolio's status is paused
+- PORTFOLIO_ARCHIVED - Portfolio's status is archived
+- PORTFOLIO_OUT_OF_BUDGET - Portfolio is out of budget
+- PORTFOLIO_PENDING_START_DATE - Portfolio's start date is in the future
+- PORTFOLIO_ENDED - Portfolio's end date is in the past.
+
+- INELIGIBLE - Ad Offer is ineligible
+- ELIGIBLE - Ad Offer is eligible
+- ENDED - Campaign's end date is in the past.
+- PENDING_REVIEW - Campaign is pending review.
+- PENDING_START_DATE - Campaign's start date is in the future.
+- REJECTED - Campaign is rejected by moderation process.
+- UNKNOWN - Serving status is unknown. Please contact us for support.
+"""
 
 
-class ProductLocation(StrEnum):
-    """
-    The product location of the campaign.
-    - SOLD_ON_AMAZON - For products sold on Amazon websites.
-    - NOT_SOLD_ON_AMAZON - For products not sold on Amazon websites.
-    - SOLD_ON_DTC - Deprecated (For products sold on DTC websites).
-    """
-
-    SOLD_ON_AMAZON = "SOLD_ON_AMAZON"
-    NOT_SOLD_ON_AMAZON = "NOT_SOLD_ON_AMAZON"
-    SOLD_ON_DTC = "SOLD_ON_DTC"
-
-
-class ShopperCohortType(StrEnum):
-    """
-    The shopper cohort type. The shopperCohortType is required to specify the type of shopper cohort used to apply bid adjustments. Currently only "AUDIENCE_SEGMENT" is supported.
-    """
-
-    AUDIENCE_SEGMENT = "AUDIENCE_SEGMENT"
+type Placement = Literal[
+    "HOME",
+    "DETAIL_PAGE",
+    "OTHER",
+    "TOP_OF_SEARCH",
+]
+"""
+List of bid adjustments for placements.
+- HOME - The home page of the Amazon store.
+- DETAIL_PAGE - Product detail pages within the Amazon store.
+- OTHER - Other placement groups. Such as search pages in the Amazon Store.
+- TOP_OF_SEARCH - Top of search ads generally appear above the top search results.
+"""
 
 
-class SiteRestriction(StrEnum):
-    AMAZON_BUSINESS = "AMAZON_BUSINESS"
+type ProductLocation = Literal["SOLD_ON_AMAZON", "NOT_SOLD_ON_AMAZON", "SOLD_ON_DTC"]
+"""
+The product location of the campaign.
+- SOLD_ON_AMAZON - For products sold on Amazon websites.
+- NOT_SOLD_ON_AMAZON - For products not sold on Amazon websites.
+- SOLD_ON_DTC - Deprecated (For products sold on DTC websites).
+"""
+
+
+type ShopperCohortType = Literal["AUDIENCE_SEGMENT"]
+"""
+The shopper cohort type. The shopperCohortType is required to specify the type of shopper cohort used to apply bid adjustments. Currently only "AUDIENCE_SEGMENT" is supported.
+"""
+
+
+type SiteRestriction = Literal["AMAZON_BUSINESS"]
 
 
 class AudienceSegment(StrictModel):
     audienceId: str | None = Field(default=None)
-    audienceSegmentType: Annotated[AudienceSegmentType | str, lenient_enum(AudienceSegmentType)] | None = Field(
-        default=None
+    audienceSegmentType: AudienceSegmentType | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `SPONSORED_ADS_AMC`: This type refers to the Audience Segments created in AMC for Sponsored Ads. See [AMC API](https://advertising.amazon.com/API/docs/en-us/amc-rba#tag/Rule-based-audience) for details on how to create AMC Audiences. Once the AMC Audiences are created, the Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_BRANDS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "AMC"]]`. Only the audiences retrieved using these filters are usable.
+- `BEHAVIOR_DYNAMIC`: This type refers to the Audience Segments created by Amazon for Sponsored Ads. The Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_BRANDS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "Product"]]`. Only the audiences retrieved using these filters are usable.
+""",
     )
 
 
 class AudienceSegmentOut(LenientModel):
     audienceId: str | None = Field(default=None)
-    audienceSegmentType: Annotated[AudienceSegmentType | str, lenient_enum(AudienceSegmentType)] | None = Field(
-        default=None
+    audienceSegmentType: AudienceSegmentType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `SPONSORED_ADS_AMC`: This type refers to the Audience Segments created in AMC for Sponsored Ads. See [AMC API](https://advertising.amazon.com/API/docs/en-us/amc-rba#tag/Rule-based-audience) for details on how to create AMC Audiences. Once the AMC Audiences are created, the Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_BRANDS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "AMC"]]`. Only the audiences retrieved using these filters are usable.
+- `BEHAVIOR_DYNAMIC`: This type refers to the Audience Segments created by Amazon for Sponsored Ads. The Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_BRANDS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "Product"]]`. Only the audiences retrieved using these filters are usable.
+""",
     )
 
 
 class BidAdjustmentByPlacement(StrictModel):
     percentage: float | None = Field(default=None, ge=-99, le=900)
-    placement: Annotated[Placement | str, lenient_enum(Placement)] | None = Field(default=None)
+    placement: Placement | None = Field(default=None)
 
 
 class BidAdjustmentByPlacementOut(LenientModel):
     percentage: float | None = Field(default=None, ge=-99, le=900)
-    placement: Annotated[Placement | str, lenient_enum(Placement)] | None = Field(default=None)
+    placement: Placement | str | None = Field(default=None)
 
 
 class Bidding(StrictModel):
@@ -231,7 +232,7 @@ class BulkCampaignOperationResponse(LenientModel):
 
 
 class Campaign(LenientModel):
-    budgetType: Annotated[BudgetType | str, lenient_enum(BudgetType)]
+    budgetType: BudgetType | str
     ruleBasedBudget: RuleBasedBudget | None = Field(default=None)
     brandEntityId: str | None = Field(default=None)
     isMultiAdGroupsEnabled: bool | None = Field(default=None)
@@ -253,7 +254,7 @@ The goal type of the campaign.
         description="The format of the date is YYYY-MM-DD.",
     )
     campaignId: str = Field(description="The identifier of the campaign.")
-    productLocation: Annotated[ProductLocation | str, lenient_enum(ProductLocation)] | None = Field(default=None)
+    productLocation: ProductLocation | str | None = Field(default=None)
     tags: TagsOut | None = Field(default=None)
     portfolioId: str | None = Field(
         default=None, description="The identifier of an existing portfolio to which the campaign is associated."
@@ -285,7 +286,7 @@ Each element in smartDefault can be set to determines which default strategy to 
 Example: ["TARGETING"]
 """,
     )
-    siteRestrictions: list[Annotated[SiteRestriction | str, lenient_enum(SiteRestriction)]] | None = Field(
+    siteRestrictions: list[SiteRestriction | str] | None = Field(
         default=None,
         min_length=1,
         max_length=1,
@@ -298,7 +299,7 @@ Please note that:
 """,
     )
     name: str = Field(min_length=1, max_length=128, description="The name of the campaign.")
-    state: Annotated[EntityState | str, lenient_enum(EntityState)]
+    state: EntityState | str
     startDate: str | None = Field(
         default=None,
         pattern="^20[1-9][0-9]-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",
@@ -315,9 +316,7 @@ Please note that:
 class CampaignExtendedData(LenientModel):
     """CampaignExtendedData can only be retrieved via the list API. It won't be available in the response during update/create."""
 
-    servingStatus: Annotated[CampaignServingStatus | str, lenient_enum(CampaignServingStatus)] | None = Field(
-        default=None
-    )
+    servingStatus: CampaignServingStatus | str | None = Field(default=None)
     lastUpdateDate: float | None = Field(default=None, description="Date of last update in epoch time.")
     servingStatusDetails: list[str] | None = Field(
         default=None, min_length=0, max_length=100, description="The serving status reasons of the Campaign."
@@ -353,7 +352,7 @@ class CampaignMutationSuccessResponseItem(LenientModel):
 
 
 class CreateCampaign(StrictModel):
-    budgetType: Annotated[BudgetType | str, lenient_enum(BudgetType)]
+    budgetType: BudgetType
     brandEntityId: str | None = Field(
         default=None,
         description="Please note that brandEntityId is only required for sellers. You can get the brandEntityId by calling the [GET /brands](https://advertising.amazon.com/API/docs/en-us/sponsored-brands/3-0/openapi#tag/Brands/operation/getBrands) endpoint.",
@@ -373,7 +372,7 @@ The goal type of the campaign.
         pattern="^20[1-9][0-9]-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",
         description="endDate is optional. If endDate is specified, startDate must be specified as well.",
     )
-    productLocation: Annotated[ProductLocation | str, lenient_enum(ProductLocation)] | None = Field(default=None)
+    productLocation: ProductLocation | None = Field(default=None)
     tags: Tags | None = Field(default=None)
     portfolioId: str | None = Field(
         default=None, description="The identifier of an existing portfolio to which the campaign is associated."
@@ -406,14 +405,14 @@ Example: ["TARGETING"]
 """,
     )
     name: str = Field(min_length=1, max_length=128, description="The name of the campaign.")
-    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
+    state: CreateOrUpdateEntityState
     startDate: str | None = Field(
         default=None,
         pattern="^20[1-9][0-9]-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",
         description="startDate is optional. If startDate is not specified, current date will be used.",
     )
     budget: float = Field(description="The budget of the campaign.")
-    siteRestrictions: list[Annotated[SiteRestriction | str, lenient_enum(SiteRestriction)]] | None = Field(
+    siteRestrictions: list[SiteRestriction | str] | None = Field(
         default=None,
         min_length=1,
         max_length=1,
@@ -487,7 +486,7 @@ class RuleBasedBudget(LenientModel):
 
 
 class ShopperCohortBidAdjustment(StrictModel):
-    shopperCohortType: Annotated[ShopperCohortType | str, lenient_enum(ShopperCohortType)] | None = Field(default=None)
+    shopperCohortType: ShopperCohortType | None = Field(default=None)
     percentage: float | None = Field(default=None, ge=0, le=900)
     audienceSegments: list[AudienceSegment] | None = Field(
         default=None,
@@ -498,7 +497,7 @@ class ShopperCohortBidAdjustment(StrictModel):
 
 
 class ShopperCohortBidAdjustmentOut(LenientModel):
-    shopperCohortType: Annotated[ShopperCohortType | str, lenient_enum(ShopperCohortType)] | None = Field(default=None)
+    shopperCohortType: ShopperCohortType | str | None = Field(default=None)
     percentage: float | None = Field(default=None, ge=0, le=900)
     audienceSegments: list[AudienceSegmentOut] | None = Field(
         default=None,
@@ -532,9 +531,7 @@ class UpdateCampaign(StrictModel):
     )
     campaignId: str = Field(description="The identifier of the campaign.")
     name: str | None = Field(default=None, min_length=1, max_length=128, description="The name of the campaign.")
-    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)] | None = Field(
-        default=None
-    )
+    state: CreateOrUpdateEntityState | None = Field(default=None)
     startDate: str | None = Field(
         default=None,
         pattern="^20[1-9][0-9]-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",

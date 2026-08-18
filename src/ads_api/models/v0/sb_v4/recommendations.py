@@ -2,40 +2,33 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     SBTargetingBrand,
 )
 
-
-class CostControlMetric(StrEnum):
-    """
-    Cost control metric to retrieve recommended value for.  Currently only COST_PER_CLICK is supported.
-    """
-
-    COST_PER_CLICK = "COST_PER_CLICK"
+type CostControlMetric = Literal["COST_PER_CLICK"]
+"""
+Cost control metric to retrieve recommended value for.  Currently only COST_PER_CLICK is supported.
+"""
 
 
-class HeadlineSuggestionRequestAdFormat(StrEnum):
-    SPONSORED_BRANDS = "SPONSORED_BRANDS"
-    SPONSORED_BRANDS_SPOTLIGHT = "SPONSORED_BRANDS_SPOTLIGHT"
+type HeadlineSuggestionRequestAdFormat = Literal["SPONSORED_BRANDS", "SPONSORED_BRANDS_SPOTLIGHT"]
 
 
-class LandingPageType(StrEnum):
-    """
-    The type of landing page, such as store page, product list (simple landing page), custom url.
-    """
-
-    PRODUCT_LIST = "PRODUCT_LIST"
-    STORE = "STORE"
-    CUSTOM_URL = "CUSTOM_URL"
-    DETAIL_PAGE = "DETAIL_PAGE"
+type LandingPageType = Literal[
+    "PRODUCT_LIST",
+    "STORE",
+    "CUSTOM_URL",
+    "DETAIL_PAGE",
+]
+"""
+The type of landing page, such as store page, product list (simple landing page), custom url.
+"""
 
 
 class BudgetRecommendation(LenientModel):
@@ -90,9 +83,7 @@ class HeadlineSuggestionRequest(StrictModel):
         le=10,
         description="Maximum number of suggestions that API should return. Response will [0, maxNumSuggestions] suggestions (suggestions are not guaranteed).",
     )
-    adFormat: (
-        Annotated[HeadlineSuggestionRequestAdFormat | str, lenient_enum(HeadlineSuggestionRequestAdFormat)] | None
-    ) = Field(default=None)
+    adFormat: HeadlineSuggestionRequestAdFormat | None = Field(default=None)
 
 
 class HeadlineSuggestionResponse(LenientModel):
@@ -108,7 +99,7 @@ class HeadlineSuggestionResponse(LenientModel):
 
 class LandingPage(StrictModel):
     asins: list[str] | None = Field(default=None, min_length=3, max_length=100)
-    pageType: Annotated[LandingPageType | str, lenient_enum(LandingPageType)] | None = Field(default=None)
+    pageType: LandingPageType | None = Field(default=None)
     url: str | None = Field(
         default=None,
         description="""
@@ -122,13 +113,13 @@ Note that brandVideo ads only support Store page as landing page and does not al
 
 
 class SBOptimizationRecommendationRequestContent(StrictModel):
-    costControlMetric: Annotated[CostControlMetric | str, lenient_enum(CostControlMetric)]
+    costControlMetric: CostControlMetric
     landingPages: list[LandingPage] = Field(min_length=1, max_length=10)
 
 
 class SBOptimizationRecommendationResponseContent(LenientModel):
     minimumValue: float = Field(description="Minimum accepted value for cost control metric.")
-    costControlMetric: Annotated[CostControlMetric | str, lenient_enum(CostControlMetric)]
+    costControlMetric: CostControlMetric | str
     recommendedValue: float = Field(description="Recommended value for cost control metric.")
 
 

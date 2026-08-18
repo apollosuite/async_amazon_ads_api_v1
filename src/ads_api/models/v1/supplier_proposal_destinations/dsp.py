@@ -2,47 +2,43 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.dsp import (
     DSPSortDirection,
 )
 
+type DSPCountryCode = Literal[
+    "AD",
+    "AE",
+    "AF",
+    "AG",
+    "AI",
+    "AU",
+    "BR",
+    "CA",
+    "DE",
+    "ES",
+    "FR",
+    "GB",
+    "IT",
+    "JP",
+    "KR",
+    "MX",
+    "US",
+]
 
-class DSPCountryCode(StrEnum):
-    AD = "AD"
-    AE = "AE"
-    AF = "AF"
-    AG = "AG"
-    AI = "AI"
-    AU = "AU"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IT = "IT"
-    JP = "JP"
-    KR = "KR"
-    MX = "MX"
-    US = "US"
 
-
-class DSPSupplierProposalDestinationSortOptionsFields(StrEnum):
-    """
-    Specify which field to order by.
-    | Field Name | Supported Ordering |
-    | --- | --- |
-    | supplierProposalDestinationName | ASCENDING,DESCENDING |
-    """
-
-    supplierProposalDestinationName = "supplierProposalDestinationName"
+type DSPSupplierProposalDestinationSortOptionsFields = Literal["supplierProposalDestinationName"]
+"""
+Specify which field to order by.
+| Field Name | Supported Ordering |
+| --- | --- |
+| supplierProposalDestinationName | ASCENDING,DESCENDING |
+"""
 
 
 class DSPQuerySupplierProposalDestinationRequest(StrictModel):
@@ -58,7 +54,7 @@ class DSPQuerySupplierProposalDestinationRequest(StrictModel):
 
 
 class DSPSupplierProposalDestination(LenientModel):
-    countries: list[Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)]] | None = Field(
+    countries: list[DSPCountryCode | str] | None = Field(
         default=None,
         min_length=0,
         max_length=49,
@@ -70,11 +66,15 @@ class DSPSupplierProposalDestination(LenientModel):
 
 
 class DSPSupplierProposalDestinationSortOption(StrictModel):
-    by: Annotated[
-        DSPSupplierProposalDestinationSortOptionsFields | str,
-        lenient_enum(DSPSupplierProposalDestinationSortOptionsFields),
-    ]
-    direction: Annotated[DSPSortDirection | str, lenient_enum(DSPSortDirection)] | None = Field(default=None)
+    by: DSPSupplierProposalDestinationSortOptionsFields
+    direction: DSPSortDirection | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ASCENDING`: Sort in ascending order
+- `DESCENDING`: Sort in descending order
+""",
+    )
 
 
 class DSPSupplierProposalDestinationSuccessResponse(LenientModel):

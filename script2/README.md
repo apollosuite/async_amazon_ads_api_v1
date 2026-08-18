@@ -75,17 +75,17 @@ async with AdsClient(config) as ads:
 
 请求严格、响应向前兼容：
 
-| | `extra` | 未知枚举 | 字段注解 |
+| | `extra` | 未知枚举 | 字段类型 |
 |--|---------|----------|----------|
-| 请求（INPUT） | `forbid`（`StrictModel`） | Python 构造拒绝；JSON 模式保留为 `str` | `Annotated[Enum, lenient_enum(Enum)]` |
-| 响应（OUTPUT） | `allow`（`LenientModel`） | `lenient_enum` + `model_validate_json` | `Annotated[Enum \| str, lenient_enum(Enum)]` |
+| 请求（INPUT） | `forbid`（`StrictModel`） | 严格校验拒绝 | `EnumLiteral`（数组为 `list[EnumLiteral \| str]`） |
+| 响应（OUTPUT） | `allow`（`LenientModel`） | 容忍未知字符串 | `EnumLiteral \| str` |
 
 - 同 schema 同时出现在请求和响应闭包：请求保留原名，响应加 `Out`
 - mutation result（含 `code`+`details` 且非实体字段）：名加 `Result`
 - 成功响应只取 `200` / `201` / `207`
 - Header 参数不进方法签名（`ClientId` / `Scope` / `AccountId` 由 `AmazonAdsConfig` + `BaseResource` 注入）
 - `__all__` 包含请求和响应模型
-- 枚举不再把 OpenAPI markdown 表写入 docstring；成员说明变成行内注释
+- 枚举生成为 Python 3.12+ `type Name = Literal[...]`，成员说明附带行内注释与 Docstring
 - 多变体 `oneOf` 拆成子 model + `type` 别名；单变体仍 flatten
 
 ## 生成器结构
@@ -97,7 +97,7 @@ script2/
   codegen/
     spec.py          # 产品解析、ALL 过滤、前缀
     schema.py        # 请求/响应闭包、命名、跨实体共享
-    transform.py     # schema 改写（内联 enum 提升为具名 StrEnum）
+    transform.py     # schema 改写（内联 enum 提升为具名 Literal）
     emit.py          # Pydantic + client 源码
   data/api-spec-v1/<entity>/meta.json
 ```

@@ -2,201 +2,159 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated, Any
+from typing import Any, Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
+
+type OptimizationRulesAPISwaggerActionDetailsActionUnit = Literal["PERCENT"]
 
 
-class OptimizationRulesAPISwaggerActionDetailsActionUnit(StrEnum):
-    PERCENT = "PERCENT"
+type OptimizationRulesAPISwaggerActionType = Literal["ADOPT"]
+"""
+The action taken when the optimization rule is enabled. Defaults to ADOPT.
+"""
 
 
-class OptimizationRulesAPISwaggerActionType(StrEnum):
-    """
-    The action taken when the optimization rule is enabled. Defaults to ADOPT.
-    """
-
-    ADOPT = "ADOPT"
-
-
-class OptimizationRulesAPISwaggerComparisonOperator(StrEnum):
-    """
-    The comparison operator.
-    """
-
-    EQUAL_TO = "EQUAL_TO"
-    GREATER_THAN = "GREATER_THAN"
-    GREATER_THAN_OR_EQUAL_TO = "GREATER_THAN_OR_EQUAL_TO"
-    LESS_THAN = "LESS_THAN"
-    LESS_THAN_OR_EQUAL_TO = "LESS_THAN_OR_EQUAL_TO"
+type OptimizationRulesAPISwaggerComparisonOperator = Literal[
+    "EQUAL_TO",
+    "GREATER_THAN",
+    "GREATER_THAN_OR_EQUAL_TO",
+    "LESS_THAN",
+    "LESS_THAN_OR_EQUAL_TO",
+]
+"""
+The comparison operator.
+"""
 
 
-class OptimizationRulesAPISwaggerDayOfTheWeek(StrEnum):
-    """
-    Day of the week.
-    """
-
-    FRIDAY = "FRIDAY"
-    MONDAY = "MONDAY"
-    SATURDAY = "SATURDAY"
-    SUNDAY = "SUNDAY"
-    THURSDAY = "THURSDAY"
-    TUESDAY = "TUESDAY"
-    WEDNESDAY = "WEDNESDAY"
-
-
-class OptimizationRulesAPISwaggerExpressionType(StrEnum):
-    """
-    The expression types of targets for the rule.
-    """
-
-    BROAD = "BROAD"
-    EXACT = "EXACT"
-    EXPANDED = "EXPANDED"
-    PHRASE = "PHRASE"
+type OptimizationRulesAPISwaggerDayOfTheWeek = Literal[
+    "FRIDAY",
+    "MONDAY",
+    "SATURDAY",
+    "SUNDAY",
+    "THURSDAY",
+    "TUESDAY",
+    "WEDNESDAY",
+]
+"""
+Day of the week.
+"""
 
 
-class OptimizationRulesAPISwaggerFilterType(StrEnum):
-    """
-    Types of filter used for search.
-    """
-
-    BROAD_MATCH = "BROAD_MATCH"
-    EXACT_MATCH = "EXACT_MATCH"
-
-
-class OptimizationRulesAPISwaggerRuleActionOperator(StrEnum):
-    """
-    The action operation for the rule.
-    """
-
-    INCREMENT = "INCREMENT"
+type OptimizationRulesAPISwaggerExpressionType = Literal[
+    "BROAD",
+    "EXACT",
+    "EXPANDED",
+    "PHRASE",
+]
+"""
+The expression types of targets for the rule.
+"""
 
 
-class OptimizationRulesAPISwaggerRuleAttribute(StrEnum):
-    """
-    The attribute of the rule.
-    """
-
-    ROAS = "ROAS"
+type OptimizationRulesAPISwaggerFilterType = Literal["BROAD_MATCH", "EXACT_MATCH"]
+"""
+Types of filter used for search.
+"""
 
 
-class OptimizationRulesAPISwaggerRuleAttributeV2(StrEnum):
-    """
-    The attribute of the rule.
-    """
-
-    ACOS = "ACOS"
-    CLICKS = "CLICKS"
-    CPC = "CPC"
-    CTR = "CTR"
-    CVR = "CVR"
-    IMPRESSIONS = "IMPRESSIONS"
-    ORDERS = "ORDERS"
-    ROAS = "ROAS"
-    SALES = "SALES"
-    SPEND = "SPEND"
+type OptimizationRulesAPISwaggerRuleActionOperator = Literal["INCREMENT"]
+"""
+The action operation for the rule.
+"""
 
 
-class OptimizationRulesAPISwaggerRuleCategory(StrEnum):
-    """
-    The type of the optimization rule.
-    """
-
-    BID = "BID"
+type OptimizationRulesAPISwaggerRuleAttribute = Literal["ROAS"]
+"""
+The attribute of the rule.
+"""
 
 
-class OptimizationRulesAPISwaggerRuleCategoryV2(StrEnum):
-    """
-    The type of the optimization rule.
-    """
-
-    BID = "BID"
-    BUDGET = "BUDGET"
-    TARGETING = "TARGETING"
-
-
-class OptimizationRulesAPISwaggerRuleRecurrenceType(StrEnum):
-    """
-    The frequency of the optimization rule application.
-    """
-
-    DAILY = "DAILY"
-    WEEKLY = "WEEKLY"
+type OptimizationRulesAPISwaggerRuleAttributeV2 = Literal[
+    "ACOS",
+    "CLICKS",
+    "CPC",
+    "CTR",
+    "CVR",
+    "IMPRESSIONS",
+    "ORDERS",
+    "ROAS",
+    "SALES",
+    "SPEND",
+]
+"""
+The attribute of the rule.
+"""
 
 
-class OptimizationRulesAPISwaggerRuleStatus(StrEnum):
-    """
-    The status of a rule. Only ENABLED and PAUSED are accepted in requests.
-    """
-
-    ENABLED = "ENABLED"
-    ENDED = "ENDED"
-    PAUSED = "PAUSED"
-    SCHEDULED = "SCHEDULED"
+type OptimizationRulesAPISwaggerRuleCategory = Literal["BID"]
+"""
+The type of the optimization rule.
+"""
 
 
-class OptimizationRulesAPISwaggerRuleSubCategory(StrEnum):
-    """
-    The sub-category of the optimization rule.
-    """
-
-    SCHEDULE = "SCHEDULE"
+type OptimizationRulesAPISwaggerRuleCategoryV2 = Literal["BID", "BUDGET", "TARGETING"]
+"""
+The type of the optimization rule.
+"""
 
 
-class OptimizationRulesAPISwaggerRuleSubCategoryV2(StrEnum):
-    """
-    The sub-category of the optimization rule.
-    """
-
-    PERFORMANCE = "PERFORMANCE"
-    SCHEDULE = "SCHEDULE"
+type OptimizationRulesAPISwaggerRuleRecurrenceType = Literal["DAILY", "WEEKLY"]
+"""
+The frequency of the optimization rule application.
+"""
 
 
-class OptimizationRulesAPISwaggerSortableField(StrEnum):
-    """
-    Name of the field to sort the response in ascending order.
-    """
+type OptimizationRulesAPISwaggerRuleStatus = Literal[
+    "ENABLED",
+    "ENDED",
+    "PAUSED",
+    "SCHEDULED",
+]
+"""
+The status of a rule. Only ENABLED and PAUSED are accepted in requests.
+"""
 
-    NAME = "NAME"
+
+type OptimizationRulesAPISwaggerRuleSubCategory = Literal["SCHEDULE"]
+"""
+The sub-category of the optimization rule.
+"""
 
 
-class OptimizationRulesAPISwaggerTargetingType(StrEnum):
-    """
-    The type of targets for the rule.
-    """
+type OptimizationRulesAPISwaggerRuleSubCategoryV2 = Literal["PERFORMANCE", "SCHEDULE"]
+"""
+The sub-category of the optimization rule.
+"""
 
-    KEYWORD = "KEYWORD"
-    PRODUCT = "PRODUCT"
+
+type OptimizationRulesAPISwaggerSortableField = Literal["NAME"]
+"""
+Name of the field to sort the response in ascending order.
+"""
+
+
+type OptimizationRulesAPISwaggerTargetingType = Literal["KEYWORD", "PRODUCT"]
+"""
+The type of targets for the rule.
+"""
 
 
 class OptimizationRulesAPISwaggerActionDetails(StrictModel):
     """Details of a rule action."""
 
-    actionOperator: Annotated[
-        OptimizationRulesAPISwaggerRuleActionOperator | str, lenient_enum(OptimizationRulesAPISwaggerRuleActionOperator)
-    ]
-    actionUnit: Annotated[
-        OptimizationRulesAPISwaggerActionDetailsActionUnit | str,
-        lenient_enum(OptimizationRulesAPISwaggerActionDetailsActionUnit),
-    ]
+    actionOperator: OptimizationRulesAPISwaggerRuleActionOperator
+    actionUnit: OptimizationRulesAPISwaggerActionDetailsActionUnit
     value: float = Field(description="An integer between 1 & 100, representing the percent increase on base bid.")
 
 
 class OptimizationRulesAPISwaggerActionDetailsOut(LenientModel):
     """Details of a rule action."""
 
-    actionOperator: Annotated[
-        OptimizationRulesAPISwaggerRuleActionOperator | str, lenient_enum(OptimizationRulesAPISwaggerRuleActionOperator)
-    ]
-    actionUnit: Annotated[
-        OptimizationRulesAPISwaggerActionDetailsActionUnit | str,
-        lenient_enum(OptimizationRulesAPISwaggerActionDetailsActionUnit),
-    ]
+    actionOperator: OptimizationRulesAPISwaggerRuleActionOperator | str
+    actionUnit: OptimizationRulesAPISwaggerActionDetailsActionUnit | str
     value: float = Field(description="An integer between 1 & 100, representing the percent increase on base bid.")
 
 
@@ -273,10 +231,7 @@ class OptimizationRulesAPISwaggerDurationOut(LenientModel):
 class OptimizationRulesAPISwaggerEntityFieldFilter(StrictModel):
     """Filter type and value pair."""
 
-    filterType: (
-        Annotated[OptimizationRulesAPISwaggerFilterType | str, lenient_enum(OptimizationRulesAPISwaggerFilterType)]
-        | None
-    ) = Field(default=None)
+    filterType: OptimizationRulesAPISwaggerFilterType | None = Field(default=None)
     values: list[str] | None = Field(default=None, min_length=1, max_length=100)
 
 
@@ -284,17 +239,10 @@ class OptimizationRulesAPISwaggerOptimizationRule(StrictModel):
     action: OptimizationRulesAPISwaggerRuleAction
     conditions: list[OptimizationRulesAPISwaggerRuleCondition] | None = Field(default=None, min_length=0, max_length=1)
     recurrence: OptimizationRulesAPISwaggerRuleRecurrence
-    ruleCategory: Annotated[
-        OptimizationRulesAPISwaggerRuleCategory | str, lenient_enum(OptimizationRulesAPISwaggerRuleCategory)
-    ]
+    ruleCategory: OptimizationRulesAPISwaggerRuleCategory
     ruleName: str | None = Field(default=None, description="The rule name.")
-    ruleSubCategory: Annotated[
-        OptimizationRulesAPISwaggerRuleSubCategory | str, lenient_enum(OptimizationRulesAPISwaggerRuleSubCategory)
-    ]
-    status: (
-        Annotated[OptimizationRulesAPISwaggerRuleStatus | str, lenient_enum(OptimizationRulesAPISwaggerRuleStatus)]
-        | None
-    ) = Field(default=None)
+    ruleSubCategory: OptimizationRulesAPISwaggerRuleSubCategory
+    status: OptimizationRulesAPISwaggerRuleStatus | None = Field(default=None)
     optimizationRuleId: str | None = Field(default=None, description="The rule identifier.")
 
 
@@ -322,17 +270,10 @@ class OptimizationRulesAPISwaggerOptimizationRuleOut(LenientModel):
         default=None, min_length=0, max_length=1
     )
     recurrence: OptimizationRulesAPISwaggerRuleRecurrenceOut
-    ruleCategory: Annotated[
-        OptimizationRulesAPISwaggerRuleCategory | str, lenient_enum(OptimizationRulesAPISwaggerRuleCategory)
-    ]
+    ruleCategory: OptimizationRulesAPISwaggerRuleCategory | str
     ruleName: str | None = Field(default=None, description="The rule name.")
-    ruleSubCategory: Annotated[
-        OptimizationRulesAPISwaggerRuleSubCategory | str, lenient_enum(OptimizationRulesAPISwaggerRuleSubCategory)
-    ]
-    status: (
-        Annotated[OptimizationRulesAPISwaggerRuleStatus | str, lenient_enum(OptimizationRulesAPISwaggerRuleStatus)]
-        | None
-    ) = Field(default=None)
+    ruleSubCategory: OptimizationRulesAPISwaggerRuleSubCategory | str
+    status: OptimizationRulesAPISwaggerRuleStatus | str | None = Field(default=None)
     optimizationRuleId: str | None = Field(default=None, description="The rule identifier.")
 
 
@@ -342,14 +283,10 @@ class OptimizationRulesAPISwaggerOptimizationRuleV2(StrictModel):
         default=None, min_length=1, max_length=10
     )
     recurrence: OptimizationRulesAPISwaggerRuleRecurrence | None = Field(default=None)
-    ruleCategory: Annotated[
-        OptimizationRulesAPISwaggerRuleCategoryV2 | str, lenient_enum(OptimizationRulesAPISwaggerRuleCategoryV2)
-    ]
+    ruleCategory: OptimizationRulesAPISwaggerRuleCategoryV2
     ruleName: str = Field(description="The rule name.")
-    ruleSubCategory: Annotated[
-        OptimizationRulesAPISwaggerRuleSubCategoryV2 | str, lenient_enum(OptimizationRulesAPISwaggerRuleSubCategoryV2)
-    ]
-    status: Annotated[OptimizationRulesAPISwaggerRuleStatus | str, lenient_enum(OptimizationRulesAPISwaggerRuleStatus)]
+    ruleSubCategory: OptimizationRulesAPISwaggerRuleSubCategoryV2
+    status: OptimizationRulesAPISwaggerRuleStatus
     targeting: list[OptimizationRulesAPISwaggerRuleTargeting] | None = Field(default=None, min_length=1, max_length=1)
     optimizationRuleId: str | None = Field(default=None, description="The rule identifier.")
 
@@ -360,14 +297,10 @@ class OptimizationRulesAPISwaggerOptimizationRuleV2Out(LenientModel):
         default=None, min_length=1, max_length=10
     )
     recurrence: OptimizationRulesAPISwaggerRuleRecurrenceOut | None = Field(default=None)
-    ruleCategory: Annotated[
-        OptimizationRulesAPISwaggerRuleCategoryV2 | str, lenient_enum(OptimizationRulesAPISwaggerRuleCategoryV2)
-    ]
+    ruleCategory: OptimizationRulesAPISwaggerRuleCategoryV2 | str
     ruleName: str = Field(description="The rule name.")
-    ruleSubCategory: Annotated[
-        OptimizationRulesAPISwaggerRuleSubCategoryV2 | str, lenient_enum(OptimizationRulesAPISwaggerRuleSubCategoryV2)
-    ]
-    status: Annotated[OptimizationRulesAPISwaggerRuleStatus | str, lenient_enum(OptimizationRulesAPISwaggerRuleStatus)]
+    ruleSubCategory: OptimizationRulesAPISwaggerRuleSubCategoryV2 | str
+    status: OptimizationRulesAPISwaggerRuleStatus | str
     targeting: list[OptimizationRulesAPISwaggerRuleTargetingOut] | None = Field(
         default=None, min_length=1, max_length=1
     )
@@ -378,17 +311,10 @@ class OptimizationRulesAPISwaggerOptimizationRuleWithoutRuleId(StrictModel):
     action: OptimizationRulesAPISwaggerRuleAction
     conditions: list[OptimizationRulesAPISwaggerRuleCondition] | None = Field(default=None, min_length=0, max_length=1)
     recurrence: OptimizationRulesAPISwaggerRuleRecurrence
-    ruleCategory: Annotated[
-        OptimizationRulesAPISwaggerRuleCategory | str, lenient_enum(OptimizationRulesAPISwaggerRuleCategory)
-    ]
+    ruleCategory: OptimizationRulesAPISwaggerRuleCategory
     ruleName: str | None = Field(default=None, description="The rule name.")
-    ruleSubCategory: Annotated[
-        OptimizationRulesAPISwaggerRuleSubCategory | str, lenient_enum(OptimizationRulesAPISwaggerRuleSubCategory)
-    ]
-    status: (
-        Annotated[OptimizationRulesAPISwaggerRuleStatus | str, lenient_enum(OptimizationRulesAPISwaggerRuleStatus)]
-        | None
-    ) = Field(default=None)
+    ruleSubCategory: OptimizationRulesAPISwaggerRuleSubCategory
+    status: OptimizationRulesAPISwaggerRuleStatus | None = Field(default=None)
 
 
 class OptimizationRulesAPISwaggerOptimizationRuleWithoutRuleIdOut(LenientModel):
@@ -397,17 +323,10 @@ class OptimizationRulesAPISwaggerOptimizationRuleWithoutRuleIdOut(LenientModel):
         default=None, min_length=0, max_length=1
     )
     recurrence: OptimizationRulesAPISwaggerRuleRecurrenceOut
-    ruleCategory: Annotated[
-        OptimizationRulesAPISwaggerRuleCategory | str, lenient_enum(OptimizationRulesAPISwaggerRuleCategory)
-    ]
+    ruleCategory: OptimizationRulesAPISwaggerRuleCategory | str
     ruleName: str | None = Field(default=None, description="The rule name.")
-    ruleSubCategory: Annotated[
-        OptimizationRulesAPISwaggerRuleSubCategory | str, lenient_enum(OptimizationRulesAPISwaggerRuleSubCategory)
-    ]
-    status: (
-        Annotated[OptimizationRulesAPISwaggerRuleStatus | str, lenient_enum(OptimizationRulesAPISwaggerRuleStatus)]
-        | None
-    ) = Field(default=None)
+    ruleSubCategory: OptimizationRulesAPISwaggerRuleSubCategory | str
+    status: OptimizationRulesAPISwaggerRuleStatus | str | None = Field(default=None)
 
 
 class OptimizationRulesAPISwaggerOptimizationRuleWithoutRuleIdV2(StrictModel):
@@ -416,14 +335,10 @@ class OptimizationRulesAPISwaggerOptimizationRuleWithoutRuleIdV2(StrictModel):
         default=None, min_length=1, max_length=10
     )
     recurrence: OptimizationRulesAPISwaggerRuleRecurrence | None = Field(default=None)
-    ruleCategory: Annotated[
-        OptimizationRulesAPISwaggerRuleCategoryV2 | str, lenient_enum(OptimizationRulesAPISwaggerRuleCategoryV2)
-    ]
+    ruleCategory: OptimizationRulesAPISwaggerRuleCategoryV2
     ruleName: str = Field(description="The rule name.")
-    ruleSubCategory: Annotated[
-        OptimizationRulesAPISwaggerRuleSubCategoryV2 | str, lenient_enum(OptimizationRulesAPISwaggerRuleSubCategoryV2)
-    ]
-    status: Annotated[OptimizationRulesAPISwaggerRuleStatus | str, lenient_enum(OptimizationRulesAPISwaggerRuleStatus)]
+    ruleSubCategory: OptimizationRulesAPISwaggerRuleSubCategoryV2
+    status: OptimizationRulesAPISwaggerRuleStatus
     targeting: list[OptimizationRulesAPISwaggerRuleTargeting] | None = Field(default=None, min_length=1, max_length=1)
 
 
@@ -433,14 +348,10 @@ class OptimizationRulesAPISwaggerOptimizationRuleWithoutRuleIdV2Out(LenientModel
         default=None, min_length=1, max_length=10
     )
     recurrence: OptimizationRulesAPISwaggerRuleRecurrenceOut | None = Field(default=None)
-    ruleCategory: Annotated[
-        OptimizationRulesAPISwaggerRuleCategoryV2 | str, lenient_enum(OptimizationRulesAPISwaggerRuleCategoryV2)
-    ]
+    ruleCategory: OptimizationRulesAPISwaggerRuleCategoryV2 | str
     ruleName: str = Field(description="The rule name.")
-    ruleSubCategory: Annotated[
-        OptimizationRulesAPISwaggerRuleSubCategoryV2 | str, lenient_enum(OptimizationRulesAPISwaggerRuleSubCategoryV2)
-    ]
-    status: Annotated[OptimizationRulesAPISwaggerRuleStatus | str, lenient_enum(OptimizationRulesAPISwaggerRuleStatus)]
+    ruleSubCategory: OptimizationRulesAPISwaggerRuleSubCategoryV2 | str
+    status: OptimizationRulesAPISwaggerRuleStatus | str
     targeting: list[OptimizationRulesAPISwaggerRuleTargetingOut] | None = Field(
         default=None, min_length=1, max_length=1
     )
@@ -482,59 +393,35 @@ class OptimizationRulesAPISwaggerRuleAction(StrictModel):
     """Action to be taken by the rule."""
 
     actionDetails: OptimizationRulesAPISwaggerActionDetails
-    actionType: Annotated[
-        OptimizationRulesAPISwaggerActionType | str, lenient_enum(OptimizationRulesAPISwaggerActionType)
-    ]
+    actionType: OptimizationRulesAPISwaggerActionType
 
 
 class OptimizationRulesAPISwaggerRuleActionOut(LenientModel):
     """Action to be taken by the rule."""
 
     actionDetails: OptimizationRulesAPISwaggerActionDetailsOut
-    actionType: Annotated[
-        OptimizationRulesAPISwaggerActionType | str, lenient_enum(OptimizationRulesAPISwaggerActionType)
-    ]
+    actionType: OptimizationRulesAPISwaggerActionType | str
 
 
 class OptimizationRulesAPISwaggerRuleCondition(StrictModel):
-    attributeName: (
-        Annotated[
-            OptimizationRulesAPISwaggerRuleAttribute | str, lenient_enum(OptimizationRulesAPISwaggerRuleAttribute)
-        ]
-        | None
-    ) = Field(default=None)
+    attributeName: OptimizationRulesAPISwaggerRuleAttribute | None = Field(default=None)
     criteria: OptimizationRulesAPISwaggerRuleCriteria | None = Field(default=None)
 
 
 class OptimizationRulesAPISwaggerRuleConditionOut(LenientModel):
-    attributeName: (
-        Annotated[
-            OptimizationRulesAPISwaggerRuleAttribute | str, lenient_enum(OptimizationRulesAPISwaggerRuleAttribute)
-        ]
-        | None
-    ) = Field(default=None)
+    attributeName: OptimizationRulesAPISwaggerRuleAttribute | str | None = Field(default=None)
     criteria: OptimizationRulesAPISwaggerRuleCriteriaOut | None = Field(default=None)
 
 
 class OptimizationRulesAPISwaggerRuleConditionV2(StrictModel):
-    attributeName: (
-        Annotated[
-            OptimizationRulesAPISwaggerRuleAttributeV2 | str, lenient_enum(OptimizationRulesAPISwaggerRuleAttributeV2)
-        ]
-        | None
-    ) = Field(default=None)
+    attributeName: OptimizationRulesAPISwaggerRuleAttributeV2 | None = Field(default=None)
     criteria: OptimizationRulesAPISwaggerRuleCriteria | None = Field(
         default=None, description="Only Value Type Criteria is supported right now."
     )
 
 
 class OptimizationRulesAPISwaggerRuleConditionV2Out(LenientModel):
-    attributeName: (
-        Annotated[
-            OptimizationRulesAPISwaggerRuleAttributeV2 | str, lenient_enum(OptimizationRulesAPISwaggerRuleAttributeV2)
-        ]
-        | None
-    ) = Field(default=None)
+    attributeName: OptimizationRulesAPISwaggerRuleAttributeV2 | str | None = Field(default=None)
     criteria: OptimizationRulesAPISwaggerRuleCriteriaOut | None = Field(
         default=None, description="Only Value Type Criteria is supported right now."
     )
@@ -551,65 +438,39 @@ class OptimizationRulesAPISwaggerRuleCriteriaOut(LenientModel):
 class OptimizationRulesAPISwaggerRuleRecurrence(StrictModel):
     """The recurrence of the optimization rule application."""
 
-    daysOfWeek: (
-        list[
-            Annotated[
-                OptimizationRulesAPISwaggerDayOfTheWeek | str, lenient_enum(OptimizationRulesAPISwaggerDayOfTheWeek)
-            ]
-        ]
-        | None
-    ) = Field(default=None, min_length=0, max_length=7, description="A list of days of the week.")
+    daysOfWeek: list[OptimizationRulesAPISwaggerDayOfTheWeek | str] | None = Field(
+        default=None, min_length=0, max_length=7, description="A list of days of the week."
+    )
     duration: OptimizationRulesAPISwaggerDuration
     timesOfDay: list[dict[str, Any]] | None = Field(
         default=None, min_length=0, max_length=1, description="List of times of the day."
     )
-    type: Annotated[
-        OptimizationRulesAPISwaggerRuleRecurrenceType | str, lenient_enum(OptimizationRulesAPISwaggerRuleRecurrenceType)
-    ]
+    type: OptimizationRulesAPISwaggerRuleRecurrenceType
 
 
 class OptimizationRulesAPISwaggerRuleRecurrenceOut(LenientModel):
     """The recurrence of the optimization rule application."""
 
-    daysOfWeek: (
-        list[
-            Annotated[
-                OptimizationRulesAPISwaggerDayOfTheWeek | str, lenient_enum(OptimizationRulesAPISwaggerDayOfTheWeek)
-            ]
-        ]
-        | None
-    ) = Field(default=None, min_length=0, max_length=7, description="A list of days of the week.")
+    daysOfWeek: list[OptimizationRulesAPISwaggerDayOfTheWeek | str] | None = Field(
+        default=None, min_length=0, max_length=7, description="A list of days of the week."
+    )
     duration: OptimizationRulesAPISwaggerDurationOut
     timesOfDay: list[dict[str, Any]] | None = Field(
         default=None, min_length=0, max_length=1, description="List of times of the day."
     )
-    type: Annotated[
-        OptimizationRulesAPISwaggerRuleRecurrenceType | str, lenient_enum(OptimizationRulesAPISwaggerRuleRecurrenceType)
-    ]
+    type: OptimizationRulesAPISwaggerRuleRecurrenceType | str
 
 
 class OptimizationRulesAPISwaggerRuleTargeting(StrictModel):
-    expressionTypes: list[
-        Annotated[
-            OptimizationRulesAPISwaggerExpressionType | str, lenient_enum(OptimizationRulesAPISwaggerExpressionType)
-        ]
-    ] = Field(min_length=1, max_length=3)
+    expressionTypes: list[OptimizationRulesAPISwaggerExpressionType | str] = Field(min_length=1, max_length=3)
     lookbackDays: int = Field(ge=3, le=65, description="The number of days of data to look back on for the rule.")
-    targetingType: Annotated[
-        OptimizationRulesAPISwaggerTargetingType | str, lenient_enum(OptimizationRulesAPISwaggerTargetingType)
-    ]
+    targetingType: OptimizationRulesAPISwaggerTargetingType
 
 
 class OptimizationRulesAPISwaggerRuleTargetingOut(LenientModel):
-    expressionTypes: list[
-        Annotated[
-            OptimizationRulesAPISwaggerExpressionType | str, lenient_enum(OptimizationRulesAPISwaggerExpressionType)
-        ]
-    ] = Field(min_length=1, max_length=3)
+    expressionTypes: list[OptimizationRulesAPISwaggerExpressionType | str] = Field(min_length=1, max_length=3)
     lookbackDays: int = Field(ge=3, le=65, description="The number of days of data to look back on for the rule.")
-    targetingType: Annotated[
-        OptimizationRulesAPISwaggerTargetingType | str, lenient_enum(OptimizationRulesAPISwaggerTargetingType)
-    ]
+    targetingType: OptimizationRulesAPISwaggerTargetingType | str
 
 
 class OptimizationRulesAPISwaggerSearchOptimizationRulesRequest(StrictModel):
@@ -633,14 +494,9 @@ class OptimizationRulesAPISwaggerSearchOptimizationRulesRequestV2(StrictModel):
         description="To retrieve the next page of results, call the same operation and specify this token in the request. If the field is empty, the first page of results will be returned.",
     )
     optimizationRuleFilter: OptimizationRulesAPISwaggerOptimizationRuleFilterV2 | None = Field(default=None)
-    sortBy: (
-        list[
-            Annotated[
-                OptimizationRulesAPISwaggerSortableField | str, lenient_enum(OptimizationRulesAPISwaggerSortableField)
-            ]
-        ]
-        | None
-    ) = Field(default=None, min_length=1, max_length=1, description="Sort conditions applied to the response.")
+    sortBy: list[OptimizationRulesAPISwaggerSortableField | str] | None = Field(
+        default=None, min_length=1, max_length=1, description="Sort conditions applied to the response."
+    )
 
 
 class OptimizationRulesAPISwaggerSearchOptimizationRulesResponse(LenientModel):
@@ -707,18 +563,14 @@ class OptimizationRulesAPISwaggerUpdateOptimizationRulesResponseV2(LenientModel)
 class OptimizationRulesAPISwaggerValueTypeRuleCriteria(StrictModel):
     """Represents a criteria by comparing with the rule attribute value."""
 
-    comparisonOperator: Annotated[
-        OptimizationRulesAPISwaggerComparisonOperator | str, lenient_enum(OptimizationRulesAPISwaggerComparisonOperator)
-    ]
+    comparisonOperator: OptimizationRulesAPISwaggerComparisonOperator
     value: float
 
 
 class OptimizationRulesAPISwaggerValueTypeRuleCriteriaOut(LenientModel):
     """Represents a criteria by comparing with the rule attribute value."""
 
-    comparisonOperator: Annotated[
-        OptimizationRulesAPISwaggerComparisonOperator | str, lenient_enum(OptimizationRulesAPISwaggerComparisonOperator)
-    ]
+    comparisonOperator: OptimizationRulesAPISwaggerComparisonOperator | str
     value: float
 
 

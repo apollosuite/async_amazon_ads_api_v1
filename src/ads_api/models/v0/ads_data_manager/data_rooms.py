@@ -3,23 +3,16 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel
-from ads_api.models._core.lenient_enum import lenient_enum
 
-
-class AwsRegion(StrEnum):
-    """
-    Available AWS regions
-    """
-
-    eu_west_1 = "eu-west-1"
-    us_east_1 = "us-east-1"
-    us_west_2 = "us-west-2"
+type AwsRegion = Literal["eu-west-1", "us-east-1", "us-west-2"]
+"""
+Available AWS regions
+"""
 
 
 class CreateDataroomResponseContent(LenientModel):
@@ -30,7 +23,7 @@ class CreateDataroomResponseContent(LenientModel):
     creationDateTime: datetime = Field(
         description="An ISO UTC Timestamp value representing the time the dataroom was created"
     )
-    region: Annotated[AwsRegion | str, lenient_enum(AwsRegion)] | None = Field(default=None)
+    region: AwsRegion | str | None = Field(default=None)
 
 
 class GetDataroomMetadataResponseContent(LenientModel):
@@ -48,7 +41,7 @@ class GetDataroomResponseContent(LenientModel):
     creationDateTime: datetime = Field(
         description="An ISO UTC Timestamp value representing the time the dataroom was created"
     )
-    region: Annotated[AwsRegion | str, lenient_enum(AwsRegion)] | None = Field(default=None)
+    region: AwsRegion | str | None = Field(default=None)
 
 
 __all__ = [

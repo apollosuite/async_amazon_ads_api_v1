@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.sp import (
     SPAdProduct,
     SPCreateState,
@@ -27,46 +25,54 @@ from ads_api.models.v1._shared.sp import (
     SPUpdateState,
 )
 
+type SPAdType = Literal["PRODUCT_AD",]  # A creative built based on a specified product.
+"""
+Supported values:
+- `PRODUCT_AD`: A creative built based on a specified product.
+"""
 
-class SPAdType(StrEnum):
-    PRODUCT_AD = "PRODUCT_AD"  # A creative built based on a specified product.
 
-
-class SPMarketplace(StrEnum):
-    """
-    A list of country codes representing Amazon marketplaces
-    """
-
-    AE = "AE"
-    AU = "AU"
-    BE = "BE"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    EG = "EG"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IE = "IE"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    NL = "NL"
-    PL = "PL"
-    SA = "SA"
-    SE = "SE"
-    SG = "SG"
-    TR = "TR"
-    US = "US"
-    ZA = "ZA"
+type SPMarketplace = Literal[
+    "AE",
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "DE",
+    "EG",
+    "ES",
+    "FR",
+    "GB",
+    "IE",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "PL",
+    "SA",
+    "SE",
+    "SG",
+    "TR",
+    "US",
+    "ZA",
+]
+"""
+A list of country codes representing Amazon marketplaces
+"""
 
 
 class SPAd(LenientModel):
     adGroupId: str = Field(description="The ad group associated with the ad.")
     adId: str = Field(description="The identifier of the ad.")
-    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
-    adType: Annotated[SPAdType | str, lenient_enum(SPAdType)]
+    adProduct: SPAdProduct | str = Field(description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""")
+    adType: SPAdType | str = Field(description="""
+Supported values:
+- `PRODUCT_AD`: A creative built based on a specified product.
+""")
     campaignId: str = Field(description="The campaign associated with the ad. It's a read-only field.")
     creationDateTime: datetime = Field(description="The date time that the ad was created.")
     creative: SPCreative
@@ -74,13 +80,18 @@ class SPAd(LenientModel):
         default=None, description="The global ad identifier that manages this marketplace ad."
     )
     lastUpdatedDateTime: datetime = Field(description="The date time that the ad was last updated.")
-    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
-    marketplaces: list[Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]] = Field(
+    marketplaceScope: SPMarketplaceScope | str
+    marketplaces: list[SPMarketplace | str] = Field(
         min_length=1,
         max_length=1,
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
-    state: Annotated[SPState | str, lenient_enum(SPState)]
+    state: SPState | str = Field(description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     status: SPStatus | None = Field(default=None)
     tags: list[SPTag] | None = Field(
         default=None,
@@ -99,7 +110,14 @@ class SPAdAdIdFilter(StrictModel):
 
 
 class SPAdAdProductFilter(StrictModel):
-    include: list[Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[SPAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""",
+    )
 
 
 class SPAdCampaignIdFilter(StrictModel):
@@ -108,10 +126,20 @@ class SPAdCampaignIdFilter(StrictModel):
 
 class SPAdCreate(StrictModel):
     adGroupId: str = Field(description="The ad group associated with the ad.")
-    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
-    adType: Annotated[SPAdType | str, lenient_enum(SPAdType)]
+    adProduct: SPAdProduct = Field(description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""")
+    adType: SPAdType = Field(description="""
+Supported values:
+- `PRODUCT_AD`: A creative built based on a specified product.
+""")
     creative: SPCreateCreative
-    state: Annotated[SPCreateState | str, lenient_enum(SPCreateState)]
+    state: SPCreateState = Field(description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -131,7 +159,16 @@ class SPAdMultiStatusSuccess(LenientModel):
 
 
 class SPAdStateFilter(StrictModel):
-    include: list[Annotated[SPState | str, lenient_enum(SPState)]] = Field(min_length=1, max_length=3)
+    include: list[SPState | str] = Field(
+        min_length=1,
+        max_length=3,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class SPAdSuccessResponse(LenientModel):
@@ -142,7 +179,14 @@ class SPAdSuccessResponse(LenientModel):
 class SPAdUpdate(StrictModel):
     adId: str = Field(description="The identifier of the ad.")
     creative: SPUpdateCreative | None = Field(default=None)
-    state: Annotated[SPUpdateState | str, lenient_enum(SPUpdateState)] | None = Field(default=None)
+    state: SPUpdateState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -154,12 +198,23 @@ class SPAdUpdate(StrictModel):
 class SPAdvertisedProducts(LenientModel):
     globalStoreSetting: SPGlobalStoreSettings | None = Field(default=None)
     productId: str = Field(description="The identifier of the advertised product.")
-    productIdType: Annotated[SPProductIdType | str, lenient_enum(SPProductIdType)]
+    productIdType: SPProductIdType | str = Field(description="""
+Supported values:
+- `ASIN`: ASIN identifier type.
+- `SKU`: SKU identifier type.
+""")
     resolvedProductId: str | None = Field(
         default=None,
         description="The identifier of product associated with the advertised product. It's a read-only field.",
     )
-    resolvedProductIdType: Annotated[SPProductIdType | str, lenient_enum(SPProductIdType)] | None = Field(default=None)
+    resolvedProductIdType: SPProductIdType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ASIN`: ASIN identifier type.
+- `SKU`: SKU identifier type.
+""",
+    )
 
 
 class SPCreateAdRequest(StrictModel):
@@ -169,7 +224,11 @@ class SPCreateAdRequest(StrictModel):
 class SPCreateAdvertisedProducts(StrictModel):
     globalStoreSetting: SPCreateGlobalStoreSettings | None = Field(default=None)
     productId: str = Field(description="The identifier of the advertised product.")
-    productIdType: Annotated[SPProductIdType | str, lenient_enum(SPProductIdType)]
+    productIdType: SPProductIdType = Field(description="""
+Supported values:
+- `ASIN`: ASIN identifier type.
+- `SKU`: SKU identifier type.
+""")
 
 
 class SPCreateCreative(StrictModel):
@@ -177,7 +236,7 @@ class SPCreateCreative(StrictModel):
 
 
 class SPCreateGlobalStoreSettings(StrictModel):
-    catalogSourceMarketplace: Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)] | None = Field(default=None)
+    catalogSourceMarketplace: SPMarketplace | None = Field(default=None)
 
 
 class SPCreateProductCreative(StrictModel):
@@ -219,7 +278,7 @@ class SPDeleteAdRequest(StrictModel):
 
 
 class SPGlobalStoreSettings(LenientModel):
-    catalogSourceMarketplace: Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)] | None = Field(default=None)
+    catalogSourceMarketplace: SPMarketplace | str | None = Field(default=None)
 
 
 class SPProductCreative(LenientModel):

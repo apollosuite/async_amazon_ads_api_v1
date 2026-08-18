@@ -2,117 +2,96 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated, Any
+from typing import Any, Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     SDASIN,
     SDGoalProduct,
 )
 
+type SDBidOptimizationV32 = Literal["reach", "clicks", "conversions"]
+"""
+Determines what the recommended bids will be optimized for.
 
-class SDBidOptimizationV32(StrEnum):
-    """
-    Determines what the recommended bids will be optimized for.
-
-    |Name|CostType|Description|
-    |----|--------|-----------|
-    |reach|vcpm|Optimize for viewable impressions. $1 is the minimum bid for vCPM.|
-    |clicks|cpc|Optimize for page visits|
-    |conversions|cpc|Optimize for conversion|
-    """
-
-    reach = "reach"
-    clicks = "clicks"
-    conversions = "conversions"
+|Name|CostType|Description|
+|----|--------|-----------|
+|reach|vcpm|Optimize for viewable impressions. $1 is the minimum bid for vCPM.|
+|clicks|cpc|Optimize for page visits|
+|conversions|cpc|Optimize for conversion|
+"""
 
 
-class SDContentTargetingPredicateV31Type(StrEnum):
-    contentCategorySameAs = "contentCategorySameAs"
+type SDContentTargetingPredicateV31Type = Literal["contentCategorySameAs"]
 
 
-class SDCostTypeV31(StrEnum):
-    """
-    Determines what performance metric the bid recommendations will be optimized for.
-    |Name|Description|
-    |----|----------|-----------|
-    |cpc|The bid recommendations will be optimized for clicks triggered by the ad.|
-    |vcpm|The bid recommendations will be optimized for viewed impressions triggered by the ad. $1 is the minimum bid for vCPM.|
-    """
-
-    cpc = "cpc"
-    vcpm = "vcpm"
+type SDCostTypeV31 = Literal["cpc", "vcpm"]
+"""
+Determines what performance metric the bid recommendations will be optimized for.
+|Name|Description|
+|----|----------|-----------|
+|cpc|The bid recommendations will be optimized for clicks triggered by the ad.|
+|vcpm|The bid recommendations will be optimized for viewed impressions triggered by the ad. $1 is the minimum bid for vCPM.|
+"""
 
 
-class SDCreativeType(StrEnum):
-    """
-    The type of the associated creative. If the field is empty or null, a default value of IMAGE will be used. Only supports one type (VIDEO or IMAGE) at a time.
-    """
-
-    IMAGE = "IMAGE"
-    VIDEO = "VIDEO"
+type SDCreativeType = Literal["IMAGE", "VIDEO"]
+"""
+The type of the associated creative. If the field is empty or null, a default value of IMAGE will be used. Only supports one type (VIDEO or IMAGE) at a time.
+"""
 
 
-class SDTargetingClauseV31ExpressionType(StrEnum):
-    """
-    Tactic T00020 ad groups only allow manual targeting.
-    """
-
-    manual = "manual"
-    auto = "auto"
+type SDTargetingClauseV31ExpressionType = Literal["manual", "auto"]
+"""
+Tactic T00020 ad groups only allow manual targeting.
+"""
 
 
-class SDTargetingClauseV32ExpressionType(StrEnum):
-    """
-    Tactic T00020 ad groups only allow manual targeting.
-    """
-
-    manual = "manual"
-    auto = "auto"
+type SDTargetingClauseV32ExpressionType = Literal["manual", "auto"]
+"""
+Tactic T00020 ad groups only allow manual targeting.
+"""
 
 
-class SDTargetingPredicateBaseV31Type(StrEnum):
-    asinCategorySameAs = "asinCategorySameAs"
-    asinBrandSameAs = "asinBrandSameAs"
-    asinPriceBetween = "asinPriceBetween"
-    asinPriceGreaterThan = "asinPriceGreaterThan"
-    asinPriceLessThan = "asinPriceLessThan"
-    asinReviewRatingLessThan = "asinReviewRatingLessThan"
-    asinReviewRatingGreaterThan = "asinReviewRatingGreaterThan"
-    asinReviewRatingBetween = "asinReviewRatingBetween"
-    similarProduct = "similarProduct"
-    relatedProduct = "relatedProduct"
-    exactProduct = "exactProduct"
-    asinIsPrimeShippingEligible = "asinIsPrimeShippingEligible"
-    asinAgeRangeSameAs = "asinAgeRangeSameAs"
-    asinGenreSameAs = "asinGenreSameAs"
-    audienceSameAs = "audienceSameAs"
-    lookback = "lookback"
+type SDTargetingPredicateBaseV31Type = Literal[
+    "asinCategorySameAs",
+    "asinBrandSameAs",
+    "asinPriceBetween",
+    "asinPriceGreaterThan",
+    "asinPriceLessThan",
+    "asinReviewRatingLessThan",
+    "asinReviewRatingGreaterThan",
+    "asinReviewRatingBetween",
+    "similarProduct",
+    "relatedProduct",
+    "exactProduct",
+    "asinIsPrimeShippingEligible",
+    "asinAgeRangeSameAs",
+    "asinGenreSameAs",
+    "audienceSameAs",
+    "lookback",
+]
 
 
-class SDTargetingPredicateNestedV31Type(StrEnum):
-    views = "views"
-    audience = "audience"
-    purchases = "purchases"
+type SDTargetingPredicateNestedV31Type = Literal["views", "audience", "purchases"]
 
 
-class SDTargetingPredicateV31Type(StrEnum):
-    asinSameAs = "asinSameAs"
-    asinCategorySameAs = "asinCategorySameAs"
-    asinBrandSameAs = "asinBrandSameAs"
-    asinPriceBetween = "asinPriceBetween"
-    asinPriceGreaterThan = "asinPriceGreaterThan"
-    asinPriceLessThan = "asinPriceLessThan"
-    asinReviewRatingLessThan = "asinReviewRatingLessThan"
-    asinReviewRatingGreaterThan = "asinReviewRatingGreaterThan"
-    asinReviewRatingBetween = "asinReviewRatingBetween"
-    asinIsPrimeShippingEligible = "asinIsPrimeShippingEligible"
-    asinAgeRangeSameAs = "asinAgeRangeSameAs"
-    asinGenreSameAs = "asinGenreSameAs"
+type SDTargetingPredicateV31Type = Literal[
+    "asinSameAs",
+    "asinCategorySameAs",
+    "asinBrandSameAs",
+    "asinPriceBetween",
+    "asinPriceGreaterThan",
+    "asinPriceLessThan",
+    "asinReviewRatingLessThan",
+    "asinReviewRatingGreaterThan",
+    "asinReviewRatingBetween",
+    "asinIsPrimeShippingEligible",
+    "asinAgeRangeSameAs",
+    "asinGenreSameAs",
+]
 
 
 class SDBidRecommendationV31(LenientModel):
@@ -126,7 +105,7 @@ class SDBidRecommendationV31(LenientModel):
 class SDContentTargetingPredicateV31(StrictModel):
     """A predicate to match against in the content targeting expression."""
 
-    type: Annotated[SDContentTargetingPredicateV31Type | str, lenient_enum(SDContentTargetingPredicateV31Type)]
+    type: SDContentTargetingPredicateV31Type
     value: str = Field(description="The value to be targeted.")
 
 
@@ -161,8 +140,8 @@ class SDTargetingBidRecommendationsRequestV32(StrictModel):
         max_length=10000,
         description="A list of products to tailor bid recommendations for category and audience based targeting clauses.",
     )
-    bidOptimization: Annotated[SDBidOptimizationV32 | str, lenient_enum(SDBidOptimizationV32)]
-    costType: Annotated[SDCostTypeV31 | str, lenient_enum(SDCostTypeV31)]
+    bidOptimization: SDBidOptimizationV32
+    costType: SDCostTypeV31
     targetingClauses: list[dict[str, Any]] = Field(
         min_length=1, max_length=100, description="A list of targeting clauses to receive bid recommendations for."
     )
@@ -177,9 +156,9 @@ class SDTargetingBidRecommendationsRequestV33(StrictModel):
         max_length=10000,
         description="A list of products to tailor bid recommendations for category and audience based targeting clauses.",
     )
-    bidOptimization: Annotated[SDBidOptimizationV32 | str, lenient_enum(SDBidOptimizationV32)]
-    costType: Annotated[SDCostTypeV31 | str, lenient_enum(SDCostTypeV31)]
-    creativeType: Annotated[SDCreativeType | str, lenient_enum(SDCreativeType)] | None = Field(default=None)
+    bidOptimization: SDBidOptimizationV32
+    costType: SDCostTypeV31
+    creativeType: SDCreativeType | None = Field(default=None)
     targetingClauses: list[dict[str, Any]] = Field(
         min_length=1, max_length=100, description="A list of targeting clauses to receive bid recommendations for."
     )
@@ -198,9 +177,9 @@ This array must contain consistent fields of either asins or landing pages (when
 If landingPageUrl is used, only one item is allowed for the list.
 """,
     )
-    bidOptimization: Annotated[SDBidOptimizationV32 | str, lenient_enum(SDBidOptimizationV32)]
-    costType: Annotated[SDCostTypeV31 | str, lenient_enum(SDCostTypeV31)]
-    creativeType: Annotated[SDCreativeType | str, lenient_enum(SDCreativeType)] | None = Field(default=None)
+    bidOptimization: SDBidOptimizationV32
+    costType: SDCostTypeV31
+    creativeType: SDCreativeType | None = Field(default=None)
     targetingClauses: list[dict[str, Any]] = Field(
         min_length=1, max_length=100, description="A list of targeting clauses to receive bid recommendations for."
     )
@@ -225,33 +204,33 @@ class SDTargetingBidRecommendationsResponseItemSuccessV31(LenientModel):
 class SDTargetingBidRecommendationsResponseV31(LenientModel):
     """Response to a request for targeting bid recommendations."""
 
-    costType: Annotated[SDCostTypeV31 | str, lenient_enum(SDCostTypeV31)]
+    costType: SDCostTypeV31 | str
     bidRecommendations: dict[str, Any] = Field(min_length=1, max_length=100)
 
 
 class SDTargetingBidRecommendationsResponseV32(LenientModel):
     """Response to a request for targeting bid recommendations."""
 
-    bidOptimization: Annotated[SDBidOptimizationV32 | str, lenient_enum(SDBidOptimizationV32)]
-    costType: Annotated[SDCostTypeV31 | str, lenient_enum(SDCostTypeV31)]
+    bidOptimization: SDBidOptimizationV32 | str
+    costType: SDCostTypeV31 | str
     bidRecommendations: dict[str, Any] = Field(min_length=1, max_length=100)
 
 
 class SDTargetingClauseV31(StrictModel):
     """The targeting clause"""
 
-    expressionType: Annotated[
-        SDTargetingClauseV31ExpressionType | str, lenient_enum(SDTargetingClauseV31ExpressionType)
-    ] = Field(description="Tactic T00020 ad groups only allow manual targeting.")
+    expressionType: SDTargetingClauseV31ExpressionType = Field(
+        description="Tactic T00020 ad groups only allow manual targeting."
+    )
     expression: SDTargetingExpressionV31
 
 
 class SDTargetingClauseV32(StrictModel):
     """The targeting clause"""
 
-    expressionType: Annotated[
-        SDTargetingClauseV32ExpressionType | str, lenient_enum(SDTargetingClauseV32ExpressionType)
-    ] = Field(description="Tactic T00020 ad groups only allow manual targeting.")
+    expressionType: SDTargetingClauseV32ExpressionType = Field(
+        description="Tactic T00020 ad groups only allow manual targeting."
+    )
     expression: SDTargetingExpressionV32
 
 
@@ -301,7 +280,7 @@ class SDTargetingPredicateBaseV31(StrictModel):
     * The exactProduct, similarProduct, relatedProduct, and negative types do not utilize the value field.
     * The only type currently applicable to Amazon Audiences targeting is 'audienceSameAs'."""
 
-    type: Annotated[SDTargetingPredicateBaseV31Type | str, lenient_enum(SDTargetingPredicateBaseV31Type)]
+    type: SDTargetingPredicateBaseV31Type
     value: str | None = Field(default=None, description="The value to be targeted.")
 
 
@@ -314,7 +293,7 @@ class SDTargetingPredicateNestedV31(StrictModel):
     * For Amazon Audiences targeting, the TargetingPredicateNested type should be set to 'audience' and the value array should include one TargetingPredicateBase component with type set to 'audienceSameAs'.
     """
 
-    type: Annotated[SDTargetingPredicateNestedV31Type | str, lenient_enum(SDTargetingPredicateNestedV31Type)]
+    type: SDTargetingPredicateNestedV31Type
     value: list[SDTargetingPredicateBaseV31]
 
 
@@ -327,7 +306,7 @@ class SDTargetingPredicateV31(StrictModel):
     * When using either of the 'between' strings to construct a targeting expression the format of the string is 'double-double' where the first double must be smaller than the second double. Prices are not inclusive.
     """
 
-    type: Annotated[SDTargetingPredicateV31Type | str, lenient_enum(SDTargetingPredicateV31Type)]
+    type: SDTargetingPredicateV31Type
     value: str | None = Field(default=None, description="The value to be targeted.")
 
 

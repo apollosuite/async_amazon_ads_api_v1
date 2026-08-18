@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     ExternalIdentity,
     HashedPii,
@@ -20,353 +18,347 @@ from ads_api.models.v0._shared import (
     MmpPlatform,
 )
 
-
-class Action(StrEnum):
-    CREATE = "CREATE"
-    DELETE = "DELETE"
+type Action = Literal["CREATE", "DELETE"]
 
 
-class ColumnType(StrEnum):
-    DIMENSION = "DIMENSION"
-    METRIC = "METRIC"
+type ColumnType = Literal["DIMENSION", "METRIC"]
 
 
-class ConsentEnums(StrEnum):
-    DENIED = "DENIED"
-    GRANTED = "GRANTED"
-    NOT_APPLICABLE = "NOT_APPLICABLE"
-    UNKNOWN = "UNKNOWN"
+type ConsentEnums = Literal[
+    "DENIED",
+    "GRANTED",
+    "NOT_APPLICABLE",
+    "UNKNOWN",
+]
 
 
-class CountryCode(StrEnum):
-    """
-    Country Code. Two letter ISO 3166-1 alpha-2
-    """
-
-    AD = "AD"
-    AE = "AE"
-    AF = "AF"
-    AG = "AG"
-    AI = "AI"
-    AL = "AL"
-    AM = "AM"
-    AN = "AN"
-    AO = "AO"
-    AQ = "AQ"
-    AR = "AR"
-    AS = "AS"
-    AT = "AT"
-    AU = "AU"
-    AW = "AW"
-    AX = "AX"
-    AZ = "AZ"
-    BA = "BA"
-    BB = "BB"
-    BD = "BD"
-    BE = "BE"
-    BF = "BF"
-    BG = "BG"
-    BH = "BH"
-    BI = "BI"
-    BJ = "BJ"
-    BL = "BL"
-    BM = "BM"
-    BN = "BN"
-    BO = "BO"
-    BQ = "BQ"
-    BR = "BR"
-    BS = "BS"
-    BT = "BT"
-    BV = "BV"
-    BW = "BW"
-    BY = "BY"
-    BZ = "BZ"
-    CA = "CA"
-    CC = "CC"
-    CD = "CD"
-    CF = "CF"
-    CG = "CG"
-    CH = "CH"
-    CI = "CI"
-    CK = "CK"
-    CL = "CL"
-    CM = "CM"
-    CN = "CN"
-    CO = "CO"
-    CR = "CR"
-    CU = "CU"
-    CV = "CV"
-    CW = "CW"
-    CX = "CX"
-    CY = "CY"
-    CZ = "CZ"
-    DE = "DE"
-    DJ = "DJ"
-    DK = "DK"
-    DM = "DM"
-    DO = "DO"
-    DZ = "DZ"
-    EC = "EC"
-    EE = "EE"
-    EG = "EG"
-    EH = "EH"
-    ER = "ER"
-    ES = "ES"
-    ET = "ET"
-    FI = "FI"
-    FJ = "FJ"
-    FK = "FK"
-    FM = "FM"
-    FO = "FO"
-    FR = "FR"
-    GA = "GA"
-    GB = "GB"
-    GD = "GD"
-    GE = "GE"
-    GF = "GF"
-    GG = "GG"
-    GH = "GH"
-    GI = "GI"
-    GL = "GL"
-    GM = "GM"
-    GN = "GN"
-    GP = "GP"
-    GQ = "GQ"
-    GR = "GR"
-    GS = "GS"
-    GT = "GT"
-    GU = "GU"
-    GW = "GW"
-    GY = "GY"
-    HK = "HK"
-    HM = "HM"
-    HN = "HN"
-    HR = "HR"
-    HT = "HT"
-    HU = "HU"
-    ID = "ID"
-    IE = "IE"
-    IL = "IL"
-    IM = "IM"
-    IN = "IN"
-    IO = "IO"
-    IQ = "IQ"
-    IR = "IR"
-    IS = "IS"
-    IT = "IT"
-    JE = "JE"
-    JM = "JM"
-    JO = "JO"
-    JP = "JP"
-    KE = "KE"
-    KG = "KG"
-    KH = "KH"
-    KI = "KI"
-    KM = "KM"
-    KN = "KN"
-    KP = "KP"
-    KR = "KR"
-    KW = "KW"
-    KY = "KY"
-    KZ = "KZ"
-    LA = "LA"
-    LB = "LB"
-    LC = "LC"
-    LI = "LI"
-    LK = "LK"
-    LR = "LR"
-    LS = "LS"
-    LT = "LT"
-    LU = "LU"
-    LV = "LV"
-    LY = "LY"
-    MA = "MA"
-    MC = "MC"
-    MD = "MD"
-    ME = "ME"
-    MF = "MF"
-    MG = "MG"
-    MH = "MH"
-    MK = "MK"
-    ML = "ML"
-    MM = "MM"
-    MN = "MN"
-    MO = "MO"
-    MP = "MP"
-    MQ = "MQ"
-    MR = "MR"
-    MS = "MS"
-    MT = "MT"
-    MU = "MU"
-    MV = "MV"
-    MW = "MW"
-    MX = "MX"
-    MY = "MY"
-    MZ = "MZ"
-    NA = "NA"
-    NC = "NC"
-    NE = "NE"
-    NF = "NF"
-    NG = "NG"
-    NI = "NI"
-    NL = "NL"
-    NO = "NO"
-    NP = "NP"
-    NR = "NR"
-    NU = "NU"
-    NZ = "NZ"
-    OM = "OM"
-    PA = "PA"
-    PE = "PE"
-    PF = "PF"
-    PG = "PG"
-    PH = "PH"
-    PK = "PK"
-    PL = "PL"
-    PM = "PM"
-    PN = "PN"
-    PR = "PR"
-    PS = "PS"
-    PT = "PT"
-    PW = "PW"
-    PY = "PY"
-    QA = "QA"
-    RE = "RE"
-    RO = "RO"
-    RS = "RS"
-    RU = "RU"
-    RW = "RW"
-    SA = "SA"
-    SB = "SB"
-    SC = "SC"
-    SD = "SD"
-    SE = "SE"
-    SG = "SG"
-    SH = "SH"
-    SI = "SI"
-    SJ = "SJ"
-    SK = "SK"
-    SL = "SL"
-    SM = "SM"
-    SN = "SN"
-    SO = "SO"
-    SR = "SR"
-    SS = "SS"
-    ST = "ST"
-    SV = "SV"
-    SX = "SX"
-    SY = "SY"
-    SZ = "SZ"
-    TC = "TC"
-    TD = "TD"
-    TF = "TF"
-    TG = "TG"
-    TH = "TH"
-    TJ = "TJ"
-    TK = "TK"
-    TL = "TL"
-    TM = "TM"
-    TN = "TN"
-    TO = "TO"
-    TR = "TR"
-    TT = "TT"
-    TV = "TV"
-    TW = "TW"
-    TZ = "TZ"
-    UA = "UA"
-    UG = "UG"
-    UM = "UM"
-    UNKNOWN = "UNKNOWN"
-    US = "US"
-    UY = "UY"
-    UZ = "UZ"
-    VA = "VA"
-    VC = "VC"
-    VE = "VE"
-    VG = "VG"
-    VI = "VI"
-    VN = "VN"
-    VU = "VU"
-    WF = "WF"
-    WS = "WS"
-    XK = "XK"
-    YE = "YE"
-    YT = "YT"
-    ZA = "ZA"
-    ZM = "ZM"
-    ZW = "ZW"
-    ZZ = "ZZ"
-
-
-class DataTypeEnum(StrEnum):
-    """
-    enum used to verify the different datatypes supported in ADM
-    """
-
-    ACTION = "ACTION"
-    AMZN_AD_STORAGE = "AMZN_AD_STORAGE"
-    AMZN_USER_DATA = "AMZN_USER_DATA"
-    ARRAY = "ARRAY"
-    CONVERSION_TYPE = "CONVERSION_TYPE"
-    COUNTING_METHOD = "COUNTING_METHOD"
-    COUNTRY_CODE = "COUNTRY_CODE"
-    CURRENCY_CODE = "CURRENCY_CODE"
-    DATE = "DATE"
-    DECIMAL = "DECIMAL"
-    DEDUPE_ID = "DEDUPE_ID"
-    EVENT_COUNT = "EVENT_COUNT"
-    EVENT_NAME = "EVENT_NAME"
-    EVENT_SOURCE = "EVENT_SOURCE"
-    EVENT_VALUE = "EVENT_VALUE"
-    EXPERIAN_ID = "EXPERIAN_ID"
-    EXTERNAL_ID = "EXTERNAL_ID"
-    GPP = "GPP"
-    HASHED_ADDRESS = "HASHED_ADDRESS"
-    HASHED_CITY = "HASHED_CITY"
-    HASHED_COUNTRY_CODE = "HASHED_COUNTRY_CODE"
-    HASHED_EMAIL_ADDRESS = "HASHED_EMAIL_ADDRESS"
-    HASHED_FIRST_NAME = "HASHED_FIRST_NAME"
-    HASHED_LAST_NAME = "HASHED_LAST_NAME"
-    HASHED_PHONE_NUMBER = "HASHED_PHONE_NUMBER"
-    HASHED_STATE = "HASHED_STATE"
-    HASHED_ZIP_CODE = "HASHED_ZIP_CODE"
-    INTEGER = "INTEGER"
-    IP_ADDRESS = "IP_ADDRESS"
-    KANTAR_ID = "KANTAR_ID"
-    LAST_ACTIVITY = "LAST_ACTIVITY"
-    LONG = "LONG"
-    MAID = "MAID"
-    MAIN_EVENT_TIME = "MAIN_EVENT_TIME"
-    MERKLE_ID = "MERKLE_ID"
-    MERKURY_ID = "MERKURY_ID"
-    NEUSTAR_ID = "NEUSTAR_ID"
-    RAMP_ID = "RAMP_ID"
-    REAL_ID = "REAL_ID"
-    SAMBA_TV_ID = "SAMBA_TV_ID"
-    STRING = "STRING"
-    TCF = "TCF"
-    TIMESTAMP = "TIMESTAMP"
-    TRANSUNION_ID = "TRANSUNION_ID"
-    UNITS_SOLD = "UNITS_SOLD"
+type CountryCode = Literal[
+    "AD",
+    "AE",
+    "AF",
+    "AG",
+    "AI",
+    "AL",
+    "AM",
+    "AN",
+    "AO",
+    "AQ",
+    "AR",
+    "AS",
+    "AT",
+    "AU",
+    "AW",
+    "AX",
+    "AZ",
+    "BA",
+    "BB",
+    "BD",
+    "BE",
+    "BF",
+    "BG",
+    "BH",
+    "BI",
+    "BJ",
+    "BL",
+    "BM",
+    "BN",
+    "BO",
+    "BQ",
+    "BR",
+    "BS",
+    "BT",
+    "BV",
+    "BW",
+    "BY",
+    "BZ",
+    "CA",
+    "CC",
+    "CD",
+    "CF",
+    "CG",
+    "CH",
+    "CI",
+    "CK",
+    "CL",
+    "CM",
+    "CN",
+    "CO",
+    "CR",
+    "CU",
+    "CV",
+    "CW",
+    "CX",
+    "CY",
+    "CZ",
+    "DE",
+    "DJ",
+    "DK",
+    "DM",
+    "DO",
+    "DZ",
+    "EC",
+    "EE",
+    "EG",
+    "EH",
+    "ER",
+    "ES",
+    "ET",
+    "FI",
+    "FJ",
+    "FK",
+    "FM",
+    "FO",
+    "FR",
+    "GA",
+    "GB",
+    "GD",
+    "GE",
+    "GF",
+    "GG",
+    "GH",
+    "GI",
+    "GL",
+    "GM",
+    "GN",
+    "GP",
+    "GQ",
+    "GR",
+    "GS",
+    "GT",
+    "GU",
+    "GW",
+    "GY",
+    "HK",
+    "HM",
+    "HN",
+    "HR",
+    "HT",
+    "HU",
+    "ID",
+    "IE",
+    "IL",
+    "IM",
+    "IN",
+    "IO",
+    "IQ",
+    "IR",
+    "IS",
+    "IT",
+    "JE",
+    "JM",
+    "JO",
+    "JP",
+    "KE",
+    "KG",
+    "KH",
+    "KI",
+    "KM",
+    "KN",
+    "KP",
+    "KR",
+    "KW",
+    "KY",
+    "KZ",
+    "LA",
+    "LB",
+    "LC",
+    "LI",
+    "LK",
+    "LR",
+    "LS",
+    "LT",
+    "LU",
+    "LV",
+    "LY",
+    "MA",
+    "MC",
+    "MD",
+    "ME",
+    "MF",
+    "MG",
+    "MH",
+    "MK",
+    "ML",
+    "MM",
+    "MN",
+    "MO",
+    "MP",
+    "MQ",
+    "MR",
+    "MS",
+    "MT",
+    "MU",
+    "MV",
+    "MW",
+    "MX",
+    "MY",
+    "MZ",
+    "NA",
+    "NC",
+    "NE",
+    "NF",
+    "NG",
+    "NI",
+    "NL",
+    "NO",
+    "NP",
+    "NR",
+    "NU",
+    "NZ",
+    "OM",
+    "PA",
+    "PE",
+    "PF",
+    "PG",
+    "PH",
+    "PK",
+    "PL",
+    "PM",
+    "PN",
+    "PR",
+    "PS",
+    "PT",
+    "PW",
+    "PY",
+    "QA",
+    "RE",
+    "RO",
+    "RS",
+    "RU",
+    "RW",
+    "SA",
+    "SB",
+    "SC",
+    "SD",
+    "SE",
+    "SG",
+    "SH",
+    "SI",
+    "SJ",
+    "SK",
+    "SL",
+    "SM",
+    "SN",
+    "SO",
+    "SR",
+    "SS",
+    "ST",
+    "SV",
+    "SX",
+    "SY",
+    "SZ",
+    "TC",
+    "TD",
+    "TF",
+    "TG",
+    "TH",
+    "TJ",
+    "TK",
+    "TL",
+    "TM",
+    "TN",
+    "TO",
+    "TR",
+    "TT",
+    "TV",
+    "TW",
+    "TZ",
+    "UA",
+    "UG",
+    "UM",
+    "UNKNOWN",
+    "US",
+    "UY",
+    "UZ",
+    "VA",
+    "VC",
+    "VE",
+    "VG",
+    "VI",
+    "VN",
+    "VU",
+    "WF",
+    "WS",
+    "XK",
+    "YE",
+    "YT",
+    "ZA",
+    "ZM",
+    "ZW",
+    "ZZ",
+]
+"""
+Country Code. Two letter ISO 3166-1 alpha-2
+"""
 
 
-class PartitionedByEnum(StrEnum):
-    DAY = "DAY"
-    HOUR = "HOUR"
-    MONTH = "MONTH"
-    YEAR = "YEAR"
+type DataTypeEnum = Literal[
+    "ACTION",
+    "AMZN_AD_STORAGE",
+    "AMZN_USER_DATA",
+    "ARRAY",
+    "CONVERSION_TYPE",
+    "COUNTING_METHOD",
+    "COUNTRY_CODE",
+    "CURRENCY_CODE",
+    "DATE",
+    "DECIMAL",
+    "DEDUPE_ID",
+    "EVENT_COUNT",
+    "EVENT_NAME",
+    "EVENT_SOURCE",
+    "EVENT_VALUE",
+    "EXPERIAN_ID",
+    "EXTERNAL_ID",
+    "GPP",
+    "HASHED_ADDRESS",
+    "HASHED_CITY",
+    "HASHED_COUNTRY_CODE",
+    "HASHED_EMAIL_ADDRESS",
+    "HASHED_FIRST_NAME",
+    "HASHED_LAST_NAME",
+    "HASHED_PHONE_NUMBER",
+    "HASHED_STATE",
+    "HASHED_ZIP_CODE",
+    "INTEGER",
+    "IP_ADDRESS",
+    "KANTAR_ID",
+    "LAST_ACTIVITY",
+    "LONG",
+    "MAID",
+    "MAIN_EVENT_TIME",
+    "MERKLE_ID",
+    "MERKURY_ID",
+    "NEUSTAR_ID",
+    "RAMP_ID",
+    "REAL_ID",
+    "SAMBA_TV_ID",
+    "STRING",
+    "TCF",
+    "TIMESTAMP",
+    "TRANSUNION_ID",
+    "UNITS_SOLD",
+]
+"""
+enum used to verify the different datatypes supported in ADM
+"""
 
 
-class SchemaType(StrEnum):
-    AUDIENCE = "AUDIENCE"
-    CUSTOM = "CUSTOM"
-    EVENT = "EVENT"
+type PartitionedByEnum = Literal[
+    "DAY",
+    "HOUR",
+    "MONTH",
+    "YEAR",
+]
+
+
+type SchemaType = Literal["AUDIENCE", "CUSTOM", "EVENT"]
 
 
 class AdsCdxSolCreateAudienceRequestContent(StrictModel):
     """Create Audience DataSet Request."""
 
-    countryCode: Annotated[CountryCode | str, lenient_enum(CountryCode)]
+    countryCode: CountryCode
     description: str | None = Field(
         default=None, min_length=1, max_length=1000, description="A description of the DataSet."
     )
@@ -382,10 +374,10 @@ class AdsCdxSolCreateAudienceResponseContent(LenientModel):
     """Create Audience DataSet Response."""
 
     clientName: str = Field(description="Identification of the source that created the DataSet.")
-    countryCode: Annotated[CountryCode | str, lenient_enum(CountryCode)]
+    countryCode: CountryCode | str
     createdBy: str = Field(description="Identifier of the user who created the DataSet.")
     dataSetId: str | None = Field(default=None)
-    dataSetType: Annotated[SchemaType | str, lenient_enum(SchemaType)]
+    dataSetType: SchemaType | str
     dateCreated: datetime = Field(description="The Date Time that the DataSet was created.")
     description: str | None = Field(
         default=None, min_length=1, max_length=1000, description="A description of the DataSet."
@@ -399,7 +391,7 @@ class AdsCdxSolCreateAudienceResponseContent(LenientModel):
     name: str = Field(
         min_length=5, max_length=100, pattern="^[A-Za-z][A-Za-z0-9_-]{0,99}$", description="The name of the DataSet."
     )
-    partitionedBy: Annotated[PartitionedByEnum | str, lenient_enum(PartitionedByEnum)] | None = Field(default=None)
+    partitionedBy: PartitionedByEnum | str | None = Field(default=None)
     schema_: list[DataSetColumn] = Field(
         alias="schema", min_length=0, max_length=100, description="The list of columns that make up the DataSet Schema."
     )
@@ -409,10 +401,10 @@ class AdsCdxSolGetAudienceResponseContent(LenientModel):
     """Get Audience DataSet Response."""
 
     clientName: str = Field(description="Identification of the source that created the DataSet.")
-    countryCode: Annotated[CountryCode | str, lenient_enum(CountryCode)]
+    countryCode: CountryCode | str
     createdBy: str = Field(description="Identifier of the user who created the DataSet.")
     dataSetId: str | None = Field(default=None)
-    dataSetType: Annotated[SchemaType | str, lenient_enum(SchemaType)]
+    dataSetType: SchemaType | str
     dateCreated: datetime = Field(description="The Date Time that the DataSet was created.")
     description: str | None = Field(
         default=None, min_length=1, max_length=1000, description="A description of the DataSet."
@@ -426,7 +418,7 @@ class AdsCdxSolGetAudienceResponseContent(LenientModel):
     name: str = Field(
         min_length=5, max_length=100, pattern="^[A-Za-z][A-Za-z0-9_-]{0,99}$", description="The name of the DataSet."
     )
-    partitionedBy: Annotated[PartitionedByEnum | str, lenient_enum(PartitionedByEnum)] | None = Field(default=None)
+    partitionedBy: PartitionedByEnum | str | None = Field(default=None)
     schema_: list[DataSetColumn] = Field(
         alias="schema", min_length=0, max_length=100, description="The list of columns that make up the DataSet Schema."
     )
@@ -440,12 +432,12 @@ class AdsCdxSolListAudienceResponseContent(LenientModel):
 
 
 class AmznConsent(StrictModel):
-    amznAdStorage: Annotated[ConsentEnums | str, lenient_enum(ConsentEnums)] | None = Field(default=None)
-    amznUserData: Annotated[ConsentEnums | str, lenient_enum(ConsentEnums)] | None = Field(default=None)
+    amznAdStorage: ConsentEnums | None = Field(default=None)
+    amznUserData: ConsentEnums | None = Field(default=None)
 
 
 class AudienceMember(StrictModel):
-    action: Annotated[Action | str, lenient_enum(Action)]
+    action: Action
     externalUserId: str = Field(
         description="This is an external user identifier defined by the data owner. Each unique user should have a unique external user identifier."
     )
@@ -455,10 +447,10 @@ class AudienceMember(StrictModel):
 
 class CdxDataSetWithoutSchema(LenientModel):
     clientName: str = Field(description="Identification of the source that created the DataSet.")
-    countryCode: Annotated[CountryCode | str, lenient_enum(CountryCode)]
+    countryCode: CountryCode | str
     createdBy: str = Field(description="Identifier of the user who created the DataSet.")
     dataSetId: str = Field(description="Unique identifier that represent the DataSet.")
-    dataSetType: Annotated[SchemaType | str, lenient_enum(SchemaType)]
+    dataSetType: SchemaType | str
     dateCreated: datetime = Field(description="The Date Time that the DataSet was created.")
     description: str | None = Field(
         default=None, min_length=1, max_length=1000, description="A description of the DataSet."
@@ -484,8 +476,8 @@ class Consent(StrictModel):
 
 
 class DataSetColumn(LenientModel):
-    columnType: Annotated[ColumnType | str, lenient_enum(ColumnType)] | None = Field(default=None)
-    dataType: Annotated[DataTypeEnum | str, lenient_enum(DataTypeEnum)]
+    columnType: ColumnType | str | None = Field(default=None)
+    dataType: DataTypeEnum | str
     description: str | None = Field(
         default=None, min_length=1, max_length=255, description="The description of the column."
     )
@@ -505,7 +497,7 @@ class DetailedError(LenientModel):
 
 
 class Geo(StrictModel):
-    countryCode: Annotated[CountryCode | str, lenient_enum(CountryCode)] | None = Field(default=None)
+    countryCode: CountryCode | None = Field(default=None)
     ipAddress: str | None = Field(
         default=None,
         description="A String value holding an ipAddress used to determine country for members in this audience. Optional.",

@@ -2,646 +2,590 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 
+type BaseAdGroupBidOptimization = Literal["reach", "clicks", "conversions"]
+"""
+Bid Optimization for the Adgroup. Default behavior is to optimize for clicks.
+|Name|CostType|Description|
+|----|--------|-----------|
+|reach |vcpm|Optimize for viewable impressions. $1 is the minimum bid for vCPM.|
+|clicks |cpc|[Default] Optimize for page visits.|
+|conversions |cpc|Optimize for conversion.|
+"""
 
-class BaseAdGroupBidOptimization(StrEnum):
-    """
-    Bid Optimization for the Adgroup. Default behavior is to optimize for clicks.
-    |Name|CostType|Description|
-    |----|--------|-----------|
-    |reach |vcpm|Optimize for viewable impressions. $1 is the minimum bid for vCPM.|
-    |clicks |cpc|[Default] Optimize for page visits.|
-    |conversions |cpc|Optimize for conversion.|
-    """
 
-    reach = "reach"
-    clicks = "clicks"
-    conversions = "conversions"
+type BaseAdGroupState = Literal["enabled", "paused", "archived"]
+"""
+The state of the ad group.
+"""
 
 
-class BaseAdGroupState(StrEnum):
-    """
-    The state of the ad group.
-    """
+type BaseCampaignBudgetType = Literal["daily"]
+"""
+The time period over which the amount specified in the `budget` property is allocated.
+"""
 
-    enabled = "enabled"
-    paused = "paused"
-    archived = "archived"
 
+type BaseCampaignCostType = Literal["cpc", "vcpm"]
+"""
+Determines how the campaign will bid and charge.
+|Name|Description|
+|----|----------|
+|cpc |[Default] The performance of this campaign is measured by the clicks triggered by the ad.|
+|vcpm |The performance of this campaign is measured by the viewed impressions triggered by the ad. |
 
-class BaseCampaignBudgetType(StrEnum):
-    """
-    The time period over which the amount specified in the `budget` property is allocated.
-    """
+To view minimum and maximum bids based on the costType, see [Limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).
+"""
 
-    daily = "daily"
 
+type BaseCampaignState = Literal["enabled", "paused", "archived"]
+"""
+The state of the campaign.
+"""
 
-class BaseCampaignCostType(StrEnum):
-    """
-    Determines how the campaign will bid and charge.
-    |Name|Description|
-    |----|----------|
-    |cpc |[Default] The performance of this campaign is measured by the clicks triggered by the ad.|
-    |vcpm |The performance of this campaign is measured by the viewed impressions triggered by the ad. |
 
-    To view minimum and maximum bids based on the costType, see [Limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).
-    """
+type BaseNegativeTargetingClauseState = Literal["enabled", "paused", "archived"]
 
-    cpc = "cpc"
-    vcpm = "vcpm"
 
+type BaseOptimizationRuleState = Literal["enabled", "paused [COMING LATER]"]
+"""
+The state of the optimization rule.
+"""
 
-class BaseCampaignState(StrEnum):
-    """
-    The state of the campaign.
-    """
 
-    enabled = "enabled"
-    paused = "paused"
-    archived = "archived"
+type BaseProductAdState = Literal["enabled", "paused", "archived"]
+"""
+The state of the campaign associated with the product ad.
+"""
 
 
-class BaseNegativeTargetingClauseState(StrEnum):
-    enabled = "enabled"
-    paused = "paused"
-    archived = "archived"
+type BaseTargetingClauseState = Literal["enabled", "paused", "archived"]
 
 
-class BaseOptimizationRuleState(StrEnum):
-    """
-    The state of the optimization rule.
-    """
+type BidAnalysisType = Literal[
+    "ALTERNATIVE",
+    "SUGGESTED",
+    "SUGGESTED_LOWER",
+    "SUGGESTED_UPPER",
+]
+"""
+The type of bids in bid analyses. <br>`SUGGESTED_UPPER` - The upper bound for the suggested bid. <br>`SUGGESTED_LOWER` - The lower bound for the suggested bid. <br>`SUGGESTED` - The suggested bid value. <br>'ALTERNATIVE' - The alternative bids that is included in the bid analyses.
+"""
 
-    enabled = "enabled"
-    paused_COMING_LATER = "paused [COMING LATER]"
 
+type CampaignDeliveryProfile = Literal["as_soon_as_possible"]
 
-class BaseProductAdState(StrEnum):
-    """
-    The state of the campaign associated with the product ad.
-    """
 
-    enabled = "enabled"
-    paused = "paused"
-    archived = "archived"
+type ContentTargetingPredicateType = Literal["contentCategorySameAs"]
 
 
-class BaseTargetingClauseState(StrEnum):
-    enabled = "enabled"
-    paused = "paused"
-    archived = "archived"
+type CreateOrUpdateEntityState = Literal["ENABLED", "PAUSED"]
+"""
+Entity state for create or update operation.
+"""
 
 
-class BidAnalysisType(StrEnum):
-    """
-    The type of bids in bid analyses. <br>`SUGGESTED_UPPER` - The upper bound for the suggested bid. <br>`SUGGESTED_LOWER` - The lower bound for the suggested bid. <br>`SUGGESTED` - The suggested bid value. <br>'ALTERNATIVE' - The alternative bids that is included in the bid analyses.
-    """
+type CreativePropertyToOptimize = Literal["HEADLINE"]
+"""
+| CreativePropertyToOptimize                            |  Description                                                                            |
+|------------------------------------|-----------------------------------------------------------------------------------------|
+| HEADLINE                            | Optimizes headlines by leveraging provided versions and customizing them based on factors such as audience, placement, and featured products.                                                                            |
+"""
 
-    ALTERNATIVE = "ALTERNATIVE"
-    SUGGESTED = "SUGGESTED"
-    SUGGESTED_LOWER = "SUGGESTED_LOWER"
-    SUGGESTED_UPPER = "SUGGESTED_UPPER"
 
+type CreativeStatus = Literal[
+    "SUBMITTED_FOR_MODERATION",
+    "PENDING_TRANSLATION",
+    "PENDING_MODERATION_REVIEW",
+    "APPROVED_BY_MODERATION",
+    "REJECTED_BY_MODERATION",
+    "PUBLISHED",
+]
+"""
+The lifecycle status of a creative
+"""
+
+
+type CreativeTypeInCreativeResponse = Literal["IMAGE", "VIDEO"]
+"""
+The type of the creative.
+|Name|Description|
+|----|-----------|
+|IMAGE |The creative will display static assets (e.g. headline, brandLogo or custom image).|
+|VIDEO |The creative will display video assets. This type of creative must have video assets provided.|
+"""
+
+
+type EntityState = Literal["ENABLED", "PAUSED", "ARCHIVED"]
+"""
+The current resource state.
+"""
 
-class CampaignDeliveryProfile(StrEnum):
-    as_soon_as_possible = "as_soon_as_possible"
 
+type LocationPredicate = Literal["location"]
+"""
+The location category.
+"""
 
-class ContentTargetingPredicateType(StrEnum):
-    contentCategorySameAs = "contentCategorySameAs"
+
+type MmpName = Literal[
+    "ADJUST",
+    "AIRBRIDGE",
+    "APPSFLYER",
+    "BRANCH",
+    "KOCHAVA",
+    "SINGULAR",
+    "TENJIN",
+]
+"""
+Supported Mobile Measurement Partner names
+"""
 
 
-class CreateOrUpdateEntityState(StrEnum):
-    """
-    Entity state for create or update operation.
-    """
+type MmpPlatform = Literal[
+    "ANDROID",
+    "FIRE_TABLET",
+    "FIRE_TV",
+    "IOS",
+]
+"""
+Supported mobile platforms for MMP tracking
+"""
 
-    ENABLED = "ENABLED"
-    PAUSED = "PAUSED"
 
+type NegativeTargetingClauseExpressionType = Literal["manual", "auto"]
 
-class CreativePropertyToOptimize(StrEnum):
-    """
-    | CreativePropertyToOptimize                            |  Description                                                                            |
-    |------------------------------------|-----------------------------------------------------------------------------------------|
-    | HEADLINE                            | Optimizes headlines by leveraging provided versions and customizing them based on factors such as audience, placement, and featured products.                                                                            |
-    """
-
-    HEADLINE = "HEADLINE"
-
-
-class CreativeStatus(StrEnum):
-    """
-    The lifecycle status of a creative
-    """
-
-    SUBMITTED_FOR_MODERATION = "SUBMITTED_FOR_MODERATION"
-    PENDING_TRANSLATION = "PENDING_TRANSLATION"
-    PENDING_MODERATION_REVIEW = "PENDING_MODERATION_REVIEW"
-    APPROVED_BY_MODERATION = "APPROVED_BY_MODERATION"
-    REJECTED_BY_MODERATION = "REJECTED_BY_MODERATION"
-    PUBLISHED = "PUBLISHED"
-
-
-class CreativeTypeInCreativeResponse(StrEnum):
-    """
-    The type of the creative.
-    |Name|Description|
-    |----|-----------|
-    |IMAGE |The creative will display static assets (e.g. headline, brandLogo or custom image).|
-    |VIDEO |The creative will display video assets. This type of creative must have video assets provided.|
-    """
-
-    IMAGE = "IMAGE"
-    VIDEO = "VIDEO"
-
-
-class EntityState(StrEnum):
-    """
-    The current resource state.
-    """
-
-    ENABLED = "ENABLED"
-    PAUSED = "PAUSED"
-    ARCHIVED = "ARCHIVED"
-
-
-class LocationPredicate(StrEnum):
-    """
-    The location category.
-    """
-
-    location = "location"
-
-
-class MmpName(StrEnum):
-    """
-    Supported Mobile Measurement Partner names
-    """
-
-    ADJUST = "ADJUST"
-    AIRBRIDGE = "AIRBRIDGE"
-    APPSFLYER = "APPSFLYER"
-    BRANCH = "BRANCH"
-    KOCHAVA = "KOCHAVA"
-    SINGULAR = "SINGULAR"
-    TENJIN = "TENJIN"
-
-
-class MmpPlatform(StrEnum):
-    """
-    Supported mobile platforms for MMP tracking
-    """
-
-    ANDROID = "ANDROID"
-    FIRE_TABLET = "FIRE_TABLET"
-    FIRE_TV = "FIRE_TV"
-    IOS = "IOS"
-
-
-class NegativeTargetingClauseExpressionType(StrEnum):
-    manual = "manual"
-    auto = "auto"
-
-
-class NegativeTargetingExpressionType(StrEnum):
-    """
-    The intent type. See the [targeting topic](https://advertising.amazon.com/help#GQCBASRVERXSARL3) in the Amazon Ads support center for more information.
-    """
-
-    asinSameAs = "asinSameAs"
-    asinBrandSameAs = "asinBrandSameAs"
-
-
-class QueryTermMatchType(StrEnum):
-    """
-    Defines how would the string resource field (e.g. campaign name, ad group name) be matched with the query term in filter.
-    """
-
-    BROAD_MATCH = "BROAD_MATCH"
-    EXACT_MATCH = "EXACT_MATCH"
-
-
-class RuleConditionComparisonOperator(StrEnum):
-    """
-    The comparison operator.
-    """
-
-    LESS_THAN_OR_EQUAL_TO = "LESS_THAN_OR_EQUAL_TO"
-
-
-class RuleConditionMetricName(StrEnum):
-    """
-    The name of the metric.
-    Supported rule metrics and corresponding supported comparisonOperators:
-    |      MetricName      |ComparisonOperator  |Description|
-    |------------------|--------------------|-------------------|
-    |COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS     |              LESS_THAN_OR_EQUAL_TO             |Maximize viewable impressions while cost per 1000 views less than or equal to `threshold`|
-    |COST_PER_CLICK    |              LESS_THAN_OR_EQUAL_TO            |Maximize page visits while cost per click less than or equal to `threshold`|
-    |COST_PER_ORDER    |              LESS_THAN_OR_EQUAL_TO            |Maximize viewable impressions/page visits/conversion while cost per order less than or equal to `threshold`|
-    """
-
-    COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS = "COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS"
-    COST_PER_CLICK = "COST_PER_CLICK"
-    COST_PER_ORDER = "COST_PER_ORDER"
-
-
-class SponsoredProductsBiddingErrorReason(StrEnum):
-    BID_AUDIENCES_MORE_THAN_ALLOWED = "BID_AUDIENCES_MORE_THAN_ALLOWED"
-    BID_GT_BUDGET = "BID_GT_BUDGET"
-    BID_INVALID_AUDIENCE_ID = "BID_INVALID_AUDIENCE_ID"
-    BID_INVALID_AUDIENCE_SEGMENT_TYPE = "BID_INVALID_AUDIENCE_SEGMENT_TYPE"
-    BID_INVALID_PLACEMENT = "BID_INVALID_PLACEMENT"
-    BID_INVALID_SHOPPER_COHORT_TYPE = "BID_INVALID_SHOPPER_COHORT_TYPE"
-    BID_MISSING_AUDIENCES = "BID_MISSING_AUDIENCES"
-    BID_OUT_OF_MARKET_PLACE_RANGE = "BID_OUT_OF_MARKET_PLACE_RANGE"
-    BID_SHOPPER_COHORTS_MORE_THAN_ALLOWED = "BID_SHOPPER_COHORTS_MORE_THAN_ALLOWED"
-
-
-class SponsoredProductsBillingErrorReason(StrEnum):
-    ADVERTISER_BILLING_SETUP_INCOMPLETE = "ADVERTISER_BILLING_SETUP_INCOMPLETE"
-    ADVERTISER_SUSPENDED = "ADVERTISER_SUSPENDED"
-    BILLING_ACCOUNT_NOT_FOUND = "BILLING_ACCOUNT_NOT_FOUND"
-    EXPIRED_PAYMENT_METHOD = "EXPIRED_PAYMENT_METHOD"
-    PAYMENT_PROFILE_NOT_FOUND = "PAYMENT_PROFILE_NOT_FOUND"
-    VETTING_FAILURE = "VETTING_FAILURE"
-
-
-class SponsoredProductsCreateOrUpdateEntityState(StrEnum):
-    """
-    Entity state for create or update operation
-    """
-
-    ENABLED = "ENABLED"
-    PAUSED = "PAUSED"
-    PROPOSED = "PROPOSED"
-
-
-class SponsoredProductsCreateOrUpdateNegativeMatchType(StrEnum):
-    NEGATIVE_BROAD = "NEGATIVE_BROAD"
-    NEGATIVE_EXACT = "NEGATIVE_EXACT"
-    NEGATIVE_PHRASE = "NEGATIVE_PHRASE"
-
-
-class SponsoredProductsCreateOrUpdateNegativeTargetingExpressionPredicateType(StrEnum):
-    """
-    The type of nagative targeting expression. You can only specify values for the following predicates:
-    """
-
-    ASIN_BRAND_SAME_AS = "ASIN_BRAND_SAME_AS"  # Target the brand that is the same as the brand expressed.
-    ASIN_SAME_AS = "ASIN_SAME_AS"  # Target an ASIN that is the same as the ASIN expressed.
-
-
-class SponsoredProductsDuplicateValueErrorReason(StrEnum):
-    DUPLICATE_VALUE = "DUPLICATE_VALUE"
-    MARKETPLACE_ATTRIBUTES_REPEATED = "MARKETPLACE_ATTRIBUTES_REPEATED"
-    NAME_NOT_UNIQUE = "NAME_NOT_UNIQUE"
-
-
-class SponsoredProductsEntityNotFoundErrorReason(StrEnum):
-    ENTITY_NOT_FOUND = "ENTITY_NOT_FOUND"
-
-
-class SponsoredProductsEntityState(StrEnum):
-    """
-    The current resource state.
-    """
-
-    ARCHIVED = "ARCHIVED"  # ARCHIVED State
-    ENABLED = "ENABLED"  # Enabled State
-    ENABLING = "ENABLING"  # State for Draft Entity Only
-    OTHER = "OTHER"  # Read Only
-    PAUSED = "PAUSED"  # Paused State
-    PROPOSED = "PROPOSED"  # Proposed State (Upcoming Feature)
-    USER_DELETED = "USER_DELETED"  # State for Draft Entity Only
-
-
-class SponsoredProductsEntityStateErrorReason(StrEnum):
-    ARCHIVED_ENTITY_CANNOT_BE_MODIFIED = "ARCHIVED_ENTITY_CANNOT_BE_MODIFIED"
-    AUTO_TARGETING_CLAUSE_CANNOT_BE_ARCHIVED_MANUALLY = "AUTO_TARGETING_CLAUSE_CANNOT_BE_ARCHIVED_MANUALLY"
-    INVALID_STATE_TRANSITION = "INVALID_STATE_TRANSITION"
-    INVALID_TARGET_STATE = "INVALID_TARGET_STATE"
-    MARKETPLACE_STATE_CANNOT_BE_ARCHIVED = "MARKETPLACE_STATE_CANNOT_BE_ARCHIVED"
-    PARENT_ARCHIVED_FORBIDS_UPDATES = "PARENT_ARCHIVED_FORBIDS_UPDATES"
-    PARENT_ENTITY_FORBIDS_CREATION = "PARENT_ENTITY_FORBIDS_CREATION"
-    PARENT_STATUS_FORBIDS_UPDATES_AND_CREATES = "PARENT_STATUS_FORBIDS_UPDATES_AND_CREATES"
-
-
-class SponsoredProductsEntityType(StrEnum):
-    AD_GROUP = "AD_GROUP"
-    CAMPAIGN = "CAMPAIGN"
-    CAMPAIGN_NEGATIVE_KEYWORD = "CAMPAIGN_NEGATIVE_KEYWORD"
-    CAMPAIGN_NEGATIVE_TARGETING_CLAUSE = "CAMPAIGN_NEGATIVE_TARGETING_CLAUSE"
-    KEYWORD = "KEYWORD"
-    NEGATIVE_KEYWORD = "NEGATIVE_KEYWORD"
-    NEGATIVE_TARGETING_CLAUSE = "NEGATIVE_TARGETING_CLAUSE"
-    PRODUCT_AD = "PRODUCT_AD"
-    TARGETING_CLAUSE = "TARGETING_CLAUSE"
-
-
-class SponsoredProductsExpressionTypeErrorReason(StrEnum):
-    UNSUPPORTED_EXPRESSION_TYPE = "UNSUPPORTED_EXPRESSION_TYPE"
-
-
-class SponsoredProductsInternalServerErrorReason(StrEnum):
-    INTERNAL_ERROR = "INTERNAL_ERROR"
-
-
-class SponsoredProductsKeywordServingStatus(StrEnum):
-    ACCOUNT_OUT_OF_BUDGET = "ACCOUNT_OUT_OF_BUDGET"
-    ADVERTISER_ARCHIVED = "ADVERTISER_ARCHIVED"
-    ADVERTISER_EXCEED_SPENDS_LIMIT = "ADVERTISER_EXCEED_SPENDS_LIMIT"
-    ADVERTISER_OUT_OF_BUDGET = "ADVERTISER_OUT_OF_BUDGET"
-    ADVERTISER_PAUSED = "ADVERTISER_PAUSED"
-    ADVERTISER_PAYMENT_FAILURE = "ADVERTISER_PAYMENT_FAILURE"
-    ADVERTISER_POLICING_PENDING_REVIEW = "ADVERTISER_POLICING_PENDING_REVIEW"
-    ADVERTISER_POLICING_SUSPENDED = "ADVERTISER_POLICING_SUSPENDED"
-    AD_GROUP_ARCHIVED = "AD_GROUP_ARCHIVED"
-    AD_GROUP_INCOMPLETE = "AD_GROUP_INCOMPLETE"
-    AD_GROUP_LOW_BID = "AD_GROUP_LOW_BID"
-    AD_GROUP_PAUSED = "AD_GROUP_PAUSED"
-    AD_GROUP_POLICING_CREATIVE_REJECTED = "AD_GROUP_POLICING_CREATIVE_REJECTED"
-    AD_GROUP_POLICING_PENDING_REVIEW = "AD_GROUP_POLICING_PENDING_REVIEW"
-    AD_GROUP_STATUS_ENABLED = "AD_GROUP_STATUS_ENABLED"
-    CAMPAIGN_ARCHIVED = "CAMPAIGN_ARCHIVED"
-    CAMPAIGN_INCOMPLETE = "CAMPAIGN_INCOMPLETE"
-    CAMPAIGN_OUT_OF_BUDGET = "CAMPAIGN_OUT_OF_BUDGET"
-    CAMPAIGN_PAUSED = "CAMPAIGN_PAUSED"
-    CAMPAIGN_STATUS_ENABLED = "CAMPAIGN_STATUS_ENABLED"
-    ENDED = "ENDED"
-    OTHER = "OTHER"
-    PENDING_REVIEW = "PENDING_REVIEW"
-    PENDING_START_DATE = "PENDING_START_DATE"
-    PORTFOLIO_ARCHIVED = "PORTFOLIO_ARCHIVED"
-    PORTFOLIO_ENDED = "PORTFOLIO_ENDED"
-    PORTFOLIO_OUT_OF_BUDGET = "PORTFOLIO_OUT_OF_BUDGET"
-    PORTFOLIO_PAUSED = "PORTFOLIO_PAUSED"
-    PORTFOLIO_PENDING_START_DATE = "PORTFOLIO_PENDING_START_DATE"
-    PORTFOLIO_STATUS_ENABLED = "PORTFOLIO_STATUS_ENABLED"
-    REJECTED = "REJECTED"
-    TARGETING_CLAUSE_ARCHIVED = "TARGETING_CLAUSE_ARCHIVED"
-    TARGETING_CLAUSE_BLOCKED = "TARGETING_CLAUSE_BLOCKED"
-    TARGETING_CLAUSE_PAUSED = "TARGETING_CLAUSE_PAUSED"
-    TARGETING_CLAUSE_POLICING_SUSPENDED = "TARGETING_CLAUSE_POLICING_SUSPENDED"
-    TARGETING_CLAUSE_STATUS_LIVE = "TARGETING_CLAUSE_STATUS_LIVE"
-
-
-class SponsoredProductsKeywordServingStatusReason(StrEnum):
-    ACCOUNT_OUT_OF_BUDGET_DETAIL = "ACCOUNT_OUT_OF_BUDGET_DETAIL"
-    ADVERTISER_ARCHIVED_DETAIL = "ADVERTISER_ARCHIVED_DETAIL"
-    ADVERTISER_EXCEED_SPENDS_LIMIT_DETAIL = "ADVERTISER_EXCEED_SPENDS_LIMIT_DETAIL"
-    ADVERTISER_OUT_OF_BUDGET_DETAIL = "ADVERTISER_OUT_OF_BUDGET_DETAIL"
-    ADVERTISER_PAUSED_DETAIL = "ADVERTISER_PAUSED_DETAIL"
-    ADVERTISER_PAYMENT_FAILURE_DETAIL = "ADVERTISER_PAYMENT_FAILURE_DETAIL"
-    ADVERTISER_POLICING_PENDING_REVIEW_DETAIL = "ADVERTISER_POLICING_PENDING_REVIEW_DETAIL"
-    ADVERTISER_POLICING_SUSPENDED_DETAIL = "ADVERTISER_POLICING_SUSPENDED_DETAIL"
-    AD_GROUP_ARCHIVED_DETAIL = "AD_GROUP_ARCHIVED_DETAIL"
-    AD_GROUP_INCOMPLETE_DETAIL = "AD_GROUP_INCOMPLETE_DETAIL"
-    AD_GROUP_LOW_BID_DETAIL = "AD_GROUP_LOW_BID_DETAIL"
-    AD_GROUP_PAUSED_DETAIL = "AD_GROUP_PAUSED_DETAIL"
-    AD_GROUP_POLICING_CREATIVE_REJECTED_DETAIL = "AD_GROUP_POLICING_CREATIVE_REJECTED_DETAIL"
-    AD_GROUP_POLICING_PENDING_REVIEW_DETAIL = "AD_GROUP_POLICING_PENDING_REVIEW_DETAIL"
-    AD_GROUP_STATUS_ENABLED_DETAIL = "AD_GROUP_STATUS_ENABLED_DETAIL"
-    CAMPAIGN_ARCHIVED_DETAIL = "CAMPAIGN_ARCHIVED_DETAIL"
-    CAMPAIGN_INCOMPLETE_DETAIL = "CAMPAIGN_INCOMPLETE_DETAIL"
-    CAMPAIGN_OUT_OF_BUDGET_DETAIL = "CAMPAIGN_OUT_OF_BUDGET_DETAIL"
-    CAMPAIGN_PAUSED_DETAIL = "CAMPAIGN_PAUSED_DETAIL"
-    CAMPAIGN_STATUS_ENABLED_DETAIL = "CAMPAIGN_STATUS_ENABLED_DETAIL"
-    ENDED_DETAIL = "ENDED_DETAIL"
-    OTHER = "OTHER"
-    PENDING_REVIEW_DETAIL = "PENDING_REVIEW_DETAIL"
-    PENDING_START_DATE_DETAIL = "PENDING_START_DATE_DETAIL"
-    PORTFOLIO_ARCHIVED_DETAIL = "PORTFOLIO_ARCHIVED_DETAIL"
-    PORTFOLIO_ENDED_DETAIL = "PORTFOLIO_ENDED_DETAIL"
-    PORTFOLIO_OUT_OF_BUDGET_DETAIL = "PORTFOLIO_OUT_OF_BUDGET_DETAIL"
-    PORTFOLIO_PAUSED_DETAIL = "PORTFOLIO_PAUSED_DETAIL"
-    PORTFOLIO_PENDING_START_DATE_DETAIL = "PORTFOLIO_PENDING_START_DATE_DETAIL"
-    PORTFOLIO_STATUS_ENABLED_DETAIL = "PORTFOLIO_STATUS_ENABLED_DETAIL"
-    REJECTED_DETAIL = "REJECTED_DETAIL"
-    TARGETING_CLAUSE_ARCHIVED_DETAIL = "TARGETING_CLAUSE_ARCHIVED_DETAIL"
-    TARGETING_CLAUSE_BLOCKED_DETAIL = "TARGETING_CLAUSE_BLOCKED_DETAIL"
-    TARGETING_CLAUSE_PAUSED_DETAIL = "TARGETING_CLAUSE_PAUSED_DETAIL"
-    TARGETING_CLAUSE_POLICING_SUSPENDED_DETAIL = "TARGETING_CLAUSE_POLICING_SUSPENDED_DETAIL"
-    TARGETING_CLAUSE_STATUS_LIVE_DETAIL = "TARGETING_CLAUSE_STATUS_LIVE_DETAIL"
-
-
-class SponsoredProductsLocaleErrorReason(StrEnum):
-    INVALID_LOCALE = "INVALID_LOCALE"
-
-
-class SponsoredProductsMalformedValueErrorReason(StrEnum):
-    BLANK = "BLANK"
-    FORBIDDEN_CHARS = "FORBIDDEN_CHARS"
-    LEADING_OR_TRAILING_WHITESPACE = "LEADING_OR_TRAILING_WHITESPACE"
-    PATTERN_NOT_MATCHED = "PATTERN_NOT_MATCHED"
-    TOO_LONG = "TOO_LONG"
-    TOO_SHORT = "TOO_SHORT"
-
-
-class SponsoredProductsMarketplace(StrEnum):
-    AE = "AE"
-    AU = "AU"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    EG = "EG"
-    ES = "ES"
-    FR = "FR"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    NL = "NL"
-    PL = "PL"
-    SA = "SA"
-    SE = "SE"
-    SG = "SG"
-    TR = "TR"
-    UK = "UK"
-    US = "US"
-
-
-class SponsoredProductsMissingValueErrorReason(StrEnum):
-    MISSING_VALUE = "MISSING_VALUE"
-
-
-class SponsoredProductsNegativeMatchType(StrEnum):
-    NEGATIVE_BROAD = "NEGATIVE_BROAD"
-    NEGATIVE_EXACT = "NEGATIVE_EXACT"
-    NEGATIVE_PHRASE = "NEGATIVE_PHRASE"
-    OTHER = "OTHER"
-
-
-class SponsoredProductsNegativeTargetingExpressionPredicateType(StrEnum):
-    """
-    The type of nagative targeting expression. You can only specify values for the following predicates:
-    """
-
-    ASIN_BRAND_SAME_AS = "ASIN_BRAND_SAME_AS"  # Target the brand that is the same as the brand expressed.
-    ASIN_SAME_AS = "ASIN_SAME_AS"  # Target an ASIN that is the same as the ASIN expressed.
-    OTHER = "OTHER"  # Other Type.
-
-
-class SponsoredProductsOtherErrorReason(StrEnum):
-    OTHER_ERROR = "OTHER_ERROR"
-
-
-class SponsoredProductsParentEntityErrorReason(StrEnum):
-    PARENT_ENTITY_ARCHIVED = "PARENT_ENTITY_ARCHIVED"
-    PARENT_ENTITY_DOES_NOT_TARGET_THESE_MARKETPLACES = "PARENT_ENTITY_DOES_NOT_TARGET_THESE_MARKETPLACES"
-    PARENT_ENTITY_NOT_FOUND = "PARENT_ENTITY_NOT_FOUND"
-
-
-class SponsoredProductsQueryTermMatchType(StrEnum):
-    """
-    Match type for query filters.
-    """
-
-    BROAD_MATCH = "BROAD_MATCH"  # Match if the queried value contains the filter value (substring matching). Note: If queryTermMatchType is set to BROAD_MATCH, only matches for the first query included will be returned.
-    EXACT_MATCH = "EXACT_MATCH"  # Match if the queried value is exactly equivalent to the filter value.
-
-
-class SponsoredProductsQuotaErrorReason(StrEnum):
-    NON_ARCHIVED_QUOTA_EXCEEDED = "NON_ARCHIVED_QUOTA_EXCEEDED"
-    QUOTA_EXCEEDED = "QUOTA_EXCEEDED"
-
-
-class SponsoredProductsQuotaScope(StrEnum):
-    ACCOUNT = "ACCOUNT"
-    PARENT_ENTITY = "PARENT_ENTITY"
-
-
-class SponsoredProductsTargetingClauseSetupErrorReason(StrEnum):
-    AUTO_TARGETING_CLAUSE_CANNOT_BE_CREATED_MANUALLY = "AUTO_TARGETING_CLAUSE_CANNOT_BE_CREATED_MANUALLY"
-    TARGETING_EXPRESSION_INVALID_VALUE = "TARGETING_EXPRESSION_INVALID_VALUE"
-    TARGETING_TYPE_NOT_ALLOWED_FOR_AUTO_TARGETING_CAMPAIGN = "TARGETING_TYPE_NOT_ALLOWED_FOR_AUTO_TARGETING_CAMPAIGN"
-    TYPE_CONFLICT_IN_AD_GROUP = "TYPE_CONFLICT_IN_AD_GROUP"
-
-
-class SponsoredProductsTargetingType(StrEnum):
-    AUTO = "AUTO"
-    MANUAL = "MANUAL"
-
-
-class SponsoredProductsThrottledErrorReason(StrEnum):
-    THROTTLED = "THROTTLED"
-
-
-class SponsoredProductsValueLimitErrorReason(StrEnum):
-    INVALID_ENUM_VALUE = "INVALID_ENUM_VALUE"
-    NOT_IN_LIST = "NOT_IN_LIST"
-    TOO_HIGH = "TOO_HIGH"
-    TOO_LOW = "TOO_LOW"
-
-
-class Tactic(StrEnum):
-    """
-    The advertising tactic associated with the campaign. The following table lists available tactic names:
-    |Tactic Name|Type|Description|
-    |-----------|-----|-----------|
-    |T00020     |Contextual targeting | Choose individual products to show your ads in placements related to those products.<br> Choose individual categories to show your ads in placements related to those categories on and off Amazon.|
-    |T00030     |Audiences or Contextual Targeting | Select individual products, categories, refined categories, or audiences to show your ads.|
-    """
-
-    T00020 = "T00020"
-    T00030 = "T00030"
-
-
-class TargetingExpressionType(StrEnum):
-    CLOSE_MATCH = "CLOSE_MATCH"
-    COMPLEMENTS = "COMPLEMENTS"
-    KEYWORD_BROAD_MATCH = "KEYWORD_BROAD_MATCH"
-    KEYWORD_EXACT_MATCH = "KEYWORD_EXACT_MATCH"
-    KEYWORD_PHRASE_MATCH = "KEYWORD_PHRASE_MATCH"
-    LOOSE_MATCH = "LOOSE_MATCH"
-    SUBSTITUTES = "SUBSTITUTES"
-
-
-class TargetingPredicateBaseType(StrEnum):
-    asinCategorySameAs = "asinCategorySameAs"
-    asinBrandSameAs = "asinBrandSameAs"
-    asinPriceBetween = "asinPriceBetween"
-    asinPriceGreaterThan = "asinPriceGreaterThan"
-    asinPriceLessThan = "asinPriceLessThan"
-    asinReviewRatingLessThan = "asinReviewRatingLessThan"
-    asinReviewRatingGreaterThan = "asinReviewRatingGreaterThan"
-    asinReviewRatingBetween = "asinReviewRatingBetween"
-    similarProduct = "similarProduct"
-    exactProduct = "exactProduct"
-    asinIsPrimeShippingEligible = "asinIsPrimeShippingEligible"
-    asinAgeRangeSameAs = "asinAgeRangeSameAs"
-    asinGenreSameAs = "asinGenreSameAs"
-    audienceSameAs = "audienceSameAs"
-    lookback = "lookback"
-    negative = "negative"
-    relatedProduct = "relatedProduct"
-
-
-class TargetingPredicateLegacyEventType(StrEnum):
-    """
-    The type of event that the value applies to. Only available for similarProduct and exactProduct currently.
-    * views event type corresponds to a customer who viewed the detail page of the product(s).
-    """
-
-    views = "views"
-
-
-class TargetingPredicateLegacyType(StrEnum):
-    asinSameAs = "asinSameAs"
-    asinCategorySameAs = "asinCategorySameAs"
-    asinBrandSameAs = "asinBrandSameAs"
-    asinPriceBetween = "asinPriceBetween"
-    asinPriceGreaterThan = "asinPriceGreaterThan"
-    asinPriceLessThan = "asinPriceLessThan"
-    asinReviewRatingLessThan = "asinReviewRatingLessThan"
-    asinReviewRatingGreaterThan = "asinReviewRatingGreaterThan"
-    asinReviewRatingBetween = "asinReviewRatingBetween"
-    similarProduct = "similarProduct"
-    exactProduct = "exactProduct"
-    asinIsPrimeShippingEligible = "asinIsPrimeShippingEligible"
-    asinAgeRangeSameAs = "asinAgeRangeSameAs"
-    asinGenreSameAs = "asinGenreSameAs"
-
-
-class TargetingPredicateNestedType(StrEnum):
-    views = "views"
-    audience = "audience"
-    purchases = "purchases"
-
-
-class TargetingPredicateType(StrEnum):
-    asinSameAs = "asinSameAs"
-    asinCategorySameAs = "asinCategorySameAs"
-    asinBrandSameAs = "asinBrandSameAs"
-    asinPriceBetween = "asinPriceBetween"
-    asinPriceGreaterThan = "asinPriceGreaterThan"
-    asinPriceLessThan = "asinPriceLessThan"
-    asinReviewRatingLessThan = "asinReviewRatingLessThan"
-    asinReviewRatingGreaterThan = "asinReviewRatingGreaterThan"
-    asinReviewRatingBetween = "asinReviewRatingBetween"
-    asinIsPrimeShippingEligible = "asinIsPrimeShippingEligible"
-    asinAgeRangeSameAs = "asinAgeRangeSameAs"
-    asinGenreSameAs = "asinGenreSameAs"
-    similarProduct = "similarProduct"
-
-
-class Theme(StrEnum):
-    """
-    The bid recommendation theme. This API currently supports `CONVERSION_OPPORTUNITIES`, `PRIME_DAY`, `FALL_PRIME_DEAL_EVENT`, and `BFCM_HOLIDAY` themes.
-    """
-
-    BFCM_HOLIDAY = "BFCM_HOLIDAY"
-    CONVERSION_OPPORTUNITIES = "CONVERSION_OPPORTUNITIES"
-    FALL_PRIME_DEAL_EVENT = "FALL_PRIME_DEAL_EVENT"
-    PRIME_DAY = "PRIME_DAY"
+
+type NegativeTargetingExpressionType = Literal["asinSameAs", "asinBrandSameAs"]
+"""
+The intent type. See the [targeting topic](https://advertising.amazon.com/help#GQCBASRVERXSARL3) in the Amazon Ads support center for more information.
+"""
+
+
+type QueryTermMatchType = Literal["BROAD_MATCH", "EXACT_MATCH"]
+"""
+Defines how would the string resource field (e.g. campaign name, ad group name) be matched with the query term in filter.
+"""
+
+
+type RuleConditionComparisonOperator = Literal["LESS_THAN_OR_EQUAL_TO"]
+"""
+The comparison operator.
+"""
+
+
+type RuleConditionMetricName = Literal["COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS", "COST_PER_CLICK", "COST_PER_ORDER"]
+"""
+The name of the metric.
+Supported rule metrics and corresponding supported comparisonOperators:
+|      MetricName      |ComparisonOperator  |Description|
+|------------------|--------------------|-------------------|
+|COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS     |              LESS_THAN_OR_EQUAL_TO             |Maximize viewable impressions while cost per 1000 views less than or equal to `threshold`|
+|COST_PER_CLICK    |              LESS_THAN_OR_EQUAL_TO            |Maximize page visits while cost per click less than or equal to `threshold`|
+|COST_PER_ORDER    |              LESS_THAN_OR_EQUAL_TO            |Maximize viewable impressions/page visits/conversion while cost per order less than or equal to `threshold`|
+"""
+
+
+type SponsoredProductsBiddingErrorReason = Literal[
+    "BID_AUDIENCES_MORE_THAN_ALLOWED",
+    "BID_GT_BUDGET",
+    "BID_INVALID_AUDIENCE_ID",
+    "BID_INVALID_AUDIENCE_SEGMENT_TYPE",
+    "BID_INVALID_PLACEMENT",
+    "BID_INVALID_SHOPPER_COHORT_TYPE",
+    "BID_MISSING_AUDIENCES",
+    "BID_OUT_OF_MARKET_PLACE_RANGE",
+    "BID_SHOPPER_COHORTS_MORE_THAN_ALLOWED",
+]
+
+
+type SponsoredProductsBillingErrorReason = Literal[
+    "ADVERTISER_BILLING_SETUP_INCOMPLETE",
+    "ADVERTISER_SUSPENDED",
+    "BILLING_ACCOUNT_NOT_FOUND",
+    "EXPIRED_PAYMENT_METHOD",
+    "PAYMENT_PROFILE_NOT_FOUND",
+    "VETTING_FAILURE",
+]
+
+
+type SponsoredProductsCreateOrUpdateEntityState = Literal["ENABLED", "PAUSED", "PROPOSED"]
+"""
+Entity state for create or update operation
+"""
+
+
+type SponsoredProductsCreateOrUpdateNegativeMatchType = Literal["NEGATIVE_BROAD", "NEGATIVE_EXACT", "NEGATIVE_PHRASE"]
+
+
+type SponsoredProductsCreateOrUpdateNegativeTargetingExpressionPredicateType = Literal[
+    "ASIN_BRAND_SAME_AS",  # Target the brand that is the same as the brand expressed.
+    "ASIN_SAME_AS",  # Target an ASIN that is the same as the ASIN expressed.
+]
+"""
+The type of nagative targeting expression. You can only specify values for the following predicates:
+
+Supported values:
+- `ASIN_BRAND_SAME_AS`: Target the brand that is the same as the brand expressed.
+- `ASIN_SAME_AS`: Target an ASIN that is the same as the ASIN expressed.
+"""
+
+
+type SponsoredProductsDuplicateValueErrorReason = Literal[
+    "DUPLICATE_VALUE", "MARKETPLACE_ATTRIBUTES_REPEATED", "NAME_NOT_UNIQUE"
+]
+
+
+type SponsoredProductsEntityNotFoundErrorReason = Literal["ENTITY_NOT_FOUND"]
+
+
+type SponsoredProductsEntityState = Literal[
+    "ARCHIVED",  # ARCHIVED State
+    "ENABLED",  # Enabled State
+    "ENABLING",  # State for Draft Entity Only
+    "OTHER",  # Read Only
+    "PAUSED",  # Paused State
+    "PROPOSED",  # Proposed State (Upcoming Feature)
+    "USER_DELETED",  # State for Draft Entity Only
+]
+"""
+The current resource state.
+
+Supported values:
+- `ENABLED`: Enabled State
+- `PAUSED`: Paused State
+- `PROPOSED`: Proposed State (Upcoming Feature)
+- `ARCHIVED`: ARCHIVED State
+- `ENABLING`: State for Draft Entity Only
+- `USER_DELETED`: State for Draft Entity Only
+- `OTHER`: Read Only
+"""
+
+
+type SponsoredProductsEntityStateErrorReason = Literal[
+    "ARCHIVED_ENTITY_CANNOT_BE_MODIFIED",
+    "AUTO_TARGETING_CLAUSE_CANNOT_BE_ARCHIVED_MANUALLY",
+    "INVALID_STATE_TRANSITION",
+    "INVALID_TARGET_STATE",
+    "MARKETPLACE_STATE_CANNOT_BE_ARCHIVED",
+    "PARENT_ARCHIVED_FORBIDS_UPDATES",
+    "PARENT_ENTITY_FORBIDS_CREATION",
+    "PARENT_STATUS_FORBIDS_UPDATES_AND_CREATES",
+]
+
+
+type SponsoredProductsEntityType = Literal[
+    "AD_GROUP",
+    "CAMPAIGN",
+    "CAMPAIGN_NEGATIVE_KEYWORD",
+    "CAMPAIGN_NEGATIVE_TARGETING_CLAUSE",
+    "KEYWORD",
+    "NEGATIVE_KEYWORD",
+    "NEGATIVE_TARGETING_CLAUSE",
+    "PRODUCT_AD",
+    "TARGETING_CLAUSE",
+]
+
+
+type SponsoredProductsExpressionTypeErrorReason = Literal["UNSUPPORTED_EXPRESSION_TYPE"]
+
+
+type SponsoredProductsInternalServerErrorReason = Literal["INTERNAL_ERROR"]
+
+
+type SponsoredProductsKeywordServingStatus = Literal[
+    "ACCOUNT_OUT_OF_BUDGET",
+    "ADVERTISER_ARCHIVED",
+    "ADVERTISER_EXCEED_SPENDS_LIMIT",
+    "ADVERTISER_OUT_OF_BUDGET",
+    "ADVERTISER_PAUSED",
+    "ADVERTISER_PAYMENT_FAILURE",
+    "ADVERTISER_POLICING_PENDING_REVIEW",
+    "ADVERTISER_POLICING_SUSPENDED",
+    "AD_GROUP_ARCHIVED",
+    "AD_GROUP_INCOMPLETE",
+    "AD_GROUP_LOW_BID",
+    "AD_GROUP_PAUSED",
+    "AD_GROUP_POLICING_CREATIVE_REJECTED",
+    "AD_GROUP_POLICING_PENDING_REVIEW",
+    "AD_GROUP_STATUS_ENABLED",
+    "CAMPAIGN_ARCHIVED",
+    "CAMPAIGN_INCOMPLETE",
+    "CAMPAIGN_OUT_OF_BUDGET",
+    "CAMPAIGN_PAUSED",
+    "CAMPAIGN_STATUS_ENABLED",
+    "ENDED",
+    "OTHER",
+    "PENDING_REVIEW",
+    "PENDING_START_DATE",
+    "PORTFOLIO_ARCHIVED",
+    "PORTFOLIO_ENDED",
+    "PORTFOLIO_OUT_OF_BUDGET",
+    "PORTFOLIO_PAUSED",
+    "PORTFOLIO_PENDING_START_DATE",
+    "PORTFOLIO_STATUS_ENABLED",
+    "REJECTED",
+    "TARGETING_CLAUSE_ARCHIVED",
+    "TARGETING_CLAUSE_BLOCKED",
+    "TARGETING_CLAUSE_PAUSED",
+    "TARGETING_CLAUSE_POLICING_SUSPENDED",
+    "TARGETING_CLAUSE_STATUS_LIVE",
+]
+
+
+type SponsoredProductsKeywordServingStatusReason = Literal[
+    "ACCOUNT_OUT_OF_BUDGET_DETAIL",
+    "ADVERTISER_ARCHIVED_DETAIL",
+    "ADVERTISER_EXCEED_SPENDS_LIMIT_DETAIL",
+    "ADVERTISER_OUT_OF_BUDGET_DETAIL",
+    "ADVERTISER_PAUSED_DETAIL",
+    "ADVERTISER_PAYMENT_FAILURE_DETAIL",
+    "ADVERTISER_POLICING_PENDING_REVIEW_DETAIL",
+    "ADVERTISER_POLICING_SUSPENDED_DETAIL",
+    "AD_GROUP_ARCHIVED_DETAIL",
+    "AD_GROUP_INCOMPLETE_DETAIL",
+    "AD_GROUP_LOW_BID_DETAIL",
+    "AD_GROUP_PAUSED_DETAIL",
+    "AD_GROUP_POLICING_CREATIVE_REJECTED_DETAIL",
+    "AD_GROUP_POLICING_PENDING_REVIEW_DETAIL",
+    "AD_GROUP_STATUS_ENABLED_DETAIL",
+    "CAMPAIGN_ARCHIVED_DETAIL",
+    "CAMPAIGN_INCOMPLETE_DETAIL",
+    "CAMPAIGN_OUT_OF_BUDGET_DETAIL",
+    "CAMPAIGN_PAUSED_DETAIL",
+    "CAMPAIGN_STATUS_ENABLED_DETAIL",
+    "ENDED_DETAIL",
+    "OTHER",
+    "PENDING_REVIEW_DETAIL",
+    "PENDING_START_DATE_DETAIL",
+    "PORTFOLIO_ARCHIVED_DETAIL",
+    "PORTFOLIO_ENDED_DETAIL",
+    "PORTFOLIO_OUT_OF_BUDGET_DETAIL",
+    "PORTFOLIO_PAUSED_DETAIL",
+    "PORTFOLIO_PENDING_START_DATE_DETAIL",
+    "PORTFOLIO_STATUS_ENABLED_DETAIL",
+    "REJECTED_DETAIL",
+    "TARGETING_CLAUSE_ARCHIVED_DETAIL",
+    "TARGETING_CLAUSE_BLOCKED_DETAIL",
+    "TARGETING_CLAUSE_PAUSED_DETAIL",
+    "TARGETING_CLAUSE_POLICING_SUSPENDED_DETAIL",
+    "TARGETING_CLAUSE_STATUS_LIVE_DETAIL",
+]
+
+
+type SponsoredProductsLocaleErrorReason = Literal["INVALID_LOCALE"]
+
+
+type SponsoredProductsMalformedValueErrorReason = Literal[
+    "BLANK",
+    "FORBIDDEN_CHARS",
+    "LEADING_OR_TRAILING_WHITESPACE",
+    "PATTERN_NOT_MATCHED",
+    "TOO_LONG",
+    "TOO_SHORT",
+]
+
+
+type SponsoredProductsMarketplace = Literal[
+    "AE",
+    "AU",
+    "BR",
+    "CA",
+    "DE",
+    "EG",
+    "ES",
+    "FR",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "PL",
+    "SA",
+    "SE",
+    "SG",
+    "TR",
+    "UK",
+    "US",
+]
+
+
+type SponsoredProductsMissingValueErrorReason = Literal["MISSING_VALUE"]
+
+
+type SponsoredProductsNegativeMatchType = Literal[
+    "NEGATIVE_BROAD",
+    "NEGATIVE_EXACT",
+    "NEGATIVE_PHRASE",
+    "OTHER",
+]
+
+
+type SponsoredProductsNegativeTargetingExpressionPredicateType = Literal[
+    "ASIN_BRAND_SAME_AS",  # Target the brand that is the same as the brand expressed.
+    "ASIN_SAME_AS",  # Target an ASIN that is the same as the ASIN expressed.
+    "OTHER",  # Other Type.
+]
+"""
+The type of nagative targeting expression. You can only specify values for the following predicates:
+
+Supported values:
+- `ASIN_BRAND_SAME_AS`: Target the brand that is the same as the brand expressed.
+- `ASIN_SAME_AS`: Target an ASIN that is the same as the ASIN expressed.
+- `OTHER`: Other Type.
+"""
+
+
+type SponsoredProductsOtherErrorReason = Literal["OTHER_ERROR"]
+
+
+type SponsoredProductsParentEntityErrorReason = Literal[
+    "PARENT_ENTITY_ARCHIVED", "PARENT_ENTITY_DOES_NOT_TARGET_THESE_MARKETPLACES", "PARENT_ENTITY_NOT_FOUND"
+]
+
+
+type SponsoredProductsQueryTermMatchType = Literal[
+    "BROAD_MATCH",  # Match if the queried value contains the filter value (substring matching). Note: If queryTermMatchType is set to BROAD_MATCH, only matches for the first query included will be returned.
+    "EXACT_MATCH",  # Match if the queried value is exactly equivalent to the filter value.
+]
+"""
+Match type for query filters.
+
+Supported values:
+- `BROAD_MATCH`: Match if the queried value contains the filter value (substring matching). Note: If queryTermMatchType is set to BROAD_MATCH, only matches for the first query included will be returned.
+- `EXACT_MATCH`: Match if the queried value is exactly equivalent to the filter value.
+"""
+
+
+type SponsoredProductsQuotaErrorReason = Literal["NON_ARCHIVED_QUOTA_EXCEEDED", "QUOTA_EXCEEDED"]
+
+
+type SponsoredProductsQuotaScope = Literal["ACCOUNT", "PARENT_ENTITY"]
+
+
+type SponsoredProductsTargetingClauseSetupErrorReason = Literal[
+    "AUTO_TARGETING_CLAUSE_CANNOT_BE_CREATED_MANUALLY",
+    "TARGETING_EXPRESSION_INVALID_VALUE",
+    "TARGETING_TYPE_NOT_ALLOWED_FOR_AUTO_TARGETING_CAMPAIGN",
+    "TYPE_CONFLICT_IN_AD_GROUP",
+]
+
+
+type SponsoredProductsTargetingType = Literal["AUTO", "MANUAL"]
+
+
+type SponsoredProductsThrottledErrorReason = Literal["THROTTLED"]
+
+
+type SponsoredProductsValueLimitErrorReason = Literal[
+    "INVALID_ENUM_VALUE",
+    "NOT_IN_LIST",
+    "TOO_HIGH",
+    "TOO_LOW",
+]
+
+
+type Tactic = Literal["T00020", "T00030"]
+"""
+The advertising tactic associated with the campaign. The following table lists available tactic names:
+|Tactic Name|Type|Description|
+|-----------|-----|-----------|
+|T00020     |Contextual targeting | Choose individual products to show your ads in placements related to those products.<br> Choose individual categories to show your ads in placements related to those categories on and off Amazon.|
+|T00030     |Audiences or Contextual Targeting | Select individual products, categories, refined categories, or audiences to show your ads.|
+"""
+
+
+type TargetingExpressionType = Literal[
+    "CLOSE_MATCH",
+    "COMPLEMENTS",
+    "KEYWORD_BROAD_MATCH",
+    "KEYWORD_EXACT_MATCH",
+    "KEYWORD_PHRASE_MATCH",
+    "LOOSE_MATCH",
+    "SUBSTITUTES",
+]
+
+
+type TargetingPredicateBaseType = Literal[
+    "asinCategorySameAs",
+    "asinBrandSameAs",
+    "asinPriceBetween",
+    "asinPriceGreaterThan",
+    "asinPriceLessThan",
+    "asinReviewRatingLessThan",
+    "asinReviewRatingGreaterThan",
+    "asinReviewRatingBetween",
+    "similarProduct",
+    "exactProduct",
+    "asinIsPrimeShippingEligible",
+    "asinAgeRangeSameAs",
+    "asinGenreSameAs",
+    "audienceSameAs",
+    "lookback",
+    "negative",
+    "relatedProduct",
+]
+
+
+type TargetingPredicateLegacyEventType = Literal["views"]
+"""
+The type of event that the value applies to. Only available for similarProduct and exactProduct currently.
+* views event type corresponds to a customer who viewed the detail page of the product(s).
+"""
+
+
+type TargetingPredicateLegacyType = Literal[
+    "asinSameAs",
+    "asinCategorySameAs",
+    "asinBrandSameAs",
+    "asinPriceBetween",
+    "asinPriceGreaterThan",
+    "asinPriceLessThan",
+    "asinReviewRatingLessThan",
+    "asinReviewRatingGreaterThan",
+    "asinReviewRatingBetween",
+    "similarProduct",
+    "exactProduct",
+    "asinIsPrimeShippingEligible",
+    "asinAgeRangeSameAs",
+    "asinGenreSameAs",
+]
+
+
+type TargetingPredicateNestedType = Literal["views", "audience", "purchases"]
+
+
+type TargetingPredicateType = Literal[
+    "asinSameAs",
+    "asinCategorySameAs",
+    "asinBrandSameAs",
+    "asinPriceBetween",
+    "asinPriceGreaterThan",
+    "asinPriceLessThan",
+    "asinReviewRatingLessThan",
+    "asinReviewRatingGreaterThan",
+    "asinReviewRatingBetween",
+    "asinIsPrimeShippingEligible",
+    "asinAgeRangeSameAs",
+    "asinGenreSameAs",
+    "similarProduct",
+]
+
+
+type Theme = Literal[
+    "BFCM_HOLIDAY",
+    "CONVERSION_OPPORTUNITIES",
+    "FALL_PRIME_DEAL_EVENT",
+    "PRIME_DAY",
+]
+"""
+The bid recommendation theme. This API currently supports `CONVERSION_OPPORTUNITIES`, `PRIME_DAY`, `FALL_PRIME_DEAL_EVENT`, and `BFCM_HOLIDAY` themes.
+"""
 
 
 type AdGroupId = int  # The identifier of the ad group.
@@ -658,10 +602,9 @@ class BaseAdGroup(StrictModel):
         default=None,
         description="The amount of the default bid associated with the ad group. Used if no bid is specified.",
     )
-    bidOptimization: Annotated[BaseAdGroupBidOptimization | str, lenient_enum(BaseAdGroupBidOptimization)] | None = (
-        Field(
-            default=None,
-            description="""
+    bidOptimization: BaseAdGroupBidOptimization | None = Field(
+        default=None,
+        description="""
 Bid Optimization for the Adgroup. Default behavior is to optimize for clicks.
 |Name|CostType|Description|
 |----|--------|-----------|
@@ -669,16 +612,13 @@ Bid Optimization for the Adgroup. Default behavior is to optimize for clicks.
 |clicks |cpc|[Default] Optimize for page visits.|
 |conversions |cpc|Optimize for conversion.|
 """,
-        )
     )
-    state: Annotated[BaseAdGroupState | str, lenient_enum(BaseAdGroupState)] | None = Field(
-        default=None, description="The state of the ad group."
-    )
+    state: BaseAdGroupState | None = Field(default=None, description="The state of the ad group.")
 
 
 class BaseCampaign(StrictModel):
     name: str | None = Field(default=None, description="The name of the campaign.")
-    budgetType: Annotated[BaseCampaignBudgetType | str, lenient_enum(BaseCampaignBudgetType)] | None = Field(
+    budgetType: BaseCampaignBudgetType | None = Field(
         default=None,
         description="The time period over which the amount specified in the `budget` property is allocated.",
     )
@@ -687,7 +627,7 @@ class BaseCampaign(StrictModel):
         default=None, description="The YYYYMMDD start date of the campaign. The date must be today or in the future."
     )
     endDate: str | None = Field(default=None, description="The YYYYMMDD end date of the campaign.")
-    costType: Annotated[BaseCampaignCostType | str, lenient_enum(BaseCampaignCostType)] | None = Field(
+    costType: BaseCampaignCostType | None = Field(
         default=None,
         description="""
 Determines how the campaign will bid and charge.
@@ -699,9 +639,7 @@ Determines how the campaign will bid and charge.
 To view minimum and maximum bids based on the costType, see [Limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).
 """,
     )
-    state: Annotated[BaseCampaignState | str, lenient_enum(BaseCampaignState)] | None = Field(
-        default=None, description="The state of the campaign."
-    )
+    state: BaseCampaignState | None = Field(default=None, description="The state of the campaign.")
     portfolioId: int | None = Field(
         default=None,
         description="Identifier of the portfolio that will be associated with the campaign. If null then the campaign will be disassociated from existing portfolio. Campaigns with CPC and vCPM costType are supported.",
@@ -709,21 +647,17 @@ To view minimum and maximum bids based on the costType, see [Limits](https://adv
 
 
 class BaseNegativeTargetingClause(StrictModel):
-    state: Annotated[BaseNegativeTargetingClauseState | str, lenient_enum(BaseNegativeTargetingClauseState)] | None = (
-        Field(default=None)
-    )
+    state: BaseNegativeTargetingClauseState | None = Field(default=None)
 
 
 class BaseProductAd(StrictModel):
-    state: Annotated[BaseProductAdState | str, lenient_enum(BaseProductAdState)] | None = Field(
+    state: BaseProductAdState | None = Field(
         default=None, description="The state of the campaign associated with the product ad."
     )
 
 
 class BaseTargetingClause(StrictModel):
-    state: Annotated[BaseTargetingClauseState | str, lenient_enum(BaseTargetingClauseState)] | None = Field(
-        default=None
-    )
+    state: BaseTargetingClauseState | None = Field(default=None)
     bid: float | None = Field(
         default=None,
         ge=0.02,
@@ -745,7 +679,7 @@ class BidAnalysesPerPlacement(LenientModel):
 class BidAnalysis(LenientModel):
     bid: float = Field(ge=0)
     impactMetrics: BidAnalysisImpactMetrics
-    type: Annotated[BidAnalysisType | str, lenient_enum(BidAnalysisType)] = Field(
+    type: BidAnalysisType | str = Field(
         description="The type of bids in bid analyses. <br>`SUGGESTED_UPPER` - The upper bound for the suggested bid. <br>`SUGGESTED_LOWER` - The lower bound for the suggested bid. <br>`SUGGESTED` - The suggested bid value. <br>'ALTERNATIVE' - The alternative bids that is included in the bid analyses."
     )
 
@@ -772,9 +706,7 @@ type CampaignId = int  # The identifier of the campaign.
 class ContentTargetingPredicate(StrictModel):
     """A predicate to match against in the content targeting expression."""
 
-    type: Annotated[ContentTargetingPredicateType | str, lenient_enum(ContentTargetingPredicateType)] | None = Field(
-        default=None
-    )
+    type: ContentTargetingPredicateType | None = Field(default=None)
     value: str | None = Field(
         default=None,
         description="""
@@ -887,9 +819,7 @@ class DisassociateAssociatedBudgetRuleResponse(LenientModel):
 class EntityStateFilter(StrictModel):
     """Filter entities by state."""
 
-    include: list[Annotated[EntityState | str, lenient_enum(EntityState)]] | None = Field(
-        default=None, min_length=0, max_length=10
-    )
+    include: list[EntityState | str] | None = Field(default=None, min_length=0, max_length=10)
 
 
 class ErrorCause(LenientModel):
@@ -960,7 +890,7 @@ type LandingPageURL = str
 
 
 class LocationExpression(StrictModel):
-    type: Annotated[LocationPredicate | str, lenient_enum(LocationPredicate)] | None = Field(default=None)
+    type: LocationPredicate | None = Field(default=None)
     value: str | None = Field(
         default=None,
         description="The location identifier. Currently, this can correspond to either a 'city', 'state', 'dma', 'postal code', or 'country'. Its value is discoverable using the GET /locations API.",
@@ -982,8 +912,8 @@ class MmpMetadata(LenientModel):
         default=None, description="Whether the app was already registered prior to migration"
     )
     mmpAppId: str | None = Field(default=None, description="Unique app registration ID generated by Amazon")
-    mmpName: Annotated[MmpName | str, lenient_enum(MmpName)]
-    platform: Annotated[MmpPlatform | str, lenient_enum(MmpPlatform)]
+    mmpName: MmpName | str
+    platform: MmpPlatform | str
     skAdNetworkReference: bool | None = Field(default=None, description="SKAdNetwork enablement reference")
     sourceAdvertiserAccountId: str | None = Field(
         default=None, description="Advertiser account ID of the source system prior to migration"
@@ -993,18 +923,14 @@ class MmpMetadata(LenientModel):
 class NameFilter(StrictModel):
     """Filter entities by name."""
 
-    queryTermMatchType: Annotated[QueryTermMatchType | str, lenient_enum(QueryTermMatchType)] | None = Field(
-        default=None
-    )
+    queryTermMatchType: QueryTermMatchType | None = Field(default=None)
     include: list[str] | None = Field(default=None, min_length=0, max_length=100)
 
 
 class NegativeTargetingExpression(StrictModel):
-    type: Annotated[NegativeTargetingExpressionType | str, lenient_enum(NegativeTargetingExpressionType)] | None = (
-        Field(
-            default=None,
-            description="The intent type. See the [targeting topic](https://advertising.amazon.com/help#GQCBASRVERXSARL3) in the Amazon Ads support center for more information.",
-        )
+    type: NegativeTargetingExpressionType | None = Field(
+        default=None,
+        description="The intent type. See the [targeting topic](https://advertising.amazon.com/help#GQCBASRVERXSARL3) in the Amazon Ads support center for more information.",
     )
     value: str | None = Field(
         default=None, description="The value to be negatively targeted. Used only in manual expressions."
@@ -1064,9 +990,14 @@ class SDGoalProduct(StrictModel):
 
 class SponsoredProductsAsinFilter(StrictModel):
     include: list[str] | None = Field(default=None, max_length=100)
-    queryTermMatchType: (
-        Annotated[SponsoredProductsQueryTermMatchType | str, lenient_enum(SponsoredProductsQueryTermMatchType)] | None
-    ) = Field(default=None)
+    queryTermMatchType: SponsoredProductsQueryTermMatchType | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `BROAD_MATCH`: Match if the queried value contains the filter value (substring matching). Note: If queryTermMatchType is set to BROAD_MATCH, only matches for the first query included will be returned.
+- `EXACT_MATCH`: Match if the queried value is exactly equivalent to the filter value.
+""",
+    )
 
 
 class SponsoredProductsBiddingError(LenientModel):
@@ -1074,11 +1005,9 @@ class SponsoredProductsBiddingError(LenientModel):
 
     cause: SponsoredProductsErrorCause | None = Field(default=None)
     lowerLimit: str | None = Field(default=None)
-    marketplace: Annotated[SponsoredProductsMarketplace | str, lenient_enum(SponsoredProductsMarketplace)] | None = (
-        Field(default=None)
-    )
+    marketplace: SponsoredProductsMarketplace | str | None = Field(default=None)
     message: str = Field(description="Human readable error message")
-    reason: Annotated[SponsoredProductsBiddingErrorReason | str, lenient_enum(SponsoredProductsBiddingErrorReason)]
+    reason: SponsoredProductsBiddingErrorReason | str
     upperLimit: str | None = Field(default=None)
 
 
@@ -1087,70 +1016,70 @@ class SponsoredProductsBillingError(LenientModel):
 
     cause: SponsoredProductsErrorCause | None = Field(default=None)
     message: str = Field(description="Human readable error message")
-    reason: Annotated[SponsoredProductsBillingErrorReason | str, lenient_enum(SponsoredProductsBillingErrorReason)]
+    reason: SponsoredProductsBillingErrorReason | str
 
 
 class SponsoredProductsCreateOrUpdateNegativeTargetingExpressionPredicate(StrictModel):
-    type: Annotated[
-        SponsoredProductsCreateOrUpdateNegativeTargetingExpressionPredicateType | str,
-        lenient_enum(SponsoredProductsCreateOrUpdateNegativeTargetingExpressionPredicateType),
-    ]
+    type: SponsoredProductsCreateOrUpdateNegativeTargetingExpressionPredicateType = Field(description="""
+Supported values:
+- `ASIN_BRAND_SAME_AS`: Target the brand that is the same as the brand expressed.
+- `ASIN_SAME_AS`: Target an ASIN that is the same as the ASIN expressed.
+""")
     value: str | None = Field(default=None, description="The expression value")
 
 
 class SponsoredProductsDuplicateValueError(LenientModel):
     cause: SponsoredProductsErrorCause | None = Field(default=None)
-    marketplace: Annotated[SponsoredProductsMarketplace | str, lenient_enum(SponsoredProductsMarketplace)] | None = (
-        Field(default=None)
-    )
+    marketplace: SponsoredProductsMarketplace | str | None = Field(default=None)
     message: str = Field(description="Human readable error message")
-    reason: Annotated[
-        SponsoredProductsDuplicateValueErrorReason | str, lenient_enum(SponsoredProductsDuplicateValueErrorReason)
-    ]
+    reason: SponsoredProductsDuplicateValueErrorReason | str
 
 
 class SponsoredProductsEntityNotFoundError(LenientModel):
     cause: SponsoredProductsErrorCause | None = Field(default=None)
     entityId: str = Field(description="The entity id in the request")
-    entityType: Annotated[SponsoredProductsEntityType | str, lenient_enum(SponsoredProductsEntityType)]
+    entityType: SponsoredProductsEntityType | str
     message: str = Field(description="Human readable error message")
-    reason: Annotated[
-        SponsoredProductsEntityNotFoundErrorReason | str, lenient_enum(SponsoredProductsEntityNotFoundErrorReason)
-    ]
+    reason: SponsoredProductsEntityNotFoundErrorReason | str
 
 
 class SponsoredProductsEntityQuotaError(LenientModel):
     """Errors related to exceeding quota in campaign management service"""
 
     cause: SponsoredProductsErrorCause | None = Field(default=None)
-    entityType: Annotated[SponsoredProductsEntityType | str, lenient_enum(SponsoredProductsEntityType)]
+    entityType: SponsoredProductsEntityType | str
     message: str = Field(description="Human readable error message")
     quota: str | None = Field(default=None, description="optional current quota")
-    quotaScope: Annotated[SponsoredProductsQuotaScope | str, lenient_enum(SponsoredProductsQuotaScope)] | None = Field(
-        default=None
-    )
-    reason: Annotated[SponsoredProductsQuotaErrorReason | str, lenient_enum(SponsoredProductsQuotaErrorReason)]
+    quotaScope: SponsoredProductsQuotaScope | str | None = Field(default=None)
+    reason: SponsoredProductsQuotaErrorReason | str
 
 
 class SponsoredProductsEntityStateError(LenientModel):
     """entity state update errors"""
 
     cause: SponsoredProductsErrorCause | None = Field(default=None)
-    entityType: Annotated[SponsoredProductsEntityType | str, lenient_enum(SponsoredProductsEntityType)]
-    marketplace: Annotated[SponsoredProductsMarketplace | str, lenient_enum(SponsoredProductsMarketplace)] | None = (
-        Field(default=None)
-    )
+    entityType: SponsoredProductsEntityType | str
+    marketplace: SponsoredProductsMarketplace | str | None = Field(default=None)
     message: str = Field(description="Human readable error message")
-    reason: Annotated[
-        SponsoredProductsEntityStateErrorReason | str, lenient_enum(SponsoredProductsEntityStateErrorReason)
-    ]
+    reason: SponsoredProductsEntityStateErrorReason | str
 
 
 class SponsoredProductsEntityStateFilter(StrictModel):
     """Filter entities by state. To filter live entities, only 'ENABLED', 'PAUSED' and 'ARCHIVED' can be used"""
 
-    include: list[Annotated[SponsoredProductsEntityState | str, lenient_enum(SponsoredProductsEntityState)]] = Field(
-        min_length=0, max_length=10
+    include: list[SponsoredProductsEntityState | str] = Field(
+        min_length=0,
+        max_length=10,
+        description="""
+Supported values:
+- `ENABLED`: Enabled State
+- `PAUSED`: Paused State
+- `PROPOSED`: Proposed State (Upcoming Feature)
+- `ARCHIVED`: ARCHIVED State
+- `ENABLING`: State for Draft Entity Only
+- `USER_DELETED`: State for Draft Entity Only
+- `OTHER`: Read Only
+""",
     )
 
 
@@ -1166,9 +1095,7 @@ class SponsoredProductsErrorCause(LenientModel):
 class SponsoredProductsExpressionTypeError(LenientModel):
     cause: SponsoredProductsErrorCause | None = Field(default=None)
     message: str = Field(description="Human readable error message")
-    reason: Annotated[
-        SponsoredProductsExpressionTypeErrorReason | str, lenient_enum(SponsoredProductsExpressionTypeErrorReason)
-    ]
+    reason: SponsoredProductsExpressionTypeErrorReason | str
 
 
 class SponsoredProductsInternalServerError(LenientModel):
@@ -1176,9 +1103,7 @@ class SponsoredProductsInternalServerError(LenientModel):
 
     cause: SponsoredProductsErrorCause | None = Field(default=None)
     message: str = Field(description="Human readable error message")
-    reason: Annotated[
-        SponsoredProductsInternalServerErrorReason | str, lenient_enum(SponsoredProductsInternalServerErrorReason)
-    ]
+    reason: SponsoredProductsInternalServerErrorReason | str
 
 
 class SponsoredProductsKeywordServingStatusDetail(LenientModel):
@@ -1188,27 +1113,24 @@ class SponsoredProductsKeywordServingStatusDetail(LenientModel):
     message: str | None = Field(
         default=None, description="A human-readable description of the status identifier specified in the name field."
     )
-    name: (
-        Annotated[
-            SponsoredProductsKeywordServingStatusReason | str, lenient_enum(SponsoredProductsKeywordServingStatusReason)
-        ]
-        | None
-    ) = Field(default=None)
+    name: SponsoredProductsKeywordServingStatusReason | str | None = Field(default=None)
 
 
 class SponsoredProductsKeywordTextFilter(StrictModel):
     """Filter by keywordText"""
 
     include: list[str] | None = Field(default=None, min_length=0, max_length=100)
-    queryTermMatchType: Annotated[
-        SponsoredProductsQueryTermMatchType | str, lenient_enum(SponsoredProductsQueryTermMatchType)
-    ]
+    queryTermMatchType: SponsoredProductsQueryTermMatchType = Field(description="""
+Supported values:
+- `BROAD_MATCH`: Match if the queried value contains the filter value (substring matching). Note: If queryTermMatchType is set to BROAD_MATCH, only matches for the first query included will be returned.
+- `EXACT_MATCH`: Match if the queried value is exactly equivalent to the filter value.
+""")
 
 
 class SponsoredProductsLocaleError(LenientModel):
     cause: SponsoredProductsErrorCause | None = Field(default=None)
     message: str = Field(description="Human readable error message")
-    reason: Annotated[SponsoredProductsLocaleErrorReason | str, lenient_enum(SponsoredProductsLocaleErrorReason)]
+    reason: SponsoredProductsLocaleErrorReason | str
 
 
 class SponsoredProductsMalformedValueError(LenientModel):
@@ -1217,45 +1139,44 @@ class SponsoredProductsMalformedValueError(LenientModel):
 
     cause: SponsoredProductsErrorCause | None = Field(default=None)
     fragment: str | None = Field(default=None, description="fragment of the value which is wrong")
-    marketplace: Annotated[SponsoredProductsMarketplace | str, lenient_enum(SponsoredProductsMarketplace)] | None = (
-        Field(default=None)
-    )
+    marketplace: SponsoredProductsMarketplace | str | None = Field(default=None)
     message: str = Field(description="Human readable error message")
-    reason: Annotated[
-        SponsoredProductsMalformedValueErrorReason | str, lenient_enum(SponsoredProductsMalformedValueErrorReason)
-    ]
+    reason: SponsoredProductsMalformedValueErrorReason | str
 
 
 class SponsoredProductsMissingValueError(LenientModel):
     """Error describing missing values in API payloads"""
 
     cause: SponsoredProductsErrorCause | None = Field(default=None)
-    marketplace: Annotated[SponsoredProductsMarketplace | str, lenient_enum(SponsoredProductsMarketplace)] | None = (
-        Field(default=None)
-    )
+    marketplace: SponsoredProductsMarketplace | str | None = Field(default=None)
     message: str = Field(description="Human readable error message")
-    reason: Annotated[
-        SponsoredProductsMissingValueErrorReason | str, lenient_enum(SponsoredProductsMissingValueErrorReason)
-    ]
+    reason: SponsoredProductsMissingValueErrorReason | str
 
 
 class SponsoredProductsNameFilter(StrictModel):
     """Filter entities by name"""
 
     include: list[str] | None = Field(default=None, min_length=0, max_length=100)
-    queryTermMatchType: (
-        Annotated[SponsoredProductsQueryTermMatchType | str, lenient_enum(SponsoredProductsQueryTermMatchType)] | None
-    ) = Field(default=None)
+    queryTermMatchType: SponsoredProductsQueryTermMatchType | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `BROAD_MATCH`: Match if the queried value contains the filter value (substring matching). Note: If queryTermMatchType is set to BROAD_MATCH, only matches for the first query included will be returned.
+- `EXACT_MATCH`: Match if the queried value is exactly equivalent to the filter value.
+""",
+    )
 
 
 class SponsoredProductsNegativeTargetingExpressionPredicate(LenientModel):
-    type: (
-        Annotated[
-            SponsoredProductsNegativeTargetingExpressionPredicateType | str,
-            lenient_enum(SponsoredProductsNegativeTargetingExpressionPredicateType),
-        ]
-        | None
-    ) = Field(default=None)
+    type: SponsoredProductsNegativeTargetingExpressionPredicateType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ASIN_BRAND_SAME_AS`: Target the brand that is the same as the brand expressed.
+- `ASIN_SAME_AS`: Target an ASIN that is the same as the ASIN expressed.
+- `OTHER`: Other Type.
+""",
+    )
     value: str | None = Field(default=None, description="The expression value")
 
 
@@ -1269,11 +1190,9 @@ class SponsoredProductsOtherError(LenientModel):
     """Errors not related to any of the other error types"""
 
     cause: SponsoredProductsErrorCause | None = Field(default=None)
-    marketplace: Annotated[SponsoredProductsMarketplace | str, lenient_enum(SponsoredProductsMarketplace)] | None = (
-        Field(default=None)
-    )
+    marketplace: SponsoredProductsMarketplace | str | None = Field(default=None)
     message: str = Field(description="Human readable error message")
-    reason: Annotated[SponsoredProductsOtherErrorReason | str, lenient_enum(SponsoredProductsOtherErrorReason)]
+    reason: SponsoredProductsOtherErrorReason | str
 
 
 class SponsoredProductsParentEntityError(LenientModel):
@@ -1281,9 +1200,7 @@ class SponsoredProductsParentEntityError(LenientModel):
 
     cause: SponsoredProductsErrorCause | None = Field(default=None)
     message: str = Field(description="Human readable error message")
-    reason: Annotated[
-        SponsoredProductsParentEntityErrorReason | str, lenient_enum(SponsoredProductsParentEntityErrorReason)
-    ]
+    reason: SponsoredProductsParentEntityErrorReason | str
 
 
 class SponsoredProductsRangeError(LenientModel):
@@ -1292,13 +1209,9 @@ class SponsoredProductsRangeError(LenientModel):
     allowed: list[str] | None = Field(default=None, description="allowed values")
     cause: SponsoredProductsErrorCause | None = Field(default=None)
     lowerLimit: str | None = Field(default=None, description="optional lower limit")
-    marketplace: Annotated[SponsoredProductsMarketplace | str, lenient_enum(SponsoredProductsMarketplace)] | None = (
-        Field(default=None)
-    )
+    marketplace: SponsoredProductsMarketplace | str | None = Field(default=None)
     message: str = Field(description="Human readable error message")
-    reason: Annotated[
-        SponsoredProductsValueLimitErrorReason | str, lenient_enum(SponsoredProductsValueLimitErrorReason)
-    ]
+    reason: SponsoredProductsValueLimitErrorReason | str
     upperLimit: str | None = Field(default=None, description="optional upper limit")
 
 
@@ -1318,14 +1231,9 @@ class SponsoredProductsTargetingClauseSetupError(LenientModel):
     """Errors related to targeting clause setup"""
 
     cause: SponsoredProductsErrorCause | None = Field(default=None)
-    marketplace: Annotated[SponsoredProductsMarketplace | str, lenient_enum(SponsoredProductsMarketplace)] | None = (
-        Field(default=None)
-    )
+    marketplace: SponsoredProductsMarketplace | str | None = Field(default=None)
     message: str = Field(description="Human readable error message")
-    reason: Annotated[
-        SponsoredProductsTargetingClauseSetupErrorReason | str,
-        lenient_enum(SponsoredProductsTargetingClauseSetupErrorReason),
-    ]
+    reason: SponsoredProductsTargetingClauseSetupErrorReason | str
 
 
 class SponsoredProductsThrottledError(LenientModel):
@@ -1333,7 +1241,7 @@ class SponsoredProductsThrottledError(LenientModel):
 
     cause: SponsoredProductsErrorCause | None = Field(default=None)
     message: str = Field(description="Human readable error message")
-    reason: Annotated[SponsoredProductsThrottledErrorReason | str, lenient_enum(SponsoredProductsThrottledErrorReason)]
+    reason: SponsoredProductsThrottledErrorReason | str
 
 
 class Subpage(StrictModel):
@@ -1366,7 +1274,7 @@ class TargetingPredicate(StrictModel):
     * When using either of the 'between' strings to construct a targeting expression the format of the string is 'double-double' where the first double must be smaller than the second double. Prices are not inclusive.
     """
 
-    type: Annotated[TargetingPredicateType | str, lenient_enum(TargetingPredicateType)] | None = Field(default=None)
+    type: TargetingPredicateType | None = Field(default=None)
     value: str | None = Field(default=None, description="The value to be targeted.")
 
 
@@ -1382,9 +1290,7 @@ class TargetingPredicateBase(StrictModel):
     * A 'relatedProduct' TargetingPredicateBase will Target an audience that has purchased a related product in the past 7,14,30,60,90,180, or 365 days.
     * The 'audiencesLikelyInterestedInAd' type is only supported when using landingPageType of OFF_AMAZON_LINK."""
 
-    type: Annotated[TargetingPredicateBaseType | str, lenient_enum(TargetingPredicateBaseType)] | None = Field(
-        default=None
-    )
+    type: TargetingPredicateBaseType | None = Field(default=None)
     value: str | None = Field(default=None, description="The value to be targeted.")
 
 
@@ -1396,9 +1302,7 @@ class TargetingPredicateNested(StrictModel):
     * For Amazon Audiences targeting, the TargetingPredicateNested type should be set to 'audience' and the value array should include one TargetingPredicateBase component with type set to 'audienceSameAs'.
     """
 
-    type: Annotated[TargetingPredicateNestedType | str, lenient_enum(TargetingPredicateNestedType)] | None = Field(
-        default=None
-    )
+    type: TargetingPredicateNestedType | None = Field(default=None)
     value: list[TargetingPredicateBase] | None = Field(default=None)
 
 

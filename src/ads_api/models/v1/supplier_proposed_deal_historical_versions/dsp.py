@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.dsp import (
     DSPAdvertisingDealType,
     DSPNoteOrigin,
@@ -20,136 +18,219 @@ from ads_api.models.v1._shared.dsp import (
     DSPSupplierProposedDealType,
 )
 
-
-class DSPAdProduct(StrEnum):
-    AMAZON_DSP = "AMAZON_DSP"  # Amazon Demand-Side Platform ad product.
-
-
-class DSPAdvertisingDealPriceType(StrEnum):
-    FIXED_CPM = "FIXED_CPM"  # Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
-    FIXED_PRICE = "FIXED_PRICE"  # Sale price for a specific ad placement regardless of auction performance.
-    FLAT_FEE = "FLAT_FEE"  # This value is deprecated. Please use FIXED_PRICE.
-    FLOOR_RATE = "FLOOR_RATE"  # Minimum bid price for auction. Buyer must bid at or above this floor to compete. Used for PRIVATE_AUCTION deals.
+type DSPAdProduct = Literal["AMAZON_DSP",]  # Amazon Demand-Side Platform ad product.
+"""
+Supported values:
+- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
+"""
 
 
-class DSPCountryCode(StrEnum):
-    AD = "AD"
-    AE = "AE"
-    AF = "AF"
-    AG = "AG"
-    AI = "AI"
-    AU = "AU"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IT = "IT"
-    JP = "JP"
-    KR = "KR"
-    MX = "MX"
-    US = "US"
+type DSPAdvertisingDealPriceType = Literal[
+    "FIXED_CPM",  # Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
+    "FIXED_PRICE",  # Sale price for a specific ad placement regardless of auction performance.
+    "FLAT_FEE",  # This value is deprecated. Please use FIXED_PRICE.
+    "FLOOR_RATE",  # Minimum bid price for auction. Buyer must bid at or above this floor to compete. Used for PRIVATE_AUCTION deals.
+]
+"""
+Supported values:
+- `FLAT_FEE`: This value is deprecated. Please use FIXED_PRICE.
+- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
+- `FIXED_CPM`: Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
+- `FLOOR_RATE`: Minimum bid price for auction. Buyer must bid at or above this floor to compete. Used for PRIVATE_AUCTION deals.
+"""
 
 
-class DSPCurrencyCode(StrEnum):
-    AUD = "AUD"  # Australian Dollar
-    BRL = "BRL"  # Brazilian Real
-    CAD = "CAD"  # Canadian Dollar
-    EUR = "EUR"  # Euro
-    GBP = "GBP"  # British Pound Sterling
-    JPY = "JPY"  # Japanese Yen
-    KRW = "KRW"  # South Korean Won
-    MXN = "MXN"  # Mexican Peso
-    USD = "USD"  # United States Dollar
+type DSPCountryCode = Literal[
+    "AD",
+    "AE",
+    "AF",
+    "AG",
+    "AI",
+    "AU",
+    "BR",
+    "CA",
+    "DE",
+    "ES",
+    "FR",
+    "GB",
+    "IT",
+    "JP",
+    "KR",
+    "MX",
+    "US",
+]
 
 
-class DSPDayOfWeek(StrEnum):
-    FRIDAY = "FRIDAY"  # Friday.
-    MONDAY = "MONDAY"  # Monday.
-    SATURDAY = "SATURDAY"  # Saturday.
-    SUNDAY = "SUNDAY"  # Sunday.
-    THURSDAY = "THURSDAY"  # Thursday.
-    TUESDAY = "TUESDAY"  # Tuesday.
-    WEDNESDAY = "WEDNESDAY"  # Wednesday.
+type DSPCurrencyCode = Literal[
+    "AUD",  # Australian Dollar
+    "BRL",  # Brazilian Real
+    "CAD",  # Canadian Dollar
+    "EUR",  # Euro
+    "GBP",  # British Pound Sterling
+    "JPY",  # Japanese Yen
+    "KRW",  # South Korean Won
+    "MXN",  # Mexican Peso
+    "USD",  # United States Dollar
+]
+"""
+Supported values:
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `JPY`: Japanese Yen
+- `KRW`: South Korean Won
+- `MXN`: Mexican Peso
+- `USD`: United States Dollar
+"""
 
 
-class DSPState(StrEnum):
-    """
-    The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-    """
-
-    ARCHIVED = "ARCHIVED"  # The object is permanently stopped and cannot be reactivated. Terminal end state.
-    DRAFT = "DRAFT"  # The resource is in draft status and has not yet been proposed or enabled.
-    PROPOSED = "PROPOSED"  # Indicates an entity staged for review and adoption by advertisers.
-
-
-class DSPSupplierProposedDealStatus(StrEnum):
-    APPROVED = "APPROVED"  # The deal has been submitted and approved by the supplier and added to the ADSP for use.
-    APPROVED_CURRENT = "APPROVED_CURRENT"  # The deal is the current approved version after a revision was approved.
-    APPROVED_PENDING_REGISTRATION = "APPROVED_PENDING_REGISTRATION"  # The deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
-    CANCELLED = "CANCELLED"  # The deal has been canceled in both ADSPs and the supplier's systems.
-    COUNTER_DRAFT = "COUNTER_DRAFT"  # The deal is a counter draft.
-    DRAFT = "DRAFT"  # The deal has not yet been submitted to the supplier and may be edited.
-    DRAFT_REVISION = "DRAFT_REVISION"  # The deal is a draft revision of an approved deal and may be edited.
-    ERROR = "ERROR"  # Something has gone wrong during the submission of the deal and requires intervention to recover.
-    PENDING = "PENDING"  # [To Be Deprecated] The deal is waiting to be updated asynchronously and is not ready to be targeted.
-    REJECTED = "REJECTED"  # The deal was rejected for approval by the supplier, and may be edited before being resubmitted for approval.
-    REJECTED_REVISED = "REJECTED_REVISED"  # A previously rejected deal that has since been modified by the customer and is ready to be resubmitted for approval.
-    REVISED = "REVISED"  # The deal is a previous version that has been superseded by a newer approved revision.
-    REVISION_APPROVED_PENDING_REGISTRATION = "REVISION_APPROVED_PENDING_REGISTRATION"  # The revision of the deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
-    SELLER_RESPONDED = "SELLER_RESPONDED"  # The seller responded with a new deal. Waiting for buyer's decision.
-    SUBMITTED = "SUBMITTED"  # The deal is currently being evaluated for approval by the supplier.
-    SUBMITTED_REVISION = (
-        "SUBMITTED_REVISION"  # The deal revision is currently being evaluated for approval by the supplier.
-    )
-    SUBMITTED_TERMINATE = (
-        "SUBMITTED_TERMINATE"  # The deal is currently being evaluated for termination by the supplier.
-    )
-    TERMINATED = "TERMINATED"  # A deal has been submitted and terminated by the supplier and ingested into the ADSP to reflect the change.
-    TERMINATED_PENDING_REGISTRATION = "TERMINATED_PENDING_REGISTRATION"  # A deal has been submitted and terminated by the supplier, but is in the process of being made reflected in the ADSP.
+type DSPDayOfWeek = Literal[
+    "FRIDAY",  # Friday.
+    "MONDAY",  # Monday.
+    "SATURDAY",  # Saturday.
+    "SUNDAY",  # Sunday.
+    "THURSDAY",  # Thursday.
+    "TUESDAY",  # Tuesday.
+    "WEDNESDAY",  # Wednesday.
+]
+"""
+Supported values:
+- `MONDAY`: Monday.
+- `TUESDAY`: Tuesday.
+- `WEDNESDAY`: Wednesday.
+- `THURSDAY`: Thursday.
+- `FRIDAY`: Friday.
+- `SATURDAY`: Saturday.
+- `SUNDAY`: Sunday.
+"""
 
 
-class DSPSupplierTargetType(StrEnum):
-    APP = "APP"
-    AUDIENCE = "AUDIENCE"
-    AUDIENCE_AGE = "AUDIENCE_AGE"
-    AUDIENCE_EDUCATION = "AUDIENCE_EDUCATION"
-    AUDIENCE_GENDER = "AUDIENCE_GENDER"
-    AUDIENCE_HOMEOWNERSHIP = "AUDIENCE_HOMEOWNERSHIP"
-    AUDIENCE_HOUSEHOLD_COMPOSITION = "AUDIENCE_HOUSEHOLD_COMPOSITION"
-    AUDIENCE_HOUSEHOLD_INCOME = "AUDIENCE_HOUSEHOLD_INCOME"
-    AUDIENCE_INTERESTS = "AUDIENCE_INTERESTS"
-    AUDIENCE_IN_MARKET = "AUDIENCE_IN_MARKET"
-    AUDIENCE_MARITAL_STATUS = "AUDIENCE_MARITAL_STATUS"
-    AUDIENCE_MOOD = "AUDIENCE_MOOD"
-    AUDIENCE_SOCIOECONOMIC_GROUP = "AUDIENCE_SOCIOECONOMIC_GROUP"
-    CONTENT_CATEGORY = "CONTENT_CATEGORY"
-    CONTENT_GENRE = "CONTENT_GENRE"
-    CONTENT_RATING = "CONTENT_RATING"
-    CONTENT_SENSITIVE_CATEGORY = "CONTENT_SENSITIVE_CATEGORY"
-    DAYPART = "DAYPART"
-    DAYPART_DAY = "DAYPART_DAY"
-    DAYPART_TIME = "DAYPART_TIME"
-    DEVICE_OPERATING_SYSTEM = "DEVICE_OPERATING_SYSTEM"
-    DEVICE_TYPE = "DEVICE_TYPE"
-    LOCATION_CITY = "LOCATION_CITY"
-    LOCATION_COUNTRY = "LOCATION_COUNTRY"
-    LOCATION_DESIGNATED_MARKET_AREA = "LOCATION_DESIGNATED_MARKET_AREA"
-    LOCATION_METRO = "LOCATION_METRO"
-    LOCATION_POSTAL_CODE = "LOCATION_POSTAL_CODE"
-    LOCATION_REGION = "LOCATION_REGION"
-    POSITION_VIDEO = "POSITION_VIDEO"
+type DSPState = Literal[
+    "ARCHIVED",  # The object is permanently stopped and cannot be reactivated. Terminal end state.
+    "DRAFT",  # The resource is in draft status and has not yet been proposed or enabled.
+    "PROPOSED",  # Indicates an entity staged for review and adoption by advertisers.
+]
+"""
+The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
+
+Supported values:
+- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
+- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+"""
 
 
-class DSPSupplierTargetingDaypartTimezoneType(StrEnum):
-    DEAL = "DEAL"  # Set the daypart targeting to the timezone of the deal by the supplier
-    VIEWER = "VIEWER"  # Set the daypart targeting to the timezone of the viewer of the advertisement.
+type DSPSupplierProposedDealStatus = Literal[
+    "APPROVED",  # The deal has been submitted and approved by the supplier and added to the ADSP for use.
+    "APPROVED_CURRENT",  # The deal is the current approved version after a revision was approved.
+    "APPROVED_PENDING_REGISTRATION",  # The deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
+    "CANCELLED",  # The deal has been canceled in both ADSPs and the supplier's systems.
+    "COUNTER_DRAFT",  # The deal is a counter draft.
+    "DRAFT",  # The deal has not yet been submitted to the supplier and may be edited.
+    "DRAFT_REVISION",  # The deal is a draft revision of an approved deal and may be edited.
+    "ERROR",  # Something has gone wrong during the submission of the deal and requires intervention to recover.
+    "PENDING",  # [To Be Deprecated] The deal is waiting to be updated asynchronously and is not ready to be targeted.
+    "REJECTED",  # The deal was rejected for approval by the supplier, and may be edited before being resubmitted for approval.
+    "REJECTED_REVISED",  # A previously rejected deal that has since been modified by the customer and is ready to be resubmitted for approval.
+    "REVISED",  # The deal is a previous version that has been superseded by a newer approved revision.
+    "REVISION_APPROVED_PENDING_REGISTRATION",  # The revision of the deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
+    "SELLER_RESPONDED",  # The seller responded with a new deal. Waiting for buyer's decision.
+    "SUBMITTED",  # The deal is currently being evaluated for approval by the supplier.
+    "SUBMITTED_REVISION",  # The deal revision is currently being evaluated for approval by the supplier.
+    "SUBMITTED_TERMINATE",  # The deal is currently being evaluated for termination by the supplier.
+    "TERMINATED",  # A deal has been submitted and terminated by the supplier and ingested into the ADSP to reflect the change.
+    "TERMINATED_PENDING_REGISTRATION",  # A deal has been submitted and terminated by the supplier, but is in the process of being made reflected in the ADSP.
+]
+"""
+Supported values:
+- `APPROVED`: The deal has been submitted and approved by the supplier and added to the ADSP for use.
+- `APPROVED_CURRENT`: The deal is the current approved version after a revision was approved.
+- `APPROVED_PENDING_REGISTRATION`: The deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
+- `CANCELLED`: The deal has been canceled in both ADSPs and the supplier's systems.
+- `COUNTER_DRAFT`: The deal is a counter draft.
+- `DRAFT`: The deal has not yet been submitted to the supplier and may be edited.
+- `DRAFT_REVISION`: The deal is a draft revision of an approved deal and may be edited.
+- `ERROR`: Something has gone wrong during the submission of the deal and requires intervention to recover.
+- `PENDING`: [To Be Deprecated] The deal is waiting to be updated asynchronously and is not ready to be targeted.
+- `REJECTED`: The deal was rejected for approval by the supplier, and may be edited before being resubmitted for approval.
+- `REJECTED_REVISED`: A previously rejected deal that has since been modified by the customer and is ready to be resubmitted for approval.
+- `REVISED`: The deal is a previous version that has been superseded by a newer approved revision.
+- `REVISION_APPROVED_PENDING_REGISTRATION`: The revision of the deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
+- `SELLER_RESPONDED`: The seller responded with a new deal. Waiting for buyer's decision.
+- `SUBMITTED`: The deal is currently being evaluated for approval by the supplier.
+- `SUBMITTED_REVISION`: The deal revision is currently being evaluated for approval by the supplier.
+- `SUBMITTED_TERMINATE`: The deal is currently being evaluated for termination by the supplier.
+- `TERMINATED`: A deal has been submitted and terminated by the supplier and ingested into the ADSP to reflect the change.
+- `TERMINATED_PENDING_REGISTRATION`: A deal has been submitted and terminated by the supplier, but is in the process of being made reflected in the ADSP.
+"""
+
+
+type DSPSupplierTargetType = Literal[
+    "APP",
+    "AUDIENCE",
+    "AUDIENCE_AGE",
+    "AUDIENCE_EDUCATION",
+    "AUDIENCE_GENDER",
+    "AUDIENCE_HOMEOWNERSHIP",
+    "AUDIENCE_HOUSEHOLD_COMPOSITION",
+    "AUDIENCE_HOUSEHOLD_INCOME",
+    "AUDIENCE_INTERESTS",
+    "AUDIENCE_IN_MARKET",
+    "AUDIENCE_MARITAL_STATUS",
+    "AUDIENCE_MOOD",
+    "AUDIENCE_SOCIOECONOMIC_GROUP",
+    "CONTENT_CATEGORY",
+    "CONTENT_GENRE",
+    "CONTENT_RATING",
+    "CONTENT_SENSITIVE_CATEGORY",
+    "DAYPART",
+    "DAYPART_DAY",
+    "DAYPART_TIME",
+    "DEVICE_OPERATING_SYSTEM",
+    "DEVICE_TYPE",
+    "LOCATION_CITY",
+    "LOCATION_COUNTRY",
+    "LOCATION_DESIGNATED_MARKET_AREA",
+    "LOCATION_METRO",
+    "LOCATION_POSTAL_CODE",
+    "LOCATION_REGION",
+    "POSITION_VIDEO",
+]
+
+
+type DSPSupplierTargetingDaypartTimezoneType = Literal[
+    "DEAL",  # Set the daypart targeting to the timezone of the deal by the supplier
+    "VIEWER",  # Set the daypart targeting to the timezone of the viewer of the advertisement.
+]
+"""
+Supported values:
+- `DEAL`: Set the daypart targeting to the timezone of the deal by the supplier
+- `VIEWER`: Set the daypart targeting to the timezone of the viewer of the advertisement.
+"""
 
 
 class DSPAdvertisingDealPrice(LenientModel):
-    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
-    priceType: Annotated[DSPAdvertisingDealPriceType | str, lenient_enum(DSPAdvertisingDealPriceType)]
+    currencyCode: DSPCurrencyCode | str = Field(description="""
+Supported values:
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `JPY`: Japanese Yen
+- `KRW`: South Korean Won
+- `MXN`: Mexican Peso
+- `USD`: United States Dollar
+""")
+    priceType: DSPAdvertisingDealPriceType | str = Field(description="""
+Supported values:
+- `FLAT_FEE`: This value is deprecated. Please use FIXED_PRICE.
+- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
+- `FIXED_CPM`: Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
+- `FLOOR_RATE`: Minimum bid price for auction. Buyer must bid at or above this floor to compete. Used for PRIVATE_AUCTION deals.
+""")
     value: float = Field(description="The monetary amount of the price in the given currency.")
 
 
@@ -187,7 +268,18 @@ class DSPAmazonMediaProposedDealExtension(LenientModel):
 
 
 class DSPMonetaryBudget(LenientModel):
-    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
+    currencyCode: DSPCurrencyCode | str = Field(description="""
+Supported values:
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `JPY`: Japanese Yen
+- `KRW`: South Korean Won
+- `MXN`: Mexican Peso
+- `USD`: United States Dollar
+""")
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )
@@ -198,7 +290,7 @@ class DSPNotes(LenientModel):
     """Notes for an object with origin information."""
 
     note: str = Field(description="The note content.")
-    origin: Annotated[DSPNoteOrigin | str, lenient_enum(DSPNoteOrigin)]
+    origin: DSPNoteOrigin | str
 
 
 class DSPQuerySupplierProposedDealHistoricalVersionRequest(StrictModel):
@@ -392,12 +484,25 @@ class DSPSupplierDayPartDayTarget(LenientModel):
 class DSPSupplierDayPartTarget(LenientModel):
     """Supplier target based on time of day."""
 
-    dayOfWeek: Annotated[DSPDayOfWeek | str, lenient_enum(DSPDayOfWeek)]
+    dayOfWeek: DSPDayOfWeek | str = Field(description="""
+Supported values:
+- `MONDAY`: Monday.
+- `TUESDAY`: Tuesday.
+- `WEDNESDAY`: Wednesday.
+- `THURSDAY`: Thursday.
+- `FRIDAY`: Friday.
+- `SATURDAY`: Saturday.
+- `SUNDAY`: Sunday.
+""")
     timeOfDay: DSPTimeOfDay
-    timeZoneType: (
-        Annotated[DSPSupplierTargetingDaypartTimezoneType | str, lenient_enum(DSPSupplierTargetingDaypartTimezoneType)]
-        | None
-    ) = Field(default=None)
+    timeZoneType: DSPSupplierTargetingDaypartTimezoneType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `DEAL`: Set the daypart targeting to the timezone of the deal by the supplier
+- `VIEWER`: Set the daypart targeting to the timezone of the viewer of the advertisement.
+""",
+    )
 
 
 class DSPSupplierDayPartTimeTarget(LenientModel):
@@ -464,18 +569,45 @@ class DSPSupplierProposedDealExtension(LenientModel):
 
 
 class DSPSupplierProposedDealHistoricalVersion(LenientModel):
-    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)] | None = Field(default=None)
+    adProduct: DSPAdProduct | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
+""",
+    )
     advertiserAccountId: str | None = Field(
         default=None,
         description="The ADSP advertiserId for this proposal. If advertiserId is null, then we treat it as manager account level proposal.",
     )
-    countries: list[Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)]] | None = Field(
+    countries: list[DSPCountryCode | str] | None = Field(
         default=None, min_length=0, max_length=49, description="The country for the proposed deal."
     )
     creationDateTime: datetime = Field(description="The date time that the proposed deal was created.")
     dealName: str = Field(pattern="^[ -:<-z|]+$", description="The name of the deal.")
-    dealStatus: Annotated[DSPSupplierProposedDealStatus | str, lenient_enum(DSPSupplierProposedDealStatus)]
-    dealType: Annotated[DSPAdvertisingDealType | str, lenient_enum(DSPAdvertisingDealType)]
+    dealStatus: DSPSupplierProposedDealStatus | str = Field(description="""
+Supported values:
+- `APPROVED`: The deal has been submitted and approved by the supplier and added to the ADSP for use.
+- `APPROVED_CURRENT`: The deal is the current approved version after a revision was approved.
+- `APPROVED_PENDING_REGISTRATION`: The deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
+- `CANCELLED`: The deal has been canceled in both ADSPs and the supplier's systems.
+- `COUNTER_DRAFT`: The deal is a counter draft.
+- `DRAFT`: The deal has not yet been submitted to the supplier and may be edited.
+- `DRAFT_REVISION`: The deal is a draft revision of an approved deal and may be edited.
+- `ERROR`: Something has gone wrong during the submission of the deal and requires intervention to recover.
+- `PENDING`: [To Be Deprecated] The deal is waiting to be updated asynchronously and is not ready to be targeted.
+- `REJECTED`: The deal was rejected for approval by the supplier, and may be edited before being resubmitted for approval.
+- `REJECTED_REVISED`: A previously rejected deal that has since been modified by the customer and is ready to be resubmitted for approval.
+- `REVISED`: The deal is a previous version that has been superseded by a newer approved revision.
+- `REVISION_APPROVED_PENDING_REGISTRATION`: The revision of the deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
+- `SELLER_RESPONDED`: The seller responded with a new deal. Waiting for buyer's decision.
+- `SUBMITTED`: The deal is currently being evaluated for approval by the supplier.
+- `SUBMITTED_REVISION`: The deal revision is currently being evaluated for approval by the supplier.
+- `SUBMITTED_TERMINATE`: The deal is currently being evaluated for termination by the supplier.
+- `TERMINATED`: A deal has been submitted and terminated by the supplier and ingested into the ADSP to reflect the change.
+- `TERMINATED_PENDING_REGISTRATION`: A deal has been submitted and terminated by the supplier, but is in the process of being made reflected in the ADSP.
+""")
+    dealType: DSPAdvertisingDealType | str
     description: str | None = Field(default=None, description="The description of the deal.")
     endDateTime: datetime = Field(description="The delivery end date.")
     externalDealId: str | None = Field(default=None, description="The supplier's deal id for this proposed deal.")
@@ -491,7 +623,15 @@ class DSPSupplierProposedDealHistoricalVersion(LenientModel):
         default=None, description="The supplier_proposal version corresponding to this proposed deal version."
     )
     startDateTime: datetime = Field(description="The delivery start date.")
-    state: Annotated[DSPState | str, lenient_enum(DSPState)] | None = Field(default=None)
+    state: DSPState | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
+- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+""",
+    )
     stateReason: DSPSupplierStateReason | None = Field(default=None)
     submissionFailure: DSPSubmissionFailure | None = Field(default=None)
     supplierAdProductId: str | None = Field(default=None, description="The supplier ad product unique identifier.")
@@ -501,9 +641,7 @@ class DSPSupplierProposedDealHistoricalVersion(LenientModel):
     supplierProposalId: str = Field(description="This proposed deal's associated supplier_proposal unique id.")
     supplierProposedDealExtension: DSPSupplierProposedDealExtension
     supplierProposedDealHistoricalVersionId: DSPSupplierProposedDealHistoricalVersionIdentifier
-    supplierProposedDealType: (
-        Annotated[DSPSupplierProposedDealType | str, lenient_enum(DSPSupplierProposedDealType)] | None
-    ) = Field(default=None)
+    supplierProposedDealType: DSPSupplierProposedDealType | str | None = Field(default=None)
     targeting: list[DSPSupplierTargetGroup] | None = Field(
         default=None, min_length=0, max_length=49, description="Supplier targeting configuration."
     )
@@ -512,7 +650,14 @@ class DSPSupplierProposedDealHistoricalVersion(LenientModel):
 
 
 class DSPSupplierProposedDealHistoricalVersionAdProductFilter(StrictModel):
-    include: list[Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[DSPAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
+""",
+    )
 
 
 class DSPSupplierProposedDealHistoricalVersionIdentifier(LenientModel):
@@ -541,9 +686,7 @@ class DSPSupplierProposedDealHistoricalVersionSupplierProposedDealIdFilter(Stric
 class DSPSupplierStateReason(LenientModel):
     """Additional context for a resource's lifecycle state."""
 
-    archiveReason: Annotated[DSPSupplierArchiveReason | str, lenient_enum(DSPSupplierArchiveReason)] | None = Field(
-        default=None
-    )
+    archiveReason: DSPSupplierArchiveReason | str | None = Field(default=None)
     description: str | None = Field(
         default=None, description="A free text description providing context for the state."
     )
@@ -557,7 +700,7 @@ class DSPSupplierTarget(LenientModel):
         description="Indicates whether the target is negative or not. Negative targeting allows advertisers to provide intent where they do not want to show ads. Please ensure that the supplier for this target supports negative targeting before setting to true. If this field is not present, then negative is assumed to be false (meaning that a target is inclusive by default).",
     )
     supplierTargetDetails: DSPSupplierTargetDetails
-    supplierTargetType: Annotated[DSPSupplierTargetType | str, lenient_enum(DSPSupplierTargetType)]
+    supplierTargetType: DSPSupplierTargetType | str
 
 
 class DSPSupplierTargetDetailsSupplierAudienceTarget(LenientModel):
@@ -663,7 +806,7 @@ class DSPSupplierTargetGroup(LenientModel):
     groupDetails: DSPSupplierGroupDetails | None = Field(default=None)
     groupName: str
     groupTargets: list[DSPSupplierTarget] = Field(min_length=1, max_length=49)
-    groupType: Annotated[DSPSupplierGroupType | str, lenient_enum(DSPSupplierGroupType)] | None = Field(default=None)
+    groupType: DSPSupplierGroupType | str | None = Field(default=None)
 
 
 class DSPTimeOfDay(LenientModel):

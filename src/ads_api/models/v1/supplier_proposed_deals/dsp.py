@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.dsp import (
     DSPAdvertisingDealType,
     DSPAmazonPublisherServicesGoalTargetUnit,
@@ -64,385 +62,686 @@ from ads_api.models.v1._shared.dsp import (
     DSPVideoCreativeRequirements,
 )
 
-
-class DSPAdProduct(StrEnum):
-    AMAZON_DSP = "AMAZON_DSP"  # Amazon Demand-Side Platform ad product.
-
-
-class DSPAdvertisingDealPriceType(StrEnum):
-    FIXED_CPM = "FIXED_CPM"  # Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
-    FIXED_PRICE = "FIXED_PRICE"  # Sale price for a specific ad placement regardless of auction performance.
-    FLAT_FEE = "FLAT_FEE"  # This value is deprecated. Please use FIXED_PRICE.
-    FLOOR_RATE = "FLOOR_RATE"  # Minimum bid price for auction. Buyer must bid at or above this floor to compete. Used for PRIVATE_AUCTION deals.
+type DSPAdProduct = Literal["AMAZON_DSP",]  # Amazon Demand-Side Platform ad product.
+"""
+Supported values:
+- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
+"""
 
 
-class DSPAmazonPublisherServicesGoalTypes(StrEnum):
-    """
-    AmazonPublisherServicesGoalTypes is an enum representing the goal types that are supported in AmazonPublisherService. ON_TARGET_REACH: On-target reach, the absolute number of people in your target audience that is being reached by a campaign. CLICK_THROUGH_RATE: Clickthrough rate, a ratio showing how often people who see your ad or free product listing end up clicking it. VIDEO_COMPLETION_RATE: Video Completion Rate, measures the percentage of viewers who watch a video ad all the way to the end. VIEW_THROUGH_RATE: View-Through Rate, measures how many viewers watch a video ad to completion.
-    """
-
-    CLICK_THROUGH_RATE = "CLICK_THROUGH_RATE"
-    ON_TARGET_REACH = "ON_TARGET_REACH"
-    VIDEO_COMPLETION_RATE = "VIDEO_COMPLETION_RATE"
-    VIEW_THROUGH_RATE = "VIEW_THROUGH_RATE"
-
-
-class DSPCountryCode(StrEnum):
-    AD = "AD"
-    AE = "AE"
-    AF = "AF"
-    AG = "AG"
-    AI = "AI"
-    AU = "AU"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IT = "IT"
-    JP = "JP"
-    KR = "KR"
-    MX = "MX"
-    US = "US"
+type DSPAdvertisingDealPriceType = Literal[
+    "FIXED_CPM",  # Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
+    "FIXED_PRICE",  # Sale price for a specific ad placement regardless of auction performance.
+    "FLAT_FEE",  # This value is deprecated. Please use FIXED_PRICE.
+    "FLOOR_RATE",  # Minimum bid price for auction. Buyer must bid at or above this floor to compete. Used for PRIVATE_AUCTION deals.
+]
+"""
+Supported values:
+- `FIXED_CPM`: Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
+- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
+- `FLAT_FEE`: This value is deprecated. Please use FIXED_PRICE.
+- `FLOOR_RATE`: Minimum bid price for auction. Buyer must bid at or above this floor to compete. Used for PRIVATE_AUCTION deals.
+"""
 
 
-class DSPCreateState(StrEnum):
-    """
-    The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-    """
-
-    DRAFT = "DRAFT"  # The resource is in draft status and has not yet been proposed or enabled.
-    PROPOSED = "PROPOSED"  # Indicates an entity staged for review and adoption by advertisers.
-
-
-class DSPCurrencyCode(StrEnum):
-    AUD = "AUD"  # Australian Dollar
-    BRL = "BRL"  # Brazilian Real
-    CAD = "CAD"  # Canadian Dollar
-    EUR = "EUR"  # Euro
-    GBP = "GBP"  # British Pound Sterling
-    JPY = "JPY"  # Japanese Yen
-    KRW = "KRW"  # South Korean Won
-    MXN = "MXN"  # Mexican Peso
-    USD = "USD"  # United States Dollar
+type DSPAmazonPublisherServicesGoalTypes = Literal[
+    "CLICK_THROUGH_RATE",
+    "ON_TARGET_REACH",
+    "VIDEO_COMPLETION_RATE",
+    "VIEW_THROUGH_RATE",
+]
+"""
+AmazonPublisherServicesGoalTypes is an enum representing the goal types that are supported in AmazonPublisherService. ON_TARGET_REACH: On-target reach, the absolute number of people in your target audience that is being reached by a campaign. CLICK_THROUGH_RATE: Clickthrough rate, a ratio showing how often people who see your ad or free product listing end up clicking it. VIDEO_COMPLETION_RATE: Video Completion Rate, measures the percentage of viewers who watch a video ad all the way to the end. VIEW_THROUGH_RATE: View-Through Rate, measures how many viewers watch a video ad to completion.
+"""
 
 
-class DSPDayOfWeek(StrEnum):
-    FRIDAY = "FRIDAY"  # Friday.
-    MONDAY = "MONDAY"  # Monday.
-    SATURDAY = "SATURDAY"  # Saturday.
-    SUNDAY = "SUNDAY"  # Sunday.
-    THURSDAY = "THURSDAY"  # Thursday.
-    TUESDAY = "TUESDAY"  # Tuesday.
-    WEDNESDAY = "WEDNESDAY"  # Wednesday.
+type DSPCountryCode = Literal[
+    "AD",
+    "AE",
+    "AF",
+    "AG",
+    "AI",
+    "AU",
+    "BR",
+    "CA",
+    "DE",
+    "ES",
+    "FR",
+    "GB",
+    "IT",
+    "JP",
+    "KR",
+    "MX",
+    "US",
+]
 
 
-class DSPErrorCode(StrEnum):
-    BAD_REQUEST = "BAD_REQUEST"  # The request is not valid considering the documented schema.
-    FORBIDDEN = "FORBIDDEN"  # The caller is not authorized to make the given request.
-    INTERNAL_ERROR = "INTERNAL_ERROR"  # The server encountered an unexpected condition that prevented it from fulfilling the request.
-    NOT_FOUND = "NOT_FOUND"  # The requested resource does not exist.
-    TOO_MANY_REQUESTS = "TOO_MANY_REQUESTS"  # There have been too many requests, please slow down your call rate.
-    UNAUTHORIZED = "UNAUTHORIZED"  # The request lacks the necessary credentials.
+type DSPCreateState = Literal[
+    "DRAFT",  # The resource is in draft status and has not yet been proposed or enabled.
+    "PROPOSED",  # Indicates an entity staged for review and adoption by advertisers.
+]
+"""
+The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
+
+Supported values:
+- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
+- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
+"""
 
 
-class DSPExtraFrequencyCapImpressionType(StrEnum):
-    LinearTVImpression = (
-        "LinearTVImpression"  # Indicates include LinearTV impressions for CompleteTV Order Incremental Reach goal KPI.
-    )
+type DSPCurrencyCode = Literal[
+    "AUD",  # Australian Dollar
+    "BRL",  # Brazilian Real
+    "CAD",  # Canadian Dollar
+    "EUR",  # Euro
+    "GBP",  # British Pound Sterling
+    "JPY",  # Japanese Yen
+    "KRW",  # South Korean Won
+    "MXN",  # Mexican Peso
+    "USD",  # United States Dollar
+]
+"""
+Supported values:
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `JPY`: Japanese Yen
+- `KRW`: South Korean Won
+- `MXN`: Mexican Peso
+- `USD`: United States Dollar
+"""
 
 
-class DSPFrequencyTargetingSetting(StrEnum):
-    HOUSEHOLD = "HOUSEHOLD"  # Control frequency an ad will be selected across people within the same household.
-    USER = "USER"  # Control frequency an ad will be selected to a person.
+type DSPDayOfWeek = Literal[
+    "FRIDAY",  # Friday.
+    "MONDAY",  # Monday.
+    "SATURDAY",  # Saturday.
+    "SUNDAY",  # Sunday.
+    "THURSDAY",  # Thursday.
+    "TUESDAY",  # Tuesday.
+    "WEDNESDAY",  # Wednesday.
+]
+"""
+Supported values:
+- `FRIDAY`: Friday.
+- `MONDAY`: Monday.
+- `SATURDAY`: Saturday.
+- `SUNDAY`: Sunday.
+- `THURSDAY`: Thursday.
+- `TUESDAY`: Tuesday.
+- `WEDNESDAY`: Wednesday.
+"""
 
 
-class DSPInventoryType(StrEnum):
-    AUDIO = "AUDIO"  # Audio ads that serve on streaming audio inventory.
-    DISPLAY = "DISPLAY"
-    ONLINE_VIDEO = "ONLINE_VIDEO"
-    STANDARD_DISPLAY = "STANDARD_DISPLAY"
-    STREAMING_TV = "STREAMING_TV"
-    VIDEO = "VIDEO"
+type DSPErrorCode = Literal[
+    "BAD_REQUEST",  # The request is not valid considering the documented schema.
+    "FORBIDDEN",  # The caller is not authorized to make the given request.
+    "INTERNAL_ERROR",  # The server encountered an unexpected condition that prevented it from fulfilling the request.
+    "NOT_FOUND",  # The requested resource does not exist.
+    "TOO_MANY_REQUESTS",  # There have been too many requests, please slow down your call rate.
+    "UNAUTHORIZED",  # The request lacks the necessary credentials.
+]
+"""
+Supported values:
+- `BAD_REQUEST`: The request is not valid considering the documented schema.
+- `FORBIDDEN`: The caller is not authorized to make the given request.
+- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- `NOT_FOUND`: The requested resource does not exist.
+- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
+- `UNAUTHORIZED`: The request lacks the necessary credentials.
+"""
 
 
-class DSPLanguageIso(StrEnum):
-    """
-    ISO-639-1 two-letter language codes.
-    """
-
-    aa = "aa"  # Afar.
-    ab = "ab"  # Abkhazian.
-    ae = "ae"  # Avestan.
-    af = "af"  # Afrikaans.
-    ak = "ak"  # Akan.
-    am = "am"  # Amharic.
-    an = "an"  # Aragonese.
-    ar = "ar"  # Arabic.
-    as_ = "as"  # Assamese.
-    av = "av"  # Avaric.
-    ay = "ay"  # Aymara.
-    az = "az"  # Azerbaijani.
-    ba = "ba"  # Bashkir.
-    be = "be"  # Belarusian.
-    bg = "bg"  # Bulgarian.
-    bh = "bh"  # Bihari.
-    bi = "bi"  # Bislama.
-    bm = "bm"  # Bambara.
-    bn = "bn"  # Bengali.
-    bo = "bo"  # Tibetan.
-    br = "br"  # Breton.
-    bs = "bs"  # Bosnian.
-    ca = "ca"  # Catalan.
-    ce = "ce"  # Chechen.
-    ch = "ch"  # Chamorro.
-    co = "co"  # Corsican.
-    cr = "cr"  # Cree.
-    cs = "cs"  # Czech.
-    cu = "cu"  # Church Slavonic.
-    cv = "cv"  # Chuvash.
-    cy = "cy"  # Welsh.
-    da = "da"  # Danish.
-    de = "de"  # German.
-    dv = "dv"  # Divehi.
-    dz = "dz"  # Dzongkha.
-    ee = "ee"  # Ewe.
-    el = "el"  # Greek.
-    en = "en"  # English.
-    eo = "eo"  # Esperanto.
-    es = "es"  # Spanish.
-    et = "et"  # Estonian.
-    eu = "eu"  # Basque.
-    fa = "fa"  # Persian.
-    ff = "ff"  # Fulah.
-    fi = "fi"  # Finnish.
-    fj = "fj"  # Fijian.
-    fo = "fo"  # Faroese.
-    fr = "fr"  # French.
-    fy = "fy"  # Western Frisian.
-    ga = "ga"  # Irish.
-    gd = "gd"  # Scottish Gaelic.
-    gl = "gl"  # Galician.
-    gn = "gn"  # Guarani.
-    gu = "gu"  # Gujarati.
-    gv = "gv"  # Manx.
-    ha = "ha"  # Hausa.
-    he = "he"  # Hebrew.
-    hi = "hi"  # Hindi.
-    ho = "ho"  # Hiri Motu.
-    hr = "hr"  # Croatian.
-    ht = "ht"  # Haitian Creole.
-    hu = "hu"  # Hungarian.
-    hy = "hy"  # Armenian.
-    hz = "hz"  # Herero.
-    ia = "ia"  # Interlingua.
-    id = "id"  # Indonesian.
-    ie = "ie"  # Interlingue.
-    ig = "ig"  # Igbo.
-    ii = "ii"  # Sichuan Yi.
-    ik = "ik"  # Inupiaq.
-    io = "io"  # Ido.
-    is_ = "is"  # Icelandic.
-    it = "it"  # Italian.
-    iu = "iu"  # Inuktitut.
-    ja = "ja"  # Japanese.
-    jv = "jv"  # Javanese.
-    ka = "ka"  # Georgian.
-    kg = "kg"  # Kongo.
-    ki = "ki"  # Kikuyu.
-    kj = "kj"  # Kwanyama.
-    kk = "kk"  # Kazakh.
-    kl = "kl"  # Kalaallisut.
-    km = "km"  # Khmer.
-    kn = "kn"  # Kannada.
-    ko = "ko"  # Korean.
-    kr = "kr"  # Kanuri.
-    ks = "ks"  # Kashmiri.
-    ku = "ku"  # Kurdish.
-    kv = "kv"  # Komi.
-    kw = "kw"  # Cornish.
-    ky = "ky"  # Kyrgyz.
-    la = "la"  # Latin.
-    lb = "lb"  # Luxembourgish.
-    lg = "lg"  # Ganda.
-    li = "li"  # Limburgish.
-    ln = "ln"  # Lingala.
-    lo = "lo"  # Lao.
-    lt = "lt"  # Lithuanian.
-    lu = "lu"  # Luba-Katanga.
-    lv = "lv"  # Latvian.
-    mg = "mg"  # Malagasy.
-    mh = "mh"  # Marshallese.
-    mi = "mi"  # Māori.
-    mk = "mk"  # Macedonian.
-    ml = "ml"  # Malayalam.
-    mn = "mn"  # Mongolian.
-    mr = "mr"  # Marathi.
-    ms = "ms"  # Malay.
-    mt = "mt"  # Maltese.
-    my = "my"  # Burmese.
-    na = "na"  # Nauru.
-    nb = "nb"  # Norwegian Bokmål.
-    nd = "nd"  # North Ndebele.
-    ne = "ne"  # Nepali.
-    ng = "ng"  # Ndonga.
-    nl = "nl"  # Dutch.
-    nn = "nn"  # Norwegian Nynorsk.
-    no = "no"  # Norwegian.
-    nr = "nr"  # South Ndebele.
-    nv = "nv"  # Navajo.
-    ny = "ny"  # Chichewa.
-    oc = "oc"  # Occitan.
-    oj = "oj"  # Ojibwa.
-    om = "om"  # Oromo.
-    or_ = "or"  # Oriya.
-    os = "os"  # Ossetian.
-    pa = "pa"  # Punjabi.
-    pi = "pi"  # Pali.
-    pl = "pl"  # Polish.
-    ps = "ps"  # Pashto.
-    pt = "pt"  # Portuguese.
-    qu = "qu"  # Quechua.
-    rm = "rm"  # Romansh.
-    rn = "rn"  # Kirundi.
-    ro = "ro"  # Romanian.
-    ru = "ru"  # Russian.
-    rw = "rw"  # Kinyarwanda.
-    sa = "sa"  # Sanskrit.
-    sc = "sc"  # Sardinian.
-    sd = "sd"  # Sindhi.
-    se = "se"  # Northern Sami.
-    sg = "sg"  # Sango.
-    si = "si"  # Sinhala.
-    sk = "sk"  # Slovak.
-    sl = "sl"  # Slovenian.
-    sm = "sm"  # Samoan.
-    sn = "sn"  # Shona.
-    so = "so"  # Somali.
-    sq = "sq"  # Albanian.
-    sr = "sr"  # Serbian.
-    ss = "ss"  # Swati.
-    st = "st"  # Southern Sotho.
-    su = "su"  # Sundanese.
-    sv = "sv"  # Swedish.
-    sw = "sw"  # Swahili.
-    ta = "ta"  # Tamil.
-    te = "te"  # Telugu.
-    tg = "tg"  # Tajik.
-    th = "th"  # Thai.
-    ti = "ti"  # Tigrinya.
-    tk = "tk"  # Turkmen.
-    tl = "tl"  # Tagalog.
-    tn = "tn"  # Tswana.
-    to = "to"  # Tonga.
-    tr = "tr"  # Turkish.
-    ts = "ts"  # Tsonga.
-    tt = "tt"  # Tatar.
-    tw = "tw"  # Twi.
-    ty = "ty"  # Tahitian.
-    ug = "ug"  # Uyghur.
-    uk = "uk"  # Ukrainian.
-    ur = "ur"  # Urdu.
-    uz = "uz"  # Uzbek.
-    ve = "ve"  # Venda.
-    vi = "vi"  # Vietnamese.
-    vo = "vo"  # Volapük.
-    wa = "wa"  # Walloon.
-    wo = "wo"  # Wolof.
-    xh = "xh"  # Xhosa.
-    yi = "yi"  # Yiddish.
-    yo = "yo"  # Yoruba.
-    za = "za"  # Zhuang.
-    zh = "zh"  # Chinese.
-    zu = "zu"  # Zulu.
+type DSPExtraFrequencyCapImpressionType = Literal[
+    "LinearTVImpression",  # Indicates include LinearTV impressions for CompleteTV Order Incremental Reach goal KPI.
+]
+"""
+Supported values:
+- `LinearTVImpression`: Indicates include LinearTV impressions for CompleteTV Order Incremental Reach goal KPI.
+"""
 
 
-class DSPState(StrEnum):
-    """
-    The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-    """
-
-    ARCHIVED = "ARCHIVED"  # The object is permanently stopped and cannot be reactivated. Terminal end state.
-    DRAFT = "DRAFT"  # The resource is in draft status and has not yet been proposed or enabled.
-    PROPOSED = "PROPOSED"  # Indicates an entity staged for review and adoption by advertisers.
-
-
-class DSPSupplierProposedDealStatus(StrEnum):
-    APPROVED = "APPROVED"  # The deal has been submitted and approved by the supplier and added to the ADSP for use.
-    APPROVED_CURRENT = "APPROVED_CURRENT"  # The deal is the current approved version after a revision was approved.
-    APPROVED_PENDING_REGISTRATION = "APPROVED_PENDING_REGISTRATION"  # The deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
-    CANCELLED = "CANCELLED"  # The deal has been canceled in both ADSPs and the supplier's systems.
-    COUNTER_DRAFT = "COUNTER_DRAFT"  # The deal is a counter draft.
-    DRAFT = "DRAFT"  # The deal has not yet been submitted to the supplier and may be edited.
-    DRAFT_REVISION = "DRAFT_REVISION"  # The deal is a draft revision of an approved deal and may be edited.
-    ERROR = "ERROR"  # Something has gone wrong during the submission of the deal and requires intervention to recover.
-    PENDING = "PENDING"  # [To Be Deprecated] The deal is waiting to be updated asynchronously and is not ready to be targeted.
-    REJECTED = "REJECTED"  # The deal was rejected for approval by the supplier, and may be edited before being resubmitted for approval.
-    REJECTED_REVISED = "REJECTED_REVISED"  # A previously rejected deal that has since been modified by the customer and is ready to be resubmitted for approval.
-    REVISED = "REVISED"  # The deal is a previous version that has been superseded by a newer approved revision.
-    REVISION_APPROVED_PENDING_REGISTRATION = "REVISION_APPROVED_PENDING_REGISTRATION"  # The revision of the deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
-    SELLER_RESPONDED = "SELLER_RESPONDED"  # The seller responded with a new deal. Waiting for buyer's decision.
-    SUBMITTED = "SUBMITTED"  # The deal is currently being evaluated for approval by the supplier.
-    SUBMITTED_REVISION = (
-        "SUBMITTED_REVISION"  # The deal revision is currently being evaluated for approval by the supplier.
-    )
-    SUBMITTED_TERMINATE = (
-        "SUBMITTED_TERMINATE"  # The deal is currently being evaluated for termination by the supplier.
-    )
-    TERMINATED = "TERMINATED"  # A deal has been submitted and terminated by the supplier and ingested into the ADSP to reflect the change.
-    TERMINATED_PENDING_REGISTRATION = "TERMINATED_PENDING_REGISTRATION"  # A deal has been submitted and terminated by the supplier, but is in the process of being made reflected in the ADSP.
+type DSPFrequencyTargetingSetting = Literal[
+    "HOUSEHOLD",  # Control frequency an ad will be selected across people within the same household.
+    "USER",  # Control frequency an ad will be selected to a person.
+]
+"""
+Supported values:
+- `HOUSEHOLD`: Control frequency an ad will be selected across people within the same household.
+- `USER`: Control frequency an ad will be selected to a person.
+"""
 
 
-class DSPSupplierTargetType(StrEnum):
-    APP = "APP"
-    AUDIENCE = "AUDIENCE"
-    AUDIENCE_AGE = "AUDIENCE_AGE"
-    AUDIENCE_EDUCATION = "AUDIENCE_EDUCATION"
-    AUDIENCE_GENDER = "AUDIENCE_GENDER"
-    AUDIENCE_HOMEOWNERSHIP = "AUDIENCE_HOMEOWNERSHIP"
-    AUDIENCE_HOUSEHOLD_COMPOSITION = "AUDIENCE_HOUSEHOLD_COMPOSITION"
-    AUDIENCE_HOUSEHOLD_INCOME = "AUDIENCE_HOUSEHOLD_INCOME"
-    AUDIENCE_INTERESTS = "AUDIENCE_INTERESTS"
-    AUDIENCE_IN_MARKET = "AUDIENCE_IN_MARKET"
-    AUDIENCE_MARITAL_STATUS = "AUDIENCE_MARITAL_STATUS"
-    AUDIENCE_MOOD = "AUDIENCE_MOOD"
-    AUDIENCE_SOCIOECONOMIC_GROUP = "AUDIENCE_SOCIOECONOMIC_GROUP"
-    CONTENT_CATEGORY = "CONTENT_CATEGORY"
-    CONTENT_GENRE = "CONTENT_GENRE"
-    CONTENT_RATING = "CONTENT_RATING"
-    CONTENT_SENSITIVE_CATEGORY = "CONTENT_SENSITIVE_CATEGORY"
-    DAYPART = "DAYPART"
-    DAYPART_DAY = "DAYPART_DAY"
-    DAYPART_TIME = "DAYPART_TIME"
-    DEVICE_OPERATING_SYSTEM = "DEVICE_OPERATING_SYSTEM"
-    DEVICE_TYPE = "DEVICE_TYPE"
-    LOCATION_CITY = "LOCATION_CITY"
-    LOCATION_COUNTRY = "LOCATION_COUNTRY"
-    LOCATION_DESIGNATED_MARKET_AREA = "LOCATION_DESIGNATED_MARKET_AREA"
-    LOCATION_METRO = "LOCATION_METRO"
-    LOCATION_POSTAL_CODE = "LOCATION_POSTAL_CODE"
-    LOCATION_REGION = "LOCATION_REGION"
-    POSITION_VIDEO = "POSITION_VIDEO"
+type DSPInventoryType = Literal[
+    "AUDIO",  # Audio ads that serve on streaming audio inventory.
+    "DISPLAY",
+    "ONLINE_VIDEO",
+    "STANDARD_DISPLAY",
+    "STREAMING_TV",
+    "VIDEO",
+]
+"""
+Supported values:
+- `AUDIO`: Audio ads that serve on streaming audio inventory.
+"""
 
 
-class DSPSupplierTargetingDaypartTimezoneType(StrEnum):
-    DEAL = "DEAL"  # Set the daypart targeting to the timezone of the deal by the supplier
-    VIEWER = "VIEWER"  # Set the daypart targeting to the timezone of the viewer of the advertisement.
+type DSPLanguageIso = Literal[
+    "aa",  # Afar.
+    "ab",  # Abkhazian.
+    "ae",  # Avestan.
+    "af",  # Afrikaans.
+    "ak",  # Akan.
+    "am",  # Amharic.
+    "an",  # Aragonese.
+    "ar",  # Arabic.
+    "as",  # Assamese.
+    "av",  # Avaric.
+    "ay",  # Aymara.
+    "az",  # Azerbaijani.
+    "ba",  # Bashkir.
+    "be",  # Belarusian.
+    "bg",  # Bulgarian.
+    "bh",  # Bihari.
+    "bi",  # Bislama.
+    "bm",  # Bambara.
+    "bn",  # Bengali.
+    "bo",  # Tibetan.
+    "br",  # Breton.
+    "bs",  # Bosnian.
+    "ca",  # Catalan.
+    "ce",  # Chechen.
+    "ch",  # Chamorro.
+    "co",  # Corsican.
+    "cr",  # Cree.
+    "cs",  # Czech.
+    "cu",  # Church Slavonic.
+    "cv",  # Chuvash.
+    "cy",  # Welsh.
+    "da",  # Danish.
+    "de",  # German.
+    "dv",  # Divehi.
+    "dz",  # Dzongkha.
+    "ee",  # Ewe.
+    "el",  # Greek.
+    "en",  # English.
+    "eo",  # Esperanto.
+    "es",  # Spanish.
+    "et",  # Estonian.
+    "eu",  # Basque.
+    "fa",  # Persian.
+    "ff",  # Fulah.
+    "fi",  # Finnish.
+    "fj",  # Fijian.
+    "fo",  # Faroese.
+    "fr",  # French.
+    "fy",  # Western Frisian.
+    "ga",  # Irish.
+    "gd",  # Scottish Gaelic.
+    "gl",  # Galician.
+    "gn",  # Guarani.
+    "gu",  # Gujarati.
+    "gv",  # Manx.
+    "ha",  # Hausa.
+    "he",  # Hebrew.
+    "hi",  # Hindi.
+    "ho",  # Hiri Motu.
+    "hr",  # Croatian.
+    "ht",  # Haitian Creole.
+    "hu",  # Hungarian.
+    "hy",  # Armenian.
+    "hz",  # Herero.
+    "ia",  # Interlingua.
+    "id",  # Indonesian.
+    "ie",  # Interlingue.
+    "ig",  # Igbo.
+    "ii",  # Sichuan Yi.
+    "ik",  # Inupiaq.
+    "io",  # Ido.
+    "is",  # Icelandic.
+    "it",  # Italian.
+    "iu",  # Inuktitut.
+    "ja",  # Japanese.
+    "jv",  # Javanese.
+    "ka",  # Georgian.
+    "kg",  # Kongo.
+    "ki",  # Kikuyu.
+    "kj",  # Kwanyama.
+    "kk",  # Kazakh.
+    "kl",  # Kalaallisut.
+    "km",  # Khmer.
+    "kn",  # Kannada.
+    "ko",  # Korean.
+    "kr",  # Kanuri.
+    "ks",  # Kashmiri.
+    "ku",  # Kurdish.
+    "kv",  # Komi.
+    "kw",  # Cornish.
+    "ky",  # Kyrgyz.
+    "la",  # Latin.
+    "lb",  # Luxembourgish.
+    "lg",  # Ganda.
+    "li",  # Limburgish.
+    "ln",  # Lingala.
+    "lo",  # Lao.
+    "lt",  # Lithuanian.
+    "lu",  # Luba-Katanga.
+    "lv",  # Latvian.
+    "mg",  # Malagasy.
+    "mh",  # Marshallese.
+    "mi",  # Māori.
+    "mk",  # Macedonian.
+    "ml",  # Malayalam.
+    "mn",  # Mongolian.
+    "mr",  # Marathi.
+    "ms",  # Malay.
+    "mt",  # Maltese.
+    "my",  # Burmese.
+    "na",  # Nauru.
+    "nb",  # Norwegian Bokmål.
+    "nd",  # North Ndebele.
+    "ne",  # Nepali.
+    "ng",  # Ndonga.
+    "nl",  # Dutch.
+    "nn",  # Norwegian Nynorsk.
+    "no",  # Norwegian.
+    "nr",  # South Ndebele.
+    "nv",  # Navajo.
+    "ny",  # Chichewa.
+    "oc",  # Occitan.
+    "oj",  # Ojibwa.
+    "om",  # Oromo.
+    "or",  # Oriya.
+    "os",  # Ossetian.
+    "pa",  # Punjabi.
+    "pi",  # Pali.
+    "pl",  # Polish.
+    "ps",  # Pashto.
+    "pt",  # Portuguese.
+    "qu",  # Quechua.
+    "rm",  # Romansh.
+    "rn",  # Kirundi.
+    "ro",  # Romanian.
+    "ru",  # Russian.
+    "rw",  # Kinyarwanda.
+    "sa",  # Sanskrit.
+    "sc",  # Sardinian.
+    "sd",  # Sindhi.
+    "se",  # Northern Sami.
+    "sg",  # Sango.
+    "si",  # Sinhala.
+    "sk",  # Slovak.
+    "sl",  # Slovenian.
+    "sm",  # Samoan.
+    "sn",  # Shona.
+    "so",  # Somali.
+    "sq",  # Albanian.
+    "sr",  # Serbian.
+    "ss",  # Swati.
+    "st",  # Southern Sotho.
+    "su",  # Sundanese.
+    "sv",  # Swedish.
+    "sw",  # Swahili.
+    "ta",  # Tamil.
+    "te",  # Telugu.
+    "tg",  # Tajik.
+    "th",  # Thai.
+    "ti",  # Tigrinya.
+    "tk",  # Turkmen.
+    "tl",  # Tagalog.
+    "tn",  # Tswana.
+    "to",  # Tonga.
+    "tr",  # Turkish.
+    "ts",  # Tsonga.
+    "tt",  # Tatar.
+    "tw",  # Twi.
+    "ty",  # Tahitian.
+    "ug",  # Uyghur.
+    "uk",  # Ukrainian.
+    "ur",  # Urdu.
+    "uz",  # Uzbek.
+    "ve",  # Venda.
+    "vi",  # Vietnamese.
+    "vo",  # Volapük.
+    "wa",  # Walloon.
+    "wo",  # Wolof.
+    "xh",  # Xhosa.
+    "yi",  # Yiddish.
+    "yo",  # Yoruba.
+    "za",  # Zhuang.
+    "zh",  # Chinese.
+    "zu",  # Zulu.
+]
+"""
+ISO-639-1 two-letter language codes.
+
+Supported values:
+- `aa`: Afar.
+- `ab`: Abkhazian.
+- `ae`: Avestan.
+- `af`: Afrikaans.
+- `ak`: Akan.
+- `am`: Amharic.
+- `an`: Aragonese.
+- `ar`: Arabic.
+- `as`: Assamese.
+- `av`: Avaric.
+- `ay`: Aymara.
+- `az`: Azerbaijani.
+- `ba`: Bashkir.
+- `be`: Belarusian.
+- `bg`: Bulgarian.
+- `bh`: Bihari.
+- `bi`: Bislama.
+- `bm`: Bambara.
+- `bn`: Bengali.
+- `bo`: Tibetan.
+- `br`: Breton.
+- `bs`: Bosnian.
+- `ca`: Catalan.
+- `ce`: Chechen.
+- `ch`: Chamorro.
+- `co`: Corsican.
+- `cr`: Cree.
+- `cs`: Czech.
+- `cu`: Church Slavonic.
+- `cv`: Chuvash.
+- `cy`: Welsh.
+- `da`: Danish.
+- `de`: German.
+- `dv`: Divehi.
+- `dz`: Dzongkha.
+- `ee`: Ewe.
+- `el`: Greek.
+- `en`: English.
+- `eo`: Esperanto.
+- `es`: Spanish.
+- `et`: Estonian.
+- `eu`: Basque.
+- `fa`: Persian.
+- `ff`: Fulah.
+- `fi`: Finnish.
+- `fj`: Fijian.
+- `fo`: Faroese.
+- `fr`: French.
+- `fy`: Western Frisian.
+- `ga`: Irish.
+- `gd`: Scottish Gaelic.
+- `gl`: Galician.
+- `gn`: Guarani.
+- `gu`: Gujarati.
+- `gv`: Manx.
+- `ha`: Hausa.
+- `he`: Hebrew.
+- `hi`: Hindi.
+- `ho`: Hiri Motu.
+- `hr`: Croatian.
+- `ht`: Haitian Creole.
+- `hu`: Hungarian.
+- `hy`: Armenian.
+- `hz`: Herero.
+- `ia`: Interlingua.
+- `id`: Indonesian.
+- `ie`: Interlingue.
+- `ig`: Igbo.
+- `ii`: Sichuan Yi.
+- `ik`: Inupiaq.
+- `io`: Ido.
+- `is`: Icelandic.
+- `it`: Italian.
+- `iu`: Inuktitut.
+- `ja`: Japanese.
+- `jv`: Javanese.
+- `ka`: Georgian.
+- `kg`: Kongo.
+- `ki`: Kikuyu.
+- `kj`: Kwanyama.
+- `kk`: Kazakh.
+- `kl`: Kalaallisut.
+- `km`: Khmer.
+- `kn`: Kannada.
+- `ko`: Korean.
+- `kr`: Kanuri.
+- `ks`: Kashmiri.
+- `ku`: Kurdish.
+- `kv`: Komi.
+- `kw`: Cornish.
+- `ky`: Kyrgyz.
+- `la`: Latin.
+- `lb`: Luxembourgish.
+- `lg`: Ganda.
+- `li`: Limburgish.
+- `ln`: Lingala.
+- `lo`: Lao.
+- `lt`: Lithuanian.
+- `lu`: Luba-Katanga.
+- `lv`: Latvian.
+- `mg`: Malagasy.
+- `mh`: Marshallese.
+- `mi`: Māori.
+- `mk`: Macedonian.
+- `ml`: Malayalam.
+- `mn`: Mongolian.
+- `mr`: Marathi.
+- `ms`: Malay.
+- `mt`: Maltese.
+- `my`: Burmese.
+- `na`: Nauru.
+- `nb`: Norwegian Bokmål.
+- `nd`: North Ndebele.
+- `ne`: Nepali.
+- `ng`: Ndonga.
+- `nl`: Dutch.
+- `nn`: Norwegian Nynorsk.
+- `no`: Norwegian.
+- `nr`: South Ndebele.
+- `nv`: Navajo.
+- `ny`: Chichewa.
+- `oc`: Occitan.
+- `oj`: Ojibwa.
+- `om`: Oromo.
+- `or`: Oriya.
+- `os`: Ossetian.
+- `pa`: Punjabi.
+- `pi`: Pali.
+- `pl`: Polish.
+- `ps`: Pashto.
+- `pt`: Portuguese.
+- `qu`: Quechua.
+- `rm`: Romansh.
+- `rn`: Kirundi.
+- `ro`: Romanian.
+- `ru`: Russian.
+- `rw`: Kinyarwanda.
+- `sa`: Sanskrit.
+- `sc`: Sardinian.
+- `sd`: Sindhi.
+- `se`: Northern Sami.
+- `sg`: Sango.
+- `si`: Sinhala.
+- `sk`: Slovak.
+- `sl`: Slovenian.
+- `sm`: Samoan.
+- `sn`: Shona.
+- `so`: Somali.
+- `sq`: Albanian.
+- `sr`: Serbian.
+- `ss`: Swati.
+- `st`: Southern Sotho.
+- `su`: Sundanese.
+- `sv`: Swedish.
+- `sw`: Swahili.
+- `ta`: Tamil.
+- `te`: Telugu.
+- `tg`: Tajik.
+- `th`: Thai.
+- `ti`: Tigrinya.
+- `tk`: Turkmen.
+- `tl`: Tagalog.
+- `tn`: Tswana.
+- `to`: Tonga.
+- `tr`: Turkish.
+- `ts`: Tsonga.
+- `tt`: Tatar.
+- `tw`: Twi.
+- `ty`: Tahitian.
+- `ug`: Uyghur.
+- `uk`: Ukrainian.
+- `ur`: Urdu.
+- `uz`: Uzbek.
+- `ve`: Venda.
+- `vi`: Vietnamese.
+- `vo`: Volapük.
+- `wa`: Walloon.
+- `wo`: Wolof.
+- `xh`: Xhosa.
+- `yi`: Yiddish.
+- `yo`: Yoruba.
+- `za`: Zhuang.
+- `zh`: Chinese.
+- `zu`: Zulu.
+"""
 
 
-class DSPUpdateState(StrEnum):
-    """
-    The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-    """
+type DSPState = Literal[
+    "ARCHIVED",  # The object is permanently stopped and cannot be reactivated. Terminal end state.
+    "DRAFT",  # The resource is in draft status and has not yet been proposed or enabled.
+    "PROPOSED",  # Indicates an entity staged for review and adoption by advertisers.
+]
+"""
+The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
 
-    DRAFT = "DRAFT"  # The resource is in draft status and has not yet been proposed or enabled.
-    PROPOSED = "PROPOSED"  # Indicates an entity staged for review and adoption by advertisers.
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
+- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
+"""
+
+
+type DSPSupplierProposedDealStatus = Literal[
+    "APPROVED",  # The deal has been submitted and approved by the supplier and added to the ADSP for use.
+    "APPROVED_CURRENT",  # The deal is the current approved version after a revision was approved.
+    "APPROVED_PENDING_REGISTRATION",  # The deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
+    "CANCELLED",  # The deal has been canceled in both ADSPs and the supplier's systems.
+    "COUNTER_DRAFT",  # The deal is a counter draft.
+    "DRAFT",  # The deal has not yet been submitted to the supplier and may be edited.
+    "DRAFT_REVISION",  # The deal is a draft revision of an approved deal and may be edited.
+    "ERROR",  # Something has gone wrong during the submission of the deal and requires intervention to recover.
+    "PENDING",  # [To Be Deprecated] The deal is waiting to be updated asynchronously and is not ready to be targeted.
+    "REJECTED",  # The deal was rejected for approval by the supplier, and may be edited before being resubmitted for approval.
+    "REJECTED_REVISED",  # A previously rejected deal that has since been modified by the customer and is ready to be resubmitted for approval.
+    "REVISED",  # The deal is a previous version that has been superseded by a newer approved revision.
+    "REVISION_APPROVED_PENDING_REGISTRATION",  # The revision of the deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
+    "SELLER_RESPONDED",  # The seller responded with a new deal. Waiting for buyer's decision.
+    "SUBMITTED",  # The deal is currently being evaluated for approval by the supplier.
+    "SUBMITTED_REVISION",  # The deal revision is currently being evaluated for approval by the supplier.
+    "SUBMITTED_TERMINATE",  # The deal is currently being evaluated for termination by the supplier.
+    "TERMINATED",  # A deal has been submitted and terminated by the supplier and ingested into the ADSP to reflect the change.
+    "TERMINATED_PENDING_REGISTRATION",  # A deal has been submitted and terminated by the supplier, but is in the process of being made reflected in the ADSP.
+]
+"""
+Supported values:
+- `APPROVED_CURRENT`: The deal is the current approved version after a revision was approved.
+- `APPROVED_PENDING_REGISTRATION`: The deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
+- `APPROVED`: The deal has been submitted and approved by the supplier and added to the ADSP for use.
+- `CANCELLED`: The deal has been canceled in both ADSPs and the supplier's systems.
+- `COUNTER_DRAFT`: The deal is a counter draft.
+- `DRAFT_REVISION`: The deal is a draft revision of an approved deal and may be edited.
+- `DRAFT`: The deal has not yet been submitted to the supplier and may be edited.
+- `ERROR`: Something has gone wrong during the submission of the deal and requires intervention to recover.
+- `PENDING`: [To Be Deprecated] The deal is waiting to be updated asynchronously and is not ready to be targeted.
+- `REJECTED_REVISED`: A previously rejected deal that has since been modified by the customer and is ready to be resubmitted for approval.
+- `REJECTED`: The deal was rejected for approval by the supplier, and may be edited before being resubmitted for approval.
+- `REVISED`: The deal is a previous version that has been superseded by a newer approved revision.
+- `REVISION_APPROVED_PENDING_REGISTRATION`: The revision of the deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
+- `SELLER_RESPONDED`: The seller responded with a new deal. Waiting for buyer's decision.
+- `SUBMITTED_REVISION`: The deal revision is currently being evaluated for approval by the supplier.
+- `SUBMITTED_TERMINATE`: The deal is currently being evaluated for termination by the supplier.
+- `SUBMITTED`: The deal is currently being evaluated for approval by the supplier.
+- `TERMINATED_PENDING_REGISTRATION`: A deal has been submitted and terminated by the supplier, but is in the process of being made reflected in the ADSP.
+- `TERMINATED`: A deal has been submitted and terminated by the supplier and ingested into the ADSP to reflect the change.
+"""
+
+
+type DSPSupplierTargetType = Literal[
+    "APP",
+    "AUDIENCE",
+    "AUDIENCE_AGE",
+    "AUDIENCE_EDUCATION",
+    "AUDIENCE_GENDER",
+    "AUDIENCE_HOMEOWNERSHIP",
+    "AUDIENCE_HOUSEHOLD_COMPOSITION",
+    "AUDIENCE_HOUSEHOLD_INCOME",
+    "AUDIENCE_INTERESTS",
+    "AUDIENCE_IN_MARKET",
+    "AUDIENCE_MARITAL_STATUS",
+    "AUDIENCE_MOOD",
+    "AUDIENCE_SOCIOECONOMIC_GROUP",
+    "CONTENT_CATEGORY",
+    "CONTENT_GENRE",
+    "CONTENT_RATING",
+    "CONTENT_SENSITIVE_CATEGORY",
+    "DAYPART",
+    "DAYPART_DAY",
+    "DAYPART_TIME",
+    "DEVICE_OPERATING_SYSTEM",
+    "DEVICE_TYPE",
+    "LOCATION_CITY",
+    "LOCATION_COUNTRY",
+    "LOCATION_DESIGNATED_MARKET_AREA",
+    "LOCATION_METRO",
+    "LOCATION_POSTAL_CODE",
+    "LOCATION_REGION",
+    "POSITION_VIDEO",
+]
+
+
+type DSPSupplierTargetingDaypartTimezoneType = Literal[
+    "DEAL",  # Set the daypart targeting to the timezone of the deal by the supplier
+    "VIEWER",  # Set the daypart targeting to the timezone of the viewer of the advertisement.
+]
+"""
+Supported values:
+- `DEAL`: Set the daypart targeting to the timezone of the deal by the supplier
+- `VIEWER`: Set the daypart targeting to the timezone of the viewer of the advertisement.
+"""
+
+
+type DSPUpdateState = Literal[
+    "DRAFT",  # The resource is in draft status and has not yet been proposed or enabled.
+    "PROPOSED",  # Indicates an entity staged for review and adoption by advertisers.
+]
+"""
+The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
+
+Supported values:
+- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
+- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
+"""
 
 
 class DSPAdvertisingDealPrice(LenientModel):
-    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
-    priceType: Annotated[DSPAdvertisingDealPriceType | str, lenient_enum(DSPAdvertisingDealPriceType)]
+    currencyCode: DSPCurrencyCode | str = Field(description="""
+Supported values:
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `JPY`: Japanese Yen
+- `KRW`: South Korean Won
+- `MXN`: Mexican Peso
+- `USD`: United States Dollar
+""")
+    priceType: DSPAdvertisingDealPriceType | str = Field(description="""
+Supported values:
+- `FIXED_CPM`: Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
+- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
+- `FLAT_FEE`: This value is deprecated. Please use FIXED_PRICE.
+- `FLOOR_RATE`: Minimum bid price for auction. Buyer must bid at or above this floor to compete. Used for PRIVATE_AUCTION deals.
+""")
     value: float = Field(description="The monetary amount of the price in the given currency.")
 
 
@@ -499,18 +798,30 @@ class DSPAmazonPublisherServicesGoalDetails(LenientModel):
     """Goal details including type, target, and unit."""
 
     target: int | None = Field(default=None, description="The target value for the goal.")
-    type: Annotated[DSPAmazonPublisherServicesGoalTypes | str, lenient_enum(DSPAmazonPublisherServicesGoalTypes)]
-    unit: (
-        Annotated[
-            DSPAmazonPublisherServicesGoalTargetUnit | str, lenient_enum(DSPAmazonPublisherServicesGoalTargetUnit)
-        ]
-        | None
-    ) = Field(default=None)
+    type: DSPAmazonPublisherServicesGoalTypes | str
+    unit: DSPAmazonPublisherServicesGoalTargetUnit | str | None = Field(default=None)
 
 
 class DSPCreateAdvertisingDealPrice(StrictModel):
-    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
-    priceType: Annotated[DSPAdvertisingDealPriceType | str, lenient_enum(DSPAdvertisingDealPriceType)]
+    currencyCode: DSPCurrencyCode = Field(description="""
+Supported values:
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `JPY`: Japanese Yen
+- `KRW`: South Korean Won
+- `MXN`: Mexican Peso
+- `USD`: United States Dollar
+""")
+    priceType: DSPAdvertisingDealPriceType = Field(description="""
+Supported values:
+- `FIXED_CPM`: Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
+- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
+- `FLAT_FEE`: This value is deprecated. Please use FIXED_PRICE.
+- `FLOOR_RATE`: Minimum bid price for auction. Buyer must bid at or above this floor to compete. Used for PRIVATE_AUCTION deals.
+""")
     value: float = Field(description="The monetary amount of the price in the given currency.")
 
 
@@ -553,13 +864,8 @@ class DSPCreateAmazonPublisherServicesGoalDetails(StrictModel):
     """Goal details including type, target, and unit."""
 
     target: int | None = Field(default=None, description="The target value for the goal.")
-    type: Annotated[DSPAmazonPublisherServicesGoalTypes | str, lenient_enum(DSPAmazonPublisherServicesGoalTypes)]
-    unit: (
-        Annotated[
-            DSPAmazonPublisherServicesGoalTargetUnit | str, lenient_enum(DSPAmazonPublisherServicesGoalTargetUnit)
-        ]
-        | None
-    ) = Field(default=None)
+    type: DSPAmazonPublisherServicesGoalTypes
+    unit: DSPAmazonPublisherServicesGoalTargetUnit | None = Field(default=None)
 
 
 class DSPCreateDeliveryIntent(StrictModel):
@@ -595,24 +901,30 @@ class DSPCreateFrequency(StrictModel):
         le=99000,
         description="The maximum number of times an EventType is served per user. For ADSP ad group, maximum supported value is 500.",
     )
-    eventType: Annotated[DSPEventType | str, lenient_enum(DSPEventType)] | None = Field(default=None)
-    extraFrequencyCapImpressionTypes: (
-        list[Annotated[DSPExtraFrequencyCapImpressionType | str, lenient_enum(DSPExtraFrequencyCapImpressionType)]]
-        | None
-    ) = Field(
+    eventType: DSPEventType | None = Field(default=None)
+    extraFrequencyCapImpressionTypes: list[DSPExtraFrequencyCapImpressionType | str] | None = Field(
         default=None,
         min_length=0,
         max_length=10,
-        description="Add the additional types of impression to frequency cap. Default to empty list when not selected",
+        description="""
+Add the additional types of impression to frequency cap. Default to empty list when not selected
+
+Supported values:
+- `LinearTVImpression`: Indicates include LinearTV impressions for CompleteTV Order Incremental Reach goal KPI.
+""",
     )
-    frequencyTargetingSetting: Annotated[DSPFrequencyTargetingSetting | str, lenient_enum(DSPFrequencyTargetingSetting)]
+    frequencyTargetingSetting: DSPFrequencyTargetingSetting = Field(description="""
+Supported values:
+- `HOUSEHOLD`: Control frequency an ad will be selected across people within the same household.
+- `USER`: Control frequency an ad will be selected to a person.
+""")
     timeCount: int | None = Field(
         default=None,
         ge=1,
         le=60,
         description="The value associated with the time and unit of time for this frequency cap.",
     )
-    timeUnit: Annotated[DSPTimeUnit | str, lenient_enum(DSPTimeUnit)] | None = Field(default=None)
+    timeUnit: DSPTimeUnit | None = Field(default=None)
 
 
 class DSPCreateFrequencyCap(StrictModel):
@@ -624,7 +936,18 @@ class DSPCreateFrequencyCap(StrictModel):
 
 
 class DSPCreateMonetaryBudget(StrictModel):
-    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
+    currencyCode: DSPCurrencyCode = Field(description="""
+Supported values:
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `JPY`: Japanese Yen
+- `KRW`: South Korean Won
+- `MXN`: Mexican Peso
+- `USD`: United States Dollar
+""")
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )
@@ -634,21 +957,228 @@ class DSPCreateMonetaryBudget(StrictModel):
 class DSPCreateSupplierDayPartTarget(StrictModel):
     """Supplier target based on time of day."""
 
-    dayOfWeek: Annotated[DSPDayOfWeek | str, lenient_enum(DSPDayOfWeek)]
+    dayOfWeek: DSPDayOfWeek = Field(description="""
+Supported values:
+- `FRIDAY`: Friday.
+- `MONDAY`: Monday.
+- `SATURDAY`: Saturday.
+- `SUNDAY`: Sunday.
+- `THURSDAY`: Thursday.
+- `TUESDAY`: Tuesday.
+- `WEDNESDAY`: Wednesday.
+""")
     timeOfDay: DSPCreateTimeOfDay
-    timeZoneType: (
-        Annotated[DSPSupplierTargetingDaypartTimezoneType | str, lenient_enum(DSPSupplierTargetingDaypartTimezoneType)]
-        | None
-    ) = Field(default=None)
+    timeZoneType: DSPSupplierTargetingDaypartTimezoneType | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `DEAL`: Set the daypart targeting to the timezone of the deal by the supplier
+- `VIEWER`: Set the daypart targeting to the timezone of the viewer of the advertisement.
+""",
+    )
 
 
 class DSPCreateSupplierProposedDealCreativeRequirement(StrictModel):
     """Creative requirement with inventory type."""
 
     creativeRequirement: DSPCreateSupplierProposedDealCreativeRequirements
-    inventoryType: Annotated[DSPInventoryType | str, lenient_enum(DSPInventoryType)]
-    languages: list[Annotated[DSPLanguageIso | str, lenient_enum(DSPLanguageIso)]] | None = Field(
-        default=None, min_length=0, max_length=100, description="Languages available for this creative requirement."
+    inventoryType: DSPInventoryType = Field(description="""
+Supported values:
+- `AUDIO`: Audio ads that serve on streaming audio inventory.
+""")
+    languages: list[DSPLanguageIso | str] | None = Field(
+        default=None,
+        min_length=0,
+        max_length=100,
+        description="""
+Languages available for this creative requirement.
+
+Supported values:
+- `aa`: Afar.
+- `ab`: Abkhazian.
+- `ae`: Avestan.
+- `af`: Afrikaans.
+- `ak`: Akan.
+- `am`: Amharic.
+- `an`: Aragonese.
+- `ar`: Arabic.
+- `as`: Assamese.
+- `av`: Avaric.
+- `ay`: Aymara.
+- `az`: Azerbaijani.
+- `ba`: Bashkir.
+- `be`: Belarusian.
+- `bg`: Bulgarian.
+- `bh`: Bihari.
+- `bi`: Bislama.
+- `bm`: Bambara.
+- `bn`: Bengali.
+- `bo`: Tibetan.
+- `br`: Breton.
+- `bs`: Bosnian.
+- `ca`: Catalan.
+- `ce`: Chechen.
+- `ch`: Chamorro.
+- `co`: Corsican.
+- `cr`: Cree.
+- `cs`: Czech.
+- `cu`: Church Slavonic.
+- `cv`: Chuvash.
+- `cy`: Welsh.
+- `da`: Danish.
+- `de`: German.
+- `dv`: Divehi.
+- `dz`: Dzongkha.
+- `ee`: Ewe.
+- `el`: Greek.
+- `en`: English.
+- `eo`: Esperanto.
+- `es`: Spanish.
+- `et`: Estonian.
+- `eu`: Basque.
+- `fa`: Persian.
+- `ff`: Fulah.
+- `fi`: Finnish.
+- `fj`: Fijian.
+- `fo`: Faroese.
+- `fr`: French.
+- `fy`: Western Frisian.
+- `ga`: Irish.
+- `gd`: Scottish Gaelic.
+- `gl`: Galician.
+- `gn`: Guarani.
+- `gu`: Gujarati.
+- `gv`: Manx.
+- `ha`: Hausa.
+- `he`: Hebrew.
+- `hi`: Hindi.
+- `ho`: Hiri Motu.
+- `hr`: Croatian.
+- `ht`: Haitian Creole.
+- `hu`: Hungarian.
+- `hy`: Armenian.
+- `hz`: Herero.
+- `ia`: Interlingua.
+- `id`: Indonesian.
+- `ie`: Interlingue.
+- `ig`: Igbo.
+- `ii`: Sichuan Yi.
+- `ik`: Inupiaq.
+- `io`: Ido.
+- `is`: Icelandic.
+- `it`: Italian.
+- `iu`: Inuktitut.
+- `ja`: Japanese.
+- `jv`: Javanese.
+- `ka`: Georgian.
+- `kg`: Kongo.
+- `ki`: Kikuyu.
+- `kj`: Kwanyama.
+- `kk`: Kazakh.
+- `kl`: Kalaallisut.
+- `km`: Khmer.
+- `kn`: Kannada.
+- `ko`: Korean.
+- `kr`: Kanuri.
+- `ks`: Kashmiri.
+- `ku`: Kurdish.
+- `kv`: Komi.
+- `kw`: Cornish.
+- `ky`: Kyrgyz.
+- `la`: Latin.
+- `lb`: Luxembourgish.
+- `lg`: Ganda.
+- `li`: Limburgish.
+- `ln`: Lingala.
+- `lo`: Lao.
+- `lt`: Lithuanian.
+- `lu`: Luba-Katanga.
+- `lv`: Latvian.
+- `mg`: Malagasy.
+- `mh`: Marshallese.
+- `mi`: Māori.
+- `mk`: Macedonian.
+- `ml`: Malayalam.
+- `mn`: Mongolian.
+- `mr`: Marathi.
+- `ms`: Malay.
+- `mt`: Maltese.
+- `my`: Burmese.
+- `na`: Nauru.
+- `nb`: Norwegian Bokmål.
+- `nd`: North Ndebele.
+- `ne`: Nepali.
+- `ng`: Ndonga.
+- `nl`: Dutch.
+- `nn`: Norwegian Nynorsk.
+- `no`: Norwegian.
+- `nr`: South Ndebele.
+- `nv`: Navajo.
+- `ny`: Chichewa.
+- `oc`: Occitan.
+- `oj`: Ojibwa.
+- `om`: Oromo.
+- `or`: Oriya.
+- `os`: Ossetian.
+- `pa`: Punjabi.
+- `pi`: Pali.
+- `pl`: Polish.
+- `ps`: Pashto.
+- `pt`: Portuguese.
+- `qu`: Quechua.
+- `rm`: Romansh.
+- `rn`: Kirundi.
+- `ro`: Romanian.
+- `ru`: Russian.
+- `rw`: Kinyarwanda.
+- `sa`: Sanskrit.
+- `sc`: Sardinian.
+- `sd`: Sindhi.
+- `se`: Northern Sami.
+- `sg`: Sango.
+- `si`: Sinhala.
+- `sk`: Slovak.
+- `sl`: Slovenian.
+- `sm`: Samoan.
+- `sn`: Shona.
+- `so`: Somali.
+- `sq`: Albanian.
+- `sr`: Serbian.
+- `ss`: Swati.
+- `st`: Southern Sotho.
+- `su`: Sundanese.
+- `sv`: Swedish.
+- `sw`: Swahili.
+- `ta`: Tamil.
+- `te`: Telugu.
+- `tg`: Tajik.
+- `th`: Thai.
+- `ti`: Tigrinya.
+- `tk`: Turkmen.
+- `tl`: Tagalog.
+- `tn`: Tswana.
+- `to`: Tonga.
+- `tr`: Turkish.
+- `ts`: Tsonga.
+- `tt`: Tatar.
+- `tw`: Twi.
+- `ty`: Tahitian.
+- `ug`: Uyghur.
+- `uk`: Ukrainian.
+- `ur`: Urdu.
+- `uz`: Uzbek.
+- `ve`: Venda.
+- `vi`: Vietnamese.
+- `vo`: Volapük.
+- `wa`: Walloon.
+- `wo`: Wolof.
+- `xh`: Xhosa.
+- `yi`: Yiddish.
+- `yo`: Yoruba.
+- `za`: Zhuang.
+- `zh`: Chinese.
+- `zu`: Zulu.
+""",
     )
 
 
@@ -679,7 +1209,7 @@ class DSPCreateSupplierTarget(StrictModel):
         description="Indicates whether the target is negative or not. Negative targeting allows advertisers to provide intent where they do not want to show ads. Please ensure that the supplier for this target supports negative targeting before setting to true. If this field is not present, then negative is assumed to be false (meaning that a target is inclusive by default).",
     )
     supplierTargetDetails: DSPCreateSupplierTargetDetails
-    supplierTargetType: Annotated[DSPSupplierTargetType | str, lenient_enum(DSPSupplierTargetType)]
+    supplierTargetType: DSPSupplierTargetType
 
 
 class DSPCreateSupplierTargetDetailsSupplierAppTarget(StrictModel):
@@ -785,7 +1315,7 @@ class DSPCreateSupplierTargetGroup(StrictModel):
     groupDetails: DSPCreateSupplierGroupDetails | None = Field(default=None)
     groupName: str
     groupTargets: list[DSPCreateSupplierTarget] = Field(min_length=1, max_length=49)
-    groupType: Annotated[DSPSupplierGroupType | str, lenient_enum(DSPSupplierGroupType)] | None = Field(default=None)
+    groupType: DSPSupplierGroupType | None = Field(default=None)
 
 
 class DSPDeliveryIntent(LenientModel):
@@ -813,7 +1343,15 @@ type DSPDeliveryIntentGoalsExtension = DSPDeliveryIntentGoalsExtensionAmazonPubl
 
 
 class DSPError(LenientModel):
-    code: Annotated[DSPErrorCode | str, lenient_enum(DSPErrorCode)]
+    code: DSPErrorCode | str = Field(description="""
+Supported values:
+- `BAD_REQUEST`: The request is not valid considering the documented schema.
+- `FORBIDDEN`: The caller is not authorized to make the given request.
+- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- `NOT_FOUND`: The requested resource does not exist.
+- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
+- `UNAUTHORIZED`: The request lacks the necessary credentials.
+""")
     fieldLocation: str | None = Field(default=None)
     message: str
 
@@ -832,24 +1370,30 @@ class DSPFrequency(LenientModel):
         le=99000,
         description="The maximum number of times an EventType is served per user. For ADSP ad group, maximum supported value is 500.",
     )
-    eventType: Annotated[DSPEventType | str, lenient_enum(DSPEventType)] | None = Field(default=None)
-    extraFrequencyCapImpressionTypes: (
-        list[Annotated[DSPExtraFrequencyCapImpressionType | str, lenient_enum(DSPExtraFrequencyCapImpressionType)]]
-        | None
-    ) = Field(
+    eventType: DSPEventType | str | None = Field(default=None)
+    extraFrequencyCapImpressionTypes: list[DSPExtraFrequencyCapImpressionType | str] | None = Field(
         default=None,
         min_length=0,
         max_length=10,
-        description="Add the additional types of impression to frequency cap. Default to empty list when not selected",
+        description="""
+Add the additional types of impression to frequency cap. Default to empty list when not selected
+
+Supported values:
+- `LinearTVImpression`: Indicates include LinearTV impressions for CompleteTV Order Incremental Reach goal KPI.
+""",
     )
-    frequencyTargetingSetting: Annotated[DSPFrequencyTargetingSetting | str, lenient_enum(DSPFrequencyTargetingSetting)]
+    frequencyTargetingSetting: DSPFrequencyTargetingSetting | str = Field(description="""
+Supported values:
+- `HOUSEHOLD`: Control frequency an ad will be selected across people within the same household.
+- `USER`: Control frequency an ad will be selected to a person.
+""")
     timeCount: int | None = Field(
         default=None,
         ge=1,
         le=60,
         description="The value associated with the time and unit of time for this frequency cap.",
     )
-    timeUnit: Annotated[DSPTimeUnit | str, lenient_enum(DSPTimeUnit)] | None = Field(default=None)
+    timeUnit: DSPTimeUnit | str | None = Field(default=None)
 
 
 class DSPFrequencyCap(LenientModel):
@@ -861,7 +1405,18 @@ class DSPFrequencyCap(LenientModel):
 
 
 class DSPMonetaryBudget(LenientModel):
-    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
+    currencyCode: DSPCurrencyCode | str = Field(description="""
+Supported values:
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `JPY`: Japanese Yen
+- `KRW`: South Korean Won
+- `MXN`: Mexican Peso
+- `USD`: United States Dollar
+""")
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )
@@ -872,7 +1427,7 @@ class DSPNotes(LenientModel):
     """Notes for an object with origin information."""
 
     note: str = Field(description="The note content.")
-    origin: Annotated[DSPNoteOrigin | str, lenient_enum(DSPNoteOrigin)]
+    origin: DSPNoteOrigin | str
 
 
 class DSPQuerySupplierProposedDealRequest(StrictModel):
@@ -1078,12 +1633,25 @@ class DSPSupplierDayPartDayTarget(LenientModel):
 class DSPSupplierDayPartTarget(LenientModel):
     """Supplier target based on time of day."""
 
-    dayOfWeek: Annotated[DSPDayOfWeek | str, lenient_enum(DSPDayOfWeek)]
+    dayOfWeek: DSPDayOfWeek | str = Field(description="""
+Supported values:
+- `FRIDAY`: Friday.
+- `MONDAY`: Monday.
+- `SATURDAY`: Saturday.
+- `SUNDAY`: Sunday.
+- `THURSDAY`: Thursday.
+- `TUESDAY`: Tuesday.
+- `WEDNESDAY`: Wednesday.
+""")
     timeOfDay: DSPTimeOfDay
-    timeZoneType: (
-        Annotated[DSPSupplierTargetingDaypartTimezoneType | str, lenient_enum(DSPSupplierTargetingDaypartTimezoneType)]
-        | None
-    ) = Field(default=None)
+    timeZoneType: DSPSupplierTargetingDaypartTimezoneType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `DEAL`: Set the daypart targeting to the timezone of the deal by the supplier
+- `VIEWER`: Set the daypart targeting to the timezone of the viewer of the advertisement.
+""",
+    )
 
 
 class DSPSupplierDayPartTimeTarget(LenientModel):
@@ -1146,7 +1714,13 @@ class DSPSupplierPositionVideoTarget(LenientModel):
 
 
 class DSPSupplierProposedDeal(LenientModel):
-    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)] | None = Field(default=None)
+    adProduct: DSPAdProduct | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
+""",
+    )
     advertiserAccountId: str | None = Field(
         default=None,
         description="The ADSP advertiserId for this proposal. If advertiserId is null, then we treat it as manager account level proposal.",
@@ -1155,7 +1729,7 @@ class DSPSupplierProposedDeal(LenientModel):
         default=None,
         description="The ADSP deal id for this proposed deal. Does not get created until the deal is submitted.",
     )
-    countries: list[Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)]] | None = Field(
+    countries: list[DSPCountryCode | str] | None = Field(
         default=None, min_length=0, max_length=49, description="The country for the proposed deal."
     )
     creationDateTime: datetime = Field(description="The date time that the proposed deal was created.")
@@ -1163,8 +1737,29 @@ class DSPSupplierProposedDeal(LenientModel):
         default=None, min_length=0, max_length=49, description="Creative requirements for this proposed deal."
     )
     dealName: str = Field(pattern="^[ -:<-z|]+$", description="The name of the deal.")
-    dealStatus: Annotated[DSPSupplierProposedDealStatus | str, lenient_enum(DSPSupplierProposedDealStatus)]
-    dealType: Annotated[DSPAdvertisingDealType | str, lenient_enum(DSPAdvertisingDealType)]
+    dealStatus: DSPSupplierProposedDealStatus | str = Field(description="""
+Supported values:
+- `APPROVED_CURRENT`: The deal is the current approved version after a revision was approved.
+- `APPROVED_PENDING_REGISTRATION`: The deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
+- `APPROVED`: The deal has been submitted and approved by the supplier and added to the ADSP for use.
+- `CANCELLED`: The deal has been canceled in both ADSPs and the supplier's systems.
+- `COUNTER_DRAFT`: The deal is a counter draft.
+- `DRAFT_REVISION`: The deal is a draft revision of an approved deal and may be edited.
+- `DRAFT`: The deal has not yet been submitted to the supplier and may be edited.
+- `ERROR`: Something has gone wrong during the submission of the deal and requires intervention to recover.
+- `PENDING`: [To Be Deprecated] The deal is waiting to be updated asynchronously and is not ready to be targeted.
+- `REJECTED_REVISED`: A previously rejected deal that has since been modified by the customer and is ready to be resubmitted for approval.
+- `REJECTED`: The deal was rejected for approval by the supplier, and may be edited before being resubmitted for approval.
+- `REVISED`: The deal is a previous version that has been superseded by a newer approved revision.
+- `REVISION_APPROVED_PENDING_REGISTRATION`: The revision of the deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
+- `SELLER_RESPONDED`: The seller responded with a new deal. Waiting for buyer's decision.
+- `SUBMITTED_REVISION`: The deal revision is currently being evaluated for approval by the supplier.
+- `SUBMITTED_TERMINATE`: The deal is currently being evaluated for termination by the supplier.
+- `SUBMITTED`: The deal is currently being evaluated for approval by the supplier.
+- `TERMINATED_PENDING_REGISTRATION`: A deal has been submitted and terminated by the supplier, but is in the process of being made reflected in the ADSP.
+- `TERMINATED`: A deal has been submitted and terminated by the supplier and ingested into the ADSP to reflect the change.
+""")
+    dealType: DSPAdvertisingDealType | str
     deliveryIntent: DSPDeliveryIntent | None = Field(default=None)
     description: str | None = Field(default=None, description="The description of the deal.")
     endDateTime: datetime = Field(description="The delivery end date.")
@@ -1178,7 +1773,15 @@ class DSPSupplierProposedDeal(LenientModel):
         default=None, min_length=0, max_length=49, description="User provided notes for this proposed deal."
     )
     startDateTime: datetime = Field(description="The delivery start date.")
-    state: Annotated[DSPState | str, lenient_enum(DSPState)] | None = Field(default=None)
+    state: DSPState | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
+- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
+""",
+    )
     stateReason: DSPSupplierStateReason | None = Field(default=None)
     submissionFailure: DSPSubmissionFailure | None = Field(default=None)
     supplierAdProductId: str | None = Field(default=None, description="The supplier ad product unique identifier.")
@@ -1190,9 +1793,7 @@ class DSPSupplierProposedDeal(LenientModel):
     )
     supplierProposedDealExtension: DSPSupplierProposedDealExtension
     supplierProposedDealId: str = Field(description="The unique identifier for the proposed deal.")
-    supplierProposedDealType: (
-        Annotated[DSPSupplierProposedDealType | str, lenient_enum(DSPSupplierProposedDealType)] | None
-    ) = Field(default=None)
+    supplierProposedDealType: DSPSupplierProposedDealType | str | None = Field(default=None)
     supplierPublisherId: list[str] | None = Field(
         default=None, min_length=0, max_length=49, description="The publisher ids associated with this proposed deal."
     )
@@ -1204,7 +1805,14 @@ class DSPSupplierProposedDeal(LenientModel):
 
 
 class DSPSupplierProposedDealAdProductFilter(StrictModel):
-    include: list[Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[DSPAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
+""",
+    )
 
 
 class DSPSupplierProposedDealAdvertiserAccountIdFilter(StrictModel):
@@ -1216,25 +1824,29 @@ class DSPSupplierProposedDealAdvertisingDealIdFilter(StrictModel):
 
 
 class DSPSupplierProposedDealAdvertisingDealTypeFilter(StrictModel):
-    include: list[Annotated[DSPAdvertisingDealType | str, lenient_enum(DSPAdvertisingDealType)]] = Field(
-        min_length=1, max_length=10
-    )
+    include: list[DSPAdvertisingDealType | str] = Field(min_length=1, max_length=10)
 
 
 class DSPSupplierProposedDealCreate(StrictModel):
-    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)] | None = Field(default=None)
+    adProduct: DSPAdProduct | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
+""",
+    )
     advertiserAccountId: str | None = Field(
         default=None,
         description="The ADSP advertiserId for this proposal. If advertiserId is null, then we treat it as manager account level proposal.",
     )
-    countries: list[Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)]] | None = Field(
+    countries: list[DSPCountryCode | str] | None = Field(
         default=None, min_length=0, max_length=49, description="The country for the proposed deal."
     )
     creativeRequirements: list[DSPCreateSupplierProposedDealCreativeRequirement] | None = Field(
         default=None, min_length=0, max_length=49, description="Creative requirements for this proposed deal."
     )
     dealName: str = Field(pattern="^[ -:<-z|]+$", description="The name of the deal.")
-    dealType: Annotated[DSPAdvertisingDealType | str, lenient_enum(DSPAdvertisingDealType)]
+    dealType: DSPAdvertisingDealType
     deliveryIntent: DSPCreateDeliveryIntent | None = Field(default=None)
     description: str | None = Field(default=None, description="The description of the deal.")
     endDateTime: datetime = Field(description="The delivery end date.")
@@ -1242,7 +1854,14 @@ class DSPSupplierProposedDealCreate(StrictModel):
         default=None, min_length=0, max_length=49, description="User provided notes for this proposed deal."
     )
     startDateTime: datetime = Field(description="The delivery start date.")
-    state: Annotated[DSPCreateState | str, lenient_enum(DSPCreateState)] | None = Field(default=None)
+    state: DSPCreateState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
+- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
+""",
+    )
     stateReason: DSPCreateSupplierStateReason | None = Field(default=None)
     supplierAdProductId: str | None = Field(default=None, description="The supplier ad product unique identifier.")
     supplierProposalDestinationId: str | None = Field(
@@ -1252,9 +1871,7 @@ class DSPSupplierProposedDealCreate(StrictModel):
         description="This proposed deal's associated proposal unique id. Only 15 proposed deals may be associated with a proposal."
     )
     supplierProposedDealExtension: DSPCreateSupplierProposedDealExtension
-    supplierProposedDealType: (
-        Annotated[DSPSupplierProposedDealType | str, lenient_enum(DSPSupplierProposedDealType)] | None
-    ) = Field(default=None)
+    supplierProposedDealType: DSPSupplierProposedDealType | None = Field(default=None)
     supplierPublisherId: list[str] | None = Field(
         default=None, min_length=0, max_length=49, description="The publisher ids associated with this proposed deal."
     )
@@ -1268,9 +1885,203 @@ class DSPSupplierProposedDealCreativeRequirement(LenientModel):
     """Creative requirement with inventory type."""
 
     creativeRequirement: DSPSupplierProposedDealCreativeRequirements
-    inventoryType: Annotated[DSPInventoryType | str, lenient_enum(DSPInventoryType)]
-    languages: list[Annotated[DSPLanguageIso | str, lenient_enum(DSPLanguageIso)]] | None = Field(
-        default=None, min_length=0, max_length=100, description="Languages available for this creative requirement."
+    inventoryType: DSPInventoryType | str = Field(description="""
+Supported values:
+- `AUDIO`: Audio ads that serve on streaming audio inventory.
+""")
+    languages: list[DSPLanguageIso | str] | None = Field(
+        default=None,
+        min_length=0,
+        max_length=100,
+        description="""
+Languages available for this creative requirement.
+
+Supported values:
+- `aa`: Afar.
+- `ab`: Abkhazian.
+- `ae`: Avestan.
+- `af`: Afrikaans.
+- `ak`: Akan.
+- `am`: Amharic.
+- `an`: Aragonese.
+- `ar`: Arabic.
+- `as`: Assamese.
+- `av`: Avaric.
+- `ay`: Aymara.
+- `az`: Azerbaijani.
+- `ba`: Bashkir.
+- `be`: Belarusian.
+- `bg`: Bulgarian.
+- `bh`: Bihari.
+- `bi`: Bislama.
+- `bm`: Bambara.
+- `bn`: Bengali.
+- `bo`: Tibetan.
+- `br`: Breton.
+- `bs`: Bosnian.
+- `ca`: Catalan.
+- `ce`: Chechen.
+- `ch`: Chamorro.
+- `co`: Corsican.
+- `cr`: Cree.
+- `cs`: Czech.
+- `cu`: Church Slavonic.
+- `cv`: Chuvash.
+- `cy`: Welsh.
+- `da`: Danish.
+- `de`: German.
+- `dv`: Divehi.
+- `dz`: Dzongkha.
+- `ee`: Ewe.
+- `el`: Greek.
+- `en`: English.
+- `eo`: Esperanto.
+- `es`: Spanish.
+- `et`: Estonian.
+- `eu`: Basque.
+- `fa`: Persian.
+- `ff`: Fulah.
+- `fi`: Finnish.
+- `fj`: Fijian.
+- `fo`: Faroese.
+- `fr`: French.
+- `fy`: Western Frisian.
+- `ga`: Irish.
+- `gd`: Scottish Gaelic.
+- `gl`: Galician.
+- `gn`: Guarani.
+- `gu`: Gujarati.
+- `gv`: Manx.
+- `ha`: Hausa.
+- `he`: Hebrew.
+- `hi`: Hindi.
+- `ho`: Hiri Motu.
+- `hr`: Croatian.
+- `ht`: Haitian Creole.
+- `hu`: Hungarian.
+- `hy`: Armenian.
+- `hz`: Herero.
+- `ia`: Interlingua.
+- `id`: Indonesian.
+- `ie`: Interlingue.
+- `ig`: Igbo.
+- `ii`: Sichuan Yi.
+- `ik`: Inupiaq.
+- `io`: Ido.
+- `is`: Icelandic.
+- `it`: Italian.
+- `iu`: Inuktitut.
+- `ja`: Japanese.
+- `jv`: Javanese.
+- `ka`: Georgian.
+- `kg`: Kongo.
+- `ki`: Kikuyu.
+- `kj`: Kwanyama.
+- `kk`: Kazakh.
+- `kl`: Kalaallisut.
+- `km`: Khmer.
+- `kn`: Kannada.
+- `ko`: Korean.
+- `kr`: Kanuri.
+- `ks`: Kashmiri.
+- `ku`: Kurdish.
+- `kv`: Komi.
+- `kw`: Cornish.
+- `ky`: Kyrgyz.
+- `la`: Latin.
+- `lb`: Luxembourgish.
+- `lg`: Ganda.
+- `li`: Limburgish.
+- `ln`: Lingala.
+- `lo`: Lao.
+- `lt`: Lithuanian.
+- `lu`: Luba-Katanga.
+- `lv`: Latvian.
+- `mg`: Malagasy.
+- `mh`: Marshallese.
+- `mi`: Māori.
+- `mk`: Macedonian.
+- `ml`: Malayalam.
+- `mn`: Mongolian.
+- `mr`: Marathi.
+- `ms`: Malay.
+- `mt`: Maltese.
+- `my`: Burmese.
+- `na`: Nauru.
+- `nb`: Norwegian Bokmål.
+- `nd`: North Ndebele.
+- `ne`: Nepali.
+- `ng`: Ndonga.
+- `nl`: Dutch.
+- `nn`: Norwegian Nynorsk.
+- `no`: Norwegian.
+- `nr`: South Ndebele.
+- `nv`: Navajo.
+- `ny`: Chichewa.
+- `oc`: Occitan.
+- `oj`: Ojibwa.
+- `om`: Oromo.
+- `or`: Oriya.
+- `os`: Ossetian.
+- `pa`: Punjabi.
+- `pi`: Pali.
+- `pl`: Polish.
+- `ps`: Pashto.
+- `pt`: Portuguese.
+- `qu`: Quechua.
+- `rm`: Romansh.
+- `rn`: Kirundi.
+- `ro`: Romanian.
+- `ru`: Russian.
+- `rw`: Kinyarwanda.
+- `sa`: Sanskrit.
+- `sc`: Sardinian.
+- `sd`: Sindhi.
+- `se`: Northern Sami.
+- `sg`: Sango.
+- `si`: Sinhala.
+- `sk`: Slovak.
+- `sl`: Slovenian.
+- `sm`: Samoan.
+- `sn`: Shona.
+- `so`: Somali.
+- `sq`: Albanian.
+- `sr`: Serbian.
+- `ss`: Swati.
+- `st`: Southern Sotho.
+- `su`: Sundanese.
+- `sv`: Swedish.
+- `sw`: Swahili.
+- `ta`: Tamil.
+- `te`: Telugu.
+- `tg`: Tajik.
+- `th`: Thai.
+- `ti`: Tigrinya.
+- `tk`: Turkmen.
+- `tl`: Tagalog.
+- `tn`: Tswana.
+- `to`: Tonga.
+- `tr`: Turkish.
+- `ts`: Tsonga.
+- `tt`: Tatar.
+- `tw`: Twi.
+- `ty`: Tahitian.
+- `ug`: Uyghur.
+- `uk`: Ukrainian.
+- `ur`: Urdu.
+- `uz`: Uzbek.
+- `ve`: Venda.
+- `vi`: Vietnamese.
+- `vo`: Volapük.
+- `wa`: Walloon.
+- `wo`: Wolof.
+- `xh`: Xhosa.
+- `yi`: Yiddish.
+- `yo`: Yoruba.
+- `za`: Zhuang.
+- `zh`: Chinese.
+- `zu`: Zulu.
+""",
     )
 
 
@@ -1342,13 +2153,42 @@ class DSPSupplierProposedDealSupplierProposedDealIdFilter(StrictModel):
 
 
 class DSPSupplierProposedDealSupplierProposedDealStatusFilter(StrictModel):
-    include: list[Annotated[DSPSupplierProposedDealStatus | str, lenient_enum(DSPSupplierProposedDealStatus)]] = Field(
-        min_length=1, max_length=20
+    include: list[DSPSupplierProposedDealStatus | str] = Field(
+        min_length=1,
+        max_length=20,
+        description="""
+Supported values:
+- `APPROVED_CURRENT`: The deal is the current approved version after a revision was approved.
+- `APPROVED_PENDING_REGISTRATION`: The deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
+- `APPROVED`: The deal has been submitted and approved by the supplier and added to the ADSP for use.
+- `CANCELLED`: The deal has been canceled in both ADSPs and the supplier's systems.
+- `COUNTER_DRAFT`: The deal is a counter draft.
+- `DRAFT_REVISION`: The deal is a draft revision of an approved deal and may be edited.
+- `DRAFT`: The deal has not yet been submitted to the supplier and may be edited.
+- `ERROR`: Something has gone wrong during the submission of the deal and requires intervention to recover.
+- `PENDING`: [To Be Deprecated] The deal is waiting to be updated asynchronously and is not ready to be targeted.
+- `REJECTED_REVISED`: A previously rejected deal that has since been modified by the customer and is ready to be resubmitted for approval.
+- `REJECTED`: The deal was rejected for approval by the supplier, and may be edited before being resubmitted for approval.
+- `REVISED`: The deal is a previous version that has been superseded by a newer approved revision.
+- `REVISION_APPROVED_PENDING_REGISTRATION`: The revision of the deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
+- `SELLER_RESPONDED`: The seller responded with a new deal. Waiting for buyer's decision.
+- `SUBMITTED_REVISION`: The deal revision is currently being evaluated for approval by the supplier.
+- `SUBMITTED_TERMINATE`: The deal is currently being evaluated for termination by the supplier.
+- `SUBMITTED`: The deal is currently being evaluated for approval by the supplier.
+- `TERMINATED_PENDING_REGISTRATION`: A deal has been submitted and terminated by the supplier, but is in the process of being made reflected in the ADSP.
+- `TERMINATED`: A deal has been submitted and terminated by the supplier and ingested into the ADSP to reflect the change.
+""",
     )
 
 
 class DSPSupplierProposedDealUpdate(StrictModel):
-    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)] | None = Field(default=None)
+    adProduct: DSPAdProduct | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
+""",
+    )
     creativeRequirements: list[DSPCreateSupplierProposedDealCreativeRequirement] | None = Field(
         default=None, min_length=0, max_length=49, description="Creative requirements for this proposed deal."
     )
@@ -1360,7 +2200,14 @@ class DSPSupplierProposedDealUpdate(StrictModel):
         default=None, min_length=0, max_length=49, description="User provided notes for this proposed deal."
     )
     startDateTime: datetime | None = Field(default=None, description="The delivery start date.")
-    state: Annotated[DSPUpdateState | str, lenient_enum(DSPUpdateState)] | None = Field(default=None)
+    state: DSPUpdateState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
+- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
+""",
+    )
     stateReason: DSPUpdateSupplierStateReason | None = Field(default=None)
     supplierProposalDestinationId: str | None = Field(
         default=None, description="The supplier proposal destination id for this deal."
@@ -1380,9 +2227,7 @@ class DSPSupplierProposedDealUpdate(StrictModel):
 class DSPSupplierStateReason(LenientModel):
     """Additional context for a resource's lifecycle state."""
 
-    archiveReason: Annotated[DSPSupplierArchiveReason | str, lenient_enum(DSPSupplierArchiveReason)] | None = Field(
-        default=None
-    )
+    archiveReason: DSPSupplierArchiveReason | str | None = Field(default=None)
     description: str | None = Field(
         default=None, description="A free text description providing context for the state."
     )
@@ -1396,7 +2241,7 @@ class DSPSupplierTarget(LenientModel):
         description="Indicates whether the target is negative or not. Negative targeting allows advertisers to provide intent where they do not want to show ads. Please ensure that the supplier for this target supports negative targeting before setting to true. If this field is not present, then negative is assumed to be false (meaning that a target is inclusive by default).",
     )
     supplierTargetDetails: DSPSupplierTargetDetails
-    supplierTargetType: Annotated[DSPSupplierTargetType | str, lenient_enum(DSPSupplierTargetType)]
+    supplierTargetType: DSPSupplierTargetType | str
 
 
 class DSPSupplierTargetDetailsSupplierAppTarget(LenientModel):
@@ -1502,7 +2347,7 @@ class DSPSupplierTargetGroup(LenientModel):
     groupDetails: DSPSupplierGroupDetails | None = Field(default=None)
     groupName: str
     groupTargets: list[DSPSupplierTarget] = Field(min_length=1, max_length=49)
-    groupType: Annotated[DSPSupplierGroupType | str, lenient_enum(DSPSupplierGroupType)] | None = Field(default=None)
+    groupType: DSPSupplierGroupType | str | None = Field(default=None)
 
 
 class DSPTimeOfDay(LenientModel):
@@ -1511,9 +2356,30 @@ class DSPTimeOfDay(LenientModel):
 
 
 class DSPUpdateAdvertisingDealPrice(StrictModel):
-    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)] | None = Field(default=None)
-    priceType: Annotated[DSPAdvertisingDealPriceType | str, lenient_enum(DSPAdvertisingDealPriceType)] | None = Field(
-        default=None
+    currencyCode: DSPCurrencyCode | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `JPY`: Japanese Yen
+- `KRW`: South Korean Won
+- `MXN`: Mexican Peso
+- `USD`: United States Dollar
+""",
+    )
+    priceType: DSPAdvertisingDealPriceType | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `FIXED_CPM`: Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
+- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
+- `FLAT_FEE`: This value is deprecated. Please use FIXED_PRICE.
+- `FLOOR_RATE`: Minimum bid price for auction. Buyer must bid at or above this floor to compete. Used for PRIVATE_AUCTION deals.
+""",
     )
     value: float | None = Field(default=None, description="The monetary amount of the price in the given currency.")
 
@@ -1601,7 +2467,21 @@ class DSPUpdateFrequencyCap(StrictModel):
 
 
 class DSPUpdateMonetaryBudget(StrictModel):
-    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)] | None = Field(default=None)
+    currencyCode: DSPCurrencyCode | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `JPY`: Japanese Yen
+- `KRW`: South Korean Won
+- `MXN`: Mexican Peso
+- `USD`: United States Dollar
+""",
+    )
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )

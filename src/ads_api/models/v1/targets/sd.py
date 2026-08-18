@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.sd import (
     SDAdProduct,
     SDCreateState,
@@ -25,67 +23,119 @@ from ads_api.models.v1._shared.sd import (
     SDUpdateState,
 )
 
-
-class SDKeywordMatchType(StrEnum):
-    BROAD = "BROAD"  # Broad match search terms. This expands matching on user intent beyond PHRASE.
-    EXACT = "EXACT"  # Exact match search terms.
-    PHRASE = "PHRASE"  # Phrase match search terms. This expands matching on user intent beyond EXACT.
-
-
-class SDLanguageLocale(StrEnum):
-    """
-    A combination of ISO-639 standard for language code and ISO-3166 for country code.
-    """
-
-    en_US = "en_US"  # English (United States).
+type SDKeywordMatchType = Literal[
+    "BROAD",  # Broad match search terms. This expands matching on user intent beyond PHRASE.
+    "EXACT",  # Exact match search terms.
+    "PHRASE",  # Phrase match search terms. This expands matching on user intent beyond EXACT.
+]
+"""
+Supported values:
+- `BROAD`: Broad match search terms. This expands matching on user intent beyond PHRASE.
+- `EXACT`: Exact match search terms.
+- `PHRASE`: Phrase match search terms. This expands matching on user intent beyond EXACT.
+"""
 
 
-class SDLookback(StrEnum):
-    DAYS_14 = "DAYS_14"  # Two week lookback period.
-    DAYS_180 = "DAYS_180"  # Six month lookback period.
-    DAYS_30 = "DAYS_30"  # One month lookback period.
-    DAYS_365 = "DAYS_365"  # One year lookback period.
-    DAYS_60 = "DAYS_60"  # Two month lookback period.
-    DAYS_7 = "DAYS_7"  # One week lookback period.
-    DAYS_90 = "DAYS_90"  # Three month lookback period.
+type SDLanguageLocale = Literal["en_US",]  # English (United States).
+"""
+A combination of ISO-639 standard for language code and ISO-3166 for country code.
+
+Supported values:
+- `en_US`: English (United States).
+"""
 
 
-class SDProductAudienceMatchType(StrEnum):
-    PRODUCT_EXACT = "PRODUCT_EXACT"  # Products exactly matching the specified product.
-    PRODUCT_SIMILAR = "PRODUCT_SIMILAR"  # Products similar to the specified product.
+type SDLookback = Literal[
+    "DAYS_14",  # Two week lookback period.
+    "DAYS_180",  # Six month lookback period.
+    "DAYS_30",  # One month lookback period.
+    "DAYS_365",  # One year lookback period.
+    "DAYS_60",  # Two month lookback period.
+    "DAYS_7",  # One week lookback period.
+    "DAYS_90",  # Three month lookback period.
+]
+"""
+Supported values:
+- `DAYS_14`: Two week lookback period.
+- `DAYS_180`: Six month lookback period.
+- `DAYS_30`: One month lookback period.
+- `DAYS_365`: One year lookback period.
+- `DAYS_60`: Two month lookback period.
+- `DAYS_7`: One week lookback period.
+- `DAYS_90`: Three month lookback period.
+"""
 
 
-class SDProductMatchType(StrEnum):
-    PRODUCT_EXACT = "PRODUCT_EXACT"  # Products exactly matching the specified product.
-    PRODUCT_SIMILAR = "PRODUCT_SIMILAR"  # Products similar to the specified product.
+type SDProductAudienceMatchType = Literal[
+    "PRODUCT_EXACT",  # Products exactly matching the specified product.
+    "PRODUCT_SIMILAR",  # Products similar to the specified product.
+]
+"""
+Supported values:
+- `PRODUCT_EXACT`: Products exactly matching the specified product.
+- `PRODUCT_SIMILAR`: Products similar to the specified product.
+"""
 
 
-class SDTargetEvent(StrEnum):
-    PURCHASE = "PURCHASE"  # A product purchase event.
-    VIEW = "VIEW"  # A product view event.
+type SDProductMatchType = Literal[
+    "PRODUCT_EXACT",  # Products exactly matching the specified product.
+    "PRODUCT_SIMILAR",  # Products similar to the specified product.
+]
+"""
+Supported values:
+- `PRODUCT_EXACT`: Products exactly matching the specified product.
+- `PRODUCT_SIMILAR`: Products similar to the specified product.
+"""
 
 
-class SDTargetLevel(StrEnum):
-    AD_GROUP = "AD_GROUP"  # Target applied at the ad group level.
+type SDTargetEvent = Literal[
+    "PURCHASE",  # A product purchase event.
+    "VIEW",  # A product view event.
+]
+"""
+Supported values:
+- `PURCHASE`: A product purchase event.
+- `VIEW`: A product view event.
+"""
 
 
-class SDTargetType(StrEnum):
-    AUDIENCE = "AUDIENCE"  # Target based on an audience segment.
-    CONTENT_CATEGORY = "CONTENT_CATEGORY"  # Target based on content category.
-    KEYWORD = "KEYWORD"  # Target based on customer search terms.
-    LOCATION = "LOCATION"  # Target based on geographic location.
-    PRODUCT = "PRODUCT"  # Target based on a specific product.
-    PRODUCT_AUDIENCE = "PRODUCT_AUDIENCE"  # Target customers who interacted with a specific product.
-    PRODUCT_CATEGORY = "PRODUCT_CATEGORY"  # Target based on a product category.
-    THEME = (
-        "THEME"  # Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
-    )
+type SDTargetLevel = Literal["AD_GROUP",]  # Target applied at the ad group level.
+"""
+Supported values:
+- `AD_GROUP`: Target applied at the ad group level.
+"""
 
 
-class SDThemeMatchType(StrEnum):
-    INTERESTED_AUDIENCE = (
-        "INTERESTED_AUDIENCE"  # Audiences that are likely interested in the advertised product or service.
-    )
+type SDTargetType = Literal[
+    "AUDIENCE",  # Target based on an audience segment.
+    "CONTENT_CATEGORY",  # Target based on content category.
+    "KEYWORD",  # Target based on customer search terms.
+    "LOCATION",  # Target based on geographic location.
+    "PRODUCT",  # Target based on a specific product.
+    "PRODUCT_AUDIENCE",  # Target customers who interacted with a specific product.
+    "PRODUCT_CATEGORY",  # Target based on a product category.
+    "THEME",  # Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
+]
+"""
+Supported values:
+- `AUDIENCE`: Target based on an audience segment.
+- `CONTENT_CATEGORY`: Target based on content category.
+- `KEYWORD`: Target based on customer search terms.
+- `LOCATION`: Target based on geographic location.
+- `PRODUCT_AUDIENCE`: Target customers who interacted with a specific product.
+- `PRODUCT_CATEGORY`: Target based on a product category.
+- `PRODUCT`: Target based on a specific product.
+- `THEME`: Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
+"""
+
+
+type SDThemeMatchType = Literal[
+    "INTERESTED_AUDIENCE",  # Audiences that are likely interested in the advertised product or service.
+]
+"""
+Supported values:
+- `INTERESTED_AUDIENCE`: Audiences that are likely interested in the advertised product or service.
+"""
 
 
 class SDAudienceTarget(LenientModel):
@@ -118,11 +168,22 @@ class SDCreateKeywordTarget(StrictModel):
     keyword: str = Field(
         description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints)."
     )
-    matchType: Annotated[SDKeywordMatchType | str, lenient_enum(SDKeywordMatchType)]
+    matchType: SDKeywordMatchType = Field(description="""
+Supported values:
+- `BROAD`: Broad match search terms. This expands matching on user intent beyond PHRASE.
+- `EXACT`: Exact match search terms.
+- `PHRASE`: Phrase match search terms. This expands matching on user intent beyond EXACT.
+""")
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser."
     )
-    nativeLanguageLocale: Annotated[SDLanguageLocale | str, lenient_enum(SDLanguageLocale)] | None = Field(default=None)
+    nativeLanguageLocale: SDLanguageLocale | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `en_US`: English (United States).
+""",
+    )
 
 
 class SDCreateLocationTarget(StrictModel):
@@ -145,9 +206,26 @@ class SDCreateProductAudienceTarget(StrictModel):
     """Target customers who have viewed or purchased a certain product within a specified lookback window."""
 
     asin: SDCreateMarketplaceStringValue
-    event: Annotated[SDTargetEvent | str, lenient_enum(SDTargetEvent)]
-    lookback: Annotated[SDLookback | str, lenient_enum(SDLookback)]
-    matchType: Annotated[SDProductAudienceMatchType | str, lenient_enum(SDProductAudienceMatchType)]
+    event: SDTargetEvent = Field(description="""
+Supported values:
+- `PURCHASE`: A product purchase event.
+- `VIEW`: A product view event.
+""")
+    lookback: SDLookback = Field(description="""
+Supported values:
+- `DAYS_14`: Two week lookback period.
+- `DAYS_180`: Six month lookback period.
+- `DAYS_30`: One month lookback period.
+- `DAYS_365`: One year lookback period.
+- `DAYS_60`: Two month lookback period.
+- `DAYS_7`: One week lookback period.
+- `DAYS_90`: Three month lookback period.
+""")
+    matchType: SDProductAudienceMatchType = Field(description="""
+Supported values:
+- `PRODUCT_EXACT`: Products exactly matching the specified product.
+- `PRODUCT_SIMILAR`: Products similar to the specified product.
+""")
 
 
 class SDCreateProductCategoryRefinement(StrictModel):
@@ -191,9 +269,17 @@ class SDCreateProductCategoryTarget(StrictModel):
 class SDCreateProductTarget(StrictModel):
     """Targets a specific product."""
 
-    matchType: Annotated[SDProductMatchType | str, lenient_enum(SDProductMatchType)]
+    matchType: SDProductMatchType = Field(description="""
+Supported values:
+- `PRODUCT_EXACT`: Products exactly matching the specified product.
+- `PRODUCT_SIMILAR`: Products similar to the specified product.
+""")
     product: SDCreateProductValue
-    productIdType: Annotated[SDProductIdType | str, lenient_enum(SDProductIdType)]
+    productIdType: SDProductIdType = Field(description="""
+Supported values:
+- `ASIN`: ASIN identifier type.
+- `SKU`: SKU identifier type.
+""")
 
 
 class SDCreateProductValue(StrictModel):
@@ -249,7 +335,10 @@ class SDCreateTargetRequest(StrictModel):
 class SDCreateThemeTarget(StrictModel):
     """Theme targets let advertisers select high-performing targets based on a common theme."""
 
-    matchType: Annotated[SDThemeMatchType | str, lenient_enum(SDThemeMatchType)]
+    matchType: SDThemeMatchType = Field(description="""
+Supported values:
+- `INTERESTED_AUDIENCE`: Audiences that are likely interested in the advertised product or service.
+""")
 
 
 class SDDeleteTargetRequest(StrictModel):
@@ -262,11 +351,22 @@ class SDKeywordTarget(LenientModel):
     keyword: str = Field(
         description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints)."
     )
-    matchType: Annotated[SDKeywordMatchType | str, lenient_enum(SDKeywordMatchType)]
+    matchType: SDKeywordMatchType | str = Field(description="""
+Supported values:
+- `BROAD`: Broad match search terms. This expands matching on user intent beyond PHRASE.
+- `EXACT`: Exact match search terms.
+- `PHRASE`: Phrase match search terms. This expands matching on user intent beyond EXACT.
+""")
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser."
     )
-    nativeLanguageLocale: Annotated[SDLanguageLocale | str, lenient_enum(SDLanguageLocale)] | None = Field(default=None)
+    nativeLanguageLocale: SDLanguageLocale | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `en_US`: English (United States).
+""",
+    )
 
 
 class SDLocationTarget(LenientModel):
@@ -289,9 +389,26 @@ class SDProductAudienceTarget(LenientModel):
     """Target customers who have viewed or purchased a certain product within a specified lookback window."""
 
     asin: SDMarketplaceStringValue
-    event: Annotated[SDTargetEvent | str, lenient_enum(SDTargetEvent)]
-    lookback: Annotated[SDLookback | str, lenient_enum(SDLookback)]
-    matchType: Annotated[SDProductAudienceMatchType | str, lenient_enum(SDProductAudienceMatchType)]
+    event: SDTargetEvent | str = Field(description="""
+Supported values:
+- `PURCHASE`: A product purchase event.
+- `VIEW`: A product view event.
+""")
+    lookback: SDLookback | str = Field(description="""
+Supported values:
+- `DAYS_14`: Two week lookback period.
+- `DAYS_180`: Six month lookback period.
+- `DAYS_30`: One month lookback period.
+- `DAYS_365`: One year lookback period.
+- `DAYS_60`: Two month lookback period.
+- `DAYS_7`: One week lookback period.
+- `DAYS_90`: Three month lookback period.
+""")
+    matchType: SDProductAudienceMatchType | str = Field(description="""
+Supported values:
+- `PRODUCT_EXACT`: Products exactly matching the specified product.
+- `PRODUCT_SIMILAR`: Products similar to the specified product.
+""")
 
 
 class SDProductCategoryRefinement(LenientModel):
@@ -335,9 +452,17 @@ class SDProductCategoryTarget(LenientModel):
 class SDProductTarget(LenientModel):
     """Targets a specific product."""
 
-    matchType: Annotated[SDProductMatchType | str, lenient_enum(SDProductMatchType)]
+    matchType: SDProductMatchType | str = Field(description="""
+Supported values:
+- `PRODUCT_EXACT`: Products exactly matching the specified product.
+- `PRODUCT_SIMILAR`: Products similar to the specified product.
+""")
     product: SDProductValue
-    productIdType: Annotated[SDProductIdType | str, lenient_enum(SDProductIdType)]
+    productIdType: SDProductIdType | str = Field(description="""
+Supported values:
+- `ASIN`: ASIN identifier type.
+- `SKU`: SKU identifier type.
+""")
 
 
 class SDProductValue(LenientModel):
@@ -362,7 +487,10 @@ class SDTarget(LenientModel):
         default=None,
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets.",
     )
-    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
+    adProduct: SDAdProduct | str = Field(description="""
+Supported values:
+- `SPONSORED_DISPLAY`: Sponsored Display ad product.
+""")
     bid: SDTargetBid | None = Field(default=None)
     campaignId: str | None = Field(
         default=None,
@@ -371,12 +499,30 @@ class SDTarget(LenientModel):
     creationDateTime: datetime = Field(description="The date time the target was created.")
     lastUpdatedDateTime: datetime = Field(description="The date time the target was last updated.")
     negative: bool = Field(description="Indicates whether the target is negative or not.")
-    state: Annotated[SDState | str, lenient_enum(SDState)]
+    state: SDState | str = Field(description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     status: SDStatus | None = Field(default=None)
     targetDetails: SDTargetDetails
     targetId: str = Field(description="A unique identifier for the target.")
-    targetLevel: Annotated[SDTargetLevel | str, lenient_enum(SDTargetLevel)]
-    targetType: Annotated[SDTargetType | str, lenient_enum(SDTargetType)]
+    targetLevel: SDTargetLevel | str = Field(description="""
+Supported values:
+- `AD_GROUP`: Target applied at the ad group level.
+""")
+    targetType: SDTargetType | str = Field(description="""
+Supported values:
+- `AUDIENCE`: Target based on an audience segment.
+- `CONTENT_CATEGORY`: Target based on content category.
+- `KEYWORD`: Target based on customer search terms.
+- `LOCATION`: Target based on geographic location.
+- `PRODUCT_AUDIENCE`: Target customers who interacted with a specific product.
+- `PRODUCT_CATEGORY`: Target based on a product category.
+- `PRODUCT`: Target based on a specific product.
+- `THEME`: Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
+""")
 
 
 class SDTargetAdGroupIdFilter(StrictModel):
@@ -384,12 +530,45 @@ class SDTargetAdGroupIdFilter(StrictModel):
 
 
 class SDTargetAdProductFilter(StrictModel):
-    include: list[Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[SDAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `SPONSORED_DISPLAY`: Sponsored Display ad product.
+""",
+    )
 
 
 class SDTargetBid(LenientModel):
     bid: float | None = Field(default=None, description="The maximum bid for a target.")
-    currencyCode: Annotated[SDCurrencyCode | str, lenient_enum(SDCurrencyCode)]
+    currencyCode: SDCurrencyCode | str = Field(description="""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CNY`: Chinese Yuan
+- `DKK`: Danish Krone
+- `EGP`: Egyptian Pound
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `INR`: Indian Rupee
+- `JPY`: Japanese Yen
+- `MXN`: Mexican Peso
+- `MXP`: Mexican Peso
+- `NGN`: Nigerian Naira
+- `NOK`: Norwegian Krone
+- `NZD`: New Zealand Dollar
+- `PLN`: Polish Złoty
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `TRY`: Turkish Lira
+- `USD`: United States Dollar
+- `ZAR`: South African Rand
+""")
 
 
 class SDTargetCampaignIdFilter(StrictModel):
@@ -401,16 +580,33 @@ class SDTargetCreate(StrictModel):
         default=None,
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets.",
     )
-    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
+    adProduct: SDAdProduct = Field(description="""
+Supported values:
+- `SPONSORED_DISPLAY`: Sponsored Display ad product.
+""")
     bid: SDCreateTargetBid | None = Field(default=None)
     campaignId: str | None = Field(
         default=None,
         description="A unique identifier for the campaign associated with the target. Only used for campaign-level targets.",
     )
     negative: bool = Field(description="Indicates whether the target is negative or not.")
-    state: Annotated[SDCreateState | str, lenient_enum(SDCreateState)]
+    state: SDCreateState = Field(description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     targetDetails: SDCreateTargetDetails
-    targetType: Annotated[SDTargetType | str, lenient_enum(SDTargetType)]
+    targetType: SDTargetType = Field(description="""
+Supported values:
+- `AUDIENCE`: Target based on an audience segment.
+- `CONTENT_CATEGORY`: Target based on content category.
+- `KEYWORD`: Target based on customer search terms.
+- `LOCATION`: Target based on geographic location.
+- `PRODUCT_AUDIENCE`: Target customers who interacted with a specific product.
+- `PRODUCT_CATEGORY`: Target based on a product category.
+- `PRODUCT`: Target based on a specific product.
+- `THEME`: Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
+""")
 
 
 class SDTargetDetailsAudienceTarget(LenientModel):
@@ -459,7 +655,16 @@ class SDTargetMultiStatusSuccess(LenientModel):
 
 
 class SDTargetStateFilter(StrictModel):
-    include: list[Annotated[SDState | str, lenient_enum(SDState)]] = Field(min_length=1, max_length=3)
+    include: list[SDState | str] = Field(
+        min_length=1,
+        max_length=3,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class SDTargetSuccessResponse(LenientModel):
@@ -473,14 +678,24 @@ class SDTargetTargetIdFilter(StrictModel):
 
 class SDTargetUpdate(StrictModel):
     bid: SDUpdateTargetBid | None = Field(default=None)
-    state: Annotated[SDUpdateState | str, lenient_enum(SDUpdateState)] | None = Field(default=None)
+    state: SDUpdateState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
     targetId: str = Field(description="A unique identifier for the target.")
 
 
 class SDThemeTarget(LenientModel):
     """Theme targets let advertisers select high-performing targets based on a common theme."""
 
-    matchType: Annotated[SDThemeMatchType | str, lenient_enum(SDThemeMatchType)]
+    matchType: SDThemeMatchType | str = Field(description="""
+Supported values:
+- `INTERESTED_AUDIENCE`: Audiences that are likely interested in the advertised product or service.
+""")
 
 
 class SDUpdateTargetBid(StrictModel):

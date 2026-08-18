@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     SponsoredProductsBiddingError,
     SponsoredProductsBiddingErrorReason,
@@ -51,75 +49,75 @@ from ads_api.models.v0._shared import (
     SponsoredProductsValueLimitErrorReason,
 )
 
-
-class SponsoredProductsAdGroupServingStatus(StrEnum):
-    ADVERTISER_ARCHIVED = "ADVERTISER_ARCHIVED"
-    ADVERTISER_EXCEED_SPENDS_LIMIT = "ADVERTISER_EXCEED_SPENDS_LIMIT"
-    ADVERTISER_OUT_OF_BUDGET = "ADVERTISER_OUT_OF_BUDGET"
-    ADVERTISER_PAUSED = "ADVERTISER_PAUSED"
-    ADVERTISER_PAYMENT_FAILURE = "ADVERTISER_PAYMENT_FAILURE"
-    ADVERTISER_POLICING_PENDING_REVIEW = "ADVERTISER_POLICING_PENDING_REVIEW"
-    ADVERTISER_POLICING_SUSPENDED = "ADVERTISER_POLICING_SUSPENDED"
-    AD_GROUP_ARCHIVED = "AD_GROUP_ARCHIVED"
-    AD_GROUP_INCOMPLETE = "AD_GROUP_INCOMPLETE"
-    AD_GROUP_LOW_BID = "AD_GROUP_LOW_BID"
-    AD_GROUP_PAUSED = "AD_GROUP_PAUSED"
-    AD_GROUP_POLICING_CREATIVE_REJECTED = "AD_GROUP_POLICING_CREATIVE_REJECTED"
-    AD_GROUP_POLICING_PENDING_REVIEW = "AD_GROUP_POLICING_PENDING_REVIEW"
-    AD_GROUP_STATUS_ENABLED = "AD_GROUP_STATUS_ENABLED"
-    CAMPAIGN_ARCHIVED = "CAMPAIGN_ARCHIVED"
-    CAMPAIGN_INCOMPLETE = "CAMPAIGN_INCOMPLETE"
-    CAMPAIGN_OUT_OF_BUDGET = "CAMPAIGN_OUT_OF_BUDGET"
-    CAMPAIGN_PAUSED = "CAMPAIGN_PAUSED"
-    CAMPAIGN_STATUS_ENABLED = "CAMPAIGN_STATUS_ENABLED"
-    ENDED = "ENDED"
-    OTHER = "OTHER"
-    PENDING_REVIEW = "PENDING_REVIEW"
-    PENDING_START_DATE = "PENDING_START_DATE"
-    PORTFOLIO_ARCHIVED = "PORTFOLIO_ARCHIVED"
-    PORTFOLIO_ENDED = "PORTFOLIO_ENDED"
-    PORTFOLIO_OUT_OF_BUDGET = "PORTFOLIO_OUT_OF_BUDGET"
-    PORTFOLIO_PAUSED = "PORTFOLIO_PAUSED"
-    PORTFOLIO_PENDING_START_DATE = "PORTFOLIO_PENDING_START_DATE"
-    PORTFOLIO_STATUS_ENABLED = "PORTFOLIO_STATUS_ENABLED"
-    REJECTED = "REJECTED"
-
-
-class SponsoredProductsAdGroupServingStatusReason(StrEnum):
-    ADVERTISER_ARCHIVED_DETAIL = "ADVERTISER_ARCHIVED_DETAIL"
-    ADVERTISER_EXCEED_SPENDS_LIMIT_DETAIL = "ADVERTISER_EXCEED_SPENDS_LIMIT_DETAIL"
-    ADVERTISER_OUT_OF_BUDGET_DETAIL = "ADVERTISER_OUT_OF_BUDGET_DETAIL"
-    ADVERTISER_PAUSED_DETAIL = "ADVERTISER_PAUSED_DETAIL"
-    ADVERTISER_PAYMENT_FAILURE_DETAIL = "ADVERTISER_PAYMENT_FAILURE_DETAIL"
-    ADVERTISER_POLICING_PENDING_REVIEW_DETAIL = "ADVERTISER_POLICING_PENDING_REVIEW_DETAIL"
-    ADVERTISER_POLICING_SUSPENDED_DETAIL = "ADVERTISER_POLICING_SUSPENDED_DETAIL"
-    AD_GROUP_ARCHIVED_DETAIL = "AD_GROUP_ARCHIVED_DETAIL"
-    AD_GROUP_INCOMPLETE_DETAIL = "AD_GROUP_INCOMPLETE_DETAIL"
-    AD_GROUP_LOW_BID_DETAIL = "AD_GROUP_LOW_BID_DETAIL"
-    AD_GROUP_PAUSED_DETAIL = "AD_GROUP_PAUSED_DETAIL"
-    AD_GROUP_POLICING_CREATIVE_REJECTED_DETAIL = "AD_GROUP_POLICING_CREATIVE_REJECTED_DETAIL"
-    AD_GROUP_POLICING_PENDING_REVIEW_DETAIL = "AD_GROUP_POLICING_PENDING_REVIEW_DETAIL"
-    AD_GROUP_STATUS_ENABLED_DETAIL = "AD_GROUP_STATUS_ENABLED_DETAIL"
-    CAMPAIGN_ARCHIVED_DETAIL = "CAMPAIGN_ARCHIVED_DETAIL"
-    CAMPAIGN_INCOMPLETE_DETAIL = "CAMPAIGN_INCOMPLETE_DETAIL"
-    CAMPAIGN_OUT_OF_BUDGET_DETAIL = "CAMPAIGN_OUT_OF_BUDGET_DETAIL"
-    CAMPAIGN_PAUSED_DETAIL = "CAMPAIGN_PAUSED_DETAIL"
-    CAMPAIGN_STATUS_ENABLED_DETAIL = "CAMPAIGN_STATUS_ENABLED_DETAIL"
-    ENDED_DETAIL = "ENDED_DETAIL"
-    OTHER = "OTHER"
-    PENDING_REVIEW_DETAIL = "PENDING_REVIEW_DETAIL"
-    PENDING_START_DATE_DETAIL = "PENDING_START_DATE_DETAIL"
-    PORTFOLIO_ARCHIVED_DETAIL = "PORTFOLIO_ARCHIVED_DETAIL"
-    PORTFOLIO_ENDED_DETAIL = "PORTFOLIO_ENDED_DETAIL"
-    PORTFOLIO_OUT_OF_BUDGET_DETAIL = "PORTFOLIO_OUT_OF_BUDGET_DETAIL"
-    PORTFOLIO_PAUSED_DETAIL = "PORTFOLIO_PAUSED_DETAIL"
-    PORTFOLIO_PENDING_START_DATE_DETAIL = "PORTFOLIO_PENDING_START_DATE_DETAIL"
-    PORTFOLIO_STATUS_ENABLED_DETAIL = "PORTFOLIO_STATUS_ENABLED_DETAIL"
-    REJECTED_DETAIL = "REJECTED_DETAIL"
+type SponsoredProductsAdGroupServingStatus = Literal[
+    "ADVERTISER_ARCHIVED",
+    "ADVERTISER_EXCEED_SPENDS_LIMIT",
+    "ADVERTISER_OUT_OF_BUDGET",
+    "ADVERTISER_PAUSED",
+    "ADVERTISER_PAYMENT_FAILURE",
+    "ADVERTISER_POLICING_PENDING_REVIEW",
+    "ADVERTISER_POLICING_SUSPENDED",
+    "AD_GROUP_ARCHIVED",
+    "AD_GROUP_INCOMPLETE",
+    "AD_GROUP_LOW_BID",
+    "AD_GROUP_PAUSED",
+    "AD_GROUP_POLICING_CREATIVE_REJECTED",
+    "AD_GROUP_POLICING_PENDING_REVIEW",
+    "AD_GROUP_STATUS_ENABLED",
+    "CAMPAIGN_ARCHIVED",
+    "CAMPAIGN_INCOMPLETE",
+    "CAMPAIGN_OUT_OF_BUDGET",
+    "CAMPAIGN_PAUSED",
+    "CAMPAIGN_STATUS_ENABLED",
+    "ENDED",
+    "OTHER",
+    "PENDING_REVIEW",
+    "PENDING_START_DATE",
+    "PORTFOLIO_ARCHIVED",
+    "PORTFOLIO_ENDED",
+    "PORTFOLIO_OUT_OF_BUDGET",
+    "PORTFOLIO_PAUSED",
+    "PORTFOLIO_PENDING_START_DATE",
+    "PORTFOLIO_STATUS_ENABLED",
+    "REJECTED",
+]
 
 
-class SponsoredProductsApplicableMarketplacesErrorReason(StrEnum):
-    APPLICABLE_MARKETPLACES_MISMATCH_ERROR = "APPLICABLE_MARKETPLACES_MISMATCH_ERROR"
+type SponsoredProductsAdGroupServingStatusReason = Literal[
+    "ADVERTISER_ARCHIVED_DETAIL",
+    "ADVERTISER_EXCEED_SPENDS_LIMIT_DETAIL",
+    "ADVERTISER_OUT_OF_BUDGET_DETAIL",
+    "ADVERTISER_PAUSED_DETAIL",
+    "ADVERTISER_PAYMENT_FAILURE_DETAIL",
+    "ADVERTISER_POLICING_PENDING_REVIEW_DETAIL",
+    "ADVERTISER_POLICING_SUSPENDED_DETAIL",
+    "AD_GROUP_ARCHIVED_DETAIL",
+    "AD_GROUP_INCOMPLETE_DETAIL",
+    "AD_GROUP_LOW_BID_DETAIL",
+    "AD_GROUP_PAUSED_DETAIL",
+    "AD_GROUP_POLICING_CREATIVE_REJECTED_DETAIL",
+    "AD_GROUP_POLICING_PENDING_REVIEW_DETAIL",
+    "AD_GROUP_STATUS_ENABLED_DETAIL",
+    "CAMPAIGN_ARCHIVED_DETAIL",
+    "CAMPAIGN_INCOMPLETE_DETAIL",
+    "CAMPAIGN_OUT_OF_BUDGET_DETAIL",
+    "CAMPAIGN_PAUSED_DETAIL",
+    "CAMPAIGN_STATUS_ENABLED_DETAIL",
+    "ENDED_DETAIL",
+    "OTHER",
+    "PENDING_REVIEW_DETAIL",
+    "PENDING_START_DATE_DETAIL",
+    "PORTFOLIO_ARCHIVED_DETAIL",
+    "PORTFOLIO_ENDED_DETAIL",
+    "PORTFOLIO_OUT_OF_BUDGET_DETAIL",
+    "PORTFOLIO_PAUSED_DETAIL",
+    "PORTFOLIO_PENDING_START_DATE_DETAIL",
+    "PORTFOLIO_STATUS_ENABLED_DETAIL",
+    "REJECTED_DETAIL",
+]
+
+
+type SponsoredProductsApplicableMarketplacesErrorReason = Literal["APPLICABLE_MARKETPLACES_MISMATCH_ERROR"]
 
 
 class SponsoredProductsAdGroup(LenientModel):
@@ -133,16 +131,22 @@ class SponsoredProductsAdGroup(LenientModel):
         default=None, description="The global adGroup identifier that manages this marketplace adGroup."
     )
     name: str = Field(description="The name of the ad group.")
-    state: Annotated[SponsoredProductsEntityState | str, lenient_enum(SponsoredProductsEntityState)]
+    state: SponsoredProductsEntityState | str = Field(description="""
+Supported values:
+- `ENABLED`: Enabled State
+- `PAUSED`: Paused State
+- `PROPOSED`: Proposed State (Upcoming Feature)
+- `ARCHIVED`: ARCHIVED State
+- `ENABLING`: State for Draft Entity Only
+- `USER_DELETED`: State for Draft Entity Only
+- `OTHER`: Read Only
+""")
 
 
 class SponsoredProductsAdGroupExtendedData(LenientModel):
     creationDateTime: datetime | None = Field(default=None, description="Creation date in ISO 8601.")
     lastUpdateDateTime: datetime | None = Field(default=None, description="Last updated date in ISO 8601.")
-    servingStatus: (
-        Annotated[SponsoredProductsAdGroupServingStatus | str, lenient_enum(SponsoredProductsAdGroupServingStatus)]
-        | None
-    ) = Field(default=None)
+    servingStatus: SponsoredProductsAdGroupServingStatus | str | None = Field(default=None)
     servingStatusDetails: list[SponsoredProductsAdGroupServingStatusDetail] | None = Field(
         default=None, description="The serving status reasons of the AdGroup"
     )
@@ -184,12 +188,7 @@ class SponsoredProductsAdGroupServingStatusDetail(LenientModel):
     message: str | None = Field(
         default=None, description="A human-readable description of the status identifier specified in the name field."
     )
-    name: (
-        Annotated[
-            SponsoredProductsAdGroupServingStatusReason | str, lenient_enum(SponsoredProductsAdGroupServingStatusReason)
-        ]
-        | None
-    ) = Field(default=None)
+    name: SponsoredProductsAdGroupServingStatusReason | str | None = Field(default=None)
 
 
 class SponsoredProductsAdGroupSuccessResponseItem(LenientModel):
@@ -203,10 +202,7 @@ class SponsoredProductsApplicableMarketplacesError(LenientModel):
 
     cause: SponsoredProductsErrorCause | None = Field(default=None)
     message: str = Field(description="Human readable error message")
-    reason: Annotated[
-        SponsoredProductsApplicableMarketplacesErrorReason | str,
-        lenient_enum(SponsoredProductsApplicableMarketplacesErrorReason),
-    ]
+    reason: SponsoredProductsApplicableMarketplacesErrorReason | str
 
 
 class SponsoredProductsBulkAdGroupOperationResponse(LenientModel):
@@ -222,9 +218,7 @@ class SponsoredProductsCreateAdGroup(StrictModel):
         description="A bid value for use when no bid is specified for keywords in the ad group. For more information about bid constraints by marketplace, see [bid limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace)."
     )
     name: str = Field(description="The name of the ad group.")
-    state: Annotated[
-        SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
-    ]
+    state: SponsoredProductsCreateOrUpdateEntityState
 
 
 class SponsoredProductsCreateSponsoredProductsAdGroupsRequestContent(StrictModel):
@@ -248,9 +242,7 @@ class SponsoredProductsDeleteSponsoredProductsAdGroupsResponseContent(LenientMod
 class SponsoredProductsListSponsoredProductsAdGroupsRequestContent(StrictModel):
     adGroupIdFilter: SponsoredProductsObjectIdFilter | None = Field(default=None)
     campaignIdFilter: SponsoredProductsReducedObjectIdFilter | None = Field(default=None)
-    campaignTargetingTypeFilter: (
-        Annotated[SponsoredProductsTargetingType | str, lenient_enum(SponsoredProductsTargetingType)] | None
-    ) = Field(default=None)
+    campaignTargetingTypeFilter: SponsoredProductsTargetingType | None = Field(default=None)
     includeExtendedDataFields: bool | None = Field(
         default=None,
         description="Whether to get entity with extended data fields such as creationDate, lastUpdateDate, servingStatus",
@@ -281,12 +273,7 @@ class SponsoredProductsUpdateAdGroup(StrictModel):
         description="A bid value for use when no bid is specified for keywords in the ad group. For more information about bid constraints by marketplace, see [bid limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).",
     )
     name: str | None = Field(default=None, description="The name of the ad group.")
-    state: (
-        Annotated[
-            SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
-        ]
-        | None
-    ) = Field(default=None)
+    state: SponsoredProductsCreateOrUpdateEntityState | None = Field(default=None)
 
 
 class SponsoredProductsUpdateSponsoredProductsAdGroupsRequestContent(StrictModel):

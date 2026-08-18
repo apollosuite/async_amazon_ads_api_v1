@@ -2,87 +2,74 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated, Any
+from typing import Any, Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     DisassociateAssociatedBudgetRuleResponse,
 )
 
-
-class BudgetChangeType(StrEnum):
-    """
-    The value by which to update the budget of the budget rule.
-    """
-
-    PERCENT = "PERCENT"
+type BudgetChangeType = Literal["PERCENT"]
+"""
+The value by which to update the budget of the budget rule.
+"""
 
 
-class ComparisonOperator(StrEnum):
-    """
-    The comparison operator.
-    """
-
-    EQUAL_TO = "EQUAL_TO"
-    GREATER_THAN = "GREATER_THAN"
-    GREATER_THAN_OR_EQUAL_TO = "GREATER_THAN_OR_EQUAL_TO"
-    LESS_THAN = "LESS_THAN"
-    LESS_THAN_OR_EQUAL_TO = "LESS_THAN_OR_EQUAL_TO"
-
-
-class DayOfWeek(StrEnum):
-    """
-    The day of the week.
-    """
-
-    FRIDAY = "FRIDAY"
-    MONDAY = "MONDAY"
-    SATURDAY = "SATURDAY"
-    SUNDAY = "SUNDAY"
-    THURSDAY = "THURSDAY"
-    TUESDAY = "TUESDAY"
-    WEDNESDAY = "WEDNESDAY"
+type ComparisonOperator = Literal[
+    "EQUAL_TO",
+    "GREATER_THAN",
+    "GREATER_THAN_OR_EQUAL_TO",
+    "LESS_THAN",
+    "LESS_THAN_OR_EQUAL_TO",
+]
+"""
+The comparison operator.
+"""
 
 
-class PerformanceMetric(StrEnum):
-    """
-    The advertising performance metric.
-    """
-
-    ACOS = "ACOS"
-    CTR = "CTR"
-    CVR = "CVR"
-    ROAS = "ROAS"
-
-
-class RecurrenceType(StrEnum):
-    """
-    The frequency of the rule application.
-    """
-
-    DAILY = "DAILY"
+type DayOfWeek = Literal[
+    "FRIDAY",
+    "MONDAY",
+    "SATURDAY",
+    "SUNDAY",
+    "THURSDAY",
+    "TUESDAY",
+    "WEDNESDAY",
+]
+"""
+The day of the week.
+"""
 
 
-class SPRuleType(StrEnum):
-    """
-    The type of budget rule. SCHEDULE: A budget rule based on a start and end date. PERFORMANCE: A budget rule based on advertising performance criteria.
-    """
+type PerformanceMetric = Literal[
+    "ACOS",
+    "CTR",
+    "CVR",
+    "ROAS",
+]
+"""
+The advertising performance metric.
+"""
 
-    PERFORMANCE = "PERFORMANCE"
-    SCHEDULE = "SCHEDULE"
+
+type RecurrenceType = Literal["DAILY"]
+"""
+The frequency of the rule application.
+"""
 
 
-class State(StrEnum):
-    """
-    The budget rule state.
-    """
+type SPRuleType = Literal["PERFORMANCE", "SCHEDULE"]
+"""
+The type of budget rule. SCHEDULE: A budget rule based on a start and end date. PERFORMANCE: A budget rule based on advertising performance criteria.
+"""
 
-    ACTIVE = "ACTIVE"
-    PAUSED = "PAUSED"
+
+type State = Literal["ACTIVE", "PAUSED"]
+"""
+The budget rule state.
+"""
 
 
 class AssociatedBudgetRuleResult(LenientModel):
@@ -98,12 +85,12 @@ class AssociatedCampaign(LenientModel):
 
 
 class BudgetIncreaseBy(StrictModel):
-    type: Annotated[BudgetChangeType | str, lenient_enum(BudgetChangeType)]
+    type: BudgetChangeType
     value: float = Field(description="The budget value.")
 
 
 class BudgetIncreaseByOut(LenientModel):
-    type: Annotated[BudgetChangeType | str, lenient_enum(BudgetChangeType)]
+    type: BudgetChangeType | str
     value: float = Field(description="The budget value.")
 
 
@@ -234,19 +221,19 @@ class GetSPBudgetRulesForAdvertiserResponse(LenientModel):
 
 
 class PerformanceMeasureCondition(StrictModel):
-    comparisonOperator: Annotated[ComparisonOperator | str, lenient_enum(ComparisonOperator)]
-    metricName: Annotated[PerformanceMetric | str, lenient_enum(PerformanceMetric)]
+    comparisonOperator: ComparisonOperator
+    metricName: PerformanceMetric
     threshold: float = Field(description="The performance threshold value.")
 
 
 class PerformanceMeasureConditionOut(LenientModel):
-    comparisonOperator: Annotated[ComparisonOperator | str, lenient_enum(ComparisonOperator)]
-    metricName: Annotated[PerformanceMetric | str, lenient_enum(PerformanceMetric)]
+    comparisonOperator: ComparisonOperator | str
+    metricName: PerformanceMetric | str
     threshold: float = Field(description="The performance threshold value.")
 
 
 class Recurrence(StrictModel):
-    daysOfWeek: list[Annotated[DayOfWeek | str, lenient_enum(DayOfWeek)]] | None = Field(
+    daysOfWeek: list[DayOfWeek | str] | None = Field(
         default=None,
         description="Object representing days of the week for weekly type rule. It is not required for daily recurrence type",
     )
@@ -255,11 +242,11 @@ class Recurrence(StrictModel):
         max_length=1,
         description="List of objects representing start and end time of desired intra-day budget rule window",
     )
-    type: Annotated[RecurrenceType | str, lenient_enum(RecurrenceType)] | None = Field(default=None)
+    type: RecurrenceType | None = Field(default=None)
 
 
 class RecurrenceOut(LenientModel):
-    daysOfWeek: list[Annotated[DayOfWeek | str, lenient_enum(DayOfWeek)]] | None = Field(
+    daysOfWeek: list[DayOfWeek | str] | None = Field(
         default=None,
         description="Object representing days of the week for weekly type rule. It is not required for daily recurrence type",
     )
@@ -268,7 +255,7 @@ class RecurrenceOut(LenientModel):
         max_length=1,
         description="List of objects representing start and end time of desired intra-day budget rule window",
     )
-    type: Annotated[RecurrenceType | str, lenient_enum(RecurrenceType)] | None = Field(default=None)
+    type: RecurrenceType | str | None = Field(default=None)
 
 
 class RuleDuration(StrictModel):
@@ -286,7 +273,7 @@ class SPBudgetRule(StrictModel):
     lastUpdatedDate: float | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
     ruleDetails: SPBudgetRuleDetails | None = Field(default=None)
     ruleId: str = Field(description="The budget rule identifier.")
-    ruleState: Annotated[State | str, lenient_enum(State)] | None = Field(default=None)
+    ruleState: State | None = Field(default=None)
     ruleStatus: str | None = Field(default=None, description="The budget rule status. Read-only.")
 
 
@@ -300,7 +287,7 @@ class SPBudgetRuleDetails(StrictModel):
     )
     performanceMeasureCondition: PerformanceMeasureCondition | None = Field(default=None)
     recurrence: Recurrence | None = Field(default=None)
-    ruleType: Annotated[SPRuleType | str, lenient_enum(SPRuleType)] | None = Field(default=None)
+    ruleType: SPRuleType | None = Field(default=None)
 
 
 class SPBudgetRuleDetailsOut(LenientModel):
@@ -313,7 +300,7 @@ class SPBudgetRuleDetailsOut(LenientModel):
     )
     performanceMeasureCondition: PerformanceMeasureConditionOut | None = Field(default=None)
     recurrence: RecurrenceOut | None = Field(default=None)
-    ruleType: Annotated[SPRuleType | str, lenient_enum(SPRuleType)] | None = Field(default=None)
+    ruleType: SPRuleType | str | None = Field(default=None)
 
 
 class SPBudgetRuleOut(LenientModel):
@@ -321,7 +308,7 @@ class SPBudgetRuleOut(LenientModel):
     lastUpdatedDate: float | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
     ruleDetails: SPBudgetRuleDetailsOut | None = Field(default=None)
     ruleId: str = Field(description="The budget rule identifier.")
-    ruleState: Annotated[State | str, lenient_enum(State)] | None = Field(default=None)
+    ruleState: State | str | None = Field(default=None)
     ruleStatus: str | None = Field(default=None, description="The budget rule status. Read-only.")
 
 
@@ -330,7 +317,7 @@ class SPCampaignBudgetRule(LenientModel):
     lastUpdatedDate: float | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
     ruleDetails: SPBudgetRuleDetailsOut | None = Field(default=None)
     ruleId: str = Field(description="The budget rule identifier.")
-    ruleState: Annotated[State | str, lenient_enum(State)] | None = Field(default=None)
+    ruleState: State | str | None = Field(default=None)
     ruleStatus: str | None = Field(default=None, description="The budget rule evaluation status. Read-only.")
 
 

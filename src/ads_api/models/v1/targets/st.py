@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.st import (
     STAdProduct,
     STCreateState,
@@ -23,10 +21,15 @@ from ads_api.models.v1._shared.st import (
     STUpdateState,
 )
 
-
-class STTargetType(StrEnum):
-    AUDIENCE = "AUDIENCE"  # Target based on an audience segment.
-    LOCATION = "LOCATION"  # Target based on geographic location.
+type STTargetType = Literal[
+    "AUDIENCE",  # Target based on an audience segment.
+    "LOCATION",  # Target based on geographic location.
+]
+"""
+Supported values:
+- `AUDIENCE`: Target based on an audience segment.
+- `LOCATION`: Target based on geographic location.
+"""
 
 
 class STAudienceTarget(LenientModel):
@@ -111,18 +114,30 @@ class STTarget(LenientModel):
     adGroupId: str = Field(
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets."
     )
-    adProduct: Annotated[STAdProduct | str, lenient_enum(STAdProduct)]
+    adProduct: STAdProduct | str = Field(description="""
+Supported values:
+- `SPONSORED_TELEVISION`: Sponsored Television ad product.
+""")
     campaignId: str = Field(
         description="A unique identifier for the campaign associated with the target. Only used for campaign-level targets."
     )
     creationDateTime: datetime = Field(description="The date time the target was created.")
     lastUpdatedDateTime: datetime = Field(description="The date time the target was last updated.")
     negative: bool = Field(description="Indicates whether the target is negative or not.")
-    state: Annotated[STState | str, lenient_enum(STState)]
+    state: STState | str = Field(description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     status: STStatus | None = Field(default=None)
     targetDetails: STTargetDetails
     targetId: str = Field(description="A unique identifier for the target.")
-    targetType: Annotated[STTargetType | str, lenient_enum(STTargetType)]
+    targetType: STTargetType | str = Field(description="""
+Supported values:
+- `AUDIENCE`: Target based on an audience segment.
+- `LOCATION`: Target based on geographic location.
+""")
 
 
 class STTargetAdGroupIdFilter(StrictModel):
@@ -130,7 +145,14 @@ class STTargetAdGroupIdFilter(StrictModel):
 
 
 class STTargetAdProductFilter(StrictModel):
-    include: list[Annotated[STAdProduct | str, lenient_enum(STAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[STAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `SPONSORED_TELEVISION`: Sponsored Television ad product.
+""",
+    )
 
 
 class STTargetCampaignIdFilter(StrictModel):
@@ -141,11 +163,22 @@ class STTargetCreate(StrictModel):
     adGroupId: str = Field(
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets."
     )
-    adProduct: Annotated[STAdProduct | str, lenient_enum(STAdProduct)]
+    adProduct: STAdProduct = Field(description="""
+Supported values:
+- `SPONSORED_TELEVISION`: Sponsored Television ad product.
+""")
     negative: bool = Field(description="Indicates whether the target is negative or not.")
-    state: Annotated[STCreateState | str, lenient_enum(STCreateState)]
+    state: STCreateState = Field(description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     targetDetails: STCreateTargetDetails
-    targetType: Annotated[STTargetType | str, lenient_enum(STTargetType)]
+    targetType: STTargetType = Field(description="""
+Supported values:
+- `AUDIENCE`: Target based on an audience segment.
+- `LOCATION`: Target based on geographic location.
+""")
 
 
 class STTargetDetailsAudienceTarget(LenientModel):
@@ -170,7 +203,16 @@ class STTargetMultiStatusSuccess(LenientModel):
 
 
 class STTargetStateFilter(StrictModel):
-    include: list[Annotated[STState | str, lenient_enum(STState)]] = Field(min_length=1, max_length=3)
+    include: list[STState | str] = Field(
+        min_length=1,
+        max_length=3,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class STTargetSuccessResponse(LenientModel):
@@ -184,7 +226,14 @@ class STTargetTargetIdFilter(StrictModel):
 
 
 class STTargetUpdate(StrictModel):
-    state: Annotated[STUpdateState | str, lenient_enum(STUpdateState)] | None = Field(default=None)
+    state: STUpdateState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
     targetId: str = Field(description="A unique identifier for the target.")
 
 

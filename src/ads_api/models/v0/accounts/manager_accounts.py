@@ -2,61 +2,53 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
+
+type AccountRelationshipRole = Literal[
+    "ENTITY_OWNER",
+    "ENTITY_USER",
+    "ENTITY_VIEWER",
+    "SELLER_USER",
+]
+"""
+The type of a role used in account relationships.
+"""
 
 
-class AccountRelationshipRole(StrEnum):
-    """
-    The type of a role used in account relationships.
-    """
-
-    ENTITY_OWNER = "ENTITY_OWNER"
-    ENTITY_USER = "ENTITY_USER"
-    ENTITY_VIEWER = "ENTITY_VIEWER"
-    SELLER_USER = "SELLER_USER"
+type AccountToUpdateType = Literal["ACCOUNT_ID", "DSP_ADVERTISER_ID"]
+"""
+The type of the Id
+"""
 
 
-class AccountToUpdateType(StrEnum):
-    """
-    The type of the Id
-    """
-
-    ACCOUNT_ID = "ACCOUNT_ID"
-    DSP_ADVERTISER_ID = "DSP_ADVERTISER_ID"
-
-
-class AccountType(StrEnum):
-    """
-    Type of the Amazon Advertising account.
-    """
-
-    DSP_ADVERTISING_ACCOUNT = "DSP_ADVERTISING_ACCOUNT"
-    MARKETING_CLOUD = "MARKETING_CLOUD"
-    SELLER = "SELLER"
-    VENDOR = "VENDOR"
+type AccountType = Literal[
+    "DSP_ADVERTISING_ACCOUNT",
+    "MARKETING_CLOUD",
+    "SELLER",
+    "VENDOR",
+]
+"""
+Type of the Amazon Advertising account.
+"""
 
 
-class CreateManagerAccountRequestManagerAccountType(StrEnum):
-    """
-    Type of the Manager account, which indicates how the Manager account will be used. Use `Advertiser` if the Manager account will be used for **your own** products and services, or `Agency` if you are managing accounts **on behalf of your clients**.
-    """
-
-    Advertiser = "Advertiser"
-    Agency = "Agency"
+type CreateManagerAccountRequestManagerAccountType = Literal["Advertiser", "Agency"]
+"""
+Type of the Manager account, which indicates how the Manager account will be used. Use `Advertiser` if the Manager account will be used for **your own** products and services, or `Agency` if you are managing accounts **on behalf of your clients**.
+"""
 
 
-class ErrorDetailCode(StrEnum):
-    BAD_REQUEST = "BAD_REQUEST"
-    FORBIDDEN = "FORBIDDEN"
-    INTERNAL_SERVICE_ERROR = "INTERNAL_SERVICE_ERROR"
-    TOO_MANY_REQUESTS = "TOO_MANY_REQUESTS"
-    UNAUTHORIZED = "UNAUTHORIZED"
+type ErrorDetailCode = Literal[
+    "BAD_REQUEST",
+    "FORBIDDEN",
+    "INTERNAL_SERVICE_ERROR",
+    "TOO_MANY_REQUESTS",
+    "UNAUTHORIZED",
+]
 
 
 class Account(LenientModel):
@@ -64,7 +56,7 @@ class Account(LenientModel):
 
     accountId: str | None = Field(default=None, description="Id of the Amazon Advertising account.")
     accountName: str | None = Field(default=None, description="The name given to the Amazon Advertising account.")
-    accountType: Annotated[AccountType | str, lenient_enum(AccountType)] | None = Field(default=None)
+    accountType: AccountType | str | None = Field(default=None)
     dspAdvertiserId: str | None = Field(
         default=None,
         description="The identifier of a DSP advertiser. Note that this value is only populated for accounts with type `DSP_ADVERTISING_ACCOUNT`. It will be `null` for accounts of other types.",
@@ -85,13 +77,11 @@ class AccountToUpdate(StrictModel):
     """
 
     id: str | None = Field(default=None, description="Id of the Amazon Advertising account.")
-    roles: list[Annotated[AccountRelationshipRole | str, lenient_enum(AccountRelationshipRole)]] | None = Field(
+    roles: list[AccountRelationshipRole | str] | None = Field(
         default=None,
         description="The types of role that will exist with the Amazon Advertising account. Depending on account type, the default role will be ENTITY_USER or SELLER_USER. Only one role at a time is currently supported",
     )
-    type: Annotated[AccountToUpdateType | str, lenient_enum(AccountToUpdateType)] | None = Field(
-        default=None, description="The type of the Id"
-    )
+    type: AccountToUpdateType | None = Field(default=None, description="The type of the Id")
 
 
 class AccountToUpdateFailure(LenientModel):
@@ -107,26 +97,18 @@ class AccountToUpdateOut(LenientModel):
     """
 
     id: str | None = Field(default=None, description="Id of the Amazon Advertising account.")
-    roles: list[Annotated[AccountRelationshipRole | str, lenient_enum(AccountRelationshipRole)]] | None = Field(
+    roles: list[AccountRelationshipRole | str] | None = Field(
         default=None,
         description="The types of role that will exist with the Amazon Advertising account. Depending on account type, the default role will be ENTITY_USER or SELLER_USER. Only one role at a time is currently supported",
     )
-    type: Annotated[AccountToUpdateType | str, lenient_enum(AccountToUpdateType)] | None = Field(
-        default=None, description="The type of the Id"
-    )
+    type: AccountToUpdateType | str | None = Field(default=None, description="The type of the Id")
 
 
 class CreateManagerAccountRequest(StrictModel):
     """Request object that defines the fields required to create a Manager account."""
 
     managerAccountName: str | None = Field(default=None, description="Name of the Manager account.")
-    managerAccountType: (
-        Annotated[
-            CreateManagerAccountRequestManagerAccountType | str,
-            lenient_enum(CreateManagerAccountRequestManagerAccountType),
-        ]
-        | None
-    ) = Field(
+    managerAccountType: CreateManagerAccountRequestManagerAccountType | None = Field(
         default=None,
         description="Type of the Manager account, which indicates how the Manager account will be used. Use `Advertiser` if the Manager account will be used for **your own** products and services, or `Agency` if you are managing accounts **on behalf of your clients**.",
     )
@@ -135,7 +117,7 @@ class CreateManagerAccountRequest(StrictModel):
 class ErrorDetail(LenientModel):
     """The error response object."""
 
-    code: Annotated[ErrorDetailCode | str, lenient_enum(ErrorDetailCode)] | None = Field(default=None)
+    code: ErrorDetailCode | str | None = Field(default=None)
     message: str | None = Field(default=None, description="A human-readable description of the error.")
 
 

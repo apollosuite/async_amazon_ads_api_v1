@@ -2,52 +2,39 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     TargetingExpressionType,
 )
 
-
-class BenchmarkBenchmarkStatus(StrEnum):
-    """
-    Specifies the processing status of the benchmark. Success - If all fields in values property (impressions, clicks, conversions) have all non-null values. Failed - If all fields in values property have all null values. Partial - If some of the fields (impressions, clicks, or conversions) in values property have null values.
-    """
-
-    failed = "failed"
-    partial = "partial"
-    success = "success"
+type BenchmarkBenchmarkStatus = Literal["failed", "partial", "success"]
+"""
+Specifies the processing status of the benchmark. Success - If all fields in values property (impressions, clicks, conversions) have all non-null values. Failed - If all fields in values property have all null values. Partial - If some of the fields (impressions, clicks, or conversions) in values property have null values.
+"""
 
 
-class BiddingStrategy(StrEnum):
-    """
-    The bidding strategy selected for the campaign. Use LEGACY_FOR_SALES to lower your bid in real time when your ad may be less likely to convert to a sale. Use AUTO_FOR_SALES to increase your bid in real time when your ad may be more likely to convert to a sale or lower your bid when less likely to convert to a sale. Use MANUAL to use your exact bid along with any manual adjustments.
-    """
-
-    AUTO_FOR_SALES = "AUTO_FOR_SALES"
-    LEGACY_FOR_SALES = "LEGACY_FOR_SALES"
-    MANUAL = "MANUAL"
-    RULE_BASED = "RULE_BASED"
-
-
-class InitialBudgetRecommendationRequestTargetingType(StrEnum):
-    """
-    Specifies the targeting type.
-    """
-
-    auto = "auto"
-    manual = "manual"
+type BiddingStrategy = Literal[
+    "AUTO_FOR_SALES",
+    "LEGACY_FOR_SALES",
+    "MANUAL",
+    "RULE_BASED",
+]
+"""
+The bidding strategy selected for the campaign. Use LEGACY_FOR_SALES to lower your bid in real time when your ad may be less likely to convert to a sale. Use AUTO_FOR_SALES to increase your bid in real time when your ad may be more likely to convert to a sale or lower your bid when less likely to convert to a sale. Use MANUAL to use your exact bid along with any manual adjustments.
+"""
 
 
-class PlacementAdjustmentPredicate(StrEnum):
-    PLACEMENT_PRODUCT_PAGE = "PLACEMENT_PRODUCT_PAGE"
-    PLACEMENT_REST_OF_SEARCH = "PLACEMENT_REST_OF_SEARCH"
-    PLACEMENT_TOP = "PLACEMENT_TOP"
+type InitialBudgetRecommendationRequestTargetingType = Literal["auto", "manual"]
+"""
+Specifies the targeting type.
+"""
+
+
+type PlacementAdjustmentPredicate = Literal["PLACEMENT_PRODUCT_PAGE", "PLACEMENT_REST_OF_SEARCH", "PLACEMENT_TOP"]
 
 
 class AdGroup(StrictModel):
@@ -65,7 +52,7 @@ class Adjustment(StrictModel):
 class Benchmark(LenientModel):
     """Forecasted impact metrics for next 7 days or during special days."""
 
-    benchmarkStatus: Annotated[BenchmarkBenchmarkStatus | str, lenient_enum(BenchmarkBenchmarkStatus)] | None = Field(
+    benchmarkStatus: BenchmarkBenchmarkStatus | str | None = Field(
         default=None,
         description="Specifies the processing status of the benchmark. Success - If all fields in values property (impressions, clicks, conversions) have all non-null values. Failed - If all fields in values property have all null values. Partial - If some of the fields (impressions, clicks, or conversions) in values property have null values.",
     )
@@ -78,7 +65,7 @@ class Bidding(StrictModel):
     adjustments: list[Adjustment] | None = Field(
         default=None, min_length=0, max_length=2, description="Placement adjustment configuration for the campaign."
     )
-    strategy: Annotated[BiddingStrategy | str, lenient_enum(BiddingStrategy)] = Field(
+    strategy: BiddingStrategy = Field(
         description="The bidding strategy selected for the campaign. Use LEGACY_FOR_SALES to lower your bid in real time when your ad may be less likely to convert to a sale. Use AUTO_FOR_SALES to increase your bid in real time when your ad may be more likely to convert to a sale or lower your bid when less likely to convert to a sale. Use MANUAL to use your exact bid along with any manual adjustments."
     )
 
@@ -111,10 +98,7 @@ class InitialBudgetRecommendationRequest(StrictModel):
     bidding: Bidding
     endDate: str | None = Field(default=None, description="The end date of the campaign in YYYYMMDD format.")
     startDate: str | None = Field(default=None, description="The start date of the campaign in YYYYMMDD format.")
-    targetingType: Annotated[
-        InitialBudgetRecommendationRequestTargetingType | str,
-        lenient_enum(InitialBudgetRecommendationRequestTargetingType),
-    ] = Field(description="Specifies the targeting type.")
+    targetingType: InitialBudgetRecommendationRequestTargetingType = Field(description="Specifies the targeting type.")
 
 
 class InitialBudgetRecommendationResponse(LenientModel):
@@ -134,9 +118,7 @@ class PlacementAdjustment(StrictModel):
     """Specifies bid adjustments based on the placement location. Use `PLACEMENT_TOP` for the top of the search page. Use `PLACEMENT_REST_OF_SEARCH` for the rest of the search page. Use `PLACEMENT_PRODUCT_PAGE` for a product page."""
 
     percentage: int | None = Field(default=None, ge=0, le=900)
-    predicate: Annotated[PlacementAdjustmentPredicate | str, lenient_enum(PlacementAdjustmentPredicate)] | None = Field(
-        default=None
-    )
+    predicate: PlacementAdjustmentPredicate | None = Field(default=None)
 
 
 class SpecialEvent(LenientModel):
@@ -156,7 +138,7 @@ class SpecialEvent(LenientModel):
 class TargetingExpression(StrictModel):
     """The targeting expression. The `type` property specifies the targeting option. Use `CLOSE_MATCH` to match your auto targeting ads closely to the specified value. Use `LOOSE_MATCH` to match your auto targeting ads broadly to the specified value. Use `SUBSTITUTES` to display your auto targeting ads along with substitutable products. Use `COMPLEMENTS` to display your auto targeting ads along with affiliated products. Use `KEYWORD_BROAD_MATCH` to broadly match your keyword targeting ads with search queries. Use `KEYWORD_EXACT_MATCH` to exactly match your keyword targeting ads with search queries. Use `KEYWORD_PHRASE_MATCH` to match your keyword targeting ads with search phrases. your keyword targeting ads with search phrases."""
 
-    type: Annotated[TargetingExpressionType | str, lenient_enum(TargetingExpressionType)]
+    type: TargetingExpressionType
     value: str | None = Field(default=None, description="The targeting expression value.")
 
 

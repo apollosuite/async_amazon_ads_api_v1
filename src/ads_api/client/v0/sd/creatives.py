@@ -43,7 +43,7 @@ class Creatives(BaseResource):
     @overload
     async def list_creative_moderations(
         self,
-        language: Locale,
+        language: Locale | str,
         *,
         mode: Literal["pydantic"] = "pydantic",
         start_index: int | None = None,
@@ -54,7 +54,7 @@ class Creatives(BaseResource):
     @overload
     async def list_creative_moderations(
         self,
-        language: Locale,
+        language: Locale | str,
         *,
         mode: Literal["dict"],
         start_index: int | None = None,
@@ -65,7 +65,7 @@ class Creatives(BaseResource):
     @overload
     async def list_creative_moderations(
         self,
-        language: Locale,
+        language: Locale | str,
         *,
         mode: Literal["raw"],
         start_index: int | None = None,
@@ -75,7 +75,7 @@ class Creatives(BaseResource):
     ) -> httpx.Response: ...
     async def list_creative_moderations(
         self,
-        language: Locale,
+        language: Locale | str,
         *,
         mode: Literal["pydantic", "dict", "raw"] = "pydantic",
         start_index: int | None = None,

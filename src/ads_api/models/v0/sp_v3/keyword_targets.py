@@ -2,48 +2,33 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated, Any
+from typing import Any, Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     ImpactMetric,
     ImpactMetrics,
     RangeMetricValue,
 )
 
-
-class KeywordBidInfoMatchType(StrEnum):
-    """
-    Keyword match type. The default value will be BROAD.
-    """
-
-    BROAD = "BROAD"
-    EXACT = "EXACT"
-    PHRASE = "PHRASE"
+type KeywordBidInfoMatchType = Literal["BROAD", "EXACT", "PHRASE"]
+"""
+Keyword match type. The default value will be BROAD.
+"""
 
 
-class KeywordTargetMatchType(StrEnum):
-    """
-    Keyword match type. The default value will be BROAD.
-    """
-
-    BROAD = "BROAD"
-    EXACT = "EXACT"
-    PHRASE = "PHRASE"
+type KeywordTargetMatchType = Literal["BROAD", "EXACT", "PHRASE"]
+"""
+Keyword match type. The default value will be BROAD.
+"""
 
 
-class ThemedBidMatchType(StrEnum):
-    """
-    Keyword match type. The default value will be BROAD.
-    """
-
-    BROAD = "BROAD"
-    EXACT = "EXACT"
-    PHRASE = "PHRASE"
+type ThemedBidMatchType = Literal["BROAD", "EXACT", "PHRASE"]
+"""
+Keyword match type. The default value will be BROAD.
+"""
 
 
 class BidSuggestion(LenientModel):
@@ -72,7 +57,7 @@ class KeywordBidInfo(LenientModel):
         default=None,
         description="The bid value for the keyword, in minor currency units (example: cents). The default value will be the suggested bid.",
     )
-    matchType: Annotated[KeywordBidInfoMatchType | str, lenient_enum(KeywordBidInfoMatchType)] | None = Field(
+    matchType: KeywordBidInfoMatchType | str | None = Field(
         default=None, description="Keyword match type. The default value will be BROAD."
     )
     rank: float | None = Field(default=None, description="The keyword target rank")
@@ -85,7 +70,7 @@ class KeywordTarget(LenientModel):
         description="The bid value for the keyword, in minor currency units (example: cents). The default value will be the suggested bid.",
     )
     keyword: str | None = Field(default=None, description="The keyword value")
-    matchType: Annotated[KeywordTargetMatchType | str, lenient_enum(KeywordTargetMatchType)] | None = Field(
+    matchType: KeywordTargetMatchType | str | None = Field(
         default=None, description="Keyword match type. The default value will be BROAD."
     )
     userSelectedKeyword: bool | None = Field(
@@ -99,7 +84,7 @@ class KeywordTargetResponse(LenientModel):
         description="The bid value for the keyword, in minor currency units (example: cents). The default value will be the suggested bid.",
     )
     keyword: str | None = Field(default=None, description="The keyword value")
-    matchType: Annotated[KeywordTargetMatchType | str, lenient_enum(KeywordTargetMatchType)] | None = Field(
+    matchType: KeywordTargetMatchType | str | None = Field(
         default=None, description="Keyword match type. The default value will be BROAD."
     )
     userSelectedKeyword: bool | None = Field(
@@ -172,7 +157,7 @@ class ThemedBid(LenientModel):
         default=None,
         description="The bid value for the keyword, in minor currency units (example: cents). The default value will be the suggested bid.",
     )
-    matchType: Annotated[ThemedBidMatchType | str, lenient_enum(ThemedBidMatchType)] | None = Field(
+    matchType: ThemedBidMatchType | str | None = Field(
         default=None, description="Keyword match type. The default value will be BROAD."
     )
     rank: float | None = Field(default=None, description="The keyword target rank.")

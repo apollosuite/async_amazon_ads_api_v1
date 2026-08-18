@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated, Any
+from typing import Any, Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     AdGroupId,
     AdName,
@@ -17,81 +15,65 @@ from ads_api.models.v0._shared import (
     LandingPageURL,
 )
 
-
-class CreativeModerationModerationStatus(StrEnum):
-    """
-    The moderation status of the creative.
-    |Status|Description|
-    |------|-----------|
-    |APPROVED|Moderation for the creative is complete.|
-    |IN_PROGRESS|Moderation for the creative is in progress. The expected date and time for completion are specfied in the `etaForModeration` field.|
-    |REJECTED|The creative has failed moderation. Specific information about the content that violated policy is available in `policyViolations`.|
-    """
-
-    APPROVED = "APPROVED"
-    PENDING_REVIEW = "PENDING_REVIEW"
-    REJECTED = "REJECTED"
+type CreativeModerationModerationStatus = Literal["APPROVED", "PENDING_REVIEW", "REJECTED"]
+"""
+The moderation status of the creative.
+|Status|Description|
+|------|-----------|
+|APPROVED|Moderation for the creative is complete.|
+|IN_PROGRESS|Moderation for the creative is in progress. The expected date and time for completion are specfied in the `etaForModeration` field.|
+|REJECTED|The creative has failed moderation. Specific information about the content that violated policy is available in `policyViolations`.|
+"""
 
 
-class CreativeModerationStatus(StrEnum):
-    """
-    The moderation status of the creative
-    """
-
-    APPROVED = "APPROVED"
-    PENDING_REVIEW = "PENDING_REVIEW"
-    REJECTED = "REJECTED"
+type CreativeModerationStatus = Literal["APPROVED", "PENDING_REVIEW", "REJECTED"]
+"""
+The moderation status of the creative
+"""
 
 
-class CreativeTypeInCreativeRequest(StrEnum):
-    """
-    The type of the creative.
-    |Name|Description|
-    |----|-----------|
-    |IMAGE |The creative will display static assets (e.g. headline, brandLogo or custom image).|
-    |VIDEO |The creative will display video assets. This type of creative must have video assets provided. Only supported when using productAds with ASIN or SKU.|
-    """
-
-    IMAGE = "IMAGE"
-    VIDEO = "VIDEO"
+type CreativeTypeInCreativeRequest = Literal["IMAGE", "VIDEO"]
+"""
+The type of the creative.
+|Name|Description|
+|----|-----------|
+|IMAGE |The creative will display static assets (e.g. headline, brandLogo or custom image).|
+|VIDEO |The creative will display video assets. This type of creative must have video assets provided. Only supported when using productAds with ASIN or SKU.|
+"""
 
 
-class LandingPageType(StrEnum):
-    """
-    The type of the landingPage used. This field is completely optional and will be set in conjunction with the LandingPageURL to indicate the type of landing page that will be set. This field is not supported when using ASIN or SKU fields.
-    """
-
-    STORE = "STORE"
-    MOMENT = "MOMENT"
-    OFF_AMAZON_LINK = "OFF_AMAZON_LINK"
+type LandingPageType = Literal["STORE", "MOMENT", "OFF_AMAZON_LINK"]
+"""
+The type of the landingPage used. This field is completely optional and will be set in conjunction with the LandingPageURL to indicate the type of landing page that will be set. This field is not supported when using ASIN or SKU fields.
+"""
 
 
-class Locale(StrEnum):
-    """
-    Locale string as described in [BCP 47](https://tools.ietf.org/html/bcp47). For example, `en-US`
-    """
-
-    en_US = "en-US"
-    es_MX = "es-MX"
-    zh_CN = "zh-CN"
-    es_ES = "es-ES"
-    it_IT = "it-IT"
-    fr_FR = "fr-FR"
-    fr_CA = "fr-CA"
-    de_DE = "de-DE"
-    ja_JP = "ja-JP"
-    ko_KR = "ko-KR"
-    en_GB = "en-GB"
-    en_CA = "en-CA"
-    hi_IN = "hi-IN"
-    en_IN = "en-IN"
-    en_DE = "en-DE"
-    en_ES = "en-ES"
-    en_FR = "en-FR"
-    en_IT = "en-IT"
-    en_JP = "en-JP"
-    en_AE = "en-AE"
-    ar_AE = "ar-AE"
+type Locale = Literal[
+    "en-US",
+    "es-MX",
+    "zh-CN",
+    "es-ES",
+    "it-IT",
+    "fr-FR",
+    "fr-CA",
+    "de-DE",
+    "ja-JP",
+    "ko-KR",
+    "en-GB",
+    "en-CA",
+    "hi-IN",
+    "en-IN",
+    "en-DE",
+    "en-ES",
+    "en-FR",
+    "en-IT",
+    "en-JP",
+    "en-AE",
+    "ar-AE",
+]
+"""
+Locale string as described in [BCP 47](https://tools.ietf.org/html/bcp47). For example, `en-US`
+"""
 
 
 class Background(StrictModel):
@@ -130,9 +112,7 @@ class CreateCreative(StrictModel):
     """Creative create model."""
 
     adGroupId: float = Field(description="Unqiue identifier for the ad group associated with the creative.")
-    creativeType: Annotated[CreativeTypeInCreativeRequest | str, lenient_enum(CreativeTypeInCreativeRequest)] | None = (
-        Field(default=None)
-    )
+    creativeType: CreativeTypeInCreativeRequest | None = Field(default=None)
     properties: CreativeProperties
     consentToTranslate: bool | None = Field(
         default=None,
@@ -145,30 +125,24 @@ class Creative(LenientModel):
 
     creativeId: float = Field(description="Unique identifier of the creative.")
     adGroupId: AdGroupId
-    creativeType: Annotated[CreativeTypeInCreativeResponse | str, lenient_enum(CreativeTypeInCreativeResponse)]
+    creativeType: CreativeTypeInCreativeResponse | str
     properties: CreativePropertiesOut
-    moderationStatus: Annotated[CreativeModerationStatus | str, lenient_enum(CreativeModerationStatus)] = Field(
-        description="The moderation status of the creative"
-    )
+    moderationStatus: CreativeModerationStatus | str = Field(description="The moderation status of the creative")
 
 
 class CreativeModeration(LenientModel):
     """System generated Creative moderation."""
 
     creativeId: float = Field(description="Unique identifier of the creative.")
-    creativeType: Annotated[CreativeTypeInCreativeResponse | str, lenient_enum(CreativeTypeInCreativeResponse)]
-    moderationStatus: Annotated[
-        CreativeModerationModerationStatus | str, lenient_enum(CreativeModerationModerationStatus)
-    ] = Field(
-        description="""
+    creativeType: CreativeTypeInCreativeResponse | str
+    moderationStatus: CreativeModerationModerationStatus | str = Field(description="""
 The moderation status of the creative.
 |Status|Description|
 |------|-----------|
 |APPROVED|Moderation for the creative is complete.|
 |IN_PROGRESS|Moderation for the creative is in progress. The expected date and time for completion are specfied in the `etaForModeration` field.|
 |REJECTED|The creative has failed moderation. Specific information about the content that violated policy is available in `policyViolations`.|
-"""
-    )
+""")
     etaForModeration: datetime = Field(description="Expected date and time by which moderation will be complete.")
     policyViolations: list[dict[str, Any]] = Field(
         description="A list of policy violations for a creative that has failed moderation."
@@ -186,7 +160,7 @@ class CreativePreviewConfiguration(StrictModel):
         default=None, description="The products to preview. Currently only the first product is previewable."
     )
     landingPageURL: LandingPageURL | None = Field(default=None)
-    landingPageType: Annotated[LandingPageType | str, lenient_enum(LandingPageType)] | None = Field(default=None)
+    landingPageType: LandingPageType | None = Field(default=None)
     adName: AdName | None = Field(default=None)
     isMobile: bool | None = Field(default=None, description="Preview the creative as if it is on a mobile environment.")
     isOnAmazon: bool | None = Field(
@@ -220,9 +194,7 @@ class CreativeUpdate(StrictModel):
     """Creative update model."""
 
     creativeId: float = Field(description="Unique identifier of the creative.")
-    creativeType: Annotated[CreativeTypeInCreativeRequest | str, lenient_enum(CreativeTypeInCreativeRequest)] | None = (
-        Field(default=None)
-    )
+    creativeType: CreativeTypeInCreativeRequest | None = Field(default=None)
     properties: CreativeProperties
 
 
@@ -343,9 +315,7 @@ class LogoCreativePropertiesOut(LenientModel):
 class PreviewCreativeModel(StrictModel):
     """Creative model for preview."""
 
-    creativeType: Annotated[CreativeTypeInCreativeRequest | str, lenient_enum(CreativeTypeInCreativeRequest)] | None = (
-        Field(default=None)
-    )
+    creativeType: CreativeTypeInCreativeRequest | None = Field(default=None)
     properties: CreativeProperties | None = Field(default=None)
 
 

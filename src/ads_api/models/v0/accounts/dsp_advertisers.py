@@ -2,61 +2,58 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel
-from ads_api.models._core.lenient_enum import lenient_enum
+
+type DspCountryV1 = Literal[
+    "US",
+    "CA",
+    "MX",
+    "JP",
+    "AU",
+    "IN",
+    "UK",
+    "GB",
+    "DE",
+    "FR",
+    "IT",
+    "ES",
+    "AT",
+    "AE",
+    "SA",
+    "BR",
+    "NL",
+    "SE",
+    "SG",
+    "TR",
+]
+"""
+The country code.
+"""
 
 
-class DspCountryV1(StrEnum):
-    """
-    The country code.
-    """
-
-    US = "US"
-    CA = "CA"
-    MX = "MX"
-    JP = "JP"
-    AU = "AU"
-    IN = "IN"
-    UK = "UK"
-    GB = "GB"
-    DE = "DE"
-    FR = "FR"
-    IT = "IT"
-    ES = "ES"
-    AT = "AT"
-    AE = "AE"
-    SA = "SA"
-    BR = "BR"
-    NL = "NL"
-    SE = "SE"
-    SG = "SG"
-    TR = "TR"
-
-
-class DspSupportedCurrencyV1(StrEnum):
-    """
-    The supported currencies.
-    """
-
-    USD = "USD"
-    CAD = "CAD"
-    JPY = "JPY"
-    GBP = "GBP"
-    EUR = "EUR"
-    INR = "INR"
-    MXN = "MXN"
-    AED = "AED"
-    SAR = "SAR"
-    BRL = "BRL"
-    AUD = "AUD"
-    SEK = "SEK"
-    SGD = "SGD"
-    TRY = "TRY"
+type DspSupportedCurrencyV1 = Literal[
+    "USD",
+    "CAD",
+    "JPY",
+    "GBP",
+    "EUR",
+    "INR",
+    "MXN",
+    "AED",
+    "SAR",
+    "BRL",
+    "AUD",
+    "SEK",
+    "SGD",
+    "TRY",
+]
+"""
+The supported currencies.
+"""
 
 
 class DspAdvertiserV1(LenientModel):
@@ -64,9 +61,9 @@ class DspAdvertiserV1(LenientModel):
 
     advertiserId: str | None = Field(default=None, description="The advertiser identifier.")
     name: str | None = Field(default=None, description="The advertiser name.")
-    currency: Annotated[DspSupportedCurrencyV1 | str, lenient_enum(DspSupportedCurrencyV1)] | None = Field(default=None)
+    currency: DspSupportedCurrencyV1 | str | None = Field(default=None)
     url: str | None = Field(default=None, description="The URL of the advertiser’s website.")
-    country: Annotated[DspCountryV1 | str, lenient_enum(DspCountryV1)] | None = Field(default=None)
+    country: DspCountryV1 | str | None = Field(default=None)
     timezone: DspTimezoneV1 | None = Field(default=None)
     isRegional: bool | None = Field(
         default=None, description="Set to `true` if account is associated with a Global Advertiser Account."

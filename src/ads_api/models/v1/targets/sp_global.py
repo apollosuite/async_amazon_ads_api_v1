@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.sp_global import (
     SPGlobalAdProduct,
     SPGlobalCreateState,
@@ -28,90 +26,142 @@ from ads_api.models.v1._shared.sp_global import (
     SPGlobalUpdateState,
 )
 
-
-class SPGlobalKeywordMatchType(StrEnum):
-    BROAD = "BROAD"  # Broad match search terms. This expands matching on user intent beyond PHRASE.
-    EXACT = "EXACT"  # Exact match search terms.
-    PHRASE = "PHRASE"  # Phrase match search terms. This expands matching on user intent beyond EXACT.
-
-
-class SPGlobalLanguageLocale(StrEnum):
-    """
-    A combination of ISO-639 standard for language code and ISO-3166 for country code.
-    """
-
-    zh_CN = "zh_CN"  # Chinese (China).
+type SPGlobalKeywordMatchType = Literal[
+    "BROAD",  # Broad match search terms. This expands matching on user intent beyond PHRASE.
+    "EXACT",  # Exact match search terms.
+    "PHRASE",  # Phrase match search terms. This expands matching on user intent beyond EXACT.
+]
+"""
+Supported values:
+- `BROAD`: Broad match search terms. This expands matching on user intent beyond PHRASE.
+- `EXACT`: Exact match search terms.
+- `PHRASE`: Phrase match search terms. This expands matching on user intent beyond EXACT.
+"""
 
 
-class SPGlobalMarketplace(StrEnum):
-    """
-    A list of country codes representing Amazon marketplaces
-    """
+type SPGlobalLanguageLocale = Literal["zh_CN",]  # Chinese (China).
+"""
+A combination of ISO-639 standard for language code and ISO-3166 for country code.
 
-    AE = "AE"
-    AU = "AU"
-    BE = "BE"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    EG = "EG"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    NL = "NL"
-    PL = "PL"
-    SA = "SA"
-    SE = "SE"
-    SG = "SG"
-    TR = "TR"
-    US = "US"
+Supported values:
+- `zh_CN`: Chinese (China).
+"""
 
 
-class SPGlobalMatchType(StrEnum):
-    BROAD = "BROAD"  # Broad match search terms. This expands matching on user intent beyond PHRASE.
-    EXACT = "EXACT"  # Exact match search terms.
-    KEYWORDS_CLOSE_MATCH = "KEYWORDS_CLOSE_MATCH"  # Search terms closely matching advertised product.
-    KEYWORDS_LOOSE_MATCH = "KEYWORDS_LOOSE_MATCH"  # Search terms loosely matching advertised product.
-    PHRASE = "PHRASE"  # Phrase match search terms. This expands matching on user intent beyond EXACT.
-    PRODUCT_COMPLEMENTS = "PRODUCT_COMPLEMENTS"  # Products that complement advertised product.
-    PRODUCT_EXACT = "PRODUCT_EXACT"  # Products exactly matching the specified product.
-    PRODUCT_SIMILAR = "PRODUCT_SIMILAR"  # Products similar to the specified product.
-    PRODUCT_SUBSTITUTES = "PRODUCT_SUBSTITUTES"  # Products that can be substituted for advertised product.
+type SPGlobalMarketplace = Literal[
+    "AE",
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "DE",
+    "EG",
+    "ES",
+    "FR",
+    "GB",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "PL",
+    "SA",
+    "SE",
+    "SG",
+    "TR",
+    "US",
+]
+"""
+A list of country codes representing Amazon marketplaces
+"""
 
 
-class SPGlobalProductMatchType(StrEnum):
-    PRODUCT_EXACT = "PRODUCT_EXACT"  # Products exactly matching the specified product.
-    PRODUCT_SIMILAR = "PRODUCT_SIMILAR"  # Products similar to the specified product.
+type SPGlobalMatchType = Literal[
+    "BROAD",  # Broad match search terms. This expands matching on user intent beyond PHRASE.
+    "EXACT",  # Exact match search terms.
+    "KEYWORDS_CLOSE_MATCH",  # Search terms closely matching advertised product.
+    "KEYWORDS_LOOSE_MATCH",  # Search terms loosely matching advertised product.
+    "PHRASE",  # Phrase match search terms. This expands matching on user intent beyond EXACT.
+    "PRODUCT_COMPLEMENTS",  # Products that complement advertised product.
+    "PRODUCT_EXACT",  # Products exactly matching the specified product.
+    "PRODUCT_SIMILAR",  # Products similar to the specified product.
+    "PRODUCT_SUBSTITUTES",  # Products that can be substituted for advertised product.
+]
+"""
+Supported values:
+- `PRODUCT_SIMILAR`: Products similar to the specified product.
+- `KEYWORDS_LOOSE_MATCH`: Search terms loosely matching advertised product.
+- `PHRASE`: Phrase match search terms. This expands matching on user intent beyond EXACT.
+- `BROAD`: Broad match search terms. This expands matching on user intent beyond PHRASE.
+- `EXACT`: Exact match search terms.
+- `KEYWORDS_CLOSE_MATCH`: Search terms closely matching advertised product.
+- `PRODUCT_COMPLEMENTS`: Products that complement advertised product.
+- `PRODUCT_EXACT`: Products exactly matching the specified product.
+- `PRODUCT_SUBSTITUTES`: Products that can be substituted for advertised product.
+"""
 
 
-class SPGlobalTargetLevel(StrEnum):
-    AD_GROUP = "AD_GROUP"  # Target applied at the ad group level.
-    CAMPAIGN = "CAMPAIGN"  # Target applied at the campaign level.
+type SPGlobalProductMatchType = Literal[
+    "PRODUCT_EXACT",  # Products exactly matching the specified product.
+    "PRODUCT_SIMILAR",  # Products similar to the specified product.
+]
+"""
+Supported values:
+- `PRODUCT_EXACT`: Products exactly matching the specified product.
+- `PRODUCT_SIMILAR`: Products similar to the specified product.
+"""
 
 
-class SPGlobalTargetProductIdFilterType(StrEnum):
-    BROAD_MATCH = "BROAD_MATCH"  # Filter by broad match.
-    EXACT_MATCH = "EXACT_MATCH"  # Filter by exact match.
+type SPGlobalTargetLevel = Literal[
+    "AD_GROUP",  # Target applied at the ad group level.
+    "CAMPAIGN",  # Target applied at the campaign level.
+]
+"""
+Supported values:
+- `AD_GROUP`: Target applied at the ad group level.
+- `CAMPAIGN`: Target applied at the campaign level.
+"""
 
 
-class SPGlobalTargetType(StrEnum):
-    KEYWORD = "KEYWORD"  # Target based on customer search terms.
-    PRODUCT = "PRODUCT"  # Target based on a specific product.
-    PRODUCT_CATEGORY = "PRODUCT_CATEGORY"  # Target based on a product category.
-    THEME = (
-        "THEME"  # Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
-    )
+type SPGlobalTargetProductIdFilterType = Literal[
+    "BROAD_MATCH",  # Filter by broad match.
+    "EXACT_MATCH",  # Filter by exact match.
+]
+"""
+Supported values:
+- `EXACT_MATCH`: Filter by exact match.
+- `BROAD_MATCH`: Filter by broad match.
+"""
 
 
-class SPGlobalThemeMatchType(StrEnum):
-    KEYWORDS_CLOSE_MATCH = "KEYWORDS_CLOSE_MATCH"  # Search terms closely matching advertised product.
-    KEYWORDS_LOOSE_MATCH = "KEYWORDS_LOOSE_MATCH"  # Search terms loosely matching advertised product.
-    PRODUCT_COMPLEMENTS = "PRODUCT_COMPLEMENTS"  # Products that complement advertised product.
-    PRODUCT_SUBSTITUTES = "PRODUCT_SUBSTITUTES"  # Products that can be substituted for advertised product.
+type SPGlobalTargetType = Literal[
+    "KEYWORD",  # Target based on customer search terms.
+    "PRODUCT",  # Target based on a specific product.
+    "PRODUCT_CATEGORY",  # Target based on a product category.
+    "THEME",  # Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
+]
+"""
+Supported values:
+- `KEYWORD`: Target based on customer search terms.
+- `PRODUCT_CATEGORY`: Target based on a product category.
+- `PRODUCT`: Target based on a specific product.
+- `THEME`: Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
+"""
+
+
+type SPGlobalThemeMatchType = Literal[
+    "KEYWORDS_CLOSE_MATCH",  # Search terms closely matching advertised product.
+    "KEYWORDS_LOOSE_MATCH",  # Search terms loosely matching advertised product.
+    "PRODUCT_COMPLEMENTS",  # Products that complement advertised product.
+    "PRODUCT_SUBSTITUTES",  # Products that can be substituted for advertised product.
+]
+"""
+Supported values:
+- `KEYWORDS_CLOSE_MATCH`: Search terms closely matching advertised product.
+- `KEYWORDS_LOOSE_MATCH`: Search terms loosely matching advertised product.
+- `PRODUCT_COMPLEMENTS`: Products that complement advertised product.
+- `PRODUCT_SUBSTITUTES`: Products that can be substituted for advertised product.
+"""
 
 
 class SPGlobalCreateKeywordTarget(StrictModel):
@@ -120,22 +170,39 @@ class SPGlobalCreateKeywordTarget(StrictModel):
     keyword: str = Field(
         description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints)."
     )
-    matchType: Annotated[SPGlobalKeywordMatchType | str, lenient_enum(SPGlobalKeywordMatchType)]
+    matchType: SPGlobalKeywordMatchType = Field(description="""
+Supported values:
+- `BROAD`: Broad match search terms. This expands matching on user intent beyond PHRASE.
+- `EXACT`: Exact match search terms.
+- `PHRASE`: Phrase match search terms. This expands matching on user intent beyond EXACT.
+""")
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser."
     )
-    nativeLanguageLocale: Annotated[SPGlobalLanguageLocale | str, lenient_enum(SPGlobalLanguageLocale)] | None = Field(
-        default=None
+    nativeLanguageLocale: SPGlobalLanguageLocale | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `zh_CN`: Chinese (China).
+""",
     )
 
 
 class SPGlobalCreateMarketplaceTargetConfigurations(StrictModel):
-    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
+    marketplace: SPGlobalMarketplace
     overrides: SPGlobalCreateMarketplaceTargetFieldOverrides
 
 
 class SPGlobalCreateMarketplaceTargetFieldOverrides(StrictModel):
-    state: Annotated[SPGlobalState | str, lenient_enum(SPGlobalState)] | None = Field(default=None)
+    state: SPGlobalState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -182,7 +249,7 @@ class SPGlobalCreateProductCategoryRefinement(StrictModel):
 
 
 class SPGlobalCreateProductCategoryRefinementMarketplaceSetting(StrictModel):
-    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
+    marketplace: SPGlobalMarketplace
     productCategoryRefinement: SPGlobalCreateProductCategoryRefinement
 
 
@@ -206,16 +273,24 @@ class SPGlobalCreateProductGenreRefinement(StrictModel):
 
 
 class SPGlobalCreateProductMarketplaceSetting(StrictModel):
-    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
+    marketplace: SPGlobalMarketplace
     productId: str = Field(description="The product id applicable at the specified marketplace.")
 
 
 class SPGlobalCreateProductTarget(StrictModel):
     """Targets a specific product."""
 
-    matchType: Annotated[SPGlobalProductMatchType | str, lenient_enum(SPGlobalProductMatchType)]
+    matchType: SPGlobalProductMatchType = Field(description="""
+Supported values:
+- `PRODUCT_EXACT`: Products exactly matching the specified product.
+- `PRODUCT_SIMILAR`: Products similar to the specified product.
+""")
     product: SPGlobalCreateProductValue
-    productIdType: Annotated[SPGlobalProductIdType | str, lenient_enum(SPGlobalProductIdType)]
+    productIdType: SPGlobalProductIdType = Field(description="""
+Supported values:
+- `ASIN`: ASIN identifier type.
+- `SKU`: SKU identifier type.
+""")
 
 
 class SPGlobalCreateProductValue(StrictModel):
@@ -241,8 +316,34 @@ class SPGlobalCreateTargetBid(StrictModel):
 
 class SPGlobalCreateTargetBidMarketplaceSetting(StrictModel):
     bid: float | None = Field(default=None, description="The maximum bid for a target.")
-    currencyCode: Annotated[SPGlobalCurrencyCode | str, lenient_enum(SPGlobalCurrencyCode)]
-    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
+    currencyCode: SPGlobalCurrencyCode = Field(description="""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CNY`: Chinese Yuan
+- `DKK`: Danish Krone
+- `EGP`: Egyptian Pound
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `INR`: Indian Rupee
+- `JPY`: Japanese Yen
+- `MXN`: Mexican Peso
+- `MXP`: Mexican Peso
+- `NGN`: Nigerian Naira
+- `NOK`: Norwegian Krone
+- `NZD`: New Zealand Dollar
+- `PLN`: Polish Złoty
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `TRY`: Turkish Lira
+- `USD`: United States Dollar
+- `ZAR`: South African Rand
+""")
+    marketplace: SPGlobalMarketplace
 
 
 class SPGlobalCreateTargetDetailsKeywordTarget(StrictModel):
@@ -271,7 +372,13 @@ class SPGlobalCreateTargetRequest(StrictModel):
 class SPGlobalCreateThemeTarget(StrictModel):
     """Theme targets let advertisers select high-performing targets based on a common theme."""
 
-    matchType: Annotated[SPGlobalThemeMatchType | str, lenient_enum(SPGlobalThemeMatchType)]
+    matchType: SPGlobalThemeMatchType = Field(description="""
+Supported values:
+- `KEYWORDS_CLOSE_MATCH`: Search terms closely matching advertised product.
+- `KEYWORDS_LOOSE_MATCH`: Search terms loosely matching advertised product.
+- `PRODUCT_COMPLEMENTS`: Products that complement advertised product.
+- `PRODUCT_SUBSTITUTES`: Products that can be substituted for advertised product.
+""")
 
 
 class SPGlobalDeleteTargetRequest(StrictModel):
@@ -284,17 +391,26 @@ class SPGlobalKeywordTarget(LenientModel):
     keyword: str = Field(
         description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints)."
     )
-    matchType: Annotated[SPGlobalKeywordMatchType | str, lenient_enum(SPGlobalKeywordMatchType)]
+    matchType: SPGlobalKeywordMatchType | str = Field(description="""
+Supported values:
+- `BROAD`: Broad match search terms. This expands matching on user intent beyond PHRASE.
+- `EXACT`: Exact match search terms.
+- `PHRASE`: Phrase match search terms. This expands matching on user intent beyond EXACT.
+""")
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser."
     )
-    nativeLanguageLocale: Annotated[SPGlobalLanguageLocale | str, lenient_enum(SPGlobalLanguageLocale)] | None = Field(
-        default=None
+    nativeLanguageLocale: SPGlobalLanguageLocale | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `zh_CN`: Chinese (China).
+""",
     )
 
 
 class SPGlobalMarketplaceTargetConfigurations(LenientModel):
-    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
+    marketplace: SPGlobalMarketplace | str
     overrides: SPGlobalMarketplaceTargetFieldOverrides
     targetId: str = Field(
         description="Represents marketplace target id (Ex: targetId-US) associated to global target (Ex: targetId-Global)"
@@ -302,7 +418,15 @@ class SPGlobalMarketplaceTargetConfigurations(LenientModel):
 
 
 class SPGlobalMarketplaceTargetFieldOverrides(LenientModel):
-    state: Annotated[SPGlobalState | str, lenient_enum(SPGlobalState)] | None = Field(default=None)
+    state: SPGlobalState | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
     tags: list[SPGlobalTag] | None = Field(
         default=None,
         min_length=0,
@@ -352,7 +476,7 @@ class SPGlobalProductCategoryRefinement(LenientModel):
 
 
 class SPGlobalProductCategoryRefinementMarketplaceSetting(LenientModel):
-    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
+    marketplace: SPGlobalMarketplace | str
     productCategoryRefinement: SPGlobalProductCategoryRefinement
 
 
@@ -377,16 +501,24 @@ class SPGlobalProductGenreRefinement(LenientModel):
 
 
 class SPGlobalProductMarketplaceSetting(LenientModel):
-    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
+    marketplace: SPGlobalMarketplace | str
     productId: str = Field(description="The product id applicable at the specified marketplace.")
 
 
 class SPGlobalProductTarget(LenientModel):
     """Targets a specific product."""
 
-    matchType: Annotated[SPGlobalProductMatchType | str, lenient_enum(SPGlobalProductMatchType)]
+    matchType: SPGlobalProductMatchType | str = Field(description="""
+Supported values:
+- `PRODUCT_EXACT`: Products exactly matching the specified product.
+- `PRODUCT_SIMILAR`: Products similar to the specified product.
+""")
     product: SPGlobalProductValue
-    productIdType: Annotated[SPGlobalProductIdType | str, lenient_enum(SPGlobalProductIdType)]
+    productIdType: SPGlobalProductIdType | str = Field(description="""
+Supported values:
+- `ASIN`: ASIN identifier type.
+- `SKU`: SKU identifier type.
+""")
 
 
 class SPGlobalProductValue(LenientModel):
@@ -417,10 +549,27 @@ class SPGlobalQueryTargetRequest(StrictModel):
 
 
 class SPGlobalStatus(LenientModel):
-    deliveryReasons: list[Annotated[SPGlobalDeliveryReason | str, lenient_enum(SPGlobalDeliveryReason)]] | None = Field(
-        default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
+    deliveryReasons: list[SPGlobalDeliveryReason | str] | None = Field(
+        default=None,
+        min_length=0,
+        max_length=50,
+        description="""
+This is the list of reasons behind the delivery status.
+
+Supported values:
+- `ADVERTISER_OUT_OF_BUDGET`: Indicates that an advertiser is out of budget for Sponsored Products campaigns for sellers.
+- `ADVERTISER_OUT_OF_POSTPAY_CREDIT_LIMIT`: Indicates that a postpay advertiser is out of credit limit for all Sponsored Ads campaigns.
+- `ADVERTISER_OUT_OF_POSTPAY_MONTHLY_BUDGET`: Indicates that a postpay advertiser is out of monthly budget for all Sponsored Ads campaigns.
+- `ADVERTISER_OUT_OF_PREPAY_BALANCE`: Indicates that a prepay advertiser is out of prepay balance for all Sponsored Ads campaigns.
+""",
     )
-    deliveryStatus: Annotated[SPGlobalDeliveryStatus | str, lenient_enum(SPGlobalDeliveryStatus)]
+    deliveryStatus: SPGlobalDeliveryStatus | str = Field(description="""
+Supported values:
+- `DELIVERING`: Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces
+- `LIMITED`: Represents partial delivery status, applicable to global resources that have different delivery status across marketplaces
+- `NOT_DELIVERING`: Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces
+- `UNAVAILABLE`: Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces
+""")
     marketplaceSettings: list[SPGlobalStatusMarketplaceSetting] = Field(
         min_length=1,
         max_length=30,
@@ -429,11 +578,28 @@ class SPGlobalStatus(LenientModel):
 
 
 class SPGlobalStatusMarketplaceSetting(LenientModel):
-    deliveryReasons: list[Annotated[SPGlobalDeliveryReason | str, lenient_enum(SPGlobalDeliveryReason)]] | None = Field(
-        default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
+    deliveryReasons: list[SPGlobalDeliveryReason | str] | None = Field(
+        default=None,
+        min_length=0,
+        max_length=50,
+        description="""
+This is the list of reasons behind the delivery status.
+
+Supported values:
+- `ADVERTISER_OUT_OF_BUDGET`: Indicates that an advertiser is out of budget for Sponsored Products campaigns for sellers.
+- `ADVERTISER_OUT_OF_POSTPAY_CREDIT_LIMIT`: Indicates that a postpay advertiser is out of credit limit for all Sponsored Ads campaigns.
+- `ADVERTISER_OUT_OF_POSTPAY_MONTHLY_BUDGET`: Indicates that a postpay advertiser is out of monthly budget for all Sponsored Ads campaigns.
+- `ADVERTISER_OUT_OF_PREPAY_BALANCE`: Indicates that a prepay advertiser is out of prepay balance for all Sponsored Ads campaigns.
+""",
     )
-    deliveryStatus: Annotated[SPGlobalDeliveryStatus | str, lenient_enum(SPGlobalDeliveryStatus)]
-    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
+    deliveryStatus: SPGlobalDeliveryStatus | str = Field(description="""
+Supported values:
+- `DELIVERING`: Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces
+- `LIMITED`: Represents partial delivery status, applicable to global resources that have different delivery status across marketplaces
+- `NOT_DELIVERING`: Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces
+- `UNAVAILABLE`: Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces
+""")
+    marketplace: SPGlobalMarketplace | str
 
 
 class SPGlobalTarget(LenientModel):
@@ -441,7 +607,10 @@ class SPGlobalTarget(LenientModel):
         default=None,
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets.",
     )
-    adProduct: Annotated[SPGlobalAdProduct | str, lenient_enum(SPGlobalAdProduct)]
+    adProduct: SPGlobalAdProduct | str = Field(description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""")
     bid: SPGlobalTargetBid | None = Field(default=None)
     campaignId: str | None = Field(
         default=None,
@@ -455,14 +624,19 @@ class SPGlobalTarget(LenientModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global target that enables overriding certain attributes at individual marketplace level. For example, if a global target is ENABLED but needs to be PAUSED in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, the target's global value is applied to that marketplace.",
     )
-    marketplaceScope: Annotated[SPGlobalMarketplaceScope | str, lenient_enum(SPGlobalMarketplaceScope)]
-    marketplaces: list[Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]] = Field(
+    marketplaceScope: SPGlobalMarketplaceScope | str
+    marketplaces: list[SPGlobalMarketplace | str] = Field(
         min_length=1,
         max_length=30,
         description="The list of marketplace in which the global target is applicable. The marketplaces included should either be same as or subset of parent campaign/ad group",
     )
     negative: bool = Field(description="Indicates whether the target is negative or not.")
-    state: Annotated[SPGlobalState | str, lenient_enum(SPGlobalState)]
+    state: SPGlobalState | str = Field(description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     status: SPGlobalStatus | None = Field(default=None)
     tags: list[SPGlobalTag] | None = Field(
         default=None,
@@ -472,8 +646,18 @@ class SPGlobalTarget(LenientModel):
     )
     targetDetails: SPGlobalTargetDetails
     targetId: str = Field(description="A unique identifier for the target.")
-    targetLevel: Annotated[SPGlobalTargetLevel | str, lenient_enum(SPGlobalTargetLevel)]
-    targetType: Annotated[SPGlobalTargetType | str, lenient_enum(SPGlobalTargetType)]
+    targetLevel: SPGlobalTargetLevel | str = Field(description="""
+Supported values:
+- `AD_GROUP`: Target applied at the ad group level.
+- `CAMPAIGN`: Target applied at the campaign level.
+""")
+    targetType: SPGlobalTargetType | str = Field(description="""
+Supported values:
+- `KEYWORD`: Target based on customer search terms.
+- `PRODUCT_CATEGORY`: Target based on a product category.
+- `PRODUCT`: Target based on a specific product.
+- `THEME`: Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
+""")
 
 
 class SPGlobalTargetAdGroupIdFilter(StrictModel):
@@ -481,8 +665,13 @@ class SPGlobalTargetAdGroupIdFilter(StrictModel):
 
 
 class SPGlobalTargetAdProductFilter(StrictModel):
-    include: list[Annotated[SPGlobalAdProduct | str, lenient_enum(SPGlobalAdProduct)]] = Field(
-        min_length=1, max_length=1
+    include: list[SPGlobalAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""",
     )
 
 
@@ -497,8 +686,34 @@ class SPGlobalTargetBid(LenientModel):
 
 class SPGlobalTargetBidMarketplaceSetting(LenientModel):
     bid: float | None = Field(default=None, description="The maximum bid for a target.")
-    currencyCode: Annotated[SPGlobalCurrencyCode | str, lenient_enum(SPGlobalCurrencyCode)]
-    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
+    currencyCode: SPGlobalCurrencyCode | str = Field(description="""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CNY`: Chinese Yuan
+- `DKK`: Danish Krone
+- `EGP`: Egyptian Pound
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `INR`: Indian Rupee
+- `JPY`: Japanese Yen
+- `MXN`: Mexican Peso
+- `MXP`: Mexican Peso
+- `NGN`: Nigerian Naira
+- `NOK`: Norwegian Krone
+- `NZD`: New Zealand Dollar
+- `PLN`: Polish Złoty
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `TRY`: Turkish Lira
+- `USD`: United States Dollar
+- `ZAR`: South African Rand
+""")
+    marketplace: SPGlobalMarketplace | str
 
 
 class SPGlobalTargetCampaignIdFilter(StrictModel):
@@ -510,7 +725,10 @@ class SPGlobalTargetCreate(StrictModel):
         default=None,
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets.",
     )
-    adProduct: Annotated[SPGlobalAdProduct | str, lenient_enum(SPGlobalAdProduct)]
+    adProduct: SPGlobalAdProduct = Field(description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""")
     bid: SPGlobalCreateTargetBid | None = Field(default=None)
     campaignId: str | None = Field(
         default=None,
@@ -522,14 +740,18 @@ class SPGlobalTargetCreate(StrictModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global target that enables overriding certain attributes at individual marketplace level. For example, if a global target is ENABLED but needs to be PAUSED in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, the target's global value is applied to that marketplace.",
     )
-    marketplaceScope: Annotated[SPGlobalMarketplaceScope | str, lenient_enum(SPGlobalMarketplaceScope)]
-    marketplaces: list[Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]] = Field(
+    marketplaceScope: SPGlobalMarketplaceScope
+    marketplaces: list[SPGlobalMarketplace | str] = Field(
         min_length=1,
         max_length=30,
         description="The list of marketplace in which the global target is applicable. The marketplaces included should either be same as or subset of parent campaign/ad group",
     )
     negative: bool = Field(description="Indicates whether the target is negative or not.")
-    state: Annotated[SPGlobalCreateState | str, lenient_enum(SPGlobalCreateState)]
+    state: SPGlobalCreateState = Field(description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -537,7 +759,13 @@ class SPGlobalTargetCreate(StrictModel):
         description="Open ended labels with a key value pair applied to the target",
     )
     targetDetails: SPGlobalCreateTargetDetails
-    targetType: Annotated[SPGlobalTargetType | str, lenient_enum(SPGlobalTargetType)]
+    targetType: SPGlobalTargetType = Field(description="""
+Supported values:
+- `KEYWORD`: Target based on customer search terms.
+- `PRODUCT_CATEGORY`: Target based on a product category.
+- `PRODUCT`: Target based on a specific product.
+- `THEME`: Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
+""")
 
 
 class SPGlobalTargetDetailsKeywordTarget(LenientModel):
@@ -560,14 +788,25 @@ type SPGlobalTargetDetails = SPGlobalTargetDetailsKeywordTarget | SPGlobalTarget
 
 
 class SPGlobalTargetMarketplaceScopeFilter(StrictModel):
-    include: list[Annotated[SPGlobalMarketplaceScope | str, lenient_enum(SPGlobalMarketplaceScope)]] = Field(
-        min_length=1, max_length=1
-    )
+    include: list[SPGlobalMarketplaceScope | str] = Field(min_length=1, max_length=1)
 
 
 class SPGlobalTargetMatchTypeFilter(StrictModel):
-    include: list[Annotated[SPGlobalMatchType | str, lenient_enum(SPGlobalMatchType)]] = Field(
-        min_length=1, max_length=10
+    include: list[SPGlobalMatchType | str] = Field(
+        min_length=1,
+        max_length=10,
+        description="""
+Supported values:
+- `PRODUCT_SIMILAR`: Products similar to the specified product.
+- `KEYWORDS_LOOSE_MATCH`: Search terms loosely matching advertised product.
+- `PHRASE`: Phrase match search terms. This expands matching on user intent beyond EXACT.
+- `BROAD`: Broad match search terms. This expands matching on user intent beyond PHRASE.
+- `EXACT`: Exact match search terms.
+- `KEYWORDS_CLOSE_MATCH`: Search terms closely matching advertised product.
+- `PRODUCT_COMPLEMENTS`: Products that complement advertised product.
+- `PRODUCT_EXACT`: Products exactly matching the specified product.
+- `PRODUCT_SUBSTITUTES`: Products that can be substituted for advertised product.
+""",
     )
 
 
@@ -594,13 +833,24 @@ class SPGlobalTargetPartialIndex(LenientModel):
 
 class SPGlobalTargetProductIdFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[
-        SPGlobalTargetProductIdFilterType | str, lenient_enum(SPGlobalTargetProductIdFilterType)
-    ]
+    queryTermMatchType: SPGlobalTargetProductIdFilterType = Field(description="""
+Supported values:
+- `EXACT_MATCH`: Filter by exact match.
+- `BROAD_MATCH`: Filter by broad match.
+""")
 
 
 class SPGlobalTargetStateFilter(StrictModel):
-    include: list[Annotated[SPGlobalState | str, lenient_enum(SPGlobalState)]] = Field(min_length=1, max_length=3)
+    include: list[SPGlobalState | str] = Field(
+        min_length=1,
+        max_length=3,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class SPGlobalTargetSuccessResponse(LenientModel):
@@ -613,8 +863,16 @@ class SPGlobalTargetTargetIdFilter(StrictModel):
 
 
 class SPGlobalTargetTargetTypeFilter(StrictModel):
-    include: list[Annotated[SPGlobalTargetType | str, lenient_enum(SPGlobalTargetType)]] = Field(
-        min_length=1, max_length=4
+    include: list[SPGlobalTargetType | str] = Field(
+        min_length=1,
+        max_length=4,
+        description="""
+Supported values:
+- `KEYWORD`: Target based on customer search terms.
+- `PRODUCT_CATEGORY`: Target based on a product category.
+- `PRODUCT`: Target based on a specific product.
+- `THEME`: Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
+""",
     )
 
 
@@ -626,13 +884,20 @@ class SPGlobalTargetUpdate(StrictModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global target that enables overriding certain attributes at individual marketplace level. For example, if a global target is ENABLED but needs to be PAUSED in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, the target's global value is applied to that marketplace.",
     )
-    marketplaces: list[Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]] | None = Field(
+    marketplaces: list[SPGlobalMarketplace | str] | None = Field(
         default=None,
         min_length=1,
         max_length=30,
         description="The list of marketplace in which the global target is applicable. The marketplaces included should either be same as or subset of parent campaign/ad group",
     )
-    state: Annotated[SPGlobalUpdateState | str, lenient_enum(SPGlobalUpdateState)] | None = Field(default=None)
+    state: SPGlobalUpdateState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -645,7 +910,13 @@ class SPGlobalTargetUpdate(StrictModel):
 class SPGlobalThemeTarget(LenientModel):
     """Theme targets let advertisers select high-performing targets based on a common theme."""
 
-    matchType: Annotated[SPGlobalThemeMatchType | str, lenient_enum(SPGlobalThemeMatchType)]
+    matchType: SPGlobalThemeMatchType | str = Field(description="""
+Supported values:
+- `KEYWORDS_CLOSE_MATCH`: Search terms closely matching advertised product.
+- `KEYWORDS_LOOSE_MATCH`: Search terms loosely matching advertised product.
+- `PRODUCT_COMPLEMENTS`: Products that complement advertised product.
+- `PRODUCT_SUBSTITUTES`: Products that can be substituted for advertised product.
+""")
 
 
 class SPGlobalUpdateTargetBid(StrictModel):

@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.sb import (
     SBAdProduct,
     SBCreateState,
@@ -23,229 +21,320 @@ from ads_api.models.v1._shared.sb import (
     SBUpdateState,
 )
 
-
-class SBBidStrategy(StrEnum):
-    MANUAL = (
-        "MANUAL"  # Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
-    )
-    SALES_UP_AND_DOWN = "SALES_UP_AND_DOWN"  # Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
-
-
-class SBBudgetType(StrEnum):
-    MONETARY = "MONETARY"
-
-
-class SBCampaignNameFilterType(StrEnum):
-    BROAD_MATCH = "BROAD_MATCH"  # Filter by broad match.
-    EXACT_MATCH = "EXACT_MATCH"  # Filter by exact match.
+type SBBidStrategy = Literal[
+    "MANUAL",  # Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
+    "SALES_UP_AND_DOWN",  # Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
+]
+"""
+Supported values:
+- `MANUAL`: Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
+- `SALES_UP_AND_DOWN`: Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
+"""
 
 
-class SBCostType(StrEnum):
-    CPC = "CPC"  # Cost per click.
-    CPM = "CPM"  # Cost per thousand impressions.
-    FIXED_PRICE = "FIXED_PRICE"  # Sale price for a specific ad placement regardless of auction performance.
-    VCPM = "VCPM"  # Cost per thousand views.
+type SBBudgetType = Literal["MONETARY"]
 
 
-class SBCountryCode(StrEnum):
-    AE = "AE"
-    AU = "AU"
-    BE = "BE"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    EG = "EG"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IE = "IE"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    NL = "NL"
-    PL = "PL"
-    SA = "SA"
-    SE = "SE"
-    SG = "SG"
-    TR = "TR"
-    US = "US"
-    ZA = "ZA"
+type SBCampaignNameFilterType = Literal[
+    "BROAD_MATCH",  # Filter by broad match.
+    "EXACT_MATCH",  # Filter by exact match.
+]
+"""
+Supported values:
+- `EXACT_MATCH`: Filter by exact match.
+- `BROAD_MATCH`: Filter by broad match.
+"""
 
 
-class SBCurrencyCode(StrEnum):
-    AED = "AED"  # United Arab Emirates Dirham
-    AUD = "AUD"  # Australian Dollar
-    BRL = "BRL"  # Brazilian Real
-    CAD = "CAD"  # Canadian Dollar
-    CHF = "CHF"  # Swiss Franc
-    CNY = "CNY"  # Chinese Yuan
-    DKK = "DKK"  # Danish Krone
-    EGP = "EGP"  # Egyptian Pound
-    EUR = "EUR"  # Euro
-    GBP = "GBP"  # British Pound Sterling
-    INR = "INR"  # Indian Rupee
-    JPY = "JPY"  # Japanese Yen
-    MXN = "MXN"  # Mexican Peso
-    MXP = "MXP"  # Mexican Peso
-    NGN = "NGN"  # Nigerian Naira
-    NOK = "NOK"  # Norwegian Krone
-    NZD = "NZD"  # New Zealand Dollar
-    PLN = "PLN"  # Polish Złoty
-    SAR = "SAR"  # Saudi Riyal
-    SEK = "SEK"  # Swedish Krona
-    SGD = "SGD"  # Singapore Dollar
-    TRY = "TRY"  # Turkish Lira
-    USD = "USD"  # United States Dollar
-    ZAR = "ZAR"  # South African Rand
+type SBCostType = Literal[
+    "CPC",  # Cost per click.
+    "CPM",  # Cost per thousand impressions.
+    "FIXED_PRICE",  # Sale price for a specific ad placement regardless of auction performance.
+    "VCPM",  # Cost per thousand views.
+]
+"""
+Supported values:
+- `CPC`: Cost per click.
+- `CPM`: Cost per thousand impressions.
+- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
+- `VCPM`: Cost per thousand views.
+"""
 
 
-class SBErrorCode(StrEnum):
-    ACTION_NOT_SUPPORTED = "ACTION_NOT_SUPPORTED"  # The request is not supported.
-    ACTIVE_RESOURCE_LIMIT_EXCEEDED = (
-        "ACTIVE_RESOURCE_LIMIT_EXCEEDED"  # Too many live resources. Remove resources and try again.
-    )
-    ARCHIVED_PARENT_CANNOT_CREATE = (
-        "ARCHIVED_PARENT_CANNOT_CREATE"  # New resources cannot be created within an archived parent.
-    )
-    ARCHIVED_PARENT_CANNOT_EDIT = "ARCHIVED_PARENT_CANNOT_EDIT"  # Resources within an archived parent cannot be edited.
-    ARCHIVED_RESOURCE_CANNOT_EDIT = "ARCHIVED_RESOURCE_CANNOT_EDIT"  # Archived resources cannot be edited.
-    AUTOCREATED_ENTITY_CANNOT_EDIT = "AUTOCREATED_ENTITY_CANNOT_EDIT"  # Autocreated entities cannot be edited. To complete this action, create the resource manually.
-    BAD_REQUEST = "BAD_REQUEST"  # The request is not valid considering the documented schema.
-    CONFLICT = "CONFLICT"  # Operation could not be completed due to a conflict. Please retry your request.
-    CONTENT_TOO_LARGE = "CONTENT_TOO_LARGE"  # The request is too large. Consider splitting it into multiple requests.
-    DATE_CANNOT_BE_IN_PAST = "DATE_CANNOT_BE_IN_PAST"  # Update the date to be in the future.
-    DATE_CANNOT_BE_NULL = "DATE_CANNOT_BE_NULL"  # Update the date.
-    DATE_TOO_SOON = "DATE_TOO_SOON"  # Update the date to be further in the future.
-    DUPLICATE_FIELD_VALUE_FOUND = "DUPLICATE_FIELD_VALUE_FOUND"  # Multiple resources share the non-unique field values. Remove the non-unique field value.
-    DUPLICATE_RESOURCE_ID_FOUND = (
-        "DUPLICATE_RESOURCE_ID_FOUND"  # Multiple resources share the same ID. Remove the duplicate ID.
-    )
-    DURATION_TOO_SHORT = "DURATION_TOO_SHORT"  # Update the length to be within the required range.
-    FEATURE_DISCONTINUED = "FEATURE_DISCONTINUED"  # Feature has been discontinued.
-    FEATURE_NOT_AVAILABLE = "FEATURE_NOT_AVAILABLE"  # The requested feature is not available.
-    FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT = (
-        "FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT"  # Update the value to be within the required range.
-    )
-    FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT = (
-        "FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT"  # Update the value to be within the required range.
-    )
-    FIELD_SIZE_IS_OUT_OF_RANGE = "FIELD_SIZE_IS_OUT_OF_RANGE"  # Update the value to be within the required range.
-    FIELD_VALUE_CANNOT_EDIT = "FIELD_VALUE_CANNOT_EDIT"  # Field value cannot be edited.
-    FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS = (
-        "FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS"  # Update the request with the required information for this resource.
-    )
-    FIELD_VALUE_CONTAINS_INVALID_CHARACTERS = (
-        "FIELD_VALUE_CONTAINS_INVALID_CHARACTERS"  # Remove the invalid characters and try again.
-    )
-    FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT = (
-        "FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT"  # Update the value to be within the required range.
-    )
-    FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT = (
-        "FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT"  # Update the value to be within the required range.
-    )
-    FIELD_VALUE_IS_EMPTY = "FIELD_VALUE_IS_EMPTY"  # Update the request with the required information for this resource.
-    FIELD_VALUE_IS_INVALID = (
-        "FIELD_VALUE_IS_INVALID"  # Update the request with the required information for this resource.
-    )
-    FIELD_VALUE_IS_NULL = "FIELD_VALUE_IS_NULL"  # Update the request with the required information for this resource.
-    FIELD_VALUE_IS_OUT_OF_RANGE = "FIELD_VALUE_IS_OUT_OF_RANGE"  # Update the value to be within the required range.
-    FIELD_VALUE_MISMATCH = "FIELD_VALUE_MISMATCH"  # Mismatch among resource field values.
-    FIELD_VALUE_MUST_BE_EMPTY_OR_NULL = (
-        "FIELD_VALUE_MUST_BE_EMPTY_OR_NULL"  # Update the request with the required information for this resource.
-    )
-    FIELD_VALUE_NOT_FOUND = (
-        "FIELD_VALUE_NOT_FOUND"  # Resource specified in the field value not found. Try again with valid value.
-    )
-    FIELD_VALUE_NOT_UNIQUE = "FIELD_VALUE_NOT_UNIQUE"  # Resource field value conflicts with existing resource. Try again with an unique field value.
-    FORBIDDEN = "FORBIDDEN"  # The caller is not authorized to make the given request.
-    INTERNAL_ERROR = "INTERNAL_ERROR"  # The server encountered an unexpected condition that prevented it from fulfilling the request.
-    NOT_FOUND = "NOT_FOUND"  # The requested resource does not exist.
-    PAYMENT_ISSUE = "PAYMENT_ISSUE"  # Payment failed.
-    PRODUCT_INELIGIBLE = (
-        "PRODUCT_INELIGIBLE"  # Product is not eligible for advertising. Try again with a valid product.
-    )
-    RESOURCE_DOES_NOT_BELONG_TO_PARENT = "RESOURCE_DOES_NOT_BELONG_TO_PARENT"  # Resource does not belong to the specified parent. Try again with a valid parent ID.
-    RESOURCE_ID_NOT_FOUND = "RESOURCE_ID_NOT_FOUND"  # Resource ID not found. Try again with valid ID.
-    RESOURCE_IS_EMPTY = "RESOURCE_IS_EMPTY"  # Update the request with the required information for this resource.
-    RESOURCE_IS_IN_TERMINAL_STATE = "RESOURCE_IS_IN_TERMINAL_STATE"  # Resource is in terminal state.
-    RESOURCE_IS_NULL = "RESOURCE_IS_NULL"  # Update the request with the required information for this resource.
-    TOO_MANY_REQUESTS = "TOO_MANY_REQUESTS"  # There have been too many requests, please slow down your call rate.
-    TOTAL_RESOURCE_LIMIT_EXCEEDED = (
-        "TOTAL_RESOURCE_LIMIT_EXCEEDED"  # Too many resources. Remove resources and try again.
-    )
-    UNAUTHORIZED = "UNAUTHORIZED"  # The request lacks the necessary credentials.
-    UNSUPPORTED_MARKETPLACE = (
-        "UNSUPPORTED_MARKETPLACE"  # Marketplace not supported. Try again with a supported marketplace.
-    )
+type SBCountryCode = Literal[
+    "AE",
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "DE",
+    "EG",
+    "ES",
+    "FR",
+    "GB",
+    "IE",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "PL",
+    "SA",
+    "SE",
+    "SG",
+    "TR",
+    "US",
+    "ZA",
+]
 
 
-class SBGoal(StrEnum):
-    AWARENESS = "AWARENESS"  # Indicates a goal of driving awareness.
-    CONSIDERATION = "CONSIDERATION"  # Indicates a goal of driving consideration.
-    CONVERSIONS = "CONVERSIONS"  # Indicates a goal of driving conversions.
+type SBCurrencyCode = Literal[
+    "AED",  # United Arab Emirates Dirham
+    "AUD",  # Australian Dollar
+    "BRL",  # Brazilian Real
+    "CAD",  # Canadian Dollar
+    "CHF",  # Swiss Franc
+    "CNY",  # Chinese Yuan
+    "DKK",  # Danish Krone
+    "EGP",  # Egyptian Pound
+    "EUR",  # Euro
+    "GBP",  # British Pound Sterling
+    "INR",  # Indian Rupee
+    "JPY",  # Japanese Yen
+    "MXN",  # Mexican Peso
+    "MXP",  # Mexican Peso
+    "NGN",  # Nigerian Naira
+    "NOK",  # Norwegian Krone
+    "NZD",  # New Zealand Dollar
+    "PLN",  # Polish Złoty
+    "SAR",  # Saudi Riyal
+    "SEK",  # Swedish Krona
+    "SGD",  # Singapore Dollar
+    "TRY",  # Turkish Lira
+    "USD",  # United States Dollar
+    "ZAR",  # South African Rand
+]
+"""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CNY`: Chinese Yuan
+- `DKK`: Danish Krone
+- `EGP`: Egyptian Pound
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `INR`: Indian Rupee
+- `JPY`: Japanese Yen
+- `MXN`: Mexican Peso
+- `MXP`: Mexican Peso
+- `NGN`: Nigerian Naira
+- `NOK`: Norwegian Krone
+- `NZD`: New Zealand Dollar
+- `PLN`: Polish Złoty
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `TRY`: Turkish Lira
+- `USD`: United States Dollar
+- `ZAR`: South African Rand
+"""
 
 
-class SBKPI(StrEnum):
-    CLICKS = "CLICKS"  # Indicates a goal of driving clicks.
-    TOP_OF_SEARCH_IMPRESSION_SHARE = (
-        "TOP_OF_SEARCH_IMPRESSION_SHARE"  # Indicates a goal of maximizing impression for top search placement.
-    )
+type SBErrorCode = Literal[
+    "ACTION_NOT_SUPPORTED",  # The request is not supported.
+    "ACTIVE_RESOURCE_LIMIT_EXCEEDED",  # Too many live resources. Remove resources and try again.
+    "ARCHIVED_PARENT_CANNOT_CREATE",  # New resources cannot be created within an archived parent.
+    "ARCHIVED_PARENT_CANNOT_EDIT",  # Resources within an archived parent cannot be edited.
+    "ARCHIVED_RESOURCE_CANNOT_EDIT",  # Archived resources cannot be edited.
+    "AUTOCREATED_ENTITY_CANNOT_EDIT",  # Autocreated entities cannot be edited. To complete this action, create the resource manually.
+    "BAD_REQUEST",  # The request is not valid considering the documented schema.
+    "CONFLICT",  # Operation could not be completed due to a conflict. Please retry your request.
+    "CONTENT_TOO_LARGE",  # The request is too large. Consider splitting it into multiple requests.
+    "DATE_CANNOT_BE_IN_PAST",  # Update the date to be in the future.
+    "DATE_CANNOT_BE_NULL",  # Update the date.
+    "DATE_TOO_SOON",  # Update the date to be further in the future.
+    "DUPLICATE_FIELD_VALUE_FOUND",  # Multiple resources share the non-unique field values. Remove the non-unique field value.
+    "DUPLICATE_RESOURCE_ID_FOUND",  # Multiple resources share the same ID. Remove the duplicate ID.
+    "DURATION_TOO_SHORT",  # Update the length to be within the required range.
+    "FEATURE_DISCONTINUED",  # Feature has been discontinued.
+    "FEATURE_NOT_AVAILABLE",  # The requested feature is not available.
+    "FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT",  # Update the value to be within the required range.
+    "FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT",  # Update the value to be within the required range.
+    "FIELD_SIZE_IS_OUT_OF_RANGE",  # Update the value to be within the required range.
+    "FIELD_VALUE_CANNOT_EDIT",  # Field value cannot be edited.
+    "FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_CONTAINS_INVALID_CHARACTERS",  # Remove the invalid characters and try again.
+    "FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT",  # Update the value to be within the required range.
+    "FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT",  # Update the value to be within the required range.
+    "FIELD_VALUE_IS_EMPTY",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_IS_INVALID",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_IS_NULL",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_IS_OUT_OF_RANGE",  # Update the value to be within the required range.
+    "FIELD_VALUE_MISMATCH",  # Mismatch among resource field values.
+    "FIELD_VALUE_MUST_BE_EMPTY_OR_NULL",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_NOT_FOUND",  # Resource specified in the field value not found. Try again with valid value.
+    "FIELD_VALUE_NOT_UNIQUE",  # Resource field value conflicts with existing resource. Try again with an unique field value.
+    "FORBIDDEN",  # The caller is not authorized to make the given request.
+    "INTERNAL_ERROR",  # The server encountered an unexpected condition that prevented it from fulfilling the request.
+    "NOT_FOUND",  # The requested resource does not exist.
+    "PAYMENT_ISSUE",  # Payment failed.
+    "PRODUCT_INELIGIBLE",  # Product is not eligible for advertising. Try again with a valid product.
+    "RESOURCE_DOES_NOT_BELONG_TO_PARENT",  # Resource does not belong to the specified parent. Try again with a valid parent ID.
+    "RESOURCE_ID_NOT_FOUND",  # Resource ID not found. Try again with valid ID.
+    "RESOURCE_IS_EMPTY",  # Update the request with the required information for this resource.
+    "RESOURCE_IS_IN_TERMINAL_STATE",  # Resource is in terminal state.
+    "RESOURCE_IS_NULL",  # Update the request with the required information for this resource.
+    "TOO_MANY_REQUESTS",  # There have been too many requests, please slow down your call rate.
+    "TOTAL_RESOURCE_LIMIT_EXCEEDED",  # Too many resources. Remove resources and try again.
+    "UNAUTHORIZED",  # The request lacks the necessary credentials.
+    "UNSUPPORTED_MARKETPLACE",  # Marketplace not supported. Try again with a supported marketplace.
+]
+"""
+Supported values:
+- `ACTION_NOT_SUPPORTED`: The request is not supported.
+- `ACTIVE_RESOURCE_LIMIT_EXCEEDED`: Too many live resources. Remove resources and try again.
+- `ARCHIVED_PARENT_CANNOT_CREATE`: New resources cannot be created within an archived parent.
+- `ARCHIVED_PARENT_CANNOT_EDIT`: Resources within an archived parent cannot be edited.
+- `ARCHIVED_RESOURCE_CANNOT_EDIT`: Archived resources cannot be edited.
+- `AUTOCREATED_ENTITY_CANNOT_EDIT`: Autocreated entities cannot be edited. To complete this action, create the resource manually.
+- `BAD_REQUEST`: The request is not valid considering the documented schema.
+- `CONFLICT`: Operation could not be completed due to a conflict. Please retry your request.
+- `CONTENT_TOO_LARGE`: The request is too large. Consider splitting it into multiple requests.
+- `DATE_CANNOT_BE_IN_PAST`: Update the date to be in the future.
+- `DATE_CANNOT_BE_NULL`: Update the date.
+- `DATE_TOO_SOON`: Update the date to be further in the future.
+- `DUPLICATE_FIELD_VALUE_FOUND`: Multiple resources share the non-unique field values. Remove the non-unique field value.
+- `DUPLICATE_RESOURCE_ID_FOUND`: Multiple resources share the same ID. Remove the duplicate ID.
+- `DURATION_TOO_SHORT`: Update the length to be within the required range.
+- `FEATURE_DISCONTINUED`: Feature has been discontinued.
+- `FEATURE_NOT_AVAILABLE`: The requested feature is not available.
+- `FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_SIZE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
+- `FIELD_VALUE_CANNOT_EDIT`: Field value cannot be edited.
+- `FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS`: Update the request with the required information for this resource.
+- `FIELD_VALUE_CONTAINS_INVALID_CHARACTERS`: Remove the invalid characters and try again.
+- `FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_VALUE_IS_EMPTY`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_INVALID`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_NULL`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
+- `FIELD_VALUE_MISMATCH`: Mismatch among resource field values.
+- `FIELD_VALUE_MUST_BE_EMPTY_OR_NULL`: Update the request with the required information for this resource.
+- `FIELD_VALUE_NOT_FOUND`: Resource specified in the field value not found. Try again with valid value.
+- `FIELD_VALUE_NOT_UNIQUE`: Resource field value conflicts with existing resource. Try again with an unique field value.
+- `FORBIDDEN`: The caller is not authorized to make the given request.
+- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- `NOT_FOUND`: The requested resource does not exist.
+- `PAYMENT_ISSUE`: Payment failed.
+- `PRODUCT_INELIGIBLE`: Product is not eligible for advertising. Try again with a valid product.
+- `RESOURCE_DOES_NOT_BELONG_TO_PARENT`: Resource does not belong to the specified parent. Try again with a valid parent ID.
+- `RESOURCE_ID_NOT_FOUND`: Resource ID not found. Try again with valid ID.
+- `RESOURCE_IS_EMPTY`: Update the request with the required information for this resource.
+- `RESOURCE_IS_IN_TERMINAL_STATE`: Resource is in terminal state.
+- `RESOURCE_IS_NULL`: Update the request with the required information for this resource.
+- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
+- `TOTAL_RESOURCE_LIMIT_EXCEEDED`: Too many resources. Remove resources and try again.
+- `UNAUTHORIZED`: The request lacks the necessary credentials.
+- `UNSUPPORTED_MARKETPLACE`: Marketplace not supported. Try again with a supported marketplace.
+"""
 
 
-class SBMarketplace(StrEnum):
-    """
-    A list of country codes representing Amazon marketplaces
-    """
-
-    AE = "AE"
-    AU = "AU"
-    BE = "BE"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    EG = "EG"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IE = "IE"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    NL = "NL"
-    PL = "PL"
-    SA = "SA"
-    SE = "SE"
-    SG = "SG"
-    TR = "TR"
-    US = "US"
-    ZA = "ZA"
+type SBGoal = Literal[
+    "AWARENESS",  # Indicates a goal of driving awareness.
+    "CONSIDERATION",  # Indicates a goal of driving consideration.
+    "CONVERSIONS",  # Indicates a goal of driving conversions.
+]
+"""
+Supported values:
+- `AWARENESS`: Indicates a goal of driving awareness.
+- `CONSIDERATION`: Indicates a goal of driving consideration.
+- `CONVERSIONS`: Indicates a goal of driving conversions.
+"""
 
 
-class SBPlacement(StrEnum):
-    HOME_PAGE = "HOME_PAGE"  # Home page.
-    PRODUCT_PAGE = "PRODUCT_PAGE"  # Placements on the product detail page, and all nonsearch placements such as the add-to-cart page.
-    REST_OF_SEARCH = "REST_OF_SEARCH"  # Placements on the middle or the bottom of the first-page search results. Also refers to ads on the second page of search results and beyond.
-    TOP_OF_SEARCH = "TOP_OF_SEARCH"  # Placements on the top row of the first-page search results.
+type SBKPI = Literal[
+    "CLICKS",  # Indicates a goal of driving clicks.
+    "TOP_OF_SEARCH_IMPRESSION_SHARE",  # Indicates a goal of maximizing impression for top search placement.
+]
+"""
+Supported values:
+- `CLICKS`: Indicates a goal of driving clicks.
+- `TOP_OF_SEARCH_IMPRESSION_SHARE`: Indicates a goal of maximizing impression for top search placement.
+"""
 
 
-class SBRecurrence(StrEnum):
-    DAILY = "DAILY"
-    LIFETIME = "LIFETIME"
+type SBMarketplace = Literal[
+    "AE",
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "DE",
+    "EG",
+    "ES",
+    "FR",
+    "GB",
+    "IE",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "PL",
+    "SA",
+    "SE",
+    "SG",
+    "TR",
+    "US",
+    "ZA",
+]
+"""
+A list of country codes representing Amazon marketplaces
+"""
 
 
-class SBSalesChannel(StrEnum):
-    AMAZON = "AMAZON"  # A product sold on Amazon-owned sites.
-    OFF_AMAZON = "OFF_AMAZON"  # A product sold on a site not owned by Amazon.
+type SBPlacement = Literal[
+    "HOME_PAGE",  # Home page.
+    "PRODUCT_PAGE",  # Placements on the product detail page, and all nonsearch placements such as the add-to-cart page.
+    "REST_OF_SEARCH",  # Placements on the middle or the bottom of the first-page search results. Also refers to ads on the second page of search results and beyond.
+    "TOP_OF_SEARCH",  # Placements on the top row of the first-page search results.
+]
+"""
+Supported values:
+- `HOME_PAGE`: Home page.
+- `PRODUCT_PAGE`: Placements on the product detail page, and all nonsearch placements such as the add-to-cart page.
+- `REST_OF_SEARCH`: Placements on the middle or the bottom of the first-page search results. Also refers to ads on the second page of search results and beyond.
+- `TOP_OF_SEARCH`: Placements on the top row of the first-page search results.
+"""
 
 
-class SBShopperSegment(StrEnum):
-    NEW_TO_BRAND = "NEW_TO_BRAND"
+type SBRecurrence = Literal["DAILY", "LIFETIME"]
 
 
-class SBSiteRestriction(StrEnum):
-    AMAZON_BUSINESS = "AMAZON_BUSINESS"  # Restrict the ad to only show on Amazon Business.
+type SBSalesChannel = Literal[
+    "AMAZON",  # A product sold on Amazon-owned sites.
+    "OFF_AMAZON",  # A product sold on a site not owned by Amazon.
+]
+"""
+Supported values:
+- `AMAZON`: A product sold on Amazon-owned sites.
+- `OFF_AMAZON`: A product sold on a site not owned by Amazon.
+"""
+
+
+type SBShopperSegment = Literal["NEW_TO_BRAND"]
+
+
+type SBSiteRestriction = Literal["AMAZON_BUSINESS",]  # Restrict the ad to only show on Amazon Business.
+"""
+Supported values:
+- `AMAZON_BUSINESS`: Restrict the ad to only show on Amazon Business.
+"""
 
 
 class SBAudienceBidAdjustment(LenientModel):
@@ -279,13 +368,20 @@ class SBBidAdjustments(LenientModel):
 
 class SBBidSettings(LenientModel):
     bidAdjustments: SBBidAdjustments | None = Field(default=None)
-    bidStrategy: Annotated[SBBidStrategy | str, lenient_enum(SBBidStrategy)] | None = Field(default=None)
+    bidStrategy: SBBidStrategy | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `MANUAL`: Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
+- `SALES_UP_AND_DOWN`: Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
+""",
+    )
 
 
 class SBBudget(LenientModel):
-    budgetType: Annotated[SBBudgetType | str, lenient_enum(SBBudgetType)]
+    budgetType: SBBudgetType | str
     budgetValue: SBBudgetValue
-    recurrenceTimePeriod: Annotated[SBRecurrence | str, lenient_enum(SBRecurrence)]
+    recurrenceTimePeriod: SBRecurrence | str
 
 
 class SBBudgetValue(LenientModel):
@@ -293,7 +389,10 @@ class SBBudgetValue(LenientModel):
 
 
 class SBCampaign(LenientModel):
-    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
+    adProduct: SBAdProduct | str = Field(description="""
+Supported values:
+- `SPONSORED_BRANDS`: Sponsored Brands ad product.
+""")
     autoCreationSettings: SBAutoCreationSettings | None = Field(default=None)
     brandId: str | None = Field(
         default=None, description="This is the ID of the brand that the campaign is associated with."
@@ -304,8 +403,14 @@ class SBCampaign(LenientModel):
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
     campaignId: str = Field(description="A unique identifier for a campaign.")
-    costType: Annotated[SBCostType | str, lenient_enum(SBCostType)]
-    countries: list[Annotated[SBCountryCode | str, lenient_enum(SBCountryCode)]] | None = Field(
+    costType: SBCostType | str = Field(description="""
+Supported values:
+- `CPC`: Cost per click.
+- `CPM`: Cost per thousand impressions.
+- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
+- `VCPM`: Cost per thousand views.
+""")
+    countries: list[SBCountryCode | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -317,8 +422,8 @@ class SBCampaign(LenientModel):
         description="A read-only field that indicates whether a campaign supports multiple adGroups."
     )
     lastUpdatedDateTime: datetime = Field(description="The date time that the campaign was last updated.")
-    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)]
-    marketplaces: list[Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]] | None = Field(
+    marketplaceScope: SBMarketplaceScope | str
+    marketplaces: list[SBMarketplace | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -327,12 +432,32 @@ class SBCampaign(LenientModel):
     name: str = Field(description="The name of the campaign.")
     optimizations: SBCampaignOptimizations | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
-    salesChannel: Annotated[SBSalesChannel | str, lenient_enum(SBSalesChannel)] | None = Field(default=None)
-    siteRestrictions: list[Annotated[SBSiteRestriction | str, lenient_enum(SBSiteRestriction)]] | None = Field(
-        default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site"
+    salesChannel: SBSalesChannel | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `AMAZON`: A product sold on Amazon-owned sites.
+- `OFF_AMAZON`: A product sold on a site not owned by Amazon.
+""",
+    )
+    siteRestrictions: list[SBSiteRestriction | str] | None = Field(
+        default=None,
+        min_length=0,
+        max_length=1,
+        description="""
+Restrict the ad to a particular site
+
+Supported values:
+- `AMAZON_BUSINESS`: Restrict the ad to only show on Amazon Business.
+""",
     )
     startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: Annotated[SBState | str, lenient_enum(SBState)]
+    state: SBState | str = Field(description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     status: SBStatus | None = Field(default=None)
     tags: list[SBTag] | None = Field(
         default=None,
@@ -344,7 +469,14 @@ class SBCampaign(LenientModel):
 
 
 class SBCampaignAdProductFilter(StrictModel):
-    include: list[Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[SBAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `SPONSORED_BRANDS`: Sponsored Brands ad product.
+""",
+    )
 
 
 class SBCampaignCampaignIdFilter(StrictModel):
@@ -352,7 +484,10 @@ class SBCampaignCampaignIdFilter(StrictModel):
 
 
 class SBCampaignCreate(StrictModel):
-    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
+    adProduct: SBAdProduct = Field(description="""
+Supported values:
+- `SPONSORED_BRANDS`: Sponsored Brands ad product.
+""")
     autoCreationSettings: SBCreateAutoCreationSettings | None = Field(default=None)
     brandId: str | None = Field(
         default=None, description="This is the ID of the brand that the campaign is associated with."
@@ -362,16 +497,22 @@ class SBCampaignCreate(StrictModel):
         max_length=1,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
-    costType: Annotated[SBCostType | str, lenient_enum(SBCostType)]
-    countries: list[Annotated[SBCountryCode | str, lenient_enum(SBCountryCode)]] | None = Field(
+    costType: SBCostType = Field(description="""
+Supported values:
+- `CPC`: Cost per click.
+- `CPM`: Cost per thousand impressions.
+- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
+- `VCPM`: Cost per thousand views.
+""")
+    countries: list[SBCountryCode | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
         description="This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.",
     )
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
-    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)]
-    marketplaces: list[Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]] | None = Field(
+    marketplaceScope: SBMarketplaceScope
+    marketplaces: list[SBMarketplace | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -380,12 +521,31 @@ class SBCampaignCreate(StrictModel):
     name: str = Field(description="The name of the campaign.")
     optimizations: SBCreateCampaignOptimizations | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
-    salesChannel: Annotated[SBSalesChannel | str, lenient_enum(SBSalesChannel)] | None = Field(default=None)
-    siteRestrictions: list[Annotated[SBSiteRestriction | str, lenient_enum(SBSiteRestriction)]] | None = Field(
-        default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site"
+    salesChannel: SBSalesChannel | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `AMAZON`: A product sold on Amazon-owned sites.
+- `OFF_AMAZON`: A product sold on a site not owned by Amazon.
+""",
+    )
+    siteRestrictions: list[SBSiteRestriction | str] | None = Field(
+        default=None,
+        min_length=0,
+        max_length=1,
+        description="""
+Restrict the ad to a particular site
+
+Supported values:
+- `AMAZON_BUSINESS`: Restrict the ad to only show on Amazon Business.
+""",
     )
     startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: Annotated[SBCreateState | str, lenient_enum(SBCreateState)]
+    state: SBCreateState = Field(description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     tags: list[SBCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -396,7 +556,16 @@ class SBCampaignCreate(StrictModel):
 
 
 class SBCampaignGoalFilter(StrictModel):
-    include: list[Annotated[SBGoal | str, lenient_enum(SBGoal)]] = Field(min_length=1, max_length=3)
+    include: list[SBGoal | str] = Field(
+        min_length=1,
+        max_length=3,
+        description="""
+Supported values:
+- `AWARENESS`: Indicates a goal of driving awareness.
+- `CONSIDERATION`: Indicates a goal of driving consideration.
+- `CONVERSIONS`: Indicates a goal of driving conversions.
+""",
+    )
 
 
 class SBCampaignMultiStatusResponse(LenientModel):
@@ -411,7 +580,11 @@ class SBCampaignMultiStatusSuccess(LenientModel):
 
 class SBCampaignNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[SBCampaignNameFilterType | str, lenient_enum(SBCampaignNameFilterType)]
+    queryTermMatchType: SBCampaignNameFilterType = Field(description="""
+Supported values:
+- `EXACT_MATCH`: Filter by exact match.
+- `BROAD_MATCH`: Filter by broad match.
+""")
 
 
 class SBCampaignOptimizations(LenientModel):
@@ -424,7 +597,16 @@ class SBCampaignPortfolioIdFilter(StrictModel):
 
 
 class SBCampaignStateFilter(StrictModel):
-    include: list[Annotated[SBState | str, lenient_enum(SBState)]] = Field(min_length=1, max_length=3)
+    include: list[SBState | str] = Field(
+        min_length=1,
+        max_length=3,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class SBCampaignSuccessResponse(LenientModel):
@@ -445,7 +627,14 @@ class SBCampaignUpdate(StrictModel):
     optimizations: SBUpdateCampaignOptimizations | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
     startDateTime: datetime | None = Field(default=None, description="The start date time for the campaign.")
-    state: Annotated[SBUpdateState | str, lenient_enum(SBUpdateState)] | None = Field(default=None)
+    state: SBUpdateState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
     tags: list[SBCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -486,13 +675,20 @@ class SBCreateBidAdjustments(StrictModel):
 
 class SBCreateBidSettings(StrictModel):
     bidAdjustments: SBCreateBidAdjustments | None = Field(default=None)
-    bidStrategy: Annotated[SBBidStrategy | str, lenient_enum(SBBidStrategy)] | None = Field(default=None)
+    bidStrategy: SBBidStrategy | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `MANUAL`: Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
+- `SALES_UP_AND_DOWN`: Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
+""",
+    )
 
 
 class SBCreateBudget(StrictModel):
-    budgetType: Annotated[SBBudgetType | str, lenient_enum(SBBudgetType)]
+    budgetType: SBBudgetType
     budgetValue: SBCreateBudgetValue
-    recurrenceTimePeriod: Annotated[SBRecurrence | str, lenient_enum(SBRecurrence)]
+    recurrenceTimePeriod: SBRecurrence
 
 
 class SBCreateBudgetValue(StrictModel):
@@ -509,7 +705,11 @@ class SBCreateCampaignRequest(StrictModel):
 
 
 class SBCreateGoalSettings(StrictModel):
-    kpi: Annotated[SBKPI | str, lenient_enum(SBKPI)]
+    kpi: SBKPI = Field(description="""
+Supported values:
+- `CLICKS`: Indicates a goal of driving clicks.
+- `TOP_OF_SEARCH_IMPRESSION_SHARE`: Indicates a goal of maximizing impression for top search placement.
+""")
 
 
 class SBCreateMonetaryBudget(StrictModel):
@@ -524,7 +724,13 @@ class SBCreatePlacementBidAdjustment(StrictModel):
     percentage: int = Field(
         description="The selection of the percentage change associated with a given placement and bid adjustment settings."
     )
-    placement: Annotated[SBPlacement | str, lenient_enum(SBPlacement)]
+    placement: SBPlacement = Field(description="""
+Supported values:
+- `HOME_PAGE`: Home page.
+- `PRODUCT_PAGE`: Placements on the product detail page, and all nonsearch placements such as the add-to-cart page.
+- `REST_OF_SEARCH`: Placements on the middle or the bottom of the first-page search results. Also refers to ads on the second page of search results and beyond.
+- `TOP_OF_SEARCH`: Placements on the top row of the first-page search results.
+""")
 
 
 class SBCreateShopperSegmentBidAdjustment(StrictModel):
@@ -536,7 +742,56 @@ class SBDeleteCampaignRequest(StrictModel):
 
 
 class SBError(LenientModel):
-    code: Annotated[SBErrorCode | str, lenient_enum(SBErrorCode)]
+    code: SBErrorCode | str = Field(description="""
+Supported values:
+- `ACTION_NOT_SUPPORTED`: The request is not supported.
+- `ACTIVE_RESOURCE_LIMIT_EXCEEDED`: Too many live resources. Remove resources and try again.
+- `ARCHIVED_PARENT_CANNOT_CREATE`: New resources cannot be created within an archived parent.
+- `ARCHIVED_PARENT_CANNOT_EDIT`: Resources within an archived parent cannot be edited.
+- `ARCHIVED_RESOURCE_CANNOT_EDIT`: Archived resources cannot be edited.
+- `AUTOCREATED_ENTITY_CANNOT_EDIT`: Autocreated entities cannot be edited. To complete this action, create the resource manually.
+- `BAD_REQUEST`: The request is not valid considering the documented schema.
+- `CONFLICT`: Operation could not be completed due to a conflict. Please retry your request.
+- `CONTENT_TOO_LARGE`: The request is too large. Consider splitting it into multiple requests.
+- `DATE_CANNOT_BE_IN_PAST`: Update the date to be in the future.
+- `DATE_CANNOT_BE_NULL`: Update the date.
+- `DATE_TOO_SOON`: Update the date to be further in the future.
+- `DUPLICATE_FIELD_VALUE_FOUND`: Multiple resources share the non-unique field values. Remove the non-unique field value.
+- `DUPLICATE_RESOURCE_ID_FOUND`: Multiple resources share the same ID. Remove the duplicate ID.
+- `DURATION_TOO_SHORT`: Update the length to be within the required range.
+- `FEATURE_DISCONTINUED`: Feature has been discontinued.
+- `FEATURE_NOT_AVAILABLE`: The requested feature is not available.
+- `FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_SIZE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
+- `FIELD_VALUE_CANNOT_EDIT`: Field value cannot be edited.
+- `FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS`: Update the request with the required information for this resource.
+- `FIELD_VALUE_CONTAINS_INVALID_CHARACTERS`: Remove the invalid characters and try again.
+- `FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_VALUE_IS_EMPTY`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_INVALID`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_NULL`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
+- `FIELD_VALUE_MISMATCH`: Mismatch among resource field values.
+- `FIELD_VALUE_MUST_BE_EMPTY_OR_NULL`: Update the request with the required information for this resource.
+- `FIELD_VALUE_NOT_FOUND`: Resource specified in the field value not found. Try again with valid value.
+- `FIELD_VALUE_NOT_UNIQUE`: Resource field value conflicts with existing resource. Try again with an unique field value.
+- `FORBIDDEN`: The caller is not authorized to make the given request.
+- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- `NOT_FOUND`: The requested resource does not exist.
+- `PAYMENT_ISSUE`: Payment failed.
+- `PRODUCT_INELIGIBLE`: Product is not eligible for advertising. Try again with a valid product.
+- `RESOURCE_DOES_NOT_BELONG_TO_PARENT`: Resource does not belong to the specified parent. Try again with a valid parent ID.
+- `RESOURCE_ID_NOT_FOUND`: Resource ID not found. Try again with valid ID.
+- `RESOURCE_IS_EMPTY`: Update the request with the required information for this resource.
+- `RESOURCE_IS_IN_TERMINAL_STATE`: Resource is in terminal state.
+- `RESOURCE_IS_NULL`: Update the request with the required information for this resource.
+- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
+- `TOTAL_RESOURCE_LIMIT_EXCEEDED`: Too many resources. Remove resources and try again.
+- `UNAUTHORIZED`: The request lacks the necessary credentials.
+- `UNSUPPORTED_MARKETPLACE`: Marketplace not supported. Try again with a supported marketplace.
+""")
     fieldLocation: str | None = Field(default=None)
     message: str
 
@@ -547,12 +802,47 @@ class SBErrorsIndex(LenientModel):
 
 
 class SBGoalSettings(LenientModel):
-    goal: Annotated[SBGoal | str, lenient_enum(SBGoal)]
-    kpi: Annotated[SBKPI | str, lenient_enum(SBKPI)]
+    goal: SBGoal | str = Field(description="""
+Supported values:
+- `AWARENESS`: Indicates a goal of driving awareness.
+- `CONSIDERATION`: Indicates a goal of driving consideration.
+- `CONVERSIONS`: Indicates a goal of driving conversions.
+""")
+    kpi: SBKPI | str = Field(description="""
+Supported values:
+- `CLICKS`: Indicates a goal of driving clicks.
+- `TOP_OF_SEARCH_IMPRESSION_SHARE`: Indicates a goal of maximizing impression for top search placement.
+""")
 
 
 class SBMonetaryBudget(LenientModel):
-    currencyCode: Annotated[SBCurrencyCode | str, lenient_enum(SBCurrencyCode)]
+    currencyCode: SBCurrencyCode | str = Field(description="""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CNY`: Chinese Yuan
+- `DKK`: Danish Krone
+- `EGP`: Egyptian Pound
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `INR`: Indian Rupee
+- `JPY`: Japanese Yen
+- `MXN`: Mexican Peso
+- `MXP`: Mexican Peso
+- `NGN`: Nigerian Naira
+- `NOK`: Norwegian Krone
+- `NZD`: New Zealand Dollar
+- `PLN`: Polish Złoty
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `TRY`: Turkish Lira
+- `USD`: United States Dollar
+- `ZAR`: South African Rand
+""")
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )
@@ -567,7 +857,13 @@ class SBPlacementBidAdjustment(LenientModel):
     percentage: int = Field(
         description="The selection of the percentage change associated with a given placement and bid adjustment settings."
     )
-    placement: Annotated[SBPlacement | str, lenient_enum(SBPlacement)]
+    placement: SBPlacement | str = Field(description="""
+Supported values:
+- `HOME_PAGE`: Home page.
+- `PRODUCT_PAGE`: Placements on the product detail page, and all nonsearch placements such as the add-to-cart page.
+- `REST_OF_SEARCH`: Placements on the middle or the bottom of the first-page search results. Also refers to ads on the second page of search results and beyond.
+- `TOP_OF_SEARCH`: Placements on the top row of the first-page search results.
+""")
 
 
 class SBQueryCampaignRequest(StrictModel):
@@ -585,7 +881,7 @@ class SBShopperSegmentBidAdjustment(LenientModel):
     percentage: int = Field(
         description="The selection of the percentage change associated with a given shopper segment and bid adjustment settings."
     )
-    shopperSegment: Annotated[SBShopperSegment | str, lenient_enum(SBShopperSegment)]
+    shopperSegment: SBShopperSegment | str
 
 
 class SBUpdateBidAdjustments(StrictModel):
@@ -605,7 +901,14 @@ class SBUpdateBidAdjustments(StrictModel):
 
 class SBUpdateBidSettings(StrictModel):
     bidAdjustments: SBUpdateBidAdjustments | None = Field(default=None)
-    bidStrategy: Annotated[SBBidStrategy | str, lenient_enum(SBBidStrategy)] | None = Field(default=None)
+    bidStrategy: SBBidStrategy | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `MANUAL`: Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
+- `SALES_UP_AND_DOWN`: Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
+""",
+    )
 
 
 class SBUpdateCampaignOptimizations(StrictModel):

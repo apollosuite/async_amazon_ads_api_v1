@@ -3,127 +3,180 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.sb import (
     SBAdvertisingDealPriceType,
 )
 
-
-class SBAdvertisingDealNameFilterType(StrEnum):
-    BROAD_MATCH = "BROAD_MATCH"  # Filter by broad match.
-    EXACT_MATCH = "EXACT_MATCH"  # Filter by exact match.
-
-
-class SBAdvertisingDealState(StrEnum):
-    DRAFT = "DRAFT"
-    PROPOSED = "PROPOSED"
-
-
-class SBAdvertisingDealStatusEnum(StrEnum):
-    DRAFT = "DRAFT"  # The deal has not been submitted yet.
-    MODERATION_APPROVED = "MODERATION_APPROVED"  # The deal has passed moderation.
-    PROPOSED = "PROPOSED"  # The deal has been submitted for moderation.
+type SBAdvertisingDealNameFilterType = Literal[
+    "BROAD_MATCH",  # Filter by broad match.
+    "EXACT_MATCH",  # Filter by exact match.
+]
+"""
+Supported values:
+- `BROAD_MATCH`: Filter by broad match.
+- `EXACT_MATCH`: Filter by exact match.
+"""
 
 
-class SBCurrencyCode(StrEnum):
-    AED = "AED"  # United Arab Emirates Dirham
-    AUD = "AUD"  # Australian Dollar
-    BRL = "BRL"  # Brazilian Real
-    CAD = "CAD"  # Canadian Dollar
-    CHF = "CHF"  # Swiss Franc
-    CNY = "CNY"  # Chinese Yuan
-    DKK = "DKK"  # Danish Krone
-    EGP = "EGP"  # Egyptian Pound
-    EUR = "EUR"  # Euro
-    GBP = "GBP"  # British Pound Sterling
-    INR = "INR"  # Indian Rupee
-    JPY = "JPY"  # Japanese Yen
-    MXN = "MXN"  # Mexican Peso
-    MXP = "MXP"  # Mexican Peso
-    NGN = "NGN"  # Nigerian Naira
-    NOK = "NOK"  # Norwegian Krone
-    NZD = "NZD"  # New Zealand Dollar
-    PLN = "PLN"  # Polish Złoty
-    SAR = "SAR"  # Saudi Riyal
-    SEK = "SEK"  # Swedish Krona
-    SGD = "SGD"  # Singapore Dollar
-    TRY = "TRY"  # Turkish Lira
-    USD = "USD"  # United States Dollar
-    ZAR = "ZAR"  # South African Rand
+type SBAdvertisingDealState = Literal["DRAFT", "PROPOSED"]
 
 
-class SBErrorCode(StrEnum):
-    BAD_REQUEST = "BAD_REQUEST"  # The request is not valid considering the documented schema.
-    CONTENT_TOO_LARGE = "CONTENT_TOO_LARGE"  # The request is too large. Consider splitting it into multiple requests.
-    DATE_CANNOT_BE_IN_PAST = "DATE_CANNOT_BE_IN_PAST"  # Update the date to be in the future.
-    DATE_CANNOT_BE_NULL = "DATE_CANNOT_BE_NULL"  # Update the date.
-    DATE_TOO_SOON = "DATE_TOO_SOON"  # Update the date to be further in the future.
-    DUPLICATE_FIELD_VALUE_FOUND = "DUPLICATE_FIELD_VALUE_FOUND"  # Multiple resources share the non-unique field values. Remove the non-unique field value.
-    DUPLICATE_RESOURCE_ID_FOUND = (
-        "DUPLICATE_RESOURCE_ID_FOUND"  # Multiple resources share the same ID. Remove the duplicate ID.
-    )
-    DURATION_TOO_SHORT = "DURATION_TOO_SHORT"  # Update the length to be within the required range.
-    FEATURE_DISCONTINUED = "FEATURE_DISCONTINUED"  # Feature has been discontinued.
-    FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT = (
-        "FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT"  # Update the value to be within the required range.
-    )
-    FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT = (
-        "FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT"  # Update the value to be within the required range.
-    )
-    FIELD_SIZE_IS_OUT_OF_RANGE = "FIELD_SIZE_IS_OUT_OF_RANGE"  # Update the value to be within the required range.
-    FIELD_VALUE_CANNOT_EDIT = "FIELD_VALUE_CANNOT_EDIT"  # Field value cannot be edited.
-    FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS = (
-        "FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS"  # Update the request with the required information for this resource.
-    )
-    FIELD_VALUE_CONTAINS_INVALID_CHARACTERS = (
-        "FIELD_VALUE_CONTAINS_INVALID_CHARACTERS"  # Remove the invalid characters and try again.
-    )
-    FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT = (
-        "FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT"  # Update the value to be within the required range.
-    )
-    FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT = (
-        "FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT"  # Update the value to be within the required range.
-    )
-    FIELD_VALUE_IS_EMPTY = "FIELD_VALUE_IS_EMPTY"  # Update the request with the required information for this resource.
-    FIELD_VALUE_IS_INVALID = (
-        "FIELD_VALUE_IS_INVALID"  # Update the request with the required information for this resource.
-    )
-    FIELD_VALUE_IS_NULL = "FIELD_VALUE_IS_NULL"  # Update the request with the required information for this resource.
-    FIELD_VALUE_IS_OUT_OF_RANGE = "FIELD_VALUE_IS_OUT_OF_RANGE"  # Update the value to be within the required range.
-    FIELD_VALUE_MISMATCH = "FIELD_VALUE_MISMATCH"  # Mismatch among resource field values.
-    FIELD_VALUE_MUST_BE_EMPTY_OR_NULL = (
-        "FIELD_VALUE_MUST_BE_EMPTY_OR_NULL"  # Update the request with the required information for this resource.
-    )
-    FIELD_VALUE_NOT_FOUND = (
-        "FIELD_VALUE_NOT_FOUND"  # Resource specified in the field value not found. Try again with valid value.
-    )
-    FIELD_VALUE_NOT_UNIQUE = "FIELD_VALUE_NOT_UNIQUE"  # Resource field value conflicts with existing resource. Try again with an unique field value.
-    FORBIDDEN = "FORBIDDEN"  # The caller is not authorized to make the given request.
-    INTERNAL_ERROR = "INTERNAL_ERROR"  # The server encountered an unexpected condition that prevented it from fulfilling the request.
-    NOT_FOUND = "NOT_FOUND"  # The requested resource does not exist.
-    PAYMENT_ISSUE = "PAYMENT_ISSUE"  # Payment failed.
-    PRODUCT_INELIGIBLE = (
-        "PRODUCT_INELIGIBLE"  # Product is not eligible for advertising. Try again with a valid product.
-    )
-    RESOURCE_DOES_NOT_BELONG_TO_PARENT = "RESOURCE_DOES_NOT_BELONG_TO_PARENT"  # Resource does not belong to the specified parent. Try again with a valid parent ID.
-    RESOURCE_ID_NOT_FOUND = "RESOURCE_ID_NOT_FOUND"  # Resource ID not found. Try again with valid ID.
-    RESOURCE_IS_EMPTY = "RESOURCE_IS_EMPTY"  # Update the request with the required information for this resource.
-    RESOURCE_IS_IN_TERMINAL_STATE = "RESOURCE_IS_IN_TERMINAL_STATE"  # Resource is in terminal state.
-    RESOURCE_IS_NULL = "RESOURCE_IS_NULL"  # Update the request with the required information for this resource.
-    TOO_MANY_REQUESTS = "TOO_MANY_REQUESTS"  # There have been too many requests, please slow down your call rate.
-    TOTAL_RESOURCE_LIMIT_EXCEEDED = (
-        "TOTAL_RESOURCE_LIMIT_EXCEEDED"  # Too many resources. Remove resources and try again.
-    )
-    UNAUTHORIZED = "UNAUTHORIZED"  # The request lacks the necessary credentials.
-    UNSUPPORTED_MARKETPLACE = (
-        "UNSUPPORTED_MARKETPLACE"  # Marketplace not supported. Try again with a supported marketplace.
-    )
+type SBAdvertisingDealStatusEnum = Literal[
+    "DRAFT",  # The deal has not been submitted yet.
+    "MODERATION_APPROVED",  # The deal has passed moderation.
+    "PROPOSED",  # The deal has been submitted for moderation.
+]
+"""
+Supported values:
+- `DRAFT`: The deal has not been submitted yet.
+- `MODERATION_APPROVED`: The deal has passed moderation.
+- `PROPOSED`: The deal has been submitted for moderation.
+"""
+
+
+type SBCurrencyCode = Literal[
+    "AED",  # United Arab Emirates Dirham
+    "AUD",  # Australian Dollar
+    "BRL",  # Brazilian Real
+    "CAD",  # Canadian Dollar
+    "CHF",  # Swiss Franc
+    "CNY",  # Chinese Yuan
+    "DKK",  # Danish Krone
+    "EGP",  # Egyptian Pound
+    "EUR",  # Euro
+    "GBP",  # British Pound Sterling
+    "INR",  # Indian Rupee
+    "JPY",  # Japanese Yen
+    "MXN",  # Mexican Peso
+    "MXP",  # Mexican Peso
+    "NGN",  # Nigerian Naira
+    "NOK",  # Norwegian Krone
+    "NZD",  # New Zealand Dollar
+    "PLN",  # Polish Złoty
+    "SAR",  # Saudi Riyal
+    "SEK",  # Swedish Krona
+    "SGD",  # Singapore Dollar
+    "TRY",  # Turkish Lira
+    "USD",  # United States Dollar
+    "ZAR",  # South African Rand
+]
+"""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CNY`: Chinese Yuan
+- `DKK`: Danish Krone
+- `EGP`: Egyptian Pound
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `INR`: Indian Rupee
+- `JPY`: Japanese Yen
+- `MXN`: Mexican Peso
+- `MXP`: Mexican Peso
+- `NGN`: Nigerian Naira
+- `NOK`: Norwegian Krone
+- `NZD`: New Zealand Dollar
+- `PLN`: Polish Złoty
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `TRY`: Turkish Lira
+- `USD`: United States Dollar
+- `ZAR`: South African Rand
+"""
+
+
+type SBErrorCode = Literal[
+    "BAD_REQUEST",  # The request is not valid considering the documented schema.
+    "CONTENT_TOO_LARGE",  # The request is too large. Consider splitting it into multiple requests.
+    "DATE_CANNOT_BE_IN_PAST",  # Update the date to be in the future.
+    "DATE_CANNOT_BE_NULL",  # Update the date.
+    "DATE_TOO_SOON",  # Update the date to be further in the future.
+    "DUPLICATE_FIELD_VALUE_FOUND",  # Multiple resources share the non-unique field values. Remove the non-unique field value.
+    "DUPLICATE_RESOURCE_ID_FOUND",  # Multiple resources share the same ID. Remove the duplicate ID.
+    "DURATION_TOO_SHORT",  # Update the length to be within the required range.
+    "FEATURE_DISCONTINUED",  # Feature has been discontinued.
+    "FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT",  # Update the value to be within the required range.
+    "FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT",  # Update the value to be within the required range.
+    "FIELD_SIZE_IS_OUT_OF_RANGE",  # Update the value to be within the required range.
+    "FIELD_VALUE_CANNOT_EDIT",  # Field value cannot be edited.
+    "FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_CONTAINS_INVALID_CHARACTERS",  # Remove the invalid characters and try again.
+    "FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT",  # Update the value to be within the required range.
+    "FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT",  # Update the value to be within the required range.
+    "FIELD_VALUE_IS_EMPTY",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_IS_INVALID",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_IS_NULL",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_IS_OUT_OF_RANGE",  # Update the value to be within the required range.
+    "FIELD_VALUE_MISMATCH",  # Mismatch among resource field values.
+    "FIELD_VALUE_MUST_BE_EMPTY_OR_NULL",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_NOT_FOUND",  # Resource specified in the field value not found. Try again with valid value.
+    "FIELD_VALUE_NOT_UNIQUE",  # Resource field value conflicts with existing resource. Try again with an unique field value.
+    "FORBIDDEN",  # The caller is not authorized to make the given request.
+    "INTERNAL_ERROR",  # The server encountered an unexpected condition that prevented it from fulfilling the request.
+    "NOT_FOUND",  # The requested resource does not exist.
+    "PAYMENT_ISSUE",  # Payment failed.
+    "PRODUCT_INELIGIBLE",  # Product is not eligible for advertising. Try again with a valid product.
+    "RESOURCE_DOES_NOT_BELONG_TO_PARENT",  # Resource does not belong to the specified parent. Try again with a valid parent ID.
+    "RESOURCE_ID_NOT_FOUND",  # Resource ID not found. Try again with valid ID.
+    "RESOURCE_IS_EMPTY",  # Update the request with the required information for this resource.
+    "RESOURCE_IS_IN_TERMINAL_STATE",  # Resource is in terminal state.
+    "RESOURCE_IS_NULL",  # Update the request with the required information for this resource.
+    "TOO_MANY_REQUESTS",  # There have been too many requests, please slow down your call rate.
+    "TOTAL_RESOURCE_LIMIT_EXCEEDED",  # Too many resources. Remove resources and try again.
+    "UNAUTHORIZED",  # The request lacks the necessary credentials.
+    "UNSUPPORTED_MARKETPLACE",  # Marketplace not supported. Try again with a supported marketplace.
+]
+"""
+Supported values:
+- `BAD_REQUEST`: The request is not valid considering the documented schema.
+- `CONTENT_TOO_LARGE`: The request is too large. Consider splitting it into multiple requests.
+- `DATE_CANNOT_BE_IN_PAST`: Update the date to be in the future.
+- `DATE_CANNOT_BE_NULL`: Update the date.
+- `DATE_TOO_SOON`: Update the date to be further in the future.
+- `DUPLICATE_FIELD_VALUE_FOUND`: Multiple resources share the non-unique field values. Remove the non-unique field value.
+- `DUPLICATE_RESOURCE_ID_FOUND`: Multiple resources share the same ID. Remove the duplicate ID.
+- `DURATION_TOO_SHORT`: Update the length to be within the required range.
+- `FEATURE_DISCONTINUED`: Feature has been discontinued.
+- `FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_SIZE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
+- `FIELD_VALUE_CANNOT_EDIT`: Field value cannot be edited.
+- `FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS`: Update the request with the required information for this resource.
+- `FIELD_VALUE_CONTAINS_INVALID_CHARACTERS`: Remove the invalid characters and try again.
+- `FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_VALUE_IS_EMPTY`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_INVALID`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_NULL`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
+- `FIELD_VALUE_MISMATCH`: Mismatch among resource field values.
+- `FIELD_VALUE_MUST_BE_EMPTY_OR_NULL`: Update the request with the required information for this resource.
+- `FIELD_VALUE_NOT_FOUND`: Resource specified in the field value not found. Try again with valid value.
+- `FIELD_VALUE_NOT_UNIQUE`: Resource field value conflicts with existing resource. Try again with an unique field value.
+- `FORBIDDEN`: The caller is not authorized to make the given request.
+- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- `NOT_FOUND`: The requested resource does not exist.
+- `PAYMENT_ISSUE`: Payment failed.
+- `PRODUCT_INELIGIBLE`: Product is not eligible for advertising. Try again with a valid product.
+- `RESOURCE_DOES_NOT_BELONG_TO_PARENT`: Resource does not belong to the specified parent. Try again with a valid parent ID.
+- `RESOURCE_ID_NOT_FOUND`: Resource ID not found. Try again with valid ID.
+- `RESOURCE_IS_EMPTY`: Update the request with the required information for this resource.
+- `RESOURCE_IS_IN_TERMINAL_STATE`: Resource is in terminal state.
+- `RESOURCE_IS_NULL`: Update the request with the required information for this resource.
+- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
+- `TOTAL_RESOURCE_LIMIT_EXCEEDED`: Too many resources. Remove resources and try again.
+- `UNAUTHORIZED`: The request lacks the necessary credentials.
+- `UNSUPPORTED_MARKETPLACE`: Marketplace not supported. Try again with a supported marketplace.
+"""
 
 
 class SBAdvertisingDeal(LenientModel):
@@ -135,7 +188,7 @@ class SBAdvertisingDeal(LenientModel):
         default=None, description="The ID of an advertising deal that this deal intends to replace."
     )
     startDateTime: datetime = Field(description="The start date time for the deal.")
-    state: Annotated[SBAdvertisingDealState | str, lenient_enum(SBAdvertisingDealState)] | None = Field(default=None)
+    state: SBAdvertisingDealState | str | None = Field(default=None)
     status: SBAdvertisingDealStatus
 
 
@@ -151,7 +204,7 @@ class SBAdvertisingDealCreate(StrictModel):
         default=None, description="The ID of an advertising deal that this deal intends to replace."
     )
     startDateTime: datetime = Field(description="The start date time for the deal.")
-    state: Annotated[SBAdvertisingDealState | str, lenient_enum(SBAdvertisingDealState)] | None = Field(default=None)
+    state: SBAdvertisingDealState | None = Field(default=None)
 
 
 class SBAdvertisingDealMultiStatusResponse(LenientModel):
@@ -166,17 +219,55 @@ class SBAdvertisingDealMultiStatusSuccess(LenientModel):
 
 class SBAdvertisingDealNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=10)
-    queryTermMatchType: Annotated[SBAdvertisingDealNameFilterType | str, lenient_enum(SBAdvertisingDealNameFilterType)]
+    queryTermMatchType: SBAdvertisingDealNameFilterType = Field(description="""
+Supported values:
+- `BROAD_MATCH`: Filter by broad match.
+- `EXACT_MATCH`: Filter by exact match.
+""")
 
 
 class SBAdvertisingDealPrice(LenientModel):
-    currencyCode: Annotated[SBCurrencyCode | str, lenient_enum(SBCurrencyCode)]
-    priceType: Annotated[SBAdvertisingDealPriceType | str, lenient_enum(SBAdvertisingDealPriceType)]
+    currencyCode: SBCurrencyCode | str = Field(description="""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CNY`: Chinese Yuan
+- `DKK`: Danish Krone
+- `EGP`: Egyptian Pound
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `INR`: Indian Rupee
+- `JPY`: Japanese Yen
+- `MXN`: Mexican Peso
+- `MXP`: Mexican Peso
+- `NGN`: Nigerian Naira
+- `NOK`: Norwegian Krone
+- `NZD`: New Zealand Dollar
+- `PLN`: Polish Złoty
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `TRY`: Turkish Lira
+- `USD`: United States Dollar
+- `ZAR`: South African Rand
+""")
+    priceType: SBAdvertisingDealPriceType | str = Field(description="""
+Supported values:
+- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
+""")
     value: float = Field(description="The monetary amount of the price in the given currency.")
 
 
 class SBAdvertisingDealStatus(LenientModel):
-    status: Annotated[SBAdvertisingDealStatusEnum | str, lenient_enum(SBAdvertisingDealStatusEnum)]
+    status: SBAdvertisingDealStatusEnum | str = Field(description="""
+Supported values:
+- `DRAFT`: The deal has not been submitted yet.
+- `MODERATION_APPROVED`: The deal has passed moderation.
+- `PROPOSED`: The deal has been submitted for moderation.
+""")
 
 
 class SBAdvertisingDealSuccessResponse(LenientModel):
@@ -193,11 +284,14 @@ class SBAdvertisingDealUpdate(StrictModel):
         default=None, description="The ID of an advertising deal that this deal intends to replace."
     )
     startDateTime: datetime | None = Field(default=None, description="The start date time for the deal.")
-    state: Annotated[SBAdvertisingDealState | str, lenient_enum(SBAdvertisingDealState)] | None = Field(default=None)
+    state: SBAdvertisingDealState | None = Field(default=None)
 
 
 class SBCreateAdvertisingDealPrice(StrictModel):
-    priceType: Annotated[SBAdvertisingDealPriceType | str, lenient_enum(SBAdvertisingDealPriceType)]
+    priceType: SBAdvertisingDealPriceType = Field(description="""
+Supported values:
+- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
+""")
     value: float = Field(description="The monetary amount of the price in the given currency.")
 
 
@@ -210,7 +304,48 @@ class SBDeleteAdvertisingDealRequest(StrictModel):
 
 
 class SBError(LenientModel):
-    code: Annotated[SBErrorCode | str, lenient_enum(SBErrorCode)]
+    code: SBErrorCode | str = Field(description="""
+Supported values:
+- `BAD_REQUEST`: The request is not valid considering the documented schema.
+- `CONTENT_TOO_LARGE`: The request is too large. Consider splitting it into multiple requests.
+- `DATE_CANNOT_BE_IN_PAST`: Update the date to be in the future.
+- `DATE_CANNOT_BE_NULL`: Update the date.
+- `DATE_TOO_SOON`: Update the date to be further in the future.
+- `DUPLICATE_FIELD_VALUE_FOUND`: Multiple resources share the non-unique field values. Remove the non-unique field value.
+- `DUPLICATE_RESOURCE_ID_FOUND`: Multiple resources share the same ID. Remove the duplicate ID.
+- `DURATION_TOO_SHORT`: Update the length to be within the required range.
+- `FEATURE_DISCONTINUED`: Feature has been discontinued.
+- `FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_SIZE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
+- `FIELD_VALUE_CANNOT_EDIT`: Field value cannot be edited.
+- `FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS`: Update the request with the required information for this resource.
+- `FIELD_VALUE_CONTAINS_INVALID_CHARACTERS`: Remove the invalid characters and try again.
+- `FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_VALUE_IS_EMPTY`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_INVALID`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_NULL`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
+- `FIELD_VALUE_MISMATCH`: Mismatch among resource field values.
+- `FIELD_VALUE_MUST_BE_EMPTY_OR_NULL`: Update the request with the required information for this resource.
+- `FIELD_VALUE_NOT_FOUND`: Resource specified in the field value not found. Try again with valid value.
+- `FIELD_VALUE_NOT_UNIQUE`: Resource field value conflicts with existing resource. Try again with an unique field value.
+- `FORBIDDEN`: The caller is not authorized to make the given request.
+- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- `NOT_FOUND`: The requested resource does not exist.
+- `PAYMENT_ISSUE`: Payment failed.
+- `PRODUCT_INELIGIBLE`: Product is not eligible for advertising. Try again with a valid product.
+- `RESOURCE_DOES_NOT_BELONG_TO_PARENT`: Resource does not belong to the specified parent. Try again with a valid parent ID.
+- `RESOURCE_ID_NOT_FOUND`: Resource ID not found. Try again with valid ID.
+- `RESOURCE_IS_EMPTY`: Update the request with the required information for this resource.
+- `RESOURCE_IS_IN_TERMINAL_STATE`: Resource is in terminal state.
+- `RESOURCE_IS_NULL`: Update the request with the required information for this resource.
+- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
+- `TOTAL_RESOURCE_LIMIT_EXCEEDED`: Too many resources. Remove resources and try again.
+- `UNAUTHORIZED`: The request lacks the necessary credentials.
+- `UNSUPPORTED_MARKETPLACE`: Marketplace not supported. Try again with a supported marketplace.
+""")
     fieldLocation: str | None = Field(default=None)
     message: str
 
@@ -228,8 +363,12 @@ class SBQueryAdvertisingDealRequest(StrictModel):
 
 
 class SBUpdateAdvertisingDealPrice(StrictModel):
-    priceType: Annotated[SBAdvertisingDealPriceType | str, lenient_enum(SBAdvertisingDealPriceType)] | None = Field(
-        default=None
+    priceType: SBAdvertisingDealPriceType | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
+""",
     )
     value: float | None = Field(default=None, description="The monetary amount of the price in the given currency.")
 

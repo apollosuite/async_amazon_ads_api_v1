@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated, Any
+from typing import Any, Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     SDASIN,
     LocationExpression,
@@ -16,147 +14,127 @@ from ads_api.models.v0._shared import (
     SDGoalProduct,
 )
 
-
-class SDAudienceCategory(StrEnum):
-    """
-    An audience category determines the goal of the audience such as In-market, Interest, Lifestyle and Life Event
-    """
-
-    In_market = "In-market"
-    Lifestyle = "Lifestyle"
-    Interest = "Interest"
-    Life_event = "Life event"
-
-
-class SDLandingPageType(StrEnum):
-    """
-    The type of the landingPage used. This field is not supported when using asin field.
-    """
-
-    OFF_AMAZON_LINK = "OFF_AMAZON_LINK"
+type SDAudienceCategory = Literal[
+    "In-market",
+    "Lifestyle",
+    "Interest",
+    "Life event",
+]
+"""
+An audience category determines the goal of the audience such as In-market, Interest, Lifestyle and Life Event
+"""
 
 
-class SDProductTargetingThemeExpressionType(StrEnum):
-    """
-    The contextual targeting grammar used to define the targeting theme. Note asinAsBestSeller is currently not supported.
-    """
-
-    asinPriceGreaterThan = "asinPriceGreaterThan"
-    asinBrandSameAs = "asinBrandSameAs"
-    asinReviewRatingLessThan = "asinReviewRatingLessThan"
-    asinGlanceViewsGreaterThan = "asinGlanceViewsGreaterThan"
+type SDLandingPageType = Literal["OFF_AMAZON_LINK"]
+"""
+The type of the landingPage used. This field is not supported when using asin field.
+"""
 
 
-class SDRecommendationType(StrEnum):
-    """
-    Signifies a type of recommendation
-    """
-
-    PRODUCT = "PRODUCT"
-
-
-class SDRecommendationTypeV31(StrEnum):
-    """
-    Signifies a type of recommendation
-    """
-
-    PRODUCT = "PRODUCT"
-    CATEGORY = "CATEGORY"
+type SDProductTargetingThemeExpressionType = Literal[
+    "asinPriceGreaterThan",
+    "asinBrandSameAs",
+    "asinReviewRatingLessThan",
+    "asinGlanceViewsGreaterThan",
+]
+"""
+The contextual targeting grammar used to define the targeting theme. Note asinAsBestSeller is currently not supported.
+"""
 
 
-class SDRecommendationTypeV32(StrEnum):
-    """
-    Signifies a type of recommendation. PRODUCT and CATEGORY are supported by tactic T00020. CATEGORY and AUDIENCE are supported by tactic T00030.
-    """
-
-    PRODUCT = "PRODUCT"
-    CATEGORY = "CATEGORY"
-    AUDIENCE = "AUDIENCE"
+type SDRecommendationType = Literal["PRODUCT"]
+"""
+Signifies a type of recommendation
+"""
 
 
-class SDRecommendationTypeV33(StrEnum):
-    """
-    Signifies a type of recommendation. PRODUCT, CATEGORY, and CONTENT_CATEGORY are supported by tactic T00020. CATEGORY, AUDIENCE, and CONTENT_CATEGORY are supported by tactic T00030.
-    """
-
-    PRODUCT = "PRODUCT"
-    CATEGORY = "CATEGORY"
-    AUDIENCE = "AUDIENCE"
-    CONTENT_CATEGORY = "CONTENT_CATEGORY"
+type SDRecommendationTypeV31 = Literal["PRODUCT", "CATEGORY"]
+"""
+Signifies a type of recommendation
+"""
 
 
-class SDTactic(StrEnum):
-    """
-    The advertising tactic associated with the campaign. The following table lists available tactic names:
-    |Tactic Name|Type|Description|
-            |-----------|-----|-----------|
-            |T00020 &nbsp;    |Products&nbsp;| Products: Choose individual products to show your ads in placements related to those products.<br>Categories: Choose individual categories to show your ads in placements related to those categories.
-    """
-
-    T00020 = "T00020"
+type SDRecommendationTypeV32 = Literal["PRODUCT", "CATEGORY", "AUDIENCE"]
+"""
+Signifies a type of recommendation. PRODUCT and CATEGORY are supported by tactic T00020. CATEGORY and AUDIENCE are supported by tactic T00030.
+"""
 
 
-class SDTacticV31(StrEnum):
-    """
-    The advertising tactic associated with the campaign. The following table lists available tactic names:
-    |Tactic Name|Type|Description|
-            |-----------|-----|-----------|
-            |T00020 &nbsp;    |Products&nbsp;| Products: Choose individual products to show your ads in placements related to those products.<br>Categories: Choose individual categories to show your ads in placements related to those categories.|
-            |T00030&nbsp;|Audiences or Contextual Targeting &nbsp;|Select individual products, categories, refined categories, or audiences to show your ads.|
-    """
-
-    T00020 = "T00020"
-    T00030 = "T00030"
+type SDRecommendationTypeV33 = Literal[
+    "PRODUCT",
+    "CATEGORY",
+    "AUDIENCE",
+    "CONTENT_CATEGORY",
+]
+"""
+Signifies a type of recommendation. PRODUCT, CATEGORY, and CONTENT_CATEGORY are supported by tactic T00020. CATEGORY, AUDIENCE, and CONTENT_CATEGORY are supported by tactic T00030.
+"""
 
 
-class SDTargetingRecommendationsLocale(StrEnum):
-    """
-    List of supported locales.
-    """
-
-    ar_AE = "ar_AE"
-    de_DE = "de_DE"
-    en_AE = "en_AE"
-    en_AU = "en_AU"
-    en_CA = "en_CA"
-    en_GB = "en_GB"
-    en_IN = "en_IN"
-    en_SG = "en_SG"
-    en_US = "en_US"
-    es_ES = "es_ES"
-    es_MX = "es_MX"
-    fr_CA = "fr_CA"
-    fr_FR = "fr_FR"
-    hi_IN = "hi_IN"
-    it_IT = "it_IT"
-    ja_JP = "ja_JP"
-    ko_KR = "ko_KR"
-    nl_NL = "nl_NL"
-    pl_PL = "pl_PL"
-    pt_BR = "pt_BR"
-    sv_SE = "sv_SE"
-    ta_IN = "ta_IN"
-    th_TH = "th_TH"
-    tr_TR = "tr_TR"
-    vi_VN = "vi_VN"
-    zh_CN = "zh_CN"
+type SDTactic = Literal["T00020"]
+"""
+The advertising tactic associated with the campaign. The following table lists available tactic names:
+|Tactic Name|Type|Description|
+        |-----------|-----|-----------|
+        |T00020 &nbsp;    |Products&nbsp;| Products: Choose individual products to show your ads in placements related to those products.<br>Categories: Choose individual categories to show your ads in placements related to those categories.
+"""
 
 
-class SDTargetingRecommendationsRequestV35CategoryType(StrEnum):
-    """
-    This field is optional unless the field locationExpression is present in the request. It is used for category audience targeting
-    to specify if the audience is for views (re-marketing) or purchases (re-purchasing). The specified categories will be returned accordingly.
-    """
+type SDTacticV31 = Literal["T00020", "T00030"]
+"""
+The advertising tactic associated with the campaign. The following table lists available tactic names:
+|Tactic Name|Type|Description|
+        |-----------|-----|-----------|
+        |T00020 &nbsp;    |Products&nbsp;| Products: Choose individual products to show your ads in placements related to those products.<br>Categories: Choose individual categories to show your ads in placements related to those categories.|
+        |T00030&nbsp;|Audiences or Contextual Targeting &nbsp;|Select individual products, categories, refined categories, or audiences to show your ads.|
+"""
 
-    views = "views"
-    purchases = "purchases"
+
+type SDTargetingRecommendationsLocale = Literal[
+    "ar_AE",
+    "de_DE",
+    "en_AE",
+    "en_AU",
+    "en_CA",
+    "en_GB",
+    "en_IN",
+    "en_SG",
+    "en_US",
+    "es_ES",
+    "es_MX",
+    "fr_CA",
+    "fr_FR",
+    "hi_IN",
+    "it_IT",
+    "ja_JP",
+    "ko_KR",
+    "nl_NL",
+    "pl_PL",
+    "pt_BR",
+    "sv_SE",
+    "ta_IN",
+    "th_TH",
+    "tr_TR",
+    "vi_VN",
+    "zh_CN",
+]
+"""
+List of supported locales.
+"""
+
+
+type SDTargetingRecommendationsRequestV35CategoryType = Literal["views", "purchases"]
+"""
+This field is optional unless the field locationExpression is present in the request. It is used for category audience targeting
+to specify if the audience is for views (re-marketing) or purchases (re-purchasing). The specified categories will be returned accordingly.
+"""
 
 
 class SDAdvertisedProduct(StrictModel):
     """Product that advertisers want to advertise. Recommendations will be made for specified products. SDAdvertisedProduct can only contain either asins or landing pages. If landingPageUrl is used, there can only be one item for each request."""
 
     asin: SDASIN | None = Field(default=None)
-    landingPageType: Annotated[SDLandingPageType | str, lenient_enum(SDLandingPageType)] | None = Field(default=None)
+    landingPageType: SDLandingPageType | None = Field(default=None)
     landingPageURL: SDLandingPageURL | None = Field(default=None)
 
 
@@ -166,7 +144,7 @@ type SDAudience = str  # The audience identifier
 class SDAudienceCategoryRecommendations(LenientModel):
     """List of recommended standard Amazon audience targets of a specific audience category"""
 
-    category: Annotated[SDAudienceCategory | str, lenient_enum(SDAudienceCategory)] | None = Field(default=None)
+    category: SDAudienceCategory | str | None = Field(default=None)
     audiences: list[SDAudienceRecommendation] | None = Field(
         default=None, min_length=0, max_length=1000, description="List of recommended standard Amazon audience targets"
     )
@@ -374,9 +352,7 @@ Note: Currently the service only supports one item in the array.
 class SDProductTargetingThemeExpression(StrictModel):
     """The expression used to define the contextual targeting theme."""
 
-    type: Annotated[
-        SDProductTargetingThemeExpressionType | str, lenient_enum(SDProductTargetingThemeExpressionType)
-    ] = Field(
+    type: SDProductTargetingThemeExpressionType = Field(
         description="The contextual targeting grammar used to define the targeting theme. Note asinAsBestSeller is currently not supported."
     )
 
@@ -384,9 +360,7 @@ class SDProductTargetingThemeExpression(StrictModel):
 class SDProductTargetingThemeExpressionOut(LenientModel):
     """The expression used to define the contextual targeting theme."""
 
-    type: Annotated[
-        SDProductTargetingThemeExpressionType | str, lenient_enum(SDProductTargetingThemeExpressionType)
-    ] = Field(
+    type: SDProductTargetingThemeExpressionType | str = Field(
         description="The contextual targeting grammar used to define the targeting theme. Note asinAsBestSeller is currently not supported."
     )
 
@@ -415,11 +389,11 @@ class SDTargetingRecommendationsProductsV31(StrictModel):
 class SDTargetingRecommendationsRequest(StrictModel):
     """Request for targeting recommendations"""
 
-    tactic: Annotated[SDTactic | str, lenient_enum(SDTactic)]
+    tactic: SDTactic
     products: list[SDGoalProduct] = Field(
         min_length=1, max_length=10000, description="A list of products for which to get targeting recommendations"
     )
-    typeFilter: list[Annotated[SDRecommendationType | str, lenient_enum(SDRecommendationType)]] = Field(
+    typeFilter: list[SDRecommendationType | str] = Field(
         min_length=1, max_length=1, description="A filter to indicate which types of recommendations to request."
     )
 
@@ -427,7 +401,7 @@ class SDTargetingRecommendationsRequest(StrictModel):
 class SDTargetingRecommendationsRequestV31(StrictModel):
     """Request for targeting recommendations"""
 
-    tactic: Annotated[SDTacticV31 | str, lenient_enum(SDTacticV31)]
+    tactic: SDTacticV31
     products: SDTargetingRecommendationsProducts
     typeFilter: SDTargetingRecommendationsTypeFilterV31
 
@@ -435,7 +409,7 @@ class SDTargetingRecommendationsRequestV31(StrictModel):
 class SDTargetingRecommendationsRequestV32(StrictModel):
     """Request for targeting recommendations for API version 3.2."""
 
-    tactic: Annotated[SDTacticV31 | str, lenient_enum(SDTacticV31)]
+    tactic: SDTacticV31
     products: SDTargetingRecommendationsProducts
     typeFilter: SDTargetingRecommendationsTypeFilterV31
     themes: SDTargetingRecommendationsThemes | None = Field(default=None)
@@ -444,7 +418,7 @@ class SDTargetingRecommendationsRequestV32(StrictModel):
 class SDTargetingRecommendationsRequestV33(StrictModel):
     """Request for targeting recommendations for API version 3.3."""
 
-    tactic: Annotated[SDTacticV31 | str, lenient_enum(SDTacticV31)]
+    tactic: SDTacticV31
     products: SDTargetingRecommendationsProducts
     typeFilter: SDTargetingRecommendationsTypeFilterV32
     themes: SDTargetingRecommendationsThemes | None = Field(default=None)
@@ -453,7 +427,7 @@ class SDTargetingRecommendationsRequestV33(StrictModel):
 class SDTargetingRecommendationsRequestV34(StrictModel):
     """Request for targeting recommendations for API version 3.4."""
 
-    tactic: Annotated[SDTacticV31 | str, lenient_enum(SDTacticV31)]
+    tactic: SDTacticV31
     products: SDTargetingRecommendationsProducts
     typeFilter: SDTargetingRecommendationsTypeFilterV32
     themes: SDTargetingRecommendationsThemes | None = Field(default=None)
@@ -462,17 +436,11 @@ class SDTargetingRecommendationsRequestV34(StrictModel):
 class SDTargetingRecommendationsRequestV35(StrictModel):
     """Request for targeting recommendations for API version 3.5."""
 
-    tactic: Annotated[SDTacticV31 | str, lenient_enum(SDTacticV31)]
+    tactic: SDTacticV31
     products: SDTargetingRecommendationsProductsV31
     typeFilter: SDTargetingRecommendationsTypeFilterV33
     themes: SDTargetingRecommendationsThemes | None = Field(default=None)
-    categoryType: (
-        Annotated[
-            SDTargetingRecommendationsRequestV35CategoryType | str,
-            lenient_enum(SDTargetingRecommendationsRequestV35CategoryType),
-        ]
-        | None
-    ) = Field(
+    categoryType: SDTargetingRecommendationsRequestV35CategoryType | None = Field(
         default=None,
         description="""
 This field is optional unless the field locationExpression is present in the request. It is used for category audience targeting

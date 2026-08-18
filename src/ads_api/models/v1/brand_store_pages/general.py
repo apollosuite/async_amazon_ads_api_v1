@@ -2,217 +2,423 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
+
+type HorizontalPosition = Literal[
+    "CENTER",  # Center position
+    "LEFT",  # Left position
+    "RIGHT",  # Right position
+]
+"""
+Supported values:
+- `LEFT`: Left position
+- `CENTER`: Center position
+- `RIGHT`: Right position
+"""
 
 
-class HorizontalPosition(StrEnum):
-    CENTER = "CENTER"  # Center position
-    LEFT = "LEFT"  # Left position
-    RIGHT = "RIGHT"  # Right position
+type StoreBleedImageType = Literal[
+    "ALL",  # All sides image bleed
+    "CORNER",  # Corner image bleed
+    "NONE",  # No image bleed
+    "SIDE",  # Side image bleed
+]
+"""
+Supported values:
+- `NONE`: No image bleed
+- `SIDE`: Side image bleed
+- `CORNER`: Corner image bleed
+- `ALL`: All sides image bleed
+"""
 
 
-class StoreBleedImageType(StrEnum):
-    ALL = "ALL"  # All sides image bleed
-    CORNER = "CORNER"  # Corner image bleed
-    NONE = "NONE"  # No image bleed
-    SIDE = "SIDE"  # Side image bleed
+type StoreCallToActionType = Literal[
+    "BUTTON",  # Button type call to action
+    "LINK",  # Link type call to action
+]
+"""
+Supported values:
+- `LINK`: Link type call to action
+- `BUTTON`: Button type call to action
+"""
 
 
-class StoreCallToActionType(StrEnum):
-    BUTTON = "BUTTON"  # Button type call to action
-    LINK = "LINK"  # Link type call to action
+type StoreColorPalette = Literal[
+    "DEFAULT",  # Default color scheme
+    "DEFAULT_INVERTED",  # Inverted default color scheme
+    "SOLID_BLACK",  # Solid black color scheme
+    "SOLID_WHITE",  # Solid white color scheme
+    "TRANSLUCENT_BLACK",  # Translucent black color scheme
+    "TRANSLUCENT_WHITE",  # Translucent white color scheme
+    "TRANSPARENT_BLACK",  # Transparent black color scheme
+    "TRANSPARENT_WHITE",  # Transparent white color scheme
+]
+"""
+Supported values:
+- `DEFAULT`: Default color scheme
+- `DEFAULT_INVERTED`: Inverted default color scheme
+- `SOLID_WHITE`: Solid white color scheme
+- `SOLID_BLACK`: Solid black color scheme
+- `TRANSLUCENT_WHITE`: Translucent white color scheme
+- `TRANSLUCENT_BLACK`: Translucent black color scheme
+- `TRANSPARENT_BLACK`: Transparent black color scheme
+- `TRANSPARENT_WHITE`: Transparent white color scheme
+"""
 
 
-class StoreColorPalette(StrEnum):
-    DEFAULT = "DEFAULT"  # Default color scheme
-    DEFAULT_INVERTED = "DEFAULT_INVERTED"  # Inverted default color scheme
-    SOLID_BLACK = "SOLID_BLACK"  # Solid black color scheme
-    SOLID_WHITE = "SOLID_WHITE"  # Solid white color scheme
-    TRANSLUCENT_BLACK = "TRANSLUCENT_BLACK"  # Translucent black color scheme
-    TRANSLUCENT_WHITE = "TRANSLUCENT_WHITE"  # Translucent white color scheme
-    TRANSPARENT_BLACK = "TRANSPARENT_BLACK"  # Transparent black color scheme
-    TRANSPARENT_WHITE = "TRANSPARENT_WHITE"  # Transparent white color scheme
+type StoreDealsMode = Literal[
+    "AUTOMATIC",  # Automatic mode
+    "BULK",  # Bulk mode
+]
+"""
+Supported values:
+- `BULK`: Bulk mode
+- `AUTOMATIC`: Automatic mode
+"""
 
 
-class StoreDealsMode(StrEnum):
-    AUTOMATIC = "AUTOMATIC"  # Automatic mode
-    BULK = "BULK"  # Bulk mode
+type StoreImageLayout = Literal[
+    "CONTAIN",  # Contain layout
+    "COVER",  # Cover layout
+    "TEXT",  # Text layout
+]
+"""
+Supported values:
+- `COVER`: Cover layout
+- `CONTAIN`: Contain layout
+- `TEXT`: Text layout
+"""
 
 
-class StoreImageLayout(StrEnum):
-    CONTAIN = "CONTAIN"  # Contain layout
-    COVER = "COVER"  # Cover layout
-    TEXT = "TEXT"  # Text layout
+type StoreImageShape = Literal["SQUARE",]  # Square shape
+"""
+Supported values:
+- `SQUARE`: Square shape
+"""
 
 
-class StoreImageShape(StrEnum):
-    SQUARE = "SQUARE"  # Square shape
+type StoreImageTextAlign = Literal[
+    "LEFT",  # Left text alignment
+    "RIGHT",  # Right text alignment
+]
+"""
+Supported values:
+- `LEFT`: Left text alignment
+- `RIGHT`: Right text alignment
+"""
 
 
-class StoreImageTextAlign(StrEnum):
-    LEFT = "LEFT"  # Left text alignment
-    RIGHT = "RIGHT"  # Right text alignment
+type StoreImageWithTextTileVariation = Literal["IMAGE_WITH_TEXT",]  # Image with text variation
+"""
+Supported values:
+- `IMAGE_WITH_TEXT`: Image with text variation
+"""
 
 
-class StoreImageWithTextTileVariation(StrEnum):
-    IMAGE_WITH_TEXT = "IMAGE_WITH_TEXT"  # Image with text variation
+type StoreLayoutType = Literal[
+    "DEFAULT",  # Default layout configuration
+    "SHOWCASE",  # Showcase layout configuration for featured display
+]
+"""
+Supported values:
+- `DEFAULT`: Default layout configuration
+- `SHOWCASE`: Showcase layout configuration for featured display
+"""
 
 
-class StoreLayoutType(StrEnum):
-    DEFAULT = "DEFAULT"  # Default layout configuration
-    SHOWCASE = "SHOWCASE"  # Showcase layout configuration for featured display
+type StorePageTemplate = Literal[
+    "BLANK",  # Empty template for custom layouts
+    "HIGHLIGHT",  # Template for highlighting specific content
+    "MARQUEE",  # Template featuring a prominent marquee section
+    "PRODUCT_COLLECTION",  # Template for displaying collections of products
+    "PRODUCT_GRID",  # Template displaying products in a grid layout
+]
+"""
+Supported values:
+- `PRODUCT_GRID`: Template displaying products in a grid layout
+- `HIGHLIGHT`: Template for highlighting specific content
+- `MARQUEE`: Template featuring a prominent marquee section
+- `BLANK`: Empty template for custom layouts
+- `PRODUCT_COLLECTION`: Template for displaying collections of products
+"""
 
 
-class StorePageTemplate(StrEnum):
-    BLANK = "BLANK"  # Empty template for custom layouts
-    HIGHLIGHT = "HIGHLIGHT"  # Template for highlighting specific content
-    MARQUEE = "MARQUEE"  # Template featuring a prominent marquee section
-    PRODUCT_COLLECTION = "PRODUCT_COLLECTION"  # Template for displaying collections of products
-    PRODUCT_GRID = "PRODUCT_GRID"  # Template displaying products in a grid layout
+type StorePageType = Literal[
+    "BRAND_STORE_PAGE",  # Standard brand store page that allows customization to show case the brand and product
+    "LANDING_PAGE",  # Landing page for specific ads program with predefined template
+]
+"""
+Supported values:
+- `BRAND_STORE_PAGE`: Standard brand store page that allows customization to show case the brand and product
+- `LANDING_PAGE`: Landing page for specific ads program with predefined template
+"""
 
 
-class StorePageType(StrEnum):
-    BRAND_STORE_PAGE = (
-        "BRAND_STORE_PAGE"  # Standard brand store page that allows customization to show case the brand and product
-    )
-    LANDING_PAGE = "LANDING_PAGE"  # Landing page for specific ads program with predefined template
+type StoreProductCarouselSearchType = Literal[
+    "BEST_SELLING",  # Best selling items
+    "RECOMMENDATION_FOR_YOU",  # Personalized recommendations
+]
+"""
+Supported values:
+- `RECOMMENDATION_FOR_YOU`: Personalized recommendations
+- `BEST_SELLING`: Best selling items
+"""
 
 
-class StoreProductCarouselSearchType(StrEnum):
-    BEST_SELLING = "BEST_SELLING"  # Best selling items
-    RECOMMENDATION_FOR_YOU = "RECOMMENDATION_FOR_YOU"  # Personalized recommendations
+type StoreProductSelectorButtonColor = Literal[
+    "BLACK",  # Black button color
+    "TRANSPARENT",  # Transparent button color
+    "WHITE",  # White button color
+]
+"""
+Supported values:
+- `WHITE`: White button color
+- `BLACK`: Black button color
+- `TRANSPARENT`: Transparent button color
+"""
 
 
-class StoreProductSelectorButtonColor(StrEnum):
-    BLACK = "BLACK"  # Black button color
-    TRANSPARENT = "TRANSPARENT"  # Transparent button color
-    WHITE = "WHITE"  # White button color
+type StoreProductSelectorImageLayout = Literal[
+    "BOTTOM",  # Bottom image layout
+    "LEFT",  # Left image layout
+    "RIGHT",  # Right image layout
+    "TOP",  # Top image layout
+]
+"""
+Supported values:
+- `TOP`: Top image layout
+- `LEFT`: Left image layout
+- `RIGHT`: Right image layout
+- `BOTTOM`: Bottom image layout
+"""
 
 
-class StoreProductSelectorImageLayout(StrEnum):
-    BOTTOM = "BOTTOM"  # Bottom image layout
-    LEFT = "LEFT"  # Left image layout
-    RIGHT = "RIGHT"  # Right image layout
-    TOP = "TOP"  # Top image layout
+type StoreShoppableTextOption = Literal[
+    "NO_TEXT_UNDER_INTERACTIVE_IMAGE",  # No text under interactive image
+    "TEXT_OVER_IMAGE",  # Text over interactive image
+    "TEXT_UNDER_INTERACTIVE_IMAGE",  # Text under interactive image
+]
+"""
+Supported values:
+- `TEXT_UNDER_INTERACTIVE_IMAGE`: Text under interactive image
+- `NO_TEXT_UNDER_INTERACTIVE_IMAGE`: No text under interactive image
+- `TEXT_OVER_IMAGE`: Text over interactive image
+"""
 
 
-class StoreShoppableTextOption(StrEnum):
-    NO_TEXT_UNDER_INTERACTIVE_IMAGE = "NO_TEXT_UNDER_INTERACTIVE_IMAGE"  # No text under interactive image
-    TEXT_OVER_IMAGE = "TEXT_OVER_IMAGE"  # Text over interactive image
-    TEXT_UNDER_INTERACTIVE_IMAGE = "TEXT_UNDER_INTERACTIVE_IMAGE"  # Text under interactive image
+type StoreSlideType = Literal[
+    "ASIN",  # Slide type for StoreASINSlide
+    "IMAGE",  # Slide type for StoreGallerySlide, StoreImageSlide
+]
+"""
+Supported values:
+- `IMAGE`: Slide type for StoreGallerySlide, StoreImageSlide
+- `ASIN`: Slide type for StoreASINSlide
+"""
 
 
-class StoreSlideType(StrEnum):
-    ASIN = "ASIN"  # Slide type for StoreASINSlide
-    IMAGE = "IMAGE"  # Slide type for StoreGallerySlide, StoreImageSlide
+type StoreTextAlignment = Literal[
+    "CENTER",  # Center alignment
+    "JUSTIFY",  # Justified alignment
+    "LEFT",  # Left alignment. Default value configured for StoreEmptyTile
+    "RIGHT",  # Right alignment
+]
+"""
+Supported values:
+- `LEFT`: Left alignment. Default value configured for StoreEmptyTile
+- `CENTER`: Center alignment
+- `RIGHT`: Right alignment
+- `JUSTIFY`: Justified alignment
+"""
 
 
-class StoreTextAlignment(StrEnum):
-    CENTER = "CENTER"  # Center alignment
-    JUSTIFY = "JUSTIFY"  # Justified alignment
-    LEFT = "LEFT"  # Left alignment. Default value configured for StoreEmptyTile
-    RIGHT = "RIGHT"  # Right alignment
+type StoreTextOption = Literal[
+    "TEXT_NEXT_TO_IMAGE",  # Text next to image
+    "TEXT_OVER_IMAGE",  # Text overlaid on image
+]
+"""
+Supported values:
+- `TEXT_OVER_IMAGE`: Text overlaid on image
+- `TEXT_NEXT_TO_IMAGE`: Text next to image
+"""
 
 
-class StoreTextOption(StrEnum):
-    TEXT_NEXT_TO_IMAGE = "TEXT_NEXT_TO_IMAGE"  # Text next to image
-    TEXT_OVER_IMAGE = "TEXT_OVER_IMAGE"  # Text overlaid on image
+type StoreTextOptionType = Literal[
+    "NO_TEXT_OVER_VIDEO",  # No text overlay on video
+    "TEXT_OVER_VIDEO",  # Text overlay on video
+]
+"""
+Supported values:
+- `NO_TEXT_OVER_VIDEO`: No text overlay on video
+- `TEXT_OVER_VIDEO`: Text overlay on video
+"""
 
 
-class StoreTextOptionType(StrEnum):
-    NO_TEXT_OVER_VIDEO = "NO_TEXT_OVER_VIDEO"  # No text overlay on video
-    TEXT_OVER_VIDEO = "TEXT_OVER_VIDEO"  # Text overlay on video
+type StoreTileBorderSize = Literal[
+    "LARGE",  # Large border size
+    "MEDIUM",  # Medium border size
+    "NONE",  # No border
+    "SMALL",  # Small border size
+]
+"""
+Supported values:
+- `NONE`: No border
+- `SMALL`: Small border size
+- `MEDIUM`: Medium border size
+- `LARGE`: Large border size
+"""
 
 
-class StoreTileBorderSize(StrEnum):
-    LARGE = "LARGE"  # Large border size
-    MEDIUM = "MEDIUM"  # Medium border size
-    NONE = "NONE"  # No border
-    SMALL = "SMALL"  # Small border size
+type StoreTileSize = Literal[
+    "LARGE",  # Large tile size, StoreAWLSTile only uses LARGE
+    "MEDIUM",  # Medium tile size
+    "MINI",  # Mini tile size
+    "SMALL",  # Small tile size
+]
+"""
+Supported values:
+- `LARGE`: Large tile size, StoreAWLSTile only uses LARGE
+- `MEDIUM`: Medium tile size
+- `SMALL`: Small tile size
+- `MINI`: Mini tile size
+"""
 
 
-class StoreTileSize(StrEnum):
-    LARGE = "LARGE"  # Large tile size, StoreAWLSTile only uses LARGE
-    MEDIUM = "MEDIUM"  # Medium tile size
-    MINI = "MINI"  # Mini tile size
-    SMALL = "SMALL"  # Small tile size
+type StoreTileTextSize = Literal[
+    "LARGE",  # Large text size
+    "MEDIUM",  # Medium text size
+    "MINI",  # Mini text size
+    "SMALL",  # Small text size
+]
+"""
+Supported values:
+- `MINI`: Mini text size
+- `SMALL`: Small text size
+- `MEDIUM`: Medium text size
+- `LARGE`: Large text size
+"""
 
 
-class StoreTileTextSize(StrEnum):
-    LARGE = "LARGE"  # Large text size
-    MEDIUM = "MEDIUM"  # Medium text size
-    MINI = "MINI"  # Mini text size
-    SMALL = "SMALL"  # Small text size
+type StoreTileType = Literal[
+    "CUSTOM_CODE",  # Tile type for StoreCustomCodeTile
+    "EMPTY",  # Tile type for StoreEmptyTile
+    "EXTERNAL_WIDGET",  # Tile type for StoreAWLSTile
+    "IMAGE",  # Tile type for StoreImageTile, StoreImageWithTextTile, StoreMetadataItem type
+    "INTERACTIVE_IMAGE",  # Tile type for StoreShoppableImageTile
+    "PRODUCT",  # Tile type for StoreProductTile and StoreShoppablePoint type
+    "TEXT",  # Tile type for StoreTextTile and tile layers
+    "VIDEO",  # Tile type for StoreVideoTile
+]
+"""
+Supported values:
+- `TEXT`: Tile type for StoreTextTile and tile layers
+- `IMAGE`: Tile type for StoreImageTile, StoreImageWithTextTile, StoreMetadataItem type
+- `PRODUCT`: Tile type for StoreProductTile and StoreShoppablePoint type
+- `INTERACTIVE_IMAGE`: Tile type for StoreShoppableImageTile
+- `VIDEO`: Tile type for StoreVideoTile
+- `CUSTOM_CODE`: Tile type for StoreCustomCodeTile
+- `EMPTY`: Tile type for StoreEmptyTile
+- `EXTERNAL_WIDGET`: Tile type for StoreAWLSTile
+"""
 
 
-class StoreTileType(StrEnum):
-    CUSTOM_CODE = "CUSTOM_CODE"  # Tile type for StoreCustomCodeTile
-    EMPTY = "EMPTY"  # Tile type for StoreEmptyTile
-    EXTERNAL_WIDGET = "EXTERNAL_WIDGET"  # Tile type for StoreAWLSTile
-    IMAGE = "IMAGE"  # Tile type for StoreImageTile, StoreImageWithTextTile, StoreMetadataItem type
-    INTERACTIVE_IMAGE = "INTERACTIVE_IMAGE"  # Tile type for StoreShoppableImageTile
-    PRODUCT = "PRODUCT"  # Tile type for StoreProductTile and StoreShoppablePoint type
-    TEXT = "TEXT"  # Tile type for StoreTextTile and tile layers
-    VIDEO = "VIDEO"  # Tile type for StoreVideoTile
+type StoreVerticalAlign = Literal[
+    "BOTTOM",  # Bottom alignment
+    "MIDDLE",  # Middle alignment
+    "TOP",  # Top alignment
+]
+"""
+Supported values:
+- `TOP`: Top alignment
+- `MIDDLE`: Middle alignment
+- `BOTTOM`: Bottom alignment
+"""
 
 
-class StoreVerticalAlign(StrEnum):
-    BOTTOM = "BOTTOM"  # Bottom alignment
-    MIDDLE = "MIDDLE"  # Middle alignment
-    TOP = "TOP"  # Top alignment
+type StoreWidgetSectionType = Literal[
+    "BANNER",  # Section type for StoreBannerWidget
+    "BEST_SELLING",  # Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+    "DEALS_AND_COUPONS",  # Section type for StoreDealsWidget and StoreDealsContent type
+    "EDITORIAL_ROW",  # Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
+    "GALLERY",  # Section type for StoreGalleryWidget
+    "HERO",  # Section type for StoreHeroImageWidget
+    "LIVE_VIDEO",  # Section type for StoreLiveVideoWidget
+    "MANUALLY_CURATED_PRODUCT_CAROUSEL",  # Section type for StoreManuallyCuratedProductCarouselWidget and StoreCarouselContent type
+    "PREMIUM_BEST_SELLING",  # Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+    "PRODUCT_COLLECTION",  # Section type for StoreProductCollectionWidget
+    "PRODUCT_GRID",  # Section type for StoreProductGridWidget and type for StoreProductCollectionASINGrid
+    "RECOMMENDED",  # Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+    "SHOP_THE_LOOK_CAROUSEL",  # Section type for StoreShopTheLookWidget and type for StoreShopTheLookContent
+]
+"""
+Supported values:
+- `HERO`: Section type for StoreHeroImageWidget
+- `EDITORIAL_ROW`: Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
+- `DEALS_AND_COUPONS`: Section type for StoreDealsWidget and StoreDealsContent type
+- `GALLERY`: Section type for StoreGalleryWidget
+- `PRODUCT_COLLECTION`: Section type for StoreProductCollectionWidget
+- `PRODUCT_GRID`: Section type for StoreProductGridWidget and type for StoreProductCollectionASINGrid
+- `SHOP_THE_LOOK_CAROUSEL`: Section type for StoreShopTheLookWidget and type for StoreShopTheLookContent
+- `MANUALLY_CURATED_PRODUCT_CAROUSEL`: Section type for StoreManuallyCuratedProductCarouselWidget and StoreCarouselContent type
+- `RECOMMENDED`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `BEST_SELLING`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `PREMIUM_BEST_SELLING`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `LIVE_VIDEO`: Section type for StoreLiveVideoWidget
+- `BANNER`: Section type for StoreBannerWidget
+"""
 
 
-class StoreWidgetSectionType(StrEnum):
-    BANNER = "BANNER"  # Section type for StoreBannerWidget
-    BEST_SELLING = "BEST_SELLING"  # Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
-    DEALS_AND_COUPONS = "DEALS_AND_COUPONS"  # Section type for StoreDealsWidget and StoreDealsContent type
-    EDITORIAL_ROW = "EDITORIAL_ROW"  # Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
-    GALLERY = "GALLERY"  # Section type for StoreGalleryWidget
-    HERO = "HERO"  # Section type for StoreHeroImageWidget
-    LIVE_VIDEO = "LIVE_VIDEO"  # Section type for StoreLiveVideoWidget
-    MANUALLY_CURATED_PRODUCT_CAROUSEL = "MANUALLY_CURATED_PRODUCT_CAROUSEL"  # Section type for StoreManuallyCuratedProductCarouselWidget and StoreCarouselContent type
-    PREMIUM_BEST_SELLING = (
-        "PREMIUM_BEST_SELLING"  # Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
-    )
-    PRODUCT_COLLECTION = "PRODUCT_COLLECTION"  # Section type for StoreProductCollectionWidget
-    PRODUCT_GRID = "PRODUCT_GRID"  # Section type for StoreProductGridWidget and type for StoreProductCollectionASINGrid
-    RECOMMENDED = "RECOMMENDED"  # Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
-    SHOP_THE_LOOK_CAROUSEL = (
-        "SHOP_THE_LOOK_CAROUSEL"  # Section type for StoreShopTheLookWidget and type for StoreShopTheLookContent
-    )
+type StoreWidgetType = Literal[
+    "BANNER",  # Widget type and content type for StoreBannerWidget
+    "EDITORIAL_ROW",  # Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
+    "GALLERY",  # Widget type for StoreGalleryWidget and StoreGalleryContent type
+    "HERO",  # Widget type for StoreHeroImageWidget
+    "LIVE_VIDEO",  # Widget type and content type for StoreLiveVideoWidget
+    "MULTI_MEDIA_CAROUSEL",  # Widget type for StoreShopTheLookWidget, StoreManuallyCuratedProductCarouselWidget and StoreProductCarouselWidget
+    "PRODUCT_CAROUSEL",  # Widget type for StoreProductCarouselWidget
+    "PRODUCT_COLLECTION",  # Widget type for StoreProductCollectionWidget and StoreProductCollection type
+    "PRODUCT_GRID",  # Widget type for StoreProductGridWidget and StoreDealsWidget
+]
+"""
+Supported values:
+- `HERO`: Widget type for StoreHeroImageWidget
+- `EDITORIAL_ROW`: Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
+- `PRODUCT_GRID`: Widget type for StoreProductGridWidget and StoreDealsWidget
+- `GALLERY`: Widget type for StoreGalleryWidget and StoreGalleryContent type
+- `PRODUCT_COLLECTION`: Widget type for StoreProductCollectionWidget and StoreProductCollection type
+- `MULTI_MEDIA_CAROUSEL`: Widget type for StoreShopTheLookWidget, StoreManuallyCuratedProductCarouselWidget and StoreProductCarouselWidget
+- `PRODUCT_CAROUSEL`: Widget type for StoreProductCarouselWidget
+- `LIVE_VIDEO`: Widget type and content type for StoreLiveVideoWidget
+- `BANNER`: Widget type and content type for StoreBannerWidget
+"""
 
 
-class StoreWidgetType(StrEnum):
-    BANNER = "BANNER"  # Widget type and content type for StoreBannerWidget
-    EDITORIAL_ROW = "EDITORIAL_ROW"  # Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
-    GALLERY = "GALLERY"  # Widget type for StoreGalleryWidget and StoreGalleryContent type
-    HERO = "HERO"  # Widget type for StoreHeroImageWidget
-    LIVE_VIDEO = "LIVE_VIDEO"  # Widget type and content type for StoreLiveVideoWidget
-    MULTI_MEDIA_CAROUSEL = "MULTI_MEDIA_CAROUSEL"  # Widget type for StoreShopTheLookWidget, StoreManuallyCuratedProductCarouselWidget and StoreProductCarouselWidget
-    PRODUCT_CAROUSEL = "PRODUCT_CAROUSEL"  # Widget type for StoreProductCarouselWidget
-    PRODUCT_COLLECTION = (
-        "PRODUCT_COLLECTION"  # Widget type for StoreProductCollectionWidget and StoreProductCollection type
-    )
-    PRODUCT_GRID = "PRODUCT_GRID"  # Widget type for StoreProductGridWidget and StoreDealsWidget
-
-
-class VerticalPosition(StrEnum):
-    BOTTOM = "BOTTOM"  # Bottom position
-    MIDDLE = "MIDDLE"  # Middle position
-    TOP = "TOP"  # Top position
+type VerticalPosition = Literal[
+    "BOTTOM",  # Bottom position
+    "MIDDLE",  # Middle position
+    "TOP",  # Top position
+]
+"""
+Supported values:
+- `TOP`: Top position
+- `MIDDLE`: Middle position
+- `BOTTOM`: Bottom position
+"""
 
 
 class BrandStorePage(LenientModel):
     content: StorePageContent
     editionId: str = Field(description="Reference to the store edition")
     pageId: str = Field(description="Unique identifier for the store page")
-    pageType: Annotated[StorePageType | str, lenient_enum(StorePageType)]
+    pageType: StorePageType | str = Field(description="""
+Supported values:
+- `BRAND_STORE_PAGE`: Standard brand store page that allows customization to show case the brand and product
+- `LANDING_PAGE`: Landing page for specific ads program with predefined template
+""")
     storeEditionPublishId: str | None = Field(
         default=None, description="Optional identifier for the published version of this page"
     )
@@ -327,15 +533,57 @@ class CTI(LenientModel):
 
 
 class CommonTileProperties(LenientModel):
-    size: Annotated[StoreTileSize | str, lenient_enum(StoreTileSize)]
+    size: StoreTileSize | str = Field(description="""
+Supported values:
+- `LARGE`: Large tile size, StoreAWLSTile only uses LARGE
+- `MEDIUM`: Medium tile size
+- `SMALL`: Small tile size
+- `MINI`: Mini tile size
+""")
     tag: str = Field(description="The unique tag for the tile to help track on performance.")
-    type: Annotated[StoreTileType | str, lenient_enum(StoreTileType)]
+    type: StoreTileType | str = Field(description="""
+Supported values:
+- `TEXT`: Tile type for StoreTextTile and tile layers
+- `IMAGE`: Tile type for StoreImageTile, StoreImageWithTextTile, StoreMetadataItem type
+- `PRODUCT`: Tile type for StoreProductTile and StoreShoppablePoint type
+- `INTERACTIVE_IMAGE`: Tile type for StoreShoppableImageTile
+- `VIDEO`: Tile type for StoreVideoTile
+- `CUSTOM_CODE`: Tile type for StoreCustomCodeTile
+- `EMPTY`: Tile type for StoreEmptyTile
+- `EXTERNAL_WIDGET`: Tile type for StoreAWLSTile
+""")
 
 
 class CommonWidgetProperties(LenientModel):
-    sectionType: Annotated[StoreWidgetSectionType | str, lenient_enum(StoreWidgetSectionType)]
+    sectionType: StoreWidgetSectionType | str = Field(description="""
+Supported values:
+- `HERO`: Section type for StoreHeroImageWidget
+- `EDITORIAL_ROW`: Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
+- `DEALS_AND_COUPONS`: Section type for StoreDealsWidget and StoreDealsContent type
+- `GALLERY`: Section type for StoreGalleryWidget
+- `PRODUCT_COLLECTION`: Section type for StoreProductCollectionWidget
+- `PRODUCT_GRID`: Section type for StoreProductGridWidget and type for StoreProductCollectionASINGrid
+- `SHOP_THE_LOOK_CAROUSEL`: Section type for StoreShopTheLookWidget and type for StoreShopTheLookContent
+- `MANUALLY_CURATED_PRODUCT_CAROUSEL`: Section type for StoreManuallyCuratedProductCarouselWidget and StoreCarouselContent type
+- `RECOMMENDED`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `BEST_SELLING`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `PREMIUM_BEST_SELLING`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `LIVE_VIDEO`: Section type for StoreLiveVideoWidget
+- `BANNER`: Section type for StoreBannerWidget
+""")
     widgetTag: str = Field(description="The unique tag for the widget to help track on performance.")
-    widgetType: Annotated[StoreWidgetType | str, lenient_enum(StoreWidgetType)]
+    widgetType: StoreWidgetType | str = Field(description="""
+Supported values:
+- `HERO`: Widget type for StoreHeroImageWidget
+- `EDITORIAL_ROW`: Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
+- `PRODUCT_GRID`: Widget type for StoreProductGridWidget and StoreDealsWidget
+- `GALLERY`: Widget type for StoreGalleryWidget and StoreGalleryContent type
+- `PRODUCT_COLLECTION`: Widget type for StoreProductCollectionWidget and StoreProductCollection type
+- `MULTI_MEDIA_CAROUSEL`: Widget type for StoreShopTheLookWidget, StoreManuallyCuratedProductCarouselWidget and StoreProductCarouselWidget
+- `PRODUCT_CAROUSEL`: Widget type for StoreProductCarouselWidget
+- `LIVE_VIDEO`: Widget type and content type for StoreLiveVideoWidget
+- `BANNER`: Widget type and content type for StoreBannerWidget
+""")
 
 
 class Coordinates(LenientModel):
@@ -395,7 +643,11 @@ class ReviewStars(LenientModel):
 class StoreASINSlide(LenientModel):
     productAsin: str = Field(description="The ASIN of the product.")
     tag: str = Field(description="Unique tag for the slide which will be ASIN.")
-    type: Annotated[StoreSlideType | str, lenient_enum(StoreSlideType)]
+    type: StoreSlideType | str = Field(description="""
+Supported values:
+- `IMAGE`: Slide type for StoreGallerySlide, StoreImageSlide
+- `ASIN`: Slide type for StoreASINSlide
+""")
 
 
 class StoreAWLSTile(LenientModel):
@@ -432,7 +684,21 @@ class StoreAWLSWidget(LenientModel):
 class StoreBannerContent(LenientModel):
     banners: StoreBanners | None = Field(default=None)
     tag: str | None = Field(default=None, description="Unique tag for the content.")
-    type: Annotated[StoreWidgetType | str, lenient_enum(StoreWidgetType)] | None = Field(default=None)
+    type: StoreWidgetType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `HERO`: Widget type for StoreHeroImageWidget
+- `EDITORIAL_ROW`: Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
+- `PRODUCT_GRID`: Widget type for StoreProductGridWidget and StoreDealsWidget
+- `GALLERY`: Widget type for StoreGalleryWidget and StoreGalleryContent type
+- `PRODUCT_COLLECTION`: Widget type for StoreProductCollectionWidget and StoreProductCollection type
+- `MULTI_MEDIA_CAROUSEL`: Widget type for StoreShopTheLookWidget, StoreManuallyCuratedProductCarouselWidget and StoreProductCarouselWidget
+- `PRODUCT_CAROUSEL`: Widget type for StoreProductCarouselWidget
+- `LIVE_VIDEO`: Widget type and content type for StoreLiveVideoWidget
+- `BANNER`: Widget type and content type for StoreBannerWidget
+""",
+    )
 
 
 class StoreBannerWidget(LenientModel):
@@ -483,7 +749,22 @@ class StoreCarouselContent(LenientModel):
     tag: str = Field(description="Unique tag for the content to track performance.")
     text: str = Field(description="Description text.")
     title: str = Field(description="Title of the carousel.")
-    type: Annotated[StoreWidgetSectionType | str, lenient_enum(StoreWidgetSectionType)]
+    type: StoreWidgetSectionType | str = Field(description="""
+Supported values:
+- `HERO`: Section type for StoreHeroImageWidget
+- `EDITORIAL_ROW`: Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
+- `DEALS_AND_COUPONS`: Section type for StoreDealsWidget and StoreDealsContent type
+- `GALLERY`: Section type for StoreGalleryWidget
+- `PRODUCT_COLLECTION`: Section type for StoreProductCollectionWidget
+- `PRODUCT_GRID`: Section type for StoreProductGridWidget and type for StoreProductCollectionASINGrid
+- `SHOP_THE_LOOK_CAROUSEL`: Section type for StoreShopTheLookWidget and type for StoreShopTheLookContent
+- `MANUALLY_CURATED_PRODUCT_CAROUSEL`: Section type for StoreManuallyCuratedProductCarouselWidget and StoreCarouselContent type
+- `RECOMMENDED`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `BEST_SELLING`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `PREMIUM_BEST_SELLING`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `LIVE_VIDEO`: Section type for StoreLiveVideoWidget
+- `BANNER`: Section type for StoreBannerWidget
+""")
 
 
 class StoreCarouselSearch(LenientModel):
@@ -543,12 +824,37 @@ class StoreDealsConfig(LenientModel):
 
 class StoreDealsContent(LenientModel):
     deals: StoreDealsConfig | None = Field(default=None)
-    dealsMode: Annotated[StoreDealsMode | str, lenient_enum(StoreDealsMode)] | None = Field(default=None)
+    dealsMode: StoreDealsMode | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `BULK`: Bulk mode
+- `AUTOMATIC`: Automatic mode
+""",
+    )
     productAsins: list[str] | None = Field(
         default=None, min_length=0, max_length=500, description="List of ASINs, maximum 500 unique items."
     )
     tag: str | None = Field(default=None, description="Unique tag for the content to track performance.")
-    type: Annotated[StoreWidgetSectionType | str, lenient_enum(StoreWidgetSectionType)] | None = Field(default=None)
+    type: StoreWidgetSectionType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `HERO`: Section type for StoreHeroImageWidget
+- `EDITORIAL_ROW`: Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
+- `DEALS_AND_COUPONS`: Section type for StoreDealsWidget and StoreDealsContent type
+- `GALLERY`: Section type for StoreGalleryWidget
+- `PRODUCT_COLLECTION`: Section type for StoreProductCollectionWidget
+- `PRODUCT_GRID`: Section type for StoreProductGridWidget and type for StoreProductCollectionASINGrid
+- `SHOP_THE_LOOK_CAROUSEL`: Section type for StoreShopTheLookWidget and type for StoreShopTheLookContent
+- `MANUALLY_CURATED_PRODUCT_CAROUSEL`: Section type for StoreManuallyCuratedProductCarouselWidget and StoreCarouselContent type
+- `RECOMMENDED`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `BEST_SELLING`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `PREMIUM_BEST_SELLING`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `LIVE_VIDEO`: Section type for StoreLiveVideoWidget
+- `BANNER`: Section type for StoreBannerWidget
+""",
+    )
 
 
 class StoreDealsWidget(LenientModel):
@@ -567,7 +873,16 @@ class StoreEmptyTileContent(LenientModel):
     )
     callToAction: str | None = Field(default=None, description="Call to action text.")
     text: str | None = Field(default=None, description="Text content (must be empty).")
-    textAlign: Annotated[StoreTextAlignment | str, lenient_enum(StoreTextAlignment)] | None = Field(default=None)
+    textAlign: StoreTextAlignment | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `LEFT`: Left alignment. Default value configured for StoreEmptyTile
+- `CENTER`: Center alignment
+- `RIGHT`: Right alignment
+- `JUSTIFY`: Justified alignment
+""",
+    )
     title: str | None = Field(default=None, description="Title of the tile (must be empty).")
 
 
@@ -581,14 +896,35 @@ class StoreGalleryContent(LenientModel):
     tag: str | None = Field(default=None, description="Unique tag for the content.")
     text: str | None = Field(default=None, description="Text content of the gallery.")
     title: str | None = Field(default=None, description="Title of the gallery.")
-    type: Annotated[StoreWidgetType | str, lenient_enum(StoreWidgetType)] | None = Field(default=None)
+    type: StoreWidgetType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `HERO`: Widget type for StoreHeroImageWidget
+- `EDITORIAL_ROW`: Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
+- `PRODUCT_GRID`: Widget type for StoreProductGridWidget and StoreDealsWidget
+- `GALLERY`: Widget type for StoreGalleryWidget and StoreGalleryContent type
+- `PRODUCT_COLLECTION`: Widget type for StoreProductCollectionWidget and StoreProductCollection type
+- `MULTI_MEDIA_CAROUSEL`: Widget type for StoreShopTheLookWidget, StoreManuallyCuratedProductCarouselWidget and StoreProductCarouselWidget
+- `PRODUCT_CAROUSEL`: Widget type for StoreProductCarouselWidget
+- `LIVE_VIDEO`: Widget type and content type for StoreLiveVideoWidget
+- `BANNER`: Widget type and content type for StoreBannerWidget
+""",
+    )
 
 
 class StoreGallerySlide(LenientModel):
     alt: str | None = Field(default=None, description="Alternative text for the slide.")
     assetId: str | None = Field(default=None, description="Asset identifier for the slide.")
     imageKey: str | None = Field(default=None, description="Key identifier for the image.")
-    type: Annotated[StoreSlideType | str, lenient_enum(StoreSlideType)] | None = Field(default=None)
+    type: StoreSlideType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `IMAGE`: Slide type for StoreGallerySlide, StoreImageSlide
+- `ASIN`: Slide type for StoreASINSlide
+""",
+    )
 
 
 class StoreGalleryWidget(LenientModel):
@@ -621,7 +957,16 @@ class StoreImageContent(LenientModel):
     altText: str | None = Field(default=None, description="Alternative text for the image.")
     assetId: str | None = Field(default=None, description="Asset identifier.")
     assetTags: str | None = Field(default=None, description="Tags associated with the asset.")
-    bleedImage: Annotated[StoreBleedImageType | str, lenient_enum(StoreBleedImageType)] | None = Field(default=None)
+    bleedImage: StoreBleedImageType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `NONE`: No image bleed
+- `SIDE`: Side image bleed
+- `CORNER`: Corner image bleed
+- `ALL`: All sides image bleed
+""",
+    )
     callToAction: str | None = Field(default=None, description="Call to action text.")
     canvasData: StoreCanvasData | None = Field(default=None)
     cropBoxData: StoreCropBoxData | None = Field(default=None)
@@ -634,18 +979,41 @@ class StoreImageContent(LenientModel):
     imageUrl: str | None = Field(default=None, description="URL of the image.")
     imageWidth: float | None = Field(default=None, description="Width of the image.")
     isAiGen: bool | None = Field(default=None, description="Whether the image is AI-generated.")
-    layout: Annotated[StoreImageLayout | str, lenient_enum(StoreImageLayout)] | None = Field(default=None)
+    layout: StoreImageLayout | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `COVER`: Cover layout
+- `CONTAIN`: Contain layout
+- `TEXT`: Text layout
+""",
+    )
     pageId: str | None = Field(default=None, description="Page identifier.")
     productAsins: list[str] | None = Field(
         default=None, min_length=0, max_length=1, description="Single ASIN for the image."
     )
     text: str | None = Field(default=None, description="Text content.")
-    textAlign: Annotated[StoreImageTextAlign | str, lenient_enum(StoreImageTextAlign)] | None = Field(default=None)
+    textAlign: StoreImageTextAlign | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `LEFT`: Left text alignment
+- `RIGHT`: Right text alignment
+""",
+    )
     tileLayers: list[str] | None = Field(
         default=None, min_length=0, max_length=1, description="Layer configuration for the tile."
     )
     title: str | None = Field(default=None, description="Title of the image.")
-    verticalAlign: Annotated[StoreVerticalAlign | str, lenient_enum(StoreVerticalAlign)] | None = Field(default=None)
+    verticalAlign: StoreVerticalAlign | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `TOP`: Top alignment
+- `MIDDLE`: Middle alignment
+- `BOTTOM`: Bottom alignment
+""",
+    )
 
 
 class StoreImageSlide(LenientModel):
@@ -659,7 +1027,14 @@ class StoreImageSlide(LenientModel):
     imageUrl: str | None = Field(default=None, description="URL of the image.")
     imageWidth: float | None = Field(default=None, description="Width of the image.")
     tag: str | None = Field(default=None, description="Unique identifier for the slide.")
-    type: Annotated[StoreSlideType | str, lenient_enum(StoreSlideType)] | None = Field(default=None)
+    type: StoreSlideType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `IMAGE`: Slide type for StoreGallerySlide, StoreImageSlide
+- `ASIN`: Slide type for StoreASINSlide
+""",
+    )
 
 
 class StoreImageTile(LenientModel):
@@ -681,7 +1056,16 @@ class StoreImageWithTextContent(LenientModel):
     altText: str | None = Field(default=None, description="Alternative text for the image.")
     assetId: str | None = Field(default=None, description="Asset identifier.")
     assetTags: str | None = Field(default=None, description="Tags associated with the asset.")
-    bleedImage: Annotated[StoreBleedImageType | str, lenient_enum(StoreBleedImageType)] | None = Field(default=None)
+    bleedImage: StoreBleedImageType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `NONE`: No image bleed
+- `SIDE`: Side image bleed
+- `CORNER`: Corner image bleed
+- `ALL`: All sides image bleed
+""",
+    )
     callToAction: str | None = Field(default=None, description="Call to action text.")
     canvasData: StoreCanvasData | None = Field(default=None)
     cropBoxData: StoreCropBoxData | None = Field(default=None)
@@ -694,21 +1078,59 @@ class StoreImageWithTextContent(LenientModel):
     imageUrl: str | None = Field(default=None, description="URL of the image.")
     imageWidth: float | None = Field(default=None, description="Width of the image.")
     isAiGen: bool | None = Field(default=None, description="Whether the image is AI-generated.")
-    layout: Annotated[StoreImageLayout | str, lenient_enum(StoreImageLayout)] | None = Field(default=None)
+    layout: StoreImageLayout | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `COVER`: Cover layout
+- `CONTAIN`: Contain layout
+- `TEXT`: Text layout
+""",
+    )
     pageId: str | None = Field(default=None, description="Page identifier.")
     productAsins: list[str] | None = Field(
         default=None, min_length=0, max_length=1, description="Single ASIN for the image."
     )
     renderTileLayers: bool | None = Field(default=None, description="Whether to render tile layers.")
-    shape: Annotated[StoreImageShape | str, lenient_enum(StoreImageShape)] | None = Field(default=None)
+    shape: StoreImageShape | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `SQUARE`: Square shape
+""",
+    )
     text: str | None = Field(default=None, description="Text content.")
-    textAlign: Annotated[StoreTextAlignment | str, lenient_enum(StoreTextAlignment)] | None = Field(default=None)
-    textOption: Annotated[StoreTextOption | str, lenient_enum(StoreTextOption)] | None = Field(default=None)
+    textAlign: StoreTextAlignment | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `LEFT`: Left alignment. Default value configured for StoreEmptyTile
+- `CENTER`: Center alignment
+- `RIGHT`: Right alignment
+- `JUSTIFY`: Justified alignment
+""",
+    )
+    textOption: StoreTextOption | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `TEXT_OVER_IMAGE`: Text overlaid on image
+- `TEXT_NEXT_TO_IMAGE`: Text next to image
+""",
+    )
     tileLayers: list[StoreTileLayer] | None = Field(
         default=None, min_length=0, max_length=1, description="Layer configuration for the tile."
     )
     title: str | None = Field(default=None, description="Title of the image.")
-    verticalAlign: Annotated[StoreVerticalAlign | str, lenient_enum(StoreVerticalAlign)] | None = Field(default=None)
+    verticalAlign: StoreVerticalAlign | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `TOP`: Top alignment
+- `MIDDLE`: Middle alignment
+- `BOTTOM`: Bottom alignment
+""",
+    )
 
 
 class StoreImageWithTextTile(LenientModel):
@@ -717,7 +1139,10 @@ class StoreImageWithTextTile(LenientModel):
     flexHeight: bool | None = Field(default=None, description="Whether the height is flexible.")
     mobileContent: StoreMobileImageWithTextContent | None = Field(default=None)
     uploadMobileImage: bool | None = Field(default=None, description="Whether to upload a mobile-specific image.")
-    variation: Annotated[StoreImageWithTextTileVariation | str, lenient_enum(StoreImageWithTextTileVariation)]
+    variation: StoreImageWithTextTileVariation | str = Field(description="""
+Supported values:
+- `IMAGE_WITH_TEXT`: Image with text variation
+""")
 
 
 class StoreImageWithTextWidget(LenientModel):
@@ -730,7 +1155,18 @@ class StoreImageWithTextWidget(LenientModel):
 class StoreLiveVideoContent(LenientModel):
     channel: str | None = Field(default=None, description="Channel of the video.")
     tag: str = Field(description="Unique tag for the content.")
-    type: Annotated[StoreWidgetType | str, lenient_enum(StoreWidgetType)]
+    type: StoreWidgetType | str = Field(description="""
+Supported values:
+- `HERO`: Widget type for StoreHeroImageWidget
+- `EDITORIAL_ROW`: Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
+- `PRODUCT_GRID`: Widget type for StoreProductGridWidget and StoreDealsWidget
+- `GALLERY`: Widget type for StoreGalleryWidget and StoreGalleryContent type
+- `PRODUCT_COLLECTION`: Widget type for StoreProductCollectionWidget and StoreProductCollection type
+- `MULTI_MEDIA_CAROUSEL`: Widget type for StoreShopTheLookWidget, StoreManuallyCuratedProductCarouselWidget and StoreProductCarouselWidget
+- `PRODUCT_CAROUSEL`: Widget type for StoreProductCarouselWidget
+- `LIVE_VIDEO`: Widget type and content type for StoreLiveVideoWidget
+- `BANNER`: Widget type and content type for StoreBannerWidget
+""")
 
 
 class StoreLiveVideoWidget(LenientModel):
@@ -749,7 +1185,20 @@ class StoreMetadataItem(LenientModel):
     filename: str | None = Field(default=None, description="Name of the file.")
     imageKey: str | None = Field(default=None, description="Key identifier for the image.")
     imageUrl: str | None = Field(default=None, description="The imageUrl of the item.")
-    type: Annotated[StoreTileType | str, lenient_enum(StoreTileType)] | None = Field(default=None)
+    type: StoreTileType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `TEXT`: Tile type for StoreTextTile and tile layers
+- `IMAGE`: Tile type for StoreImageTile, StoreImageWithTextTile, StoreMetadataItem type
+- `PRODUCT`: Tile type for StoreProductTile and StoreShoppablePoint type
+- `INTERACTIVE_IMAGE`: Tile type for StoreShoppableImageTile
+- `VIDEO`: Tile type for StoreVideoTile
+- `CUSTOM_CODE`: Tile type for StoreCustomCodeTile
+- `EMPTY`: Tile type for StoreEmptyTile
+- `EXTERNAL_WIDGET`: Tile type for StoreAWLSTile
+""",
+    )
     url: str | None = Field(default=None, description="URL of the item.")
 
 
@@ -770,7 +1219,16 @@ class StoreMobileImageContent(LenientModel):
     altText: str | None = Field(default=None, description="Alternative text for the mobile image.")
     assetId: str | None = Field(default=None, description="Asset identifier for mobile.")
     assetTags: str | None = Field(default=None, description="Tags associated with the mobile asset.")
-    bleedImage: Annotated[StoreBleedImageType | str, lenient_enum(StoreBleedImageType)] | None = Field(default=None)
+    bleedImage: StoreBleedImageType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `NONE`: No image bleed
+- `SIDE`: Side image bleed
+- `CORNER`: Corner image bleed
+- `ALL`: All sides image bleed
+""",
+    )
     canvasData: StoreCanvasData | None = Field(default=None)
     cropBoxData: StoreCropBoxData | None = Field(default=None)
     hideTitle: bool | None = Field(default=None, description="Whether to hide the title on mobile.")
@@ -781,19 +1239,44 @@ class StoreMobileImageContent(LenientModel):
     imageUrl: str | None = Field(default=None, description="URL of the mobile image.")
     imageWidth: float | None = Field(default=None, description="Width of the mobile image.")
     isAiGen: bool | None = Field(default=None, description="Whether the mobile image is AI-generated.")
-    layout: Annotated[StoreImageLayout | str, lenient_enum(StoreImageLayout)] | None = Field(default=None)
+    layout: StoreImageLayout | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `COVER`: Cover layout
+- `CONTAIN`: Contain layout
+- `TEXT`: Text layout
+""",
+    )
     tileLayers: list[str] | None = Field(
         default=None, min_length=0, max_length=1, description="Layer configuration for the mobile tile."
     )
     title: str | None = Field(default=None, description="Title for mobile display.")
-    verticalAlign: Annotated[StoreVerticalAlign | str, lenient_enum(StoreVerticalAlign)] | None = Field(default=None)
+    verticalAlign: StoreVerticalAlign | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `TOP`: Top alignment
+- `MIDDLE`: Middle alignment
+- `BOTTOM`: Bottom alignment
+""",
+    )
 
 
 class StoreMobileImageWithTextContent(LenientModel):
     altText: str | None = Field(default=None, description="Alternative text for the mobile image.")
     assetId: str | None = Field(default=None, description="Asset identifier for mobile.")
     assetTags: str | None = Field(default=None, description="Tags associated with the mobile asset.")
-    bleedImage: Annotated[StoreBleedImageType | str, lenient_enum(StoreBleedImageType)] | None = Field(default=None)
+    bleedImage: StoreBleedImageType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `NONE`: No image bleed
+- `SIDE`: Side image bleed
+- `CORNER`: Corner image bleed
+- `ALL`: All sides image bleed
+""",
+    )
     canvasData: StoreCanvasData | None = Field(default=None)
     cropBoxData: StoreCropBoxData | None = Field(default=None)
     hideTitle: bool | None = Field(default=None, description="Whether to hide the title on mobile.")
@@ -804,24 +1287,69 @@ class StoreMobileImageWithTextContent(LenientModel):
     imageUrl: str | None = Field(default=None, description="URL of the mobile image.")
     imageWidth: float | None = Field(default=None, description="Width of the mobile image.")
     isAiGen: bool | None = Field(default=None, description="Whether the mobile image is AI-generated.")
-    layout: Annotated[StoreImageLayout | str, lenient_enum(StoreImageLayout)] | None = Field(default=None)
+    layout: StoreImageLayout | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `COVER`: Cover layout
+- `CONTAIN`: Contain layout
+- `TEXT`: Text layout
+""",
+    )
     renderTileLayers: bool | None = Field(default=None, description="Whether to render tile layers on mobile.")
-    shape: Annotated[StoreImageShape | str, lenient_enum(StoreImageShape)] | None = Field(default=None)
+    shape: StoreImageShape | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `SQUARE`: Square shape
+""",
+    )
     text: str | None = Field(default=None, description="Text content for mobile.")
-    textAlign: Annotated[StoreTextAlignment | str, lenient_enum(StoreTextAlignment)] | None = Field(default=None)
-    textOption: Annotated[StoreTextOption | str, lenient_enum(StoreTextOption)] | None = Field(default=None)
+    textAlign: StoreTextAlignment | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `LEFT`: Left alignment. Default value configured for StoreEmptyTile
+- `CENTER`: Center alignment
+- `RIGHT`: Right alignment
+- `JUSTIFY`: Justified alignment
+""",
+    )
+    textOption: StoreTextOption | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `TEXT_OVER_IMAGE`: Text overlaid on image
+- `TEXT_NEXT_TO_IMAGE`: Text next to image
+""",
+    )
     tileLayers: list[StoreTileLayer] | None = Field(
         default=None, min_length=0, max_length=1, description="Layer configuration for the mobile tile."
     )
     title: str | None = Field(default=None, description="Title for mobile display.")
-    verticalAlign: Annotated[StoreVerticalAlign | str, lenient_enum(StoreVerticalAlign)] | None = Field(default=None)
+    verticalAlign: StoreVerticalAlign | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `TOP`: Top alignment
+- `MIDDLE`: Middle alignment
+- `BOTTOM`: Bottom alignment
+""",
+    )
 
 
 class StorePageContent(LenientModel):
     """Structure containing the content elements of a store page"""
 
     description: str | None = Field(default=None, description="Description of the page")
-    template: Annotated[StorePageTemplate | str, lenient_enum(StorePageTemplate)]
+    template: StorePageTemplate | str = Field(description="""
+Supported values:
+- `PRODUCT_GRID`: Template displaying products in a grid layout
+- `HIGHLIGHT`: Template for highlighting specific content
+- `MARQUEE`: Template featuring a prominent marquee section
+- `BLANK`: Empty template for custom layouts
+- `PRODUCT_COLLECTION`: Template for displaying collections of products
+""")
     title: str | None = Field(
         default=None, description="For store page, title of the page; for SB landing page, this can be optional"
     )
@@ -913,13 +1441,33 @@ class StoreProductCarouselContent(LenientModel):
     callToActionData: StoreCallToActionProductData | None = Field(default=None)
     searchContent: StoreProductCarouselSearch | None = Field(default=None)
     tag: str = Field(description="Unique tag for the content.")
-    type: Annotated[StoreWidgetSectionType | str, lenient_enum(StoreWidgetSectionType)]
+    type: StoreWidgetSectionType | str = Field(description="""
+Supported values:
+- `HERO`: Section type for StoreHeroImageWidget
+- `EDITORIAL_ROW`: Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
+- `DEALS_AND_COUPONS`: Section type for StoreDealsWidget and StoreDealsContent type
+- `GALLERY`: Section type for StoreGalleryWidget
+- `PRODUCT_COLLECTION`: Section type for StoreProductCollectionWidget
+- `PRODUCT_GRID`: Section type for StoreProductGridWidget and type for StoreProductCollectionASINGrid
+- `SHOP_THE_LOOK_CAROUSEL`: Section type for StoreShopTheLookWidget and type for StoreShopTheLookContent
+- `MANUALLY_CURATED_PRODUCT_CAROUSEL`: Section type for StoreManuallyCuratedProductCarouselWidget and StoreCarouselContent type
+- `RECOMMENDED`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `BEST_SELLING`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `PREMIUM_BEST_SELLING`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `LIVE_VIDEO`: Section type for StoreLiveVideoWidget
+- `BANNER`: Section type for StoreBannerWidget
+""")
 
 
 class StoreProductCarouselSearch(LenientModel):
     node: str | None = Field(default=None, description="Node identifier for search")
-    type: Annotated[StoreProductCarouselSearchType | str, lenient_enum(StoreProductCarouselSearchType)] | None = Field(
-        default=None
+    type: StoreProductCarouselSearchType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `RECOMMENDATION_FOR_YOU`: Personalized recommendations
+- `BEST_SELLING`: Best selling items
+""",
     )
 
 
@@ -945,7 +1493,22 @@ class StoreProductCollectionASINGrid(LenientModel):
     sort: str | None = Field(default=None, description="Sort order for products.")
     tag: str | None = Field(default=None, description="Unique tag for the tile to track performance.")
     title: str | None = Field(default=None, description="Title of the product grid.")
-    type: Annotated[StoreWidgetSectionType | str, lenient_enum(StoreWidgetSectionType)]
+    type: StoreWidgetSectionType | str = Field(description="""
+Supported values:
+- `HERO`: Section type for StoreHeroImageWidget
+- `EDITORIAL_ROW`: Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
+- `DEALS_AND_COUPONS`: Section type for StoreDealsWidget and StoreDealsContent type
+- `GALLERY`: Section type for StoreGalleryWidget
+- `PRODUCT_COLLECTION`: Section type for StoreProductCollectionWidget
+- `PRODUCT_GRID`: Section type for StoreProductGridWidget and type for StoreProductCollectionASINGrid
+- `SHOP_THE_LOOK_CAROUSEL`: Section type for StoreShopTheLookWidget and type for StoreShopTheLookContent
+- `MANUALLY_CURATED_PRODUCT_CAROUSEL`: Section type for StoreManuallyCuratedProductCarouselWidget and StoreCarouselContent type
+- `RECOMMENDED`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `BEST_SELLING`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `PREMIUM_BEST_SELLING`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `LIVE_VIDEO`: Section type for StoreLiveVideoWidget
+- `BANNER`: Section type for StoreBannerWidget
+""")
     variation: str | None = Field(default=None, description="Variation of the product grid.")
 
 
@@ -955,7 +1518,21 @@ class StoreProductCollectionContent(LenientModel):
         default=None, description="Timestamp of product grid conversion."
     )
     tag: str | None = Field(default=None, description="Unique tag for the content.")
-    type: Annotated[StoreWidgetType | str, lenient_enum(StoreWidgetType)] | None = Field(default=None)
+    type: StoreWidgetType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `HERO`: Widget type for StoreHeroImageWidget
+- `EDITORIAL_ROW`: Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
+- `PRODUCT_GRID`: Widget type for StoreProductGridWidget and StoreDealsWidget
+- `GALLERY`: Widget type for StoreGalleryWidget and StoreGalleryContent type
+- `PRODUCT_COLLECTION`: Widget type for StoreProductCollectionWidget and StoreProductCollection type
+- `MULTI_MEDIA_CAROUSEL`: Widget type for StoreShopTheLookWidget, StoreManuallyCuratedProductCarouselWidget and StoreProductCarouselWidget
+- `PRODUCT_CAROUSEL`: Widget type for StoreProductCarouselWidget
+- `LIVE_VIDEO`: Widget type and content type for StoreLiveVideoWidget
+- `BANNER`: Widget type and content type for StoreBannerWidget
+""",
+    )
 
 
 class StoreProductCollectionImageTile(LenientModel):
@@ -964,7 +1541,10 @@ class StoreProductCollectionImageTile(LenientModel):
     flexHeight: bool | None = Field(default=None, description="Whether the height is flexible.")
     mobileContent: StoreMobileImageWithTextContent | None = Field(default=None)
     uploadMobileImage: bool | None = Field(default=None, description="Whether to upload a mobile-specific image.")
-    variation: Annotated[StoreImageWithTextTileVariation | str, lenient_enum(StoreImageWithTextTileVariation)]
+    variation: StoreImageWithTextTileVariation | str = Field(description="""
+Supported values:
+- `IMAGE_WITH_TEXT`: Image with text variation
+""")
 
 
 class StoreProductCollectionTileStoreProductCollectionImageTile(LenientModel):
@@ -1051,9 +1631,15 @@ class StoreProductSelectorDesignOptions(LenientModel):
 
     backgroundColor: str = Field(description="Background color in hex or named color value")
     backgroundShape: str = Field(description="Shape of the background container")
-    buttonColor: (
-        Annotated[StoreProductSelectorButtonColor | str, lenient_enum(StoreProductSelectorButtonColor)] | None
-    ) = Field(default=None)
+    buttonColor: StoreProductSelectorButtonColor | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `WHITE`: White button color
+- `BLACK`: Black button color
+- `TRANSPARENT`: Transparent button color
+""",
+    )
     buttonShape: str = Field(description="Shape style for buttons in the selector")
     textAlignment: str = Field(description="Alignment of text elements (left, center, right)")
     textSize: str = Field(description="Size of the text elements")
@@ -1067,8 +1653,15 @@ class StoreProductSelectorImage(LenientModel):
     assetId: str = Field(description="Asset ID of the image")
     fileName: str | None = Field(default=None, description="File name of the image")
     imageUrl: str = Field(description="URL of the image")
-    layout: Annotated[StoreProductSelectorImageLayout | str, lenient_enum(StoreProductSelectorImageLayout)] | None = (
-        Field(default=None)
+    layout: StoreProductSelectorImageLayout | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `TOP`: Top image layout
+- `LEFT`: Left image layout
+- `RIGHT`: Right image layout
+- `BOTTOM`: Bottom image layout
+""",
     )
 
 
@@ -1093,8 +1686,20 @@ class StoreProductSelectorIntroduction(LenientModel):
 class StoreProductSelectorLayoutConfiguration(LenientModel):
     """Layout configuration for desktop and mobile views"""
 
-    desktopLayout: Annotated[StoreProductSelectorImageLayout | str, lenient_enum(StoreProductSelectorImageLayout)]
-    mobileLayout: Annotated[StoreProductSelectorImageLayout | str, lenient_enum(StoreProductSelectorImageLayout)]
+    desktopLayout: StoreProductSelectorImageLayout | str = Field(description="""
+Supported values:
+- `TOP`: Top image layout
+- `LEFT`: Left image layout
+- `RIGHT`: Right image layout
+- `BOTTOM`: Bottom image layout
+""")
+    mobileLayout: StoreProductSelectorImageLayout | str = Field(description="""
+Supported values:
+- `TOP`: Top image layout
+- `LEFT`: Left image layout
+- `RIGHT`: Right image layout
+- `BOTTOM`: Bottom image layout
+""")
 
 
 class StoreProductSelectorQuestion(LenientModel):
@@ -1140,14 +1745,39 @@ class StoreProductTile(LenientModel):
 
 
 class StoreProductTileContent(LenientModel):
-    bleedImage: Annotated[StoreBleedImageType | str, lenient_enum(StoreBleedImageType)] | None = Field(default=None)
+    bleedImage: StoreBleedImageType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `NONE`: No image bleed
+- `SIDE`: Side image bleed
+- `CORNER`: Corner image bleed
+- `ALL`: All sides image bleed
+""",
+    )
     displayOutOfStockASIN: bool | None = Field(default=None, description="Whether to display out of stock ASIN.")
-    layout: Annotated[StoreLayoutType | str, lenient_enum(StoreLayoutType)] | None = Field(default=None)
+    layout: StoreLayoutType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `DEFAULT`: Default layout configuration
+- `SHOWCASE`: Showcase layout configuration for featured display
+""",
+    )
     productAsins: list[str] | None = Field(
         default=None, min_length=0, max_length=1, description="Single ASIN for the product."
     )
     text: str | None = Field(default=None, description="Description text for the product.")
-    textAlign: Annotated[StoreTextAlignment | str, lenient_enum(StoreTextAlignment)] | None = Field(default=None)
+    textAlign: StoreTextAlignment | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `LEFT`: Left alignment. Default value configured for StoreEmptyTile
+- `CENTER`: Center alignment
+- `RIGHT`: Right alignment
+- `JUSTIFY`: Justified alignment
+""",
+    )
     title: str | None = Field(default=None, description="Title of the product.")
 
 
@@ -1173,7 +1803,25 @@ class StoreShopTheLookContent(LenientModel):
     tag: str | None = Field(default=None, description="Unique tag for the content.")
     text: str | None = Field(default=None, description="Text content.")
     title: str | None = Field(default=None, description="Title of the content.")
-    type: Annotated[StoreWidgetSectionType | str, lenient_enum(StoreWidgetSectionType)] | None = Field(default=None)
+    type: StoreWidgetSectionType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `HERO`: Section type for StoreHeroImageWidget
+- `EDITORIAL_ROW`: Widget type for StoreCustomCodeWidget, StoreImageWithTextWidget, StoreImageWidget, StoreProductWidget, StoreShoppableImageWidget, StoreTextWidget, StoreTileWidget, StoreVideoWidget and StoreAWLSWidget
+- `DEALS_AND_COUPONS`: Section type for StoreDealsWidget and StoreDealsContent type
+- `GALLERY`: Section type for StoreGalleryWidget
+- `PRODUCT_COLLECTION`: Section type for StoreProductCollectionWidget
+- `PRODUCT_GRID`: Section type for StoreProductGridWidget and type for StoreProductCollectionASINGrid
+- `SHOP_THE_LOOK_CAROUSEL`: Section type for StoreShopTheLookWidget and type for StoreShopTheLookContent
+- `MANUALLY_CURATED_PRODUCT_CAROUSEL`: Section type for StoreManuallyCuratedProductCarouselWidget and StoreCarouselContent type
+- `RECOMMENDED`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `BEST_SELLING`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `PREMIUM_BEST_SELLING`: Section type for StoreProductCarouselWidget and StoreProductCarouselContent type
+- `LIVE_VIDEO`: Section type for StoreLiveVideoWidget
+- `BANNER`: Section type for StoreBannerWidget
+""",
+    )
 
 
 class StoreShopTheLookSearch(LenientModel):
@@ -1210,8 +1858,14 @@ class StoreShoppableImageContent(LenientModel):
         default=None, min_length=0, max_length=1, description="Single ASIN for the point."
     )
     renderTileLayers: bool | None = Field(default=None, description="Whether to render tile layers.")
-    textOption: Annotated[StoreShoppableTextOption | str, lenient_enum(StoreShoppableTextOption)] | None = Field(
-        default=None
+    textOption: StoreShoppableTextOption | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `TEXT_UNDER_INTERACTIVE_IMAGE`: Text under interactive image
+- `NO_TEXT_UNDER_INTERACTIVE_IMAGE`: No text under interactive image
+- `TEXT_OVER_IMAGE`: Text over interactive image
+""",
     )
     tileLayers: list[StoreTileLayer] | None = Field(
         default=None, min_length=0, max_length=1, description="Layer configuration for the tile."
@@ -1236,7 +1890,20 @@ class StoreShoppablePoint(LenientModel):
         default=None, min_length=0, max_length=1, description="Single ASIN for the point."
     )
     tag: str | None = Field(default=None, description="Unique tag for the point.")
-    type: Annotated[StoreTileType | str, lenient_enum(StoreTileType)] | None = Field(default=None)
+    type: StoreTileType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `TEXT`: Tile type for StoreTextTile and tile layers
+- `IMAGE`: Tile type for StoreImageTile, StoreImageWithTextTile, StoreMetadataItem type
+- `PRODUCT`: Tile type for StoreProductTile and StoreShoppablePoint type
+- `INTERACTIVE_IMAGE`: Tile type for StoreShoppableImageTile
+- `VIDEO`: Tile type for StoreVideoTile
+- `CUSTOM_CODE`: Tile type for StoreCustomCodeTile
+- `EMPTY`: Tile type for StoreEmptyTile
+- `EXTERNAL_WIDGET`: Tile type for StoreAWLSTile
+""",
+    )
 
 
 class StoreTextContent(LenientModel):
@@ -1249,7 +1916,16 @@ class StoreTextContent(LenientModel):
         default=None, min_length=0, max_length=1, description="Single product ASIN for the content."
     )
     text: str = Field(description="Main text content.")
-    textAlign: Annotated[StoreTextAlignment | str, lenient_enum(StoreTextAlignment)] | None = Field(default=None)
+    textAlign: StoreTextAlignment | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `LEFT`: Left alignment. Default value configured for StoreEmptyTile
+- `CENTER`: Center alignment
+- `RIGHT`: Right alignment
+- `JUSTIFY`: Justified alignment
+""",
+    )
     title: str = Field(description="Title of the content.")
     uppercase: bool = Field(description="Whether text should be uppercase.")
 
@@ -1300,16 +1976,60 @@ type StoreTile = StoreTileStoreImageWithTextTile | StoreTileStoreImageTile | Sto
 
 
 class StoreTileLayer(LenientModel):
-    colorPalette: Annotated[StoreColorPalette | str, lenient_enum(StoreColorPalette)] | None = Field(default=None)
+    colorPalette: StoreColorPalette | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `DEFAULT`: Default color scheme
+- `DEFAULT_INVERTED`: Inverted default color scheme
+- `SOLID_WHITE`: Solid white color scheme
+- `SOLID_BLACK`: Solid black color scheme
+- `TRANSLUCENT_WHITE`: Translucent white color scheme
+- `TRANSLUCENT_BLACK`: Translucent black color scheme
+- `TRANSPARENT_BLACK`: Transparent black color scheme
+- `TRANSPARENT_WHITE`: Transparent white color scheme
+""",
+    )
     content: StoreTileLayerContent | None = Field(default=None)
     coverTile: bool | None = Field(default=None, description="Whether the layer covers the entire tile.")
-    margin: Annotated[StoreTileBorderSize | str, lenient_enum(StoreTileBorderSize)] | None = Field(default=None)
+    margin: StoreTileBorderSize | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `NONE`: No border
+- `SMALL`: Small border size
+- `MEDIUM`: Medium border size
+- `LARGE`: Large border size
+""",
+    )
     opacity: float | None = Field(default=None, description="Opacity level of the layer.")
     outOfBounds: bool | None = Field(default=None, description="Whether the layer is out of bounds.")
-    padding: Annotated[StoreTileBorderSize | str, lenient_enum(StoreTileBorderSize)] | None = Field(default=None)
+    padding: StoreTileBorderSize | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `NONE`: No border
+- `SMALL`: Small border size
+- `MEDIUM`: Medium border size
+- `LARGE`: Large border size
+""",
+    )
     position: StoreTilePosition | None = Field(default=None)
     tag: str | None = Field(default=None, description="Unique tag for the tile layer to track performance.")
-    type: Annotated[StoreTileType | str, lenient_enum(StoreTileType)] | None = Field(default=None)
+    type: StoreTileType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `TEXT`: Tile type for StoreTextTile and tile layers
+- `IMAGE`: Tile type for StoreImageTile, StoreImageWithTextTile, StoreMetadataItem type
+- `PRODUCT`: Tile type for StoreProductTile and StoreShoppablePoint type
+- `INTERACTIVE_IMAGE`: Tile type for StoreShoppableImageTile
+- `VIDEO`: Tile type for StoreVideoTile
+- `CUSTOM_CODE`: Tile type for StoreCustomCodeTile
+- `EMPTY`: Tile type for StoreEmptyTile
+- `EXTERNAL_WIDGET`: Tile type for StoreAWLSTile
+""",
+    )
 
 
 class StoreTileLayerContent(LenientModel):
@@ -1318,8 +2038,13 @@ class StoreTileLayerContent(LenientModel):
         default=None, description="Whether to include a customer service link."
     )
     callToAction: str | None = Field(default=None, description="Call to action text for the layer.")
-    callToActionType: Annotated[StoreCallToActionType | str, lenient_enum(StoreCallToActionType)] | None = Field(
-        default=None
+    callToActionType: StoreCallToActionType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `LINK`: Link type call to action
+- `BUTTON`: Button type call to action
+""",
     )
     customUrl: str | None = Field(default=None, description="Custom URL for the layer.")
     headerText: str | None = Field(default=None, description="Header text for the layer.")
@@ -1328,15 +2053,47 @@ class StoreTileLayerContent(LenientModel):
     productAsins: list[str] | None = Field(
         default=None, min_length=0, max_length=1, description="Single ASIN for the layer."
     )
-    tileTextAlignment: Annotated[StoreTextAlignment | str, lenient_enum(StoreTextAlignment)] | None = Field(
-        default=None
+    tileTextAlignment: StoreTextAlignment | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `LEFT`: Left alignment. Default value configured for StoreEmptyTile
+- `CENTER`: Center alignment
+- `RIGHT`: Right alignment
+- `JUSTIFY`: Justified alignment
+""",
     )
-    tileTextSize: Annotated[StoreTileTextSize | str, lenient_enum(StoreTileTextSize)] | None = Field(default=None)
+    tileTextSize: StoreTileTextSize | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `MINI`: Mini text size
+- `SMALL`: Small text size
+- `MEDIUM`: Medium text size
+- `LARGE`: Large text size
+""",
+    )
 
 
 class StoreTilePosition(LenientModel):
-    x: Annotated[HorizontalPosition | str, lenient_enum(HorizontalPosition)] | None = Field(default=None)
-    y: Annotated[VerticalPosition | str, lenient_enum(VerticalPosition)] | None = Field(default=None)
+    x: HorizontalPosition | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `LEFT`: Left position
+- `CENTER`: Center position
+- `RIGHT`: Right position
+""",
+    )
+    y: VerticalPosition | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `TOP`: Top position
+- `MIDDLE`: Middle position
+- `BOTTOM`: Bottom position
+""",
+    )
 
 
 class StoreTileWidget(LenientModel):
@@ -1369,7 +2126,14 @@ class StoreVideoContent(LenientModel):
     resourceId: str | None = Field(default=None, description="Resource identifier.")
     text: str | None = Field(default=None, description="Text content.")
     textAlign: str | None = Field(default=None, description="Text alignment.")
-    textOption: Annotated[StoreTextOptionType | str, lenient_enum(StoreTextOptionType)] | None = Field(default=None)
+    textOption: StoreTextOptionType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `NO_TEXT_OVER_VIDEO`: No text overlay on video
+- `TEXT_OVER_VIDEO`: Text overlay on video
+""",
+    )
     tileLayers: list[StoreTileLayer] | None = Field(
         default=None, min_length=0, max_length=1, description="Configuration for tile layers."
     )

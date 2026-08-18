@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.st import (
     STAdProduct,
     STCreateState,
@@ -24,47 +22,60 @@ from ads_api.models.v1._shared.st import (
     STUpdateState,
 )
 
+type STAdGroupNameFilterType = Literal[
+    "BROAD_MATCH",  # Filter by broad match.
+    "EXACT_MATCH",  # Filter by exact match.
+]
+"""
+Supported values:
+- `EXACT_MATCH`: Filter by exact match.
+- `BROAD_MATCH`: Filter by broad match.
+"""
 
-class STAdGroupNameFilterType(StrEnum):
-    BROAD_MATCH = "BROAD_MATCH"  # Filter by broad match.
-    EXACT_MATCH = "EXACT_MATCH"  # Filter by exact match.
 
-
-class STMarketplace(StrEnum):
-    """
-    A list of country codes representing Amazon marketplaces
-    """
-
-    AU = "AU"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    SG = "SG"
-    US = "US"
+type STMarketplace = Literal[
+    "AU",
+    "BR",
+    "CA",
+    "DE",
+    "ES",
+    "FR",
+    "GB",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "SG",
+    "US",
+]
+"""
+A list of country codes representing Amazon marketplaces
+"""
 
 
 class STAdGroup(LenientModel):
     adGroupId: str = Field(description="The unique identifier of the ad group.")
-    adProduct: Annotated[STAdProduct | str, lenient_enum(STAdProduct)]
+    adProduct: STAdProduct | str = Field(description="""
+Supported values:
+- `SPONSORED_TELEVISION`: Sponsored Television ad product.
+""")
     bid: STAdGroupBid | None = Field(default=None)
     campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
     creationDateTime: datetime = Field(description="The date time that the ad group was created.")
     lastUpdatedDateTime: datetime = Field(description="The date time that the ad group was last updated.")
-    marketplaces: list[Annotated[STMarketplace | str, lenient_enum(STMarketplace)]] | None = Field(
+    marketplaces: list[STMarketplace | str] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
     )
     name: str = Field(description="The name of the ad group.")
-    state: Annotated[STState | str, lenient_enum(STState)]
+    state: STState | str = Field(description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     status: STStatus | None = Field(default=None)
 
 
@@ -73,12 +84,39 @@ class STAdGroupAdGroupIdFilter(StrictModel):
 
 
 class STAdGroupAdProductFilter(StrictModel):
-    include: list[Annotated[STAdProduct | str, lenient_enum(STAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[STAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `SPONSORED_TELEVISION`: Sponsored Television ad product.
+""",
+    )
 
 
 class STAdGroupBid(LenientModel):
     baseBid: float | None = Field(default=None, description="The lower bound bid used for the ads in the ad group.")
-    currencyCode: Annotated[STCurrencyCode | str, lenient_enum(STCurrencyCode)]
+    currencyCode: STCurrencyCode | str = Field(description="""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CNY`: Chinese Yuan
+- `DKK`: Danish Krone
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `INR`: Indian Rupee
+- `JPY`: Japanese Yen
+- `MXN`: Mexican Peso
+- `NOK`: Norwegian Krone
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `TRY`: Turkish Lira
+- `USD`: United States Dollar
+""")
     defaultBid: float | None = Field(
         default=None,
         description="The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.",
@@ -90,17 +128,24 @@ class STAdGroupCampaignIdFilter(StrictModel):
 
 
 class STAdGroupCreate(StrictModel):
-    adProduct: Annotated[STAdProduct | str, lenient_enum(STAdProduct)]
+    adProduct: STAdProduct = Field(description="""
+Supported values:
+- `SPONSORED_TELEVISION`: Sponsored Television ad product.
+""")
     bid: STCreateAdGroupBid | None = Field(default=None)
     campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
-    marketplaces: list[Annotated[STMarketplace | str, lenient_enum(STMarketplace)]] | None = Field(
+    marketplaces: list[STMarketplace | str] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
     )
     name: str = Field(description="The name of the ad group.")
-    state: Annotated[STCreateState | str, lenient_enum(STCreateState)]
+    state: STCreateState = Field(description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
 
 
 class STAdGroupMultiStatusResponse(LenientModel):
@@ -115,11 +160,24 @@ class STAdGroupMultiStatusSuccess(LenientModel):
 
 class STAdGroupNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[STAdGroupNameFilterType | str, lenient_enum(STAdGroupNameFilterType)]
+    queryTermMatchType: STAdGroupNameFilterType = Field(description="""
+Supported values:
+- `EXACT_MATCH`: Filter by exact match.
+- `BROAD_MATCH`: Filter by broad match.
+""")
 
 
 class STAdGroupStateFilter(StrictModel):
-    include: list[Annotated[STState | str, lenient_enum(STState)]] = Field(min_length=1, max_length=3)
+    include: list[STState | str] = Field(
+        min_length=1,
+        max_length=3,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class STAdGroupSuccessResponse(LenientModel):
@@ -129,16 +187,29 @@ class STAdGroupSuccessResponse(LenientModel):
 
 class STAdGroupUpdate(StrictModel):
     adGroupId: str = Field(description="The unique identifier of the ad group.")
-    adProduct: Annotated[STAdProduct | str, lenient_enum(STAdProduct)] | None = Field(default=None)
+    adProduct: STAdProduct | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `SPONSORED_TELEVISION`: Sponsored Television ad product.
+""",
+    )
     bid: STUpdateAdGroupBid | None = Field(default=None)
-    marketplaces: list[Annotated[STMarketplace | str, lenient_enum(STMarketplace)]] | None = Field(
+    marketplaces: list[STMarketplace | str] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
     )
     name: str | None = Field(default=None, description="The name of the ad group.")
-    state: Annotated[STUpdateState | str, lenient_enum(STUpdateState)] | None = Field(default=None)
+    state: STUpdateState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class STCreateAdGroupBid(StrictModel):

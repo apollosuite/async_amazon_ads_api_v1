@@ -2,190 +2,190 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
+
+type AudienceSegmentAudienceSegmentType = Literal["BEHAVIOR_DYNAMIC", "SPONSORED_ADS_AMC"]
+"""
+Type of audience segment.
+"""
 
 
-class AudienceSegmentAudienceSegmentType(StrEnum):
-    """
-    Type of audience segment.
-    """
-
-    BEHAVIOR_DYNAMIC = "BEHAVIOR_DYNAMIC"
-    SPONSORED_ADS_AMC = "SPONSORED_ADS_AMC"
+type BiddingStrategyRecommendationAction = Literal["UPDATE"]
+"""
+Type of suggested action.
+"""
 
 
-class BiddingStrategyRecommendationAction(StrEnum):
-    """
-    Type of suggested action.
-    """
+type BiddingStrategyRecommendationSuggestedBiddingStrategy = Literal[
+    "AUTO_FOR_SALES",  # Dynamic bids - up and down | Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
+    "LEGACY_FOR_SALES",  # Dynamic bids - down only | Lowers your bids in real time when your ad may be less likely to convert to a sale. Campaigns created before the release of the bidding controls feature used this setting by default.
+    "MANUAL",  # Fixed bid | Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
+]
+"""
+The suggested bidding strategy value for the campaign.
 
-    UPDATE = "UPDATE"
-
-
-class BiddingStrategyRecommendationSuggestedBiddingStrategy(StrEnum):
-    """
-    The suggested bidding strategy value for the campaign.
-    """
-
-    AUTO_FOR_SALES = "AUTO_FOR_SALES"  # Dynamic bids - up and down | Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
-    LEGACY_FOR_SALES = "LEGACY_FOR_SALES"  # Dynamic bids - down only | Lowers your bids in real time when your ad may be less likely to convert to a sale. Campaigns created before the release of the bidding controls feature used this setting by default.
-    MANUAL = "MANUAL"  # Fixed bid | Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
+Supported values:
+- `LEGACY_FOR_SALES`: Dynamic bids - down only | Lowers your bids in real time when your ad may be less likely to convert to a sale. Campaigns created before the release of the bidding controls feature used this setting by default.
+- `AUTO_FOR_SALES`: Dynamic bids - up and down | Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
+- `MANUAL`: Fixed bid | Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
+"""
 
 
-class BudgetRecommendationAction(StrEnum):
-    """
-    Type of suggested action.
-    """
-
-    DECREASE = "DECREASE"
-    INCREASE = "INCREASE"
+type BudgetRecommendationAction = Literal["DECREASE", "INCREASE"]
+"""
+Type of suggested action.
+"""
 
 
-class KeywordTargetingRecommendationAction(StrEnum):
-    """
-    Type of action for the keyword targeting.
-    """
-
-    ADD = "ADD"
-    DECREASE = "DECREASE"
-    INCREASE = "INCREASE"
-    REMOVE = "REMOVE"
-    UPDATE = "UPDATE"
-
-
-class KeywordTargetingRecommendationMatchType(StrEnum):
-    """
-    Keyword match type. | Value | Description | | --- | --- | | `BROAD` | Use BROAD to broadly match your keyword targeting ads with search queries.| | `EXACT` | Use EXACT to exactly match your keyword targeting ads with search queries.| | `PHRASE` | Use PHRASE to match your keyword targeting ads with search phrases.| | `GROUP` | Use GROUP to match your keyword targeting ads with keyword group. |
-    """
-
-    BROAD = "BROAD"
-    EXACT = "EXACT"
-    GROUP = "GROUP"
-    PHRASE = "PHRASE"
+type KeywordTargetingRecommendationAction = Literal[
+    "ADD",
+    "DECREASE",
+    "INCREASE",
+    "REMOVE",
+    "UPDATE",
+]
+"""
+Type of action for the keyword targeting.
+"""
 
 
-class PlacementBiddingRecommendationAction(StrEnum):
-    """
-    Type of suggested action.
-    """
-
-    ADD = "ADD"
-    DECREASE = "DECREASE"
-    INCREASE = "INCREASE"
-    REMOVE = "REMOVE"
-
-
-class PlacementBiddingRecommendationPlacementType(StrEnum):
-    """
-    The placement type.
-    """
-
-    PLACEMENT_PRODUCT_PAGE = "PLACEMENT_PRODUCT_PAGE"
-    PLACEMENT_REST_OF_SEARCH = "PLACEMENT_REST_OF_SEARCH"
-    PLACEMENT_TOP = "PLACEMENT_TOP"
+type KeywordTargetingRecommendationMatchType = Literal[
+    "BROAD",
+    "EXACT",
+    "GROUP",
+    "PHRASE",
+]
+"""
+Keyword match type. | Value | Description | | --- | --- | | `BROAD` | Use BROAD to broadly match your keyword targeting ads with search queries.| | `EXACT` | Use EXACT to exactly match your keyword targeting ads with search queries.| | `PHRASE` | Use PHRASE to match your keyword targeting ads with search phrases.| | `GROUP` | Use GROUP to match your keyword targeting ads with keyword group. |
+"""
 
 
-class RecommendationType(StrEnum):
-    """
-    Type of recommendations requested.
-    """
-
-    BIDDING_STRATEGY = "BIDDING_STRATEGY"  # Recommendation for the campaign bidding strategy.
-    BUDGET_STRATEGY = "BUDGET_STRATEGY"  # Recommendation for the campaign budget.
-    KEYWORD = "KEYWORD"  # Recommendations related to campaign keywords targeting.
-    KEYWORD_GROUP = "KEYWORD_GROUP"  # Recommendation related to Keyword groups. Keyword Groups is a new control for Amazon Ads Sponsored Products keyword-based campaigns that enables advertisers to reach relevant audiences through a collection of keywords.
-    PLACEMENT_BIDDING = (
-        "PLACEMENT_BIDDING"  # Bid recommendations for campaign placements such as top of search, rest of search etc.
-    )
-    SHOPPER_COHORT = (
-        "SHOPPER_COHORT"  # Bid adjustment recommendations for the shopper cohorts (audiences) attached to the campaign.
-    )
+type PlacementBiddingRecommendationAction = Literal[
+    "ADD",
+    "DECREASE",
+    "INCREASE",
+    "REMOVE",
+]
+"""
+Type of suggested action.
+"""
 
 
-class ShopperCohortBiddingRecommendationAction(StrEnum):
-    """
-    Recommended action for shopper cohort bidding.
-    """
-
-    ADD = "ADD"
-    REMOVE = "REMOVE"
-    UPDATE = "UPDATE"
+type PlacementBiddingRecommendationPlacementType = Literal[
+    "PLACEMENT_PRODUCT_PAGE", "PLACEMENT_REST_OF_SEARCH", "PLACEMENT_TOP"
+]
+"""
+The placement type.
+"""
 
 
-class ShopperCohortBiddingRecommendationShopperCohortType(StrEnum):
-    """
-    Type of shopper cohort.
-    """
+type RecommendationType = Literal[
+    "BIDDING_STRATEGY",  # Recommendation for the campaign bidding strategy.
+    "BUDGET_STRATEGY",  # Recommendation for the campaign budget.
+    "KEYWORD",  # Recommendations related to campaign keywords targeting.
+    "KEYWORD_GROUP",  # Recommendation related to Keyword groups. Keyword Groups is a new control for Amazon Ads Sponsored Products keyword-based campaigns that enables advertisers to reach relevant audiences through a collection of keywords.
+    "PLACEMENT_BIDDING",  # Bid recommendations for campaign placements such as top of search, rest of search etc.
+    "SHOPPER_COHORT",  # Bid adjustment recommendations for the shopper cohorts (audiences) attached to the campaign.
+]
+"""
+Type of recommendations requested.
 
-    AUDIENCE_SEGMENT = "AUDIENCE_SEGMENT"
+Supported values:
+- `BIDDING_STRATEGY`: Recommendation for the campaign bidding strategy.
+- `KEYWORD`: Recommendations related to campaign keywords targeting.
+- `KEYWORD_GROUP`: Recommendation related to Keyword groups. Keyword Groups is a new control for Amazon Ads Sponsored Products keyword-based campaigns that enables advertisers to reach relevant audiences through a collection of keywords.
+- `BUDGET_STRATEGY`: Recommendation for the campaign budget.
+- `PLACEMENT_BIDDING`: Bid recommendations for campaign placements such as top of search, rest of search etc.
+- `SHOPPER_COHORT`: Bid adjustment recommendations for the shopper cohorts (audiences) attached to the campaign.
+"""
 
 
-class TargetingGroupBidRecommendationAction(StrEnum):
-    """
-    Type of suggested action.
-    """
-
-    ADD = "ADD"
-    DECREASE = "DECREASE"
-    INCREASE = "INCREASE"
-    REMOVE = "REMOVE"
+type ShopperCohortBiddingRecommendationAction = Literal["ADD", "REMOVE", "UPDATE"]
+"""
+Recommended action for shopper cohort bidding.
+"""
 
 
-class TargetingGroupBidRecommendationTargetingGroupExpression(StrEnum):
-    """
-    The type of targeting group expression.
-    """
+type ShopperCohortBiddingRecommendationShopperCohortType = Literal["AUDIENCE_SEGMENT"]
+"""
+Type of shopper cohort.
+"""
 
-    CLOSE_MATCH = (
-        "CLOSE_MATCH"  # This will show your ad to shoppers who use search terms closely related to your products.
-    )
-    COMPLEMENTS = "COMPLEMENTS"  # This will show your ad to shoppers who view the detail pages of products that complement your product.
-    LOOSE_MATCH = (
-        "LOOSE_MATCH"  # This will show your ad to shoppers who use search terms loosely related to your products.
-    )
-    SUBSTITUTES = "SUBSTITUTES"  # This will show your ad to shoppers who use detail pages of products similar to yours.
+
+type TargetingGroupBidRecommendationAction = Literal[
+    "ADD",
+    "DECREASE",
+    "INCREASE",
+    "REMOVE",
+]
+"""
+Type of suggested action.
+"""
+
+
+type TargetingGroupBidRecommendationTargetingGroupExpression = Literal[
+    "CLOSE_MATCH",  # This will show your ad to shoppers who use search terms closely related to your products.
+    "COMPLEMENTS",  # This will show your ad to shoppers who view the detail pages of products that complement your product.
+    "LOOSE_MATCH",  # This will show your ad to shoppers who use search terms loosely related to your products.
+    "SUBSTITUTES",  # This will show your ad to shoppers who use detail pages of products similar to yours.
+]
+"""
+The type of targeting group expression.
+
+Supported values:
+- `LOOSE_MATCH`: This will show your ad to shoppers who use search terms loosely related to your products.
+- `CLOSE_MATCH`: This will show your ad to shoppers who use search terms closely related to your products.
+- `COMPLEMENTS`: This will show your ad to shoppers who view the detail pages of products that complement your product.
+- `SUBSTITUTES`: This will show your ad to shoppers who use detail pages of products similar to yours.
+"""
 
 
 class AudienceSegment(LenientModel):
     audienceId: str = Field(description="Unique identifier for the audience segment.")
-    audienceSegmentType: Annotated[
-        AudienceSegmentAudienceSegmentType | str, lenient_enum(AudienceSegmentAudienceSegmentType)
-    ] = Field(description="Type of audience segment.")
+    audienceSegmentType: AudienceSegmentAudienceSegmentType | str = Field(description="Type of audience segment.")
 
 
 class BiddingStrategyRecommendation(LenientModel):
     """Contains suggested recommendation for the campaign bidding strategy."""
 
-    action: (
-        Annotated[BiddingStrategyRecommendationAction | str, lenient_enum(BiddingStrategyRecommendationAction)] | None
-    ) = Field(default=None, description="Type of suggested action.")
-    suggestedBiddingStrategy: (
-        Annotated[
-            BiddingStrategyRecommendationSuggestedBiddingStrategy | str,
-            lenient_enum(BiddingStrategyRecommendationSuggestedBiddingStrategy),
-        ]
-        | None
-    ) = Field(default=None, description="The suggested bidding strategy value for the campaign.")
+    action: BiddingStrategyRecommendationAction | str | None = Field(
+        default=None, description="Type of suggested action."
+    )
+    suggestedBiddingStrategy: BiddingStrategyRecommendationSuggestedBiddingStrategy | str | None = Field(
+        default=None,
+        description="""
+The suggested bidding strategy value for the campaign.
+
+Supported values:
+- `LEGACY_FOR_SALES`: Dynamic bids - down only | Lowers your bids in real time when your ad may be less likely to convert to a sale. Campaigns created before the release of the bidding controls feature used this setting by default.
+- `AUTO_FOR_SALES`: Dynamic bids - up and down | Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
+- `MANUAL`: Fixed bid | Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
+""",
+    )
 
 
 class BudgetRecommendation(LenientModel):
     """Contains suggested recommendation for the campaign budget."""
 
-    action: Annotated[BudgetRecommendationAction | str, lenient_enum(BudgetRecommendationAction)] | None = Field(
-        default=None, description="Type of suggested action."
-    )
+    action: BudgetRecommendationAction | str | None = Field(default=None, description="Type of suggested action.")
     suggestedBudget: float | None = Field(default=None, description="The suggested budget value for the campaign.")
 
 
 class Campaign(StrictModel):
     campaignId: str = Field(description="The identifier of the campaign.")
-    recommendationType: Annotated[RecommendationType | str, lenient_enum(RecommendationType)]
+    recommendationType: RecommendationType = Field(description="""
+Supported values:
+- `BIDDING_STRATEGY`: Recommendation for the campaign bidding strategy.
+- `KEYWORD`: Recommendations related to campaign keywords targeting.
+- `KEYWORD_GROUP`: Recommendation related to Keyword groups. Keyword Groups is a new control for Amazon Ads Sponsored Products keyword-based campaigns that enables advertisers to reach relevant audiences through a collection of keywords.
+- `BUDGET_STRATEGY`: Recommendation for the campaign budget.
+- `PLACEMENT_BIDDING`: Bid recommendations for campaign placements such as top of search, rest of search etc.
+- `SHOPPER_COHORT`: Bid adjustment recommendations for the shopper cohorts (audiences) attached to the campaign.
+""")
 
 
 class CampaignRecommendation(LenientModel):
@@ -274,16 +274,13 @@ class GetCampaignRecommendationsResponseV2(LenientModel):
 class KeywordTargetingRecommendation(LenientModel):
     """Contains suggested recommendation for the keyword targeting."""
 
-    action: (
-        Annotated[KeywordTargetingRecommendationAction | str, lenient_enum(KeywordTargetingRecommendationAction)] | None
-    ) = Field(default=None, description="Type of action for the keyword targeting.")
+    action: KeywordTargetingRecommendationAction | str | None = Field(
+        default=None, description="Type of action for the keyword targeting."
+    )
     adGroupId: str | None = Field(default=None, description="The ad group identifier.")
     keywordId: str | None = Field(default=None, description="The identifier of the keyword targeting.")
     keywordText: str | None = Field(default=None, description="The keyword text.")
-    matchType: (
-        Annotated[KeywordTargetingRecommendationMatchType | str, lenient_enum(KeywordTargetingRecommendationMatchType)]
-        | None
-    ) = Field(
+    matchType: KeywordTargetingRecommendationMatchType | str | None = Field(
         default=None,
         description="Keyword match type. | Value | Description | | --- | --- | | `BROAD` | Use BROAD to broadly match your keyword targeting ads with search queries.| | `EXACT` | Use EXACT to exactly match your keyword targeting ads with search queries.| | `PHRASE` | Use PHRASE to match your keyword targeting ads with search phrases.| | `GROUP` | Use GROUP to match your keyword targeting ads with keyword group. |",
     )
@@ -295,9 +292,9 @@ class KeywordTargetingRecommendation(LenientModel):
 class PlacementBiddingRecommendation(LenientModel):
     """Contains suggested recommendation for a placement bid adjustment."""
 
-    action: (
-        Annotated[PlacementBiddingRecommendationAction | str, lenient_enum(PlacementBiddingRecommendationAction)] | None
-    ) = Field(default=None, description="Type of suggested action.")
+    action: PlacementBiddingRecommendationAction | str | None = Field(
+        default=None, description="Type of suggested action."
+    )
     incrementalImpressionsLowerPercent: int | None = Field(
         default=None,
         description="Lower bound of the estimated incremental impressions that could be gained if this optimization used",
@@ -306,12 +303,9 @@ class PlacementBiddingRecommendation(LenientModel):
         default=None,
         description="Upper bound of the estimated incremental impressions that could be gained if this optimization used",
     )
-    placementType: (
-        Annotated[
-            PlacementBiddingRecommendationPlacementType | str, lenient_enum(PlacementBiddingRecommendationPlacementType)
-        ]
-        | None
-    ) = Field(default=None, description="The placement type.")
+    placementType: PlacementBiddingRecommendationPlacementType | str | None = Field(
+        default=None, description="The placement type."
+    )
     suggestedBidAdjustment: float | None = Field(
         default=None, description="The suggested bid adjustment percent value for this placement type."
     )
@@ -321,7 +315,15 @@ class Recommendation(LenientModel):
     campaignId: str = Field(description="The identifier of the campaign.")
     forecastEstimates: ForecastEstimates | None = Field(default=None)
     recommendationDetails: RecommendationDetails
-    recommendationType: Annotated[RecommendationType | str, lenient_enum(RecommendationType)]
+    recommendationType: RecommendationType | str = Field(description="""
+Supported values:
+- `BIDDING_STRATEGY`: Recommendation for the campaign bidding strategy.
+- `KEYWORD`: Recommendations related to campaign keywords targeting.
+- `KEYWORD_GROUP`: Recommendation related to Keyword groups. Keyword Groups is a new control for Amazon Ads Sponsored Products keyword-based campaigns that enables advertisers to reach relevant audiences through a collection of keywords.
+- `BUDGET_STRATEGY`: Recommendation for the campaign budget.
+- `PLACEMENT_BIDDING`: Bid recommendations for campaign placements such as top of search, rest of search etc.
+- `SHOPPER_COHORT`: Bid adjustment recommendations for the shopper cohorts (audiences) attached to the campaign.
+""")
 
 
 class RecommendationDetails(LenientModel):
@@ -359,38 +361,41 @@ class SevenDaysEstimatedOpportunities(LenientModel):
 
 
 class ShopperCohortBiddingRecommendation(LenientModel):
-    action: Annotated[
-        ShopperCohortBiddingRecommendationAction | str, lenient_enum(ShopperCohortBiddingRecommendationAction)
-    ] = Field(description="Recommended action for shopper cohort bidding.")
+    action: ShopperCohortBiddingRecommendationAction | str = Field(
+        description="Recommended action for shopper cohort bidding."
+    )
     audienceSegments: list[AudienceSegment] = Field(
         min_length=1, max_length=10, description="List of audience segments for this recommendation."
     )
     percentage: int = Field(ge=0, le=900, description="Bid adjustment percentage (basis points, e.g., 900 = 9%).")
-    shopperCohortType: Annotated[
-        ShopperCohortBiddingRecommendationShopperCohortType | str,
-        lenient_enum(ShopperCohortBiddingRecommendationShopperCohortType),
-    ] = Field(description="Type of shopper cohort.")
+    shopperCohortType: ShopperCohortBiddingRecommendationShopperCohortType | str = Field(
+        description="Type of shopper cohort."
+    )
 
 
 class TargetingGroupBidRecommendation(LenientModel):
     """Contains suggested recommendation for the auto targeting group."""
 
-    action: (
-        Annotated[TargetingGroupBidRecommendationAction | str, lenient_enum(TargetingGroupBidRecommendationAction)]
-        | None
-    ) = Field(default=None, description="Type of suggested action.")
+    action: TargetingGroupBidRecommendationAction | str | None = Field(
+        default=None, description="Type of suggested action."
+    )
     adGroupId: str | None = Field(default=None, description="The ad group identifier.")
     suggestedBid: float | None = Field(
         default=None, description="The suggested bid value associated with this targeting."
     )
     targetId: str | None = Field(default=None, description="The target identifier.")
-    targetingGroupExpression: (
-        Annotated[
-            TargetingGroupBidRecommendationTargetingGroupExpression | str,
-            lenient_enum(TargetingGroupBidRecommendationTargetingGroupExpression),
-        ]
-        | None
-    ) = Field(default=None, description="The type of targeting group expression.")
+    targetingGroupExpression: TargetingGroupBidRecommendationTargetingGroupExpression | str | None = Field(
+        default=None,
+        description="""
+The type of targeting group expression.
+
+Supported values:
+- `LOOSE_MATCH`: This will show your ad to shoppers who use search terms loosely related to your products.
+- `CLOSE_MATCH`: This will show your ad to shoppers who use search terms closely related to your products.
+- `COMPLEMENTS`: This will show your ad to shoppers who view the detail pages of products that complement your product.
+- `SUBSTITUTES`: This will show your ad to shoppers who use detail pages of products similar to yours.
+""",
+    )
 
 
 __all__ = [

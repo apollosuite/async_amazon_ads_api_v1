@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.sp import (
     SPAdProduct,
     SPCreateState,
@@ -27,45 +25,53 @@ from ads_api.models.v1._shared.sp import (
     SPUpdateState,
 )
 
+type SPAdGroupNameFilterType = Literal[
+    "BROAD_MATCH",  # Filter by broad match.
+    "EXACT_MATCH",  # Filter by exact match.
+]
+"""
+Supported values:
+- `EXACT_MATCH`: Filter by exact match.
+- `BROAD_MATCH`: Filter by broad match.
+"""
 
-class SPAdGroupNameFilterType(StrEnum):
-    BROAD_MATCH = "BROAD_MATCH"  # Filter by broad match.
-    EXACT_MATCH = "EXACT_MATCH"  # Filter by exact match.
 
-
-class SPMarketplace(StrEnum):
-    """
-    A list of country codes representing Amazon marketplaces
-    """
-
-    AE = "AE"
-    AU = "AU"
-    BE = "BE"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    EG = "EG"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IE = "IE"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    NL = "NL"
-    PL = "PL"
-    SA = "SA"
-    SE = "SE"
-    SG = "SG"
-    TR = "TR"
-    US = "US"
-    ZA = "ZA"
+type SPMarketplace = Literal[
+    "AE",
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "DE",
+    "EG",
+    "ES",
+    "FR",
+    "GB",
+    "IE",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "PL",
+    "SA",
+    "SE",
+    "SG",
+    "TR",
+    "US",
+    "ZA",
+]
+"""
+A list of country codes representing Amazon marketplaces
+"""
 
 
 class SPAdGroup(LenientModel):
     adGroupId: str = Field(description="The unique identifier of the ad group.")
-    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
+    adProduct: SPAdProduct | str = Field(description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""")
     adSettings: SPAdSettings | None = Field(default=None)
     bid: SPAdGroupBid
     campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
@@ -74,14 +80,19 @@ class SPAdGroup(LenientModel):
         default=None, description="The global adGroup identifier that manages this marketplace adGroup."
     )
     lastUpdatedDateTime: datetime = Field(description="The date time that the ad group was last updated.")
-    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
-    marketplaces: list[Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]] = Field(
+    marketplaceScope: SPMarketplaceScope | str
+    marketplaces: list[SPMarketplace | str] = Field(
         min_length=1,
         max_length=1,
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
     )
     name: str = Field(description="The name of the ad group.")
-    state: Annotated[SPState | str, lenient_enum(SPState)]
+    state: SPState | str = Field(description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     status: SPStatus | None = Field(default=None)
     tags: list[SPTag] | None = Field(
         default=None,
@@ -96,11 +107,44 @@ class SPAdGroupAdGroupIdFilter(StrictModel):
 
 
 class SPAdGroupAdProductFilter(StrictModel):
-    include: list[Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[SPAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""",
+    )
 
 
 class SPAdGroupBid(LenientModel):
-    currencyCode: Annotated[SPCurrencyCode | str, lenient_enum(SPCurrencyCode)]
+    currencyCode: SPCurrencyCode | str = Field(description="""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CNY`: Chinese Yuan
+- `DKK`: Danish Krone
+- `EGP`: Egyptian Pound
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `INR`: Indian Rupee
+- `JPY`: Japanese Yen
+- `MXN`: Mexican Peso
+- `MXP`: Mexican Peso
+- `NGN`: Nigerian Naira
+- `NOK`: Norwegian Krone
+- `NZD`: New Zealand Dollar
+- `PLN`: Polish Złoty
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `TRY`: Turkish Lira
+- `USD`: United States Dollar
+- `ZAR`: South African Rand
+""")
     defaultBid: float = Field(
         description="The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction."
     )
@@ -111,12 +155,19 @@ class SPAdGroupCampaignIdFilter(StrictModel):
 
 
 class SPAdGroupCreate(StrictModel):
-    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
+    adProduct: SPAdProduct = Field(description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""")
     adSettings: SPCreateAdSettings | None = Field(default=None)
     bid: SPCreateAdGroupBid
     campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
     name: str = Field(description="The name of the ad group.")
-    state: Annotated[SPCreateState | str, lenient_enum(SPCreateState)]
+    state: SPCreateState = Field(description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -137,11 +188,24 @@ class SPAdGroupMultiStatusSuccess(LenientModel):
 
 class SPAdGroupNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[SPAdGroupNameFilterType | str, lenient_enum(SPAdGroupNameFilterType)]
+    queryTermMatchType: SPAdGroupNameFilterType = Field(description="""
+Supported values:
+- `EXACT_MATCH`: Filter by exact match.
+- `BROAD_MATCH`: Filter by broad match.
+""")
 
 
 class SPAdGroupStateFilter(StrictModel):
-    include: list[Annotated[SPState | str, lenient_enum(SPState)]] = Field(min_length=1, max_length=3)
+    include: list[SPState | str] = Field(
+        min_length=1,
+        max_length=3,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class SPAdGroupSuccessResponse(LenientModel):
@@ -154,7 +218,14 @@ class SPAdGroupUpdate(StrictModel):
     adSettings: SPUpdateAdSettings | None = Field(default=None)
     bid: SPUpdateAdGroupBid | None = Field(default=None)
     name: str | None = Field(default=None, description="The name of the ad group.")
-    state: Annotated[SPUpdateState | str, lenient_enum(SPUpdateState)] | None = Field(default=None)
+    state: SPUpdateState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,

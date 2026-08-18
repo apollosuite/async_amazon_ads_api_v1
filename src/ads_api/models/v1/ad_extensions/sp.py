@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.sp import (
     SPAdProduct,
     SPCreateState,
@@ -24,85 +22,106 @@ from ads_api.models.v1._shared.sp import (
     SPUpdateState,
 )
 
+type SPAdExtensionStatus = Literal["OPTED_OUT",]  # If the advertiser has opted out of this Ad Extension.
+"""
+Ad Extension Status.
 
-class SPAdExtensionStatus(StrEnum):
-    """
-    Ad Extension Status.
-    """
-
-    OPTED_OUT = "OPTED_OUT"  # If the advertiser has opted out of this Ad Extension.
-
-
-class SPAdExtensionType(StrEnum):
-    """
-    Ad Extension Type.
-    """
-
-    PROMPTS = "PROMPTS"  # Enables Prompt based Ad Extension.
-    VIDEO = "VIDEO"  # Enables Video based Ad Extension.
+Supported values:
+- `OPTED_OUT`: If the advertiser has opted out of this Ad Extension.
+"""
 
 
-class SPMarketplace(StrEnum):
-    """
-    A list of country codes representing Amazon marketplaces
-    """
+type SPAdExtensionType = Literal[
+    "PROMPTS",  # Enables Prompt based Ad Extension.
+    "VIDEO",  # Enables Video based Ad Extension.
+]
+"""
+Ad Extension Type.
 
-    AE = "AE"
-    AU = "AU"
-    BE = "BE"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    EG = "EG"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IE = "IE"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    NL = "NL"
-    PL = "PL"
-    SA = "SA"
-    SE = "SE"
-    SG = "SG"
-    TR = "TR"
-    US = "US"
-    ZA = "ZA"
+Supported values:
+- `PROMPTS`: Enables Prompt based Ad Extension.
+- `VIDEO`: Enables Video based Ad Extension.
+"""
 
 
-class SPVideoType(StrEnum):
-    """
-    Video Type: Video type of the asset added in the ad extension and its rendering form.
-    """
+type SPMarketplace = Literal[
+    "AE",
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "DE",
+    "EG",
+    "ES",
+    "FR",
+    "GB",
+    "IE",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "PL",
+    "SA",
+    "SE",
+    "SG",
+    "TR",
+    "US",
+    "ZA",
+]
+"""
+A list of country codes representing Amazon marketplaces
+"""
 
-    SPOTLIGHT = "SPOTLIGHT"  # SPOTLIGHT Video Asset.
+
+type SPVideoType = Literal["SPOTLIGHT",]  # SPOTLIGHT Video Asset.
+"""
+Video Type: Video type of the asset added in the ad extension and its rendering form.
+
+Supported values:
+- `SPOTLIGHT`: SPOTLIGHT Video Asset.
+"""
 
 
 class SPAdExtension(LenientModel):
     adExtensionId: str = Field(description="A unique identifier for the ad_extension.")
     adExtensionSettings: SPAdExtensionSettings
-    adExtensionStatus: Annotated[SPAdExtensionStatus | str, lenient_enum(SPAdExtensionStatus)] | None = Field(
-        default=None
+    adExtensionStatus: SPAdExtensionStatus | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `OPTED_OUT`: If the advertiser has opted out of this Ad Extension.
+""",
     )
-    adExtensionType: Annotated[SPAdExtensionType | str, lenient_enum(SPAdExtensionType)]
+    adExtensionType: SPAdExtensionType | str = Field(description="""
+Supported values:
+- `PROMPTS`: Enables Prompt based Ad Extension.
+- `VIDEO`: Enables Video based Ad Extension.
+""")
     adGroupId: str | None = Field(
         default=None, description="A unique identifier for the ad group associated with the ad_extension."
     )
     adId: str | None = Field(
         default=None, description="A unique identifier for the ad associated with the ad_extension."
     )
-    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
+    adProduct: SPAdProduct | str = Field(description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""")
     creationDateTime: datetime = Field(description="The date time the ad_extension was created.")
     lastUpdatedDateTime: datetime = Field(description="The date time the ad_extension was last updated.")
-    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
-    marketplaces: list[Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]] = Field(
+    marketplaceScope: SPMarketplaceScope | str
+    marketplaces: list[SPMarketplace | str] = Field(
         min_length=1,
         max_length=1,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
     )
-    state: Annotated[SPState | str, lenient_enum(SPState)]
+    state: SPState | str = Field(description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     status: SPStatus | None = Field(default=None)
 
 
@@ -111,14 +130,25 @@ class SPAdExtensionAdExtensionIdFilter(StrictModel):
 
 
 class SPAdExtensionAdExtensionStatusFilter(StrictModel):
-    include: list[Annotated[SPAdExtensionStatus | str, lenient_enum(SPAdExtensionStatus)]] = Field(
-        min_length=1, max_length=1
+    include: list[SPAdExtensionStatus | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `OPTED_OUT`: If the advertiser has opted out of this Ad Extension.
+""",
     )
 
 
 class SPAdExtensionAdExtensionTypeFilter(StrictModel):
-    include: list[Annotated[SPAdExtensionType | str, lenient_enum(SPAdExtensionType)]] = Field(
-        min_length=1, max_length=1
+    include: list[SPAdExtensionType | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `PROMPTS`: Enables Prompt based Ad Extension.
+- `VIDEO`: Enables Video based Ad Extension.
+""",
     )
 
 
@@ -131,29 +161,51 @@ class SPAdExtensionAdIdFilter(StrictModel):
 
 
 class SPAdExtensionAdProductFilter(StrictModel):
-    include: list[Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[SPAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""",
+    )
 
 
 class SPAdExtensionCreate(StrictModel):
     adExtensionSettings: SPCreateAdExtensionSettings
-    adExtensionStatus: Annotated[SPAdExtensionStatus | str, lenient_enum(SPAdExtensionStatus)] | None = Field(
-        default=None
+    adExtensionStatus: SPAdExtensionStatus | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `OPTED_OUT`: If the advertiser has opted out of this Ad Extension.
+""",
     )
-    adExtensionType: Annotated[SPAdExtensionType | str, lenient_enum(SPAdExtensionType)]
+    adExtensionType: SPAdExtensionType = Field(description="""
+Supported values:
+- `PROMPTS`: Enables Prompt based Ad Extension.
+- `VIDEO`: Enables Video based Ad Extension.
+""")
     adGroupId: str | None = Field(
         default=None, description="A unique identifier for the ad group associated with the ad_extension."
     )
     adId: str | None = Field(
         default=None, description="A unique identifier for the ad associated with the ad_extension."
     )
-    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
-    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
-    marketplaces: list[Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]] = Field(
+    adProduct: SPAdProduct = Field(description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""")
+    marketplaceScope: SPMarketplaceScope
+    marketplaces: list[SPMarketplace | str] = Field(
         min_length=1,
         max_length=1,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
     )
-    state: Annotated[SPCreateState | str, lenient_enum(SPCreateState)]
+    state: SPCreateState = Field(description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
 
 
 class SPAdExtensionMultiStatusResponse(LenientModel):
@@ -178,7 +230,16 @@ type SPAdExtensionSettings = SPAdExtensionSettingsPromptExtension | SPAdExtensio
 
 
 class SPAdExtensionStateFilter(StrictModel):
-    include: list[Annotated[SPState | str, lenient_enum(SPState)]] = Field(min_length=1, max_length=3)
+    include: list[SPState | str] = Field(
+        min_length=1,
+        max_length=3,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class SPAdExtensionSuccessResponse(LenientModel):
@@ -188,7 +249,14 @@ class SPAdExtensionSuccessResponse(LenientModel):
 
 class SPAdExtensionUpdate(StrictModel):
     adExtensionId: str = Field(description="A unique identifier for the ad_extension.")
-    state: Annotated[SPUpdateState | str, lenient_enum(SPUpdateState)] | None = Field(default=None)
+    state: SPUpdateState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class SPCreateAdExtensionRequest(StrictModel):
@@ -247,7 +315,10 @@ class SPVideoExtension(LenientModel):
     renderedCoverImageUrl: str | None = Field(
         default=None, description="The image displayed over the video player before the video is played."
     )
-    videoType: Annotated[SPVideoType | str, lenient_enum(SPVideoType)]
+    videoType: SPVideoType | str = Field(description="""
+Supported values:
+- `SPOTLIGHT`: SPOTLIGHT Video Asset.
+""")
 
 
 __all__ = [

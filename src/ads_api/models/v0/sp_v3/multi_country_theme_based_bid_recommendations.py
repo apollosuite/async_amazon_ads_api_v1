@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     BidAnalyses,
     BidAnalysesPerPlacement,
@@ -18,19 +16,19 @@ from ads_api.models.v0._shared import (
     Theme,
 )
 
-
-class MultiCountryTargetingExpressionType(StrEnum):
-    CLOSE_MATCH = "CLOSE_MATCH"
-    COMPLEMENTS = "COMPLEMENTS"
-    KEYWORD_BROAD_MATCH = "KEYWORD_BROAD_MATCH"
-    KEYWORD_EXACT_MATCH = "KEYWORD_EXACT_MATCH"
-    KEYWORD_GROUP = "KEYWORD_GROUP"
-    KEYWORD_PHRASE_MATCH = "KEYWORD_PHRASE_MATCH"
-    LOOSE_MATCH = "LOOSE_MATCH"
-    PAT_ASIN = "PAT_ASIN"
-    PAT_CATEGORY = "PAT_CATEGORY"
-    PAT_CATEGORY_REFINEMENT = "PAT_CATEGORY_REFINEMENT"
-    SUBSTITUTES = "SUBSTITUTES"
+type MultiCountryTargetingExpressionType = Literal[
+    "CLOSE_MATCH",
+    "COMPLEMENTS",
+    "KEYWORD_BROAD_MATCH",
+    "KEYWORD_EXACT_MATCH",
+    "KEYWORD_GROUP",
+    "KEYWORD_PHRASE_MATCH",
+    "LOOSE_MATCH",
+    "PAT_ASIN",
+    "PAT_CATEGORY",
+    "PAT_CATEGORY_REFINEMENT",
+    "SUBSTITUTES",
+]
 
 
 class MultiCountryBidAnalysesPerTargetingExpression(LenientModel):
@@ -53,7 +51,7 @@ class MultiCountryTargetingExpression(LenientModel):
     """The targeting expression. The `type` property specifies the targeting option. Use `CLOSE_MATCH` to match your auto targeting ads closely to the specified value. Use `LOOSE_MATCH` to match your auto targeting ads broadly to the specified value. Use `SUBSTITUTES` to display your auto targeting ads along with substitutable products. Use `COMPLEMENTS` to display your auto targeting ads along with affiliated products. Use `KEYWORD_BROAD_MATCH` to broadly match your keyword targeting ads with search queries. Use `KEYWORD_EXACT_MATCH` to exactly match your keyword targeting ads with search queries. Use `KEYWORD_PHRASE_MATCH` to match your keyword targeting ads with search phrases. your keyword targeting ads with search phrases. Use `PAT_ASIN` to match your product attribute targeting ads with product ASIN. Use `PAT_CATEGORY` to match your product attribute targeting ads with product category. Use `PAT_CATEGORY_REFINEMENT` to match your product attribute targeting ads with product attribute, including brand, price, rating, prime shipping eligible, age range and genre. Use `KEYWORD_GROUP` to match your keyword targeting ads with keyword group."""
 
     countryValues: dict[str, str] | None = Field(default=None)
-    type: Annotated[MultiCountryTargetingExpressionType | str, lenient_enum(MultiCountryTargetingExpressionType)]
+    type: MultiCountryTargetingExpressionType | str
 
 
 class MultiCountryThemeBasedBidRecommendation(LenientModel):
@@ -63,7 +61,7 @@ class MultiCountryThemeBasedBidRecommendation(LenientModel):
     bidRecommendationsForTargetingExpressions: list[MultiCountryBidRecommendationPerTargetingExpression] = Field(
         description="The bid recommendations for targeting expressions listed in the request."
     )
-    theme: Annotated[Theme | str, lenient_enum(Theme)]
+    theme: Theme | str
 
 
 class MultiCountryThemeBasedBidRecommendationResponse(LenientModel):

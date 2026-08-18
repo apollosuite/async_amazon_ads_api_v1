@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.sd import (
     SDAdProduct,
     SDCreateState,
@@ -26,50 +24,93 @@ from ads_api.models.v1._shared.sd import (
     SDUpdateState,
 )
 
+type SDAdGroupNameFilterType = Literal[
+    "BROAD_MATCH",  # Filter by broad match.
+    "EXACT_MATCH",  # Filter by exact match.
+]
+"""
+Supported values:
+- `EXACT_MATCH`: Filter by exact match.
+- `BROAD_MATCH`: Filter by broad match.
+"""
 
-class SDAdGroupNameFilterType(StrEnum):
-    BROAD_MATCH = "BROAD_MATCH"  # Filter by broad match.
-    EXACT_MATCH = "EXACT_MATCH"  # Filter by exact match.
+
+type SDCreativeType = Literal[
+    "IMAGE",  # An image creative.
+    "VIDEO",  # A video creative.
+]
+"""
+Supported values:
+- `IMAGE`: An image creative.
+- `VIDEO`: A video creative.
+"""
 
 
-class SDCreativeType(StrEnum):
-    IMAGE = "IMAGE"  # An image creative.
-    VIDEO = "VIDEO"  # A video creative.
-
-
-class SDKPI(StrEnum):
-    ADD_TO_CART = "ADD_TO_CART"  # Indicates a goal of driving improved add to cart
-    APPLICATIONS = "APPLICATIONS"  # Indicates a goal of driving applications
-    CHECKOUTS = "CHECKOUTS"  # Indicates a goal of driving improved checkouts
-    CLICKS = "CLICKS"  # Indicates a goal of driving clicks.
-    CONTACTS = "CONTACTS"  # Indicates a goal of driving improved contacts
-    LEADS = "LEADS"  # Indicates a goal of driving leads.
-    OTHER = "OTHER"  # Indicates a goal of driving other metric
-    PAGE_VIEWS = "PAGE_VIEWS"  # Indicates a goal of driving improved page views
-    PURCHASES = "PURCHASES"  # Indicates a goal of driving improved purchases
-    REACH = "REACH"  # Indicates a goal of driving improved reach.
-    SEARCH = "SEARCH"  # Indicates a goal of driving improved search
-    SIGN_UP = "SIGN_UP"  # Indicates a goal of driving improved sign up
-    SUBSCRIBE = "SUBSCRIBE"  # Indicates a goal of driving improved subscriptions
+type SDKPI = Literal[
+    "ADD_TO_CART",  # Indicates a goal of driving improved add to cart
+    "APPLICATIONS",  # Indicates a goal of driving applications
+    "CHECKOUTS",  # Indicates a goal of driving improved checkouts
+    "CLICKS",  # Indicates a goal of driving clicks.
+    "CONTACTS",  # Indicates a goal of driving improved contacts
+    "LEADS",  # Indicates a goal of driving leads.
+    "OTHER",  # Indicates a goal of driving other metric
+    "PAGE_VIEWS",  # Indicates a goal of driving improved page views
+    "PURCHASES",  # Indicates a goal of driving improved purchases
+    "REACH",  # Indicates a goal of driving improved reach.
+    "SEARCH",  # Indicates a goal of driving improved search
+    "SIGN_UP",  # Indicates a goal of driving improved sign up
+    "SUBSCRIBE",  # Indicates a goal of driving improved subscriptions
+]
+"""
+Supported values:
+- `ADD_TO_CART`: Indicates a goal of driving improved add to cart
+- `APPLICATIONS`: Indicates a goal of driving applications
+- `CHECKOUTS`: Indicates a goal of driving improved checkouts
+- `CLICKS`: Indicates a goal of driving clicks.
+- `CONTACTS`: Indicates a goal of driving improved contacts
+- `LEADS`: Indicates a goal of driving leads.
+- `OTHER`: Indicates a goal of driving other metric
+- `PAGE_VIEWS`: Indicates a goal of driving improved page views
+- `PURCHASES`: Indicates a goal of driving improved purchases
+- `REACH`: Indicates a goal of driving improved reach.
+- `SEARCH`: Indicates a goal of driving improved search
+- `SIGN_UP`: Indicates a goal of driving improved sign up
+- `SUBSCRIBE`: Indicates a goal of driving improved subscriptions
+"""
 
 
 class SDAdGroup(LenientModel):
     adGroupId: str = Field(description="The unique identifier of the ad group.")
-    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
+    adProduct: SDAdProduct | str = Field(description="""
+Supported values:
+- `SPONSORED_DISPLAY`: Sponsored Display ad product.
+""")
     bid: SDAdGroupBid | None = Field(default=None)
     campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
     creationDateTime: datetime = Field(description="The date time that the ad group was created.")
-    creativeType: Annotated[SDCreativeType | str, lenient_enum(SDCreativeType)] | None = Field(default=None)
+    creativeType: SDCreativeType | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `IMAGE`: An image creative.
+- `VIDEO`: A video creative.
+""",
+    )
     lastUpdatedDateTime: datetime = Field(description="The date time that the ad group was last updated.")
-    marketplaceScope: Annotated[SDMarketplaceScope | str, lenient_enum(SDMarketplaceScope)]
-    marketplaces: list[Annotated[SDMarketplace | str, lenient_enum(SDMarketplace)]] = Field(
+    marketplaceScope: SDMarketplaceScope | str
+    marketplaces: list[SDMarketplace | str] = Field(
         min_length=1,
         max_length=1,
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
     )
     name: str = Field(description="The name of the ad group.")
     optimization: SDOptimization | None = Field(default=None)
-    state: Annotated[SDState | str, lenient_enum(SDState)]
+    state: SDState | str = Field(description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     status: SDStatus | None = Field(default=None)
 
 
@@ -78,11 +119,44 @@ class SDAdGroupAdGroupIdFilter(StrictModel):
 
 
 class SDAdGroupAdProductFilter(StrictModel):
-    include: list[Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[SDAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `SPONSORED_DISPLAY`: Sponsored Display ad product.
+""",
+    )
 
 
 class SDAdGroupBid(LenientModel):
-    currencyCode: Annotated[SDCurrencyCode | str, lenient_enum(SDCurrencyCode)]
+    currencyCode: SDCurrencyCode | str = Field(description="""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CNY`: Chinese Yuan
+- `DKK`: Danish Krone
+- `EGP`: Egyptian Pound
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `INR`: Indian Rupee
+- `JPY`: Japanese Yen
+- `MXN`: Mexican Peso
+- `MXP`: Mexican Peso
+- `NGN`: Nigerian Naira
+- `NOK`: Norwegian Krone
+- `NZD`: New Zealand Dollar
+- `PLN`: Polish Złoty
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `TRY`: Turkish Lira
+- `USD`: United States Dollar
+- `ZAR`: South African Rand
+""")
     defaultBid: float | None = Field(
         default=None,
         description="The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.",
@@ -94,23 +168,55 @@ class SDAdGroupCampaignIdFilter(StrictModel):
 
 
 class SDAdGroupCreate(StrictModel):
-    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
+    adProduct: SDAdProduct = Field(description="""
+Supported values:
+- `SPONSORED_DISPLAY`: Sponsored Display ad product.
+""")
     bid: SDCreateAdGroupBid | None = Field(default=None)
     campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
-    creativeType: Annotated[SDCreativeType | str, lenient_enum(SDCreativeType)] | None = Field(default=None)
-    marketplaceScope: Annotated[SDMarketplaceScope | str, lenient_enum(SDMarketplaceScope)]
-    marketplaces: list[Annotated[SDMarketplace | str, lenient_enum(SDMarketplace)]] = Field(
+    creativeType: SDCreativeType | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `IMAGE`: An image creative.
+- `VIDEO`: A video creative.
+""",
+    )
+    marketplaceScope: SDMarketplaceScope
+    marketplaces: list[SDMarketplace | str] = Field(
         min_length=1,
         max_length=1,
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
     )
     name: str = Field(description="The name of the ad group.")
     optimization: SDCreateOptimization | None = Field(default=None)
-    state: Annotated[SDCreateState | str, lenient_enum(SDCreateState)]
+    state: SDCreateState = Field(description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
 
 
 class SDAdGroupGoalSettings(LenientModel):
-    kpi: Annotated[SDKPI | str, lenient_enum(SDKPI)] | None = Field(default=None)
+    kpi: SDKPI | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ADD_TO_CART`: Indicates a goal of driving improved add to cart
+- `APPLICATIONS`: Indicates a goal of driving applications
+- `CHECKOUTS`: Indicates a goal of driving improved checkouts
+- `CLICKS`: Indicates a goal of driving clicks.
+- `CONTACTS`: Indicates a goal of driving improved contacts
+- `LEADS`: Indicates a goal of driving leads.
+- `OTHER`: Indicates a goal of driving other metric
+- `PAGE_VIEWS`: Indicates a goal of driving improved page views
+- `PURCHASES`: Indicates a goal of driving improved purchases
+- `REACH`: Indicates a goal of driving improved reach.
+- `SEARCH`: Indicates a goal of driving improved search
+- `SIGN_UP`: Indicates a goal of driving improved sign up
+- `SUBSCRIBE`: Indicates a goal of driving improved subscriptions
+""",
+    )
 
 
 class SDAdGroupMultiStatusResponse(LenientModel):
@@ -125,11 +231,24 @@ class SDAdGroupMultiStatusSuccess(LenientModel):
 
 class SDAdGroupNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[SDAdGroupNameFilterType | str, lenient_enum(SDAdGroupNameFilterType)]
+    queryTermMatchType: SDAdGroupNameFilterType = Field(description="""
+Supported values:
+- `EXACT_MATCH`: Filter by exact match.
+- `BROAD_MATCH`: Filter by broad match.
+""")
 
 
 class SDAdGroupStateFilter(StrictModel):
-    include: list[Annotated[SDState | str, lenient_enum(SDState)]] = Field(min_length=1, max_length=3)
+    include: list[SDState | str] = Field(
+        min_length=1,
+        max_length=3,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class SDAdGroupSuccessResponse(LenientModel):
@@ -142,7 +261,14 @@ class SDAdGroupUpdate(StrictModel):
     bid: SDUpdateAdGroupBid | None = Field(default=None)
     name: str | None = Field(default=None, description="The name of the ad group.")
     optimization: SDUpdateOptimization | None = Field(default=None)
-    state: Annotated[SDUpdateState | str, lenient_enum(SDUpdateState)] | None = Field(default=None)
+    state: SDUpdateState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class SDCreateAdGroupBid(StrictModel):
@@ -153,7 +279,25 @@ class SDCreateAdGroupBid(StrictModel):
 
 
 class SDCreateAdGroupGoalSettings(StrictModel):
-    kpi: Annotated[SDKPI | str, lenient_enum(SDKPI)] | None = Field(default=None)
+    kpi: SDKPI | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ADD_TO_CART`: Indicates a goal of driving improved add to cart
+- `APPLICATIONS`: Indicates a goal of driving applications
+- `CHECKOUTS`: Indicates a goal of driving improved checkouts
+- `CLICKS`: Indicates a goal of driving clicks.
+- `CONTACTS`: Indicates a goal of driving improved contacts
+- `LEADS`: Indicates a goal of driving leads.
+- `OTHER`: Indicates a goal of driving other metric
+- `PAGE_VIEWS`: Indicates a goal of driving improved page views
+- `PURCHASES`: Indicates a goal of driving improved purchases
+- `REACH`: Indicates a goal of driving improved reach.
+- `SEARCH`: Indicates a goal of driving improved search
+- `SIGN_UP`: Indicates a goal of driving improved sign up
+- `SUBSCRIBE`: Indicates a goal of driving improved subscriptions
+""",
+    )
 
 
 class SDCreateAdGroupRequest(StrictModel):
@@ -190,7 +334,25 @@ class SDUpdateAdGroupBid(StrictModel):
 
 
 class SDUpdateAdGroupGoalSettings(StrictModel):
-    kpi: Annotated[SDKPI | str, lenient_enum(SDKPI)] | None = Field(default=None)
+    kpi: SDKPI | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ADD_TO_CART`: Indicates a goal of driving improved add to cart
+- `APPLICATIONS`: Indicates a goal of driving applications
+- `CHECKOUTS`: Indicates a goal of driving improved checkouts
+- `CLICKS`: Indicates a goal of driving clicks.
+- `CONTACTS`: Indicates a goal of driving improved contacts
+- `LEADS`: Indicates a goal of driving leads.
+- `OTHER`: Indicates a goal of driving other metric
+- `PAGE_VIEWS`: Indicates a goal of driving improved page views
+- `PURCHASES`: Indicates a goal of driving improved purchases
+- `REACH`: Indicates a goal of driving improved reach.
+- `SEARCH`: Indicates a goal of driving improved search
+- `SIGN_UP`: Indicates a goal of driving improved sign up
+- `SUBSCRIBE`: Indicates a goal of driving improved subscriptions
+""",
+    )
 
 
 class SDUpdateAdGroupRequest(StrictModel):

@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     SponsoredProductsBiddingError,
     SponsoredProductsBiddingErrorReason,
@@ -57,18 +55,15 @@ from ads_api.models.v0._shared import (
     SponsoredProductsValueLimitErrorReason,
 )
 
-
-class SponsoredProductsCreateOrUpdateMatchType(StrEnum):
-    BROAD = "BROAD"
-    EXACT = "EXACT"
-    PHRASE = "PHRASE"
+type SponsoredProductsCreateOrUpdateMatchType = Literal["BROAD", "EXACT", "PHRASE"]
 
 
-class SponsoredProductsMatchType(StrEnum):
-    BROAD = "BROAD"
-    EXACT = "EXACT"
-    OTHER = "OTHER"
-    PHRASE = "PHRASE"
+type SponsoredProductsMatchType = Literal[
+    "BROAD",
+    "EXACT",
+    "OTHER",
+    "PHRASE",
+]
 
 
 class SponsoredProductsBulkKeywordOperationResponse(LenientModel):
@@ -86,9 +81,7 @@ class SponsoredProductsCreateKeyword(StrictModel):
     )
     campaignId: str = Field(description="The identifer of the campaign to which the keyword is associated.")
     keywordText: str = Field(description="The keyword text.")
-    matchType: Annotated[
-        SponsoredProductsCreateOrUpdateMatchType | str, lenient_enum(SponsoredProductsCreateOrUpdateMatchType)
-    ]
+    matchType: SponsoredProductsCreateOrUpdateMatchType
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser."
     )
@@ -96,9 +89,7 @@ class SponsoredProductsCreateKeyword(StrictModel):
         default=None,
         description="The locale preference of the advertiser. For example, if the advertiser’s preferred language is Simplified Chinese, set the locale to zh_CN. Supported locales include: Simplified Chinese (locale: zh_CN) for US, UK and CA. English (locale: en_GB) for DE, FR, IT and ES.",
     )
-    state: Annotated[
-        SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
-    ]
+    state: SponsoredProductsCreateOrUpdateEntityState
 
 
 class SponsoredProductsCreateSponsoredProductsKeywordsRequestContent(StrictModel):
@@ -132,7 +123,7 @@ class SponsoredProductsKeyword(LenientModel):
     )
     keywordId: str = Field(description="The identifier of the keyword.")
     keywordText: str = Field(description="The keyword text.")
-    matchType: Annotated[SponsoredProductsMatchType | str, lenient_enum(SponsoredProductsMatchType)]
+    matchType: SponsoredProductsMatchType | str
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser."
     )
@@ -140,16 +131,22 @@ class SponsoredProductsKeyword(LenientModel):
         default=None,
         description="The locale preference of the advertiser. For example, if the advertiser’s preferred language is Simplified Chinese, set the locale to zh_CN. Supported locales include: Simplified Chinese (locale: zh_CN) for US, UK and CA. English (locale: en_GB) for DE, FR, IT and ES.",
     )
-    state: Annotated[SponsoredProductsEntityState | str, lenient_enum(SponsoredProductsEntityState)]
+    state: SponsoredProductsEntityState | str = Field(description="""
+Supported values:
+- `ENABLED`: Enabled State
+- `PAUSED`: Paused State
+- `PROPOSED`: Proposed State (Upcoming Feature)
+- `ARCHIVED`: ARCHIVED State
+- `ENABLING`: State for Draft Entity Only
+- `USER_DELETED`: State for Draft Entity Only
+- `OTHER`: Read Only
+""")
 
 
 class SponsoredProductsKeywordExtendedData(LenientModel):
     creationDateTime: datetime | None = Field(default=None, description="Creation date in ISO 8601.")
     lastUpdateDateTime: datetime | None = Field(default=None, description="Last updated date in ISO 8601.")
-    servingStatus: (
-        Annotated[SponsoredProductsKeywordServingStatus | str, lenient_enum(SponsoredProductsKeywordServingStatus)]
-        | None
-    ) = Field(default=None)
+    servingStatus: SponsoredProductsKeywordServingStatus | str | None = Field(default=None)
     servingStatusDetails: list[SponsoredProductsKeywordServingStatusDetail] | None = Field(
         default=None, description="The serving status reasons of the Keyword"
     )
@@ -201,9 +198,9 @@ class SponsoredProductsListSponsoredProductsKeywordsRequestContent(StrictModel):
     keywordIdFilter: SponsoredProductsObjectIdFilter | None = Field(default=None)
     keywordTextFilter: SponsoredProductsKeywordTextFilter | None = Field(default=None)
     locale: str | None = Field(default=None, description="Restricts results to keywords associated with locale")
-    matchTypeFilter: (
-        list[Annotated[SponsoredProductsMatchType | str, lenient_enum(SponsoredProductsMatchType)]] | None
-    ) = Field(default=None, description="Only the keyword with match type that is in this list will be listed")
+    matchTypeFilter: list[SponsoredProductsMatchType | str] | None = Field(
+        default=None, description="Only the keyword with match type that is in this list will be listed"
+    )
     maxResults: int | None = Field(
         default=None,
         description="Number of records to include in the paginated response. Defaults to max page size for given API",
@@ -228,12 +225,7 @@ class SponsoredProductsUpdateKeyword(StrictModel):
         description="Bid associated with this keyword. Applicable to biddable match types only. For more information about bid constraints by marketplace, see [bid limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).",
     )
     keywordId: str = Field(description="The identifier of the keyword.")
-    state: (
-        Annotated[
-            SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
-        ]
-        | None
-    ) = Field(default=None)
+    state: SponsoredProductsCreateOrUpdateEntityState | None = Field(default=None)
 
 
 class SponsoredProductsUpdateSponsoredProductsKeywordsRequestContent(StrictModel):

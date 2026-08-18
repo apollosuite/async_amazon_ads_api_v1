@@ -28,7 +28,7 @@ class ProductTargetingCategories(BaseResource):
         category_refinement_id: str,
         *,
         mode: Literal["pydantic"] = "pydantic",
-        locale: SBTargetingLocale | None = None,
+        locale: SBTargetingLocale | str | None = None,
         next_token: str | None = None,
     ) -> SBTargetingGetRefinementsForCategoryResponseContent: ...
     @overload
@@ -37,7 +37,7 @@ class ProductTargetingCategories(BaseResource):
         category_refinement_id: str,
         *,
         mode: Literal["dict"],
-        locale: SBTargetingLocale | None = None,
+        locale: SBTargetingLocale | str | None = None,
         next_token: str | None = None,
     ) -> dict[str, Any]: ...
     @overload
@@ -46,7 +46,7 @@ class ProductTargetingCategories(BaseResource):
         category_refinement_id: str,
         *,
         mode: Literal["raw"],
-        locale: SBTargetingLocale | None = None,
+        locale: SBTargetingLocale | str | None = None,
         next_token: str | None = None,
     ) -> httpx.Response: ...
     async def targeting_get_refinements_for_category(
@@ -54,7 +54,7 @@ class ProductTargetingCategories(BaseResource):
         category_refinement_id: str,
         *,
         mode: Literal["pydantic", "dict", "raw"] = "pydantic",
-        locale: SBTargetingLocale | None = None,
+        locale: SBTargetingLocale | str | None = None,
         next_token: str | None = None,
     ) -> SBTargetingGetRefinementsForCategoryResponseContent | dict[str, Any] | httpx.Response:
         """Returns refinements according to category input."""
@@ -106,10 +106,10 @@ class ProductTargetingCategories(BaseResource):
     @overload
     async def targeting_get_targetable_categories(
         self,
-        supply_source: SBTargetingSupplySource,
+        supply_source: SBTargetingSupplySource | str,
         *,
         mode: Literal["pydantic"] = "pydantic",
-        locale: SBTargetingLocale | None = None,
+        locale: SBTargetingLocale | str | None = None,
         include_only_root_categories: bool | None = None,
         parent_category_refinement_id: str | None = None,
         next_token: str | None = None,
@@ -117,10 +117,10 @@ class ProductTargetingCategories(BaseResource):
     @overload
     async def targeting_get_targetable_categories(
         self,
-        supply_source: SBTargetingSupplySource,
+        supply_source: SBTargetingSupplySource | str,
         *,
         mode: Literal["dict"],
-        locale: SBTargetingLocale | None = None,
+        locale: SBTargetingLocale | str | None = None,
         include_only_root_categories: bool | None = None,
         parent_category_refinement_id: str | None = None,
         next_token: str | None = None,
@@ -128,20 +128,20 @@ class ProductTargetingCategories(BaseResource):
     @overload
     async def targeting_get_targetable_categories(
         self,
-        supply_source: SBTargetingSupplySource,
+        supply_source: SBTargetingSupplySource | str,
         *,
         mode: Literal["raw"],
-        locale: SBTargetingLocale | None = None,
+        locale: SBTargetingLocale | str | None = None,
         include_only_root_categories: bool | None = None,
         parent_category_refinement_id: str | None = None,
         next_token: str | None = None,
     ) -> httpx.Response: ...
     async def targeting_get_targetable_categories(
         self,
-        supply_source: SBTargetingSupplySource,
+        supply_source: SBTargetingSupplySource | str,
         *,
         mode: Literal["pydantic", "dict", "raw"] = "pydantic",
-        locale: SBTargetingLocale | None = None,
+        locale: SBTargetingLocale | str | None = None,
         include_only_root_categories: bool | None = None,
         parent_category_refinement_id: str | None = None,
         next_token: str | None = None,

@@ -2,30 +2,46 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
+
+type DSPDistanceUnit = Literal[
+    "KILOMETERS",  # Distance in kilometers
+    "MILES",  # Distance in miles
+]
+"""
+Supported values:
+- `KILOMETERS`: Distance in kilometers
+- `MILES`: Distance in miles
+"""
 
 
-class DSPDistanceUnit(StrEnum):
-    KILOMETERS = "KILOMETERS"  # Distance in kilometers
-    MILES = "MILES"  # Distance in miles
-
-
-class DSPErrorCode(StrEnum):
-    BAD_REQUEST = "BAD_REQUEST"  # The request is not valid considering the documented schema.
-    FEATURE_NOT_AVAILABLE = "FEATURE_NOT_AVAILABLE"  # The requested feature is not available.
-    FIELD_VALUE_IS_EMPTY = "FIELD_VALUE_IS_EMPTY"  # Update the request with the required information for this resource.
-    FIELD_VALUE_IS_NULL = "FIELD_VALUE_IS_NULL"  # Update the request with the required information for this resource.
-    FIELD_VALUE_IS_OUT_OF_RANGE = "FIELD_VALUE_IS_OUT_OF_RANGE"  # Update the value to be within the required range.
-    FORBIDDEN = "FORBIDDEN"  # The caller is not authorized to make the given request.
-    INTERNAL_ERROR = "INTERNAL_ERROR"  # The server encountered an unexpected condition that prevented it from fulfilling the request.
-    NOT_FOUND = "NOT_FOUND"  # The requested resource does not exist.
-    UNAUTHORIZED = "UNAUTHORIZED"  # The request lacks the necessary credentials.
+type DSPErrorCode = Literal[
+    "BAD_REQUEST",  # The request is not valid considering the documented schema.
+    "FEATURE_NOT_AVAILABLE",  # The requested feature is not available.
+    "FIELD_VALUE_IS_EMPTY",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_IS_NULL",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_IS_OUT_OF_RANGE",  # Update the value to be within the required range.
+    "FORBIDDEN",  # The caller is not authorized to make the given request.
+    "INTERNAL_ERROR",  # The server encountered an unexpected condition that prevented it from fulfilling the request.
+    "NOT_FOUND",  # The requested resource does not exist.
+    "UNAUTHORIZED",  # The request lacks the necessary credentials.
+]
+"""
+Supported values:
+- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- `UNAUTHORIZED`: The request lacks the necessary credentials.
+- `FORBIDDEN`: The caller is not authorized to make the given request.
+- `NOT_FOUND`: The requested resource does not exist.
+- `BAD_REQUEST`: The request is not valid considering the documented schema.
+- `FEATURE_NOT_AVAILABLE`: The requested feature is not available.
+- `FIELD_VALUE_IS_NULL`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_EMPTY`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
+"""
 
 
 class DSPCreateGeoLocationCoordinates(StrictModel):
@@ -59,7 +75,11 @@ class DSPCreateRadiusLocation(StrictModel):
         description="Address. Example '2111 7th Ave, Seattle, WA 98121, United States' or 'Amazon Spheres'",
     )
     pointOfInterestRadius: float = Field(description="Radius of circle in kilometers or miles")
-    units: Annotated[DSPDistanceUnit | str, lenient_enum(DSPDistanceUnit)]
+    units: DSPDistanceUnit = Field(description="""
+Supported values:
+- `KILOMETERS`: Distance in kilometers
+- `MILES`: Distance in miles
+""")
 
 
 class DSPCreateSmartLocation(StrictModel):
@@ -82,7 +102,18 @@ class DSPCreateSmartLocation(StrictModel):
 
 
 class DSPError(LenientModel):
-    code: Annotated[DSPErrorCode | str, lenient_enum(DSPErrorCode)]
+    code: DSPErrorCode | str = Field(description="""
+Supported values:
+- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- `UNAUTHORIZED`: The request lacks the necessary credentials.
+- `FORBIDDEN`: The caller is not authorized to make the given request.
+- `NOT_FOUND`: The requested resource does not exist.
+- `BAD_REQUEST`: The request is not valid considering the documented schema.
+- `FEATURE_NOT_AVAILABLE`: The requested feature is not available.
+- `FIELD_VALUE_IS_NULL`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_EMPTY`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
+""")
     fieldLocation: str | None = Field(default=None)
     message: str
 
@@ -138,7 +169,11 @@ class DSPRadiusLocation(LenientModel):
         description="Address. Example '2111 7th Ave, Seattle, WA 98121, United States' or 'Amazon Spheres'",
     )
     pointOfInterestRadius: float = Field(description="Radius of circle in kilometers or miles")
-    units: Annotated[DSPDistanceUnit | str, lenient_enum(DSPDistanceUnit)]
+    units: DSPDistanceUnit | str = Field(description="""
+Supported values:
+- `KILOMETERS`: Distance in kilometers
+- `MILES`: Distance in miles
+""")
 
 
 class DSPSmartLocation(LenientModel):

@@ -2,17 +2,13 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 
-
-class SDHeadlineRecommendationRequestAdFormat(StrEnum):
-    SPONSORED_DISPLAY = "SPONSORED_DISPLAY"
+type SDHeadlineRecommendationRequestAdFormat = Literal["SPONSORED_DISPLAY"]
 
 
 class RecommendedHeadline(LenientModel):
@@ -34,10 +30,7 @@ class SDHeadlineRecommendationRequest(StrictModel):
         le=10,
         description="Maximum number of recommendations that API should return. Response will [0, maxNumRecommendations] recommendations (recommendations are not guaranteed as there can be instances where the ML model can not generate policy compliant headlines for the given set of asins).",
     )
-    adFormat: (
-        Annotated[SDHeadlineRecommendationRequestAdFormat | str, lenient_enum(SDHeadlineRecommendationRequestAdFormat)]
-        | None
-    ) = Field(default=None)
+    adFormat: SDHeadlineRecommendationRequestAdFormat | None = Field(default=None)
 
 
 class SDHeadlineRecommendationResponse(LenientModel):

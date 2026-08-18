@@ -3,52 +3,71 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
+
+type DSPCountryCode = Literal[
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "DE",
+    "ES",
+    "FR",
+    "GB",
+    "IE",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "SE",
+    "TR",
+    "US",
+]
 
 
-class DSPCountryCode(StrEnum):
-    AU = "AU"
-    BE = "BE"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IE = "IE"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    NL = "NL"
-    SE = "SE"
-    TR = "TR"
-    US = "US"
+type DSPErrorCode = Literal[
+    "BAD_REQUEST",  # The request is not valid considering the documented schema.
+    "FEATURE_NOT_AVAILABLE",  # The requested feature is not available.
+    "FIELD_VALUE_IS_EMPTY",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_IS_NULL",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_IS_OUT_OF_RANGE",  # Update the value to be within the required range.
+    "FORBIDDEN",  # The caller is not authorized to make the given request.
+    "INTERNAL_ERROR",  # The server encountered an unexpected condition that prevented it from fulfilling the request.
+    "NOT_FOUND",  # The requested resource does not exist.
+    "UNAUTHORIZED",  # The request lacks the necessary credentials.
+]
+"""
+Supported values:
+- `BAD_REQUEST`: The request is not valid considering the documented schema.
+- `FEATURE_NOT_AVAILABLE`: The requested feature is not available.
+- `FIELD_VALUE_IS_EMPTY`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_NULL`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
+- `FORBIDDEN`: The caller is not authorized to make the given request.
+- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- `NOT_FOUND`: The requested resource does not exist.
+- `UNAUTHORIZED`: The request lacks the necessary credentials.
+"""
 
 
-class DSPErrorCode(StrEnum):
-    BAD_REQUEST = "BAD_REQUEST"  # The request is not valid considering the documented schema.
-    FEATURE_NOT_AVAILABLE = "FEATURE_NOT_AVAILABLE"  # The requested feature is not available.
-    FIELD_VALUE_IS_EMPTY = "FIELD_VALUE_IS_EMPTY"  # Update the request with the required information for this resource.
-    FIELD_VALUE_IS_NULL = "FIELD_VALUE_IS_NULL"  # Update the request with the required information for this resource.
-    FIELD_VALUE_IS_OUT_OF_RANGE = "FIELD_VALUE_IS_OUT_OF_RANGE"  # Update the value to be within the required range.
-    FORBIDDEN = "FORBIDDEN"  # The caller is not authorized to make the given request.
-    INTERNAL_ERROR = "INTERNAL_ERROR"  # The server encountered an unexpected condition that prevented it from fulfilling the request.
-    NOT_FOUND = "NOT_FOUND"  # The requested resource does not exist.
-    UNAUTHORIZED = "UNAUTHORIZED"  # The request lacks the necessary credentials.
-
-
-class DSPIndexStatus(StrEnum):
-    ENABLED = "ENABLED"  # The location index is active and can be used in smart locations.
-    FAILED = "FAILED"  # The location index creation failed and cannot be used in smart locations.
-    PENDING = "PENDING"  # The location index is being created and cannot be used in smart locations yet.
-    UPDATE_FAILED = "UPDATE_FAILED"  # The location index update has failed, but the old version can still be used.
+type DSPIndexStatus = Literal[
+    "ENABLED",  # The location index is active and can be used in smart locations.
+    "FAILED",  # The location index creation failed and cannot be used in smart locations.
+    "PENDING",  # The location index is being created and cannot be used in smart locations yet.
+    "UPDATE_FAILED",  # The location index update has failed, but the old version can still be used.
+]
+"""
+Supported values:
+- `ENABLED`: The location index is active and can be used in smart locations.
+- `FAILED`: The location index creation failed and cannot be used in smart locations.
+- `PENDING`: The location index is being created and cannot be used in smart locations yet.
+- `UPDATE_FAILED`: The location index update has failed, but the old version can still be used.
+"""
 
 
 class DSPConstituentIndexValue(LenientModel):
@@ -129,7 +148,18 @@ class DSPDirectIndexValues(LenientModel):
 
 
 class DSPError(LenientModel):
-    code: Annotated[DSPErrorCode | str, lenient_enum(DSPErrorCode)]
+    code: DSPErrorCode | str = Field(description="""
+Supported values:
+- `BAD_REQUEST`: The request is not valid considering the documented schema.
+- `FEATURE_NOT_AVAILABLE`: The requested feature is not available.
+- `FIELD_VALUE_IS_EMPTY`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_NULL`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
+- `FORBIDDEN`: The caller is not authorized to make the given request.
+- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- `NOT_FOUND`: The requested resource does not exist.
+- `UNAUTHORIZED`: The request lacks the necessary credentials.
+""")
     fieldLocation: str | None = Field(default=None)
     message: str
 
@@ -151,17 +181,23 @@ type DSPIndexValues = DSPIndexValuesConstituentIndexValues | DSPIndexValuesDirec
 
 
 class DSPLocationIndex(LenientModel):
-    countryCode: Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)] | None = Field(default=None)
+    countryCode: DSPCountryCode | str | None = Field(default=None)
     creationDateTime: datetime = Field(description="The date time the location index was created.")
     indexData: DSPIndexValues
     indexId: str = Field(description="The identifier of the location index.")
     indexName: str = Field(description="The name of the location index.")
     lastUpdatedDateTime: datetime = Field(description="The date time the location index was last updated successfully.")
-    status: Annotated[DSPIndexStatus | str, lenient_enum(DSPIndexStatus)]
+    status: DSPIndexStatus | str = Field(description="""
+Supported values:
+- `ENABLED`: The location index is active and can be used in smart locations.
+- `FAILED`: The location index creation failed and cannot be used in smart locations.
+- `PENDING`: The location index is being created and cannot be used in smart locations yet.
+- `UPDATE_FAILED`: The location index update has failed, but the old version can still be used.
+""")
 
 
 class DSPLocationIndexCreate(StrictModel):
-    countryCode: Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)] | None = Field(default=None)
+    countryCode: DSPCountryCode | None = Field(default=None)
     indexData: DSPCreateIndexValues
     indexName: str = Field(description="The name of the location index.")
 

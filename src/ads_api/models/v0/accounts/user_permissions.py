@@ -2,79 +2,67 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
+
+type AccessScope = Literal[
+    "ALL",
+    "DIRECT",
+    "EFFECTIVE",
+    "INDIRECT",
+]
 
 
-class AccessScope(StrEnum):
-    ALL = "ALL"
-    DIRECT = "DIRECT"
-    EFFECTIVE = "EFFECTIVE"
-    INDIRECT = "INDIRECT"
+type CountryCode = Literal[
+    "AE",
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "CL",
+    "CO",
+    "DE",
+    "EG",
+    "ES",
+    "FR",
+    "GB",
+    "IE",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "NG",
+    "NL",
+    "PL",
+    "SA",
+    "SE",
+    "SG",
+    "TR",
+    "US",
+    "ZA",
+]
 
 
-class CountryCode(StrEnum):
-    AE = "AE"
-    AU = "AU"
-    BE = "BE"
-    BR = "BR"
-    CA = "CA"
-    CL = "CL"
-    CO = "CO"
-    DE = "DE"
-    EG = "EG"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IE = "IE"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    NG = "NG"
-    NL = "NL"
-    PL = "PL"
-    SA = "SA"
-    SE = "SE"
-    SG = "SG"
-    TR = "TR"
-    US = "US"
-    ZA = "ZA"
+type Role = Literal["ADMIN", "EDITOR", "VIEWER"]
 
 
-class Role(StrEnum):
-    ADMIN = "ADMIN"
-    EDITOR = "EDITOR"
-    VIEWER = "VIEWER"
-
-
-class Type(StrEnum):
-    CUSTOM_PERMISSION_SET = "CUSTOM_PERMISSION_SET"
-    ROLE = "ROLE"
+type Type = Literal["CUSTOM_PERMISSION_SET", "ROLE"]
 
 
 class AccessScopeFilter(StrictModel):
-    include: list[Annotated[AccessScope | str, lenient_enum(AccessScope)]] | None = Field(
-        default=None, min_length=1, max_length=1
-    )
+    include: list[AccessScope | str] | None = Field(default=None, min_length=1, max_length=1)
 
 
 class CountryCodesFilter(StrictModel):
-    include: list[Annotated[CountryCode | str, lenient_enum(CountryCode)]] | None = Field(
-        default=None, min_length=0, max_length=100
-    )
+    include: list[CountryCode | str] | None = Field(default=None, min_length=0, max_length=100)
 
 
 class DeleteUserPermissionsError(LenientModel):
     code: str | None = Field(default=None)
-    countries: list[Annotated[CountryCode | str, lenient_enum(CountryCode)]] | None = Field(
-        default=None, min_length=0, max_length=100
-    )
+    countries: list[CountryCode | str] | None = Field(default=None, min_length=0, max_length=100)
     message: str | None = Field(default=None)
     userId: str | None = Field(
         default=None, description="User ID of the user that had an error when their permissions were deleted"
@@ -112,9 +100,7 @@ class ListUsersResponseContent(LenientModel):
 
 class Permission(LenientModel):
     accessLevel: str | None = Field(default=None)
-    countryCodes: list[Annotated[CountryCode | str, lenient_enum(CountryCode)]] | None = Field(
-        default=None, min_length=0, max_length=100
-    )
+    countryCodes: list[CountryCode | str] | None = Field(default=None, min_length=0, max_length=100)
     id: str | None = Field(default=None)
     resourceType: str | None = Field(default=None)
 
@@ -138,8 +124,8 @@ Different permissions are supported for different account types.
   - Marketing Cloud Accounts do not support custom permissions
 """,
     )
-    role: Annotated[Role | str, lenient_enum(Role)] | None = Field(default=None)
-    type: Annotated[Type | str, lenient_enum(Type)]
+    role: Role | None = Field(default=None)
+    type: Type
 
 
 class QueryUserPermissionsRequestContent(StrictModel):
@@ -180,7 +166,7 @@ class QueryUserRolesResponseContent(LenientModel):
 
 
 class RoleForCountries(LenientModel):
-    countryCodes: list[Annotated[CountryCode | str, lenient_enum(CountryCode)]] | None = Field(
+    countryCodes: list[CountryCode | str] | None = Field(
         default=None,
         min_length=0,
         max_length=100,
@@ -198,8 +184,8 @@ List of granular permission strings populated when type is CUSTOM_PERMISSION_SET
 and accessType is EXTERNAL.
 """,
     )
-    role: Annotated[Role | str, lenient_enum(Role)] | None = Field(default=None)
-    type: Annotated[Type | str, lenient_enum(Type)] | None = Field(default=None)
+    role: Role | str | None = Field(default=None)
+    type: Type | str | None = Field(default=None)
 
 
 class UpdateUserPermissionsError(LenientModel):
@@ -222,9 +208,7 @@ class UpdateUserPermissionsSuccess(LenientModel):
 
 
 class User(LenientModel):
-    countryCodes: list[Annotated[CountryCode | str, lenient_enum(CountryCode)]] | None = Field(
-        default=None, min_length=0, max_length=100
-    )
+    countryCodes: list[CountryCode | str] | None = Field(default=None, min_length=0, max_length=100)
     emailAddress: str
     userId: str
 
@@ -234,7 +218,7 @@ class UserId(StrictModel):
 
 
 class UserPermission(StrictModel):
-    countryCodes: list[Annotated[CountryCode | str, lenient_enum(CountryCode)]] | None = Field(
+    countryCodes: list[CountryCode | str] | None = Field(
         default=None,
         min_length=0,
         max_length=100,

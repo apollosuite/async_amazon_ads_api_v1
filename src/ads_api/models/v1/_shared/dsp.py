@@ -3,210 +3,251 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
+
+type DSPAdvertisingDealType = Literal[
+    "PREFERRED",
+    "PRIVATE_AUCTION",
+    "PROGRAMMATIC_GUARANTEED",
+    "SHARE_OF_VOICE",
+]
 
 
-class DSPAdvertisingDealType(StrEnum):
-    PREFERRED = "PREFERRED"
-    PRIVATE_AUCTION = "PRIVATE_AUCTION"
-    PROGRAMMATIC_GUARANTEED = "PROGRAMMATIC_GUARANTEED"
-    SHARE_OF_VOICE = "SHARE_OF_VOICE"
+type DSPAmazonPublisherServicesGoalTargetUnit = Literal["MILLICENT", "PERCENTAGE"]
 
 
-class DSPAmazonPublisherServicesGoalTargetUnit(StrEnum):
-    MILLICENT = "MILLICENT"
-    PERCENTAGE = "PERCENTAGE"
+type DSPBudgetType = Literal["MONETARY"]
 
 
-class DSPBudgetType(StrEnum):
-    MONETARY = "MONETARY"
+type DSPDVBrandSafetyAppAgeRatingType = Literal[
+    "ADULTS_ONLY_18_PLUS",
+    "EVERYONE_4_PLUS",
+    "MATURE_17_PLUS",
+    "TEENS_12_PLUS",
+    "TWEENS_9_PLUS",
+    "UNKNOWN",
+]
 
 
-class DSPDVBrandSafetyAppAgeRatingType(StrEnum):
-    ADULTS_ONLY_18_PLUS = "ADULTS_ONLY_18_PLUS"
-    EVERYONE_4_PLUS = "EVERYONE_4_PLUS"
-    MATURE_17_PLUS = "MATURE_17_PLUS"
-    TEENS_12_PLUS = "TEENS_12_PLUS"
-    TWEENS_9_PLUS = "TWEENS_9_PLUS"
-    UNKNOWN = "UNKNOWN"
+type DSPDVBrandSafetyContentCategoryType = Literal[
+    "AD_SERVER",
+    "CELEBRITY_GOSSIP",
+    "CULTS_SURVIVALISM",
+    "EXTREME_GRAPHIC",
+    "GAMBLING",
+    "INCENTIVIZED_MALWARE_CLUTTER",
+    "INFLAMMATORY_POLITICS_NEWS",
+    "NEGATIVE_NEWS_FINANCIAL",
+    "NEGATIVE_NEWS_PHARMACEUTICAL",
+    "NON_STANDARD_CONTENT_NON_ENGLISH",
+    "NON_STANDARD_CONTENT_PARKING_PAGE",
+    "OCCULT",
+    "PIRACY_COPYRIGHT_INFRINGEMENT",
+    "UNMODERATED_UGC_FORUMS_IMAGES_VIDEO",
+]
 
 
-class DSPDVBrandSafetyContentCategoryType(StrEnum):
-    AD_SERVER = "AD_SERVER"
-    CELEBRITY_GOSSIP = "CELEBRITY_GOSSIP"
-    CULTS_SURVIVALISM = "CULTS_SURVIVALISM"
-    EXTREME_GRAPHIC = "EXTREME_GRAPHIC"
-    GAMBLING = "GAMBLING"
-    INCENTIVIZED_MALWARE_CLUTTER = "INCENTIVIZED_MALWARE_CLUTTER"
-    INFLAMMATORY_POLITICS_NEWS = "INFLAMMATORY_POLITICS_NEWS"
-    NEGATIVE_NEWS_FINANCIAL = "NEGATIVE_NEWS_FINANCIAL"
-    NEGATIVE_NEWS_PHARMACEUTICAL = "NEGATIVE_NEWS_PHARMACEUTICAL"
-    NON_STANDARD_CONTENT_NON_ENGLISH = "NON_STANDARD_CONTENT_NON_ENGLISH"
-    NON_STANDARD_CONTENT_PARKING_PAGE = "NON_STANDARD_CONTENT_PARKING_PAGE"
-    OCCULT = "OCCULT"
-    PIRACY_COPYRIGHT_INFRINGEMENT = "PIRACY_COPYRIGHT_INFRINGEMENT"
-    UNMODERATED_UGC_FORUMS_IMAGES_VIDEO = "UNMODERATED_UGC_FORUMS_IMAGES_VIDEO"
+type DSPEventType = Literal["IMPRESSION"]
 
 
-class DSPEventType(StrEnum):
-    IMPRESSION = "IMPRESSION"
+type DSPExcludeAppsAndSitesType = Literal[
+    "ALLOW_ALL",
+    "FRAUD_TRAFFIC_LEVEL_GTE_02",
+    "FRAUD_TRAFFIC_LEVEL_GTE_04",
+    "FRAUD_TRAFFIC_LEVEL_GTE_06",
+    "FRAUD_TRAFFIC_LEVEL_GTE_08",
+    "FRAUD_TRAFFIC_LEVEL_GTE_10",
+    "FRAUD_TRAFFIC_LEVEL_GTE_100",
+    "FRAUD_TRAFFIC_LEVEL_GTE_25",
+    "FRAUD_TRAFFIC_LEVEL_GTE_50",
+]
 
 
-class DSPExcludeAppsAndSitesType(StrEnum):
-    ALLOW_ALL = "ALLOW_ALL"
-    FRAUD_TRAFFIC_LEVEL_GTE_02 = "FRAUD_TRAFFIC_LEVEL_GTE_02"
-    FRAUD_TRAFFIC_LEVEL_GTE_04 = "FRAUD_TRAFFIC_LEVEL_GTE_04"
-    FRAUD_TRAFFIC_LEVEL_GTE_06 = "FRAUD_TRAFFIC_LEVEL_GTE_06"
-    FRAUD_TRAFFIC_LEVEL_GTE_08 = "FRAUD_TRAFFIC_LEVEL_GTE_08"
-    FRAUD_TRAFFIC_LEVEL_GTE_10 = "FRAUD_TRAFFIC_LEVEL_GTE_10"
-    FRAUD_TRAFFIC_LEVEL_GTE_100 = "FRAUD_TRAFFIC_LEVEL_GTE_100"
-    FRAUD_TRAFFIC_LEVEL_GTE_25 = "FRAUD_TRAFFIC_LEVEL_GTE_25"
-    FRAUD_TRAFFIC_LEVEL_GTE_50 = "FRAUD_TRAFFIC_LEVEL_GTE_50"
+type DSPFeesThirdPartyProvider = Literal[
+    "COM_SCORE",
+    "CPM_1",
+    "CPM_2",
+    "CPM_3",
+    "DOUBLE_CLICK_CAMPAIGN_MANAGER",
+    "DOUBLE_VERIFY",
+    "INTEGRAL_AD_SCIENCE",
+]
 
 
-class DSPFeesThirdPartyProvider(StrEnum):
-    COM_SCORE = "COM_SCORE"
-    CPM_1 = "CPM_1"
-    CPM_2 = "CPM_2"
-    CPM_3 = "CPM_3"
-    DOUBLE_CLICK_CAMPAIGN_MANAGER = "DOUBLE_CLICK_CAMPAIGN_MANAGER"
-    DOUBLE_VERIFY = "DOUBLE_VERIFY"
-    INTEGRAL_AD_SCIENCE = "INTEGRAL_AD_SCIENCE"
+type DSPMarketplaceScope = Literal["SINGLE_MARKETPLACE"]
 
 
-class DSPMarketplaceScope(StrEnum):
-    SINGLE_MARKETPLACE = "SINGLE_MARKETPLACE"
+type DSPNewsGuardBrandGuardMisinformationSafetyType = Literal[
+    "AI_GENERATED_MFA",
+    "BASIC_EXCLUDE",
+    "CLIMATE_MISINFORMATION",
+    "COVID_MISINFORMATION",
+    "ELECTION_MISINFORMATION",
+    "HEALTH_MISINFORMATION",
+    "HIGH_EXCLUDE",
+    "ISRAEL_HAMAS_MISINFORMATION",
+    "MAX_EXCLUDE",
+    "MISINFORMATION_SITES",
+    "OPINIONATED_NEWS",
+    "QANON_MISINFORMATION",
+    "UKRAINE_MISINFORMATION",
+    "VACCINE_MISINFORMATION",
+]
 
 
-class DSPNewsGuardBrandGuardMisinformationSafetyType(StrEnum):
-    AI_GENERATED_MFA = "AI_GENERATED_MFA"
-    BASIC_EXCLUDE = "BASIC_EXCLUDE"
-    CLIMATE_MISINFORMATION = "CLIMATE_MISINFORMATION"
-    COVID_MISINFORMATION = "COVID_MISINFORMATION"
-    ELECTION_MISINFORMATION = "ELECTION_MISINFORMATION"
-    HEALTH_MISINFORMATION = "HEALTH_MISINFORMATION"
-    HIGH_EXCLUDE = "HIGH_EXCLUDE"
-    ISRAEL_HAMAS_MISINFORMATION = "ISRAEL_HAMAS_MISINFORMATION"
-    MAX_EXCLUDE = "MAX_EXCLUDE"
-    MISINFORMATION_SITES = "MISINFORMATION_SITES"
-    OPINIONATED_NEWS = "OPINIONATED_NEWS"
-    QANON_MISINFORMATION = "QANON_MISINFORMATION"
-    UKRAINE_MISINFORMATION = "UKRAINE_MISINFORMATION"
-    VACCINE_MISINFORMATION = "VACCINE_MISINFORMATION"
+type DSPNewsGuardBrandGuardTrustedNewsTargetingType = Literal[
+    "BASIC_INCLUDE",
+    "BUSINESS_INCLUDE",
+    "COMMUNITY_INCLUDE",
+    "HEALTH_INCLUDE",
+    "HIGH_INCLUDE",
+    "LIFESTYLE_INCLUDE",
+    "LOCAL_INCLUDE",
+    "MAX_INCLUDE",
+    "POLITICS_INCLUDE",
+    "TECH_INCLUDE",
+]
 
 
-class DSPNewsGuardBrandGuardTrustedNewsTargetingType(StrEnum):
-    BASIC_INCLUDE = "BASIC_INCLUDE"
-    BUSINESS_INCLUDE = "BUSINESS_INCLUDE"
-    COMMUNITY_INCLUDE = "COMMUNITY_INCLUDE"
-    HEALTH_INCLUDE = "HEALTH_INCLUDE"
-    HIGH_INCLUDE = "HIGH_INCLUDE"
-    LIFESTYLE_INCLUDE = "LIFESTYLE_INCLUDE"
-    LOCAL_INCLUDE = "LOCAL_INCLUDE"
-    MAX_INCLUDE = "MAX_INCLUDE"
-    POLITICS_INCLUDE = "POLITICS_INCLUDE"
-    TECH_INCLUDE = "TECH_INCLUDE"
+type DSPNoteOrigin = Literal["BUYER", "SUPPLIER"]
 
 
-class DSPNoteOrigin(StrEnum):
-    BUYER = "BUYER"
-    SUPPLIER = "SUPPLIER"
+type DSPRecurrence = Literal["DAILY", "LIFETIME", "MONTHLY"]
 
 
-class DSPRecurrence(StrEnum):
-    DAILY = "DAILY"
-    LIFETIME = "LIFETIME"
-    MONTHLY = "MONTHLY"
+type DSPSortDirection = Literal[
+    "ASCENDING",  # Sort in ascending order
+    "DESCENDING",  # Sort in descending order
+]
+"""
+Supported values:
+- `ASCENDING`: Sort in ascending order
+- `DESCENDING`: Sort in descending order
+"""
 
 
-class DSPSortDirection(StrEnum):
-    ASCENDING = "ASCENDING"  # Sort in ascending order
-    DESCENDING = "DESCENDING"  # Sort in descending order
+type DSPSupplierArchiveReason = Literal[
+    "CREATED_ACCIDENTALLY",
+    "CREATED_FOR_TESTING",
+    "DUPLICATE",
+    "NEGOTIATIONS_TERMINATED",
+    "NOT_DELIVERING",
+    "PROLONGED_PAUSE",
+    "UNDERDELIVERING",
+]
 
 
-class DSPSupplierArchiveReason(StrEnum):
-    CREATED_ACCIDENTALLY = "CREATED_ACCIDENTALLY"
-    CREATED_FOR_TESTING = "CREATED_FOR_TESTING"
-    DUPLICATE = "DUPLICATE"
-    NEGOTIATIONS_TERMINATED = "NEGOTIATIONS_TERMINATED"
-    NOT_DELIVERING = "NOT_DELIVERING"
-    PROLONGED_PAUSE = "PROLONGED_PAUSE"
-    UNDERDELIVERING = "UNDERDELIVERING"
+type DSPSupplierGroupType = Literal["LOCATION"]
 
 
-class DSPSupplierGroupType(StrEnum):
-    LOCATION = "LOCATION"
+type DSPSupplierProposedDealType = Literal["AMAZON_MEDIA"]
 
 
-class DSPSupplierProposedDealType(StrEnum):
-    AMAZON_MEDIA = "AMAZON_MEDIA"
+type DSPSupplierTargetGroupConstraintType = Literal["LOCATION"]
 
 
-class DSPSupplierTargetGroupConstraintType(StrEnum):
-    LOCATION = "LOCATION"
+type DSPTimeUnit = Literal["DAYS", "HOURS", "MINUTES"]
 
 
-class DSPTimeUnit(StrEnum):
-    DAYS = "DAYS"
-    HOURS = "HOURS"
-    MINUTES = "MINUTES"
+type DSPTimeZone = Literal[
+    "AMERICA_ANCHORAGE",  # America/Anchorage
+    "AMERICA_CARACAS",  # America/Caracas
+    "AMERICA_CHICAGO",  # America/Chicago
+    "AMERICA_DENVER",  # America/Denver
+    "AMERICA_HALIFAX",  # America/Halifax
+    "AMERICA_LOS_ANGELES",  # America/Los_Angeles
+    "AMERICA_MEXICO_CITY",  # America/Mexico_City
+    "AMERICA_NEW_YORK",  # America/New_York
+    "AMERICA_SAO_PAULO",  # America/Sao_Paulo
+    "AMERICA_ST_JOHNS",  # America/St_Johns
+    "ASIA_ALMATY",  # Asia/Almaty
+    "ASIA_BAGHDAD",  # Asia/Baghdad
+    "ASIA_BANGKOK",  # Asia/Bangkok
+    "ASIA_DUBAI",  # Asia/Dubai
+    "ASIA_HONG_KONG",  # Asia/Hong_Kong
+    "ASIA_KABUL",  # Asia/Kabul
+    "ASIA_KATHMANDU",  # Asia/Kathmandu
+    "ASIA_KOLKATA",  # Asia/Kolkata
+    "ASIA_MAGADAN",  # Asia/Magadan
+    "ASIA_RIYADH",  # Asia/Riyadh
+    "ASIA_SHANGHAI",  # Asia/Shanghai
+    "ASIA_SINGAPORE",  # Asia/Singapore
+    "ASIA_TEHRAN",  # Asia/Tehran
+    "ASIA_TOKYO",  # Asia/Tokyo
+    "ASIA_YEKATERINBURG",  # Asia/Yekaterinburg
+    "ASIA_YEREVAN",  # Asia/Yerevan
+    "ATLANTIC_AZORES",  # Atlantic/Azores
+    "ATLANTIC_SOUTH_GEORGIA",  # Atlantic/South_Georgia
+    "AUSTRALIA_BRISBANE",  # Australia/Brisbane
+    "AUSTRALIA_DARWIN",  # Australia/Darwin
+    "AUSTRALIA_SYDNEY",  # Australia/Sydney
+    "EET",  # EET
+    "EUROPE_AMSTERDAM",  # Europe/Amsterdam
+    "EUROPE_ISTANBUL",  # Europe/Istanbul
+    "EUROPE_LONDON",  # Europe/London
+    "EUROPE_PARIS",  # Europe/Paris
+    "EUROPE_STOCKHOLM",  # Europe/Stockholm
+    "INDIAN_COCOS",  # Indian/Cocos
+    "PACIFIC_AUCKLAND",  # Pacific/Auckland
+    "PACIFIC_FIJI",  # Pacific/Fiji
+    "PACIFIC_HONOLULU",  # Pacific/Honolulu
+    "PACIFIC_KWAJALEIN",  # Pacific/Kwajalein
+    "PACIFIC_MIDWAY",  # Pacific/Midway
+    "UTC",  # UTC
+]
+"""
+Each complies with the ISO 8601 TZ identifier standard
 
-
-class DSPTimeZone(StrEnum):
-    """
-    Each complies with the ISO 8601 TZ identifier standard
-    """
-
-    AMERICA_ANCHORAGE = "AMERICA_ANCHORAGE"  # America/Anchorage
-    AMERICA_CARACAS = "AMERICA_CARACAS"  # America/Caracas
-    AMERICA_CHICAGO = "AMERICA_CHICAGO"  # America/Chicago
-    AMERICA_DENVER = "AMERICA_DENVER"  # America/Denver
-    AMERICA_HALIFAX = "AMERICA_HALIFAX"  # America/Halifax
-    AMERICA_LOS_ANGELES = "AMERICA_LOS_ANGELES"  # America/Los_Angeles
-    AMERICA_MEXICO_CITY = "AMERICA_MEXICO_CITY"  # America/Mexico_City
-    AMERICA_NEW_YORK = "AMERICA_NEW_YORK"  # America/New_York
-    AMERICA_SAO_PAULO = "AMERICA_SAO_PAULO"  # America/Sao_Paulo
-    AMERICA_ST_JOHNS = "AMERICA_ST_JOHNS"  # America/St_Johns
-    ASIA_ALMATY = "ASIA_ALMATY"  # Asia/Almaty
-    ASIA_BAGHDAD = "ASIA_BAGHDAD"  # Asia/Baghdad
-    ASIA_BANGKOK = "ASIA_BANGKOK"  # Asia/Bangkok
-    ASIA_DUBAI = "ASIA_DUBAI"  # Asia/Dubai
-    ASIA_HONG_KONG = "ASIA_HONG_KONG"  # Asia/Hong_Kong
-    ASIA_KABUL = "ASIA_KABUL"  # Asia/Kabul
-    ASIA_KATHMANDU = "ASIA_KATHMANDU"  # Asia/Kathmandu
-    ASIA_KOLKATA = "ASIA_KOLKATA"  # Asia/Kolkata
-    ASIA_MAGADAN = "ASIA_MAGADAN"  # Asia/Magadan
-    ASIA_RIYADH = "ASIA_RIYADH"  # Asia/Riyadh
-    ASIA_SHANGHAI = "ASIA_SHANGHAI"  # Asia/Shanghai
-    ASIA_SINGAPORE = "ASIA_SINGAPORE"  # Asia/Singapore
-    ASIA_TEHRAN = "ASIA_TEHRAN"  # Asia/Tehran
-    ASIA_TOKYO = "ASIA_TOKYO"  # Asia/Tokyo
-    ASIA_YEKATERINBURG = "ASIA_YEKATERINBURG"  # Asia/Yekaterinburg
-    ASIA_YEREVAN = "ASIA_YEREVAN"  # Asia/Yerevan
-    ATLANTIC_AZORES = "ATLANTIC_AZORES"  # Atlantic/Azores
-    ATLANTIC_SOUTH_GEORGIA = "ATLANTIC_SOUTH_GEORGIA"  # Atlantic/South_Georgia
-    AUSTRALIA_BRISBANE = "AUSTRALIA_BRISBANE"  # Australia/Brisbane
-    AUSTRALIA_DARWIN = "AUSTRALIA_DARWIN"  # Australia/Darwin
-    AUSTRALIA_SYDNEY = "AUSTRALIA_SYDNEY"  # Australia/Sydney
-    EET = "EET"  # EET
-    EUROPE_AMSTERDAM = "EUROPE_AMSTERDAM"  # Europe/Amsterdam
-    EUROPE_ISTANBUL = "EUROPE_ISTANBUL"  # Europe/Istanbul
-    EUROPE_LONDON = "EUROPE_LONDON"  # Europe/London
-    EUROPE_PARIS = "EUROPE_PARIS"  # Europe/Paris
-    EUROPE_STOCKHOLM = "EUROPE_STOCKHOLM"  # Europe/Stockholm
-    INDIAN_COCOS = "INDIAN_COCOS"  # Indian/Cocos
-    PACIFIC_AUCKLAND = "PACIFIC_AUCKLAND"  # Pacific/Auckland
-    PACIFIC_FIJI = "PACIFIC_FIJI"  # Pacific/Fiji
-    PACIFIC_HONOLULU = "PACIFIC_HONOLULU"  # Pacific/Honolulu
-    PACIFIC_KWAJALEIN = "PACIFIC_KWAJALEIN"  # Pacific/Kwajalein
-    PACIFIC_MIDWAY = "PACIFIC_MIDWAY"  # Pacific/Midway
-    UTC = "UTC"  # UTC
+Supported values:
+- `AMERICA_ANCHORAGE`: America/Anchorage
+- `AMERICA_CARACAS`: America/Caracas
+- `AMERICA_CHICAGO`: America/Chicago
+- `AMERICA_DENVER`: America/Denver
+- `AMERICA_HALIFAX`: America/Halifax
+- `AMERICA_LOS_ANGELES`: America/Los_Angeles
+- `AMERICA_NEW_YORK`: America/New_York
+- `AMERICA_MEXICO_CITY`: America/Mexico_City
+- `AMERICA_SAO_PAULO`: America/Sao_Paulo
+- `AMERICA_ST_JOHNS`: America/St_Johns
+- `ASIA_ALMATY`: Asia/Almaty
+- `ASIA_BAGHDAD`: Asia/Baghdad
+- `ASIA_BANGKOK`: Asia/Bangkok
+- `ASIA_DUBAI`: Asia/Dubai
+- `ASIA_HONG_KONG`: Asia/Hong_Kong
+- `ASIA_KABUL`: Asia/Kabul
+- `ASIA_KATHMANDU`: Asia/Kathmandu
+- `ASIA_KOLKATA`: Asia/Kolkata
+- `ASIA_MAGADAN`: Asia/Magadan
+- `ASIA_RIYADH`: Asia/Riyadh
+- `ASIA_SHANGHAI`: Asia/Shanghai
+- `ASIA_SINGAPORE`: Asia/Singapore
+- `ASIA_TEHRAN`: Asia/Tehran
+- `ASIA_TOKYO`: Asia/Tokyo
+- `ASIA_YEKATERINBURG`: Asia/Yekaterinburg
+- `ASIA_YEREVAN`: Asia/Yerevan
+- `ATLANTIC_AZORES`: Atlantic/Azores
+- `ATLANTIC_SOUTH_GEORGIA`: Atlantic/South_Georgia
+- `AUSTRALIA_BRISBANE`: Australia/Brisbane
+- `AUSTRALIA_DARWIN`: Australia/Darwin
+- `AUSTRALIA_SYDNEY`: Australia/Sydney
+- `EET`: EET
+- `EUROPE_AMSTERDAM`: Europe/Amsterdam
+- `EUROPE_ISTANBUL`: Europe/Istanbul
+- `EUROPE_LONDON`: Europe/London
+- `EUROPE_PARIS`: Europe/Paris
+- `EUROPE_STOCKHOLM`: Europe/Stockholm
+- `INDIAN_COCOS`: Indian/Cocos
+- `PACIFIC_FIJI`: Pacific/Fiji
+- `PACIFIC_HONOLULU`: Pacific/Honolulu
+- `PACIFIC_KWAJALEIN`: Pacific/Kwajalein
+- `PACIFIC_MIDWAY`: Pacific/Midway
+- `PACIFIC_AUCKLAND`: Pacific/Auckland
+- `UTC`: UTC
+"""
 
 
 class DSPAudioCreativeRequirements(LenientModel):
@@ -245,7 +286,7 @@ class DSPCreateNotes(StrictModel):
     """Notes for an object with origin information."""
 
     note: str = Field(description="The note content.")
-    origin: Annotated[DSPNoteOrigin | str, lenient_enum(DSPNoteOrigin)]
+    origin: DSPNoteOrigin
 
 
 class DSPCreateSize(StrictModel):
@@ -499,9 +540,7 @@ class DSPCreateSupplierProposedDealExtension(StrictModel):
 class DSPCreateSupplierStateReason(StrictModel):
     """Additional context for a resource's lifecycle state."""
 
-    archiveReason: Annotated[DSPSupplierArchiveReason | str, lenient_enum(DSPSupplierArchiveReason)] | None = Field(
-        default=None
-    )
+    archiveReason: DSPSupplierArchiveReason | None = Field(default=None)
     description: str | None = Field(
         default=None, description="A free text description providing context for the state."
     )
@@ -660,9 +699,7 @@ class DSPTimeOfDayOut(LenientModel):
 class DSPUpdateSupplierStateReason(StrictModel):
     """Additional context for a resource's lifecycle state."""
 
-    archiveReason: Annotated[DSPSupplierArchiveReason | str, lenient_enum(DSPSupplierArchiveReason)] | None = Field(
-        default=None
-    )
+    archiveReason: DSPSupplierArchiveReason | None = Field(default=None)
     description: str | None = Field(
         default=None, description="A free text description providing context for the state."
     )

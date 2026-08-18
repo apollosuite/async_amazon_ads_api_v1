@@ -2,22 +2,18 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     AdGroupId,
     LocationExpression,
     LocationPredicate,
 )
 
-
-class BaseLocationState(StrEnum):
-    enabled = "enabled"
+type BaseLocationState = Literal["enabled"]
 
 
 class ArchiveLocationRequest(StrictModel):
@@ -37,15 +33,15 @@ class ArchiveLocationResponse(LenientModel):
 
 
 class BaseLocation(StrictModel):
-    state: Annotated[BaseLocationState | str, lenient_enum(BaseLocationState)] | None = Field(default=None)
+    state: BaseLocationState | None = Field(default=None)
 
 
 class BaseLocationOut(LenientModel):
-    state: Annotated[BaseLocationState | str, lenient_enum(BaseLocationState)] | None = Field(default=None)
+    state: BaseLocationState | str | None = Field(default=None)
 
 
 class CreateLocation(StrictModel):
-    state: Annotated[BaseLocationState | str, lenient_enum(BaseLocationState)]
+    state: BaseLocationState
     adGroupId: AdGroupId
     expression: list[LocationExpression] = Field(description="The location definition.")
 
@@ -57,7 +53,7 @@ class Include(StrictModel):
 
 
 class Location(LenientModel):
-    state: Annotated[BaseLocationState | str, lenient_enum(BaseLocationState)] | None = Field(default=None)
+    state: BaseLocationState | str | None = Field(default=None)
     locationExpressionId: LocationExpressionId | None = Field(default=None)
     adGroupId: AdGroupId | None = Field(default=None)
     expression: list[LocationExpressionOut] | None = Field(default=None, description="The Location definition.")
@@ -76,7 +72,7 @@ class LocationExpressionIdFilter(StrictModel):
 
 
 class LocationExpressionOut(LenientModel):
-    type: Annotated[LocationPredicate | str, lenient_enum(LocationPredicate)] | None = Field(default=None)
+    type: LocationPredicate | str | None = Field(default=None)
     value: str | None = Field(
         default=None,
         description="The location identifier. Currently, this can correspond to either a 'city', 'state', 'dma', 'postal code', or 'country'. Its value is discoverable using the GET /locations API.",
@@ -84,7 +80,7 @@ class LocationExpressionOut(LenientModel):
 
 
 class ResolvedLocationExpression(LenientModel):
-    type: Annotated[LocationPredicate | str, lenient_enum(LocationPredicate)] | None = Field(default=None)
+    type: LocationPredicate | str | None = Field(default=None)
     value: str | None = Field(default=None, description="The human-readable location name.")
 
 

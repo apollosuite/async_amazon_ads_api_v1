@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.dsp import (
     DSPBudgetType,
     DSPCreateTag,
@@ -17,410 +15,602 @@ from ads_api.models.v1._shared.dsp import (
     DSPTimeUnit,
 )
 
-
-class DSPAdProduct(StrEnum):
-    AMAZON_DSP = "AMAZON_DSP"  # Amazon Demand-Side Platform ad product.
-
-
-class DSPAutomatedTargetingTactic(StrEnum):
-    AWARENESS = "AWARENESS"  # Ad Group tactic (Complete TV) that indicates that this line item drives awareness to your selected audience on publisher streaming TV for the linked deal while fulfilling your commitment.
-    CUSTOMER_ACQUISITION = (
-        "CUSTOMER_ACQUISITION"  # Ad Group Tactic (P+) that reaches shoppers who are similar to past purchasers
-    )
-    MAXIMIZE_PERFORMANCE = "MAXIMIZE_PERFORMANCE"  # Ad Group Tactic (P+) that reaches shoppers who are similar to past shoppers who viewed a product detail page
-    PROSPECTING = "PROSPECTING"  # Ad Group Tactic (B+) that reaches consumers who are highly likely to show interest and engage with your brand or product
-    REMARKETING = "REMARKETING"  # Ad Group Tactic (P+) that reaches shoppers who have viewed a product detail page, searched for your product, or visited your homepage
-    RETENTION = "RETENTION"  # Ad Group Tactic (P+) that reaches shoppers who have purchased your product
-    SEARCH = "SEARCH"  # Ad Group Tactic that targets shoppers based on search signals.
+type DSPAdProduct = Literal["AMAZON_DSP",]  # Amazon Demand-Side Platform ad product.
+"""
+Supported values:
+- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
+"""
 
 
-class DSPBidStrategy(StrEnum):
-    PRIORITIZE_KPI_TARGET = "PRIORITIZE_KPI_TARGET"  # Optimizes bidding to achieve the KPI target specified.
-    SPEND_BUDGET_IN_FULL = "SPEND_BUDGET_IN_FULL"  # Prioritize spending full budget, while maximizing performance
-    USE_CAMPAIGN_STRATEGY = "USE_CAMPAIGN_STRATEGY"  # Inherit the bid strategy from the parent campaign.
+type DSPAutomatedTargetingTactic = Literal[
+    "AWARENESS",  # Ad Group tactic (Complete TV) that indicates that this line item drives awareness to your selected audience on publisher streaming TV for the linked deal while fulfilling your commitment.
+    "CUSTOMER_ACQUISITION",  # Ad Group Tactic (P+) that reaches shoppers who are similar to past purchasers
+    "MAXIMIZE_PERFORMANCE",  # Ad Group Tactic (P+) that reaches shoppers who are similar to past shoppers who viewed a product detail page
+    "PROSPECTING",  # Ad Group Tactic (B+) that reaches consumers who are highly likely to show interest and engage with your brand or product
+    "REMARKETING",  # Ad Group Tactic (P+) that reaches shoppers who have viewed a product detail page, searched for your product, or visited your homepage
+    "RETENTION",  # Ad Group Tactic (P+) that reaches shoppers who have purchased your product
+    "SEARCH",  # Ad Group Tactic that targets shoppers based on search signals.
+]
+"""
+Supported values:
+- `AWARENESS`: Ad Group tactic (Complete TV) that indicates that this line item drives awareness to your selected audience on publisher streaming TV for the linked deal while fulfilling your commitment.
+- `CUSTOMER_ACQUISITION`: Ad Group Tactic (P+) that reaches shoppers who are similar to past purchasers
+- `MAXIMIZE_PERFORMANCE`: Ad Group Tactic (P+) that reaches shoppers who are similar to past shoppers who viewed a product detail page
+- `PROSPECTING`: Ad Group Tactic (B+) that reaches consumers who are highly likely to show interest and engage with your brand or product
+- `REMARKETING`: Ad Group Tactic (P+) that reaches shoppers who have viewed a product detail page, searched for your product, or visited your homepage
+- `RETENTION`: Ad Group Tactic (P+) that reaches shoppers who have purchased your product
+- `SEARCH`: Ad Group Tactic that targets shoppers based on search signals.
+"""
 
 
-class DSPBudgetAllocation(StrEnum):
-    AUTO = "AUTO"  # Automatically allocate budget to better performing ad groups based on the selected goal KPI.
-    MANUAL = "MANUAL"  # Manually allocate budget across ad groups.
+type DSPBidStrategy = Literal[
+    "PRIORITIZE_KPI_TARGET",  # Optimizes bidding to achieve the KPI target specified.
+    "SPEND_BUDGET_IN_FULL",  # Prioritize spending full budget, while maximizing performance
+    "USE_CAMPAIGN_STRATEGY",  # Inherit the bid strategy from the parent campaign.
+]
+"""
+Supported values:
+- `PRIORITIZE_KPI_TARGET`: Optimizes bidding to achieve the KPI target specified.
+- `SPEND_BUDGET_IN_FULL`: Prioritize spending full budget, while maximizing performance
+- `USE_CAMPAIGN_STRATEGY`: Inherit the bid strategy from the parent campaign.
+"""
 
 
-class DSPCampaignFeeType(StrEnum):
-    AGENCY = "AGENCY"  # A service fee that is subtracted from the campaign budget as a percent of budget.
+type DSPBudgetAllocation = Literal[
+    "AUTO",  # Automatically allocate budget to better performing ad groups based on the selected goal KPI.
+    "MANUAL",  # Manually allocate budget across ad groups.
+]
+"""
+Supported values:
+- `AUTO`: Automatically allocate budget to better performing ad groups based on the selected goal KPI.
+- `MANUAL`: Manually allocate budget across ad groups.
+"""
 
 
-class DSPCampaignFeeValueType(StrEnum):
-    PERCENTAGE_OF_BUDGET = "PERCENTAGE_OF_BUDGET"  # Subtracted from the campaign budget as a percent of budget
+type DSPCampaignFeeType = Literal[
+    "AGENCY",  # A service fee that is subtracted from the campaign budget as a percent of budget.
+]
+"""
+Supported values:
+- `AGENCY`: A service fee that is subtracted from the campaign budget as a percent of budget.
+"""
 
 
-class DSPCountryCode(StrEnum):
-    AE = "AE"
-    AR = "AR"
-    AT = "AT"
-    AU = "AU"
-    BE = "BE"
-    BG = "BG"
-    BH = "BH"
-    BR = "BR"
-    CA = "CA"
-    CH = "CH"
-    CL = "CL"
-    CO = "CO"
-    CR = "CR"
-    CY = "CY"
-    CZ = "CZ"
-    DE = "DE"
-    DK = "DK"
-    DO = "DO"
-    DZ = "DZ"
-    EC = "EC"
-    EE = "EE"
-    EG = "EG"
-    ES = "ES"
-    FI = "FI"
-    FR = "FR"
-    GB = "GB"
-    GR = "GR"
-    GT = "GT"
-    HK = "HK"
-    HN = "HN"
-    HR = "HR"
-    HU = "HU"
-    ID = "ID"
-    IE = "IE"
-    IL = "IL"
-    IN = "IN"
-    IT = "IT"
-    JM = "JM"
-    JO = "JO"
-    JP = "JP"
-    KW = "KW"
-    LT = "LT"
-    LU = "LU"
-    LV = "LV"
-    MA = "MA"
-    MX = "MX"
-    MY = "MY"
-    NL = "NL"
-    NO = "NO"
-    NZ = "NZ"
-    OM = "OM"
-    PA = "PA"
-    PE = "PE"
-    PH = "PH"
-    PK = "PK"
-    PL = "PL"
-    PR = "PR"
-    PT = "PT"
-    PY = "PY"
-    QA = "QA"
-    RO = "RO"
-    SA = "SA"
-    SE = "SE"
-    SG = "SG"
-    SK = "SK"
-    SV = "SV"
-    TH = "TH"
-    TN = "TN"
-    TR = "TR"
-    TW = "TW"
-    US = "US"
-    UY = "UY"
-    VN = "VN"
-    ZA = "ZA"
+type DSPCampaignFeeValueType = Literal[
+    "PERCENTAGE_OF_BUDGET",  # Subtracted from the campaign budget as a percent of budget
+]
+"""
+Supported values:
+- `PERCENTAGE_OF_BUDGET`: Subtracted from the campaign budget as a percent of budget
+"""
 
 
-class DSPCreateState(StrEnum):
-    """
-    The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-    """
-
-    ENABLED = "ENABLED"  # The object is set active by user and eligible for delivery.
-    PAUSED = "PAUSED"  # The object is stopped by user and not eligible for delivery.
-
-
-class DSPCurrencyCode(StrEnum):
-    AED = "AED"  # United Arab Emirates Dirham
-    ARS = "ARS"  # Argentine Peso
-    AUD = "AUD"  # Australian Dollar
-    BGN = "BGN"  # Bulgarian Lev
-    BHD = "BHD"  # Bahraini Dinar
-    BOB = "BOB"  # Bolivian Boliviano
-    BRL = "BRL"  # Brazilian Real
-    CAD = "CAD"  # Canadian Dollar
-    CHF = "CHF"  # Swiss Franc
-    CLP = "CLP"  # Chilean Peso
-    CNY = "CNY"  # Chinese Yuan
-    COP = "COP"  # Colombian Peso
-    CRC = "CRC"  # Costa Rican Colón
-    CZK = "CZK"  # Czech Koruna
-    DKK = "DKK"  # Danish Krone
-    DOP = "DOP"  # Dominican Peso
-    DZD = "DZD"  # Algerian Dinar
-    EUR = "EUR"  # Euro
-    GBP = "GBP"  # British Pound Sterling
-    GTQ = "GTQ"  # Guatemalan Quetzal
-    HKD = "HKD"  # Hong Kong Dollar
-    HNL = "HNL"  # Honduran Lempira
-    HRK = "HRK"  # Croatian Kuna
-    HUF = "HUF"  # Hungarian Forint
-    IDR = "IDR"  # Indonesian Rupiah
-    ILS = "ILS"  # Israeli New Shekel
-    INR = "INR"  # Indian Rupee
-    JMD = "JMD"  # Jamaican Dollar
-    JPY = "JPY"  # Japanese Yen
-    KRW = "KRW"  # South Korean Won
-    KWD = "KWD"  # Kuwaiti Dinar
-    MAD = "MAD"  # Moroccan Dirham
-    MXN = "MXN"  # Mexican Peso
-    MYR = "MYR"  # Malaysian Ringgit
-    NOK = "NOK"  # Norwegian Krone
-    PAB = "PAB"  # Panamanian Balboa
-    PEN = "PEN"  # Peruvian Sol
-    PHP = "PHP"  # Philippine Peso
-    PKR = "PKR"  # Pakistani Rupee
-    PYG = "PYG"  # Paraguayan Guaraní
-    QAR = "QAR"  # Qatari Riyal
-    RON = "RON"  # Romanian Leu
-    RSD = "RSD"  # Serbian Dinar
-    RUB = "RUB"  # Russian Ruble
-    SAR = "SAR"  # Saudi Riyal
-    SEK = "SEK"  # Swedish Krona
-    SGD = "SGD"  # Singapore Dollar
-    THB = "THB"  # Thai Baht
-    TND = "TND"  # Tunisian Dinar
-    TRY = "TRY"  # Turkish Lira
-    TWD = "TWD"  # New Taiwan Dollar
-    UAH = "UAH"  # Ukrainian Hryvnia
-    USD = "USD"  # United States Dollar
-    UYU = "UYU"  # Uruguayan Peso
-    VND = "VND"  # Vietnamese Đồng
-
-
-class DSPDeliveryReason(StrEnum):
-    AD_CREATIVES_NOT_RUNNING = "AD_CREATIVES_NOT_RUNNING"
-    AD_GROUPS_NOT_RUNNING = "AD_GROUPS_NOT_RUNNING"
-    AD_GROUP_ARCHIVED = "AD_GROUP_ARCHIVED"
-    AD_GROUP_ENDED = "AD_GROUP_ENDED"
-    AD_GROUP_INELIGIBLE_GOAL_KPI = "AD_GROUP_INELIGIBLE_GOAL_KPI"  # Indicates that the ad group is suspended because the campaign's goal KPI is not supported.
-    AD_GROUP_MISSING_CONVERSION_TRACKING_SELECTIONS = "AD_GROUP_MISSING_CONVERSION_TRACKING_SELECTIONS"  # Indicates that the ad group is suspended because the campaign is missing conversion tracking selections.
-    AD_GROUP_PAUSED = "AD_GROUP_PAUSED"
-    AD_GROUP_PENDING_START_DATE = "AD_GROUP_PENDING_START_DATE"
-    AD_GROUP_POLICING_SUSPENDED = "AD_GROUP_POLICING_SUSPENDED"
-    AD_GROUP_TOO_FEW_CONVERSION_TRACKING_SELECTIONS = "AD_GROUP_TOO_FEW_CONVERSION_TRACKING_SELECTIONS"  # Indicates that the ad group is suspended because the campaign has an insufficient number of conversion tracking selections.
-    AD_GROUP_TOO_MANY_CONVERSION_TRACKING_SELECTIONS = "AD_GROUP_TOO_MANY_CONVERSION_TRACKING_SELECTIONS"  # Indicates that the ad group is suspended because the campaign exceeded the maximum number of conversion tracking selections.
-    AD_NOT_APPROVED_FOR_ALL_AD_GROUPS = "AD_NOT_APPROVED_FOR_ALL_AD_GROUPS"
-    AD_NOT_ASSOCIATED_WITH_AD_GROUP = "AD_NOT_ASSOCIATED_WITH_AD_GROUP"
-    AD_POLICING_PENDING_REVIEW = "AD_POLICING_PENDING_REVIEW"
-    AD_POLICING_SUSPENDED = "AD_POLICING_SUSPENDED"
-    CAMPAIGN_ARCHIVED = "CAMPAIGN_ARCHIVED"
-    CAMPAIGN_END_DATE_REACHED = "CAMPAIGN_END_DATE_REACHED"
-    CAMPAIGN_PAUSED = "CAMPAIGN_PAUSED"
-    CAMPAIGN_PENDING_START_DATE = "CAMPAIGN_PENDING_START_DATE"
-    CAMPAIGN_POLICING_SUSPENDED = "CAMPAIGN_POLICING_SUSPENDED"
-    OTHER = "OTHER"
+type DSPCountryCode = Literal[
+    "AE",
+    "AR",
+    "AT",
+    "AU",
+    "BE",
+    "BG",
+    "BH",
+    "BR",
+    "CA",
+    "CH",
+    "CL",
+    "CO",
+    "CR",
+    "CY",
+    "CZ",
+    "DE",
+    "DK",
+    "DO",
+    "DZ",
+    "EC",
+    "EE",
+    "EG",
+    "ES",
+    "FI",
+    "FR",
+    "GB",
+    "GR",
+    "GT",
+    "HK",
+    "HN",
+    "HR",
+    "HU",
+    "ID",
+    "IE",
+    "IL",
+    "IN",
+    "IT",
+    "JM",
+    "JO",
+    "JP",
+    "KW",
+    "LT",
+    "LU",
+    "LV",
+    "MA",
+    "MX",
+    "MY",
+    "NL",
+    "NO",
+    "NZ",
+    "OM",
+    "PA",
+    "PE",
+    "PH",
+    "PK",
+    "PL",
+    "PR",
+    "PT",
+    "PY",
+    "QA",
+    "RO",
+    "SA",
+    "SE",
+    "SG",
+    "SK",
+    "SV",
+    "TH",
+    "TN",
+    "TR",
+    "TW",
+    "US",
+    "UY",
+    "VN",
+    "ZA",
+]
 
 
-class DSPDeliveryStatus(StrEnum):
-    DELIVERING = "DELIVERING"  # Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces
-    LIMITED = "LIMITED"  # Represents partial delivery status, applicable to global resources that have different delivery status across marketplaces
-    NOT_DELIVERING = "NOT_DELIVERING"  # Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces
-    UNAVAILABLE = "UNAVAILABLE"  # Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces
+type DSPCreateState = Literal[
+    "ENABLED",  # The object is set active by user and eligible for delivery.
+    "PAUSED",  # The object is stopped by user and not eligible for delivery.
+]
+"""
+The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
+
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+"""
 
 
-class DSPErrorCode(StrEnum):
-    ACTION_NOT_SUPPORTED = "ACTION_NOT_SUPPORTED"  # The request is not supported.
-    ACTIVE_RESOURCE_LIMIT_EXCEEDED = (
-        "ACTIVE_RESOURCE_LIMIT_EXCEEDED"  # Too many live resources. Remove resources and try again.
-    )
-    ARCHIVED_PARENT_CANNOT_CREATE = (
-        "ARCHIVED_PARENT_CANNOT_CREATE"  # New resources cannot be created within an archived parent.
-    )
-    ARCHIVED_PARENT_CANNOT_EDIT = "ARCHIVED_PARENT_CANNOT_EDIT"  # Resources within an archived parent cannot be edited.
-    ARCHIVED_RESOURCE_CANNOT_EDIT = "ARCHIVED_RESOURCE_CANNOT_EDIT"  # Archived resources cannot be edited.
-    ASSET_NOT_READY = "ASSET_NOT_READY"  # The provided asset is still being processed.
-    AUTOCREATED_ENTITY_CANNOT_EDIT = "AUTOCREATED_ENTITY_CANNOT_EDIT"  # Autocreated entities cannot be edited. To complete this action, create the resource manually.
-    BAD_REQUEST = "BAD_REQUEST"  # The request is not valid considering the documented schema.
-    CONFLICT = "CONFLICT"  # Operation could not be completed due to a conflict. Please retry your request.
-    CONTENT_TOO_LARGE = "CONTENT_TOO_LARGE"  # The request is too large. Consider splitting it into multiple requests.
-    DATE_CANNOT_BE_IN_PAST = "DATE_CANNOT_BE_IN_PAST"  # Update the date to be in the future.
-    DATE_CANNOT_BE_NULL = "DATE_CANNOT_BE_NULL"  # Update the date.
-    DATE_TOO_SOON = "DATE_TOO_SOON"  # Update the date to be further in the future.
-    DUPLICATE_FIELD_VALUE_FOUND = "DUPLICATE_FIELD_VALUE_FOUND"  # Multiple resources share the non-unique field values. Remove the non-unique field value.
-    DUPLICATE_RESOURCE_ID_FOUND = (
-        "DUPLICATE_RESOURCE_ID_FOUND"  # Multiple resources share the same ID. Remove the duplicate ID.
-    )
-    DURATION_TOO_SHORT = "DURATION_TOO_SHORT"  # Update the length to be within the required range.
-    FEATURE_DISCONTINUED = "FEATURE_DISCONTINUED"  # Feature has been discontinued.
-    FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT = (
-        "FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT"  # Update the value to be within the required range.
-    )
-    FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT = (
-        "FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT"  # Update the value to be within the required range.
-    )
-    FIELD_SIZE_IS_OUT_OF_RANGE = "FIELD_SIZE_IS_OUT_OF_RANGE"  # Update the value to be within the required range.
-    FIELD_VALUE_CANNOT_EDIT = "FIELD_VALUE_CANNOT_EDIT"  # Field value cannot be edited.
-    FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS = (
-        "FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS"  # Update the request with the required information for this resource.
-    )
-    FIELD_VALUE_CONTAINS_INVALID_CHARACTERS = (
-        "FIELD_VALUE_CONTAINS_INVALID_CHARACTERS"  # Remove the invalid characters and try again.
-    )
-    FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT = (
-        "FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT"  # Update the value to be within the required range.
-    )
-    FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT = (
-        "FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT"  # Update the value to be within the required range.
-    )
-    FIELD_VALUE_IS_EMPTY = "FIELD_VALUE_IS_EMPTY"  # Update the request with the required information for this resource.
-    FIELD_VALUE_IS_INVALID = (
-        "FIELD_VALUE_IS_INVALID"  # Update the request with the required information for this resource.
-    )
-    FIELD_VALUE_IS_NULL = "FIELD_VALUE_IS_NULL"  # Update the request with the required information for this resource.
-    FIELD_VALUE_IS_OUT_OF_RANGE = "FIELD_VALUE_IS_OUT_OF_RANGE"  # Update the value to be within the required range.
-    FIELD_VALUE_MISMATCH = "FIELD_VALUE_MISMATCH"  # Mismatch among resource field values.
-    FIELD_VALUE_MUST_BE_EMPTY_OR_NULL = (
-        "FIELD_VALUE_MUST_BE_EMPTY_OR_NULL"  # Update the request with the required information for this resource.
-    )
-    FIELD_VALUE_NOT_FOUND = (
-        "FIELD_VALUE_NOT_FOUND"  # Resource specified in the field value not found. Try again with valid value.
-    )
-    FIELD_VALUE_NOT_UNIQUE = "FIELD_VALUE_NOT_UNIQUE"  # Resource field value conflicts with existing resource. Try again with an unique field value.
-    FORBIDDEN = "FORBIDDEN"  # The caller is not authorized to make the given request.
-    INTERNAL_ERROR = "INTERNAL_ERROR"  # The server encountered an unexpected condition that prevented it from fulfilling the request.
-    NOT_FOUND = "NOT_FOUND"  # The requested resource does not exist.
-    PAYMENT_ISSUE = "PAYMENT_ISSUE"  # Payment failed.
-    PRODUCT_INELIGIBLE = (
-        "PRODUCT_INELIGIBLE"  # Product is not eligible for advertising. Try again with a valid product.
-    )
-    RESOURCE_DOES_NOT_BELONG_TO_PARENT = "RESOURCE_DOES_NOT_BELONG_TO_PARENT"  # Resource does not belong to the specified parent. Try again with a valid parent ID.
-    RESOURCE_ID_NOT_FOUND = "RESOURCE_ID_NOT_FOUND"  # Resource ID not found. Try again with valid ID.
-    RESOURCE_IS_EMPTY = "RESOURCE_IS_EMPTY"  # Update the request with the required information for this resource.
-    RESOURCE_IS_IN_TERMINAL_STATE = "RESOURCE_IS_IN_TERMINAL_STATE"  # Resource is in terminal state.
-    RESOURCE_IS_NULL = "RESOURCE_IS_NULL"  # Update the request with the required information for this resource.
-    TOO_MANY_REQUESTS = "TOO_MANY_REQUESTS"  # There have been too many requests, please slow down your call rate.
-    TOTAL_RESOURCE_LIMIT_EXCEEDED = (
-        "TOTAL_RESOURCE_LIMIT_EXCEEDED"  # Too many resources. Remove resources and try again.
-    )
-    UNAUTHORIZED = "UNAUTHORIZED"  # The request lacks the necessary credentials.
-    UNSUPPORTED_MARKETPLACE = (
-        "UNSUPPORTED_MARKETPLACE"  # Marketplace not supported. Try again with a supported marketplace.
-    )
+type DSPCurrencyCode = Literal[
+    "AED",  # United Arab Emirates Dirham
+    "ARS",  # Argentine Peso
+    "AUD",  # Australian Dollar
+    "BGN",  # Bulgarian Lev
+    "BHD",  # Bahraini Dinar
+    "BOB",  # Bolivian Boliviano
+    "BRL",  # Brazilian Real
+    "CAD",  # Canadian Dollar
+    "CHF",  # Swiss Franc
+    "CLP",  # Chilean Peso
+    "CNY",  # Chinese Yuan
+    "COP",  # Colombian Peso
+    "CRC",  # Costa Rican Colón
+    "CZK",  # Czech Koruna
+    "DKK",  # Danish Krone
+    "DOP",  # Dominican Peso
+    "DZD",  # Algerian Dinar
+    "EUR",  # Euro
+    "GBP",  # British Pound Sterling
+    "GTQ",  # Guatemalan Quetzal
+    "HKD",  # Hong Kong Dollar
+    "HNL",  # Honduran Lempira
+    "HRK",  # Croatian Kuna
+    "HUF",  # Hungarian Forint
+    "IDR",  # Indonesian Rupiah
+    "ILS",  # Israeli New Shekel
+    "INR",  # Indian Rupee
+    "JMD",  # Jamaican Dollar
+    "JPY",  # Japanese Yen
+    "KRW",  # South Korean Won
+    "KWD",  # Kuwaiti Dinar
+    "MAD",  # Moroccan Dirham
+    "MXN",  # Mexican Peso
+    "MYR",  # Malaysian Ringgit
+    "NOK",  # Norwegian Krone
+    "PAB",  # Panamanian Balboa
+    "PEN",  # Peruvian Sol
+    "PHP",  # Philippine Peso
+    "PKR",  # Pakistani Rupee
+    "PYG",  # Paraguayan Guaraní
+    "QAR",  # Qatari Riyal
+    "RON",  # Romanian Leu
+    "RSD",  # Serbian Dinar
+    "RUB",  # Russian Ruble
+    "SAR",  # Saudi Riyal
+    "SEK",  # Swedish Krona
+    "SGD",  # Singapore Dollar
+    "THB",  # Thai Baht
+    "TND",  # Tunisian Dinar
+    "TRY",  # Turkish Lira
+    "TWD",  # New Taiwan Dollar
+    "UAH",  # Ukrainian Hryvnia
+    "USD",  # United States Dollar
+    "UYU",  # Uruguayan Peso
+    "VND",  # Vietnamese Đồng
+]
+"""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `ARS`: Argentine Peso
+- `AUD`: Australian Dollar
+- `BGN`: Bulgarian Lev
+- `BHD`: Bahraini Dinar
+- `BOB`: Bolivian Boliviano
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CLP`: Chilean Peso
+- `CNY`: Chinese Yuan
+- `COP`: Colombian Peso
+- `CRC`: Costa Rican Colón
+- `CZK`: Czech Koruna
+- `DKK`: Danish Krone
+- `DOP`: Dominican Peso
+- `DZD`: Algerian Dinar
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `GTQ`: Guatemalan Quetzal
+- `HKD`: Hong Kong Dollar
+- `HNL`: Honduran Lempira
+- `HRK`: Croatian Kuna
+- `HUF`: Hungarian Forint
+- `IDR`: Indonesian Rupiah
+- `ILS`: Israeli New Shekel
+- `INR`: Indian Rupee
+- `JMD`: Jamaican Dollar
+- `JPY`: Japanese Yen
+- `KRW`: South Korean Won
+- `KWD`: Kuwaiti Dinar
+- `MAD`: Moroccan Dirham
+- `MXN`: Mexican Peso
+- `MYR`: Malaysian Ringgit
+- `NOK`: Norwegian Krone
+- `PAB`: Panamanian Balboa
+- `PEN`: Peruvian Sol
+- `PHP`: Philippine Peso
+- `PKR`: Pakistani Rupee
+- `PYG`: Paraguayan Guaraní
+- `QAR`: Qatari Riyal
+- `RON`: Romanian Leu
+- `RSD`: Serbian Dinar
+- `RUB`: Russian Ruble
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `THB`: Thai Baht
+- `TND`: Tunisian Dinar
+- `TRY`: Turkish Lira
+- `TWD`: New Taiwan Dollar
+- `UAH`: Ukrainian Hryvnia
+- `USD`: United States Dollar
+- `UYU`: Uruguayan Peso
+- `VND`: Vietnamese Đồng
+"""
 
 
-class DSPFrequencyTargetingSetting(StrEnum):
-    HOUSEHOLD = "HOUSEHOLD"  # Control frequency an ad will be selected across people within the same household.
-    USER = "USER"  # Control frequency an ad will be selected to a person.
+type DSPDeliveryReason = Literal[
+    "AD_CREATIVES_NOT_RUNNING",
+    "AD_GROUPS_NOT_RUNNING",
+    "AD_GROUP_ARCHIVED",
+    "AD_GROUP_ENDED",
+    "AD_GROUP_INELIGIBLE_GOAL_KPI",  # Indicates that the ad group is suspended because the campaign's goal KPI is not supported.
+    "AD_GROUP_MISSING_CONVERSION_TRACKING_SELECTIONS",  # Indicates that the ad group is suspended because the campaign is missing conversion tracking selections.
+    "AD_GROUP_PAUSED",
+    "AD_GROUP_PENDING_START_DATE",
+    "AD_GROUP_POLICING_SUSPENDED",
+    "AD_GROUP_TOO_FEW_CONVERSION_TRACKING_SELECTIONS",  # Indicates that the ad group is suspended because the campaign has an insufficient number of conversion tracking selections.
+    "AD_GROUP_TOO_MANY_CONVERSION_TRACKING_SELECTIONS",  # Indicates that the ad group is suspended because the campaign exceeded the maximum number of conversion tracking selections.
+    "AD_NOT_APPROVED_FOR_ALL_AD_GROUPS",
+    "AD_NOT_ASSOCIATED_WITH_AD_GROUP",
+    "AD_POLICING_PENDING_REVIEW",
+    "AD_POLICING_SUSPENDED",
+    "CAMPAIGN_ARCHIVED",
+    "CAMPAIGN_END_DATE_REACHED",
+    "CAMPAIGN_PAUSED",
+    "CAMPAIGN_PENDING_START_DATE",
+    "CAMPAIGN_POLICING_SUSPENDED",
+    "OTHER",
+]
+"""
+Supported values:
+- `AD_GROUP_INELIGIBLE_GOAL_KPI`: Indicates that the ad group is suspended because the campaign's goal KPI is not supported.
+- `AD_GROUP_MISSING_CONVERSION_TRACKING_SELECTIONS`: Indicates that the ad group is suspended because the campaign is missing conversion tracking selections.
+- `AD_GROUP_TOO_FEW_CONVERSION_TRACKING_SELECTIONS`: Indicates that the ad group is suspended because the campaign has an insufficient number of conversion tracking selections.
+- `AD_GROUP_TOO_MANY_CONVERSION_TRACKING_SELECTIONS`: Indicates that the ad group is suspended because the campaign exceeded the maximum number of conversion tracking selections.
+"""
 
 
-class DSPGoal(StrEnum):
-    AWARENESS = "AWARENESS"  # Indicates a goal of driving awareness.
-    CONSIDERATION = "CONSIDERATION"  # Indicates a goal of driving consideration.
-    CONVERSIONS = "CONVERSIONS"  # Indicates a goal of driving conversions.
+type DSPDeliveryStatus = Literal[
+    "DELIVERING",  # Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces
+    "LIMITED",  # Represents partial delivery status, applicable to global resources that have different delivery status across marketplaces
+    "NOT_DELIVERING",  # Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces
+    "UNAVAILABLE",  # Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces
+]
+"""
+Supported values:
+- `DELIVERING`: Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces
+- `LIMITED`: Represents partial delivery status, applicable to global resources that have different delivery status across marketplaces
+- `NOT_DELIVERING`: Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces
+- `UNAVAILABLE`: Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces
+"""
 
 
-class DSPIneligibleAutomatedTargetingTacticReasonCode(StrEnum):
-    """
-    Reason codes for why a tactic type is ineligible
-    """
+type DSPErrorCode = Literal[
+    "ACTION_NOT_SUPPORTED",  # The request is not supported.
+    "ACTIVE_RESOURCE_LIMIT_EXCEEDED",  # Too many live resources. Remove resources and try again.
+    "ARCHIVED_PARENT_CANNOT_CREATE",  # New resources cannot be created within an archived parent.
+    "ARCHIVED_PARENT_CANNOT_EDIT",  # Resources within an archived parent cannot be edited.
+    "ARCHIVED_RESOURCE_CANNOT_EDIT",  # Archived resources cannot be edited.
+    "ASSET_NOT_READY",  # The provided asset is still being processed.
+    "AUTOCREATED_ENTITY_CANNOT_EDIT",  # Autocreated entities cannot be edited. To complete this action, create the resource manually.
+    "BAD_REQUEST",  # The request is not valid considering the documented schema.
+    "CONFLICT",  # Operation could not be completed due to a conflict. Please retry your request.
+    "CONTENT_TOO_LARGE",  # The request is too large. Consider splitting it into multiple requests.
+    "DATE_CANNOT_BE_IN_PAST",  # Update the date to be in the future.
+    "DATE_CANNOT_BE_NULL",  # Update the date.
+    "DATE_TOO_SOON",  # Update the date to be further in the future.
+    "DUPLICATE_FIELD_VALUE_FOUND",  # Multiple resources share the non-unique field values. Remove the non-unique field value.
+    "DUPLICATE_RESOURCE_ID_FOUND",  # Multiple resources share the same ID. Remove the duplicate ID.
+    "DURATION_TOO_SHORT",  # Update the length to be within the required range.
+    "FEATURE_DISCONTINUED",  # Feature has been discontinued.
+    "FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT",  # Update the value to be within the required range.
+    "FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT",  # Update the value to be within the required range.
+    "FIELD_SIZE_IS_OUT_OF_RANGE",  # Update the value to be within the required range.
+    "FIELD_VALUE_CANNOT_EDIT",  # Field value cannot be edited.
+    "FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_CONTAINS_INVALID_CHARACTERS",  # Remove the invalid characters and try again.
+    "FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT",  # Update the value to be within the required range.
+    "FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT",  # Update the value to be within the required range.
+    "FIELD_VALUE_IS_EMPTY",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_IS_INVALID",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_IS_NULL",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_IS_OUT_OF_RANGE",  # Update the value to be within the required range.
+    "FIELD_VALUE_MISMATCH",  # Mismatch among resource field values.
+    "FIELD_VALUE_MUST_BE_EMPTY_OR_NULL",  # Update the request with the required information for this resource.
+    "FIELD_VALUE_NOT_FOUND",  # Resource specified in the field value not found. Try again with valid value.
+    "FIELD_VALUE_NOT_UNIQUE",  # Resource field value conflicts with existing resource. Try again with an unique field value.
+    "FORBIDDEN",  # The caller is not authorized to make the given request.
+    "INTERNAL_ERROR",  # The server encountered an unexpected condition that prevented it from fulfilling the request.
+    "NOT_FOUND",  # The requested resource does not exist.
+    "PAYMENT_ISSUE",  # Payment failed.
+    "PRODUCT_INELIGIBLE",  # Product is not eligible for advertising. Try again with a valid product.
+    "RESOURCE_DOES_NOT_BELONG_TO_PARENT",  # Resource does not belong to the specified parent. Try again with a valid parent ID.
+    "RESOURCE_ID_NOT_FOUND",  # Resource ID not found. Try again with valid ID.
+    "RESOURCE_IS_EMPTY",  # Update the request with the required information for this resource.
+    "RESOURCE_IS_IN_TERMINAL_STATE",  # Resource is in terminal state.
+    "RESOURCE_IS_NULL",  # Update the request with the required information for this resource.
+    "TOO_MANY_REQUESTS",  # There have been too many requests, please slow down your call rate.
+    "TOTAL_RESOURCE_LIMIT_EXCEEDED",  # Too many resources. Remove resources and try again.
+    "UNAUTHORIZED",  # The request lacks the necessary credentials.
+    "UNSUPPORTED_MARKETPLACE",  # Marketplace not supported. Try again with a supported marketplace.
+]
+"""
+Supported values:
+- `ACTION_NOT_SUPPORTED`: The request is not supported.
+- `ACTIVE_RESOURCE_LIMIT_EXCEEDED`: Too many live resources. Remove resources and try again.
+- `ARCHIVED_PARENT_CANNOT_CREATE`: New resources cannot be created within an archived parent.
+- `ARCHIVED_PARENT_CANNOT_EDIT`: Resources within an archived parent cannot be edited.
+- `ARCHIVED_RESOURCE_CANNOT_EDIT`: Archived resources cannot be edited.
+- `ASSET_NOT_READY`: The provided asset is still being processed.
+- `AUTOCREATED_ENTITY_CANNOT_EDIT`: Autocreated entities cannot be edited. To complete this action, create the resource manually.
+- `BAD_REQUEST`: The request is not valid considering the documented schema.
+- `CONFLICT`: Operation could not be completed due to a conflict. Please retry your request.
+- `CONTENT_TOO_LARGE`: The request is too large. Consider splitting it into multiple requests.
+- `DATE_CANNOT_BE_IN_PAST`: Update the date to be in the future.
+- `DATE_CANNOT_BE_NULL`: Update the date.
+- `DATE_TOO_SOON`: Update the date to be further in the future.
+- `DUPLICATE_FIELD_VALUE_FOUND`: Multiple resources share the non-unique field values. Remove the non-unique field value.
+- `DUPLICATE_RESOURCE_ID_FOUND`: Multiple resources share the same ID. Remove the duplicate ID.
+- `DURATION_TOO_SHORT`: Update the length to be within the required range.
+- `FEATURE_DISCONTINUED`: Feature has been discontinued.
+- `FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_SIZE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
+- `FIELD_VALUE_CANNOT_EDIT`: Field value cannot be edited.
+- `FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS`: Update the request with the required information for this resource.
+- `FIELD_VALUE_CONTAINS_INVALID_CHARACTERS`: Remove the invalid characters and try again.
+- `FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_VALUE_IS_EMPTY`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_INVALID`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_NULL`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
+- `FIELD_VALUE_MISMATCH`: Mismatch among resource field values.
+- `FIELD_VALUE_MUST_BE_EMPTY_OR_NULL`: Update the request with the required information for this resource.
+- `FIELD_VALUE_NOT_FOUND`: Resource specified in the field value not found. Try again with valid value.
+- `FIELD_VALUE_NOT_UNIQUE`: Resource field value conflicts with existing resource. Try again with an unique field value.
+- `FORBIDDEN`: The caller is not authorized to make the given request.
+- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- `NOT_FOUND`: The requested resource does not exist.
+- `PAYMENT_ISSUE`: Payment failed.
+- `PRODUCT_INELIGIBLE`: Product is not eligible for advertising. Try again with a valid product.
+- `RESOURCE_DOES_NOT_BELONG_TO_PARENT`: Resource does not belong to the specified parent. Try again with a valid parent ID.
+- `RESOURCE_ID_NOT_FOUND`: Resource ID not found. Try again with valid ID.
+- `RESOURCE_IS_EMPTY`: Update the request with the required information for this resource.
+- `RESOURCE_IS_IN_TERMINAL_STATE`: Resource is in terminal state.
+- `RESOURCE_IS_NULL`: Update the request with the required information for this resource.
+- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
+- `TOTAL_RESOURCE_LIMIT_EXCEEDED`: Too many resources. Remove resources and try again.
+- `UNAUTHORIZED`: The request lacks the necessary credentials.
+- `UNSUPPORTED_MARKETPLACE`: Marketplace not supported. Try again with a supported marketplace.
+"""
 
-    CONVERSION_SELECTIONS_EMPTY = (
-        "CONVERSION_SELECTIONS_EMPTY"  # Campaign has no product or conversion event associations.
-    )
-    CONVERSION_SELECTIONS_EXCEEDED = (
-        "CONVERSION_SELECTIONS_EXCEEDED"  # Campaign is associated with too many products or conversion events.
-    )
-    CONVERSION_SELECTIONS_MINIMUM_NOT_MET = (
-        "CONVERSION_SELECTIONS_MINIMUM_NOT_MET"  # Minimum product or conversion event constraints not met.
-    )
-    NOT_ELIGIBLE_ADVERTISER = "NOT_ELIGIBLE_ADVERTISER"  # The advertiser is not eligible for this tactic.
-    NOT_ELIGIBLE_GOAL = "NOT_ELIGIBLE_GOAL"  # The current campaign goal is not compatible with this tactic type.
-    NOT_ELIGIBLE_INVENTORY_TYPE = "NOT_ELIGIBLE_INVENTORY_TYPE"  # This campaign's primary inventory types are not supported with this tactic type.
-    UNSUPPORTED_COUNTRY = "UNSUPPORTED_COUNTRY"  # Selected tactic type is not available for the given country.
+
+type DSPFrequencyTargetingSetting = Literal[
+    "HOUSEHOLD",  # Control frequency an ad will be selected across people within the same household.
+    "USER",  # Control frequency an ad will be selected to a person.
+]
+"""
+Supported values:
+- `HOUSEHOLD`: Control frequency an ad will be selected across people within the same household.
+- `USER`: Control frequency an ad will be selected to a person.
+"""
 
 
-class DSPKPI(StrEnum):
-    CLICK_THROUGH_RATE = "CLICK_THROUGH_RATE"  # Indicates a goal of driving clickthrough rate.
-    COMBINED_RETURN_ON_AD_SPEND = "COMBINED_RETURN_ON_AD_SPEND"  # Deprecated. Please use ROAS_COMBINED.
-    COST_PER_ACTION = "COST_PER_ACTION"  # Deprecated. Please use COST_PER_CONVERSION_OFF_AMAZON.
-    COST_PER_CLICK = "COST_PER_CLICK"  # Indicates a goal of driving improved cost per click.
-    COST_PER_CONVERSION_OFF_AMAZON = (
-        "COST_PER_CONVERSION_OFF_AMAZON"  # Indicates a goal of driving improved cost per conversion off Amazon.
-    )
-    COST_PER_DETAIL_PAGE_VIEW = (
-        "COST_PER_DETAIL_PAGE_VIEW"  # Indicates a goal of driving improved cost per detail page view.
-    )
-    COST_PER_FIRST_APP_OPEN = "COST_PER_FIRST_APP_OPEN"  # Indicates a goal of improved cost per first app open.
-    COST_PER_INSTALL = "COST_PER_INSTALL"  # Indicates a goal of driving improved cost per app install.
-    COST_PER_SIGN_UP = "COST_PER_SIGN_UP"  # Indicates a goal of driving improved cost per sign up.
-    COST_PER_VIDEO_COMPLETION = (
-        "COST_PER_VIDEO_COMPLETION"  # Indicates a goal of driving improved cost per video completion.
-    )
-    DETAIL_PAGE_VIEW_RATE = "DETAIL_PAGE_VIEW_RATE"  # Indicates a goal of driving improved detail page view rate.
-    FREQUENCY_AVERAGE = "FREQUENCY_AVERAGE"  # Indicates a goal of driving to a target frequency.
-    REACH = "REACH"  # Indicates a goal of driving improved reach.
-    RETURN_ON_AD_SPEND = "RETURN_ON_AD_SPEND"  # Deprecated. Please use ROAS_PROMOTED.
-    ROAS = "ROAS"  # Indicates a goal of driving improved return of ad spend.
-    ROAS_COMBINED = "ROAS_COMBINED"  # Indicates a goal of driving improved return of ad spend (combined).
-    ROAS_PROMOTED = "ROAS_PROMOTED"  # Indicates a goal of driving improved return of ad spend (promoted).
-    TOTAL_RETURN_ON_AD_SPEND = "TOTAL_RETURN_ON_AD_SPEND"  # Deprecated. Please use ROAS.
-    VIDEO_COMPLETION_RATE = "VIDEO_COMPLETION_RATE"  # Indicates a goal of driving improved video completion rate.
+type DSPGoal = Literal[
+    "AWARENESS",  # Indicates a goal of driving awareness.
+    "CONSIDERATION",  # Indicates a goal of driving consideration.
+    "CONVERSIONS",  # Indicates a goal of driving conversions.
+]
+"""
+Supported values:
+- `AWARENESS`: Indicates a goal of driving awareness.
+- `CONSIDERATION`: Indicates a goal of driving consideration.
+- `CONVERSIONS`: Indicates a goal of driving conversions.
+"""
 
 
-class DSPMarketplace(StrEnum):
-    """
-    A list of country codes representing Amazon marketplaces
-    """
+type DSPIneligibleAutomatedTargetingTacticReasonCode = Literal[
+    "CONVERSION_SELECTIONS_EMPTY",  # Campaign has no product or conversion event associations.
+    "CONVERSION_SELECTIONS_EXCEEDED",  # Campaign is associated with too many products or conversion events.
+    "CONVERSION_SELECTIONS_MINIMUM_NOT_MET",  # Minimum product or conversion event constraints not met.
+    "NOT_ELIGIBLE_ADVERTISER",  # The advertiser is not eligible for this tactic.
+    "NOT_ELIGIBLE_GOAL",  # The current campaign goal is not compatible with this tactic type.
+    "NOT_ELIGIBLE_INVENTORY_TYPE",  # This campaign's primary inventory types are not supported with this tactic type.
+    "UNSUPPORTED_COUNTRY",  # Selected tactic type is not available for the given country.
+]
+"""
+Reason codes for why a tactic type is ineligible
 
-    AE = "AE"
-    AU = "AU"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    NL = "NL"
-    SA = "SA"
-    SE = "SE"
-    TR = "TR"
-    US = "US"
-
-
-class DSPPrimaryInventoryType(StrEnum):
-    AUDIO = "AUDIO"  # Audio ads that serve on streaming audio and podcast inventory.
-    DISPLAY = "DISPLAY"  # Image ads that serve across Amazon and third-party inventory.
-    VIDEO_OLV = "VIDEO_OLV"  # Video ads that serve on online video inventory.
-    VIDEO_STV = "VIDEO_STV"  # Video ads that serve on streaming TV inventory.
+Supported values:
+- `CONVERSION_SELECTIONS_EMPTY`: Campaign has no product or conversion event associations.
+- `CONVERSION_SELECTIONS_EXCEEDED`: Campaign is associated with too many products or conversion events.
+- `CONVERSION_SELECTIONS_MINIMUM_NOT_MET`: Minimum product or conversion event constraints not met.
+- `NOT_ELIGIBLE_ADVERTISER`: The advertiser is not eligible for this tactic.
+- `NOT_ELIGIBLE_GOAL`: The current campaign goal is not compatible with this tactic type.
+- `NOT_ELIGIBLE_INVENTORY_TYPE`: This campaign's primary inventory types are not supported with this tactic type.
+- `UNSUPPORTED_COUNTRY`: Selected tactic type is not available for the given country.
+"""
 
 
-class DSPRolloverStrategy(StrEnum):
-    CUMULATIVE_BUDGET_ROLLOVER = "CUMULATIVE_BUDGET_ROLLOVER"  # Rollover cumulative unused budget.
-    NO_ROLLOVER = "NO_ROLLOVER"  # Do not rollover flight budgets.
-    PRIOR_BUDGET_ROLLOVER = "PRIOR_BUDGET_ROLLOVER"  # Rollover prior flight unused budget.
+type DSPKPI = Literal[
+    "CLICK_THROUGH_RATE",  # Indicates a goal of driving clickthrough rate.
+    "COMBINED_RETURN_ON_AD_SPEND",  # Deprecated. Please use ROAS_COMBINED.
+    "COST_PER_ACTION",  # Deprecated. Please use COST_PER_CONVERSION_OFF_AMAZON.
+    "COST_PER_CLICK",  # Indicates a goal of driving improved cost per click.
+    "COST_PER_CONVERSION_OFF_AMAZON",  # Indicates a goal of driving improved cost per conversion off Amazon.
+    "COST_PER_DETAIL_PAGE_VIEW",  # Indicates a goal of driving improved cost per detail page view.
+    "COST_PER_FIRST_APP_OPEN",  # Indicates a goal of improved cost per first app open.
+    "COST_PER_INSTALL",  # Indicates a goal of driving improved cost per app install.
+    "COST_PER_SIGN_UP",  # Indicates a goal of driving improved cost per sign up.
+    "COST_PER_VIDEO_COMPLETION",  # Indicates a goal of driving improved cost per video completion.
+    "DETAIL_PAGE_VIEW_RATE",  # Indicates a goal of driving improved detail page view rate.
+    "FREQUENCY_AVERAGE",  # Indicates a goal of driving to a target frequency.
+    "REACH",  # Indicates a goal of driving improved reach.
+    "RETURN_ON_AD_SPEND",  # Deprecated. Please use ROAS_PROMOTED.
+    "ROAS",  # Indicates a goal of driving improved return of ad spend.
+    "ROAS_COMBINED",  # Indicates a goal of driving improved return of ad spend (combined).
+    "ROAS_PROMOTED",  # Indicates a goal of driving improved return of ad spend (promoted).
+    "TOTAL_RETURN_ON_AD_SPEND",  # Deprecated. Please use ROAS.
+    "VIDEO_COMPLETION_RATE",  # Indicates a goal of driving improved video completion rate.
+]
+"""
+Supported values:
+- `CLICK_THROUGH_RATE`: Indicates a goal of driving clickthrough rate.
+- `COMBINED_RETURN_ON_AD_SPEND`: Deprecated. Please use ROAS_COMBINED.
+- `COST_PER_ACTION`: Deprecated. Please use COST_PER_CONVERSION_OFF_AMAZON.
+- `COST_PER_CLICK`: Indicates a goal of driving improved cost per click.
+- `COST_PER_CONVERSION_OFF_AMAZON`: Indicates a goal of driving improved cost per conversion off Amazon.
+- `COST_PER_DETAIL_PAGE_VIEW`: Indicates a goal of driving improved cost per detail page view.
+- `COST_PER_FIRST_APP_OPEN`: Indicates a goal of improved cost per first app open.
+- `COST_PER_INSTALL`: Indicates a goal of driving improved cost per app install.
+- `COST_PER_SIGN_UP`: Indicates a goal of driving improved cost per sign up.
+- `COST_PER_VIDEO_COMPLETION`: Indicates a goal of driving improved cost per video completion.
+- `DETAIL_PAGE_VIEW_RATE`: Indicates a goal of driving improved detail page view rate.
+- `FREQUENCY_AVERAGE`: Indicates a goal of driving to a target frequency.
+- `REACH`: Indicates a goal of driving improved reach.
+- `RETURN_ON_AD_SPEND`: Deprecated. Please use ROAS_PROMOTED.
+- `ROAS_COMBINED`: Indicates a goal of driving improved return of ad spend (combined).
+- `ROAS_PROMOTED`: Indicates a goal of driving improved return of ad spend (promoted).
+- `ROAS`: Indicates a goal of driving improved return of ad spend.
+- `TOTAL_RETURN_ON_AD_SPEND`: Deprecated. Please use ROAS.
+- `VIDEO_COMPLETION_RATE`: Indicates a goal of driving improved video completion rate.
+"""
 
 
-class DSPState(StrEnum):
-    """
-    The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-    """
+type DSPMarketplace = Literal[
+    "AE",
+    "AU",
+    "BR",
+    "CA",
+    "DE",
+    "ES",
+    "FR",
+    "GB",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "SA",
+    "SE",
+    "TR",
+    "US",
+]
+"""
+A list of country codes representing Amazon marketplaces
+"""
 
-    ARCHIVED = "ARCHIVED"  # The object is permanently stopped and cannot be reactivated. Terminal end state.
-    ENABLED = "ENABLED"  # The object is set active by user and eligible for delivery.
-    PAUSED = "PAUSED"  # The object is stopped by user and not eligible for delivery.
+
+type DSPPrimaryInventoryType = Literal[
+    "AUDIO",  # Audio ads that serve on streaming audio and podcast inventory.
+    "DISPLAY",  # Image ads that serve across Amazon and third-party inventory.
+    "VIDEO_OLV",  # Video ads that serve on online video inventory.
+    "VIDEO_STV",  # Video ads that serve on streaming TV inventory.
+]
+"""
+Supported values:
+- `AUDIO`: Audio ads that serve on streaming audio and podcast inventory.
+- `DISPLAY`: Image ads that serve across Amazon and third-party inventory.
+- `VIDEO_OLV`: Video ads that serve on online video inventory.
+- `VIDEO_STV`: Video ads that serve on streaming TV inventory.
+"""
 
 
-class DSPUpdateState(StrEnum):
-    """
-    The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-    """
+type DSPRolloverStrategy = Literal[
+    "CUMULATIVE_BUDGET_ROLLOVER",  # Rollover cumulative unused budget.
+    "NO_ROLLOVER",  # Do not rollover flight budgets.
+    "PRIOR_BUDGET_ROLLOVER",  # Rollover prior flight unused budget.
+]
+"""
+Supported values:
+- `CUMULATIVE_BUDGET_ROLLOVER`: Rollover cumulative unused budget.
+- `NO_ROLLOVER`: Do not rollover flight budgets.
+- `PRIOR_BUDGET_ROLLOVER`: Rollover prior flight unused budget.
+"""
 
-    ENABLED = "ENABLED"  # The object is set active by user and eligible for delivery.
-    PAUSED = "PAUSED"  # The object is stopped by user and not eligible for delivery.
+
+type DSPState = Literal[
+    "ARCHIVED",  # The object is permanently stopped and cannot be reactivated. Terminal end state.
+    "ENABLED",  # The object is set active by user and eligible for delivery.
+    "PAUSED",  # The object is stopped by user and not eligible for delivery.
+]
+"""
+The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
+
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+"""
+
+
+type DSPUpdateState = Literal[
+    "ENABLED",  # The object is set active by user and eligible for delivery.
+    "PAUSED",  # The object is stopped by user and not eligible for delivery.
+]
+"""
+The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
+
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+"""
 
 
 class DSPAutoCreationSettings(LenientModel):
@@ -430,21 +620,37 @@ class DSPAutoCreationSettings(LenientModel):
 
 
 class DSPBidSettings(LenientModel):
-    bidStrategy: Annotated[DSPBidStrategy | str, lenient_enum(DSPBidStrategy)]
+    bidStrategy: DSPBidStrategy | str = Field(description="""
+Supported values:
+- `PRIORITIZE_KPI_TARGET`: Optimizes bidding to achieve the KPI target specified.
+- `SPEND_BUDGET_IN_FULL`: Prioritize spending full budget, while maximizing performance
+- `USE_CAMPAIGN_STRATEGY`: Inherit the bid strategy from the parent campaign.
+""")
 
 
 class DSPBudget(LenientModel):
-    budgetType: Annotated[DSPBudgetType | str, lenient_enum(DSPBudgetType)]
+    budgetType: DSPBudgetType | str
     budgetValue: DSPBudgetValue
-    recurrenceTimePeriod: Annotated[DSPRecurrence | str, lenient_enum(DSPRecurrence)]
+    recurrenceTimePeriod: DSPRecurrence | str
 
 
 class DSPBudgetSettings(LenientModel):
-    budgetAllocation: Annotated[DSPBudgetAllocation | str, lenient_enum(DSPBudgetAllocation)] | None = Field(
-        default=None
+    budgetAllocation: DSPBudgetAllocation | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `AUTO`: Automatically allocate budget to better performing ad groups based on the selected goal KPI.
+- `MANUAL`: Manually allocate budget across ad groups.
+""",
     )
-    flightBudgetRolloverStrategy: Annotated[DSPRolloverStrategy | str, lenient_enum(DSPRolloverStrategy)] | None = (
-        Field(default=None)
+    flightBudgetRolloverStrategy: DSPRolloverStrategy | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `CUMULATIVE_BUDGET_ROLLOVER`: Rollover cumulative unused budget.
+- `NO_ROLLOVER`: Do not rollover flight budgets.
+- `PRIOR_BUDGET_ROLLOVER`: Rollover prior flight unused budget.
+""",
     )
 
 
@@ -453,7 +659,10 @@ class DSPBudgetValue(LenientModel):
 
 
 class DSPCampaign(LenientModel):
-    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)]
+    adProduct: DSPAdProduct | str = Field(description="""
+Supported values:
+- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
+""")
     adomains: list[str] | None = Field(
         default=None,
         min_length=0,
@@ -468,7 +677,7 @@ class DSPCampaign(LenientModel):
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
     campaignId: str = Field(description="A unique identifier for a campaign.")
-    countries: list[Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)]] | None = Field(
+    countries: list[DSPCountryCode | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -498,7 +707,7 @@ class DSPCampaign(LenientModel):
         description="List of tactic type and inventory type pairs that are ineligible for use with this campaign, along with reasons for ineligibility",
     )
     lastUpdatedDateTime: datetime = Field(description="The date time that the campaign was last updated.")
-    marketplaces: list[Annotated[DSPMarketplace | str, lenient_enum(DSPMarketplace)]] | None = Field(
+    marketplaces: list[DSPMarketplace | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -514,7 +723,12 @@ class DSPCampaign(LenientModel):
         description="StoreKit AdNetwork application ID. Represents iTunes application ID with which SKAN-enabled campaigns are associated.",
     )
     startDateTime: datetime | None = Field(default=None, description="The start date time for the campaign.")
-    state: Annotated[DSPState | str, lenient_enum(DSPState)]
+    state: DSPState | str = Field(description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     status: DSPStatus | None = Field(default=None)
     tags: list[DSPTag] | None = Field(
         default=None,
@@ -529,7 +743,14 @@ class DSPCampaign(LenientModel):
 
 
 class DSPCampaignAdProductFilter(StrictModel):
-    include: list[Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[DSPAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
+""",
+    )
 
 
 class DSPCampaignCampaignIdFilter(StrictModel):
@@ -537,7 +758,10 @@ class DSPCampaignCampaignIdFilter(StrictModel):
 
 
 class DSPCampaignCreate(StrictModel):
-    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)]
+    adProduct: DSPAdProduct = Field(description="""
+Supported values:
+- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
+""")
     adomains: list[str] | None = Field(
         default=None,
         min_length=0,
@@ -551,7 +775,7 @@ class DSPCampaignCreate(StrictModel):
         max_length=2,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
-    countries: list[Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)]] | None = Field(
+    countries: list[DSPCountryCode | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -566,7 +790,7 @@ class DSPCampaignCreate(StrictModel):
     frequencies: list[DSPCreateFrequency] | None = Field(
         default=None, min_length=0, max_length=3, description="Any frequency caps associated with the campaign."
     )
-    marketplaces: list[Annotated[DSPMarketplace | str, lenient_enum(DSPMarketplace)]] | None = Field(
+    marketplaces: list[DSPMarketplace | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -581,7 +805,11 @@ class DSPCampaignCreate(StrictModel):
         default=None,
         description="StoreKit AdNetwork application ID. Represents iTunes application ID with which SKAN-enabled campaigns are associated.",
     )
-    state: Annotated[DSPCreateState | str, lenient_enum(DSPCreateState)]
+    state: DSPCreateState = Field(description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     tags: list[DSPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -591,11 +819,17 @@ class DSPCampaignCreate(StrictModel):
 
 
 class DSPCampaignFee(LenientModel):
-    feeType: Annotated[DSPCampaignFeeType | str, lenient_enum(DSPCampaignFeeType)]
+    feeType: DSPCampaignFeeType | str = Field(description="""
+Supported values:
+- `AGENCY`: A service fee that is subtracted from the campaign budget as a percent of budget.
+""")
     feeValue: float = Field(
         description="A service fee that is subtracted from the campaign budget as a percent of budget. This setting can’t be changed after an ad group has been added to a campaign."
     )
-    feeValueType: Annotated[DSPCampaignFeeValueType | str, lenient_enum(DSPCampaignFeeValueType)]
+    feeValueType: DSPCampaignFeeValueType | str = Field(description="""
+Supported values:
+- `PERCENTAGE_OF_BUDGET`: Subtracted from the campaign budget as a percent of budget
+""")
 
 
 class DSPCampaignFlight(LenientModel):
@@ -620,18 +854,33 @@ class DSPCampaignOptimizations(LenientModel):
     bidSettings: DSPBidSettings
     budgetSettings: DSPBudgetSettings | None = Field(default=None)
     goalSettings: DSPGoalSettings | None = Field(default=None)
-    primaryInventoryTypes: (
-        list[Annotated[DSPPrimaryInventoryType | str, lenient_enum(DSPPrimaryInventoryType)]] | None
-    ) = Field(
+    primaryInventoryTypes: list[DSPPrimaryInventoryType | str] | None = Field(
         default=None,
         min_length=0,
         max_length=10,
-        description="Primary inventory type of the campaign for filtering KPIs and recommending tactics.",
+        description="""
+Primary inventory type of the campaign for filtering KPIs and recommending tactics.
+
+Supported values:
+- `AUDIO`: Audio ads that serve on streaming audio and podcast inventory.
+- `DISPLAY`: Image ads that serve across Amazon and third-party inventory.
+- `VIDEO_OLV`: Video ads that serve on online video inventory.
+- `VIDEO_STV`: Video ads that serve on streaming TV inventory.
+""",
     )
 
 
 class DSPCampaignStateFilter(StrictModel):
-    include: list[Annotated[DSPState | str, lenient_enum(DSPState)]] = Field(min_length=1, max_length=3)
+    include: list[DSPState | str] = Field(
+        min_length=1,
+        max_length=3,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class DSPCampaignSuccessResponse(LenientModel):
@@ -671,7 +920,14 @@ class DSPCampaignUpdate(StrictModel):
         default=None,
         description="StoreKit AdNetwork application ID. Represents iTunes application ID with which SKAN-enabled campaigns are associated.",
     )
-    state: Annotated[DSPUpdateState | str, lenient_enum(DSPUpdateState)] | None = Field(default=None)
+    state: DSPUpdateState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
     tags: list[DSPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -687,21 +943,37 @@ class DSPCreateAutoCreationSettings(StrictModel):
 
 
 class DSPCreateBidSettings(StrictModel):
-    bidStrategy: Annotated[DSPBidStrategy | str, lenient_enum(DSPBidStrategy)]
+    bidStrategy: DSPBidStrategy = Field(description="""
+Supported values:
+- `PRIORITIZE_KPI_TARGET`: Optimizes bidding to achieve the KPI target specified.
+- `SPEND_BUDGET_IN_FULL`: Prioritize spending full budget, while maximizing performance
+- `USE_CAMPAIGN_STRATEGY`: Inherit the bid strategy from the parent campaign.
+""")
 
 
 class DSPCreateBudget(StrictModel):
-    budgetType: Annotated[DSPBudgetType | str, lenient_enum(DSPBudgetType)]
+    budgetType: DSPBudgetType
     budgetValue: DSPCreateBudgetValue
-    recurrenceTimePeriod: Annotated[DSPRecurrence | str, lenient_enum(DSPRecurrence)]
+    recurrenceTimePeriod: DSPRecurrence
 
 
 class DSPCreateBudgetSettings(StrictModel):
-    budgetAllocation: Annotated[DSPBudgetAllocation | str, lenient_enum(DSPBudgetAllocation)] | None = Field(
-        default=None
+    budgetAllocation: DSPBudgetAllocation | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `AUTO`: Automatically allocate budget to better performing ad groups based on the selected goal KPI.
+- `MANUAL`: Manually allocate budget across ad groups.
+""",
     )
-    flightBudgetRolloverStrategy: Annotated[DSPRolloverStrategy | str, lenient_enum(DSPRolloverStrategy)] | None = (
-        Field(default=None)
+    flightBudgetRolloverStrategy: DSPRolloverStrategy | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `CUMULATIVE_BUDGET_ROLLOVER`: Rollover cumulative unused budget.
+- `NO_ROLLOVER`: Do not rollover flight budgets.
+- `PRIOR_BUDGET_ROLLOVER`: Rollover prior flight unused budget.
+""",
     )
 
 
@@ -710,11 +982,17 @@ class DSPCreateBudgetValue(StrictModel):
 
 
 class DSPCreateCampaignFee(StrictModel):
-    feeType: Annotated[DSPCampaignFeeType | str, lenient_enum(DSPCampaignFeeType)]
+    feeType: DSPCampaignFeeType = Field(description="""
+Supported values:
+- `AGENCY`: A service fee that is subtracted from the campaign budget as a percent of budget.
+""")
     feeValue: float = Field(
         description="A service fee that is subtracted from the campaign budget as a percent of budget. This setting can’t be changed after an ad group has been added to a campaign."
     )
-    feeValueType: Annotated[DSPCampaignFeeValueType | str, lenient_enum(DSPCampaignFeeValueType)]
+    feeValueType: DSPCampaignFeeValueType = Field(description="""
+Supported values:
+- `PERCENTAGE_OF_BUDGET`: Subtracted from the campaign budget as a percent of budget
+""")
 
 
 class DSPCreateCampaignFlight(StrictModel):
@@ -729,13 +1007,19 @@ class DSPCreateCampaignOptimizations(StrictModel):
     bidSettings: DSPCreateBidSettings
     budgetSettings: DSPCreateBudgetSettings | None = Field(default=None)
     goalSettings: DSPCreateGoalSettings | None = Field(default=None)
-    primaryInventoryTypes: (
-        list[Annotated[DSPPrimaryInventoryType | str, lenient_enum(DSPPrimaryInventoryType)]] | None
-    ) = Field(
+    primaryInventoryTypes: list[DSPPrimaryInventoryType | str] | None = Field(
         default=None,
         min_length=0,
         max_length=10,
-        description="Primary inventory type of the campaign for filtering KPIs and recommending tactics.",
+        description="""
+Primary inventory type of the campaign for filtering KPIs and recommending tactics.
+
+Supported values:
+- `AUDIO`: Audio ads that serve on streaming audio and podcast inventory.
+- `DISPLAY`: Image ads that serve across Amazon and third-party inventory.
+- `VIDEO_OLV`: Video ads that serve on online video inventory.
+- `VIDEO_STV`: Video ads that serve on streaming TV inventory.
+""",
     )
 
 
@@ -744,7 +1028,7 @@ class DSPCreateCampaignRequest(StrictModel):
 
 
 class DSPCreateFlightBudget(StrictModel):
-    budgetType: Annotated[DSPBudgetType | str, lenient_enum(DSPBudgetType)]
+    budgetType: DSPBudgetType
     budgetValue: DSPCreateBudgetValue
 
 
@@ -754,15 +1038,40 @@ class DSPCreateFrequency(StrictModel):
         le=99000,
         description="The maximum number of times an EventType is served per user. For ADSP ad group, maximum supported value is 500.",
     )
-    frequencyTargetingSetting: Annotated[DSPFrequencyTargetingSetting | str, lenient_enum(DSPFrequencyTargetingSetting)]
+    frequencyTargetingSetting: DSPFrequencyTargetingSetting = Field(description="""
+Supported values:
+- `HOUSEHOLD`: Control frequency an ad will be selected across people within the same household.
+- `USER`: Control frequency an ad will be selected to a person.
+""")
     timeCount: int = Field(
         ge=1, le=60, description="The value associated with the time and unit of time for this frequency cap."
     )
-    timeUnit: Annotated[DSPTimeUnit | str, lenient_enum(DSPTimeUnit)]
+    timeUnit: DSPTimeUnit
 
 
 class DSPCreateGoalSettings(StrictModel):
-    kpi: Annotated[DSPKPI | str, lenient_enum(DSPKPI)]
+    kpi: DSPKPI = Field(description="""
+Supported values:
+- `CLICK_THROUGH_RATE`: Indicates a goal of driving clickthrough rate.
+- `COMBINED_RETURN_ON_AD_SPEND`: Deprecated. Please use ROAS_COMBINED.
+- `COST_PER_ACTION`: Deprecated. Please use COST_PER_CONVERSION_OFF_AMAZON.
+- `COST_PER_CLICK`: Indicates a goal of driving improved cost per click.
+- `COST_PER_CONVERSION_OFF_AMAZON`: Indicates a goal of driving improved cost per conversion off Amazon.
+- `COST_PER_DETAIL_PAGE_VIEW`: Indicates a goal of driving improved cost per detail page view.
+- `COST_PER_FIRST_APP_OPEN`: Indicates a goal of improved cost per first app open.
+- `COST_PER_INSTALL`: Indicates a goal of driving improved cost per app install.
+- `COST_PER_SIGN_UP`: Indicates a goal of driving improved cost per sign up.
+- `COST_PER_VIDEO_COMPLETION`: Indicates a goal of driving improved cost per video completion.
+- `DETAIL_PAGE_VIEW_RATE`: Indicates a goal of driving improved detail page view rate.
+- `FREQUENCY_AVERAGE`: Indicates a goal of driving to a target frequency.
+- `REACH`: Indicates a goal of driving improved reach.
+- `RETURN_ON_AD_SPEND`: Deprecated. Please use ROAS_PROMOTED.
+- `ROAS_COMBINED`: Indicates a goal of driving improved return of ad spend (combined).
+- `ROAS_PROMOTED`: Indicates a goal of driving improved return of ad spend (promoted).
+- `ROAS`: Indicates a goal of driving improved return of ad spend.
+- `TOTAL_RETURN_ON_AD_SPEND`: Deprecated. Please use ROAS.
+- `VIDEO_COMPLETION_RATE`: Indicates a goal of driving improved video completion rate.
+""")
     kpiValue: float | None = Field(
         default=None, description="The value of the KPI that the campaign is working to optimize."
     )
@@ -777,7 +1086,56 @@ class DSPCreateMonetaryBudgetValue(StrictModel):
 
 
 class DSPError(LenientModel):
-    code: Annotated[DSPErrorCode | str, lenient_enum(DSPErrorCode)]
+    code: DSPErrorCode | str = Field(description="""
+Supported values:
+- `ACTION_NOT_SUPPORTED`: The request is not supported.
+- `ACTIVE_RESOURCE_LIMIT_EXCEEDED`: Too many live resources. Remove resources and try again.
+- `ARCHIVED_PARENT_CANNOT_CREATE`: New resources cannot be created within an archived parent.
+- `ARCHIVED_PARENT_CANNOT_EDIT`: Resources within an archived parent cannot be edited.
+- `ARCHIVED_RESOURCE_CANNOT_EDIT`: Archived resources cannot be edited.
+- `ASSET_NOT_READY`: The provided asset is still being processed.
+- `AUTOCREATED_ENTITY_CANNOT_EDIT`: Autocreated entities cannot be edited. To complete this action, create the resource manually.
+- `BAD_REQUEST`: The request is not valid considering the documented schema.
+- `CONFLICT`: Operation could not be completed due to a conflict. Please retry your request.
+- `CONTENT_TOO_LARGE`: The request is too large. Consider splitting it into multiple requests.
+- `DATE_CANNOT_BE_IN_PAST`: Update the date to be in the future.
+- `DATE_CANNOT_BE_NULL`: Update the date.
+- `DATE_TOO_SOON`: Update the date to be further in the future.
+- `DUPLICATE_FIELD_VALUE_FOUND`: Multiple resources share the non-unique field values. Remove the non-unique field value.
+- `DUPLICATE_RESOURCE_ID_FOUND`: Multiple resources share the same ID. Remove the duplicate ID.
+- `DURATION_TOO_SHORT`: Update the length to be within the required range.
+- `FEATURE_DISCONTINUED`: Feature has been discontinued.
+- `FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_SIZE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
+- `FIELD_VALUE_CANNOT_EDIT`: Field value cannot be edited.
+- `FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS`: Update the request with the required information for this resource.
+- `FIELD_VALUE_CONTAINS_INVALID_CHARACTERS`: Remove the invalid characters and try again.
+- `FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
+- `FIELD_VALUE_IS_EMPTY`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_INVALID`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_NULL`: Update the request with the required information for this resource.
+- `FIELD_VALUE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
+- `FIELD_VALUE_MISMATCH`: Mismatch among resource field values.
+- `FIELD_VALUE_MUST_BE_EMPTY_OR_NULL`: Update the request with the required information for this resource.
+- `FIELD_VALUE_NOT_FOUND`: Resource specified in the field value not found. Try again with valid value.
+- `FIELD_VALUE_NOT_UNIQUE`: Resource field value conflicts with existing resource. Try again with an unique field value.
+- `FORBIDDEN`: The caller is not authorized to make the given request.
+- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- `NOT_FOUND`: The requested resource does not exist.
+- `PAYMENT_ISSUE`: Payment failed.
+- `PRODUCT_INELIGIBLE`: Product is not eligible for advertising. Try again with a valid product.
+- `RESOURCE_DOES_NOT_BELONG_TO_PARENT`: Resource does not belong to the specified parent. Try again with a valid parent ID.
+- `RESOURCE_ID_NOT_FOUND`: Resource ID not found. Try again with valid ID.
+- `RESOURCE_IS_EMPTY`: Update the request with the required information for this resource.
+- `RESOURCE_IS_IN_TERMINAL_STATE`: Resource is in terminal state.
+- `RESOURCE_IS_NULL`: Update the request with the required information for this resource.
+- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
+- `TOTAL_RESOURCE_LIMIT_EXCEEDED`: Too many resources. Remove resources and try again.
+- `UNAUTHORIZED`: The request lacks the necessary credentials.
+- `UNSUPPORTED_MARKETPLACE`: Marketplace not supported. Try again with a supported marketplace.
+""")
     fieldLocation: str | None = Field(default=None)
     message: str
 
@@ -788,7 +1146,7 @@ class DSPErrorsIndex(LenientModel):
 
 
 class DSPFlightBudget(LenientModel):
-    budgetType: Annotated[DSPBudgetType | str, lenient_enum(DSPBudgetType)]
+    budgetType: DSPBudgetType | str
     budgetValue: DSPBudgetValue
 
 
@@ -798,17 +1156,107 @@ class DSPFrequency(LenientModel):
         le=99000,
         description="The maximum number of times an EventType is served per user. For ADSP ad group, maximum supported value is 500.",
     )
-    frequencyTargetingSetting: Annotated[DSPFrequencyTargetingSetting | str, lenient_enum(DSPFrequencyTargetingSetting)]
+    frequencyTargetingSetting: DSPFrequencyTargetingSetting | str = Field(description="""
+Supported values:
+- `HOUSEHOLD`: Control frequency an ad will be selected across people within the same household.
+- `USER`: Control frequency an ad will be selected to a person.
+""")
     timeCount: int = Field(
         ge=1, le=60, description="The value associated with the time and unit of time for this frequency cap."
     )
-    timeUnit: Annotated[DSPTimeUnit | str, lenient_enum(DSPTimeUnit)]
+    timeUnit: DSPTimeUnit | str
 
 
 class DSPGoalSettings(LenientModel):
-    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)] | None = Field(default=None)
-    goal: Annotated[DSPGoal | str, lenient_enum(DSPGoal)]
-    kpi: Annotated[DSPKPI | str, lenient_enum(DSPKPI)]
+    currencyCode: DSPCurrencyCode | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `ARS`: Argentine Peso
+- `AUD`: Australian Dollar
+- `BGN`: Bulgarian Lev
+- `BHD`: Bahraini Dinar
+- `BOB`: Bolivian Boliviano
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CLP`: Chilean Peso
+- `CNY`: Chinese Yuan
+- `COP`: Colombian Peso
+- `CRC`: Costa Rican Colón
+- `CZK`: Czech Koruna
+- `DKK`: Danish Krone
+- `DOP`: Dominican Peso
+- `DZD`: Algerian Dinar
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `GTQ`: Guatemalan Quetzal
+- `HKD`: Hong Kong Dollar
+- `HNL`: Honduran Lempira
+- `HRK`: Croatian Kuna
+- `HUF`: Hungarian Forint
+- `IDR`: Indonesian Rupiah
+- `ILS`: Israeli New Shekel
+- `INR`: Indian Rupee
+- `JMD`: Jamaican Dollar
+- `JPY`: Japanese Yen
+- `KRW`: South Korean Won
+- `KWD`: Kuwaiti Dinar
+- `MAD`: Moroccan Dirham
+- `MXN`: Mexican Peso
+- `MYR`: Malaysian Ringgit
+- `NOK`: Norwegian Krone
+- `PAB`: Panamanian Balboa
+- `PEN`: Peruvian Sol
+- `PHP`: Philippine Peso
+- `PKR`: Pakistani Rupee
+- `PYG`: Paraguayan Guaraní
+- `QAR`: Qatari Riyal
+- `RON`: Romanian Leu
+- `RSD`: Serbian Dinar
+- `RUB`: Russian Ruble
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `THB`: Thai Baht
+- `TND`: Tunisian Dinar
+- `TRY`: Turkish Lira
+- `TWD`: New Taiwan Dollar
+- `UAH`: Ukrainian Hryvnia
+- `USD`: United States Dollar
+- `UYU`: Uruguayan Peso
+- `VND`: Vietnamese Đồng
+""",
+    )
+    goal: DSPGoal | str = Field(description="""
+Supported values:
+- `AWARENESS`: Indicates a goal of driving awareness.
+- `CONSIDERATION`: Indicates a goal of driving consideration.
+- `CONVERSIONS`: Indicates a goal of driving conversions.
+""")
+    kpi: DSPKPI | str = Field(description="""
+Supported values:
+- `CLICK_THROUGH_RATE`: Indicates a goal of driving clickthrough rate.
+- `COMBINED_RETURN_ON_AD_SPEND`: Deprecated. Please use ROAS_COMBINED.
+- `COST_PER_ACTION`: Deprecated. Please use COST_PER_CONVERSION_OFF_AMAZON.
+- `COST_PER_CLICK`: Indicates a goal of driving improved cost per click.
+- `COST_PER_CONVERSION_OFF_AMAZON`: Indicates a goal of driving improved cost per conversion off Amazon.
+- `COST_PER_DETAIL_PAGE_VIEW`: Indicates a goal of driving improved cost per detail page view.
+- `COST_PER_FIRST_APP_OPEN`: Indicates a goal of improved cost per first app open.
+- `COST_PER_INSTALL`: Indicates a goal of driving improved cost per app install.
+- `COST_PER_SIGN_UP`: Indicates a goal of driving improved cost per sign up.
+- `COST_PER_VIDEO_COMPLETION`: Indicates a goal of driving improved cost per video completion.
+- `DETAIL_PAGE_VIEW_RATE`: Indicates a goal of driving improved detail page view rate.
+- `FREQUENCY_AVERAGE`: Indicates a goal of driving to a target frequency.
+- `REACH`: Indicates a goal of driving improved reach.
+- `RETURN_ON_AD_SPEND`: Deprecated. Please use ROAS_PROMOTED.
+- `ROAS_COMBINED`: Indicates a goal of driving improved return of ad spend (combined).
+- `ROAS_PROMOTED`: Indicates a goal of driving improved return of ad spend (promoted).
+- `ROAS`: Indicates a goal of driving improved return of ad spend.
+- `TOTAL_RETURN_ON_AD_SPEND`: Deprecated. Please use ROAS.
+- `VIDEO_COMPLETION_RATE`: Indicates a goal of driving improved video completion rate.
+""")
     kpiValue: float | None = Field(
         default=None, description="The value of the KPI that the campaign is working to optimize."
     )
@@ -826,15 +1274,78 @@ class DSPIneligibleAutomatedTargetingTactic(LenientModel):
 class DSPIneligibleAutomatedTargetingTacticReason(LenientModel):
     """A single reason for tactic type ineligibility"""
 
-    reasonCode: Annotated[
-        DSPIneligibleAutomatedTargetingTacticReasonCode | str,
-        lenient_enum(DSPIneligibleAutomatedTargetingTacticReasonCode),
-    ]
+    reasonCode: DSPIneligibleAutomatedTargetingTacticReasonCode | str = Field(description="""
+Supported values:
+- `CONVERSION_SELECTIONS_EMPTY`: Campaign has no product or conversion event associations.
+- `CONVERSION_SELECTIONS_EXCEEDED`: Campaign is associated with too many products or conversion events.
+- `CONVERSION_SELECTIONS_MINIMUM_NOT_MET`: Minimum product or conversion event constraints not met.
+- `NOT_ELIGIBLE_ADVERTISER`: The advertiser is not eligible for this tactic.
+- `NOT_ELIGIBLE_GOAL`: The current campaign goal is not compatible with this tactic type.
+- `NOT_ELIGIBLE_INVENTORY_TYPE`: This campaign's primary inventory types are not supported with this tactic type.
+- `UNSUPPORTED_COUNTRY`: Selected tactic type is not available for the given country.
+""")
     reasonMessage: str = Field(description="Human readable explanation of why this tactic type is ineligible")
 
 
 class DSPMonetaryBudget(LenientModel):
-    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
+    currencyCode: DSPCurrencyCode | str = Field(description="""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `ARS`: Argentine Peso
+- `AUD`: Australian Dollar
+- `BGN`: Bulgarian Lev
+- `BHD`: Bahraini Dinar
+- `BOB`: Bolivian Boliviano
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CLP`: Chilean Peso
+- `CNY`: Chinese Yuan
+- `COP`: Colombian Peso
+- `CRC`: Costa Rican Colón
+- `CZK`: Czech Koruna
+- `DKK`: Danish Krone
+- `DOP`: Dominican Peso
+- `DZD`: Algerian Dinar
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `GTQ`: Guatemalan Quetzal
+- `HKD`: Hong Kong Dollar
+- `HNL`: Honduran Lempira
+- `HRK`: Croatian Kuna
+- `HUF`: Hungarian Forint
+- `IDR`: Indonesian Rupiah
+- `ILS`: Israeli New Shekel
+- `INR`: Indian Rupee
+- `JMD`: Jamaican Dollar
+- `JPY`: Japanese Yen
+- `KRW`: South Korean Won
+- `KWD`: Kuwaiti Dinar
+- `MAD`: Moroccan Dirham
+- `MXN`: Mexican Peso
+- `MYR`: Malaysian Ringgit
+- `NOK`: Norwegian Krone
+- `PAB`: Panamanian Balboa
+- `PEN`: Peruvian Sol
+- `PHP`: Philippine Peso
+- `PKR`: Pakistani Rupee
+- `PYG`: Paraguayan Guaraní
+- `QAR`: Qatari Riyal
+- `RON`: Romanian Leu
+- `RSD`: Serbian Dinar
+- `RUB`: Russian Ruble
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `THB`: Thai Baht
+- `TND`: Tunisian Dinar
+- `TRY`: Turkish Lira
+- `TWD`: New Taiwan Dollar
+- `UAH`: Ukrainian Hryvnia
+- `USD`: United States Dollar
+- `UYU`: Uruguayan Peso
+- `VND`: Vietnamese Đồng
+""")
     value: float = Field(description="The monetary amount of the budget cap in the given currency.")
 
 
@@ -851,17 +1362,49 @@ class DSPQueryCampaignRequest(StrictModel):
 
 
 class DSPStatus(LenientModel):
-    deliveryReasons: list[Annotated[DSPDeliveryReason | str, lenient_enum(DSPDeliveryReason)]] | None = Field(
-        default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
+    deliveryReasons: list[DSPDeliveryReason | str] | None = Field(
+        default=None,
+        min_length=0,
+        max_length=50,
+        description="""
+This is the list of reasons behind the delivery status.
+
+Supported values:
+- `AD_GROUP_INELIGIBLE_GOAL_KPI`: Indicates that the ad group is suspended because the campaign's goal KPI is not supported.
+- `AD_GROUP_MISSING_CONVERSION_TRACKING_SELECTIONS`: Indicates that the ad group is suspended because the campaign is missing conversion tracking selections.
+- `AD_GROUP_TOO_FEW_CONVERSION_TRACKING_SELECTIONS`: Indicates that the ad group is suspended because the campaign has an insufficient number of conversion tracking selections.
+- `AD_GROUP_TOO_MANY_CONVERSION_TRACKING_SELECTIONS`: Indicates that the ad group is suspended because the campaign exceeded the maximum number of conversion tracking selections.
+""",
     )
-    deliveryStatus: Annotated[DSPDeliveryStatus | str, lenient_enum(DSPDeliveryStatus)]
+    deliveryStatus: DSPDeliveryStatus | str = Field(description="""
+Supported values:
+- `DELIVERING`: Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces
+- `LIMITED`: Represents partial delivery status, applicable to global resources that have different delivery status across marketplaces
+- `NOT_DELIVERING`: Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces
+- `UNAVAILABLE`: Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces
+""")
 
 
 class DSPTacticKey(LenientModel):
     """A tactic type paired with its compatible inventory type"""
 
-    primaryInventoryType: Annotated[DSPPrimaryInventoryType | str, lenient_enum(DSPPrimaryInventoryType)]
-    tacticType: Annotated[DSPAutomatedTargetingTactic | str, lenient_enum(DSPAutomatedTargetingTactic)]
+    primaryInventoryType: DSPPrimaryInventoryType | str = Field(description="""
+Supported values:
+- `AUDIO`: Audio ads that serve on streaming audio and podcast inventory.
+- `DISPLAY`: Image ads that serve across Amazon and third-party inventory.
+- `VIDEO_OLV`: Video ads that serve on online video inventory.
+- `VIDEO_STV`: Video ads that serve on streaming TV inventory.
+""")
+    tacticType: DSPAutomatedTargetingTactic | str = Field(description="""
+Supported values:
+- `AWARENESS`: Ad Group tactic (Complete TV) that indicates that this line item drives awareness to your selected audience on publisher streaming TV for the linked deal while fulfilling your commitment.
+- `CUSTOMER_ACQUISITION`: Ad Group Tactic (P+) that reaches shoppers who are similar to past purchasers
+- `MAXIMIZE_PERFORMANCE`: Ad Group Tactic (P+) that reaches shoppers who are similar to past shoppers who viewed a product detail page
+- `PROSPECTING`: Ad Group Tactic (B+) that reaches consumers who are highly likely to show interest and engage with your brand or product
+- `REMARKETING`: Ad Group Tactic (P+) that reaches shoppers who have viewed a product detail page, searched for your product, or visited your homepage
+- `RETENTION`: Ad Group Tactic (P+) that reaches shoppers who have purchased your product
+- `SEARCH`: Ad Group Tactic that targets shoppers based on search signals.
+""")
 
 
 class DSPTag(LenientModel):
@@ -872,15 +1415,34 @@ class DSPTag(LenientModel):
 
 
 class DSPUpdateBidSettings(StrictModel):
-    bidStrategy: Annotated[DSPBidStrategy | str, lenient_enum(DSPBidStrategy)] | None = Field(default=None)
+    bidStrategy: DSPBidStrategy | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `PRIORITIZE_KPI_TARGET`: Optimizes bidding to achieve the KPI target specified.
+- `SPEND_BUDGET_IN_FULL`: Prioritize spending full budget, while maximizing performance
+- `USE_CAMPAIGN_STRATEGY`: Inherit the bid strategy from the parent campaign.
+""",
+    )
 
 
 class DSPUpdateBudgetSettings(StrictModel):
-    budgetAllocation: Annotated[DSPBudgetAllocation | str, lenient_enum(DSPBudgetAllocation)] | None = Field(
-        default=None
+    budgetAllocation: DSPBudgetAllocation | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `AUTO`: Automatically allocate budget to better performing ad groups based on the selected goal KPI.
+- `MANUAL`: Manually allocate budget across ad groups.
+""",
     )
-    flightBudgetRolloverStrategy: Annotated[DSPRolloverStrategy | str, lenient_enum(DSPRolloverStrategy)] | None = (
-        Field(default=None)
+    flightBudgetRolloverStrategy: DSPRolloverStrategy | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `CUMULATIVE_BUDGET_ROLLOVER`: Rollover cumulative unused budget.
+- `NO_ROLLOVER`: Do not rollover flight budgets.
+- `PRIOR_BUDGET_ROLLOVER`: Rollover prior flight unused budget.
+""",
     )
 
 
@@ -888,13 +1450,19 @@ class DSPUpdateCampaignOptimizations(StrictModel):
     bidSettings: DSPUpdateBidSettings | None = Field(default=None)
     budgetSettings: DSPUpdateBudgetSettings | None = Field(default=None)
     goalSettings: DSPUpdateGoalSettings | None = Field(default=None)
-    primaryInventoryTypes: (
-        list[Annotated[DSPPrimaryInventoryType | str, lenient_enum(DSPPrimaryInventoryType)]] | None
-    ) = Field(
+    primaryInventoryTypes: list[DSPPrimaryInventoryType | str] | None = Field(
         default=None,
         min_length=0,
         max_length=10,
-        description="Primary inventory type of the campaign for filtering KPIs and recommending tactics.",
+        description="""
+Primary inventory type of the campaign for filtering KPIs and recommending tactics.
+
+Supported values:
+- `AUDIO`: Audio ads that serve on streaming audio and podcast inventory.
+- `DISPLAY`: Image ads that serve across Amazon and third-party inventory.
+- `VIDEO_OLV`: Video ads that serve on online video inventory.
+- `VIDEO_STV`: Video ads that serve on streaming TV inventory.
+""",
     )
 
 
@@ -903,7 +1471,31 @@ class DSPUpdateCampaignRequest(StrictModel):
 
 
 class DSPUpdateGoalSettings(StrictModel):
-    kpi: Annotated[DSPKPI | str, lenient_enum(DSPKPI)] | None = Field(default=None)
+    kpi: DSPKPI | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `CLICK_THROUGH_RATE`: Indicates a goal of driving clickthrough rate.
+- `COMBINED_RETURN_ON_AD_SPEND`: Deprecated. Please use ROAS_COMBINED.
+- `COST_PER_ACTION`: Deprecated. Please use COST_PER_CONVERSION_OFF_AMAZON.
+- `COST_PER_CLICK`: Indicates a goal of driving improved cost per click.
+- `COST_PER_CONVERSION_OFF_AMAZON`: Indicates a goal of driving improved cost per conversion off Amazon.
+- `COST_PER_DETAIL_PAGE_VIEW`: Indicates a goal of driving improved cost per detail page view.
+- `COST_PER_FIRST_APP_OPEN`: Indicates a goal of improved cost per first app open.
+- `COST_PER_INSTALL`: Indicates a goal of driving improved cost per app install.
+- `COST_PER_SIGN_UP`: Indicates a goal of driving improved cost per sign up.
+- `COST_PER_VIDEO_COMPLETION`: Indicates a goal of driving improved cost per video completion.
+- `DETAIL_PAGE_VIEW_RATE`: Indicates a goal of driving improved detail page view rate.
+- `FREQUENCY_AVERAGE`: Indicates a goal of driving to a target frequency.
+- `REACH`: Indicates a goal of driving improved reach.
+- `RETURN_ON_AD_SPEND`: Deprecated. Please use ROAS_PROMOTED.
+- `ROAS_COMBINED`: Indicates a goal of driving improved return of ad spend (combined).
+- `ROAS_PROMOTED`: Indicates a goal of driving improved return of ad spend (promoted).
+- `ROAS`: Indicates a goal of driving improved return of ad spend.
+- `TOTAL_RETURN_ON_AD_SPEND`: Deprecated. Please use ROAS.
+- `VIDEO_COMPLETION_RATE`: Indicates a goal of driving improved video completion rate.
+""",
+    )
     kpiValue: float | None = Field(
         default=None, description="The value of the KPI that the campaign is working to optimize."
     )

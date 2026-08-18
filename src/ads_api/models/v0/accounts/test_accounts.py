@@ -2,105 +2,88 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated, Any
+from typing import Any, Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
+
+type CreateAccountRequestAccountType = Literal["AUTHOR", "VENDOR"]
+"""
+Type of test account.
+"""
 
 
-class CreateAccountRequestAccountType(StrEnum):
-    """
-    Type of test account.
-    """
-
-    AUTHOR = "AUTHOR"
-    VENDOR = "VENDOR"
-
-
-class CreateAccountRequestCountryCode(StrEnum):
-    """
-    Country code of the test  account.
-    """
-
-    AE = "AE"
-    AU = "AU"
-    BE = "BE"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    EG = "EG"
-    ES = "ES"
-    FR = "FR"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    NL = "NL"
-    PL = "PL"
-    SA = "SA"
-    SE = "SE"
-    SG = "SG"
-    TR = "TR"
-    UK = "UK"
-    US = "US"
+type CreateAccountRequestCountryCode = Literal[
+    "AE",
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "DE",
+    "EG",
+    "ES",
+    "FR",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "PL",
+    "SA",
+    "SE",
+    "SG",
+    "TR",
+    "UK",
+    "US",
+]
+"""
+Country code of the test  account.
+"""
 
 
-class GetAccountInformationResponseAccountType(StrEnum):
-    """
-    Type of test account.
-    """
-
-    AUTHOR = "AUTHOR"
-    VENDOR = "VENDOR"
+type GetAccountInformationResponseAccountType = Literal["AUTHOR", "VENDOR"]
+"""
+Type of test account.
+"""
 
 
-class GetAccountInformationResponseCountryCode(StrEnum):
-    """
-    Country code of a test account.
-    """
+type GetAccountInformationResponseCountryCode = Literal[
+    "AE",
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "DE",
+    "EG",
+    "ES",
+    "FR",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "PL",
+    "SA",
+    "SE",
+    "SG",
+    "TR",
+    "UK",
+    "US",
+]
+"""
+Country code of a test account.
+"""
 
-    AE = "AE"
-    AU = "AU"
-    BE = "BE"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    EG = "EG"
-    ES = "ES"
-    FR = "FR"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    NL = "NL"
-    PL = "PL"
-    SA = "SA"
-    SE = "SE"
-    SG = "SG"
-    TR = "TR"
-    UK = "UK"
-    US = "US"
 
-
-class GetAccountInformationResponseStatus(StrEnum):
-    """
-    Status  of test account creation request.
-    """
-
-    COMPLETED = "COMPLETED"
-    FAILED = "FAILED"
-    IN_PROGRESS = "IN_PROGRESS"
+type GetAccountInformationResponseStatus = Literal["COMPLETED", "FAILED", "IN_PROGRESS"]
+"""
+Status  of test account creation request.
+"""
 
 
 class CreateAccountRequest(StrictModel):
     accountMetaData: dict[str, Any] | None = Field(default=None)
-    accountType: Annotated[CreateAccountRequestAccountType | str, lenient_enum(CreateAccountRequestAccountType)] = (
-        Field(description="Type of test account.")
-    )
-    countryCode: Annotated[CreateAccountRequestCountryCode | str, lenient_enum(CreateAccountRequestCountryCode)] = (
-        Field(description="Country code of the test  account.")
-    )
+    accountType: CreateAccountRequestAccountType = Field(description="Type of test account.")
+    countryCode: CreateAccountRequestCountryCode = Field(description="Country code of the test  account.")
 
 
 class CreateAccountResponse(LenientModel):

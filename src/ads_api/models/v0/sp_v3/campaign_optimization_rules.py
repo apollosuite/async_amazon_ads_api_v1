@@ -2,78 +2,58 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
+
+type ComparisonOperator = Literal[
+    "EQUAL_TO",
+    "GREATER_THAN",
+    "GREATER_THAN_OR_EQUAL_TO",
+    "LESS_THAN",
+    "LESS_THAN_OR_EQUAL_TO",
+]
+"""
+The comparison operator.
+"""
 
 
-class ComparisonOperator(StrEnum):
-    """
-    The comparison operator.
-    """
-
-    EQUAL_TO = "EQUAL_TO"
-    GREATER_THAN = "GREATER_THAN"
-    GREATER_THAN_OR_EQUAL_TO = "GREATER_THAN_OR_EQUAL_TO"
-    LESS_THAN = "LESS_THAN"
-    LESS_THAN_OR_EQUAL_TO = "LESS_THAN_OR_EQUAL_TO"
+type RecurrenceType = Literal["DAILY"]
+"""
+The frequency of the rule application.
+"""
 
 
-class RecurrenceType(StrEnum):
-    """
-    The frequency of the rule application.
-    """
-
-    DAILY = "DAILY"
+type RuleAction = Literal["ADOPT"]
+"""
+The action taken when the campaign optimization rule is enabled. Defaults to adopt
+"""
 
 
-class RuleAction(StrEnum):
-    """
-    The action taken when the campaign optimization rule is enabled. Defaults to adopt
-    """
-
-    ADOPT = "ADOPT"
+type RuleConditionMetric = Literal["AVERAGE_BID", "ROAS"]
+"""
+The advertising performance metric. ROAS is the only supported metric.
+"""
 
 
-class RuleConditionMetric(StrEnum):
-    """
-    The advertising performance metric. ROAS is the only supported metric.
-    """
-
-    AVERAGE_BID = "AVERAGE_BID"
-    ROAS = "ROAS"
+type RuleState = Literal["DISABLED", "ENABLED"]
+"""
+The campaign optimization rule state.
+"""
 
 
-class RuleState(StrEnum):
-    """
-    The campaign optimization rule state.
-    """
-
-    DISABLED = "DISABLED"
-    ENABLED = "ENABLED"
+type RuleStatus = Literal["ACTIVE", "ARCHIVED"]
+"""
+The campaign optimization rule status. Read-Only
+"""
 
 
-class RuleStatus(StrEnum):
-    """
-    The campaign optimization rule status. Read-Only
-    """
-
-    ACTIVE = "ACTIVE"
-    ARCHIVED = "ARCHIVED"
-
-
-class RuleType(StrEnum):
-    """
-    The type of the campaign optimization rule. Only Support BID as of now
-    """
-
-    BID = "BID"
-    KEYWORD = "KEYWORD"
-    PRODUCT = "PRODUCT"
+type RuleType = Literal["BID", "KEYWORD", "PRODUCT"]
+"""
+The type of the campaign optimization rule. Only Support BID as of now
+"""
 
 
 type CampaignOptimizationId = str  # The persistent rule identifier.
@@ -83,12 +63,12 @@ class CampaignOptimizationRule(LenientModel):
     campaignIds: list[RuleCampaignId] | None = Field(default=None, max_length=100)
     campaignOptimizationId: CampaignOptimizationId
     createdDate: RuleCreationDate | None = Field(default=None)
-    recurrence: Annotated[RecurrenceType | str, lenient_enum(RecurrenceType)] | None = Field(default=None)
-    ruleAction: Annotated[RuleAction | str, lenient_enum(RuleAction)] | None = Field(default=None)
+    recurrence: RecurrenceType | str | None = Field(default=None)
+    ruleAction: RuleAction | str | None = Field(default=None)
     ruleCondition: RuleConditionListOut | None = Field(default=None)
     ruleName: RuleName | None = Field(default=None)
-    ruleStatus: Annotated[RuleStatus | str, lenient_enum(RuleStatus)] | None = Field(default=None)
-    ruleType: Annotated[RuleType | str, lenient_enum(RuleType)] | None = Field(default=None)
+    ruleStatus: RuleStatus | str | None = Field(default=None)
+    ruleType: RuleType | str | None = Field(default=None)
 
 
 class CampaignOptimizationRuleErrorResult(LenientModel):
@@ -100,11 +80,11 @@ class CampaignOptimizationRuleErrorResult(LenientModel):
 
 class CreateSPCampaignOptimizationRulesRequest(StrictModel):
     campaignIds: list[RuleCampaignId] = Field(max_length=20, description="A list of campaign ids")
-    recurrence: Annotated[RecurrenceType | str, lenient_enum(RecurrenceType)]
-    ruleAction: Annotated[RuleAction | str, lenient_enum(RuleAction)]
+    recurrence: RecurrenceType
+    ruleAction: RuleAction
     ruleCondition: RuleConditionList | None = Field(default=None)
     ruleName: RuleName | None = Field(default=None)
-    ruleType: Annotated[RuleType | str, lenient_enum(RuleType)]
+    ruleType: RuleType
 
 
 class CreateSPCampaignOptimizationRulesResult(LenientModel):
@@ -127,8 +107,8 @@ type RuleCampaignId = str  # campaignId
 
 
 class RuleCondition(StrictModel):
-    comparisonOperator: Annotated[ComparisonOperator | str, lenient_enum(ComparisonOperator)]
-    metricName: Annotated[RuleConditionMetric | str, lenient_enum(RuleConditionMetric)]
+    comparisonOperator: ComparisonOperator
+    metricName: RuleConditionMetric
     threshold: float = Field(description="The performance threshold value.")
 
 
@@ -141,8 +121,8 @@ class RuleConditionListOut(LenientModel):
 
 
 class RuleConditionOut(LenientModel):
-    comparisonOperator: Annotated[ComparisonOperator | str, lenient_enum(ComparisonOperator)]
-    metricName: Annotated[RuleConditionMetric | str, lenient_enum(RuleConditionMetric)]
+    comparisonOperator: ComparisonOperator | str
+    metricName: RuleConditionMetric | str
     threshold: float = Field(description="The performance threshold value.")
 
 
@@ -155,7 +135,7 @@ class RuleNotification(LenientModel):
     campaignId: RuleCampaignId | None = Field(default=None)
     campaignOptimizationId: CampaignOptimizationId | None = Field(default=None)
     notificationString: str | None = Field(default=None, description="Explains why the rule state is disabled")
-    ruleState: Annotated[RuleState | str, lenient_enum(RuleState)] | None = Field(default=None)
+    ruleState: RuleState | str | None = Field(default=None)
 
 
 class RuleNotificationError(LenientModel):
@@ -228,11 +208,11 @@ class UpdateSPCampaignOptimizationRulesRequest(StrictModel):
 
     campaignIds: list[RuleCampaignId] = Field(max_length=20, description="A list of campaign ids")
     campaignOptimizationId: CampaignOptimizationId
-    recurrence: Annotated[RecurrenceType | str, lenient_enum(RecurrenceType)]
-    ruleAction: Annotated[RuleAction | str, lenient_enum(RuleAction)]
+    recurrence: RecurrenceType
+    ruleAction: RuleAction
     ruleCondition: RuleConditionList | None = Field(default=None)
     ruleName: RuleName | None = Field(default=None)
-    ruleType: Annotated[RuleType | str, lenient_enum(RuleType)]
+    ruleType: RuleType
 
 
 __all__ = [

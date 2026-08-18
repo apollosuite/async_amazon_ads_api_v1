@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
+from typing import Literal
 
 from pydantic import Field
 
@@ -11,48 +11,44 @@ from ads_api.models.v0._shared import (
     SBTargetingBrand,
 )
 
+type SBTargetingLocale = Literal[
+    "ar_AE",
+    "de_DE",
+    "en_AE",
+    "en_AU",
+    "en_CA",
+    "en_GB",
+    "en_IN",
+    "en_SG",
+    "en_US",
+    "es_ES",
+    "es_MX",
+    "fr_CA",
+    "fr_FR",
+    "hi_IN",
+    "it_IT",
+    "ja_JP",
+    "ko_KR",
+    "nl_NL",
+    "pl_PL",
+    "pt_BR",
+    "sv_SE",
+    "ta_IN",
+    "th_TH",
+    "tr_TR",
+    "vi_VN",
+    "zh_CN",
+]
+"""
+The locale to which the caller wishes to translate the targetable categories or refinements to. For example, if the caller wishes to receive the targetable categories in Simplified Chinese, the locale parameter should be set to zh_CN. If no locale is provided, the returned tagetable categories will be in the default language of the marketplace.
+"""
 
-class SBTargetingLocale(StrEnum):
-    """
-    The locale to which the caller wishes to translate the targetable categories or refinements to. For example, if the caller wishes to receive the targetable categories in Simplified Chinese, the locale parameter should be set to zh_CN. If no locale is provided, the returned tagetable categories will be in the default language of the marketplace.
-    """
 
-    ar_AE = "ar_AE"
-    de_DE = "de_DE"
-    en_AE = "en_AE"
-    en_AU = "en_AU"
-    en_CA = "en_CA"
-    en_GB = "en_GB"
-    en_IN = "en_IN"
-    en_SG = "en_SG"
-    en_US = "en_US"
-    es_ES = "es_ES"
-    es_MX = "es_MX"
-    fr_CA = "fr_CA"
-    fr_FR = "fr_FR"
-    hi_IN = "hi_IN"
-    it_IT = "it_IT"
-    ja_JP = "ja_JP"
-    ko_KR = "ko_KR"
-    nl_NL = "nl_NL"
-    pl_PL = "pl_PL"
-    pt_BR = "pt_BR"
-    sv_SE = "sv_SE"
-    ta_IN = "ta_IN"
-    th_TH = "th_TH"
-    tr_TR = "tr_TR"
-    vi_VN = "vi_VN"
-    zh_CN = "zh_CN"
-
-
-class SBTargetingSupplySource(StrEnum):
-    """
-    [UPDATE: As of 05/28/2024, `STREAMING_VIDEO` is deprecated].
-     The supply source where the target will be used. Use `AMAZON` for placements on Amazon website. Use `STREAMING_VIDEO` for off-site video placements such as IMDb TV.
-    """
-
-    AMAZON = "AMAZON"
-    STREAMING_VIDEO = "STREAMING_VIDEO"
+type SBTargetingSupplySource = Literal["AMAZON", "STREAMING_VIDEO"]
+"""
+[UPDATE: As of 05/28/2024, `STREAMING_VIDEO` is deprecated].
+ The supply source where the target will be used. Use `AMAZON` for placements on Amazon website. Use `STREAMING_VIDEO` for off-site video placements such as IMDb TV.
+"""
 
 
 class SBTargetingAgeRange(LenientModel):

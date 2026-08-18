@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import date
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     SponsoredProductsBiddingError,
     SponsoredProductsBiddingErrorReason,
@@ -51,29 +49,19 @@ from ads_api.models.v0._shared import (
     SponsoredProductsValueLimitErrorReason,
 )
 
-
-class SponsoredProductsInvalidInputErrorReason(StrEnum):
-    INVALID_TOKEN = "INVALID_TOKEN"
+type SponsoredProductsInvalidInputErrorReason = Literal["INVALID_TOKEN"]
 
 
-class SponsoredProductsKeywordMatchType(StrEnum):
-    BROAD = "BROAD"
-    EXACT = "EXACT"
-    PHRASE = "PHRASE"
+type SponsoredProductsKeywordMatchType = Literal["BROAD", "EXACT", "PHRASE"]
 
 
-class SponsoredProductsTargetType(StrEnum):
-    """
-    Indicates if the recommendation target is a Keyword or ASIN
-    """
-
-    ASIN = "ASIN"
-    KEYWORD = "KEYWORD"
+type SponsoredProductsTargetType = Literal["ASIN", "KEYWORD"]
+"""
+Indicates if the recommendation target is a Keyword or ASIN
+"""
 
 
-class SponsoredProductsTargetingExpressionMatchType(StrEnum):
-    PRODUCT_EXACT = "PRODUCT_EXACT"
-    PRODUCT_SIMILAR = "PRODUCT_SIMILAR"
+type SponsoredProductsTargetingExpressionMatchType = Literal["PRODUCT_EXACT", "PRODUCT_SIMILAR"]
 
 
 class SponsoredProductsCreateKeywordTarget(StrictModel):
@@ -85,7 +73,7 @@ class SponsoredProductsCreateKeywordTarget(StrictModel):
         description="Bid associated with the target. For more information about bid constraints by marketplace, see [bid limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).",
     )
     keyword: str = Field(description="The keyword text.")
-    matchType: Annotated[SponsoredProductsKeywordMatchType | str, lenient_enum(SponsoredProductsKeywordMatchType)]
+    matchType: SponsoredProductsKeywordMatchType
 
 
 class SponsoredProductsCreateProductTarget(StrictModel):
@@ -96,9 +84,7 @@ class SponsoredProductsCreateProductTarget(StrictModel):
         ge=0,
         description="Bid associated with the target. For more information about bid constraints by marketplace, see [bid limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).",
     )
-    matchType: Annotated[
-        SponsoredProductsTargetingExpressionMatchType | str, lenient_enum(SponsoredProductsTargetingExpressionMatchType)
-    ]
+    matchType: SponsoredProductsTargetingExpressionMatchType
     target: str = Field(description="The product ASIN of the target.")
 
 
@@ -435,9 +421,7 @@ class SponsoredProductsInvalidInputError(LenientModel):
 
     cause: SponsoredProductsErrorCause | None = Field(default=None)
     message: str = Field(description="Human readable error message")
-    reason: Annotated[
-        SponsoredProductsInvalidInputErrorReason | str, lenient_enum(SponsoredProductsInvalidInputErrorReason)
-    ]
+    reason: SponsoredProductsInvalidInputErrorReason | str
 
 
 class SponsoredProductsKeywordTargetV2(LenientModel):
@@ -681,9 +665,7 @@ class SponsoredProductsRecommendedTarget(LenientModel):
         description="Provides a list of reasons for why this target is being recommended for harvesting",
     )
     recommendedTarget: str | None = Field(default=None, description="The keyword or ASIN that is being targeted")
-    targetType: Annotated[SponsoredProductsTargetType | str, lenient_enum(SponsoredProductsTargetType)] | None = Field(
-        default=None
-    )
+    targetType: SponsoredProductsTargetType | str | None = Field(default=None)
 
 
 class SponsoredProductsResponseAdGroup(LenientModel):

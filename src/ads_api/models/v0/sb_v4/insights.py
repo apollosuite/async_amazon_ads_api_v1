@@ -2,53 +2,43 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
+
+type SBInsightsAdFormat = Literal[
+    "PRODUCT_COLLECTION",
+    "STORE_SPOTLIGHT",
+    "VIDEO",
+    "BRAND_VIDEO",
+]
+"""
+Type of Ad format.
+"""
 
 
-class SBInsightsAdFormat(StrEnum):
-    """
-    Type of Ad format.
-    """
-
-    PRODUCT_COLLECTION = "PRODUCT_COLLECTION"
-    STORE_SPOTLIGHT = "STORE_SPOTLIGHT"
-    VIDEO = "VIDEO"
-    BRAND_VIDEO = "BRAND_VIDEO"
+type SBInsightsKeywordAlertType = Literal["LOW_KEYWORD_TRAFFIC", "LOW_BID"]
+"""
+Keyword alert insights associated with the selected keyword targets and bids.
+LOW_KEYWORD_TRAFFIC is provided if the keyword has very low traffic and is available in all marketplaces.
+LOW_BID is provided if the selected bid is low compared to the historical bids for this keyword
+and is only available in the following marketplaces: US, CA, MX, BR, UK, DE, FR, ES, IT, IN, AE, NL, SE, JP, AU, SG.
+"""
 
 
-class SBInsightsKeywordAlertType(StrEnum):
-    """
-    Keyword alert insights associated with the selected keyword targets and bids.
-    LOW_KEYWORD_TRAFFIC is provided if the keyword has very low traffic and is available in all marketplaces.
-    LOW_BID is provided if the selected bid is low compared to the historical bids for this keyword
-    and is only available in the following marketplaces: US, CA, MX, BR, UK, DE, FR, ES, IT, IN, AE, NL, SE, JP, AU, SG.
-    """
-
-    LOW_KEYWORD_TRAFFIC = "LOW_KEYWORD_TRAFFIC"
-    LOW_BID = "LOW_BID"
-
-
-class SBInsightsMatchType(StrEnum):
-    """
-    The match type. For more information, see [match types](https://advertising.amazon.com/help#GHTRFDZRJPW6764R) in the Amazon Advertising support center.
-    """
-
-    EXACT = "EXACT"
-    PHRASE = "PHRASE"
-    BROAD = "BROAD"
+type SBInsightsMatchType = Literal["EXACT", "PHRASE", "BROAD"]
+"""
+The match type. For more information, see [match types](https://advertising.amazon.com/help#GHTRFDZRJPW6764R) in the Amazon Advertising support center.
+"""
 
 
 class SBInsightsAdGroup(StrictModel):
     """The ad group settings."""
 
     keywords: list[SBInsightsKeyword] | None = Field(default=None, min_length=0, max_length=800)
-    adFormat: Annotated[SBInsightsAdFormat | str, lenient_enum(SBInsightsAdFormat)]
+    adFormat: SBInsightsAdFormat
 
 
 class SBInsightsCampaignInsightsRequestContent(StrictModel):
@@ -68,7 +58,7 @@ class SBInsightsCampaignInsightsResponseContent(LenientModel):
 class SBInsightsKeyword(StrictModel):
     """Keyword associated with the campaign."""
 
-    matchType: Annotated[SBInsightsMatchType | str, lenient_enum(SBInsightsMatchType)]
+    matchType: SBInsightsMatchType
     bid: float = Field(
         description="The associated bid. Note that this value must be less than the budget associated with the Advertiser account. For more information, see [supported features](https://advertising.amazon.com/API/docs/v2/guides/supported_features)."
     )
@@ -78,9 +68,7 @@ class SBInsightsKeyword(StrictModel):
 class SBInsightsKeywordInsight(LenientModel):
     """Insights for keywords selected for targeting."""
 
-    alerts: list[Annotated[SBInsightsKeywordAlertType | str, lenient_enum(SBInsightsKeywordAlertType)]] | None = Field(
-        default=None, min_length=0, max_length=10
-    )
+    alerts: list[SBInsightsKeywordAlertType | str] | None = Field(default=None, min_length=0, max_length=10)
     searchTermImpressionShare: float | None = Field(
         default=None,
         ge=0,
@@ -93,7 +81,7 @@ This information is only available for keywords the advertiser targeted with ad 
 Only available in the following marketplaces: US, CA, MX, UK, DE, FR, ES, IT, IN, JP.
 """,
     )
-    matchType: Annotated[SBInsightsMatchType | str, lenient_enum(SBInsightsMatchType)] | None = Field(default=None)
+    matchType: SBInsightsMatchType | str | None = Field(default=None)
     adGroupIndex: int | None = Field(
         default=None,
         description="Correlates the ad group to the ad group array index specified in the request. Zero-based.",

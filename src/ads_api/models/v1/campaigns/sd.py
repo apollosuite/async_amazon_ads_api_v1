@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.sd import (
     SDAdProduct,
     SDCreateState,
@@ -26,53 +24,63 @@ from ads_api.models.v1._shared.sd import (
     SDUpdateState,
 )
 
-
-class SDBudgetType(StrEnum):
-    MONETARY = "MONETARY"
+type SDBudgetType = Literal["MONETARY"]
 
 
-class SDCampaignNameFilterType(StrEnum):
-    BROAD_MATCH = "BROAD_MATCH"  # Filter by broad match.
-    EXACT_MATCH = "EXACT_MATCH"  # Filter by exact match.
+type SDCampaignNameFilterType = Literal[
+    "BROAD_MATCH",  # Filter by broad match.
+    "EXACT_MATCH",  # Filter by exact match.
+]
+"""
+Supported values:
+- `EXACT_MATCH`: Filter by exact match.
+- `BROAD_MATCH`: Filter by broad match.
+"""
 
 
-class SDCostType(StrEnum):
-    CPC = "CPC"  # Cost per click.
-    VCPM = "VCPM"  # Cost per thousand views.
+type SDCostType = Literal[
+    "CPC",  # Cost per click.
+    "VCPM",  # Cost per thousand views.
+]
+"""
+Supported values:
+- `CPC`: Cost per click.
+- `VCPM`: Cost per thousand views.
+"""
 
 
-class SDCountryCode(StrEnum):
-    AE = "AE"
-    AU = "AU"
-    BE = "BE"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    EG = "EG"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    NL = "NL"
-    PL = "PL"
-    SA = "SA"
-    SE = "SE"
-    SG = "SG"
-    TR = "TR"
-    US = "US"
+type SDCountryCode = Literal[
+    "AE",
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "DE",
+    "EG",
+    "ES",
+    "FR",
+    "GB",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "PL",
+    "SA",
+    "SE",
+    "SG",
+    "TR",
+    "US",
+]
 
 
-class SDRecurrence(StrEnum):
-    DAILY = "DAILY"
+type SDRecurrence = Literal["DAILY"]
 
 
 class SDBudget(LenientModel):
-    budgetType: Annotated[SDBudgetType | str, lenient_enum(SDBudgetType)]
+    budgetType: SDBudgetType | str
     budgetValue: SDBudgetValue
-    recurrenceTimePeriod: Annotated[SDRecurrence | str, lenient_enum(SDRecurrence)]
+    recurrenceTimePeriod: SDRecurrence | str
 
 
 class SDBudgetValue(LenientModel):
@@ -80,15 +88,22 @@ class SDBudgetValue(LenientModel):
 
 
 class SDCampaign(LenientModel):
-    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
+    adProduct: SDAdProduct | str = Field(description="""
+Supported values:
+- `SPONSORED_DISPLAY`: Sponsored Display ad product.
+""")
     budgets: list[SDBudget] = Field(
         min_length=1,
         max_length=1,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
     campaignId: str = Field(description="A unique identifier for a campaign.")
-    costType: Annotated[SDCostType | str, lenient_enum(SDCostType)]
-    countries: list[Annotated[SDCountryCode | str, lenient_enum(SDCountryCode)]] | None = Field(
+    costType: SDCostType | str = Field(description="""
+Supported values:
+- `CPC`: Cost per click.
+- `VCPM`: Cost per thousand views.
+""")
+    countries: list[SDCountryCode | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -97,8 +112,8 @@ class SDCampaign(LenientModel):
     creationDateTime: datetime = Field(description="The date time that the campaign was created.")
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
     lastUpdatedDateTime: datetime = Field(description="The date time that the campaign was last updated.")
-    marketplaceScope: Annotated[SDMarketplaceScope | str, lenient_enum(SDMarketplaceScope)]
-    marketplaces: list[Annotated[SDMarketplace | str, lenient_enum(SDMarketplace)]] | None = Field(
+    marketplaceScope: SDMarketplaceScope | str
+    marketplaces: list[SDMarketplace | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -107,7 +122,12 @@ class SDCampaign(LenientModel):
     name: str = Field(description="The name of the campaign.")
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
     startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: Annotated[SDState | str, lenient_enum(SDState)]
+    state: SDState | str = Field(description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     status: SDStatus | None = Field(default=None)
     tags: list[SDTag] | None = Field(
         default=None,
@@ -118,7 +138,14 @@ class SDCampaign(LenientModel):
 
 
 class SDCampaignAdProductFilter(StrictModel):
-    include: list[Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[SDAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `SPONSORED_DISPLAY`: Sponsored Display ad product.
+""",
+    )
 
 
 class SDCampaignCampaignIdFilter(StrictModel):
@@ -126,22 +153,29 @@ class SDCampaignCampaignIdFilter(StrictModel):
 
 
 class SDCampaignCreate(StrictModel):
-    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
+    adProduct: SDAdProduct = Field(description="""
+Supported values:
+- `SPONSORED_DISPLAY`: Sponsored Display ad product.
+""")
     budgets: list[SDCreateBudget] = Field(
         min_length=1,
         max_length=1,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
-    costType: Annotated[SDCostType | str, lenient_enum(SDCostType)]
-    countries: list[Annotated[SDCountryCode | str, lenient_enum(SDCountryCode)]] | None = Field(
+    costType: SDCostType = Field(description="""
+Supported values:
+- `CPC`: Cost per click.
+- `VCPM`: Cost per thousand views.
+""")
+    countries: list[SDCountryCode | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
         description="This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.",
     )
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
-    marketplaceScope: Annotated[SDMarketplaceScope | str, lenient_enum(SDMarketplaceScope)]
-    marketplaces: list[Annotated[SDMarketplace | str, lenient_enum(SDMarketplace)]] | None = Field(
+    marketplaceScope: SDMarketplaceScope
+    marketplaces: list[SDMarketplace | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -150,7 +184,11 @@ class SDCampaignCreate(StrictModel):
     name: str = Field(description="The name of the campaign.")
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
     startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: Annotated[SDCreateState | str, lenient_enum(SDCreateState)]
+    state: SDCreateState = Field(description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     tags: list[SDCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -171,7 +209,11 @@ class SDCampaignMultiStatusSuccess(LenientModel):
 
 class SDCampaignNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[SDCampaignNameFilterType | str, lenient_enum(SDCampaignNameFilterType)]
+    queryTermMatchType: SDCampaignNameFilterType = Field(description="""
+Supported values:
+- `EXACT_MATCH`: Filter by exact match.
+- `BROAD_MATCH`: Filter by broad match.
+""")
 
 
 class SDCampaignPortfolioIdFilter(StrictModel):
@@ -179,7 +221,16 @@ class SDCampaignPortfolioIdFilter(StrictModel):
 
 
 class SDCampaignStateFilter(StrictModel):
-    include: list[Annotated[SDState | str, lenient_enum(SDState)]] = Field(min_length=1, max_length=3)
+    include: list[SDState | str] = Field(
+        min_length=1,
+        max_length=3,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class SDCampaignSuccessResponse(LenientModel):
@@ -195,12 +246,26 @@ class SDCampaignUpdate(StrictModel):
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
     campaignId: str = Field(description="A unique identifier for a campaign.")
-    costType: Annotated[SDCostType | str, lenient_enum(SDCostType)] | None = Field(default=None)
+    costType: SDCostType | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `CPC`: Cost per click.
+- `VCPM`: Cost per thousand views.
+""",
+    )
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
     name: str | None = Field(default=None, description="The name of the campaign.")
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
     startDateTime: datetime | None = Field(default=None, description="The start date time for the campaign.")
-    state: Annotated[SDUpdateState | str, lenient_enum(SDUpdateState)] | None = Field(default=None)
+    state: SDUpdateState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
     tags: list[SDCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -210,7 +275,7 @@ class SDCampaignUpdate(StrictModel):
 
 
 class SDCreateBudget(StrictModel):
-    budgetType: Annotated[SDBudgetType | str, lenient_enum(SDBudgetType)]
+    budgetType: SDBudgetType
     budgetValue: SDCreateBudgetValue
 
 
@@ -242,7 +307,33 @@ class SDDeleteCampaignRequest(StrictModel):
 
 
 class SDMonetaryBudget(LenientModel):
-    currencyCode: Annotated[SDCurrencyCode | str, lenient_enum(SDCurrencyCode)]
+    currencyCode: SDCurrencyCode | str = Field(description="""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CNY`: Chinese Yuan
+- `DKK`: Danish Krone
+- `EGP`: Egyptian Pound
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `INR`: Indian Rupee
+- `JPY`: Japanese Yen
+- `MXN`: Mexican Peso
+- `MXP`: Mexican Peso
+- `NGN`: Nigerian Naira
+- `NOK`: Norwegian Krone
+- `NZD`: New Zealand Dollar
+- `PLN`: Polish Złoty
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `TRY`: Turkish Lira
+- `USD`: United States Dollar
+- `ZAR`: South African Rand
+""")
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )

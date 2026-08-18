@@ -3,12 +3,10 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Annotated
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     SponsoredProductsBillingError,
     SponsoredProductsBillingErrorReason,
@@ -68,17 +66,12 @@ class SponsoredProductsCreateNegativeKeyword(StrictModel):
     adGroupId: str = Field(description="The identifier of the ad group to which this keyword is associated.")
     campaignId: str = Field(description="The identifer of the campaign to which the keyword is associated.")
     keywordText: str = Field(description="The keyword text.")
-    matchType: Annotated[
-        SponsoredProductsCreateOrUpdateNegativeMatchType | str,
-        lenient_enum(SponsoredProductsCreateOrUpdateNegativeMatchType),
-    ]
+    matchType: SponsoredProductsCreateOrUpdateNegativeMatchType
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser"
     )
     nativeLanguageLocale: str | None = Field(default=None, description="The locale preference of the advertiser.")
-    state: Annotated[
-        SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
-    ]
+    state: SponsoredProductsCreateOrUpdateEntityState
 
 
 class SponsoredProductsCreateSponsoredProductsNegativeKeywordsRequestContent(StrictModel):
@@ -109,10 +102,7 @@ class SponsoredProductsListSponsoredProductsNegativeKeywordsRequestContent(Stric
     locale: str | None = Field(
         default=None, description="Restricts results to negativeKeywords that match the specified locale."
     )
-    matchTypeFilter: (
-        list[Annotated[SponsoredProductsNegativeMatchType | str, lenient_enum(SponsoredProductsNegativeMatchType)]]
-        | None
-    ) = Field(
+    matchTypeFilter: list[SponsoredProductsNegativeMatchType | str] | None = Field(
         default=None, description="Only the negativeKeyword with the match type that is in this list will be listed"
     )
     maxResults: int | None = Field(
@@ -144,21 +134,27 @@ class SponsoredProductsNegativeKeyword(LenientModel):
     )
     keywordId: str = Field(description="The identifier of the keyword.")
     keywordText: str = Field(description="The keyword text.")
-    matchType: Annotated[SponsoredProductsNegativeMatchType | str, lenient_enum(SponsoredProductsNegativeMatchType)]
+    matchType: SponsoredProductsNegativeMatchType | str
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser"
     )
     nativeLanguageLocale: str | None = Field(default=None, description="The locale preference of the advertiser.")
-    state: Annotated[SponsoredProductsEntityState | str, lenient_enum(SponsoredProductsEntityState)]
+    state: SponsoredProductsEntityState | str = Field(description="""
+Supported values:
+- `ENABLED`: Enabled State
+- `PAUSED`: Paused State
+- `PROPOSED`: Proposed State (Upcoming Feature)
+- `ARCHIVED`: ARCHIVED State
+- `ENABLING`: State for Draft Entity Only
+- `USER_DELETED`: State for Draft Entity Only
+- `OTHER`: Read Only
+""")
 
 
 class SponsoredProductsNegativeKeywordExtendedData(LenientModel):
     creationDateTime: datetime | None = Field(default=None, description="Creation date in ISO 8601.")
     lastUpdateDateTime: datetime | None = Field(default=None, description="Last updated date in ISO 8601.")
-    servingStatus: (
-        Annotated[SponsoredProductsKeywordServingStatus | str, lenient_enum(SponsoredProductsKeywordServingStatus)]
-        | None
-    ) = Field(default=None)
+    servingStatus: SponsoredProductsKeywordServingStatus | str | None = Field(default=None)
     servingStatusDetails: list[SponsoredProductsKeywordServingStatusDetail] | None = Field(
         default=None, description="The serving status reasons of the Keyword"
     )
@@ -200,12 +196,7 @@ class SponsoredProductsNegativeKeywordSuccessResponseItem(LenientModel):
 
 class SponsoredProductsUpdateNegativeKeyword(StrictModel):
     keywordId: str = Field(description="The identifier of the keyword.")
-    state: (
-        Annotated[
-            SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
-        ]
-        | None
-    ) = Field(default=None)
+    state: SponsoredProductsCreateOrUpdateEntityState | None = Field(default=None)
 
 
 class SponsoredProductsUpdateSponsoredProductsNegativeKeywordsRequestContent(StrictModel):

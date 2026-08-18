@@ -3,50 +3,87 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
+
+type DSPCurrencyCode = Literal[
+    "AED",  # United Arab Emirates Dirham
+    "AUD",  # Australian Dollar
+    "BRL",  # Brazilian Real
+    "CAD",  # Canadian Dollar
+    "DKK",  # Danish Krone
+    "EUR",  # Euro
+    "GBP",  # British Pound Sterling
+    "INR",  # Indian Rupee
+    "JPY",  # Japanese Yen
+    "MXN",  # Mexican Peso
+    "NOK",  # Norwegian Krone
+    "NZD",  # New Zealand Dollar
+    "SAR",  # Saudi Riyal
+    "SEK",  # Swedish Krona
+    "SGD",  # Singapore Dollar
+    "TRY",  # Turkish Lira
+    "USD",  # United States Dollar
+]
+"""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `DKK`: Danish Krone
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `INR`: Indian Rupee
+- `JPY`: Japanese Yen
+- `MXN`: Mexican Peso
+- `NOK`: Norwegian Krone
+- `NZD`: New Zealand Dollar
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `TRY`: Turkish Lira
+- `USD`: United States Dollar
+"""
 
 
-class DSPCurrencyCode(StrEnum):
-    AED = "AED"  # United Arab Emirates Dirham
-    AUD = "AUD"  # Australian Dollar
-    BRL = "BRL"  # Brazilian Real
-    CAD = "CAD"  # Canadian Dollar
-    DKK = "DKK"  # Danish Krone
-    EUR = "EUR"  # Euro
-    GBP = "GBP"  # British Pound Sterling
-    INR = "INR"  # Indian Rupee
-    JPY = "JPY"  # Japanese Yen
-    MXN = "MXN"  # Mexican Peso
-    NOK = "NOK"  # Norwegian Krone
-    NZD = "NZD"  # New Zealand Dollar
-    SAR = "SAR"  # Saudi Riyal
-    SEK = "SEK"  # Swedish Krona
-    SGD = "SGD"  # Singapore Dollar
-    TRY = "TRY"  # Turkish Lira
-    USD = "USD"  # United States Dollar
+type DSPErrorCode = Literal[
+    "BAD_REQUEST",  # The request is not valid considering the documented schema.
+    "CONTENT_TOO_LARGE",  # The request is too large. Consider splitting it into multiple requests.
+    "FORBIDDEN",  # The caller is not authorized to make the given request.
+    "INTERNAL_ERROR",  # The server encountered an unexpected condition that prevented it from fulfilling the request.
+    "NOT_FOUND",  # The requested resource does not exist.
+    "TOO_MANY_REQUESTS",  # There have been too many requests, please slow down your call rate.
+    "UNAUTHORIZED",  # The request lacks the necessary credentials.
+]
+"""
+Supported values:
+- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- `UNAUTHORIZED`: The request lacks the necessary credentials.
+- `FORBIDDEN`: The caller is not authorized to make the given request.
+- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
+- `CONTENT_TOO_LARGE`: The request is too large. Consider splitting it into multiple requests.
+- `NOT_FOUND`: The requested resource does not exist.
+- `BAD_REQUEST`: The request is not valid considering the documented schema.
+"""
 
 
-class DSPErrorCode(StrEnum):
-    BAD_REQUEST = "BAD_REQUEST"  # The request is not valid considering the documented schema.
-    CONTENT_TOO_LARGE = "CONTENT_TOO_LARGE"  # The request is too large. Consider splitting it into multiple requests.
-    FORBIDDEN = "FORBIDDEN"  # The caller is not authorized to make the given request.
-    INTERNAL_ERROR = "INTERNAL_ERROR"  # The server encountered an unexpected condition that prevented it from fulfilling the request.
-    NOT_FOUND = "NOT_FOUND"  # The requested resource does not exist.
-    TOO_MANY_REQUESTS = "TOO_MANY_REQUESTS"  # There have been too many requests, please slow down your call rate.
-    UNAUTHORIZED = "UNAUTHORIZED"  # The request lacks the necessary credentials.
-
-
-class DSPSpendDimensionType(StrEnum):
-    ADVERTISER = "ADVERTISER"  # Advertiser Level Spend Detail
-    CAMPAIGN = "CAMPAIGN"  # Campaign Level Spend Detail
-    COMMITMENT = "COMMITMENT"  # Commitment Level Spend Detail
-    DEAL = "DEAL"  # Deal Level Spend Detail
+type DSPSpendDimensionType = Literal[
+    "ADVERTISER",  # Advertiser Level Spend Detail
+    "CAMPAIGN",  # Campaign Level Spend Detail
+    "COMMITMENT",  # Commitment Level Spend Detail
+    "DEAL",  # Deal Level Spend Detail
+]
+"""
+Supported values:
+- `COMMITMENT`: Commitment Level Spend Detail
+- `ADVERTISER`: Advertiser Level Spend Detail
+- `CAMPAIGN`: Campaign Level Spend Detail
+- `DEAL`: Deal Level Spend Detail
+"""
 
 
 class DSPCommitmentSpend(LenientModel):
@@ -55,12 +92,37 @@ class DSPCommitmentSpend(LenientModel):
     )
     accruedToDateTime: datetime = Field(description="Timestamp for accrual spend.")
     commitmentId: DSPCommitmentSpendIdentifierOut
-    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
+    currencyCode: DSPCurrencyCode | str = Field(description="""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `DKK`: Danish Krone
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `INR`: Indian Rupee
+- `JPY`: Japanese Yen
+- `MXN`: Mexican Peso
+- `NOK`: Norwegian Krone
+- `NZD`: New Zealand Dollar
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `TRY`: Turkish Lira
+- `USD`: United States Dollar
+""")
     projectedSpendValue: float | None = Field(
         default=None, description="Projected spend amount in commitment currency."
     )
     spendAtRiskValue: float | None = Field(default=None, description="Spend at risk amount in commitment currency.")
-    spendDimensionType: Annotated[DSPSpendDimensionType | str, lenient_enum(DSPSpendDimensionType)]
+    spendDimensionType: DSPSpendDimensionType | str = Field(description="""
+Supported values:
+- `COMMITMENT`: Commitment Level Spend Detail
+- `ADVERTISER`: Advertiser Level Spend Detail
+- `CAMPAIGN`: Campaign Level Spend Detail
+- `DEAL`: Deal Level Spend Detail
+""")
 
 
 class DSPCommitmentSpendIdentifier(StrictModel):
@@ -84,7 +146,16 @@ class DSPCommitmentSpendMultiStatusSuccess(LenientModel):
 
 
 class DSPError(LenientModel):
-    code: Annotated[DSPErrorCode | str, lenient_enum(DSPErrorCode)]
+    code: DSPErrorCode | str = Field(description="""
+Supported values:
+- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- `UNAUTHORIZED`: The request lacks the necessary credentials.
+- `FORBIDDEN`: The caller is not authorized to make the given request.
+- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
+- `CONTENT_TOO_LARGE`: The request is too large. Consider splitting it into multiple requests.
+- `NOT_FOUND`: The requested resource does not exist.
+- `BAD_REQUEST`: The request is not valid considering the documented schema.
+""")
     fieldLocation: str | None = Field(default=None)
     message: str
 

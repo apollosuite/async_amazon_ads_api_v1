@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     CreativePropertyToOptimize,
     CreativeStatus,
@@ -20,46 +18,41 @@ from ads_api.models.v0._shared import (
     SubpageOut,
 )
 
-
-class AcceptHeader(StrEnum):
-    """
-    Clients request a specific version of a resource using the Accept request-header field set to the value field of the desired content-type.
-    """
-
-    application_vnd_sbAdCreativeResource_v4_json = "application/vnd.sbAdCreativeResource.v4+json"
-    application_vnd_sbCreativeImageRecommendationResource_v4_json = (
-        "application/vnd.sbCreativeImageRecommendationResource.v4+json"
-    )
-    application_vnd_sbCreativeRecommendationResource_v4_json = (
-        "application/vnd.sbCreativeRecommendationResource.v4+json"
-    )
+type AcceptHeader = Literal[
+    "application/vnd.sbAdCreativeResource.v4+json",
+    "application/vnd.sbCreativeImageRecommendationResource.v4+json",
+    "application/vnd.sbCreativeRecommendationResource.v4+json",
+]
+"""
+Clients request a specific version of a resource using the Accept request-header field set to the value field of the desired content-type.
+"""
 
 
-class CreativeLandingPageType(StrEnum):
-    """
-    Landing page type
-    """
+type CreativeLandingPageType = Literal[
+    "PRODUCT_LIST",
+    "STORE",
+    "DETAIL_PAGE",
+    "CUSTOM_URL",
+    "AD_LANDING_PREVIEW",
+    "SEARCH",
+    "BROWSE",
+    "ADVERTISING_LANDING_PAGE",
+    "UNKNOWN",
+]
+"""
+Landing page type
+"""
 
-    PRODUCT_LIST = "PRODUCT_LIST"
-    STORE = "STORE"
-    DETAIL_PAGE = "DETAIL_PAGE"
-    CUSTOM_URL = "CUSTOM_URL"
-    AD_LANDING_PREVIEW = "AD_LANDING_PREVIEW"
-    SEARCH = "SEARCH"
-    BROWSE = "BROWSE"
-    ADVERTISING_LANDING_PAGE = "ADVERTISING_LANDING_PAGE"
-    UNKNOWN = "UNKNOWN"
 
-
-class CreativeType(StrEnum):
-    """
-    The creative type of SB ad.
-    """
-
-    PRODUCT_COLLECTION = "PRODUCT_COLLECTION"
-    STORE_SPOTLIGHT = "STORE_SPOTLIGHT"
-    VIDEO = "VIDEO"
-    BRAND_VIDEO = "BRAND_VIDEO"
+type CreativeType = Literal[
+    "PRODUCT_COLLECTION",
+    "STORE_SPOTLIGHT",
+    "VIDEO",
+    "BRAND_VIDEO",
+]
+"""
+The creative type of SB ad.
+"""
 
 
 class AssetCrop(StrictModel):
@@ -206,7 +199,7 @@ class CreativeLandingPage(LenientModel):
         max_length=100,
         description="The list of asins on the landingPage If type is PRODUCT_LIST.",
     )
-    type: Annotated[CreativeLandingPageType | str, lenient_enum(CreativeLandingPageType)] | None = Field(default=None)
+    type: CreativeLandingPageType | str | None = Field(default=None)
     value: str | None = Field(default=None, description="The url of the landingPage.")
 
 
@@ -276,9 +269,7 @@ A list of ASINs
     )
     brandLogoUrl: str | None = Field(default=None)
     subpages: list[SubpageOut] | None = Field(default=None, description="An array of subpages")
-    creativePropertiesToOptimize: (
-        list[Annotated[CreativePropertyToOptimize | str, lenient_enum(CreativePropertyToOptimize)]] | None
-    ) = Field(
+    creativePropertiesToOptimize: list[CreativePropertyToOptimize | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -322,9 +313,7 @@ If set to true and the headline and/or video are not in the marketplace's defaul
 If Amazon is unable to translate them, the ad will be rejected by moderation. We only support translating headlines and videos from English to German, French, Italian, Spanish, Japanese, and Dutch. See developer notes for more information.
 """,
     )
-    creativePropertiesToOptimize: (
-        list[Annotated[CreativePropertyToOptimize | str, lenient_enum(CreativePropertyToOptimize)]] | None
-    ) = Field(
+    creativePropertiesToOptimize: list[CreativePropertyToOptimize | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -341,7 +330,7 @@ See [the policy](https://advertising.amazon.com/resources/ad-policy/sponsored-ad
 
 
 class ListCreativesRequestContent(StrictModel):
-    creativeTypeFilter: list[Annotated[CreativeType | str, lenient_enum(CreativeType)]] | None = Field(
+    creativeTypeFilter: list[CreativeType | str] | None = Field(
         default=None,
         description="""
 Filters creatives by optional creative type.
@@ -368,7 +357,7 @@ Filters creatives by optional creative version.
 This means you can either list all creative versions without specific creative version filter, all just retrieve a single creative version by providing a specific version identifier.
 """,
     )
-    creativeStatusFilter: list[Annotated[CreativeStatus | str, lenient_enum(CreativeStatus)]] | None = Field(
+    creativeStatusFilter: list[CreativeStatus | str] | None = Field(
         default=None,
         description="""
 Filters creatives by optional creative status.
@@ -400,12 +389,12 @@ class ListCreativesResultEntry(LenientModel):
 
     adId: str | None = Field(default=None, description="The unique ID of a Sponsored Brands ad.")
     creationTime: float | None = Field(default=None)
-    creativeType: Annotated[CreativeType | str, lenient_enum(CreativeType)] | None = Field(default=None)
+    creativeType: CreativeType | str | None = Field(default=None)
     creativeVersion: str | None = Field(
         default=None,
         description="The version identifier that helps you keep track of multiple versions of a submitted (non-draft) Sponsored Brands creative.",
     )
-    creativeStatus: Annotated[CreativeStatus | str, lenient_enum(CreativeStatus)] | None = Field(default=None)
+    creativeStatus: CreativeStatus | str | None = Field(default=None)
     creativeProperties: CreativeProperties | None = Field(default=None)
     lastUpdateTime: float | None = Field(default=None)
 
@@ -452,9 +441,7 @@ If set to true and the headline and/or video are not in the marketplace's defaul
 If Amazon is unable to translate them, the ad will be rejected by moderation. We only support translating headlines and videos from English to German, French, Italian, Spanish, Japanese, and Dutch. See developer notes for more information.
 """,
     )
-    creativePropertiesToOptimize: (
-        list[Annotated[CreativePropertyToOptimize | str, lenient_enum(CreativePropertyToOptimize)]] | None
-    ) = Field(
+    creativePropertiesToOptimize: list[CreativePropertyToOptimize | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,

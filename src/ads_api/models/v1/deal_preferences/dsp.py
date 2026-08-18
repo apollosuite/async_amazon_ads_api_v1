@@ -3,26 +3,32 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
+
+type DSPErrorCode = Literal[
+    "BAD_REQUEST",  # The request is not valid considering the documented schema.
+    "FORBIDDEN",  # The caller is not authorized to make the given request.
+    "INTERNAL_ERROR",  # The server encountered an unexpected condition that prevented it from fulfilling the request.
+    "NOT_FOUND",  # The requested resource does not exist.
+    "TOO_MANY_REQUESTS",  # There have been too many requests, please slow down your call rate.
+    "UNAUTHORIZED",  # The request lacks the necessary credentials.
+]
+"""
+Supported values:
+- `BAD_REQUEST`: The request is not valid considering the documented schema.
+- `FORBIDDEN`: The caller is not authorized to make the given request.
+- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- `NOT_FOUND`: The requested resource does not exist.
+- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
+- `UNAUTHORIZED`: The request lacks the necessary credentials.
+"""
 
 
-class DSPErrorCode(StrEnum):
-    BAD_REQUEST = "BAD_REQUEST"  # The request is not valid considering the documented schema.
-    FORBIDDEN = "FORBIDDEN"  # The caller is not authorized to make the given request.
-    INTERNAL_ERROR = "INTERNAL_ERROR"  # The server encountered an unexpected condition that prevented it from fulfilling the request.
-    NOT_FOUND = "NOT_FOUND"  # The requested resource does not exist.
-    TOO_MANY_REQUESTS = "TOO_MANY_REQUESTS"  # There have been too many requests, please slow down your call rate.
-    UNAUTHORIZED = "UNAUTHORIZED"  # The request lacks the necessary credentials.
-
-
-class DSPSupplierTargetType(StrEnum):
-    CONTENT_CATEGORY = "CONTENT_CATEGORY"
+type DSPSupplierTargetType = Literal["CONTENT_CATEGORY"]
 
 
 class DSPCreateDealPreferenceRequest(StrictModel):
@@ -43,7 +49,7 @@ class DSPCreateDealPreferenceTarget(StrictModel):
         description="The supplier destination for this target (e.g., AmazonMedia, AmazonSP, AdX)."
     )
     supplierTargetItemId: str = Field(description="The specific target item to include or exclude.")
-    supplierTargetType: Annotated[DSPSupplierTargetType | str, lenient_enum(DSPSupplierTargetType)]
+    supplierTargetType: DSPSupplierTargetType
 
 
 class DSPDealPreference(LenientModel):
@@ -97,11 +103,19 @@ class DSPDealPreferenceTarget(LenientModel):
         description="The supplier destination for this target (e.g., AmazonMedia, AmazonSP, AdX)."
     )
     supplierTargetItemId: str = Field(description="The specific target item to include or exclude.")
-    supplierTargetType: Annotated[DSPSupplierTargetType | str, lenient_enum(DSPSupplierTargetType)]
+    supplierTargetType: DSPSupplierTargetType | str
 
 
 class DSPError(LenientModel):
-    code: Annotated[DSPErrorCode | str, lenient_enum(DSPErrorCode)]
+    code: DSPErrorCode | str = Field(description="""
+Supported values:
+- `BAD_REQUEST`: The request is not valid considering the documented schema.
+- `FORBIDDEN`: The caller is not authorized to make the given request.
+- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
+- `NOT_FOUND`: The requested resource does not exist.
+- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
+- `UNAUTHORIZED`: The request lacks the necessary credentials.
+""")
     fieldLocation: str | None = Field(default=None)
     message: str
 

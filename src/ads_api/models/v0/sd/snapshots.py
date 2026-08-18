@@ -2,74 +2,59 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
+
+type SnapshotRequestStateFilter = Literal["enabled", "paused", "archived"]
+"""
+Optional. Restricts results to entities with state within the specified comma-separated list. Default behavior is to include 'enabled' and 'paused'. You can include 'enabled', 'paused', and 'archived' or any combination.
+"""
 
 
-class SnapshotRequestStateFilter(StrEnum):
-    """
-    Optional. Restricts results to entities with state within the specified comma-separated list. Default behavior is to include 'enabled' and 'paused'. You can include 'enabled', 'paused', and 'archived' or any combination.
-    """
-
-    enabled = "enabled"
-    paused = "paused"
-    archived = "archived"
-
-
-class SnapshotResponseRecordType(StrEnum):
-    """
-    The record type of the snapshot file.
-    """
-
-    campaigns = "campaigns"
-    adgroups = "adgroups"
-    productAds = "productAds"
-    targets = "targets"
+type SnapshotResponseRecordType = Literal[
+    "campaigns",
+    "adgroups",
+    "productAds",
+    "targets",
+]
+"""
+The record type of the snapshot file.
+"""
 
 
-class SnapshotResponseStatus(StrEnum):
-    """
-    The status of the generation of the snapshot.
-    """
-
-    IN_PROGRESS = "IN_PROGRESS"
-    SUCCESS = "SUCCESS"
-    FAILURE = "FAILURE"
+type SnapshotResponseStatus = Literal["IN_PROGRESS", "SUCCESS", "FAILURE"]
+"""
+The status of the generation of the snapshot.
+"""
 
 
-class TacticFilter(StrEnum):
-    """
-    Optional. Restricts results to entities with the advertising tactic associated with the campaign. Must be one of the following table lists available tactic names:
-    |Tactic Name|Type|Description|
-    |-----------|-----|-----------|
-    |T00020     |Contextual targeting | Choose individual products to show your ads in placements related to those products.<br> Choose individual categories to show your ads in placements related to those categories on and off Amazon.|
-    |T00030     |Audiences or Contextual Targeting | Select individual products, categories, refined categories, or audiences to show your ads.|
-    """
-
-    T00020 = "T00020"
-    T00030 = "T00030"
-    T00020_T00030 = "T00020,T00030"
+type TacticFilter = Literal["T00020", "T00030", "T00020,T00030"]
+"""
+Optional. Restricts results to entities with the advertising tactic associated with the campaign. Must be one of the following table lists available tactic names:
+|Tactic Name|Type|Description|
+|-----------|-----|-----------|
+|T00020     |Contextual targeting | Choose individual products to show your ads in placements related to those products.<br> Choose individual categories to show your ads in placements related to those categories on and off Amazon.|
+|T00030     |Audiences or Contextual Targeting | Select individual products, categories, refined categories, or audiences to show your ads.|
+"""
 
 
 class SnapshotRequest(StrictModel):
-    stateFilter: Annotated[SnapshotRequestStateFilter | str, lenient_enum(SnapshotRequestStateFilter)] | None = Field(
+    stateFilter: SnapshotRequestStateFilter | None = Field(
         default=None,
         description="Optional. Restricts results to entities with state within the specified comma-separated list. Default behavior is to include 'enabled' and 'paused'. You can include 'enabled', 'paused', and 'archived' or any combination.",
     )
-    tacticFilter: Annotated[TacticFilter | str, lenient_enum(TacticFilter)] | None = Field(default=None)
+    tacticFilter: TacticFilter | None = Field(default=None)
 
 
 class SnapshotResponse(LenientModel):
     snapshotId: str | None = Field(default=None, description="The identifier of the snapshot that was requested.")
-    recordType: Annotated[SnapshotResponseRecordType | str, lenient_enum(SnapshotResponseRecordType)] | None = Field(
+    recordType: SnapshotResponseRecordType | str | None = Field(
         default=None, description="The record type of the snapshot file."
     )
-    status: Annotated[SnapshotResponseStatus | str, lenient_enum(SnapshotResponseStatus)] | None = Field(
+    status: SnapshotResponseStatus | str | None = Field(
         default=None, description="The status of the generation of the snapshot."
     )
     statusDetails: str | None = Field(default=None, description="Optional description of the status.")

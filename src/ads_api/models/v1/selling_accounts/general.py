@@ -2,26 +2,24 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.general import (
     CountryCode,
     SellingProgram,
 )
 
-
-class Portal(StrEnum):
-    AUTHOR_CENTRAL = "AUTHOR_CENTRAL"
-    GROCERY_CENTRAL = "GROCERY_CENTRAL"
-    KDP_CENTRAL = "KDP_CENTRAL"
-    MERCH = "MERCH"
-    SELLER_CENTRAL = "SELLER_CENTRAL"
-    VENDOR_CENTRAL = "VENDOR_CENTRAL"
+type Portal = Literal[
+    "AUTHOR_CENTRAL",
+    "GROCERY_CENTRAL",
+    "KDP_CENTRAL",
+    "MERCH",
+    "SELLER_CENTRAL",
+    "VENDOR_CENTRAL",
+]
 
 
 class QuerySellingAccountRequest(StrictModel):
@@ -33,18 +31,18 @@ class QuerySellingAccountRequest(StrictModel):
 
 class SellingAccount(LenientModel):
     business: SellingAccountBusiness | None = Field(default=None)
-    countryCodes: list[Annotated[CountryCode | str, lenient_enum(CountryCode)]] | None = Field(
+    countryCodes: list[CountryCode | str] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
         description="The countries of the selling account user can advertise in.",
     )
     displayName: str | None = Field(default=None, description="Display name for the selling account.")
-    portals: list[Annotated[Portal | str, lenient_enum(Portal)]] = Field(
+    portals: list[Portal | str] = Field(
         min_length=1, max_length=6, description="The portal(s) used to access the selling account."
     )
     sellingAccountLinkToken: str = Field(description="The token to locate a selling account.")
-    sellingProgram: Annotated[SellingProgram | str, lenient_enum(SellingProgram)]
+    sellingProgram: SellingProgram | str
 
 
 class SellingAccountAddress(LenientModel):
@@ -75,7 +73,7 @@ class SellingAccountSellingAccountLinkTokenFilter(StrictModel):
 
 
 class SellingAccountSellingProgramFilter(StrictModel):
-    include: list[Annotated[SellingProgram | str, lenient_enum(SellingProgram)]] = Field(min_length=1, max_length=1)
+    include: list[SellingProgram | str] = Field(min_length=1, max_length=1)
 
 
 class SellingAccountSuccessResponse(LenientModel):

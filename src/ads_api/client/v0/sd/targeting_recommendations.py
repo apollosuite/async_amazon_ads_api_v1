@@ -25,7 +25,7 @@ class TargetingRecommendations(BaseResource):
         body: SDTargetingRecommendationsRequestV35,
         *,
         mode: Literal["pydantic"] = "pydantic",
-        locale: SDTargetingRecommendationsLocale | None = None,
+        locale: SDTargetingRecommendationsLocale | str | None = None,
     ) -> SDTargetingRecommendationsResponseV35: ...
     @overload
     async def get_target_recommendations(
@@ -33,7 +33,7 @@ class TargetingRecommendations(BaseResource):
         body: SDTargetingRecommendationsRequestV35,
         *,
         mode: Literal["dict"],
-        locale: SDTargetingRecommendationsLocale | None = None,
+        locale: SDTargetingRecommendationsLocale | str | None = None,
     ) -> dict[str, Any]: ...
     @overload
     async def get_target_recommendations(
@@ -41,14 +41,14 @@ class TargetingRecommendations(BaseResource):
         body: SDTargetingRecommendationsRequestV35,
         *,
         mode: Literal["raw"],
-        locale: SDTargetingRecommendationsLocale | None = None,
+        locale: SDTargetingRecommendationsLocale | str | None = None,
     ) -> httpx.Response: ...
     async def get_target_recommendations(
         self,
         body: SDTargetingRecommendationsRequestV35,
         *,
         mode: Literal["pydantic", "dict", "raw"] = "pydantic",
-        locale: SDTargetingRecommendationsLocale | None = None,
+        locale: SDTargetingRecommendationsLocale | str | None = None,
     ) -> SDTargetingRecommendationsResponseV35 | dict[str, Any] | httpx.Response:
         """This API provides product, category and standard audience recommendations to target based on the list of input ASINs. Allow 1 week for our systems to process data for any new ASINs listed on Amazon before using this service. Note -  recommendations are only available for productAds with SKU or ASIN."""
 

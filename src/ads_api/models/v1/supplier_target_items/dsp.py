@@ -2,87 +2,90 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.dsp import (
     DSPSortDirection,
 )
 
-
-class DSPAdProduct(StrEnum):
-    AMAZON_DSP = "AMAZON_DSP"  # Amazon Demand-Side Platform ad product.
-
-
-class DSPCountryCode(StrEnum):
-    AD = "AD"
-    AE = "AE"
-    AF = "AF"
-    AG = "AG"
-    AI = "AI"
-    AU = "AU"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IT = "IT"
-    JP = "JP"
-    KR = "KR"
-    MX = "MX"
-    US = "US"
+type DSPAdProduct = Literal["AMAZON_DSP",]  # Amazon Demand-Side Platform ad product.
+"""
+Supported values:
+- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
+"""
 
 
-class DSPSupplierTargetItemNameFilterType(StrEnum):
-    BROAD_MATCH = "BROAD_MATCH"  # Filter by broad match.
+type DSPCountryCode = Literal[
+    "AD",
+    "AE",
+    "AF",
+    "AG",
+    "AI",
+    "AU",
+    "BR",
+    "CA",
+    "DE",
+    "ES",
+    "FR",
+    "GB",
+    "IT",
+    "JP",
+    "KR",
+    "MX",
+    "US",
+]
 
 
-class DSPSupplierTargetItemSortOptionsFields(StrEnum):
-    """
-    Specify which field to order by.
-    | Field Name | Supported Ordering |
-    | --- | --- |
-    | name | ASCENDING,DESCENDING |
-    """
-
-    name = "name"
+type DSPSupplierTargetItemNameFilterType = Literal["BROAD_MATCH",]  # Filter by broad match.
+"""
+Supported values:
+- `BROAD_MATCH`: Filter by broad match.
+"""
 
 
-class DSPSupplierTargetType(StrEnum):
-    APP = "APP"
-    AUDIENCE = "AUDIENCE"
-    AUDIENCE_AGE = "AUDIENCE_AGE"
-    AUDIENCE_EDUCATION = "AUDIENCE_EDUCATION"
-    AUDIENCE_GENDER = "AUDIENCE_GENDER"
-    AUDIENCE_HOMEOWNERSHIP = "AUDIENCE_HOMEOWNERSHIP"
-    AUDIENCE_HOUSEHOLD_COMPOSITION = "AUDIENCE_HOUSEHOLD_COMPOSITION"
-    AUDIENCE_HOUSEHOLD_INCOME = "AUDIENCE_HOUSEHOLD_INCOME"
-    AUDIENCE_INTERESTS = "AUDIENCE_INTERESTS"
-    AUDIENCE_IN_MARKET = "AUDIENCE_IN_MARKET"
-    AUDIENCE_MARITAL_STATUS = "AUDIENCE_MARITAL_STATUS"
-    AUDIENCE_MOOD = "AUDIENCE_MOOD"
-    AUDIENCE_SOCIOECONOMIC_GROUP = "AUDIENCE_SOCIOECONOMIC_GROUP"
-    CONTENT_CATEGORY = "CONTENT_CATEGORY"
-    CONTENT_GENRE = "CONTENT_GENRE"
-    CONTENT_RATING = "CONTENT_RATING"
-    CONTENT_SENSITIVE_CATEGORY = "CONTENT_SENSITIVE_CATEGORY"
-    DAYPART = "DAYPART"
-    DAYPART_DAY = "DAYPART_DAY"
-    DAYPART_TIME = "DAYPART_TIME"
-    DEVICE_OPERATING_SYSTEM = "DEVICE_OPERATING_SYSTEM"
-    DEVICE_TYPE = "DEVICE_TYPE"
-    LOCATION_CITY = "LOCATION_CITY"
-    LOCATION_COUNTRY = "LOCATION_COUNTRY"
-    LOCATION_DESIGNATED_MARKET_AREA = "LOCATION_DESIGNATED_MARKET_AREA"
-    LOCATION_METRO = "LOCATION_METRO"
-    LOCATION_POSTAL_CODE = "LOCATION_POSTAL_CODE"
-    LOCATION_REGION = "LOCATION_REGION"
-    POSITION_VIDEO = "POSITION_VIDEO"
+type DSPSupplierTargetItemSortOptionsFields = Literal["name"]
+"""
+Specify which field to order by.
+| Field Name | Supported Ordering |
+| --- | --- |
+| name | ASCENDING,DESCENDING |
+"""
+
+
+type DSPSupplierTargetType = Literal[
+    "APP",
+    "AUDIENCE",
+    "AUDIENCE_AGE",
+    "AUDIENCE_EDUCATION",
+    "AUDIENCE_GENDER",
+    "AUDIENCE_HOMEOWNERSHIP",
+    "AUDIENCE_HOUSEHOLD_COMPOSITION",
+    "AUDIENCE_HOUSEHOLD_INCOME",
+    "AUDIENCE_INTERESTS",
+    "AUDIENCE_IN_MARKET",
+    "AUDIENCE_MARITAL_STATUS",
+    "AUDIENCE_MOOD",
+    "AUDIENCE_SOCIOECONOMIC_GROUP",
+    "CONTENT_CATEGORY",
+    "CONTENT_GENRE",
+    "CONTENT_RATING",
+    "CONTENT_SENSITIVE_CATEGORY",
+    "DAYPART",
+    "DAYPART_DAY",
+    "DAYPART_TIME",
+    "DEVICE_OPERATING_SYSTEM",
+    "DEVICE_TYPE",
+    "LOCATION_CITY",
+    "LOCATION_COUNTRY",
+    "LOCATION_DESIGNATED_MARKET_AREA",
+    "LOCATION_METRO",
+    "LOCATION_POSTAL_CODE",
+    "LOCATION_REGION",
+    "POSITION_VIDEO",
+]
 
 
 class DSPQuerySupplierTargetItemRequest(StrictModel):
@@ -102,11 +105,17 @@ class DSPQuerySupplierTargetItemRequest(StrictModel):
 
 
 class DSPSupplierTargetItem(LenientModel):
-    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)] | None = Field(default=None)
+    adProduct: DSPAdProduct | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
+""",
+    )
     category: list[str] | None = Field(
         default=None, min_length=0, max_length=49, description="Categories for this targeting item."
     )
-    countries: list[Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)]] | None = Field(
+    countries: list[DSPCountryCode | str] | None = Field(
         default=None, min_length=0, max_length=49, description="Countries where this targeting item is available."
     )
     description: str | None = Field(default=None, description="Description of the targeting item.")
@@ -118,11 +127,18 @@ class DSPSupplierTargetItem(LenientModel):
     supplierProposalDestinationId: str | None = Field(
         default=None, description="Supplier proposal destination identifier."
     )
-    supplierTargetType: Annotated[DSPSupplierTargetType | str, lenient_enum(DSPSupplierTargetType)]
+    supplierTargetType: DSPSupplierTargetType | str
 
 
 class DSPSupplierTargetItemAdProductFilter(StrictModel):
-    include: list[Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[DSPAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
+""",
+    )
 
 
 class DSPSupplierTargetItemCategoryFilter(StrictModel):
@@ -130,7 +146,7 @@ class DSPSupplierTargetItemCategoryFilter(StrictModel):
 
 
 class DSPSupplierTargetItemCountryCodeFilter(StrictModel):
-    include: list[Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)]] = Field(min_length=1, max_length=10)
+    include: list[DSPCountryCode | str] = Field(min_length=1, max_length=10)
 
 
 class DSPSupplierTargetItemIdFilter(StrictModel):
@@ -139,14 +155,22 @@ class DSPSupplierTargetItemIdFilter(StrictModel):
 
 class DSPSupplierTargetItemNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=1)
-    queryTermMatchType: Annotated[
-        DSPSupplierTargetItemNameFilterType | str, lenient_enum(DSPSupplierTargetItemNameFilterType)
-    ]
+    queryTermMatchType: DSPSupplierTargetItemNameFilterType = Field(description="""
+Supported values:
+- `BROAD_MATCH`: Filter by broad match.
+""")
 
 
 class DSPSupplierTargetItemSortOption(StrictModel):
-    by: Annotated[DSPSupplierTargetItemSortOptionsFields | str, lenient_enum(DSPSupplierTargetItemSortOptionsFields)]
-    direction: Annotated[DSPSortDirection | str, lenient_enum(DSPSortDirection)] | None = Field(default=None)
+    by: DSPSupplierTargetItemSortOptionsFields
+    direction: DSPSortDirection | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ASCENDING`: Sort in ascending order
+- `DESCENDING`: Sort in descending order
+""",
+    )
 
 
 class DSPSupplierTargetItemSuccessResponse(LenientModel):
@@ -164,9 +188,7 @@ class DSPSupplierTargetItemSupplierProposalDestinationIdFilter(StrictModel):
 
 
 class DSPSupplierTargetItemSupplierTargetTypeFilter(StrictModel):
-    include: list[Annotated[DSPSupplierTargetType | str, lenient_enum(DSPSupplierTargetType)]] = Field(
-        min_length=1, max_length=12
-    )
+    include: list[DSPSupplierTargetType | str] = Field(min_length=1, max_length=12)
 
 
 __all__ = [

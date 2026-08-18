@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.sp import (
     SPAdProduct,
     SPCreateState,
@@ -28,108 +26,177 @@ from ads_api.models.v1._shared.sp import (
     SPUpdateState,
 )
 
-
-class SPKeywordMatchType(StrEnum):
-    BROAD = "BROAD"  # Broad match search terms. This expands matching on user intent beyond PHRASE.
-    EXACT = "EXACT"  # Exact match search terms.
-    PHRASE = "PHRASE"  # Phrase match search terms. This expands matching on user intent beyond EXACT.
-
-
-class SPLanguageLocale(StrEnum):
-    """
-    A combination of ISO-639 standard for language code and ISO-3166 for country code.
-    """
-
-    zh_CN = "zh_CN"  # Chinese (China).
+type SPKeywordMatchType = Literal[
+    "BROAD",  # Broad match search terms. This expands matching on user intent beyond PHRASE.
+    "EXACT",  # Exact match search terms.
+    "PHRASE",  # Phrase match search terms. This expands matching on user intent beyond EXACT.
+]
+"""
+Supported values:
+- `BROAD`: Broad match search terms. This expands matching on user intent beyond PHRASE.
+- `EXACT`: Exact match search terms.
+- `PHRASE`: Phrase match search terms. This expands matching on user intent beyond EXACT.
+"""
 
 
-class SPMarketplace(StrEnum):
-    """
-    A list of country codes representing Amazon marketplaces
-    """
+type SPLanguageLocale = Literal["zh_CN",]  # Chinese (China).
+"""
+A combination of ISO-639 standard for language code and ISO-3166 for country code.
 
-    AE = "AE"
-    AU = "AU"
-    BE = "BE"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    EG = "EG"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IE = "IE"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    NL = "NL"
-    PL = "PL"
-    SA = "SA"
-    SE = "SE"
-    SG = "SG"
-    TR = "TR"
-    US = "US"
-    ZA = "ZA"
+Supported values:
+- `zh_CN`: Chinese (China).
+"""
 
 
-class SPMatchType(StrEnum):
-    BROAD = "BROAD"  # Broad match search terms. This expands matching on user intent beyond PHRASE.
-    EXACT = "EXACT"  # Exact match search terms.
-    KEYWORDS_CLOSE_MATCH = "KEYWORDS_CLOSE_MATCH"  # Search terms closely matching advertised product.
-    KEYWORDS_LOOSE_MATCH = "KEYWORDS_LOOSE_MATCH"  # Search terms loosely matching advertised product.
-    KEYWORDS_RELATED_TO_GIFTS = "KEYWORDS_RELATED_TO_GIFTS"  # Search terms related to gifts.
-    KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY = "KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY"  # Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically.
-    KEYWORDS_RELATED_TO_PRIME_DAY = "KEYWORDS_RELATED_TO_PRIME_DAY"  # Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like "prime day", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day.
-    KEYWORDS_RELATED_TO_YOUR_BRAND = "KEYWORDS_RELATED_TO_YOUR_BRAND"  # Search terms related to your brand.
-    KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY = "KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY"  # Search terms shoppers often use to search for products in the same category as the products you're advertising.
-    PHRASE = "PHRASE"  # Phrase match search terms. This expands matching on user intent beyond EXACT.
-    PRODUCT_COMPLEMENTS = "PRODUCT_COMPLEMENTS"  # Products that complement advertised product.
-    PRODUCT_EXACT = "PRODUCT_EXACT"  # Products exactly matching the specified product.
-    PRODUCT_SIMILAR = "PRODUCT_SIMILAR"  # Products similar to the specified product.
-    PRODUCT_SUBSTITUTES = "PRODUCT_SUBSTITUTES"  # Products that can be substituted for advertised product.
+type SPMarketplace = Literal[
+    "AE",
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "DE",
+    "EG",
+    "ES",
+    "FR",
+    "GB",
+    "IE",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "PL",
+    "SA",
+    "SE",
+    "SG",
+    "TR",
+    "US",
+    "ZA",
+]
+"""
+A list of country codes representing Amazon marketplaces
+"""
 
 
-class SPProductMatchType(StrEnum):
-    PRODUCT_EXACT = "PRODUCT_EXACT"  # Products exactly matching the specified product.
-    PRODUCT_SIMILAR = "PRODUCT_SIMILAR"  # Products similar to the specified product.
+type SPMatchType = Literal[
+    "BROAD",  # Broad match search terms. This expands matching on user intent beyond PHRASE.
+    "EXACT",  # Exact match search terms.
+    "KEYWORDS_CLOSE_MATCH",  # Search terms closely matching advertised product.
+    "KEYWORDS_LOOSE_MATCH",  # Search terms loosely matching advertised product.
+    "KEYWORDS_RELATED_TO_GIFTS",  # Search terms related to gifts.
+    "KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY",  # Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically.
+    "KEYWORDS_RELATED_TO_PRIME_DAY",  # Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like "prime day", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day.
+    "KEYWORDS_RELATED_TO_YOUR_BRAND",  # Search terms related to your brand.
+    "KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY",  # Search terms shoppers often use to search for products in the same category as the products you're advertising.
+    "PHRASE",  # Phrase match search terms. This expands matching on user intent beyond EXACT.
+    "PRODUCT_COMPLEMENTS",  # Products that complement advertised product.
+    "PRODUCT_EXACT",  # Products exactly matching the specified product.
+    "PRODUCT_SIMILAR",  # Products similar to the specified product.
+    "PRODUCT_SUBSTITUTES",  # Products that can be substituted for advertised product.
+]
+"""
+Supported values:
+- `KEYWORDS_RELATED_TO_GIFTS`: Search terms related to gifts.
+- `KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY`: Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically.
+- `PRODUCT_SIMILAR`: Products similar to the specified product.
+- `BROAD`: Broad match search terms. This expands matching on user intent beyond PHRASE.
+- `EXACT`: Exact match search terms.
+- `KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY`: Search terms shoppers often use to search for products in the same category as the products you're advertising.
+- `KEYWORDS_RELATED_TO_YOUR_BRAND`: Search terms related to your brand.
+- `PRODUCT_SUBSTITUTES`: Products that can be substituted for advertised product.
+- `KEYWORDS_LOOSE_MATCH`: Search terms loosely matching advertised product.
+- `PHRASE`: Phrase match search terms. This expands matching on user intent beyond EXACT.
+- `KEYWORDS_CLOSE_MATCH`: Search terms closely matching advertised product.
+- `PRODUCT_COMPLEMENTS`: Products that complement advertised product.
+- `PRODUCT_EXACT`: Products exactly matching the specified product.
+- `KEYWORDS_RELATED_TO_PRIME_DAY`: Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like "prime day", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day.
+"""
 
 
-class SPTargetKeywordFilterType(StrEnum):
-    BROAD_MATCH = "BROAD_MATCH"  # Filter by broad match.
-    EXACT_MATCH = "EXACT_MATCH"  # Filter by exact match.
+type SPProductMatchType = Literal[
+    "PRODUCT_EXACT",  # Products exactly matching the specified product.
+    "PRODUCT_SIMILAR",  # Products similar to the specified product.
+]
+"""
+Supported values:
+- `PRODUCT_EXACT`: Products exactly matching the specified product.
+- `PRODUCT_SIMILAR`: Products similar to the specified product.
+"""
 
 
-class SPTargetLevel(StrEnum):
-    AD_GROUP = "AD_GROUP"  # Target applied at the ad group level.
-    CAMPAIGN = "CAMPAIGN"  # Target applied at the campaign level.
+type SPTargetKeywordFilterType = Literal[
+    "BROAD_MATCH",  # Filter by broad match.
+    "EXACT_MATCH",  # Filter by exact match.
+]
+"""
+Supported values:
+- `EXACT_MATCH`: Filter by exact match.
+- `BROAD_MATCH`: Filter by broad match.
+"""
 
 
-class SPTargetProductIdFilterType(StrEnum):
-    BROAD_MATCH = "BROAD_MATCH"  # Filter by broad match.
-    EXACT_MATCH = "EXACT_MATCH"  # Filter by exact match.
+type SPTargetLevel = Literal[
+    "AD_GROUP",  # Target applied at the ad group level.
+    "CAMPAIGN",  # Target applied at the campaign level.
+]
+"""
+Supported values:
+- `AD_GROUP`: Target applied at the ad group level.
+- `CAMPAIGN`: Target applied at the campaign level.
+"""
 
 
-class SPTargetType(StrEnum):
-    KEYWORD = "KEYWORD"  # Target based on customer search terms.
-    LOCATION = "LOCATION"  # Target based on geographic location.
-    PRODUCT = "PRODUCT"  # Target based on a specific product.
-    PRODUCT_CATEGORY = "PRODUCT_CATEGORY"  # Target based on a product category.
-    THEME = (
-        "THEME"  # Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
-    )
+type SPTargetProductIdFilterType = Literal[
+    "BROAD_MATCH",  # Filter by broad match.
+    "EXACT_MATCH",  # Filter by exact match.
+]
+"""
+Supported values:
+- `EXACT_MATCH`: Filter by exact match.
+- `BROAD_MATCH`: Filter by broad match.
+"""
 
 
-class SPThemeMatchType(StrEnum):
-    KEYWORDS_CLOSE_MATCH = "KEYWORDS_CLOSE_MATCH"  # Search terms closely matching advertised product.
-    KEYWORDS_LOOSE_MATCH = "KEYWORDS_LOOSE_MATCH"  # Search terms loosely matching advertised product.
-    KEYWORDS_RELATED_TO_GIFTS = "KEYWORDS_RELATED_TO_GIFTS"  # Search terms related to gifts.
-    KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY = "KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY"  # Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically.
-    KEYWORDS_RELATED_TO_PRIME_DAY = "KEYWORDS_RELATED_TO_PRIME_DAY"  # Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like "prime day", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day.
-    KEYWORDS_RELATED_TO_YOUR_BRAND = "KEYWORDS_RELATED_TO_YOUR_BRAND"  # Search terms related to your brand.
-    KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY = "KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY"  # Search terms shoppers often use to search for products in the same category as the products you're advertising.
-    PRODUCT_COMPLEMENTS = "PRODUCT_COMPLEMENTS"  # Products that complement advertised product.
-    PRODUCT_SUBSTITUTES = "PRODUCT_SUBSTITUTES"  # Products that can be substituted for advertised product.
+type SPTargetType = Literal[
+    "KEYWORD",  # Target based on customer search terms.
+    "LOCATION",  # Target based on geographic location.
+    "PRODUCT",  # Target based on a specific product.
+    "PRODUCT_CATEGORY",  # Target based on a product category.
+    "THEME",  # Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
+]
+"""
+Supported values:
+- `KEYWORD`: Target based on customer search terms.
+- `LOCATION`: Target based on geographic location.
+- `PRODUCT_CATEGORY`: Target based on a product category.
+- `PRODUCT`: Target based on a specific product.
+- `THEME`: Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
+"""
+
+
+type SPThemeMatchType = Literal[
+    "KEYWORDS_CLOSE_MATCH",  # Search terms closely matching advertised product.
+    "KEYWORDS_LOOSE_MATCH",  # Search terms loosely matching advertised product.
+    "KEYWORDS_RELATED_TO_GIFTS",  # Search terms related to gifts.
+    "KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY",  # Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically.
+    "KEYWORDS_RELATED_TO_PRIME_DAY",  # Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like "prime day", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day.
+    "KEYWORDS_RELATED_TO_YOUR_BRAND",  # Search terms related to your brand.
+    "KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY",  # Search terms shoppers often use to search for products in the same category as the products you're advertising.
+    "PRODUCT_COMPLEMENTS",  # Products that complement advertised product.
+    "PRODUCT_SUBSTITUTES",  # Products that can be substituted for advertised product.
+]
+"""
+Supported values:
+- `KEYWORDS_CLOSE_MATCH`: Search terms closely matching advertised product.
+- `KEYWORDS_LOOSE_MATCH`: Search terms loosely matching advertised product.
+- `KEYWORDS_RELATED_TO_GIFTS`: Search terms related to gifts.
+- `KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY`: Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically.
+- `KEYWORDS_RELATED_TO_PRIME_DAY`: Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like "prime day", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day.
+- `KEYWORDS_RELATED_TO_YOUR_BRAND`: Search terms related to your brand.
+- `KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY`: Search terms shoppers often use to search for products in the same category as the products you're advertising.
+- `PRODUCT_COMPLEMENTS`: Products that complement advertised product.
+- `PRODUCT_SUBSTITUTES`: Products that can be substituted for advertised product.
+"""
 
 
 class SPCreateKeywordTarget(StrictModel):
@@ -138,11 +205,22 @@ class SPCreateKeywordTarget(StrictModel):
     keyword: str = Field(
         description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints)."
     )
-    matchType: Annotated[SPKeywordMatchType | str, lenient_enum(SPKeywordMatchType)]
+    matchType: SPKeywordMatchType = Field(description="""
+Supported values:
+- `BROAD`: Broad match search terms. This expands matching on user intent beyond PHRASE.
+- `EXACT`: Exact match search terms.
+- `PHRASE`: Phrase match search terms. This expands matching on user intent beyond EXACT.
+""")
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser."
     )
-    nativeLanguageLocale: Annotated[SPLanguageLocale | str, lenient_enum(SPLanguageLocale)] | None = Field(default=None)
+    nativeLanguageLocale: SPLanguageLocale | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `zh_CN`: Chinese (China).
+""",
+    )
 
 
 class SPCreateLocationTarget(StrictModel):
@@ -190,9 +268,17 @@ class SPCreateProductCategoryTarget(StrictModel):
 class SPCreateProductTarget(StrictModel):
     """Targets a specific product."""
 
-    matchType: Annotated[SPProductMatchType | str, lenient_enum(SPProductMatchType)]
+    matchType: SPProductMatchType = Field(description="""
+Supported values:
+- `PRODUCT_EXACT`: Products exactly matching the specified product.
+- `PRODUCT_SIMILAR`: Products similar to the specified product.
+""")
     product: SPCreateProductValue
-    productIdType: Annotated[SPProductIdType | str, lenient_enum(SPProductIdType)]
+    productIdType: SPProductIdType = Field(description="""
+Supported values:
+- `ASIN`: ASIN identifier type.
+- `SKU`: SKU identifier type.
+""")
 
 
 class SPCreateProductValue(StrictModel):
@@ -235,7 +321,18 @@ class SPCreateTargetRequest(StrictModel):
 class SPCreateThemeTarget(StrictModel):
     """Theme targets let advertisers select high-performing targets based on a common theme."""
 
-    matchType: Annotated[SPThemeMatchType | str, lenient_enum(SPThemeMatchType)]
+    matchType: SPThemeMatchType = Field(description="""
+Supported values:
+- `KEYWORDS_CLOSE_MATCH`: Search terms closely matching advertised product.
+- `KEYWORDS_LOOSE_MATCH`: Search terms loosely matching advertised product.
+- `KEYWORDS_RELATED_TO_GIFTS`: Search terms related to gifts.
+- `KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY`: Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically.
+- `KEYWORDS_RELATED_TO_PRIME_DAY`: Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like "prime day", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day.
+- `KEYWORDS_RELATED_TO_YOUR_BRAND`: Search terms related to your brand.
+- `KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY`: Search terms shoppers often use to search for products in the same category as the products you're advertising.
+- `PRODUCT_COMPLEMENTS`: Products that complement advertised product.
+- `PRODUCT_SUBSTITUTES`: Products that can be substituted for advertised product.
+""")
 
 
 class SPDeleteTargetRequest(StrictModel):
@@ -248,11 +345,22 @@ class SPKeywordTarget(LenientModel):
     keyword: str = Field(
         description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints)."
     )
-    matchType: Annotated[SPKeywordMatchType | str, lenient_enum(SPKeywordMatchType)]
+    matchType: SPKeywordMatchType | str = Field(description="""
+Supported values:
+- `BROAD`: Broad match search terms. This expands matching on user intent beyond PHRASE.
+- `EXACT`: Exact match search terms.
+- `PHRASE`: Phrase match search terms. This expands matching on user intent beyond EXACT.
+""")
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser."
     )
-    nativeLanguageLocale: Annotated[SPLanguageLocale | str, lenient_enum(SPLanguageLocale)] | None = Field(default=None)
+    nativeLanguageLocale: SPLanguageLocale | str | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `zh_CN`: Chinese (China).
+""",
+    )
 
 
 class SPLocationTarget(LenientModel):
@@ -304,9 +412,17 @@ class SPProductCategoryTarget(LenientModel):
 class SPProductTarget(LenientModel):
     """Targets a specific product."""
 
-    matchType: Annotated[SPProductMatchType | str, lenient_enum(SPProductMatchType)]
+    matchType: SPProductMatchType | str = Field(description="""
+Supported values:
+- `PRODUCT_EXACT`: Products exactly matching the specified product.
+- `PRODUCT_SIMILAR`: Products similar to the specified product.
+""")
     product: SPProductValue
-    productIdType: Annotated[SPProductIdType | str, lenient_enum(SPProductIdType)]
+    productIdType: SPProductIdType | str = Field(description="""
+Supported values:
+- `ASIN`: ASIN identifier type.
+- `SKU`: SKU identifier type.
+""")
 
 
 class SPProductValue(LenientModel):
@@ -335,7 +451,10 @@ class SPTarget(LenientModel):
         default=None,
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets.",
     )
-    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
+    adProduct: SPAdProduct | str = Field(description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""")
     bid: SPTargetBid | None = Field(default=None)
     campaignId: str | None = Field(
         default=None,
@@ -346,14 +465,19 @@ class SPTarget(LenientModel):
         default=None, description="The global target identifier that manages this marketplace target."
     )
     lastUpdatedDateTime: datetime = Field(description="The date time the target was last updated.")
-    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
-    marketplaces: list[Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]] = Field(
+    marketplaceScope: SPMarketplaceScope | str
+    marketplaces: list[SPMarketplace | str] = Field(
         min_length=1,
         max_length=1,
         description="The list of marketplace in which the global target is applicable. The marketplaces included should either be same as or subset of parent campaign/ad group",
     )
     negative: bool = Field(description="Indicates whether the target is negative or not.")
-    state: Annotated[SPState | str, lenient_enum(SPState)]
+    state: SPState | str = Field(description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     status: SPStatus | None = Field(default=None)
     tags: list[SPTag] | None = Field(
         default=None,
@@ -363,8 +487,19 @@ class SPTarget(LenientModel):
     )
     targetDetails: SPTargetDetails
     targetId: str = Field(description="A unique identifier for the target.")
-    targetLevel: Annotated[SPTargetLevel | str, lenient_enum(SPTargetLevel)]
-    targetType: Annotated[SPTargetType | str, lenient_enum(SPTargetType)]
+    targetLevel: SPTargetLevel | str = Field(description="""
+Supported values:
+- `AD_GROUP`: Target applied at the ad group level.
+- `CAMPAIGN`: Target applied at the campaign level.
+""")
+    targetType: SPTargetType | str = Field(description="""
+Supported values:
+- `KEYWORD`: Target based on customer search terms.
+- `LOCATION`: Target based on geographic location.
+- `PRODUCT_CATEGORY`: Target based on a product category.
+- `PRODUCT`: Target based on a specific product.
+- `THEME`: Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
+""")
 
 
 class SPTargetAdGroupIdFilter(StrictModel):
@@ -372,12 +507,45 @@ class SPTargetAdGroupIdFilter(StrictModel):
 
 
 class SPTargetAdProductFilter(StrictModel):
-    include: list[Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[SPAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""",
+    )
 
 
 class SPTargetBid(LenientModel):
     bid: float | None = Field(default=None, description="The maximum bid for a target.")
-    currencyCode: Annotated[SPCurrencyCode | str, lenient_enum(SPCurrencyCode)]
+    currencyCode: SPCurrencyCode | str = Field(description="""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CNY`: Chinese Yuan
+- `DKK`: Danish Krone
+- `EGP`: Egyptian Pound
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `INR`: Indian Rupee
+- `JPY`: Japanese Yen
+- `MXN`: Mexican Peso
+- `MXP`: Mexican Peso
+- `NGN`: Nigerian Naira
+- `NOK`: Norwegian Krone
+- `NZD`: New Zealand Dollar
+- `PLN`: Polish Złoty
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `TRY`: Turkish Lira
+- `USD`: United States Dollar
+- `ZAR`: South African Rand
+""")
 
 
 class SPTargetCampaignIdFilter(StrictModel):
@@ -389,14 +557,21 @@ class SPTargetCreate(StrictModel):
         default=None,
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets.",
     )
-    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
+    adProduct: SPAdProduct = Field(description="""
+Supported values:
+- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
+""")
     bid: SPCreateTargetBid | None = Field(default=None)
     campaignId: str | None = Field(
         default=None,
         description="A unique identifier for the campaign associated with the target. Only used for campaign-level targets.",
     )
     negative: bool = Field(description="Indicates whether the target is negative or not.")
-    state: Annotated[SPCreateState | str, lenient_enum(SPCreateState)]
+    state: SPCreateState = Field(description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -404,7 +579,14 @@ class SPTargetCreate(StrictModel):
         description="Open ended labels with a key value pair applied to the target",
     )
     targetDetails: SPCreateTargetDetails
-    targetType: Annotated[SPTargetType | str, lenient_enum(SPTargetType)]
+    targetType: SPTargetType = Field(description="""
+Supported values:
+- `KEYWORD`: Target based on customer search terms.
+- `LOCATION`: Target based on geographic location.
+- `PRODUCT_CATEGORY`: Target based on a product category.
+- `PRODUCT`: Target based on a specific product.
+- `THEME`: Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
+""")
 
 
 class SPTargetDetailsKeywordTarget(LenientModel):
@@ -432,11 +614,35 @@ type SPTargetDetails = SPTargetDetailsKeywordTarget | SPTargetDetailsLocationTar
 
 class SPTargetKeywordFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[SPTargetKeywordFilterType | str, lenient_enum(SPTargetKeywordFilterType)]
+    queryTermMatchType: SPTargetKeywordFilterType = Field(description="""
+Supported values:
+- `EXACT_MATCH`: Filter by exact match.
+- `BROAD_MATCH`: Filter by broad match.
+""")
 
 
 class SPTargetMatchTypeFilter(StrictModel):
-    include: list[Annotated[SPMatchType | str, lenient_enum(SPMatchType)]] = Field(min_length=1, max_length=10)
+    include: list[SPMatchType | str] = Field(
+        min_length=1,
+        max_length=10,
+        description="""
+Supported values:
+- `KEYWORDS_RELATED_TO_GIFTS`: Search terms related to gifts.
+- `KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY`: Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically.
+- `PRODUCT_SIMILAR`: Products similar to the specified product.
+- `BROAD`: Broad match search terms. This expands matching on user intent beyond PHRASE.
+- `EXACT`: Exact match search terms.
+- `KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY`: Search terms shoppers often use to search for products in the same category as the products you're advertising.
+- `KEYWORDS_RELATED_TO_YOUR_BRAND`: Search terms related to your brand.
+- `PRODUCT_SUBSTITUTES`: Products that can be substituted for advertised product.
+- `KEYWORDS_LOOSE_MATCH`: Search terms loosely matching advertised product.
+- `PHRASE`: Phrase match search terms. This expands matching on user intent beyond EXACT.
+- `KEYWORDS_CLOSE_MATCH`: Search terms closely matching advertised product.
+- `PRODUCT_COMPLEMENTS`: Products that complement advertised product.
+- `PRODUCT_EXACT`: Products exactly matching the specified product.
+- `KEYWORDS_RELATED_TO_PRIME_DAY`: Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like "prime day", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day.
+""",
+    )
 
 
 class SPTargetMultiStatusResponse(LenientModel):
@@ -455,11 +661,24 @@ class SPTargetNegativeFilter(StrictModel):
 
 class SPTargetProductIdFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[SPTargetProductIdFilterType | str, lenient_enum(SPTargetProductIdFilterType)]
+    queryTermMatchType: SPTargetProductIdFilterType = Field(description="""
+Supported values:
+- `EXACT_MATCH`: Filter by exact match.
+- `BROAD_MATCH`: Filter by broad match.
+""")
 
 
 class SPTargetStateFilter(StrictModel):
-    include: list[Annotated[SPState | str, lenient_enum(SPState)]] = Field(min_length=1, max_length=3)
+    include: list[SPState | str] = Field(
+        min_length=1,
+        max_length=3,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class SPTargetSuccessResponse(LenientModel):
@@ -472,12 +691,30 @@ class SPTargetTargetIdFilter(StrictModel):
 
 
 class SPTargetTargetTypeFilter(StrictModel):
-    include: list[Annotated[SPTargetType | str, lenient_enum(SPTargetType)]] = Field(min_length=1, max_length=4)
+    include: list[SPTargetType | str] = Field(
+        min_length=1,
+        max_length=4,
+        description="""
+Supported values:
+- `KEYWORD`: Target based on customer search terms.
+- `LOCATION`: Target based on geographic location.
+- `PRODUCT_CATEGORY`: Target based on a product category.
+- `PRODUCT`: Target based on a specific product.
+- `THEME`: Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
+""",
+    )
 
 
 class SPTargetUpdate(StrictModel):
     bid: SPUpdateTargetBid | None = Field(default=None)
-    state: Annotated[SPUpdateState | str, lenient_enum(SPUpdateState)] | None = Field(default=None)
+    state: SPUpdateState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -490,7 +727,18 @@ class SPTargetUpdate(StrictModel):
 class SPThemeTarget(LenientModel):
     """Theme targets let advertisers select high-performing targets based on a common theme."""
 
-    matchType: Annotated[SPThemeMatchType | str, lenient_enum(SPThemeMatchType)]
+    matchType: SPThemeMatchType | str = Field(description="""
+Supported values:
+- `KEYWORDS_CLOSE_MATCH`: Search terms closely matching advertised product.
+- `KEYWORDS_LOOSE_MATCH`: Search terms loosely matching advertised product.
+- `KEYWORDS_RELATED_TO_GIFTS`: Search terms related to gifts.
+- `KEYWORDS_RELATED_TO_PEER_BRANDS_PRODUCT_CATEGORY`: Search terms that shoppers often use when searching for and interacting with products from other brands in the category of your advertised products. The peer brands are selected automatically.
+- `KEYWORDS_RELATED_TO_PRIME_DAY`: Search terms that shoppers are likely to use during Prime Day. These keywords can include terms related to the event, like "prime day", combined with product-specific terms. These keywords can help you expand reach to shoppers during the sales event. These keywords will only match queries through the end of Prime Day.
+- `KEYWORDS_RELATED_TO_YOUR_BRAND`: Search terms related to your brand.
+- `KEYWORDS_RELATED_TO_YOUR_PRODUCT_CATEGORY`: Search terms shoppers often use to search for products in the same category as the products you're advertising.
+- `PRODUCT_COMPLEMENTS`: Products that complement advertised product.
+- `PRODUCT_SUBSTITUTES`: Products that can be substituted for advertised product.
+""")
 
 
 class SPUpdateTargetBid(StrictModel):

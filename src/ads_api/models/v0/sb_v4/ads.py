@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     CreateOrUpdateEntityState,
     CreativePropertyToOptimize,
@@ -29,126 +27,122 @@ from ads_api.models.v0._shared import (
     SubpageOut,
 )
 
+type AdServingStatus = Literal[
+    "AD_STATUS_LIVE",
+    "AD_POLICING_PENDING_REVIEW",
+    "AD_POLICING_SUSPENDED",
+    "AD_PAUSED",
+    "AD_ARCHIVED",
+    "AD_GROUP_STATUS_ENABLED",
+    "AD_GROUP_PAUSED",
+    "AD_GROUP_ARCHIVED",
+    "AD_GROUP_INCOMPLETE",
+    "AD_GROUP_POLICING_PENDING_REVIEW",
+    "AD_GROUP_POLICING_CREATIVE_REJECTED",
+    "AD_GROUP_LOW_BID",
+    "ADVERTISER_STATUS_ENABLED",
+    "ADVERTISER_POLICING_PENDING_REVIEW",
+    "ADVERTISER_POLICING_SUSPENDED",
+    "ADVERTISER_PAUSED",
+    "ADVERTISER_ARCHIVED",
+    "ADVERTISER_PAYMENT_FAILURE",
+    "ADVERTISER_ACCOUNT_OUT_OF_BUDGET",
+    "ADVERTISER_OUT_OF_PREPAY_BALANCE",
+    "ADVERTISER_EXCEED_SPENDS_LIMIT",
+    "CAMPAIGN_STATUS_ENABLED",
+    "CAMPAIGN_PAUSED",
+    "CAMPAIGN_ARCHIVED",
+    "CAMPAIGN_INCOMPLETE",
+    "CAMPAIGN_OUT_OF_BUDGET",
+    "PORTFOLIO_STATUS_ENABLED",
+    "PORTFOLIO_PAUSED",
+    "PORTFOLIO_ARCHIVED",
+    "PORTFOLIO_OUT_OF_BUDGET",
+    "PORTFOLIO_PENDING_START_DATE",
+    "PORTFOLIO_ENDED",
+    "INELIGIBLE",
+    "ELIGIBLE",
+    "ENDED",
+    "PENDING_REVIEW",
+    "PENDING_START_DATE",
+    "REJECTED",
+    "UNKNOWN",
+]
+"""
+The ad serving status determined by system.
+- AD_STATUS_LIVE - Ad's status is enabled.
+- AD_POLICING_PENDING_REVIEW - Ad is pending review because of policing reason.
+- AD_POLICING_SUSPENDED - Ad is suspended review because of policing reason.
+- AD_PAUSED - Ad's status is paused.
+- AD_ARCHIVED - Ad's status is archived.
 
-class AdServingStatus(StrEnum):
-    """
-    The ad serving status determined by system.
-    - AD_STATUS_LIVE - Ad's status is enabled.
-    - AD_POLICING_PENDING_REVIEW - Ad is pending review because of policing reason.
-    - AD_POLICING_SUSPENDED - Ad is suspended review because of policing reason.
-    - AD_PAUSED - Ad's status is paused.
-    - AD_ARCHIVED - Ad's status is archived.
+- AD_GROUP_STATUS_ENABLED - Ad group's (parent) status is enabled.
+- AD_GROUP_PAUSED - Ad group's (parent) status is paused.
+- AD_GROUP_ARCHIVED - Ad group's (parent) status is archived.
+- AD_GROUP_INCOMPLETE - Ad group (parent) does not contain any ads or targeting clauses.
+- AD_GROUP_POLICING_PENDING_REVIEW - Ad group is pending review because of policing reason
+- AD_GROUP_POLICING_CREATIVE_REJECTED - Ad group is rejected due to creative because of policing reason
+- AD_GROUP_LOW_BID - Ad group is less than the minimum allowed bid in its marketplace
 
-    - AD_GROUP_STATUS_ENABLED - Ad group's (parent) status is enabled.
-    - AD_GROUP_PAUSED - Ad group's (parent) status is paused.
-    - AD_GROUP_ARCHIVED - Ad group's (parent) status is archived.
-    - AD_GROUP_INCOMPLETE - Ad group (parent) does not contain any ads or targeting clauses.
-    - AD_GROUP_POLICING_PENDING_REVIEW - Ad group is pending review because of policing reason
-    - AD_GROUP_POLICING_CREATIVE_REJECTED - Ad group is rejected due to creative because of policing reason
-    - AD_GROUP_LOW_BID - Ad group is less than the minimum allowed bid in its marketplace
+- ADVERTISER_STATUS_ENABLED - Advertiser's status is enabled
+- ADVERTISER_POLICING_PENDING_REVIEW - Avertiser is pending review because of policing reason
+- ADVERTISER_POLICING_SUSPENDED - Advertiser's status is suspended because of policing reason
+- ADVERTISER_PAUSED - Advertiser's status is paused
+- ADVERTISER_ARCHIVED - Advertiser's status is archived
+- ADVERTISER_PAYMENT_FAILURE - Advertiser's internal status is suspended
+- ADVERTISER_ACCOUNT_OUT_OF_BUDGET - Advertiser is out of budget for all Sponsored Ads campaigns
+- ADVERTISER_OUT_OF_PREPAY_BALANCE - Advertiser is out of prepay balance for all Sponsored Ads campaigns
+- ADVERTISER_EXCEED_SPENDS_LIMIT - Advertiser spends over the daily limit
 
-    - ADVERTISER_STATUS_ENABLED - Advertiser's status is enabled
-    - ADVERTISER_POLICING_PENDING_REVIEW - Avertiser is pending review because of policing reason
-    - ADVERTISER_POLICING_SUSPENDED - Advertiser's status is suspended because of policing reason
-    - ADVERTISER_PAUSED - Advertiser's status is paused
-    - ADVERTISER_ARCHIVED - Advertiser's status is archived
-    - ADVERTISER_PAYMENT_FAILURE - Advertiser's internal status is suspended
-    - ADVERTISER_ACCOUNT_OUT_OF_BUDGET - Advertiser is out of budget for all Sponsored Ads campaigns
-    - ADVERTISER_OUT_OF_PREPAY_BALANCE - Advertiser is out of prepay balance for all Sponsored Ads campaigns
-    - ADVERTISER_EXCEED_SPENDS_LIMIT - Advertiser spends over the daily limit
+- CAMPAIGN_STATUS_ENABLED - Campaign's (parent) status is enabled.
+- CAMPAIGN_PAUSED - Campaign's (parent) status is paused.
+- CAMPAIGN_ARCHIVED - Campaign's (parent) status is archived.
+- CAMPAIGN_INCOMPLETE - Campaign (parent) does not contain any ads or targeting clauses.
+- CAMPAIGN_OUT_OF_BUDGET - Campaign (parent) is out of budget.
 
-    - CAMPAIGN_STATUS_ENABLED - Campaign's (parent) status is enabled.
-    - CAMPAIGN_PAUSED - Campaign's (parent) status is paused.
-    - CAMPAIGN_ARCHIVED - Campaign's (parent) status is archived.
-    - CAMPAIGN_INCOMPLETE - Campaign (parent) does not contain any ads or targeting clauses.
-    - CAMPAIGN_OUT_OF_BUDGET - Campaign (parent) is out of budget.
+- PORTFOLIO_STATUS_ENABLED - Portfolio's (parent) status is enabled
+- PORTFOLIO_PAUSED - Portfolio's (parent) status is paused
+- PORTFOLIO_ARCHIVED - Portfolio's (parent) status is archived
+- PORTFOLIO_OUT_OF_BUDGET - Portfolio (parent) is out of budget
+- PORTFOLIO_PENDING_START_DATE - Portfolio's (parent) start date is in the future
+- PORTFOLIO_ENDED - Portfolio's (parent) end date is in the past.
 
-    - PORTFOLIO_STATUS_ENABLED - Portfolio's (parent) status is enabled
-    - PORTFOLIO_PAUSED - Portfolio's (parent) status is paused
-    - PORTFOLIO_ARCHIVED - Portfolio's (parent) status is archived
-    - PORTFOLIO_OUT_OF_BUDGET - Portfolio (parent) is out of budget
-    - PORTFOLIO_PENDING_START_DATE - Portfolio's (parent) start date is in the future
-    - PORTFOLIO_ENDED - Portfolio's (parent) end date is in the past.
-
-    - INELIGIBLE - Ad is ineligible.
-    - ELIGIBLE  - Ad is eligible.
-    - ENDED - Campaign's (parent) end date is in the past.
-    - PENDING_REVIEW - Campaign (parent) is pending review.
-    - PENDING_START_DATE - Campaign's (parent) start date is in the future.
-    - REJECTED - Campaign (parent) is rejected by moderation process.
-    - UNKNOWN - Serving status is unknown. Please contact us for support.
-    """
-
-    AD_STATUS_LIVE = "AD_STATUS_LIVE"
-    AD_POLICING_PENDING_REVIEW = "AD_POLICING_PENDING_REVIEW"
-    AD_POLICING_SUSPENDED = "AD_POLICING_SUSPENDED"
-    AD_PAUSED = "AD_PAUSED"
-    AD_ARCHIVED = "AD_ARCHIVED"
-    AD_GROUP_STATUS_ENABLED = "AD_GROUP_STATUS_ENABLED"
-    AD_GROUP_PAUSED = "AD_GROUP_PAUSED"
-    AD_GROUP_ARCHIVED = "AD_GROUP_ARCHIVED"
-    AD_GROUP_INCOMPLETE = "AD_GROUP_INCOMPLETE"
-    AD_GROUP_POLICING_PENDING_REVIEW = "AD_GROUP_POLICING_PENDING_REVIEW"
-    AD_GROUP_POLICING_CREATIVE_REJECTED = "AD_GROUP_POLICING_CREATIVE_REJECTED"
-    AD_GROUP_LOW_BID = "AD_GROUP_LOW_BID"
-    ADVERTISER_STATUS_ENABLED = "ADVERTISER_STATUS_ENABLED"
-    ADVERTISER_POLICING_PENDING_REVIEW = "ADVERTISER_POLICING_PENDING_REVIEW"
-    ADVERTISER_POLICING_SUSPENDED = "ADVERTISER_POLICING_SUSPENDED"
-    ADVERTISER_PAUSED = "ADVERTISER_PAUSED"
-    ADVERTISER_ARCHIVED = "ADVERTISER_ARCHIVED"
-    ADVERTISER_PAYMENT_FAILURE = "ADVERTISER_PAYMENT_FAILURE"
-    ADVERTISER_ACCOUNT_OUT_OF_BUDGET = "ADVERTISER_ACCOUNT_OUT_OF_BUDGET"
-    ADVERTISER_OUT_OF_PREPAY_BALANCE = "ADVERTISER_OUT_OF_PREPAY_BALANCE"
-    ADVERTISER_EXCEED_SPENDS_LIMIT = "ADVERTISER_EXCEED_SPENDS_LIMIT"
-    CAMPAIGN_STATUS_ENABLED = "CAMPAIGN_STATUS_ENABLED"
-    CAMPAIGN_PAUSED = "CAMPAIGN_PAUSED"
-    CAMPAIGN_ARCHIVED = "CAMPAIGN_ARCHIVED"
-    CAMPAIGN_INCOMPLETE = "CAMPAIGN_INCOMPLETE"
-    CAMPAIGN_OUT_OF_BUDGET = "CAMPAIGN_OUT_OF_BUDGET"
-    PORTFOLIO_STATUS_ENABLED = "PORTFOLIO_STATUS_ENABLED"
-    PORTFOLIO_PAUSED = "PORTFOLIO_PAUSED"
-    PORTFOLIO_ARCHIVED = "PORTFOLIO_ARCHIVED"
-    PORTFOLIO_OUT_OF_BUDGET = "PORTFOLIO_OUT_OF_BUDGET"
-    PORTFOLIO_PENDING_START_DATE = "PORTFOLIO_PENDING_START_DATE"
-    PORTFOLIO_ENDED = "PORTFOLIO_ENDED"
-    INELIGIBLE = "INELIGIBLE"
-    ELIGIBLE = "ELIGIBLE"
-    ENDED = "ENDED"
-    PENDING_REVIEW = "PENDING_REVIEW"
-    PENDING_START_DATE = "PENDING_START_DATE"
-    REJECTED = "REJECTED"
-    UNKNOWN = "UNKNOWN"
-
-
-class BrandCollectionLandingPageType(StrEnum):
-    """
-    The BrandCollectionLandingPageType is used for brand collection ads, supporting only store page and product list landing pages.
-    """
-
-    PRODUCT_LIST = "PRODUCT_LIST"
-    STORE = "STORE"
+- INELIGIBLE - Ad is ineligible.
+- ELIGIBLE  - Ad is eligible.
+- ENDED - Campaign's (parent) end date is in the past.
+- PENDING_REVIEW - Campaign (parent) is pending review.
+- PENDING_START_DATE - Campaign's (parent) start date is in the future.
+- REJECTED - Campaign (parent) is rejected by moderation process.
+- UNKNOWN - Serving status is unknown. Please contact us for support.
+"""
 
 
-class CreativeType(StrEnum):
-    """
-    The creative type of SB ad.
-    """
-
-    PRODUCT_COLLECTION = "PRODUCT_COLLECTION"
-    STORE_SPOTLIGHT = "STORE_SPOTLIGHT"
-    VIDEO = "VIDEO"
-    BRAND_VIDEO = "BRAND_VIDEO"
+type BrandCollectionLandingPageType = Literal["PRODUCT_LIST", "STORE"]
+"""
+The BrandCollectionLandingPageType is used for brand collection ads, supporting only store page and product list landing pages.
+"""
 
 
-class LandingPageType(StrEnum):
-    """
-    The type of landing page, such as store page, product list (simple landing page), custom url.
-    """
+type CreativeType = Literal[
+    "PRODUCT_COLLECTION",
+    "STORE_SPOTLIGHT",
+    "VIDEO",
+    "BRAND_VIDEO",
+]
+"""
+The creative type of SB ad.
+"""
 
-    PRODUCT_LIST = "PRODUCT_LIST"
-    STORE = "STORE"
-    CUSTOM_URL = "CUSTOM_URL"
-    DETAIL_PAGE = "DETAIL_PAGE"
+
+type LandingPageType = Literal[
+    "PRODUCT_LIST",
+    "STORE",
+    "CUSTOM_URL",
+    "DETAIL_PAGE",
+]
+"""
+The type of landing page, such as store page, product list (simple landing page), custom url.
+"""
 
 
 class Ad(LenientModel):
@@ -164,14 +158,14 @@ class Ad(LenientModel):
         max_length=255,
         description="The name of the ad. Note: Ads created using version 3/non-multi ad group campaigns do not have an associated name. [Learn more](https://advertising.amazon.com/API/docs/en-us/sponsored-brands/campaigns/managing-multi-ad-group-campaigns#ads).",
     )
-    state: Annotated[EntityState | str, lenient_enum(EntityState)]
+    state: EntityState | str
     adGroupId: str = Field(description="The adGroup identifier.")
     creative: Creative | None = Field(default=None)
     extendedData: AdExtendedData | None = Field(default=None)
 
 
 class AdExtendedData(LenientModel):
-    servingStatus: Annotated[AdServingStatus | str, lenient_enum(AdServingStatus)] | None = Field(default=None)
+    servingStatus: AdServingStatus | str | None = Field(default=None)
     lastUpdateDate: float | None = Field(default=None, description="Date of last update in epoch time.")
     servingStatusDetails: list[str] | None = Field(
         default=None, min_length=0, max_length=100, description="The serving status reasons of the Ad."
@@ -203,9 +197,7 @@ class AdSuccessResponseItem(LenientModel):
 
 
 class BrandCollectionLandingPage(StrictModel):
-    pageType: Annotated[BrandCollectionLandingPageType | str, lenient_enum(BrandCollectionLandingPageType)] | None = (
-        Field(default=None)
-    )
+    pageType: BrandCollectionLandingPageType | None = Field(default=None)
     url: str | None = Field(
         default=None,
         description="""
@@ -249,7 +241,7 @@ class CreateAutoCollectionAd(StrictModel):
     adGroupId: str = Field(description="Entity object identifier.")
     creative: CreateAutoCollectionCreative
     name: str = Field(min_length=1, max_length=255)
-    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
+    state: CreateOrUpdateEntityState
 
 
 class CreateAutoCollectionCreative(StrictModel):
@@ -262,7 +254,7 @@ class CreateAutoCollectionCreative(StrictModel):
 class CreateBrandVideoAd(StrictModel):
     landingPage: LandingPage
     name: str = Field(min_length=1, max_length=255, description="The name of the ad.")
-    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
+    state: CreateOrUpdateEntityState
     adGroupId: str = Field(description="The adGroup identifier.")
     creative: CreateBrandVideoCreative
 
@@ -288,7 +280,7 @@ class CreateBrandVideoCreative(StrictModel):
 class CreateExtendedProductCollectionAd(StrictModel):
     landingPage: LandingPage
     name: str = Field(min_length=1, max_length=255, description="The name of the ad.")
-    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
+    state: CreateOrUpdateEntityState
     adGroupId: str = Field(description="The adGroup identifier.")
     creative: CreateExtendedProductCollectionCreative
 
@@ -307,9 +299,7 @@ class CreateExtendedProductCollectionCreative(StrictModel):
         default=None,
         description="If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation. We only support translating headlines and videos from English to German, French, Italian, Spanish, Japanese, and Dutch. See developer notes for more information.",
     )
-    creativePropertiesToOptimize: (
-        list[Annotated[CreativePropertyToOptimize | str, lenient_enum(CreativePropertyToOptimize)]] | None
-    ) = Field(
+    creativePropertiesToOptimize: list[CreativePropertyToOptimize | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -323,7 +313,7 @@ class CreateManualCollectionAd(StrictModel):
     adGroupId: str = Field(description="Entity object identifier.")
     creative: CreateManualCollectionCreative
     name: str = Field(min_length=1, max_length=255)
-    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
+    state: CreateOrUpdateEntityState
 
 
 class CreateManualCollectionCreative(StrictModel):
@@ -342,7 +332,7 @@ class CreateManualCollectionCreative(StrictModel):
 class CreateProductCollectionAd(StrictModel):
     landingPage: LandingPage
     name: str = Field(min_length=1, max_length=255, description="The name of the ad.")
-    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
+    state: CreateOrUpdateEntityState
     adGroupId: str = Field(description="The adGroup identifier.")
     creative: CreateProductCollectionCreative
 
@@ -425,7 +415,7 @@ class CreateSponsoredBrandsVideoAdsResponseContent(LenientModel):
 class CreateStoreSpotlightAd(StrictModel):
     landingPage: LandingPage
     name: str = Field(min_length=1, max_length=255, description="The name of the ad.")
-    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
+    state: CreateOrUpdateEntityState
     adGroupId: str = Field(description="The adGroup identifier.")
     creative: CreateStoreSpotlightCreative
 
@@ -438,9 +428,7 @@ class CreateStoreSpotlightCreative(StrictModel):
         default=None,
         description="If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation. We only support translating headlines and videos from English to German, French, Italian, Spanish, Japanese, and Dutch. See developer notes for more information.",
     )
-    creativePropertiesToOptimize: (
-        list[Annotated[CreativePropertyToOptimize | str, lenient_enum(CreativePropertyToOptimize)]] | None
-    ) = Field(
+    creativePropertiesToOptimize: list[CreativePropertyToOptimize | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -457,7 +445,7 @@ class CreateStoreSpotlightCreative(StrictModel):
 
 class CreateVideoAd(StrictModel):
     name: str = Field(min_length=1, max_length=255, description="The name of the ad.")
-    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
+    state: CreateOrUpdateEntityState
     adGroupId: str = Field(description="The adGroup identifier.")
     creative: CreateVideoCreative
 
@@ -496,7 +484,7 @@ class Creative(LenientModel):
     )
     customImageCrop: CustomImageCropOut | None = Field(default=None)
     customImageUrl: str | None = Field(default=None)
-    type: Annotated[CreativeType | str, lenient_enum(CreativeType)] | None = Field(default=None)
+    type: CreativeType | str | None = Field(default=None)
     originalVideoAssetIds: list[str] | None = Field(
         default=None,
         min_length=1,
@@ -509,9 +497,7 @@ If 'consentToTranslate' is set to true and translation is SUCCESSFUL then `origi
     asins: list[str] | None = Field(default=None, min_length=0, max_length=100)
     brandLogoUrl: str | None = Field(default=None)
     subpages: list[SubpageOut] | None = Field(default=None, min_length=3, max_length=3)
-    creativePropertiesToOptimize: (
-        list[Annotated[CreativePropertyToOptimize | str, lenient_enum(CreativePropertyToOptimize)]] | None
-    ) = Field(
+    creativePropertiesToOptimize: list[CreativePropertyToOptimize | str] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -537,7 +523,7 @@ At a future state, existing mediaIds will be added to Asset library for use in S
         max_length=50,
         description="The headline text. Maximum length of the string is 50 characters for all marketplaces other than Japan, which has a maximum length of 35 characters.",
     )
-    creativeStatus: Annotated[CreativeStatus | str, lenient_enum(CreativeStatus)] | None = Field(default=None)
+    creativeStatus: CreativeStatus | str | None = Field(default=None)
     creativeVersion: str | None = Field(
         default=None,
         description="The version identifier that helps you keep track of multiple versions of a submitted (non-draft) Sponsored Brands creative.",
@@ -577,7 +563,7 @@ class DeleteSponsoredBrandsAdsResponseContent(LenientModel):
 
 class LandingPage(StrictModel):
     asins: list[str] | None = Field(default=None, min_length=3, max_length=100)
-    pageType: Annotated[LandingPageType | str, lenient_enum(LandingPageType)] | None = Field(default=None)
+    pageType: LandingPageType | None = Field(default=None)
     url: str | None = Field(
         default=None,
         description="""
@@ -592,7 +578,7 @@ Note that brandVideo ads only support Store page as landing page and does not al
 
 class LandingPageOut(LenientModel):
     asins: list[str] | None = Field(default=None, min_length=3, max_length=100)
-    pageType: Annotated[LandingPageType | str, lenient_enum(LandingPageType)] | None = Field(default=None)
+    pageType: LandingPageType | str | None = Field(default=None)
     url: str | None = Field(
         default=None,
         description="""
@@ -635,7 +621,7 @@ class MultiAdGroupAd(LenientModel):
     campaignId: str = Field(description="The campaign identifier.")
     landingPage: LandingPageOut | None = Field(default=None)
     name: str = Field(min_length=1, max_length=255, description="The name of the ad.")
-    state: Annotated[EntityState | str, lenient_enum(EntityState)]
+    state: EntityState | str
     adGroupId: str = Field(description="The adGroup identifier.")
     creative: Creative | None = Field(default=None)
     extendedData: AdExtendedData | None = Field(default=None)
@@ -644,9 +630,7 @@ class MultiAdGroupAd(LenientModel):
 class UpdateAd(StrictModel):
     adId: str = Field(description="The product ad identifier.")
     name: str | None = Field(default=None, min_length=1, max_length=255, description="The name of the ad.")
-    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)] | None = Field(
-        default=None
-    )
+    state: CreateOrUpdateEntityState | None = Field(default=None)
 
 
 class UpdateAutoCollectionAd(StrictModel):

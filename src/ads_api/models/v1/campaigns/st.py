@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import StrEnum
-from typing import Annotated
+from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v1._shared.st import (
     STAdProduct,
     STCreateState,
@@ -24,55 +22,53 @@ from ads_api.models.v1._shared.st import (
     STUpdateState,
 )
 
-
-class STBudgetType(StrEnum):
-    MONETARY = "MONETARY"
+type STBudgetType = Literal["MONETARY"]
 
 
-class STCountryCode(StrEnum):
-    AU = "AU"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    SG = "SG"
-    US = "US"
+type STCountryCode = Literal[
+    "AU",
+    "BR",
+    "CA",
+    "DE",
+    "ES",
+    "FR",
+    "GB",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "SG",
+    "US",
+]
 
 
-class STMarketplace(StrEnum):
-    """
-    A list of country codes representing Amazon marketplaces
-    """
+type STMarketplace = Literal[
+    "AU",
+    "BR",
+    "CA",
+    "DE",
+    "ES",
+    "FR",
+    "GB",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "SG",
+    "US",
+]
+"""
+A list of country codes representing Amazon marketplaces
+"""
 
-    AU = "AU"
-    BR = "BR"
-    CA = "CA"
-    DE = "DE"
-    ES = "ES"
-    FR = "FR"
-    GB = "GB"
-    IN = "IN"
-    IT = "IT"
-    JP = "JP"
-    MX = "MX"
-    SG = "SG"
-    US = "US"
 
-
-class STRecurrence(StrEnum):
-    DAILY = "DAILY"
+type STRecurrence = Literal["DAILY"]
 
 
 class STBudget(LenientModel):
-    budgetType: Annotated[STBudgetType | str, lenient_enum(STBudgetType)]
+    budgetType: STBudgetType | str
     budgetValue: STBudgetValue
-    recurrenceTimePeriod: Annotated[STRecurrence | str, lenient_enum(STRecurrence)]
+    recurrenceTimePeriod: STRecurrence | str
 
 
 class STBudgetValue(LenientModel):
@@ -80,14 +76,17 @@ class STBudgetValue(LenientModel):
 
 
 class STCampaign(LenientModel):
-    adProduct: Annotated[STAdProduct | str, lenient_enum(STAdProduct)]
+    adProduct: STAdProduct | str = Field(description="""
+Supported values:
+- `SPONSORED_TELEVISION`: Sponsored Television ad product.
+""")
     budgets: list[STBudget] = Field(
         min_length=1,
         max_length=1,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
     campaignId: str = Field(description="A unique identifier for a campaign.")
-    countries: list[Annotated[STCountryCode | str, lenient_enum(STCountryCode)]] | None = Field(
+    countries: list[STCountryCode | str] | None = Field(
         default=None,
         min_length=0,
         max_length=249,
@@ -96,7 +95,7 @@ class STCampaign(LenientModel):
     creationDateTime: datetime = Field(description="The date time that the campaign was created.")
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
     lastUpdatedDateTime: datetime = Field(description="The date time that the campaign was last updated.")
-    marketplaces: list[Annotated[STMarketplace | str, lenient_enum(STMarketplace)]] | None = Field(
+    marketplaces: list[STMarketplace | str] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
@@ -104,29 +103,44 @@ class STCampaign(LenientModel):
     )
     name: str = Field(description="The name of the campaign.")
     startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: Annotated[STState | str, lenient_enum(STState)]
+    state: STState | str = Field(description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
     status: STStatus | None = Field(default=None)
 
 
 class STCampaignAdProductFilter(StrictModel):
-    include: list[Annotated[STAdProduct | str, lenient_enum(STAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[STAdProduct | str] = Field(
+        min_length=1,
+        max_length=1,
+        description="""
+Supported values:
+- `SPONSORED_TELEVISION`: Sponsored Television ad product.
+""",
+    )
 
 
 class STCampaignCreate(StrictModel):
-    adProduct: Annotated[STAdProduct | str, lenient_enum(STAdProduct)]
+    adProduct: STAdProduct = Field(description="""
+Supported values:
+- `SPONSORED_TELEVISION`: Sponsored Television ad product.
+""")
     budgets: list[STCreateBudget] = Field(
         min_length=1,
         max_length=1,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
-    countries: list[Annotated[STCountryCode | str, lenient_enum(STCountryCode)]] | None = Field(
+    countries: list[STCountryCode | str] | None = Field(
         default=None,
         min_length=0,
         max_length=249,
         description="This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.",
     )
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
-    marketplaces: list[Annotated[STMarketplace | str, lenient_enum(STMarketplace)]] | None = Field(
+    marketplaces: list[STMarketplace | str] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
@@ -134,7 +148,11 @@ class STCampaignCreate(StrictModel):
     )
     name: str = Field(description="The name of the campaign.")
     startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: Annotated[STCreateState | str, lenient_enum(STCreateState)]
+    state: STCreateState = Field(description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""")
 
 
 class STCampaignMultiStatusResponse(LenientModel):
@@ -148,7 +166,16 @@ class STCampaignMultiStatusSuccess(LenientModel):
 
 
 class STCampaignStateFilter(StrictModel):
-    include: list[Annotated[STState | str, lenient_enum(STState)]] = Field(min_length=1, max_length=3)
+    include: list[STState | str] = Field(
+        min_length=1,
+        max_length=3,
+        description="""
+Supported values:
+- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class STCampaignSuccessResponse(LenientModel):
@@ -157,7 +184,13 @@ class STCampaignSuccessResponse(LenientModel):
 
 
 class STCampaignUpdate(StrictModel):
-    adProduct: Annotated[STAdProduct | str, lenient_enum(STAdProduct)] | None = Field(default=None)
+    adProduct: STAdProduct | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `SPONSORED_TELEVISION`: Sponsored Television ad product.
+""",
+    )
     budgets: list[STCreateBudget] | None = Field(
         default=None,
         min_length=1,
@@ -165,14 +198,14 @@ class STCampaignUpdate(StrictModel):
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
     campaignId: str = Field(description="A unique identifier for a campaign.")
-    countries: list[Annotated[STCountryCode | str, lenient_enum(STCountryCode)]] | None = Field(
+    countries: list[STCountryCode | str] | None = Field(
         default=None,
         min_length=0,
         max_length=249,
         description="This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.",
     )
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
-    marketplaces: list[Annotated[STMarketplace | str, lenient_enum(STMarketplace)]] | None = Field(
+    marketplaces: list[STMarketplace | str] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
@@ -180,13 +213,20 @@ class STCampaignUpdate(StrictModel):
     )
     name: str | None = Field(default=None, description="The name of the campaign.")
     startDateTime: datetime | None = Field(default=None, description="The start date time for the campaign.")
-    state: Annotated[STUpdateState | str, lenient_enum(STUpdateState)] | None = Field(default=None)
+    state: STUpdateState | None = Field(
+        default=None,
+        description="""
+Supported values:
+- `ENABLED`: The object is set active by user and eligible for delivery.
+- `PAUSED`: The object is stopped by user and not eligible for delivery.
+""",
+    )
 
 
 class STCreateBudget(StrictModel):
-    budgetType: Annotated[STBudgetType | str, lenient_enum(STBudgetType)]
+    budgetType: STBudgetType
     budgetValue: STCreateBudgetValue
-    recurrenceTimePeriod: Annotated[STRecurrence | str, lenient_enum(STRecurrence)]
+    recurrenceTimePeriod: STRecurrence
 
 
 class STCreateBudgetValue(StrictModel):
@@ -206,7 +246,27 @@ class STCreateMonetaryBudgetValue(StrictModel):
 
 
 class STMonetaryBudget(LenientModel):
-    currencyCode: Annotated[STCurrencyCode | str, lenient_enum(STCurrencyCode)]
+    currencyCode: STCurrencyCode | str = Field(description="""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `AUD`: Australian Dollar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CNY`: Chinese Yuan
+- `DKK`: Danish Krone
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `INR`: Indian Rupee
+- `JPY`: Japanese Yen
+- `MXN`: Mexican Peso
+- `NOK`: Norwegian Krone
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `TRY`: Turkish Lira
+- `USD`: United States Dollar
+""")
     value: float = Field(description="The monetary amount of the budget cap in the given currency.")
 
 
