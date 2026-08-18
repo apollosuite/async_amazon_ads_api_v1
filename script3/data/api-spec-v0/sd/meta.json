@@ -1,0 +1,16 @@
+{
+  "group": "sd",
+  "route": "sponsored-display/3-0/openapi",
+  "entity": "sd",
+  "toc_name": "Campaign management",
+  "items": [
+    {
+      "name": "Campaign management",
+      "openapi": "https://d3a0d0y2hgofx6.cloudfront.net/openapi/en-us/sponsored-display/3-0/openapi.yaml",
+      "file": "openapi.yaml",
+      "etag": "\"da579b59f72a98f878131a78bec61037\"",
+      "last_modified": "Thu, 13 Aug 2026 14:41:04 GMT",
+      "size": 422848
+    }
+  ]
+}

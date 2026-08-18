@@ -1,0 +1,180 @@
+"""Creatives resource operations.
+
+Generated from OpenAPI spec (tag: Creatives).
+"""
+
+from __future__ import annotations
+
+from typing import Any, Literal, overload
+
+import httpx
+
+from ads_api.base import BaseResource
+from ads_api.models.v0.sd.creatives import (
+    CreateCreative,
+    Creative,
+    CreativeModeration,
+    CreativePreviewRequest,
+    CreativePreviewResponse,
+    CreativeResponse,
+    CreativeUpdate,
+    Locale,
+)
+
+
+class Creatives(BaseResource):
+
+    @overload
+    async def create_creatives(
+        self, body: list[CreateCreative], *, mode: Literal["pydantic"] = "pydantic"
+    ) -> list[CreativeResponse]: ...
+    @overload
+    async def create_creatives(self, body: list[CreateCreative], *, mode: Literal["dict"]) -> list[dict[str, Any]]: ...
+    @overload
+    async def create_creatives(self, body: list[CreateCreative], *, mode: Literal["raw"]) -> httpx.Response: ...
+    async def create_creatives(
+        self, body: list[CreateCreative], *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+    ) -> list[CreativeResponse] | list[dict[str, Any]] | httpx.Response:
+        """"""
+
+        resp = await self._request("POST", "/sd/creatives", json=[self.dump_json(x) for x in body])
+        return self._response_list(CreativeResponse, resp, mode=mode)
+
+    @overload
+    async def list_creative_moderations(
+        self,
+        language: Locale,
+        *,
+        mode: Literal["pydantic"] = "pydantic",
+        start_index: int | None = None,
+        count: int | None = None,
+        ad_group_id_filter: str | None = None,
+        creative_id_filter: str | None = None,
+    ) -> list[CreativeModeration]: ...
+    @overload
+    async def list_creative_moderations(
+        self,
+        language: Locale,
+        *,
+        mode: Literal["dict"],
+        start_index: int | None = None,
+        count: int | None = None,
+        ad_group_id_filter: str | None = None,
+        creative_id_filter: str | None = None,
+    ) -> list[dict[str, Any]]: ...
+    @overload
+    async def list_creative_moderations(
+        self,
+        language: Locale,
+        *,
+        mode: Literal["raw"],
+        start_index: int | None = None,
+        count: int | None = None,
+        ad_group_id_filter: str | None = None,
+        creative_id_filter: str | None = None,
+    ) -> httpx.Response: ...
+    async def list_creative_moderations(
+        self,
+        language: Locale,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        start_index: int | None = None,
+        count: int | None = None,
+        ad_group_id_filter: str | None = None,
+        creative_id_filter: str | None = None,
+    ) -> list[CreativeModeration] | list[dict[str, Any]] | httpx.Response:
+        """"""
+
+        params = {
+            "language": language,
+            "startIndex": start_index,
+            "count": count,
+            "adGroupIdFilter": ad_group_id_filter,
+            "creativeIdFilter": creative_id_filter,
+        }
+        params = {k: v for k, v in params.items() if v is not None}
+        resp = await self._request("GET", "/sd/moderation/creatives", params=params)
+        return self._response_list(CreativeModeration, resp, mode=mode)
+
+    @overload
+    async def list_creatives(
+        self,
+        *,
+        mode: Literal["pydantic"] = "pydantic",
+        start_index: int | None = None,
+        count: int | None = None,
+        ad_group_id_filter: str | None = None,
+        creative_id_filter: str | None = None,
+    ) -> list[Creative]: ...
+    @overload
+    async def list_creatives(
+        self,
+        *,
+        mode: Literal["dict"],
+        start_index: int | None = None,
+        count: int | None = None,
+        ad_group_id_filter: str | None = None,
+        creative_id_filter: str | None = None,
+    ) -> list[dict[str, Any]]: ...
+    @overload
+    async def list_creatives(
+        self,
+        *,
+        mode: Literal["raw"],
+        start_index: int | None = None,
+        count: int | None = None,
+        ad_group_id_filter: str | None = None,
+        creative_id_filter: str | None = None,
+    ) -> httpx.Response: ...
+    async def list_creatives(
+        self,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        start_index: int | None = None,
+        count: int | None = None,
+        ad_group_id_filter: str | None = None,
+        creative_id_filter: str | None = None,
+    ) -> list[Creative] | list[dict[str, Any]] | httpx.Response:
+        """"""
+
+        params = {
+            "startIndex": start_index,
+            "count": count,
+            "adGroupIdFilter": ad_group_id_filter,
+            "creativeIdFilter": creative_id_filter,
+        }
+        params = {k: v for k, v in params.items() if v is not None}
+        resp = await self._request("GET", "/sd/creatives", params=params)
+        return self._response_list(Creative, resp, mode=mode)
+
+    @overload
+    async def post_creative_preview(
+        self, body: CreativePreviewRequest, *, mode: Literal["pydantic"] = "pydantic"
+    ) -> CreativePreviewResponse: ...
+    @overload
+    async def post_creative_preview(self, body: CreativePreviewRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    @overload
+    async def post_creative_preview(self, body: CreativePreviewRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
+    async def post_creative_preview(
+        self, body: CreativePreviewRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+    ) -> CreativePreviewResponse | dict[str, Any] | httpx.Response:
+        """"""
+
+        resp = await self._request("POST", "/sd/creatives/preview", json=self.dump_json(body))
+        return self._response(CreativePreviewResponse, resp, mode=mode)
+
+    @overload
+    async def update_creatives(
+        self, body: list[CreativeUpdate], *, mode: Literal["pydantic"] = "pydantic"
+    ) -> list[CreativeResponse]: ...
+    @overload
+    async def update_creatives(self, body: list[CreativeUpdate], *, mode: Literal["dict"]) -> list[dict[str, Any]]: ...
+    @overload
+    async def update_creatives(self, body: list[CreativeUpdate], *, mode: Literal["raw"]) -> httpx.Response: ...
+    async def update_creatives(
+        self, body: list[CreativeUpdate], *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+    ) -> list[CreativeResponse] | list[dict[str, Any]] | httpx.Response:
+        """"""
+
+        resp = await self._request("PUT", "/sd/creatives", json=[self.dump_json(x) for x in body])
+        return self._response_list(CreativeResponse, resp, mode=mode)

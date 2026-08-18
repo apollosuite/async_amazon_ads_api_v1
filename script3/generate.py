@@ -139,13 +139,15 @@ def _iter_spec_dirs() -> list[tuple[str, Path]]:
 
 def prepare_entities() -> list[EntityWork]:
     spec_dirs = _iter_spec_dirs()
-    reserved = {group.key for group in GROUPS}
-    for _group, entity_dir in spec_dirs:
-        reserved.add(load_json(entity_dir / "meta.json")["entity"])
+    reserved_by_group: dict[str, set[str]] = defaultdict(set)
+    for group in GROUPS:
+        reserved_by_group[group.key].add(group.key)
+    for group_key, entity_dir in spec_dirs:
+        reserved_by_group[group_key].add(load_json(entity_dir / "meta.json")["entity"])
 
     works: list[EntityWork] = []
     for group_key, entity_dir in spec_dirs:
-        works.extend(_prepare_spec(group_key, entity_dir, reserved))
+        works.extend(_prepare_spec(group_key, entity_dir, reserved_by_group[group_key]))
     if not works:
         raise SystemExit("没有可生成的 v0 实体")
     collisions = defaultdict(list)
@@ -230,6 +232,7 @@ def render_v0_client(groups: list[TocGroup]) -> str:
     lines.append("            await ads.accounts.profiles.list_profiles()")
     lines.append("            await ads.reporting.reports.create_async_report(body)")
     lines.append("            await ads.sp_v3.campaigns.create_sponsored_products_campaigns(body)")
+    lines.append("            await ads.sd.campaigns.list_campaigns()")
     lines.append('    """')
     lines.append("")
     lines.append("    @overload")

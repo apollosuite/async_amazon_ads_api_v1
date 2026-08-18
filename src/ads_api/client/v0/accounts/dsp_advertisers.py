@@ -19,14 +19,14 @@ from ads_api.models.v0.accounts.dsp_advertisers import (
 class DSPAdvertisers(BaseResource):
 
     @overload
-    async def get_advertiser(
+    async def get_dsp_advertiser(
         self, advertiser_id: str, *, mode: Literal["pydantic"] = "pydantic"
     ) -> DspAdvertiserV1: ...
     @overload
-    async def get_advertiser(self, advertiser_id: str, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_dsp_advertiser(self, advertiser_id: str, *, mode: Literal["dict"]) -> dict[str, Any]: ...
     @overload
-    async def get_advertiser(self, advertiser_id: str, *, mode: Literal["raw"]) -> httpx.Response: ...
-    async def get_advertiser(
+    async def get_dsp_advertiser(self, advertiser_id: str, *, mode: Literal["raw"]) -> httpx.Response: ...
+    async def get_dsp_advertiser(
         self, advertiser_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
     ) -> DspAdvertiserV1 | dict[str, Any] | httpx.Response:
         """Returns advertiser information based on given advertiser id."""

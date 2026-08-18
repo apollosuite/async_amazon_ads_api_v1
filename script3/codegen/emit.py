@@ -17,7 +17,7 @@ from codegen.schema import (
     is_enum,
     is_type_alias,
 )
-from codegen.spec import camel_to_snake, operation_method_name, snake_to_pascal
+from codegen.spec import camel_to_snake, snake_to_pascal, unique_method_names
 
 _CONSTRAINTS = (
     ("minimum", "ge"),
@@ -297,7 +297,7 @@ def _field_lines(
         for attr, kw in _CONSTRAINTS:
             if attr in fschema:
                 kwargs.append(f"{kw}={fschema[attr]}")
-        if "pattern" in fschema:
+        if "pattern" in fschema and not re.search(r"\(\?[=!<]", fschema["pattern"]):
             kwargs.append(f"pattern={fschema['pattern']!r}")
         if not is_required:
             kwargs.insert(0, _format_default(fschema.get("default"), typ))
@@ -622,13 +622,15 @@ def render_client_module(
     if not endpoints:
         lines.append("    pass")
         lines.append("")
-    for http_method, path, operation in endpoints:
+    method_names = unique_method_names(endpoints)
+    for (http_method, path, operation), mname in zip(endpoints, method_names, strict=True):
         _append_method(
             lines,
             spec=spec,
             http_method=http_method,
             path=path,
             operation=operation,
+            method_name=mname,
             all_schemas=all_schemas,
             openapi_schemas=openapi_schemas,
             name_map=name_map,
@@ -645,12 +647,13 @@ def _append_method(
     http_method: str,
     path: str,
     operation: dict[str, Any],
+    method_name: str,
     all_schemas: dict[str, Any],
     openapi_schemas: dict[str, Any],
     name_map: NameMap,
     imports: ImportSet,
 ) -> None:
-    mname = operation_method_name(http_method, path, operation)
+    mname = method_name
     desc = operation.get("description", "").strip().split("\n")[0] if operation.get("description") else ""
     desc = desc.replace('"""', "").replace('"', "'")
     extra_headers, accept_choices = _vendor_headers(operation)

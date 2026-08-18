@@ -37,15 +37,13 @@ class CreativeStatus(StrEnum):
     PUBLISHED = "PUBLISHED"
 
 
-class CreativeType(StrEnum):
+class CreativeTypeInCreativeResponse(StrEnum):
     """
-    The creative type of SB ad.
+    The type of the creative.
     """
 
-    PRODUCT_COLLECTION = "PRODUCT_COLLECTION"
-    STORE_SPOTLIGHT = "STORE_SPOTLIGHT"
+    IMAGE = "IMAGE"
     VIDEO = "VIDEO"
-    BRAND_VIDEO = "BRAND_VIDEO"
 
 
 class EntityState(StrEnum):
@@ -58,15 +56,12 @@ class EntityState(StrEnum):
     ARCHIVED = "ARCHIVED"
 
 
-class LandingPageType(StrEnum):
+class LocationPredicate(StrEnum):
     """
-    The type of landing page, such as store page, product list (simple landing page), custom url.
+    The location category.
     """
 
-    PRODUCT_LIST = "PRODUCT_LIST"
-    STORE = "STORE"
-    CUSTOM_URL = "CUSTOM_URL"
-    DETAIL_PAGE = "DETAIL_PAGE"
+    location = "location"
 
 
 class MmpName(StrEnum):
@@ -391,6 +386,15 @@ class SponsoredProductsValueLimitErrorReason(StrEnum):
     TOO_LOW = "TOO_LOW"
 
 
+class Tactic(StrEnum):
+    """
+    The advertising tactic associated with the campaign. The following table lists available tactic names:
+    """
+
+    T00020 = "T00020"
+    T00030 = "T00030"
+
+
 class Theme(StrEnum):
     """
     The bid recommendation theme. This API currently supports `CONVERSION_OPPORTUNITIES`, `PRIME_DAY`, `FALL_PRIME_DEAL_EVENT`, and `BFCM_HOLIDAY` themes.
@@ -400,6 +404,68 @@ class Theme(StrEnum):
     CONVERSION_OPPORTUNITIES = "CONVERSION_OPPORTUNITIES"
     FALL_PRIME_DEAL_EVENT = "FALL_PRIME_DEAL_EVENT"
     PRIME_DAY = "PRIME_DAY"
+
+
+type AdGroupId = int  # The identifier of the ad group.
+
+type AdId = int  # The identifier of the product ad.
+
+type AdName = str  # The name of the ad. Note that this field is not supported when using ASIN or SKU fields.
+
+
+class BaseAdGroup(StrictModel):
+    name: str | None = Field(default=None, description="The name of the ad group.")
+    campaignId: CampaignId | None = Field(default=None)
+    defaultBid: float | None = Field(
+        default=None,
+        description="The amount of the default bid associated with the ad group. Used if no bid is specified.",
+    )
+    bidOptimization: str | None = Field(
+        default=None, description="Bid Optimization for the Adgroup. Default behavior is to optimize for clicks."
+    )
+    state: str | None = Field(default=None, description="The state of the ad group.")
+
+
+class BaseCampaign(StrictModel):
+    name: str | None = Field(default=None, description="The name of the campaign.")
+    budgetType: str | None = Field(
+        default=None,
+        description="The time period over which the amount specified in the `budget` property is allocated.",
+    )
+    budget: float | None = Field(default=None, description="The amount of the budget.")
+    startDate: str | None = Field(
+        default=None, description="The YYYYMMDD start date of the campaign. The date must be today or in the future."
+    )
+    endDate: str | None = Field(default=None, description="The YYYYMMDD end date of the campaign.")
+    costType: str | None = Field(
+        default=None,
+        description="""
+Determines how the campaign will bid and charge.
+To view minimum and maximum bids based on the costType, see [Limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).
+""",
+    )
+    state: str | None = Field(default=None, description="The state of the campaign.")
+    portfolioId: int | None = Field(
+        default=None,
+        description="Identifier of the portfolio that will be associated with the campaign. If null then the campaign will be disassociated from existing portfolio. Campaigns with CPC and vCPM costType are supported.",
+    )
+
+
+class BaseNegativeTargetingClause(StrictModel):
+    state: str | None = Field(default=None)
+
+
+class BaseProductAd(StrictModel):
+    state: str | None = Field(default=None, description="The state of the campaign associated with the product ad.")
+
+
+class BaseTargetingClause(StrictModel):
+    state: str | None = Field(default=None)
+    bid: float | None = Field(
+        default=None,
+        ge=0.02,
+        description="The bid will override the adGroup bid if specified. This field is not used for negative targeting clauses. The bid must be less than the maximum allowable bid for the campaign's marketplace; for a list of maximum allowable bids, find the [\"Bid constraints by marketplace\" table in our documentation overview](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace). You cannot manually set a bid when the targeting clause's adGroup has an enabled optimization rule.",
+    )
 
 
 class BidAnalyses(LenientModel):
@@ -435,6 +501,23 @@ class BiddingError(LenientModel):
     upperLimit: str | None = Field(default=None)
     lowerLimit: str | None = Field(default=None)
     message: str = Field(description="Human readable error message.")
+
+
+type CampaignId = int  # The identifier of the campaign.
+
+
+class ContentTargetingPredicate(StrictModel):
+    """A predicate to match against in the content targeting expression."""
+
+    type: str | None = Field(default=None)
+    value: str | None = Field(
+        default=None,
+        description="""
+The value to be targeted.
+
+The following table shows all possible values of the `contentCategorySameAs` predicate.
+""",
+    )
 
 
 class CustomImage(StrictModel):
@@ -551,18 +634,14 @@ class ImpactMetrics(LenientModel):
     orders: ImpactMetric | None = Field(default=None)
 
 
-class LandingPage(StrictModel):
-    asins: list[str] | None = Field(default=None, min_length=3, max_length=100)
-    pageType: Annotated[LandingPageType, lenient_enum(LandingPageType)] | None = Field(default=None)
-    url: str | None = Field(
+type LandingPageURL = str  # The URL where customers will land after clicking on its link. Must be provided if a LandingPageType is set. Please note that if a single product ad sets the landing page url, only one product ad can be added to the ad group. This field is not supported when using ASIN or SKU fields.
+
+
+class LocationExpression(StrictModel):
+    type: Annotated[LocationPredicate, lenient_enum(LocationPredicate)] | None = Field(default=None)
+    value: str | None = Field(
         default=None,
-        description="""
-URL of an existing simple landing page or Store page. Vendors may also specify the URL of a custom landing page.
-If a custom URL is specified, the landing page must include the ASINs of at least three products that are
-advertised as part of the campaign. Do not include this property in the request if the asins property is also
-included, these properties are mutually exclusive.
-Note that brandVideo ads only support Store page as landing page and does not allow asins property.
-""",
+        description="The location identifier. Currently, this can correspond to either a 'city', 'state', 'dma', 'postal code', or 'country'. Its value is discoverable using the GET /locations API.",
     )
 
 
@@ -594,6 +673,16 @@ class NameFilter(StrictModel):
 
     queryTermMatchType: Annotated[QueryTermMatchType, lenient_enum(QueryTermMatchType)] | None = Field(default=None)
     include: list[str] | None = Field(default=None, min_length=0, max_length=100)
+
+
+class NegativeTargetingExpression(StrictModel):
+    type: str | None = Field(
+        default=None,
+        description="The intent type. See the [targeting topic](https://advertising.amazon.com/help#GQCBASRVERXSARL3) in the Amazon Ads support center for more information.",
+    )
+    value: str | None = Field(
+        default=None, description="The value to be negatively targeted. Used only in manual expressions."
+    )
 
 
 class ObjectIdFilter(StrictModel):
@@ -628,11 +717,23 @@ class RangeMetricValue(LenientModel):
     upper: int | None = Field(default=None)
 
 
+type RuleId = str  # The identifier of the optimization rule.
+
+
 class SBTargetingBrand(LenientModel):
     brandRefinementId: str = Field(
         description="Id of brand. Use /sb/targets/categories/{categoryRefinementId}/refinements to retrieve Brand Refinement IDs."
     )
     name: str | None = Field(default=None, description="Name of brand.")
+
+
+type SDASIN = str  # Amazon Standard Identification Number
+
+
+class SDGoalProduct(StrictModel):
+    """A product an advertisers wants to advertise. Recommendations will be made for specified goal products."""
+
+    asin: SDASIN
 
 
 class SponsoredProductsAsinFilter(StrictModel):
@@ -921,16 +1022,76 @@ class SubpageOut(LenientModel):
     url: str | None = Field(default=None)
 
 
+type TargetId = int
+
+
+class TargetResponse(LenientModel):
+    code: str | None = Field(default=None, description="The HTTP status code of the response.")
+    description: str | None = Field(default=None, description="A human-readable description of the response.")
+    targetId: TargetId | None = Field(default=None)
+
+
+class TargetingPredicate(StrictModel):
+    """A predicate to match against in the targeting expression (only applicable to contextual targeting - T00020).
+
+    * All IDs passed for category and brand-targeting predicates must be valid IDs in the Amazon Ads browse system.
+    * Brand, price, and review predicates are optional and may only be specified if category is also specified.
+    * Review predicates accept numbers between 0 and 5 and are inclusive.
+    * When using either of the 'between' strings to construct a targeting expression the format of the string is 'double-double' where the first double must be smaller than the second double. Prices are not inclusive.
+    """
+
+    type: str | None = Field(default=None)
+    value: str | None = Field(default=None, description="The value to be targeted.")
+
+
+class TargetingPredicateBase(StrictModel):
+    """A predicate to match against inside the TargetingPredicateNested component (only applicable to audience targeting - T00030).
+
+    * All IDs passed for category and brand-targeting predicates must be valid IDs in the Amazon Ads browse system.
+    * Brand, price, and review predicates are optional and may only be specified if category is also specified.
+    * Review predicates accept numbers between 0 and 5 and are inclusive.
+    * When using either of the 'between' strings to construct a targeting expression the format of the string is 'double-double' where the first double must be smaller than the second double. Prices are not inclusive.
+    * The 'exactProduct', 'similarProduct', 'relatedProduct', 'negative', and 'audiencesLikelyInterestedInAd' types do not utilize the value field.
+    * The only type currently applicable to Amazon Audiences targeting is 'audienceSameAs'.
+    * A 'relatedProduct' TargetingPredicateBase will Target an audience that has purchased a related product in the past 7,14,30,60,90,180, or 365 days.
+    * The 'audiencesLikelyInterestedInAd' type is only supported when using landingPageType of OFF_AMAZON_LINK."""
+
+    type: str | None = Field(default=None)
+    value: str | None = Field(default=None, description="The value to be targeted.")
+
+
+class TargetingPredicateNested(StrictModel):
+    """A behavioral event and list of targeting predicates that represents an audience to target (only applicable to audience targeting - T00030).
+
+    * For manual ASIN-grain targeting, the value array must contain only, 'exactProduct', 'similarProduct', 'relatedProduct' and 'lookback' TargetingPredicateBase components. The 'lookback' is mandatory and the value should be set to '7', '14', '30', '60', '90', '180' or '365'.
+    * For manual Category-grain targeting, the value array must contain a 'lookback' and 'asinCategorySameAs' TargetingPredicateBase component, which can be further refined with optional brand, price, star-rating and shipping eligibility refinements. The 'lookback' is mandatory and the value should be set to '7', '14', '30', '60', '90', '180' or '365'.
+    * For Amazon Audiences targeting, the TargetingPredicateNested type should be set to 'audience' and the value array should include one TargetingPredicateBase component with type set to 'audienceSameAs'.
+    """
+
+    type: str | None = Field(default=None)
+    value: list[TargetingPredicateBase] | None = Field(default=None)
+
+
 __all__ = [
+    "AdGroupId",
+    "AdId",
+    "AdName",
+    "BaseAdGroup",
+    "BaseCampaign",
+    "BaseNegativeTargetingClause",
+    "BaseProductAd",
+    "BaseTargetingClause",
     "BidAnalyses",
     "BidAnalysesPerPlacement",
     "BidAnalysis",
     "BidAnalysisImpactMetrics",
     "BiddingError",
+    "CampaignId",
+    "ContentTargetingPredicate",
     "CreateOrUpdateEntityState",
     "CreativePropertyToOptimize",
     "CreativeStatus",
-    "CreativeType",
+    "CreativeTypeInCreativeResponse",
     "CustomImage",
     "CustomImageCrop",
     "CustomImageCropOut",
@@ -945,19 +1106,24 @@ __all__ = [
     "Identity",
     "ImpactMetric",
     "ImpactMetrics",
-    "LandingPage",
-    "LandingPageType",
+    "LandingPageURL",
+    "LocationExpression",
+    "LocationPredicate",
     "Metadata",
     "MmpMetadata",
     "MmpName",
     "MmpPlatform",
     "NameFilter",
+    "NegativeTargetingExpression",
     "ObjectIdFilter",
     "OtherError",
     "QueryTermMatchType",
     "RangeError",
     "RangeMetricValue",
+    "RuleId",
     "SBTargetingBrand",
+    "SDASIN",
+    "SDGoalProduct",
     "SponsoredProductsAsinFilter",
     "SponsoredProductsBiddingError",
     "SponsoredProductsBiddingErrorReason",
@@ -1016,5 +1182,11 @@ __all__ = [
     "SponsoredProductsValueLimitErrorReason",
     "Subpage",
     "SubpageOut",
+    "Tactic",
+    "TargetId",
+    "TargetResponse",
+    "TargetingPredicate",
+    "TargetingPredicateBase",
+    "TargetingPredicateNested",
     "Theme",
 ]

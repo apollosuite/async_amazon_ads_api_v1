@@ -13,7 +13,6 @@ from ads_api.models.v0._shared import (
     CreateOrUpdateEntityState,
     CreativePropertyToOptimize,
     CreativeStatus,
-    CreativeType,
     CustomImage,
     CustomImageCrop,
     CustomImageCropOut,
@@ -21,8 +20,6 @@ from ads_api.models.v0._shared import (
     EntityState,
     EntityStateFilter,
     ErrorCause,
-    LandingPage,
-    LandingPageType,
     NameFilter,
     ObjectIdFilter,
     OtherError,
@@ -130,6 +127,28 @@ class BrandCollectionLandingPageType(StrEnum):
 
     PRODUCT_LIST = "PRODUCT_LIST"
     STORE = "STORE"
+
+
+class CreativeType(StrEnum):
+    """
+    The creative type of SB ad.
+    """
+
+    PRODUCT_COLLECTION = "PRODUCT_COLLECTION"
+    STORE_SPOTLIGHT = "STORE_SPOTLIGHT"
+    VIDEO = "VIDEO"
+    BRAND_VIDEO = "BRAND_VIDEO"
+
+
+class LandingPageType(StrEnum):
+    """
+    The type of landing page, such as store page, product list (simple landing page), custom url.
+    """
+
+    PRODUCT_LIST = "PRODUCT_LIST"
+    STORE = "STORE"
+    CUSTOM_URL = "CUSTOM_URL"
+    DETAIL_PAGE = "DETAIL_PAGE"
 
 
 class Ad(LenientModel):
@@ -554,6 +573,21 @@ class DeleteSponsoredBrandsAdsRequestContent(StrictModel):
 
 class DeleteSponsoredBrandsAdsResponseContent(LenientModel):
     ads: BulkAdOperationResponse | None = Field(default=None)
+
+
+class LandingPage(StrictModel):
+    asins: list[str] | None = Field(default=None, min_length=3, max_length=100)
+    pageType: Annotated[LandingPageType, lenient_enum(LandingPageType)] | None = Field(default=None)
+    url: str | None = Field(
+        default=None,
+        description="""
+URL of an existing simple landing page or Store page. Vendors may also specify the URL of a custom landing page.
+If a custom URL is specified, the landing page must include the ASINs of at least three products that are
+advertised as part of the campaign. Do not include this property in the request if the asins property is also
+included, these properties are mutually exclusive.
+Note that brandVideo ads only support Store page as landing page and does not allow asins property.
+""",
+    )
 
 
 class LandingPageOut(LenientModel):

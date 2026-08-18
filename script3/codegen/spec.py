@@ -19,12 +19,14 @@ INCLUDED_TOC_SECTIONS: tuple[str, ...] = (
     "Exports",
     "Sponsored Products",
     "Sponsored Brands",
+    "Sponsored Display",
 )
 
 # TOC 分组目录名。未列出的用 camel_to_snake(toc_name)。
 GROUP_KEY_OVERRIDES: dict[str, str] = {
     "Sponsored Products": "sp",
     "Sponsored Brands": "sb",
+    "Sponsored Display": "sd",
 }
 
 # TOC 项名为 Version N 时落到 <product>_vN（如 sp_v3）。列出的分组只下载这些版本。
@@ -38,6 +40,8 @@ ENTITY_OVERRIDES: dict[str, str] = {
     "Account management (beta)": "advertising_accounts",
     "DSP Advertiser Accounts": "dsp_advertisers",
     "Version 3 reporting": "reports",
+    # 整份 SD spec；若用 campaign_management，Campaigns tag 会被当成父实体。
+    "Campaign management": "sd",
 }
 
 _VERSION_ITEM_RE = re.compile(r"(?i)^version\s+(\d+)$")
@@ -288,11 +292,11 @@ def collect_all_routes(section: dict[str, Any]) -> dict[str, str]:
     return routes
 
 
-def operation_method_name(http_method: str, path: str, operation: dict[str, Any]) -> str:
-    op_id = operation.get("operationId")
-    if isinstance(op_id, str) and op_id.strip():
-        return camel_to_snake(strip_product_prefix(op_id.strip()))
+def path_method_name(http_method: str, path: str) -> str:
+    """HTTP method + path；缺 operationId 或同资源撞名时用。"""
     parts = [p for p in path.strip("/").split("/") if p and not p.startswith("{")]
+    if parts and parts[0].lower() in _SHORT_PRODUCT_KEYS:
+        parts = parts[1:]
     last = camel_to_snake(parts[-1]) if parts else "resource"
     has_path_param = "{" in path
     if http_method == "GET" and not has_path_param:
@@ -305,4 +309,43 @@ def operation_method_name(http_method: str, path: str, operation: dict[str, Any]
         "DELETE": "delete",
     }.get(http_method, http_method.lower())
     stem = last[:-1] if last.endswith("s") and not last.endswith("ss") else last
+    if len(parts) >= 2:
+        prefix = "_".join(camel_to_snake(p) for p in parts[:-1])
+        return f"{verb}_{prefix}_{stem}"
     return f"{verb}_{stem}"
+
+
+def operation_method_name(http_method: str, path: str, operation: dict[str, Any]) -> str:
+    op_id = operation.get("operationId")
+    if isinstance(op_id, str) and op_id.strip():
+        return camel_to_snake(strip_product_prefix(op_id.strip()))
+    return path_method_name(http_method, path)
+
+
+def unique_method_names(endpoints: list[tuple[str, str, dict[str, Any]]]) -> list[str]:
+    """同一资源内方法名撞车时，缺 operationId 的一侧改用更长的 path 名。"""
+    names = [operation_method_name(method, path, operation) for method, path, operation in endpoints]
+    counts: dict[str, int] = {}
+    for name in names:
+        counts[name] = counts.get(name, 0) + 1
+    if all(count == 1 for count in counts.values()):
+        return names
+
+    resolved: list[str] = []
+    for name, (method, path, _operation) in zip(names, endpoints, strict=True):
+        resolved.append(path_method_name(method, path) if counts[name] > 1 else name)
+
+    again: dict[str, int] = {}
+    for name in resolved:
+        again[name] = again.get(name, 0) + 1
+    if all(count == 1 for count in again.values()):
+        return resolved
+
+    final: list[str] = []
+    for name, (_method, path, _operation) in zip(resolved, endpoints, strict=True):
+        if again[name] == 1:
+            final.append(name)
+            continue
+        params = "_".join(camel_to_snake(p[1:-1]) for p in path.split("/") if p.startswith("{"))
+        final.append(f"{name}_by_{params}" if params else name)
+    return final

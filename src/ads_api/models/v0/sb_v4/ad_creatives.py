@@ -12,7 +12,6 @@ from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     CreativePropertyToOptimize,
     CreativeStatus,
-    CreativeType,
     CustomImage,
     CustomImageCrop,
     CustomImageCropOut,
@@ -50,6 +49,17 @@ class CreativeLandingPageType(StrEnum):
     BROWSE = "BROWSE"
     ADVERTISING_LANDING_PAGE = "ADVERTISING_LANDING_PAGE"
     UNKNOWN = "UNKNOWN"
+
+
+class CreativeType(StrEnum):
+    """
+    The creative type of SB ad.
+    """
+
+    PRODUCT_COLLECTION = "PRODUCT_COLLECTION"
+    STORE_SPOTLIGHT = "STORE_SPOTLIGHT"
+    VIDEO = "VIDEO"
+    BRAND_VIDEO = "BRAND_VIDEO"
 
 
 class AssetCrop(StrictModel):

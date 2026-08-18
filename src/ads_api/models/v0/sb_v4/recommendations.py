@@ -10,8 +10,6 @@ from pydantic import Field
 from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
-    LandingPage,
-    LandingPageType,
     SBTargetingBrand,
 )
 
@@ -22,6 +20,17 @@ class CostControlMetric(StrEnum):
     """
 
     COST_PER_CLICK = "COST_PER_CLICK"
+
+
+class LandingPageType(StrEnum):
+    """
+    The type of landing page, such as store page, product list (simple landing page), custom url.
+    """
+
+    PRODUCT_LIST = "PRODUCT_LIST"
+    STORE = "STORE"
+    CUSTOM_URL = "CUSTOM_URL"
+    DETAIL_PAGE = "DETAIL_PAGE"
 
 
 class BudgetRecommendation(LenientModel):
@@ -87,6 +96,21 @@ class HeadlineSuggestionResponse(LenientModel):
     )
     suggestions: list[SuggestedHeadline] | None = Field(
         default=None, description="Suggestions are sorted, i.e., more suitable headline has lesser array index value"
+    )
+
+
+class LandingPage(StrictModel):
+    asins: list[str] | None = Field(default=None, min_length=3, max_length=100)
+    pageType: Annotated[LandingPageType, lenient_enum(LandingPageType)] | None = Field(default=None)
+    url: str | None = Field(
+        default=None,
+        description="""
+URL of an existing simple landing page or Store page. Vendors may also specify the URL of a custom landing page.
+If a custom URL is specified, the landing page must include the ASINs of at least three products that are
+advertised as part of the campaign. Do not include this property in the request if the asins property is also
+included, these properties are mutually exclusive.
+Note that brandVideo ads only support Store page as landing page and does not allow asins property.
+""",
     )
 
 

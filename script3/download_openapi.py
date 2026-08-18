@@ -10,6 +10,7 @@ from urllib.parse import urlparse
 import httpx
 from _json_io import read_json, write_json
 from codegen.spec import (
+    GROUP_KEY_OVERRIDES,
     GROUPS,
     INCLUDED_VERSIONS,
     TocGroup,
@@ -17,6 +18,8 @@ from codegen.spec import (
     spec_folder_from_toc_name,
     version_from_toc_name,
 )
+
+_PRODUCT_GROUP_KEYS = frozenset(GROUP_KEY_OVERRIDES.values())
 
 HERE = Path(__file__).resolve().parent
 PROJECT = HERE.parent
@@ -143,7 +146,8 @@ def download_group(client: httpx.Client, group: TocGroup, specs: list[dict[str, 
     for item in specs:
         entity = item["entity"]
         active.add(entity)
-        out_dir = group_root if group.version else group_root / entity
+        at_group_root = bool(group.version) or (entity == group.key and group.key in _PRODUCT_GROUP_KEYS)
+        out_dir = group_root if at_group_root else group_root / entity
         out_dir.mkdir(parents=True, exist_ok=True)
         meta_path = out_dir / "meta.json"
         prev = read_json(meta_path) if meta_path.is_file() else {"items": []}
@@ -186,7 +190,7 @@ def download_group(client: httpx.Client, group: TocGroup, specs: list[dict[str, 
         for path in sorted(out_dir.iterdir()):
             if path.name in keep:
                 continue
-            if group.version and path.is_dir():
+            if at_group_root and path.is_dir():
                 shutil.rmtree(path)
                 print(f"removed: {path.relative_to(SPEC_ROOT)}")
                 continue
