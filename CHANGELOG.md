@@ -2,6 +2,12 @@
 
 > [!WARNING]
 > **废弃与迁移说明**: `async_amazon_ads_api_v1` 包即将废弃，项目正在逐步迁移至全新的统一包 **`ads_api`**（支持 v0 与 v1 全实体）。
+## v0.6.9 (2026-08-18)
+
+### feat — 新功能
+- **Sponsored Display (SD)**: 在 `ads_api.v0` 中引入全新的 Sponsored Display (`sd`) 全量客户端与数据模型（覆盖 ad_groups, bid_recommendations, brand_safety_list, budget_recommendations, budget_rules, budget_usage, campaigns, creatives, forecasts, headline_recommendations, locations_beta, negative_targeting, optimization_rules_beta, product_ads, reports, snapshots, targeting, targeting_recommendations 共 18 个子资源）。
+- **生成器与类型优化**: 增强 v0 代码生成器对于复杂 schema 依赖解析、操作参数与共用模型的处理逻辑。
+
 ## v0.6.8 (2026-08-17)
 
 ### feat — 新功能
