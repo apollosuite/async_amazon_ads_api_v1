@@ -126,9 +126,9 @@ class AdvertiserAccountCreate(StrictModel):
         max_length=1,
         description="The business details for an advertising account, containing either an address token for sellingAccount, or an address object if the sellingAccount lacks a valid address.",
     )
-    currencyCode: Annotated[CurrencyCode, lenient_enum(CurrencyCode)] | None = Field(default=None)
+    currencyCode: Annotated[CurrencyCode | str, lenient_enum(CurrencyCode)] | None = Field(default=None)
     displayName: str | None = Field(default=None, description="Display name for the advertiser account.")
-    industryVertical: Annotated[IndustryVertical, lenient_enum(IndustryVertical)] | None = Field(default=None)
+    industryVertical: Annotated[IndustryVertical | str, lenient_enum(IndustryVertical)] | None = Field(default=None)
     isGlobalAccount: bool | None = Field(
         default=None, description="Indicates whether the advertising account is global or not."
     )
@@ -145,7 +145,7 @@ class AdvertiserAccountCreate(StrictModel):
         max_length=1,
         description="The selling account link requests for an advertiser account, containing details for linking.",
     )
-    timeZoneIana: Annotated[TimeZoneIana, lenient_enum(TimeZoneIana)] | None = Field(default=None)
+    timeZoneIana: Annotated[TimeZoneIana | str, lenient_enum(TimeZoneIana)] | None = Field(default=None)
 
 
 class AdvertiserAccountIsGlobalAccountFilter(StrictModel):
@@ -182,9 +182,9 @@ class AdvertiserAccountUpdate(StrictModel):
         max_length=1,
         description="The business details for an advertising account, containing either an address token for sellingAccount, or an address object if the sellingAccount lacks a valid address.",
     )
-    currencyCode: Annotated[CurrencyCode, lenient_enum(CurrencyCode)] | None = Field(default=None)
+    currencyCode: Annotated[CurrencyCode | str, lenient_enum(CurrencyCode)] | None = Field(default=None)
     displayName: str | None = Field(default=None, description="Display name for the advertiser account.")
-    industryVertical: Annotated[IndustryVertical, lenient_enum(IndustryVertical)] | None = Field(default=None)
+    industryVertical: Annotated[IndustryVertical | str, lenient_enum(IndustryVertical)] | None = Field(default=None)
     isGlobalAccount: bool | None = Field(
         default=None, description="Indicates whether the advertising account is global or not."
     )
@@ -201,7 +201,7 @@ class AdvertiserAccountUpdate(StrictModel):
         max_length=1,
         description="The selling account link requests for an advertiser account, containing details for linking.",
     )
-    timeZoneIana: Annotated[TimeZoneIana, lenient_enum(TimeZoneIana)] | None = Field(default=None)
+    timeZoneIana: Annotated[TimeZoneIana | str, lenient_enum(TimeZoneIana)] | None = Field(default=None)
 
 
 class AlternateIdentifier(LenientModel):
@@ -226,7 +226,7 @@ class CreateAdvertiserAccountRequest(StrictModel):
 
 class CreateSellingAccountLinkDetails(StrictModel):
     sellingAccountLinkToken: str = Field(description="The token to locate a selling account to be linked.")
-    sellingProgram: Annotated[SellingProgram, lenient_enum(SellingProgram)] | None = Field(default=None)
+    sellingProgram: Annotated[SellingProgram | str, lenient_enum(SellingProgram)] | None = Field(default=None)
 
 
 class CreateSellingAccountLinkRequest(StrictModel):

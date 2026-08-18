@@ -59,13 +59,13 @@ class Type(StrEnum):
 
 
 class AccessScopeFilter(StrictModel):
-    include: list[Annotated[AccessScope, lenient_enum(AccessScope)]] | None = Field(
+    include: list[Annotated[AccessScope | str, lenient_enum(AccessScope)]] | None = Field(
         default=None, min_length=1, max_length=1
     )
 
 
 class CountryCodesFilter(StrictModel):
-    include: list[Annotated[CountryCode, lenient_enum(CountryCode)]] | None = Field(
+    include: list[Annotated[CountryCode | str, lenient_enum(CountryCode)]] | None = Field(
         default=None, min_length=0, max_length=100
     )
 
@@ -138,8 +138,8 @@ Different permissions are supported for different account types.
   - Marketing Cloud Accounts do not support custom permissions
 """,
     )
-    role: Annotated[Role, lenient_enum(Role)] | None = Field(default=None)
-    type: Annotated[Type, lenient_enum(Type)]
+    role: Annotated[Role | str, lenient_enum(Role)] | None = Field(default=None)
+    type: Annotated[Type | str, lenient_enum(Type)]
 
 
 class QueryUserPermissionsRequestContent(StrictModel):
@@ -234,7 +234,7 @@ class UserId(StrictModel):
 
 
 class UserPermission(StrictModel):
-    countryCodes: list[Annotated[CountryCode, lenient_enum(CountryCode)]] | None = Field(
+    countryCodes: list[Annotated[CountryCode | str, lenient_enum(CountryCode)]] | None = Field(
         default=None,
         min_length=0,
         max_length=100,

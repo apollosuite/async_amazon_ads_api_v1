@@ -75,7 +75,7 @@ class SellingAccountSellingAccountLinkTokenFilter(StrictModel):
 
 
 class SellingAccountSellingProgramFilter(StrictModel):
-    include: list[Annotated[SellingProgram, lenient_enum(SellingProgram)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SellingProgram | str, lenient_enum(SellingProgram)]] = Field(min_length=1, max_length=1)
 
 
 class SellingAccountSuccessResponse(LenientModel):

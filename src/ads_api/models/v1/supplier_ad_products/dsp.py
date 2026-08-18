@@ -315,6 +315,10 @@ class DSPLanguageIso(StrEnum):
 class DSPSupplierAdProductSortOptionsFields(StrEnum):
     """
     Specify which field to order by.
+    | Field Name | Supported Ordering |
+    | --- | --- |
+    | name | ASCENDING,DESCENDING |
+    | supplierAdProductId | ASCENDING,DESCENDING |
     """
 
     name = "name"
@@ -495,11 +499,11 @@ class DSPSupplierAdProduct(LenientModel):
 
 
 class DSPSupplierAdProductAdProductFilter(StrictModel):
-    include: list[Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class DSPSupplierAdProductAdvertisingDealTypeFilter(StrictModel):
-    include: list[Annotated[DSPAdvertisingDealType, lenient_enum(DSPAdvertisingDealType)]] = Field(
+    include: list[Annotated[DSPAdvertisingDealType | str, lenient_enum(DSPAdvertisingDealType)]] = Field(
         min_length=1, max_length=10
     )
 
@@ -522,7 +526,7 @@ class DSPSupplierAdProductConstraints(LenientModel):
 
 
 class DSPSupplierAdProductCountryCodeFilter(StrictModel):
-    include: list[Annotated[DSPCountryCode, lenient_enum(DSPCountryCode)]] = Field(min_length=1, max_length=10)
+    include: list[Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)]] = Field(min_length=1, max_length=10)
 
 
 class DSPSupplierAdProductExtension(LenientModel):
@@ -553,7 +557,9 @@ type DSPSupplierAdProductGoalConstraintsExtension = DSPSupplierAdProductGoalCons
 
 
 class DSPSupplierAdProductInventoryTypeFilter(StrictModel):
-    include: list[Annotated[DSPInventoryType, lenient_enum(DSPInventoryType)]] = Field(min_length=1, max_length=10)
+    include: list[Annotated[DSPInventoryType | str, lenient_enum(DSPInventoryType)]] = Field(
+        min_length=1, max_length=10
+    )
 
 
 class DSPSupplierAdProductMaxDateTimeFilter(StrictModel):
@@ -565,8 +571,8 @@ class DSPSupplierAdProductMinDateTimeFilter(StrictModel):
 
 
 class DSPSupplierAdProductSortOption(StrictModel):
-    by: Annotated[DSPSupplierAdProductSortOptionsFields, lenient_enum(DSPSupplierAdProductSortOptionsFields)]
-    direction: Annotated[DSPSortDirection, lenient_enum(DSPSortDirection)] | None = Field(default=None)
+    by: Annotated[DSPSupplierAdProductSortOptionsFields | str, lenient_enum(DSPSupplierAdProductSortOptionsFields)]
+    direction: Annotated[DSPSortDirection | str, lenient_enum(DSPSortDirection)] | None = Field(default=None)
 
 
 class DSPSupplierAdProductSuccessResponse(LenientModel):

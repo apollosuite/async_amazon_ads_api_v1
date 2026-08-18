@@ -150,7 +150,7 @@ class DSPAdAssociationCreate(StrictModel):
     adId: str = Field(description="The ad Id  associated with the ad.")
     endDateTime: datetime | None = Field(default=None, description="The end date time for the ad association.")
     startDateTime: datetime | None = Field(default=None, description="The start date time for the ad association.")
-    state: Annotated[DSPCreateState, lenient_enum(DSPCreateState)]
+    state: Annotated[DSPCreateState | str, lenient_enum(DSPCreateState)]
     weight: int | None = Field(
         default=None,
         description="The relative percentage of traffic which would be directed to the associated Ad Creative in the Ad Group.",
@@ -176,7 +176,7 @@ class DSPAdAssociationUpdate(StrictModel):
     adAssociationId: str = Field(description="The unique identifier of the ad association.")
     endDateTime: datetime | None = Field(default=None, description="The end date time for the ad association.")
     startDateTime: datetime | None = Field(default=None, description="The start date time for the ad association.")
-    state: Annotated[DSPUpdateState, lenient_enum(DSPUpdateState)] | None = Field(default=None)
+    state: Annotated[DSPUpdateState | str, lenient_enum(DSPUpdateState)] | None = Field(default=None)
     weight: int | None = Field(
         default=None,
         description="The relative percentage of traffic which would be directed to the associated Ad Creative in the Ad Group.",

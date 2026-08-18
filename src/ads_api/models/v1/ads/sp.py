@@ -99,7 +99,7 @@ class SPAdAdIdFilter(StrictModel):
 
 
 class SPAdAdProductFilter(StrictModel):
-    include: list[Annotated[SPAdProduct, lenient_enum(SPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class SPAdCampaignIdFilter(StrictModel):
@@ -108,10 +108,10 @@ class SPAdCampaignIdFilter(StrictModel):
 
 class SPAdCreate(StrictModel):
     adGroupId: str = Field(description="The ad group associated with the ad.")
-    adProduct: Annotated[SPAdProduct, lenient_enum(SPAdProduct)]
-    adType: Annotated[SPAdType, lenient_enum(SPAdType)]
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
+    adType: Annotated[SPAdType | str, lenient_enum(SPAdType)]
     creative: SPCreateCreative
-    state: Annotated[SPCreateState, lenient_enum(SPCreateState)]
+    state: Annotated[SPCreateState | str, lenient_enum(SPCreateState)]
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -131,7 +131,7 @@ class SPAdMultiStatusSuccess(LenientModel):
 
 
 class SPAdStateFilter(StrictModel):
-    include: list[Annotated[SPState, lenient_enum(SPState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SPState | str, lenient_enum(SPState)]] = Field(min_length=1, max_length=3)
 
 
 class SPAdSuccessResponse(LenientModel):
@@ -142,7 +142,7 @@ class SPAdSuccessResponse(LenientModel):
 class SPAdUpdate(StrictModel):
     adId: str = Field(description="The identifier of the ad.")
     creative: SPUpdateCreative | None = Field(default=None)
-    state: Annotated[SPUpdateState, lenient_enum(SPUpdateState)] | None = Field(default=None)
+    state: Annotated[SPUpdateState | str, lenient_enum(SPUpdateState)] | None = Field(default=None)
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -169,7 +169,7 @@ class SPCreateAdRequest(StrictModel):
 class SPCreateAdvertisedProducts(StrictModel):
     globalStoreSetting: SPCreateGlobalStoreSettings | None = Field(default=None)
     productId: str = Field(description="The identifier of the advertised product.")
-    productIdType: Annotated[SPProductIdType, lenient_enum(SPProductIdType)]
+    productIdType: Annotated[SPProductIdType | str, lenient_enum(SPProductIdType)]
 
 
 class SPCreateCreative(StrictModel):
@@ -177,7 +177,7 @@ class SPCreateCreative(StrictModel):
 
 
 class SPCreateGlobalStoreSettings(StrictModel):
-    catalogSourceMarketplace: Annotated[SPMarketplace, lenient_enum(SPMarketplace)] | None = Field(default=None)
+    catalogSourceMarketplace: Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)] | None = Field(default=None)
 
 
 class SPCreateProductCreative(StrictModel):

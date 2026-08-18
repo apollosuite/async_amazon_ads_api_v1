@@ -125,7 +125,7 @@ class SBCreateBrandAlternateId(StrictModel):
     """Other types of brand identifiers for a brand that are used with other operations."""
 
     alternateBrandId: str = Field(description="The alternative brand identifier for the brandId.")
-    alternateBrandIdType: Annotated[SBAlternateBrandIdType, lenient_enum(SBAlternateBrandIdType)]
+    alternateBrandIdType: Annotated[SBAlternateBrandIdType | str, lenient_enum(SBAlternateBrandIdType)]
 
 
 class SBCreateBrandedKeywordRecommendationTypeDetails(StrictModel):

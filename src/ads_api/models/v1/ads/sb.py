@@ -222,7 +222,7 @@ class SBAdAdIdFilter(StrictModel):
 
 
 class SBAdAdProductFilter(StrictModel):
-    include: list[Annotated[SBAdProduct, lenient_enum(SBAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class SBAdCampaignIdFilter(StrictModel):
@@ -231,11 +231,11 @@ class SBAdCampaignIdFilter(StrictModel):
 
 class SBAdCreate(StrictModel):
     adGroupId: str = Field(description="The ad group associated with the ad.")
-    adProduct: Annotated[SBAdProduct, lenient_enum(SBAdProduct)]
-    adType: Annotated[SBAdType, lenient_enum(SBAdType)]
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
+    adType: Annotated[SBAdType | str, lenient_enum(SBAdType)]
     creative: SBCreateCreative
     name: str = Field(description="The name of the ad.")
-    state: Annotated[SBCreateState, lenient_enum(SBCreateState)]
+    state: Annotated[SBCreateState | str, lenient_enum(SBCreateState)]
     tags: list[SBCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -256,11 +256,11 @@ class SBAdMultiStatusSuccess(LenientModel):
 
 class SBAdNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=10)
-    queryTermMatchType: Annotated[SBAdNameFilterType, lenient_enum(SBAdNameFilterType)]
+    queryTermMatchType: Annotated[SBAdNameFilterType | str, lenient_enum(SBAdNameFilterType)]
 
 
 class SBAdStateFilter(StrictModel):
-    include: list[Annotated[SBState, lenient_enum(SBState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SBState | str, lenient_enum(SBState)]] = Field(min_length=1, max_length=3)
 
 
 class SBAdSuccessResponse(LenientModel):
@@ -272,7 +272,7 @@ class SBAdUpdate(StrictModel):
     adId: str = Field(description="The identifier of the ad.")
     creative: SBUpdateCreative | None = Field(default=None)
     name: str | None = Field(default=None, description="The name of the ad.")
-    state: Annotated[SBUpdateState, lenient_enum(SBUpdateState)] | None = Field(default=None)
+    state: Annotated[SBUpdateState | str, lenient_enum(SBUpdateState)] | None = Field(default=None)
     tags: list[SBCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -373,7 +373,7 @@ class SBCreateAdRequest(StrictModel):
 
 class SBCreateAdvertisedProducts(StrictModel):
     productId: str | None = Field(default=None, description="The identifier of the advertised product.")
-    productIdType: Annotated[SBProductIdType, lenient_enum(SBProductIdType)]
+    productIdType: Annotated[SBProductIdType | str, lenient_enum(SBProductIdType)]
 
 
 class SBCreateAutoCollectionSettings(StrictModel):
@@ -407,7 +407,8 @@ class SBCreateBrandGallerySettings(StrictModel):
     creativePropertiesToOptimize: (
         list[
             Annotated[
-                SBBrandGalleryCreativePropertiesToOptimize, lenient_enum(SBBrandGalleryCreativePropertiesToOptimize)
+                SBBrandGalleryCreativePropertiesToOptimize | str,
+                lenient_enum(SBBrandGalleryCreativePropertiesToOptimize),
             ]
         ]
         | None
@@ -439,7 +440,7 @@ class SBCreateCardCreativeElement(StrictModel):
 
 
 class SBCreateCollectionLandingPage(StrictModel):
-    landingPageType: Annotated[SBCollectionLandingPageType, lenient_enum(SBCollectionLandingPageType)]
+    landingPageType: Annotated[SBCollectionLandingPageType | str, lenient_enum(SBCollectionLandingPageType)]
     landingPageUrl: str | None = Field(default=None, description="The URL associated to the landing page.")
 
 
@@ -501,7 +502,9 @@ class SBCreateManualCollectionSettings(StrictModel):
 
 class SBCreateProductCollectionLandingPage(StrictModel):
     landingPageAsins: SBCreateLandingPageAsins | None = Field(default=None)
-    landingPageType: Annotated[SBProductCollectionLandingPageType, lenient_enum(SBProductCollectionLandingPageType)]
+    landingPageType: Annotated[
+        SBProductCollectionLandingPageType | str, lenient_enum(SBProductCollectionLandingPageType)
+    ]
     landingPageUrl: str | None = Field(
         default=None, description="The URL associated to the landing page. Read only if landingPageType is ASIN_LIST"
     )
@@ -517,7 +520,7 @@ class SBCreateProductCollectionSettings(StrictModel):
     creativePropertiesToOptimize: (
         list[
             Annotated[
-                SBProductCollectionCreativePropertiesToOptimize,
+                SBProductCollectionCreativePropertiesToOptimize | str,
                 lenient_enum(SBProductCollectionCreativePropertiesToOptimize),
             ]
         ]
@@ -578,7 +581,7 @@ class SBCreateSharedCollectionSettings(StrictModel):
 
 
 class SBCreateStoreSpotlightLandingPage(StrictModel):
-    landingPageType: Annotated[SBStoreSpotlightLandingPageType, lenient_enum(SBStoreSpotlightLandingPageType)]
+    landingPageType: Annotated[SBStoreSpotlightLandingPageType | str, lenient_enum(SBStoreSpotlightLandingPageType)]
     landingPageUrl: str = Field(description="The URL of landing page where the ad directs.")
 
 
@@ -597,7 +600,8 @@ class SBCreateStoreSpotlightSettings(StrictModel):
     creativePropertiesToOptimize: (
         list[
             Annotated[
-                SBStoreSpotlightCreativePropertiesToOptimize, lenient_enum(SBStoreSpotlightCreativePropertiesToOptimize)
+                SBStoreSpotlightCreativePropertiesToOptimize | str,
+                lenient_enum(SBStoreSpotlightCreativePropertiesToOptimize),
             ]
         ]
         | None
@@ -625,7 +629,7 @@ class SBCreateVideo(StrictModel):
 
 
 class SBCreateVideoLandingPage(StrictModel):
-    landingPageType: Annotated[SBVideoLandingPageType, lenient_enum(SBVideoLandingPageType)]
+    landingPageType: Annotated[SBVideoLandingPageType | str, lenient_enum(SBVideoLandingPageType)]
     landingPageUrl: str | None = Field(default=None, description="The URL of landing page where the ad directs.")
 
 
@@ -874,7 +878,8 @@ class SBUpdateBrandGallerySettings(StrictModel):
     creativePropertiesToOptimize: (
         list[
             Annotated[
-                SBBrandGalleryCreativePropertiesToOptimize, lenient_enum(SBBrandGalleryCreativePropertiesToOptimize)
+                SBBrandGalleryCreativePropertiesToOptimize | str,
+                lenient_enum(SBBrandGalleryCreativePropertiesToOptimize),
             ]
         ]
         | None
@@ -901,8 +906,8 @@ class SBUpdateBrandGallerySettings(StrictModel):
 
 
 class SBUpdateCollectionLandingPage(StrictModel):
-    landingPageType: Annotated[SBCollectionLandingPageType, lenient_enum(SBCollectionLandingPageType)] | None = Field(
-        default=None
+    landingPageType: Annotated[SBCollectionLandingPageType | str, lenient_enum(SBCollectionLandingPageType)] | None = (
+        Field(default=None)
     )
     landingPageUrl: str | None = Field(default=None, description="The URL associated to the landing page.")
 
@@ -961,7 +966,7 @@ class SBUpdateManualCollectionSettings(StrictModel):
 class SBUpdateProductCollectionLandingPage(StrictModel):
     landingPageAsins: SBUpdateLandingPageAsins | None = Field(default=None)
     landingPageType: (
-        Annotated[SBProductCollectionLandingPageType, lenient_enum(SBProductCollectionLandingPageType)] | None
+        Annotated[SBProductCollectionLandingPageType | str, lenient_enum(SBProductCollectionLandingPageType)] | None
     ) = Field(default=None)
     landingPageUrl: str | None = Field(
         default=None, description="The URL associated to the landing page. Read only if landingPageType is ASIN_LIST"
@@ -978,7 +983,7 @@ class SBUpdateProductCollectionSettings(StrictModel):
     creativePropertiesToOptimize: (
         list[
             Annotated[
-                SBProductCollectionCreativePropertiesToOptimize,
+                SBProductCollectionCreativePropertiesToOptimize | str,
                 lenient_enum(SBProductCollectionCreativePropertiesToOptimize),
             ]
         ]
@@ -1043,7 +1048,7 @@ class SBUpdateSharedCollectionSettings(StrictModel):
 
 class SBUpdateStoreSpotlightLandingPage(StrictModel):
     landingPageType: (
-        Annotated[SBStoreSpotlightLandingPageType, lenient_enum(SBStoreSpotlightLandingPageType)] | None
+        Annotated[SBStoreSpotlightLandingPageType | str, lenient_enum(SBStoreSpotlightLandingPageType)] | None
     ) = Field(default=None)
     landingPageUrl: str | None = Field(default=None, description="The URL of landing page where the ad directs.")
 
@@ -1064,7 +1069,8 @@ class SBUpdateStoreSpotlightSettings(StrictModel):
     creativePropertiesToOptimize: (
         list[
             Annotated[
-                SBStoreSpotlightCreativePropertiesToOptimize, lenient_enum(SBStoreSpotlightCreativePropertiesToOptimize)
+                SBStoreSpotlightCreativePropertiesToOptimize | str,
+                lenient_enum(SBStoreSpotlightCreativePropertiesToOptimize),
             ]
         ]
         | None
@@ -1088,7 +1094,7 @@ class SBUpdateStoreSpotlightSettings(StrictModel):
 
 
 class SBUpdateVideoLandingPage(StrictModel):
-    landingPageType: Annotated[SBVideoLandingPageType, lenient_enum(SBVideoLandingPageType)] | None = Field(
+    landingPageType: Annotated[SBVideoLandingPageType | str, lenient_enum(SBVideoLandingPageType)] | None = Field(
         default=None
     )
     landingPageUrl: str | None = Field(default=None, description="The URL of landing page where the ad directs.")

@@ -161,8 +161,8 @@ class DSPSupplierTargetingDaypartTimezoneType(StrEnum):
 
 
 class DSPAdvertisingDealPrice(StrictModel):
-    currencyCode: Annotated[DSPCurrencyCode, lenient_enum(DSPCurrencyCode)]
-    priceType: Annotated[DSPAdvertisingDealPriceType, lenient_enum(DSPAdvertisingDealPriceType)]
+    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
+    priceType: Annotated[DSPAdvertisingDealPriceType | str, lenient_enum(DSPAdvertisingDealPriceType)]
     value: float = Field(description="The monetary amount of the price in the given currency.")
 
 
@@ -239,8 +239,8 @@ class DSPAmazonMediaProposedDealExtensionOut(LenientModel):
 
 
 class DSPCreateAdvertisingDealPrice(StrictModel):
-    currencyCode: Annotated[DSPCurrencyCode, lenient_enum(DSPCurrencyCode)]
-    priceType: Annotated[DSPAdvertisingDealPriceType, lenient_enum(DSPAdvertisingDealPriceType)]
+    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
+    priceType: Annotated[DSPAdvertisingDealPriceType | str, lenient_enum(DSPAdvertisingDealPriceType)]
     value: float = Field(description="The monetary amount of the price in the given currency.")
 
 
@@ -264,7 +264,7 @@ class DSPCreateAdvertisingDealTerms(StrictModel):
 
 
 class DSPCreateMonetaryBudget(StrictModel):
-    currencyCode: Annotated[DSPCurrencyCode, lenient_enum(DSPCurrencyCode)]
+    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )
@@ -274,10 +274,11 @@ class DSPCreateMonetaryBudget(StrictModel):
 class DSPCreateSupplierDayPartTarget(StrictModel):
     """Supplier target based on time of day."""
 
-    dayOfWeek: Annotated[DSPDayOfWeek, lenient_enum(DSPDayOfWeek)]
+    dayOfWeek: Annotated[DSPDayOfWeek | str, lenient_enum(DSPDayOfWeek)]
     timeOfDay: DSPCreateTimeOfDay
     timeZoneType: (
-        Annotated[DSPSupplierTargetingDaypartTimezoneType, lenient_enum(DSPSupplierTargetingDaypartTimezoneType)] | None
+        Annotated[DSPSupplierTargetingDaypartTimezoneType | str, lenient_enum(DSPSupplierTargetingDaypartTimezoneType)]
+        | None
     ) = Field(default=None)
 
 
@@ -291,7 +292,7 @@ class DSPCreateSupplierProposedDealRevisionDescription(StrictModel):
         default=None, min_length=0, max_length=49, description="User provided notes for this proposed deal."
     )
     startDateTime: datetime | None = Field(default=None, description="The delivery start date.")
-    state: Annotated[DSPState, lenient_enum(DSPState)] | None = Field(default=None)
+    state: Annotated[DSPState | str, lenient_enum(DSPState)] | None = Field(default=None)
     stateReason: DSPCreateSupplierStateReason | None = Field(default=None)
     supplierProposalDestinationId: str | None = Field(
         default=None, description="The supplier proposal destination id for this deal."
@@ -299,7 +300,7 @@ class DSPCreateSupplierProposedDealRevisionDescription(StrictModel):
     supplierProposedDealExtension: DSPCreateSupplierProposedDealExtension | None = Field(default=None)
     supplierProposedDealId: str = Field(description="The unique identifier for the proposed deal to revise.")
     supplierProposedDealType: (
-        Annotated[DSPSupplierProposedDealType, lenient_enum(DSPSupplierProposedDealType)] | None
+        Annotated[DSPSupplierProposedDealType | str, lenient_enum(DSPSupplierProposedDealType)] | None
     ) = Field(default=None)
     targeting: list[DSPCreateSupplierTargetGroup] | None = Field(
         default=None, min_length=0, max_length=49, description="Supplier targeting configuration."
@@ -319,7 +320,7 @@ class DSPCreateSupplierTarget(StrictModel):
         description="Indicates whether the target is negative or not. Negative targeting allows advertisers to provide intent where they do not want to show ads. Please ensure that the supplier for this target supports negative targeting before setting to true. If this field is not present, then negative is assumed to be false (meaning that a target is inclusive by default).",
     )
     supplierTargetDetails: DSPCreateSupplierTargetDetails
-    supplierTargetType: Annotated[DSPSupplierTargetType, lenient_enum(DSPSupplierTargetType)]
+    supplierTargetType: Annotated[DSPSupplierTargetType | str, lenient_enum(DSPSupplierTargetType)]
 
 
 class DSPCreateSupplierTargetDetailsSupplierAudienceTarget(StrictModel):
@@ -425,7 +426,7 @@ class DSPCreateSupplierTargetGroup(StrictModel):
     groupDetails: DSPCreateSupplierGroupDetails | None = Field(default=None)
     groupName: str
     groupTargets: list[DSPCreateSupplierTarget] = Field(min_length=1, max_length=49)
-    groupType: Annotated[DSPSupplierGroupType, lenient_enum(DSPSupplierGroupType)] | None = Field(default=None)
+    groupType: Annotated[DSPSupplierGroupType | str, lenient_enum(DSPSupplierGroupType)] | None = Field(default=None)
 
 
 class DSPError(LenientModel):
@@ -440,7 +441,7 @@ class DSPErrorsIndex(LenientModel):
 
 
 class DSPMonetaryBudget(StrictModel):
-    currencyCode: Annotated[DSPCurrencyCode, lenient_enum(DSPCurrencyCode)]
+    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )
@@ -459,7 +460,7 @@ class DSPNotes(StrictModel):
     """Notes for an object with origin information."""
 
     note: str = Field(description="The note content.")
-    origin: Annotated[DSPNoteOrigin, lenient_enum(DSPNoteOrigin)]
+    origin: Annotated[DSPNoteOrigin | str, lenient_enum(DSPNoteOrigin)]
 
 
 class DSPNotesOut(LenientModel):
@@ -832,10 +833,11 @@ class DSPSupplierDayPartDayTargetOut(LenientModel):
 class DSPSupplierDayPartTarget(StrictModel):
     """Supplier target based on time of day."""
 
-    dayOfWeek: Annotated[DSPDayOfWeek, lenient_enum(DSPDayOfWeek)]
+    dayOfWeek: Annotated[DSPDayOfWeek | str, lenient_enum(DSPDayOfWeek)]
     timeOfDay: DSPTimeOfDay
     timeZoneType: (
-        Annotated[DSPSupplierTargetingDaypartTimezoneType, lenient_enum(DSPSupplierTargetingDaypartTimezoneType)] | None
+        Annotated[DSPSupplierTargetingDaypartTimezoneType | str, lenient_enum(DSPSupplierTargetingDaypartTimezoneType)]
+        | None
     ) = Field(default=None)
 
 
@@ -998,7 +1000,7 @@ class DSPSupplierProposedDealRevisionDescription(StrictModel):
         default=None, min_length=0, max_length=49, description="User provided notes for this proposed deal."
     )
     startDateTime: datetime | None = Field(default=None, description="The delivery start date.")
-    state: Annotated[DSPState, lenient_enum(DSPState)] | None = Field(default=None)
+    state: Annotated[DSPState | str, lenient_enum(DSPState)] | None = Field(default=None)
     stateReason: DSPSupplierStateReason | None = Field(default=None)
     supplierProposalDestinationId: str | None = Field(
         default=None, description="The supplier proposal destination id for this deal."
@@ -1006,7 +1008,7 @@ class DSPSupplierProposedDealRevisionDescription(StrictModel):
     supplierProposedDealExtension: DSPSupplierProposedDealExtension | None = Field(default=None)
     supplierProposedDealId: str = Field(description="The unique identifier for the proposed deal to revise.")
     supplierProposedDealType: (
-        Annotated[DSPSupplierProposedDealType, lenient_enum(DSPSupplierProposedDealType)] | None
+        Annotated[DSPSupplierProposedDealType | str, lenient_enum(DSPSupplierProposedDealType)] | None
     ) = Field(default=None)
     targeting: list[DSPSupplierTargetGroup] | None = Field(
         default=None, min_length=0, max_length=49, description="Supplier targeting configuration."
@@ -1060,7 +1062,7 @@ class DSPSupplierProposedDealRevisionUpdate(StrictModel):
 class DSPSupplierStateReason(StrictModel):
     """Additional context for a resource's lifecycle state."""
 
-    archiveReason: Annotated[DSPSupplierArchiveReason, lenient_enum(DSPSupplierArchiveReason)] | None = Field(
+    archiveReason: Annotated[DSPSupplierArchiveReason | str, lenient_enum(DSPSupplierArchiveReason)] | None = Field(
         default=None
     )
     description: str | None = Field(
@@ -1087,7 +1089,7 @@ class DSPSupplierTarget(StrictModel):
         description="Indicates whether the target is negative or not. Negative targeting allows advertisers to provide intent where they do not want to show ads. Please ensure that the supplier for this target supports negative targeting before setting to true. If this field is not present, then negative is assumed to be false (meaning that a target is inclusive by default).",
     )
     supplierTargetDetails: DSPSupplierTargetDetails
-    supplierTargetType: Annotated[DSPSupplierTargetType, lenient_enum(DSPSupplierTargetType)]
+    supplierTargetType: Annotated[DSPSupplierTargetType | str, lenient_enum(DSPSupplierTargetType)]
 
 
 class DSPSupplierTargetDetailsSupplierAppTarget(StrictModel):
@@ -1292,7 +1294,7 @@ class DSPSupplierTargetGroup(StrictModel):
     groupDetails: DSPSupplierGroupDetails | None = Field(default=None)
     groupName: str
     groupTargets: list[DSPSupplierTarget] = Field(min_length=1, max_length=49)
-    groupType: Annotated[DSPSupplierGroupType, lenient_enum(DSPSupplierGroupType)] | None = Field(default=None)
+    groupType: Annotated[DSPSupplierGroupType | str, lenient_enum(DSPSupplierGroupType)] | None = Field(default=None)
 
 
 class DSPSupplierTargetGroupOut(LenientModel):

@@ -441,7 +441,7 @@ class DSPAdGroupAdGroupIdFilter(StrictModel):
 
 
 class DSPAdGroupAdProductFilter(StrictModel):
-    include: list[Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class DSPAdGroupBid(LenientModel):
@@ -467,7 +467,7 @@ class DSPAdGroupCampaignIdFilter(StrictModel):
 
 
 class DSPAdGroupCreate(StrictModel):
-    adProduct: Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)]
+    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)]
     advertisedProductCategoryIds: list[str] = Field(
         min_length=1,
         max_length=500,
@@ -478,7 +478,7 @@ class DSPAdGroupCreate(StrictModel):
         default=None, min_length=0, max_length=3, description="An object containing budget details for the ad group."
     )
     campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
-    creativeRotationType: Annotated[DSPCreativeRotationType, lenient_enum(DSPCreativeRotationType)]
+    creativeRotationType: Annotated[DSPCreativeRotationType | str, lenient_enum(DSPCreativeRotationType)]
     endDateTime: datetime = Field(description="The end date time for the ad group.")
     fees: list[DSPCreateFee] | None = Field(
         default=None, min_length=0, max_length=7, description="The fees associated with the ad group."
@@ -486,7 +486,7 @@ class DSPAdGroupCreate(StrictModel):
     frequencies: list[DSPCreateFrequency] | None = Field(
         default=None, min_length=0, max_length=3, description="An object containing frequency details for the ad group."
     )
-    inventoryType: Annotated[DSPInventoryType, lenient_enum(DSPInventoryType)]
+    inventoryType: Annotated[DSPInventoryType | str, lenient_enum(DSPInventoryType)]
     name: str = Field(description="The name of the ad group.")
     optimization: DSPCreateOptimization
     pacing: DSPCreatePacing
@@ -494,7 +494,7 @@ class DSPAdGroupCreate(StrictModel):
         default=None, description="The purchase order number associated with the ad group."
     )
     startDateTime: datetime = Field(description="The start date time for the ad group.")
-    state: Annotated[DSPCreateState, lenient_enum(DSPCreateState)]
+    state: Annotated[DSPCreateState | str, lenient_enum(DSPCreateState)]
     tags: list[DSPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -515,7 +515,7 @@ class DSPAdGroupMultiStatusSuccess(LenientModel):
 
 
 class DSPAdGroupStateFilter(StrictModel):
-    include: list[Annotated[DSPState, lenient_enum(DSPState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[DSPState | str, lenient_enum(DSPState)]] = Field(min_length=1, max_length=3)
 
 
 class DSPAdGroupSuccessResponse(LenientModel):
@@ -535,8 +535,8 @@ class DSPAdGroupUpdate(StrictModel):
     budgets: list[DSPCreateBudget] | None = Field(
         default=None, min_length=0, max_length=3, description="An object containing budget details for the ad group."
     )
-    creativeRotationType: Annotated[DSPCreativeRotationType, lenient_enum(DSPCreativeRotationType)] | None = Field(
-        default=None
+    creativeRotationType: Annotated[DSPCreativeRotationType | str, lenient_enum(DSPCreativeRotationType)] | None = (
+        Field(default=None)
     )
     endDateTime: datetime | None = Field(default=None, description="The end date time for the ad group.")
     fees: list[DSPCreateFee] | None = Field(
@@ -552,7 +552,7 @@ class DSPAdGroupUpdate(StrictModel):
         default=None, description="The purchase order number associated with the ad group."
     )
     startDateTime: datetime | None = Field(default=None, description="The start date time for the ad group.")
-    state: Annotated[DSPUpdateState, lenient_enum(DSPUpdateState)] | None = Field(default=None)
+    state: Annotated[DSPUpdateState | str, lenient_enum(DSPUpdateState)] | None = Field(default=None)
     tags: list[DSPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -588,7 +588,9 @@ class DSPCreateAdGroupBid(StrictModel):
 
 
 class DSPCreateAdGroupBudgetSettings(StrictModel):
-    budgetAllocation: Annotated[DSPBudgetAllocation, lenient_enum(DSPBudgetAllocation)] | None = Field(default=None)
+    budgetAllocation: Annotated[DSPBudgetAllocation | str, lenient_enum(DSPBudgetAllocation)] | None = Field(
+        default=None
+    )
     dailyMinSpendValue: float | None = Field(
         default=None, description="Denotes the daily minimum spend on the ad group in local currency."
     )
@@ -602,13 +604,13 @@ class DSPCreateAmazonViewability(StrictModel):
     includeUnmeasurableImpressions: bool = Field(
         description="Must be false if viewabilityTier is set to ALL_TIERS. You can set to true to include impressions that can not be measured when a viewabilityTier other than ALL_TIERS is selected. We recommend setting to false if high viewability is your goal."
     )
-    viewabilityTier: Annotated[DSPViewabilityTier, lenient_enum(DSPViewabilityTier)]
+    viewabilityTier: Annotated[DSPViewabilityTier | str, lenient_enum(DSPViewabilityTier)]
 
 
 class DSPCreateBudget(StrictModel):
-    budgetType: Annotated[DSPBudgetType, lenient_enum(DSPBudgetType)]
+    budgetType: Annotated[DSPBudgetType | str, lenient_enum(DSPBudgetType)]
     budgetValue: DSPCreateBudgetValue
-    recurrenceTimePeriod: Annotated[DSPRecurrence, lenient_enum(DSPRecurrence)]
+    recurrenceTimePeriod: Annotated[DSPRecurrence | str, lenient_enum(DSPRecurrence)]
 
 
 class DSPCreateBudgetValue(StrictModel):
@@ -619,11 +621,11 @@ class DSPCreateFee(StrictModel):
     addToBudgetSpentAmount: bool = Field(
         description="Applies only to THIRD_PARTY_APPLIED_FEE. When set to true, third-party applied fees are are added on top of the total ad group budget spent amount in reports."
     )
-    feeType: Annotated[DSPFeeType, lenient_enum(DSPFeeType)]
+    feeType: Annotated[DSPFeeType | str, lenient_enum(DSPFeeType)]
     feeValue: float = Field(
         description="The fee amount expressed as the feeValueType. AMAZON_AUDIENCE_FEE AND THIRD_PARTY_AUDIENCE_FEE is in the currency of the marketplace. All other CPM based fees are in the currency of the advertiser. For percentages, 100 represents 100%."
     )
-    thirdPartyProvider: Annotated[DSPFeesThirdPartyProvider, lenient_enum(DSPFeesThirdPartyProvider)]
+    thirdPartyProvider: Annotated[DSPFeesThirdPartyProvider | str, lenient_enum(DSPFeesThirdPartyProvider)]
 
 
 class DSPCreateFrequency(StrictModel):
@@ -632,11 +634,11 @@ class DSPCreateFrequency(StrictModel):
         le=99000,
         description="The maximum number of times an EventType is served per user. For ADSP ad group, maximum supported value is 500.",
     )
-    frequencyTargetingSetting: Annotated[DSPFrequencyTargetingSetting, lenient_enum(DSPFrequencyTargetingSetting)]
+    frequencyTargetingSetting: Annotated[DSPFrequencyTargetingSetting | str, lenient_enum(DSPFrequencyTargetingSetting)]
     timeCount: int = Field(
         ge=1, le=60, description="The value associated with the time and unit of time for this frequency cap."
     )
-    timeUnit: Annotated[DSPTimeUnit, lenient_enum(DSPTimeUnit)]
+    timeUnit: Annotated[DSPTimeUnit | str, lenient_enum(DSPTimeUnit)]
 
 
 class DSPCreateMonetaryBudget(StrictModel):
@@ -648,36 +650,36 @@ class DSPCreateMonetaryBudgetValue(StrictModel):
 
 
 class DSPCreateOptimization(StrictModel):
-    bidStrategy: Annotated[DSPBidStrategy, lenient_enum(DSPBidStrategy)]
+    bidStrategy: Annotated[DSPBidStrategy | str, lenient_enum(DSPBidStrategy)]
     budgetSettings: DSPCreateAdGroupBudgetSettings | None = Field(default=None)
 
 
 class DSPCreatePacing(StrictModel):
-    deliveryProfile: Annotated[DSPDeliveryProfile, lenient_enum(DSPDeliveryProfile)]
+    deliveryProfile: Annotated[DSPDeliveryProfile | str, lenient_enum(DSPDeliveryProfile)]
 
 
 class DSPCreateTargetingSettings(StrictModel):
     amazonViewability: DSPCreateAmazonViewability
     automatedTargetingTactic: (
-        Annotated[DSPAutomatedTargetingTactic, lenient_enum(DSPAutomatedTargetingTactic)] | None
+        Annotated[DSPAutomatedTargetingTactic | str, lenient_enum(DSPAutomatedTargetingTactic)] | None
     ) = Field(default=None)
     defaultAudienceTargetingMatchType: (
-        Annotated[DSPDefaultAudienceTargetingMatchType, lenient_enum(DSPDefaultAudienceTargetingMatchType)] | None
+        Annotated[DSPDefaultAudienceTargetingMatchType | str, lenient_enum(DSPDefaultAudienceTargetingMatchType)] | None
     ) = Field(default=None)
     enableLanguageTargeting: bool | None = Field(
         default=None,
         description="If set to true, creatives will only target supply where the content language matches the creative language.",
     )
     tacticsConvertersExclusionType: (
-        Annotated[DSPTacticsConvertersExclusionType, lenient_enum(DSPTacticsConvertersExclusionType)] | None
+        Annotated[DSPTacticsConvertersExclusionType | str, lenient_enum(DSPTacticsConvertersExclusionType)] | None
     ) = Field(default=None)
     targetedPGDealId: str | None = Field(
         default=None,
         description="DealId to be targeted by the Ad Group being created. If you are creating an ad group targeting a programmatic guaranteed deal, the deal can be provided here.",
     )
-    timeZoneType: Annotated[DSPTimeZoneType, lenient_enum(DSPTimeZoneType)]
-    userLocationSignal: Annotated[DSPUserLocationSignal, lenient_enum(DSPUserLocationSignal)]
-    videoCompletionTier: Annotated[DSPVideoCompletionTier, lenient_enum(DSPVideoCompletionTier)] | None = Field(
+    timeZoneType: Annotated[DSPTimeZoneType | str, lenient_enum(DSPTimeZoneType)]
+    userLocationSignal: Annotated[DSPUserLocationSignal | str, lenient_enum(DSPUserLocationSignal)]
+    videoCompletionTier: Annotated[DSPVideoCompletionTier | str, lenient_enum(DSPVideoCompletionTier)] | None = Field(
         default=None
     )
 
@@ -796,7 +798,9 @@ class DSPUpdateAdGroupBid(StrictModel):
 
 
 class DSPUpdateAdGroupBudgetSettings(StrictModel):
-    budgetAllocation: Annotated[DSPBudgetAllocation, lenient_enum(DSPBudgetAllocation)] | None = Field(default=None)
+    budgetAllocation: Annotated[DSPBudgetAllocation | str, lenient_enum(DSPBudgetAllocation)] | None = Field(
+        default=None
+    )
     dailyMinSpendValue: float | None = Field(
         default=None, description="Denotes the daily minimum spend on the ad group in local currency."
     )
@@ -811,39 +815,39 @@ class DSPUpdateAmazonViewability(StrictModel):
         default=None,
         description="Must be false if viewabilityTier is set to ALL_TIERS. You can set to true to include impressions that can not be measured when a viewabilityTier other than ALL_TIERS is selected. We recommend setting to false if high viewability is your goal.",
     )
-    viewabilityTier: Annotated[DSPViewabilityTier, lenient_enum(DSPViewabilityTier)] | None = Field(default=None)
+    viewabilityTier: Annotated[DSPViewabilityTier | str, lenient_enum(DSPViewabilityTier)] | None = Field(default=None)
 
 
 class DSPUpdateOptimization(StrictModel):
-    bidStrategy: Annotated[DSPBidStrategy, lenient_enum(DSPBidStrategy)] | None = Field(default=None)
+    bidStrategy: Annotated[DSPBidStrategy | str, lenient_enum(DSPBidStrategy)] | None = Field(default=None)
     budgetSettings: DSPUpdateAdGroupBudgetSettings | None = Field(default=None)
 
 
 class DSPUpdatePacing(StrictModel):
-    deliveryProfile: Annotated[DSPDeliveryProfile, lenient_enum(DSPDeliveryProfile)] | None = Field(default=None)
+    deliveryProfile: Annotated[DSPDeliveryProfile | str, lenient_enum(DSPDeliveryProfile)] | None = Field(default=None)
 
 
 class DSPUpdateTargetingSettings(StrictModel):
     amazonViewability: DSPUpdateAmazonViewability | None = Field(default=None)
     defaultAudienceTargetingMatchType: (
-        Annotated[DSPDefaultAudienceTargetingMatchType, lenient_enum(DSPDefaultAudienceTargetingMatchType)] | None
+        Annotated[DSPDefaultAudienceTargetingMatchType | str, lenient_enum(DSPDefaultAudienceTargetingMatchType)] | None
     ) = Field(default=None)
     enableLanguageTargeting: bool | None = Field(
         default=None,
         description="If set to true, creatives will only target supply where the content language matches the creative language.",
     )
     tacticsConvertersExclusionType: (
-        Annotated[DSPTacticsConvertersExclusionType, lenient_enum(DSPTacticsConvertersExclusionType)] | None
+        Annotated[DSPTacticsConvertersExclusionType | str, lenient_enum(DSPTacticsConvertersExclusionType)] | None
     ) = Field(default=None)
     targetedPGDealId: str | None = Field(
         default=None,
         description="DealId to be targeted by the Ad Group being created. If you are creating an ad group targeting a programmatic guaranteed deal, the deal can be provided here.",
     )
-    timeZoneType: Annotated[DSPTimeZoneType, lenient_enum(DSPTimeZoneType)] | None = Field(default=None)
-    userLocationSignal: Annotated[DSPUserLocationSignal, lenient_enum(DSPUserLocationSignal)] | None = Field(
+    timeZoneType: Annotated[DSPTimeZoneType | str, lenient_enum(DSPTimeZoneType)] | None = Field(default=None)
+    userLocationSignal: Annotated[DSPUserLocationSignal | str, lenient_enum(DSPUserLocationSignal)] | None = Field(
         default=None
     )
-    videoCompletionTier: Annotated[DSPVideoCompletionTier, lenient_enum(DSPVideoCompletionTier)] | None = Field(
+    videoCompletionTier: Annotated[DSPVideoCompletionTier | str, lenient_enum(DSPVideoCompletionTier)] | None = Field(
         default=None
     )
 

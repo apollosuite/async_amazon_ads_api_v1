@@ -109,24 +109,24 @@ class STCampaign(LenientModel):
 
 
 class STCampaignAdProductFilter(StrictModel):
-    include: list[Annotated[STAdProduct, lenient_enum(STAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[STAdProduct | str, lenient_enum(STAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class STCampaignCreate(StrictModel):
-    adProduct: Annotated[STAdProduct, lenient_enum(STAdProduct)]
+    adProduct: Annotated[STAdProduct | str, lenient_enum(STAdProduct)]
     budgets: list[STCreateBudget] = Field(
         min_length=1,
         max_length=1,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
-    countries: list[Annotated[STCountryCode, lenient_enum(STCountryCode)]] | None = Field(
+    countries: list[Annotated[STCountryCode | str, lenient_enum(STCountryCode)]] | None = Field(
         default=None,
         min_length=0,
         max_length=249,
         description="This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.",
     )
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
-    marketplaces: list[Annotated[STMarketplace, lenient_enum(STMarketplace)]] | None = Field(
+    marketplaces: list[Annotated[STMarketplace | str, lenient_enum(STMarketplace)]] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
@@ -134,7 +134,7 @@ class STCampaignCreate(StrictModel):
     )
     name: str = Field(description="The name of the campaign.")
     startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: Annotated[STCreateState, lenient_enum(STCreateState)]
+    state: Annotated[STCreateState | str, lenient_enum(STCreateState)]
 
 
 class STCampaignMultiStatusResponse(LenientModel):
@@ -148,7 +148,7 @@ class STCampaignMultiStatusSuccess(LenientModel):
 
 
 class STCampaignStateFilter(StrictModel):
-    include: list[Annotated[STState, lenient_enum(STState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[STState | str, lenient_enum(STState)]] = Field(min_length=1, max_length=3)
 
 
 class STCampaignSuccessResponse(LenientModel):
@@ -157,7 +157,7 @@ class STCampaignSuccessResponse(LenientModel):
 
 
 class STCampaignUpdate(StrictModel):
-    adProduct: Annotated[STAdProduct, lenient_enum(STAdProduct)] | None = Field(default=None)
+    adProduct: Annotated[STAdProduct | str, lenient_enum(STAdProduct)] | None = Field(default=None)
     budgets: list[STCreateBudget] | None = Field(
         default=None,
         min_length=1,
@@ -165,14 +165,14 @@ class STCampaignUpdate(StrictModel):
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
     campaignId: str = Field(description="A unique identifier for a campaign.")
-    countries: list[Annotated[STCountryCode, lenient_enum(STCountryCode)]] | None = Field(
+    countries: list[Annotated[STCountryCode | str, lenient_enum(STCountryCode)]] | None = Field(
         default=None,
         min_length=0,
         max_length=249,
         description="This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.",
     )
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
-    marketplaces: list[Annotated[STMarketplace, lenient_enum(STMarketplace)]] | None = Field(
+    marketplaces: list[Annotated[STMarketplace | str, lenient_enum(STMarketplace)]] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
@@ -180,13 +180,13 @@ class STCampaignUpdate(StrictModel):
     )
     name: str | None = Field(default=None, description="The name of the campaign.")
     startDateTime: datetime | None = Field(default=None, description="The start date time for the campaign.")
-    state: Annotated[STUpdateState, lenient_enum(STUpdateState)] | None = Field(default=None)
+    state: Annotated[STUpdateState | str, lenient_enum(STUpdateState)] | None = Field(default=None)
 
 
 class STCreateBudget(StrictModel):
-    budgetType: Annotated[STBudgetType, lenient_enum(STBudgetType)]
+    budgetType: Annotated[STBudgetType | str, lenient_enum(STBudgetType)]
     budgetValue: STCreateBudgetValue
-    recurrenceTimePeriod: Annotated[STRecurrence, lenient_enum(STRecurrence)]
+    recurrenceTimePeriod: Annotated[STRecurrence | str, lenient_enum(STRecurrence)]
 
 
 class STCreateBudgetValue(StrictModel):

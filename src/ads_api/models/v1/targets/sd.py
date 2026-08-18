@@ -118,11 +118,11 @@ class SDCreateKeywordTarget(StrictModel):
     keyword: str = Field(
         description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints)."
     )
-    matchType: Annotated[SDKeywordMatchType, lenient_enum(SDKeywordMatchType)]
+    matchType: Annotated[SDKeywordMatchType | str, lenient_enum(SDKeywordMatchType)]
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser."
     )
-    nativeLanguageLocale: Annotated[SDLanguageLocale, lenient_enum(SDLanguageLocale)] | None = Field(default=None)
+    nativeLanguageLocale: Annotated[SDLanguageLocale | str, lenient_enum(SDLanguageLocale)] | None = Field(default=None)
 
 
 class SDCreateLocationTarget(StrictModel):
@@ -145,9 +145,9 @@ class SDCreateProductAudienceTarget(StrictModel):
     """Target customers who have viewed or purchased a certain product within a specified lookback window."""
 
     asin: SDCreateMarketplaceStringValue
-    event: Annotated[SDTargetEvent, lenient_enum(SDTargetEvent)]
-    lookback: Annotated[SDLookback, lenient_enum(SDLookback)]
-    matchType: Annotated[SDProductAudienceMatchType, lenient_enum(SDProductAudienceMatchType)]
+    event: Annotated[SDTargetEvent | str, lenient_enum(SDTargetEvent)]
+    lookback: Annotated[SDLookback | str, lenient_enum(SDLookback)]
+    matchType: Annotated[SDProductAudienceMatchType | str, lenient_enum(SDProductAudienceMatchType)]
 
 
 class SDCreateProductCategoryRefinement(StrictModel):
@@ -191,9 +191,9 @@ class SDCreateProductCategoryTarget(StrictModel):
 class SDCreateProductTarget(StrictModel):
     """Targets a specific product."""
 
-    matchType: Annotated[SDProductMatchType, lenient_enum(SDProductMatchType)]
+    matchType: Annotated[SDProductMatchType | str, lenient_enum(SDProductMatchType)]
     product: SDCreateProductValue
-    productIdType: Annotated[SDProductIdType, lenient_enum(SDProductIdType)]
+    productIdType: Annotated[SDProductIdType | str, lenient_enum(SDProductIdType)]
 
 
 class SDCreateProductValue(StrictModel):
@@ -249,7 +249,7 @@ class SDCreateTargetRequest(StrictModel):
 class SDCreateThemeTarget(StrictModel):
     """Theme targets let advertisers select high-performing targets based on a common theme."""
 
-    matchType: Annotated[SDThemeMatchType, lenient_enum(SDThemeMatchType)]
+    matchType: Annotated[SDThemeMatchType | str, lenient_enum(SDThemeMatchType)]
 
 
 class SDDeleteTargetRequest(StrictModel):
@@ -384,7 +384,7 @@ class SDTargetAdGroupIdFilter(StrictModel):
 
 
 class SDTargetAdProductFilter(StrictModel):
-    include: list[Annotated[SDAdProduct, lenient_enum(SDAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class SDTargetBid(LenientModel):
@@ -401,16 +401,16 @@ class SDTargetCreate(StrictModel):
         default=None,
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets.",
     )
-    adProduct: Annotated[SDAdProduct, lenient_enum(SDAdProduct)]
+    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
     bid: SDCreateTargetBid | None = Field(default=None)
     campaignId: str | None = Field(
         default=None,
         description="A unique identifier for the campaign associated with the target. Only used for campaign-level targets.",
     )
     negative: bool = Field(description="Indicates whether the target is negative or not.")
-    state: Annotated[SDCreateState, lenient_enum(SDCreateState)]
+    state: Annotated[SDCreateState | str, lenient_enum(SDCreateState)]
     targetDetails: SDCreateTargetDetails
-    targetType: Annotated[SDTargetType, lenient_enum(SDTargetType)]
+    targetType: Annotated[SDTargetType | str, lenient_enum(SDTargetType)]
 
 
 class SDTargetDetailsAudienceTarget(LenientModel):
@@ -459,7 +459,7 @@ class SDTargetMultiStatusSuccess(LenientModel):
 
 
 class SDTargetStateFilter(StrictModel):
-    include: list[Annotated[SDState, lenient_enum(SDState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SDState | str, lenient_enum(SDState)]] = Field(min_length=1, max_length=3)
 
 
 class SDTargetSuccessResponse(LenientModel):
@@ -473,7 +473,7 @@ class SDTargetTargetIdFilter(StrictModel):
 
 class SDTargetUpdate(StrictModel):
     bid: SDUpdateTargetBid | None = Field(default=None)
-    state: Annotated[SDUpdateState, lenient_enum(SDUpdateState)] | None = Field(default=None)
+    state: Annotated[SDUpdateState | str, lenient_enum(SDUpdateState)] | None = Field(default=None)
     targetId: str = Field(description="A unique identifier for the target.")
 
 

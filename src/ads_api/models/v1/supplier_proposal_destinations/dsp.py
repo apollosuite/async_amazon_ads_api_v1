@@ -37,6 +37,9 @@ class DSPCountryCode(StrEnum):
 class DSPSupplierProposalDestinationSortOptionsFields(StrEnum):
     """
     Specify which field to order by.
+    | Field Name | Supported Ordering |
+    | --- | --- |
+    | supplierProposalDestinationName | ASCENDING,DESCENDING |
     """
 
     supplierProposalDestinationName = "supplierProposalDestinationName"
@@ -68,9 +71,10 @@ class DSPSupplierProposalDestination(LenientModel):
 
 class DSPSupplierProposalDestinationSortOption(StrictModel):
     by: Annotated[
-        DSPSupplierProposalDestinationSortOptionsFields, lenient_enum(DSPSupplierProposalDestinationSortOptionsFields)
+        DSPSupplierProposalDestinationSortOptionsFields | str,
+        lenient_enum(DSPSupplierProposalDestinationSortOptionsFields),
     ]
-    direction: Annotated[DSPSortDirection, lenient_enum(DSPSortDirection)] | None = Field(default=None)
+    direction: Annotated[DSPSortDirection | str, lenient_enum(DSPSortDirection)] | None = Field(default=None)
 
 
 class DSPSupplierProposalDestinationSuccessResponse(LenientModel):

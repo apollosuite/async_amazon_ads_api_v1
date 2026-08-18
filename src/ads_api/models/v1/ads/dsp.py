@@ -503,21 +503,21 @@ class DSPAdAdIdFilter(StrictModel):
 
 
 class DSPAdAdProductFilter(StrictModel):
-    include: list[Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class DSPAdCreate(StrictModel):
-    adProduct: Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)]
-    adType: Annotated[DSPAdType, lenient_enum(DSPAdType)]
+    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)]
+    adType: Annotated[DSPAdType | str, lenient_enum(DSPAdType)]
     creative: DSPCreateCreative
-    marketplaces: list[Annotated[DSPMarketplace, lenient_enum(DSPMarketplace)]] | None = Field(
+    marketplaces: list[Annotated[DSPMarketplace | str, lenient_enum(DSPMarketplace)]] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
     name: str = Field(description="The name of the ad.")
-    state: Annotated[DSPCreateState, lenient_enum(DSPCreateState)]
+    state: Annotated[DSPCreateState | str, lenient_enum(DSPCreateState)]
     tags: list[DSPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -544,14 +544,14 @@ class DSPAdSuccessResponse(LenientModel):
 class DSPAdUpdate(StrictModel):
     adId: str = Field(description="The identifier of the ad.")
     creative: DSPUpdateCreative | None = Field(default=None)
-    marketplaces: list[Annotated[DSPMarketplace, lenient_enum(DSPMarketplace)]] | None = Field(
+    marketplaces: list[Annotated[DSPMarketplace | str, lenient_enum(DSPMarketplace)]] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
     name: str | None = Field(default=None, description="The name of the ad.")
-    state: Annotated[DSPUpdateState, lenient_enum(DSPUpdateState)] | None = Field(default=None)
+    state: Annotated[DSPUpdateState | str, lenient_enum(DSPUpdateState)] | None = Field(default=None)
     tags: list[DSPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -747,12 +747,12 @@ class DSPCreateAdRequest(StrictModel):
 
 
 class DSPCreateAddToCartVideoCallToActionSettings(StrictModel):
-    position: Annotated[DSPVideoCallToActionPosition, lenient_enum(DSPVideoCallToActionPosition)]
+    position: Annotated[DSPVideoCallToActionPosition | str, lenient_enum(DSPVideoCallToActionPosition)]
 
 
 class DSPCreateAdvertisedProducts(StrictModel):
     productId: str = Field(description="The identifier of the advertised product.")
-    productIdType: Annotated[DSPProductIdType, lenient_enum(DSPProductIdType)]
+    productIdType: Annotated[DSPProductIdType | str, lenient_enum(DSPProductIdType)]
 
 
 class DSPCreateAssetBasedCreativeCallToAction(StrictModel):
@@ -763,10 +763,12 @@ class DSPCreateAssetBasedCreativeCallToActionSettings(StrictModel):
     """A CTA that directs a customer to a provided url."""
 
     callToActionType: (
-        list[Annotated[DSPAssetBasedCreativeCallToActionType, lenient_enum(DSPAssetBasedCreativeCallToActionType)]]
+        list[
+            Annotated[DSPAssetBasedCreativeCallToActionType | str, lenient_enum(DSPAssetBasedCreativeCallToActionType)]
+        ]
         | None
     ) = Field(default=None, min_length=0, max_length=5, description="Type of CallToAction for AssetBasedCreative.")
-    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior, lenient_enum(DSPDeepLinkingBehavior)] | None = Field(
+    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior | str, lenient_enum(DSPDeepLinkingBehavior)] | None = Field(
         default=None
     )
     url: str = Field(description="The application url that customers are directed to.")
@@ -806,18 +808,18 @@ class DSPCreateAssetBasedCreativeSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    inventoryTypes: list[Annotated[DSPComponentInventoryType, lenient_enum(DSPComponentInventoryType)]] = Field(
+    inventoryTypes: list[Annotated[DSPComponentInventoryType | str, lenient_enum(DSPComponentInventoryType)]] = Field(
         min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)]
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)]
     logos: list[DSPCreateImage] | None = Field(
         default=None,
         min_length=0,
         max_length=5,
         description="The logos to use for the Asset Based Creative experience.",
     )
-    optimizationGoalKpi: Annotated[DSPCreativeOptimizationGoalKpi, lenient_enum(DSPCreativeOptimizationGoalKpi)]
-    responsiveSizingBehavior: Annotated[DSPResponsiveSizingBehavior, lenient_enum(DSPResponsiveSizingBehavior)]
+    optimizationGoalKpi: Annotated[DSPCreativeOptimizationGoalKpi | str, lenient_enum(DSPCreativeOptimizationGoalKpi)]
+    responsiveSizingBehavior: Annotated[DSPResponsiveSizingBehavior | str, lenient_enum(DSPResponsiveSizingBehavior)]
     squareImages: list[DSPCreateImage] = Field(min_length=1, max_length=5, description="The square image(s) to use.")
     tallImages: list[DSPCreateImage] = Field(min_length=1, max_length=5, description="The tall image(s) to use.")
     wideImages: list[DSPCreateImage] = Field(min_length=1, max_length=5, description="The wide image(s) to use.")
@@ -844,9 +846,9 @@ class DSPCreateBrandStoreCallToActionSettings(StrictModel):
     """A CTA that directs a customer to a provided url."""
 
     callToActionType: (
-        list[Annotated[DSPBrandStoreCallToActionType, lenient_enum(DSPBrandStoreCallToActionType)]] | None
+        list[Annotated[DSPBrandStoreCallToActionType | str, lenient_enum(DSPBrandStoreCallToActionType)]] | None
     ) = Field(default=None, min_length=0, max_length=5, description="Type of CallToAction for BrandStore.")
-    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior, lenient_enum(DSPDeepLinkingBehavior)] | None = Field(
+    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior | str, lenient_enum(DSPDeepLinkingBehavior)] | None = Field(
         default=None
     )
     url: str = Field(description="The application url that customers are directed to.")
@@ -885,13 +887,13 @@ class DSPCreateBrandStoreSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    inventoryTypes: list[Annotated[DSPComponentInventoryType, lenient_enum(DSPComponentInventoryType)]] = Field(
+    inventoryTypes: list[Annotated[DSPComponentInventoryType | str, lenient_enum(DSPComponentInventoryType)]] = Field(
         min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)]
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)]
     logos: DSPCreateImage | None = Field(default=None)
-    optimizationGoalKpi: Annotated[DSPCreativeOptimizationGoalKpi, lenient_enum(DSPCreativeOptimizationGoalKpi)]
-    responsiveSizingBehavior: Annotated[DSPResponsiveSizingBehavior, lenient_enum(DSPResponsiveSizingBehavior)]
+    optimizationGoalKpi: Annotated[DSPCreativeOptimizationGoalKpi | str, lenient_enum(DSPCreativeOptimizationGoalKpi)]
+    responsiveSizingBehavior: Annotated[DSPResponsiveSizingBehavior | str, lenient_enum(DSPResponsiveSizingBehavior)]
     squareImages: list[DSPCreateImage] = Field(min_length=1, max_length=5, description="The square image(s) to use.")
     tallImages: list[DSPCreateImage] = Field(min_length=1, max_length=5, description="The tall image(s) to use.")
     wideImages: list[DSPCreateImage] = Field(min_length=1, max_length=5, description="The wide image(s) to use.")
@@ -900,7 +902,7 @@ class DSPCreateBrandStoreSettings(StrictModel):
 class DSPCreateClickToAppDisplayCallToActionSettings(StrictModel):
     """A CTA that directs a customer to a provided url."""
 
-    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior, lenient_enum(DSPDeepLinkingBehavior)]
+    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior | str, lenient_enum(DSPDeepLinkingBehavior)]
     url: str = Field(description="The app that customers are directed to.")
 
 
@@ -911,12 +913,12 @@ class DSPCreateClickToUrlAudioCallToActionSettings(StrictModel):
 class DSPCreateClickToUrlDisplayCallToActionSettings(StrictModel):
     """A CTA that directs a customer to a provided url."""
 
-    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior, lenient_enum(DSPDeepLinkingBehavior)]
+    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior | str, lenient_enum(DSPDeepLinkingBehavior)]
     url: str = Field(description="The application url that customers are directed to.")
 
 
 class DSPCreateClickToUrlVideoCallToActionSettings(StrictModel):
-    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior, lenient_enum(DSPDeepLinkingBehavior)]
+    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior | str, lenient_enum(DSPDeepLinkingBehavior)]
     url: str = Field(description="The url to redirect the user via the video CallToAction.")
 
 
@@ -986,7 +988,7 @@ class DSPCreateImage(StrictModel):
 
 
 class DSPCreateLearnMoreVideoCallToActionSettings(StrictModel):
-    position: Annotated[DSPVideoCallToActionPosition, lenient_enum(DSPVideoCallToActionPosition)]
+    position: Annotated[DSPVideoCallToActionPosition | str, lenient_enum(DSPVideoCallToActionPosition)]
     url: str = Field(description="The url to drive users to learn more via the video CallToAction.")
 
 
@@ -1006,7 +1008,7 @@ class DSPCreateOnlineVideoSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)]
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)]
     products: DSPCreateAdvertisedProducts | None = Field(default=None)
     videos: DSPCreateVideo
 
@@ -1021,7 +1023,7 @@ class DSPCreateResponsiveEcommerceSettings(StrictModel):
     creativePropertiesToOptimize: (
         list[
             Annotated[
-                DSPResponsiveEcommerceCreativePropertiesToOptimize,
+                DSPResponsiveEcommerceCreativePropertiesToOptimize | str,
                 lenient_enum(DSPResponsiveEcommerceCreativePropertiesToOptimize),
             ]
         ]
@@ -1050,25 +1052,28 @@ class DSPCreateResponsiveEcommerceSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    inventoryTypes: list[Annotated[DSPComponentInventoryType, lenient_enum(DSPComponentInventoryType)]] = Field(
+    inventoryTypes: list[Annotated[DSPComponentInventoryType | str, lenient_enum(DSPComponentInventoryType)]] = Field(
         min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)]
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)]
     logos: DSPCreateImage | None = Field(default=None)
-    optimizationGoalKpi: Annotated[DSPCreativeOptimizationGoalKpi, lenient_enum(DSPCreativeOptimizationGoalKpi)]
+    optimizationGoalKpi: Annotated[DSPCreativeOptimizationGoalKpi | str, lenient_enum(DSPCreativeOptimizationGoalKpi)]
     products: list[DSPCreateAdvertisedProducts] = Field(
         min_length=1, max_length=20, description="The products advertised for the Responsive eCommerce experience."
     )
     recAdVariations: (
-        list[Annotated[DSPResponsiveEcommerceAdVariations, lenient_enum(DSPResponsiveEcommerceAdVariations)]] | None
+        list[Annotated[DSPResponsiveEcommerceAdVariations | str, lenient_enum(DSPResponsiveEcommerceAdVariations)]]
+        | None
     ) = Field(
         default=None,
         min_length=0,
         max_length=5,
         description="The rendering variations selected for the Responsive eCommerce experience.",
     )
-    responsiveSizingBehavior: Annotated[DSPResponsiveSizingBehavior, lenient_enum(DSPResponsiveSizingBehavior)]
-    supportedThirdPartySellers: Annotated[DSPSupportedThirdPartySellers, lenient_enum(DSPSupportedThirdPartySellers)]
+    responsiveSizingBehavior: Annotated[DSPResponsiveSizingBehavior | str, lenient_enum(DSPResponsiveSizingBehavior)]
+    supportedThirdPartySellers: Annotated[
+        DSPSupportedThirdPartySellers | str, lenient_enum(DSPSupportedThirdPartySellers)
+    ]
 
 
 class DSPCreateStandardAudioExperienceSettings(StrictModel):
@@ -1084,14 +1089,14 @@ class DSPCreateStandardAudioExperienceSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded. Urls cannot exceed 2048 characters.",
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)]
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)]
     products: list[DSPCreateAdvertisedProducts] | None = Field(
         default=None, min_length=0, max_length=10, description="The product(s) being advertised."
     )
 
 
 class DSPCreateStandardDisplaySettings(StrictModel):
-    adChoicesPosition: Annotated[DSPAdChoicesPosition, lenient_enum(DSPAdChoicesPosition)]
+    adChoicesPosition: Annotated[DSPAdChoicesPosition | str, lenient_enum(DSPAdChoicesPosition)]
     callToAction: DSPCreateDisplayCallToAction | None = Field(default=None)
     clickTrackingUrls: list[DSPCreateCreativeTrackingUrl] | None = Field(
         default=None,
@@ -1111,7 +1116,7 @@ class DSPCreateStandardDisplaySettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)]
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)]
 
 
 class DSPCreateStreamingTvSettings(StrictModel):
@@ -1124,7 +1129,7 @@ class DSPCreateStreamingTvSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)]
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)]
     products: list[DSPCreateAdvertisedProducts] | None = Field(
         default=None, min_length=0, max_length=20, description="The product advertised on this video creative."
     )
@@ -1137,7 +1142,7 @@ class DSPCreateThirdPartyCreative(StrictModel):
 
 
 class DSPCreateThirdPartyDisplaySettings(StrictModel):
-    adChoicesPosition: Annotated[DSPAdChoicesPosition, lenient_enum(DSPAdChoicesPosition)]
+    adChoicesPosition: Annotated[DSPAdChoicesPosition | str, lenient_enum(DSPAdChoicesPosition)]
     additionalHtml: str | None = Field(
         default=None, description="Additional html to be included along with the creative when rendered."
     )
@@ -1159,9 +1164,9 @@ class DSPCreateThirdPartyDisplaySettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)]
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)]
     publisherHostedCreativeSource: (
-        Annotated[DSPPublisherHostedCreativeSource, lenient_enum(DSPPublisherHostedCreativeSource)] | None
+        Annotated[DSPPublisherHostedCreativeSource | str, lenient_enum(DSPPublisherHostedCreativeSource)] | None
     ) = Field(default=None)
     thirdPartyTagHostingSource: str | None = Field(
         default=None,
@@ -1176,9 +1181,9 @@ class DSPCreateThirdPartyVideoSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)]
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)]
     publisherHostedCreativeSource: (
-        Annotated[DSPPublisherHostedCreativeSource, lenient_enum(DSPPublisherHostedCreativeSource)] | None
+        Annotated[DSPPublisherHostedCreativeSource | str, lenient_enum(DSPPublisherHostedCreativeSource)] | None
     ) = Field(default=None)
     vastUrl: str | None = Field(
         default=None,
@@ -1510,7 +1515,7 @@ class DSPUpdateAdRequest(StrictModel):
 
 class DSPUpdateAdvertisedProducts(StrictModel):
     productId: str | None = Field(default=None, description="The identifier of the advertised product.")
-    productIdType: Annotated[DSPProductIdType, lenient_enum(DSPProductIdType)] | None = Field(default=None)
+    productIdType: Annotated[DSPProductIdType | str, lenient_enum(DSPProductIdType)] | None = Field(default=None)
 
 
 class DSPUpdateAssetBasedCreativeCallToAction(StrictModel):
@@ -1521,10 +1526,12 @@ class DSPUpdateAssetBasedCreativeCallToActionSettings(StrictModel):
     """A CTA that directs a customer to a provided url."""
 
     callToActionType: (
-        list[Annotated[DSPAssetBasedCreativeCallToActionType, lenient_enum(DSPAssetBasedCreativeCallToActionType)]]
+        list[
+            Annotated[DSPAssetBasedCreativeCallToActionType | str, lenient_enum(DSPAssetBasedCreativeCallToActionType)]
+        ]
         | None
     ) = Field(default=None, min_length=0, max_length=5, description="Type of CallToAction for AssetBasedCreative.")
-    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior, lenient_enum(DSPDeepLinkingBehavior)] | None = Field(
+    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior | str, lenient_enum(DSPDeepLinkingBehavior)] | None = Field(
         default=None
     )
     url: str | None = Field(default=None, description="The application url that customers are directed to.")
@@ -1567,10 +1574,12 @@ class DSPUpdateAssetBasedCreativeSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    inventoryTypes: list[Annotated[DSPComponentInventoryType, lenient_enum(DSPComponentInventoryType)]] | None = Field(
-        default=None, min_length=1, max_length=2, description="The inventory types this creative should serve on."
+    inventoryTypes: list[Annotated[DSPComponentInventoryType | str, lenient_enum(DSPComponentInventoryType)]] | None = (
+        Field(
+            default=None, min_length=1, max_length=2, description="The inventory types this creative should serve on."
+        )
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
     logos: list[DSPCreateImage] | None = Field(
         default=None,
         min_length=0,
@@ -1578,10 +1587,10 @@ class DSPUpdateAssetBasedCreativeSettings(StrictModel):
         description="The logos to use for the Asset Based Creative experience.",
     )
     optimizationGoalKpi: (
-        Annotated[DSPCreativeOptimizationGoalKpi, lenient_enum(DSPCreativeOptimizationGoalKpi)] | None
+        Annotated[DSPCreativeOptimizationGoalKpi | str, lenient_enum(DSPCreativeOptimizationGoalKpi)] | None
     ) = Field(default=None)
     responsiveSizingBehavior: (
-        Annotated[DSPResponsiveSizingBehavior, lenient_enum(DSPResponsiveSizingBehavior)] | None
+        Annotated[DSPResponsiveSizingBehavior | str, lenient_enum(DSPResponsiveSizingBehavior)] | None
     ) = Field(default=None)
     squareImages: list[DSPCreateImage] | None = Field(
         default=None, min_length=1, max_length=5, description="The square image(s) to use."
@@ -1617,9 +1626,9 @@ class DSPUpdateBrandStoreCallToActionSettings(StrictModel):
     """A CTA that directs a customer to a provided url."""
 
     callToActionType: (
-        list[Annotated[DSPBrandStoreCallToActionType, lenient_enum(DSPBrandStoreCallToActionType)]] | None
+        list[Annotated[DSPBrandStoreCallToActionType | str, lenient_enum(DSPBrandStoreCallToActionType)]] | None
     ) = Field(default=None, min_length=0, max_length=5, description="Type of CallToAction for BrandStore.")
-    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior, lenient_enum(DSPDeepLinkingBehavior)] | None = Field(
+    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior | str, lenient_enum(DSPDeepLinkingBehavior)] | None = Field(
         default=None
     )
     url: str | None = Field(default=None, description="The application url that customers are directed to.")
@@ -1661,16 +1670,18 @@ class DSPUpdateBrandStoreSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    inventoryTypes: list[Annotated[DSPComponentInventoryType, lenient_enum(DSPComponentInventoryType)]] | None = Field(
-        default=None, min_length=1, max_length=2, description="The inventory types this creative should serve on."
+    inventoryTypes: list[Annotated[DSPComponentInventoryType | str, lenient_enum(DSPComponentInventoryType)]] | None = (
+        Field(
+            default=None, min_length=1, max_length=2, description="The inventory types this creative should serve on."
+        )
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
     logos: DSPUpdateImage | None = Field(default=None)
     optimizationGoalKpi: (
-        Annotated[DSPCreativeOptimizationGoalKpi, lenient_enum(DSPCreativeOptimizationGoalKpi)] | None
+        Annotated[DSPCreativeOptimizationGoalKpi | str, lenient_enum(DSPCreativeOptimizationGoalKpi)] | None
     ) = Field(default=None)
     responsiveSizingBehavior: (
-        Annotated[DSPResponsiveSizingBehavior, lenient_enum(DSPResponsiveSizingBehavior)] | None
+        Annotated[DSPResponsiveSizingBehavior | str, lenient_enum(DSPResponsiveSizingBehavior)] | None
     ) = Field(default=None)
     squareImages: list[DSPCreateImage] | None = Field(
         default=None, min_length=1, max_length=5, description="The square image(s) to use."
@@ -1686,7 +1697,7 @@ class DSPUpdateBrandStoreSettings(StrictModel):
 class DSPUpdateClickToAppDisplayCallToActionSettings(StrictModel):
     """A CTA that directs a customer to a provided url."""
 
-    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior, lenient_enum(DSPDeepLinkingBehavior)] | None = Field(
+    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior | str, lenient_enum(DSPDeepLinkingBehavior)] | None = Field(
         default=None
     )
     url: str | None = Field(default=None, description="The app that customers are directed to.")
@@ -1699,7 +1710,7 @@ class DSPUpdateClickToUrlAudioCallToActionSettings(StrictModel):
 class DSPUpdateClickToUrlDisplayCallToActionSettings(StrictModel):
     """A CTA that directs a customer to a provided url."""
 
-    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior, lenient_enum(DSPDeepLinkingBehavior)] | None = Field(
+    deepLinkingBehavior: Annotated[DSPDeepLinkingBehavior | str, lenient_enum(DSPDeepLinkingBehavior)] | None = Field(
         default=None
     )
     url: str | None = Field(default=None, description="The application url that customers are directed to.")
@@ -1778,7 +1789,7 @@ class DSPUpdateOnlineVideoSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
     products: DSPUpdateAdvertisedProducts | None = Field(default=None)
     videos: DSPUpdateVideo | None = Field(default=None)
 
@@ -1793,7 +1804,7 @@ class DSPUpdateResponsiveEcommerceSettings(StrictModel):
     creativePropertiesToOptimize: (
         list[
             Annotated[
-                DSPResponsiveEcommerceCreativePropertiesToOptimize,
+                DSPResponsiveEcommerceCreativePropertiesToOptimize | str,
                 lenient_enum(DSPResponsiveEcommerceCreativePropertiesToOptimize),
             ]
         ]
@@ -1822,13 +1833,15 @@ class DSPUpdateResponsiveEcommerceSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    inventoryTypes: list[Annotated[DSPComponentInventoryType, lenient_enum(DSPComponentInventoryType)]] | None = Field(
-        default=None, min_length=1, max_length=2, description="The inventory types this creative should serve on."
+    inventoryTypes: list[Annotated[DSPComponentInventoryType | str, lenient_enum(DSPComponentInventoryType)]] | None = (
+        Field(
+            default=None, min_length=1, max_length=2, description="The inventory types this creative should serve on."
+        )
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
     logos: DSPUpdateImage | None = Field(default=None)
     optimizationGoalKpi: (
-        Annotated[DSPCreativeOptimizationGoalKpi, lenient_enum(DSPCreativeOptimizationGoalKpi)] | None
+        Annotated[DSPCreativeOptimizationGoalKpi | str, lenient_enum(DSPCreativeOptimizationGoalKpi)] | None
     ) = Field(default=None)
     products: list[DSPCreateAdvertisedProducts] | None = Field(
         default=None,
@@ -1837,7 +1850,8 @@ class DSPUpdateResponsiveEcommerceSettings(StrictModel):
         description="The products advertised for the Responsive eCommerce experience.",
     )
     recAdVariations: (
-        list[Annotated[DSPResponsiveEcommerceAdVariations, lenient_enum(DSPResponsiveEcommerceAdVariations)]] | None
+        list[Annotated[DSPResponsiveEcommerceAdVariations | str, lenient_enum(DSPResponsiveEcommerceAdVariations)]]
+        | None
     ) = Field(
         default=None,
         min_length=0,
@@ -1845,10 +1859,10 @@ class DSPUpdateResponsiveEcommerceSettings(StrictModel):
         description="The rendering variations selected for the Responsive eCommerce experience.",
     )
     responsiveSizingBehavior: (
-        Annotated[DSPResponsiveSizingBehavior, lenient_enum(DSPResponsiveSizingBehavior)] | None
+        Annotated[DSPResponsiveSizingBehavior | str, lenient_enum(DSPResponsiveSizingBehavior)] | None
     ) = Field(default=None)
     supportedThirdPartySellers: (
-        Annotated[DSPSupportedThirdPartySellers, lenient_enum(DSPSupportedThirdPartySellers)] | None
+        Annotated[DSPSupportedThirdPartySellers | str, lenient_enum(DSPSupportedThirdPartySellers)] | None
     ) = Field(default=None)
 
 
@@ -1866,14 +1880,16 @@ class DSPUpdateStandardAudioExperienceSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded. Urls cannot exceed 2048 characters.",
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
     products: list[DSPCreateAdvertisedProducts] | None = Field(
         default=None, min_length=0, max_length=10, description="The product(s) being advertised."
     )
 
 
 class DSPUpdateStandardDisplaySettings(StrictModel):
-    adChoicesPosition: Annotated[DSPAdChoicesPosition, lenient_enum(DSPAdChoicesPosition)] | None = Field(default=None)
+    adChoicesPosition: Annotated[DSPAdChoicesPosition | str, lenient_enum(DSPAdChoicesPosition)] | None = Field(
+        default=None
+    )
     callToAction: DSPUpdateDisplayCallToAction | None = Field(default=None)
     clickTrackingUrls: list[DSPCreateCreativeTrackingUrl] | None = Field(
         default=None,
@@ -1899,7 +1915,7 @@ class DSPUpdateStandardDisplaySettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
 
 
 class DSPUpdateStreamingTvSettings(StrictModel):
@@ -1912,7 +1928,7 @@ class DSPUpdateStreamingTvSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
     products: list[DSPCreateAdvertisedProducts] | None = Field(
         default=None, min_length=0, max_length=20, description="The product advertised on this video creative."
     )
@@ -1925,7 +1941,9 @@ class DSPUpdateThirdPartyCreative(StrictModel):
 
 
 class DSPUpdateThirdPartyDisplaySettings(StrictModel):
-    adChoicesPosition: Annotated[DSPAdChoicesPosition, lenient_enum(DSPAdChoicesPosition)] | None = Field(default=None)
+    adChoicesPosition: Annotated[DSPAdChoicesPosition | str, lenient_enum(DSPAdChoicesPosition)] | None = Field(
+        default=None
+    )
     additionalHtml: str | None = Field(
         default=None, description="Additional html to be included along with the creative when rendered."
     )
@@ -1947,9 +1965,9 @@ class DSPUpdateThirdPartyDisplaySettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
     publisherHostedCreativeSource: (
-        Annotated[DSPPublisherHostedCreativeSource, lenient_enum(DSPPublisherHostedCreativeSource)] | None
+        Annotated[DSPPublisherHostedCreativeSource | str, lenient_enum(DSPPublisherHostedCreativeSource)] | None
     ) = Field(default=None)
     thirdPartyTagHostingSource: str | None = Field(
         default=None,
@@ -1964,9 +1982,9 @@ class DSPUpdateThirdPartyVideoSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: Annotated[DSPLanguageLocale, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
+    language: Annotated[DSPLanguageLocale | str, lenient_enum(DSPLanguageLocale)] | None = Field(default=None)
     publisherHostedCreativeSource: (
-        Annotated[DSPPublisherHostedCreativeSource, lenient_enum(DSPPublisherHostedCreativeSource)] | None
+        Annotated[DSPPublisherHostedCreativeSource | str, lenient_enum(DSPPublisherHostedCreativeSource)] | None
     ) = Field(default=None)
     vastUrl: str | None = Field(
         default=None,

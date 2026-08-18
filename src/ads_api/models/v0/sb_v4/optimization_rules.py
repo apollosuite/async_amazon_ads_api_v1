@@ -40,14 +40,7 @@ class BulkUpdateOptimizationRuleOperationResponse(LenientModel):
 
 
 class CreateOptimizationRule(StrictModel):
-    entityType: str | None = Field(
-        default=None,
-        description="""
-Enum: "CAMPAIGN"
-
-The type of entity passed.
-""",
-    )
+    entityType: str | None = Field(default=None, description="The type of entity passed.")
     entityId: str | None = Field(default=None, description="Entity object identifier.")
     conditions: list[RuleCondition] | None = Field(default=None, min_length=1, max_length=1)
 
@@ -79,14 +72,7 @@ class DisassociateSponsoredBrandsOptimizationRulesResponseContent(LenientModel):
 class EntityFilter(StrictModel):
     """Filter optimization rules by entityId and entityType"""
 
-    entityType: str | None = Field(
-        default=None,
-        description="""
-Enum: "CAMPAIGN"
-
-The type of entity passed.
-""",
-    )
+    entityType: str | None = Field(default=None, description="The type of entity passed.")
     entityId: str | None = Field(default=None, description="Entity object identifier.")
 
 
@@ -133,11 +119,7 @@ class OptimizationRuleIdFilter(StrictModel):
 
 
 class OptimizationRuleToEntityMapping(StrictModel):
-    entityType: str = Field(description="""
-Enum: "CAMPAIGN"
-
-The type of entity passed.
-""")
+    entityType: str = Field(description="The type of entity passed.")
     entityId: str = Field(description="Entity object identifier.")
     optimizationRuleId: str = Field(description="The identifier of the optimization rule.")
 
@@ -159,22 +141,24 @@ class OptimizationRulesError(LenientModel):
 class RuleCondition(StrictModel):
     criteria: ValueTypeRuleCriteria
     attributeName: str = Field(description="""
-Enum: "COST_PER_CLICK"
-
 The name of the attribute.
 
  Supported rule metrics and corresponding supported comparisonOperators:
+| AttributeName                      |  ComparisonOperator       |  Description                                                                            |
+|------------------------------------|---------------------------|-----------------------------------------------------------------------------------------|
+| COST_PER_CLICK                     | LESS_THAN_OR_EQUAL_TO     | Maximize page visits while cost per click less than or equal to threshold.              |
 """)
 
 
 class RuleConditionOut(LenientModel):
     criteria: ValueTypeRuleCriteriaOut
     attributeName: str = Field(description="""
-Enum: "COST_PER_CLICK"
-
 The name of the attribute.
 
  Supported rule metrics and corresponding supported comparisonOperators:
+| AttributeName                      |  ComparisonOperator       |  Description                                                                            |
+|------------------------------------|---------------------------|-----------------------------------------------------------------------------------------|
+| COST_PER_CLICK                     | LESS_THAN_OR_EQUAL_TO     | Maximize page visits while cost per click less than or equal to threshold.              |
 """)
 
 
@@ -198,26 +182,12 @@ class UpdateSponsoredBrandsOptimizationRulesResponseContent(LenientModel):
 
 
 class ValueTypeRuleCriteria(StrictModel):
-    comparisonOperator: str | None = Field(
-        default=None,
-        description="""
-Enum: "LESS_THAN_OR_EQUAL_TO"
-
-The comparison operator.
-""",
-    )
+    comparisonOperator: str | None = Field(default=None, description="The comparison operator.")
     value: float | None = Field(default=None, description="The value of the threshold associated with the attribute.")
 
 
 class ValueTypeRuleCriteriaOut(LenientModel):
-    comparisonOperator: str | None = Field(
-        default=None,
-        description="""
-Enum: "LESS_THAN_OR_EQUAL_TO"
-
-The comparison operator.
-""",
-    )
+    comparisonOperator: str | None = Field(default=None, description="The comparison operator.")
     value: float | None = Field(default=None, description="The value of the threshold associated with the attribute.")
 
 

@@ -966,7 +966,7 @@ class DSPViewabilityTierType(StrEnum):
 
 class DSPAdGroupBid(StrictModel):
     baseBid: float | None = Field(default=None, description="The lower bound bid used for the ads in the ad group.")
-    currencyCode: Annotated[DSPCurrencyCode, lenient_enum(DSPCurrencyCode)]
+    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
     maxAverageBid: float | None = Field(
         default=None,
         description="The max average bid that will be targeted on the ad group across all of the bids (a single bid could be lower or higher that this number).",
@@ -983,7 +983,9 @@ class DSPAdGroupBidOut(LenientModel):
 
 
 class DSPAdGroupBudgetSettings(StrictModel):
-    budgetAllocation: Annotated[DSPBudgetAllocation, lenient_enum(DSPBudgetAllocation)] | None = Field(default=None)
+    budgetAllocation: Annotated[DSPBudgetAllocation | str, lenient_enum(DSPBudgetAllocation)] | None = Field(
+        default=None
+    )
     dailyMinSpendValue: float | None = Field(
         default=None, description="Denotes the daily minimum spend on the ad group in local currency."
     )
@@ -1001,7 +1003,7 @@ class DSPAdGroupBudgetSettingsOut(LenientModel):
 class DSPAdInitiationTarget(StrictModel):
     """Target based on how the video ad will be started."""
 
-    videoInitiationType: Annotated[DSPVideoInitiationType, lenient_enum(DSPVideoInitiationType)]
+    videoInitiationType: Annotated[DSPVideoInitiationType | str, lenient_enum(DSPVideoInitiationType)]
 
 
 class DSPAdInitiationTargetOut(LenientModel):
@@ -1013,7 +1015,7 @@ class DSPAdInitiationTargetOut(LenientModel):
 class DSPAdPlayerSizeTarget(StrictModel):
     """Target based on the size of the ad player."""
 
-    adPlayerSize: Annotated[DSPAdPlayerSize, lenient_enum(DSPAdPlayerSize)]
+    adPlayerSize: Annotated[DSPAdPlayerSize | str, lenient_enum(DSPAdPlayerSize)]
 
 
 class DSPAdPlayerSizeTargetOut(LenientModel):
@@ -1038,7 +1040,7 @@ class DSPAmazonViewability(StrictModel):
     includeUnmeasurableImpressions: bool = Field(
         description="Must be false if viewabilityTier is set to ALL_TIERS. You can set to true to include impressions that can not be measured when a viewabilityTier other than ALL_TIERS is selected. We recommend setting to false if high viewability is your goal."
     )
-    viewabilityTier: Annotated[DSPViewabilityTier, lenient_enum(DSPViewabilityTier)]
+    viewabilityTier: Annotated[DSPViewabilityTier | str, lenient_enum(DSPViewabilityTier)]
 
 
 class DSPAmazonViewabilityOut(LenientModel):
@@ -1052,7 +1054,7 @@ class DSPAppTarget(StrictModel):
     """Target based on user application."""
 
     appId: str = Field(description="The app identifier being targeted.")
-    appType: Annotated[DSPAppType, lenient_enum(DSPAppType)]
+    appType: Annotated[DSPAppType | str, lenient_enum(DSPAppType)]
 
 
 class DSPAppTargetOut(LenientModel):
@@ -1065,7 +1067,7 @@ class DSPAppTargetOut(LenientModel):
 class DSPAudienceTarget(StrictModel):
     """Target based on a specified audience ID."""
 
-    acrossGroupOperator: Annotated[DSPAcrossGroupOperator, lenient_enum(DSPAcrossGroupOperator)] | None = Field(
+    acrossGroupOperator: Annotated[DSPAcrossGroupOperator | str, lenient_enum(DSPAcrossGroupOperator)] | None = Field(
         default=None
     )
     audienceId: DSPMarketplaceStringValue
@@ -1073,7 +1075,7 @@ class DSPAudienceTarget(StrictModel):
         default=None,
         description="The string identifying a group of audiences. Only numbers formatted as strings are accepted (e.g. '1'). To add audiences to a new group, choose any string not currently being used on this ad group. To add audiences to an existing group, use the existing groupId from this ad group. You may specify up to 10 include groups and 1 exclude group.",
     )
-    inGroupOperator: Annotated[DSPInGroupOperator, lenient_enum(DSPInGroupOperator)] | None = Field(default=None)
+    inGroupOperator: Annotated[DSPInGroupOperator | str, lenient_enum(DSPInGroupOperator)] | None = Field(default=None)
 
 
 class DSPAudienceTargetOut(LenientModel):
@@ -1099,7 +1101,7 @@ class DSPAutoCreationSettingsOut(LenientModel):
 
 
 class DSPBidSettings(StrictModel):
-    bidStrategy: Annotated[DSPBidStrategy, lenient_enum(DSPBidStrategy)] | None = Field(default=None)
+    bidStrategy: Annotated[DSPBidStrategy | str, lenient_enum(DSPBidStrategy)] | None = Field(default=None)
 
 
 class DSPBidSettingsOut(LenientModel):
@@ -1109,7 +1111,7 @@ class DSPBidSettingsOut(LenientModel):
 class DSPBrandSafetyCategoryTarget(StrictModel):
     """Target based on, if any, the classifications of unsuitable contexts that may pose a risk to a brand's reputation of content being viewed."""
 
-    brandSafetyCategory: Annotated[DSPBrandSafetyCategory, lenient_enum(DSPBrandSafetyCategory)]
+    brandSafetyCategory: Annotated[DSPBrandSafetyCategory | str, lenient_enum(DSPBrandSafetyCategory)]
 
 
 class DSPBrandSafetyCategoryTargetOut(LenientModel):
@@ -1121,7 +1123,7 @@ class DSPBrandSafetyCategoryTargetOut(LenientModel):
 class DSPBrandSafetyTierTarget(StrictModel):
     """Target based on the brand suitability risk levels of content being viewed."""
 
-    brandSafetyTier: Annotated[DSPBrandSafetyTier, lenient_enum(DSPBrandSafetyTier)]
+    brandSafetyTier: Annotated[DSPBrandSafetyTier | str, lenient_enum(DSPBrandSafetyTier)]
 
 
 class DSPBrandSafetyTierTargetOut(LenientModel):
@@ -1131,9 +1133,9 @@ class DSPBrandSafetyTierTargetOut(LenientModel):
 
 
 class DSPBudget(StrictModel):
-    budgetType: Annotated[DSPBudgetType, lenient_enum(DSPBudgetType)]
+    budgetType: Annotated[DSPBudgetType | str, lenient_enum(DSPBudgetType)]
     budgetValue: DSPBudgetValue
-    recurrenceTimePeriod: Annotated[DSPRecurrence, lenient_enum(DSPRecurrence)]
+    recurrenceTimePeriod: Annotated[DSPRecurrence | str, lenient_enum(DSPRecurrence)]
 
 
 class DSPBudgetOut(LenientModel):
@@ -1143,9 +1145,11 @@ class DSPBudgetOut(LenientModel):
 
 
 class DSPBudgetSettings(StrictModel):
-    budgetAllocation: Annotated[DSPBudgetAllocation, lenient_enum(DSPBudgetAllocation)] | None = Field(default=None)
-    flightBudgetRolloverStrategy: Annotated[DSPRolloverStrategy, lenient_enum(DSPRolloverStrategy)] | None = Field(
+    budgetAllocation: Annotated[DSPBudgetAllocation | str, lenient_enum(DSPBudgetAllocation)] | None = Field(
         default=None
+    )
+    flightBudgetRolloverStrategy: Annotated[DSPRolloverStrategy | str, lenient_enum(DSPRolloverStrategy)] | None = (
+        Field(default=None)
     )
 
 
@@ -1167,11 +1171,11 @@ class DSPBudgetValueOut(LenientModel):
 
 
 class DSPCampaignFee(StrictModel):
-    feeType: Annotated[DSPCampaignFeeType, lenient_enum(DSPCampaignFeeType)]
+    feeType: Annotated[DSPCampaignFeeType | str, lenient_enum(DSPCampaignFeeType)]
     feeValue: float = Field(
         description="A service fee that is subtracted from the campaign budget as a percent of budget. This setting can’t be changed after an ad group has been added to a campaign."
     )
-    feeValueType: Annotated[DSPCampaignFeeValueType, lenient_enum(DSPCampaignFeeValueType)]
+    feeValueType: Annotated[DSPCampaignFeeValueType | str, lenient_enum(DSPCampaignFeeValueType)]
 
 
 class DSPCampaignFeeOut(LenientModel):
@@ -1257,13 +1261,13 @@ class DSPCampaignOptimizations(StrictModel):
     bidSettings: DSPBidSettings | None = Field(default=None)
     budgetSettings: DSPBudgetSettings | None = Field(default=None)
     goalSettings: DSPGoalSettings | None = Field(default=None)
-    primaryInventoryTypes: list[Annotated[DSPPrimaryInventoryType, lenient_enum(DSPPrimaryInventoryType)]] | None = (
-        Field(
-            default=None,
-            min_length=0,
-            max_length=10,
-            description="Primary inventory type of the campaign for filtering KPIs and recommending tactics.",
-        )
+    primaryInventoryTypes: (
+        list[Annotated[DSPPrimaryInventoryType | str, lenient_enum(DSPPrimaryInventoryType)]] | None
+    ) = Field(
+        default=None,
+        min_length=0,
+        max_length=10,
+        description="Primary inventory type of the campaign for filtering KPIs and recommending tactics.",
     )
 
 
@@ -1296,7 +1300,7 @@ class DSPContentCategoryTargetOut(LenientModel):
 class DSPContentGenreTarget(StrictModel):
     """Target based on the genre of content being viewed."""
 
-    contentGenre: Annotated[DSPContentGenre, lenient_enum(DSPContentGenre)]
+    contentGenre: Annotated[DSPContentGenre | str, lenient_enum(DSPContentGenre)]
 
 
 class DSPContentGenreTargetOut(LenientModel):
@@ -1308,7 +1312,7 @@ class DSPContentGenreTargetOut(LenientModel):
 class DSPContentInstreamPositionTarget(StrictModel):
     """Targets ads in the specified content instream position"""
 
-    instreamPosition: Annotated[DSPContentInstreamPosition, lenient_enum(DSPContentInstreamPosition)]
+    instreamPosition: Annotated[DSPContentInstreamPosition | str, lenient_enum(DSPContentInstreamPosition)]
 
 
 class DSPContentInstreamPositionTargetOut(LenientModel):
@@ -1320,7 +1324,7 @@ class DSPContentInstreamPositionTargetOut(LenientModel):
 class DSPContentOutstreamPositionTarget(StrictModel):
     """Targets ads in the specified content outstream position"""
 
-    outstreamPosition: Annotated[DSPContentOutstreamPosition, lenient_enum(DSPContentOutstreamPosition)]
+    outstreamPosition: Annotated[DSPContentOutstreamPosition | str, lenient_enum(DSPContentOutstreamPosition)]
 
 
 class DSPContentOutstreamPositionTargetOut(LenientModel):
@@ -1354,7 +1358,7 @@ type DSPContentRatingOut = DSPContentRatingOutDspContentRating | DSPContentRatin
 class DSPContentRatingTarget(StrictModel):
     """Target based on the rating of content being viewed."""
 
-    contentRatingType: Annotated[DSPContentRatingTypes, lenient_enum(DSPContentRatingTypes)]
+    contentRatingType: Annotated[DSPContentRatingTypes | str, lenient_enum(DSPContentRatingTypes)]
     contentRatingTypeDetails: DSPContentRating
 
 
@@ -1381,7 +1385,7 @@ class DSPDVBrandSafetyContentCategoriesWithRiskMap(StrictModel):
     key: str = Field(
         description="Available keys are: [ADULT_CONTENT, ALCOHOL, CRIME, DEATH_INJURIES, DISASTER_AVIATION, DISASTER_MAN_MADE, DISASTER_NATURAL, DISASTER_TERRORIST_EVENTS, DISASTER_VEHICLE, HATE_SPEECH, PROFANITY, SUBSTANCE_ABUSE, TOBACCO_ECIGARETTES, VIOLENCE_EXTREME_GRAPHIC]."
     )
-    value: Annotated[DSPBrandSuitabilityRiskLevelType, lenient_enum(DSPBrandSuitabilityRiskLevelType)]
+    value: Annotated[DSPBrandSuitabilityRiskLevelType | str, lenient_enum(DSPBrandSuitabilityRiskLevelType)]
 
 
 class DSPDVBrandSafetyContentCategoriesWithRiskMapOut(LenientModel):
@@ -1396,7 +1400,7 @@ class DSPDVBrandSafetyContentCategoriesWithRiskMapOut(LenientModel):
 class DSPDayPartTarget(StrictModel):
     """Target based on time of day."""
 
-    dayOfWeek: Annotated[DSPDayOfWeek, lenient_enum(DSPDayOfWeek)]
+    dayOfWeek: Annotated[DSPDayOfWeek | str, lenient_enum(DSPDayOfWeek)]
     timeOfDay: DSPTimeOfDay
 
 
@@ -1416,11 +1420,15 @@ class DSPDeliverInFullConfidence(LenientModel):
 class DSPDeviceTarget(StrictModel):
     """Target based on user device."""
 
-    deviceOrientation: Annotated[DSPDeviceOrientation, lenient_enum(DSPDeviceOrientation)] | None = Field(default=None)
-    deviceType: Annotated[DSPDeviceType, lenient_enum(DSPDeviceType)]
-    mobileDevice: Annotated[DSPMobileDevice, lenient_enum(DSPMobileDevice)] | None = Field(default=None)
-    mobileEnvironment: Annotated[DSPMobileEnvironment, lenient_enum(DSPMobileEnvironment)] | None = Field(default=None)
-    mobileOs: Annotated[DSPMobileOs, lenient_enum(DSPMobileOs)] | None = Field(default=None)
+    deviceOrientation: Annotated[DSPDeviceOrientation | str, lenient_enum(DSPDeviceOrientation)] | None = Field(
+        default=None
+    )
+    deviceType: Annotated[DSPDeviceType | str, lenient_enum(DSPDeviceType)]
+    mobileDevice: Annotated[DSPMobileDevice | str, lenient_enum(DSPMobileDevice)] | None = Field(default=None)
+    mobileEnvironment: Annotated[DSPMobileEnvironment | str, lenient_enum(DSPMobileEnvironment)] | None = Field(
+        default=None
+    )
+    mobileOs: Annotated[DSPMobileOs | str, lenient_enum(DSPMobileOs)] | None = Field(default=None)
 
 
 class DSPDeviceTargetOut(LenientModel):
@@ -1499,7 +1507,7 @@ class DSPDomainTarget(StrictModel):
     """Target based on a specified domain."""
 
     domainTargetDetails: DSPDomainTargetDetails
-    domainTargetType: Annotated[DSPDomainTargetTypes, lenient_enum(DSPDomainTargetTypes)]
+    domainTargetType: Annotated[DSPDomainTargetTypes | str, lenient_enum(DSPDomainTargetTypes)]
 
 
 class DSPDomainTargetDetailsDomainListTarget(StrictModel):
@@ -1569,7 +1577,7 @@ class DSPDoubleVerifyAuthenticBrandSafetyOut(LenientModel):
 
 class DSPDoubleVerifyBrandSafety(StrictModel):
     appAgeRating: (
-        list[Annotated[DSPDVBrandSafetyAppAgeRatingType, lenient_enum(DSPDVBrandSafetyAppAgeRatingType)]] | None
+        list[Annotated[DSPDVBrandSafetyAppAgeRatingType | str, lenient_enum(DSPDVBrandSafetyAppAgeRatingType)]] | None
     ) = Field(
         default=None,
         min_length=0,
@@ -1577,10 +1585,11 @@ class DSPDoubleVerifyBrandSafety(StrictModel):
         description="A list of app age ratings to be used for excluding apps. For example, TEENS_12_PLUS will only exclude apps with content rated for everyone ages 12 and over. UNKNOWN will exclude apps with content unrated or unknown to Double Verify.",
     )
     appStarRating: (
-        Annotated[DSPDVBrandSafetyAppStarRatingType, lenient_enum(DSPDVBrandSafetyAppStarRatingType)] | None
+        Annotated[DSPDVBrandSafetyAppStarRatingType | str, lenient_enum(DSPDVBrandSafetyAppStarRatingType)] | None
     ) = Field(default=None)
     contentCategories: (
-        list[Annotated[DSPDVBrandSafetyContentCategoryType, lenient_enum(DSPDVBrandSafetyContentCategoryType)]] | None
+        list[Annotated[DSPDVBrandSafetyContentCategoryType | str, lenient_enum(DSPDVBrandSafetyContentCategoryType)]]
+        | None
     ) = Field(
         default=None, min_length=0, max_length=50, description="A list of content categories to exclude from targeting."
     )
@@ -1635,9 +1644,9 @@ class DSPDoubleVerifyFraudInvalidTraffic(StrictModel):
         default=None,
         description="Set to true to block applications and sites with insufficient historical fraud and invalid traffic statistics. This will not be applicable if ALLOW_ALL is chosen.",
     )
-    excludeAppsAndSites: Annotated[DSPExcludeAppsAndSitesType, lenient_enum(DSPExcludeAppsAndSitesType)] | None = Field(
-        default=None
-    )
+    excludeAppsAndSites: (
+        Annotated[DSPExcludeAppsAndSitesType | str, lenient_enum(DSPExcludeAppsAndSitesType)] | None
+    ) = Field(default=None)
     excludeImpressions: bool | None = Field(
         default=None,
         description="Set to true to exclude impressions delivered to devices identified to be fraudulent or invalid.",
@@ -1660,7 +1669,8 @@ class DSPDoubleVerifyFraudInvalidTrafficOut(LenientModel):
 
 class DSPDoubleVerifyStandardDisplayBrandSafety(StrictModel):
     contentCategories: (
-        list[Annotated[DSPDVBrandSafetyContentCategoryType, lenient_enum(DSPDVBrandSafetyContentCategoryType)]] | None
+        list[Annotated[DSPDVBrandSafetyContentCategoryType | str, lenient_enum(DSPDVBrandSafetyContentCategoryType)]]
+        | None
     ) = Field(
         default=None, min_length=0, max_length=50, description="A list of content categories to exclude from targeting."
     )
@@ -1686,20 +1696,22 @@ class DSPDoubleVerifyStandardDisplayBrandSafetyOut(LenientModel):
 class DSPDoubleVerifyViewability(StrictModel):
     averageCompletionAndFullyViewableRateTargeting: (
         Annotated[
-            DSPAverageCompletionAndFullyViewableRateTargetingType,
+            DSPAverageCompletionAndFullyViewableRateTargetingType | str,
             lenient_enum(DSPAverageCompletionAndFullyViewableRateTargetingType),
         ]
         | None
     ) = Field(default=None)
     brandExposureViewabilityTargeting: (
-        Annotated[DSPBrandExposureViewabilityTargetingType, lenient_enum(DSPBrandExposureViewabilityTargetingType)]
+        Annotated[
+            DSPBrandExposureViewabilityTargetingType | str, lenient_enum(DSPBrandExposureViewabilityTargetingType)
+        ]
         | None
     ) = Field(default=None)
     includeUnmeasurableImpressions: bool | None = Field(
         default=None, description="Set to true to include impressions where impressions can't be measured."
     )
     mrcViewabilityTargeting: (
-        Annotated[DSPMrcViewabilityTargetingType, lenient_enum(DSPMrcViewabilityTargetingType)] | None
+        Annotated[DSPMrcViewabilityTargetingType | str, lenient_enum(DSPMrcViewabilityTargetingType)] | None
     ) = Field(default=None)
 
 
@@ -1726,7 +1738,7 @@ class DSPDoubleVerifyViewabilityOut(LenientModel):
 
 
 class DSPDspContentRating(StrictModel):
-    dspContentRating: Annotated[DSPDspContentRatingEnum, lenient_enum(DSPDspContentRatingEnum)]
+    dspContentRating: Annotated[DSPDspContentRatingEnum | str, lenient_enum(DSPDspContentRatingEnum)]
 
 
 class DSPDspContentRatingOut(LenientModel):
@@ -1791,14 +1803,14 @@ class DSPFee(StrictModel):
         default=None,
         description="Applies only to THIRD_PARTY_APPLIED_FEE. When set to true, third-party applied fees are are added on top of the total ad group budget spent amount in reports.",
     )
-    currencyCode: Annotated[DSPCurrencyCode, lenient_enum(DSPCurrencyCode)] | None = Field(default=None)
-    feeType: Annotated[DSPFeeType, lenient_enum(DSPFeeType)]
+    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)] | None = Field(default=None)
+    feeType: Annotated[DSPFeeType | str, lenient_enum(DSPFeeType)]
     feeValue: float = Field(
         description="The fee amount expressed as the feeValueType. AMAZON_AUDIENCE_FEE AND THIRD_PARTY_AUDIENCE_FEE is in the currency of the marketplace. All other CPM based fees are in the currency of the advertiser. For percentages, 100 represents 100%."
     )
-    feeValueType: Annotated[DSPFeeValueType, lenient_enum(DSPFeeValueType)]
-    thirdPartyProvider: Annotated[DSPFeesThirdPartyProvider, lenient_enum(DSPFeesThirdPartyProvider)] | None = Field(
-        default=None
+    feeValueType: Annotated[DSPFeeValueType | str, lenient_enum(DSPFeeValueType)]
+    thirdPartyProvider: Annotated[DSPFeesThirdPartyProvider | str, lenient_enum(DSPFeesThirdPartyProvider)] | None = (
+        Field(default=None)
     )
 
 
@@ -1819,7 +1831,7 @@ class DSPFeeOut(LenientModel):
 
 
 class DSPFlightBudget(StrictModel):
-    budgetType: Annotated[DSPBudgetType, lenient_enum(DSPBudgetType)]
+    budgetType: Annotated[DSPBudgetType | str, lenient_enum(DSPBudgetType)]
     budgetValue: DSPBudgetValue
 
 
@@ -1892,7 +1904,7 @@ class DSPFlightForecastInsights(LenientModel):
 class DSPFoldPositionTarget(StrictModel):
     """Targets ads in the specified fold position"""
 
-    foldPosition: Annotated[DSPFoldPosition, lenient_enum(DSPFoldPosition)]
+    foldPosition: Annotated[DSPFoldPosition | str, lenient_enum(DSPFoldPosition)]
 
 
 class DSPFoldPositionTargetOut(LenientModel):
@@ -1905,7 +1917,7 @@ class DSPForecastAdGroup(StrictModel):
     """Ad group domain model"""
 
     adGroupId: str | None = Field(default=None, description="The unique identifier of the ad group.")
-    adProduct: Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)] | None = Field(default=None)
+    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)] | None = Field(default=None)
     advertisedProductCategoryIds: list[str] | None = Field(
         default=None,
         min_length=0,
@@ -1920,8 +1932,8 @@ class DSPForecastAdGroup(StrictModel):
         default=None, description="The unique identifier of the campaign the ad group belongs to."
     )
     creationDateTime: datetime | None = Field(default=None, description="The date time that the ad group was created.")
-    creativeRotationType: Annotated[DSPCreativeRotationType, lenient_enum(DSPCreativeRotationType)] | None = Field(
-        default=None
+    creativeRotationType: Annotated[DSPCreativeRotationType | str, lenient_enum(DSPCreativeRotationType)] | None = (
+        Field(default=None)
     )
     endDateTime: datetime | None = Field(default=None, description="The end date time for the ad group.")
     fees: list[DSPFee] | None = Field(
@@ -1936,7 +1948,7 @@ class DSPForecastAdGroup(StrictModel):
     globalAdGroupId: str | None = Field(
         default=None, description="The global adGroup identifier that manages this marketplace adGroup."
     )
-    inventoryType: Annotated[DSPInventoryType, lenient_enum(DSPInventoryType)] | None = Field(default=None)
+    inventoryType: Annotated[DSPInventoryType | str, lenient_enum(DSPInventoryType)] | None = Field(default=None)
     lastUpdatedDateTime: datetime | None = Field(
         default=None, description="The date time that the ad group was last updated."
     )
@@ -1946,8 +1958,10 @@ class DSPForecastAdGroup(StrictModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global ad group that enables overriding certain attributes at individual marketplace level. For example, if a global ad group state is ENABLED and needs to be PAUSED only in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, ad group's global value is applied to that marketplace.",
     )
-    marketplaceScope: Annotated[DSPMarketplaceScope, lenient_enum(DSPMarketplaceScope)] | None = Field(default=None)
-    marketplaces: list[Annotated[DSPMarketplace, lenient_enum(DSPMarketplace)]] | None = Field(
+    marketplaceScope: Annotated[DSPMarketplaceScope | str, lenient_enum(DSPMarketplaceScope)] | None = Field(
+        default=None
+    )
+    marketplaces: list[Annotated[DSPMarketplace | str, lenient_enum(DSPMarketplace)]] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
@@ -1961,7 +1975,7 @@ class DSPForecastAdGroup(StrictModel):
     )
     retailerId: str | None = Field(default=None, description="Identifier for retailer associated with this ad group.")
     startDateTime: datetime | None = Field(default=None, description="The start date time for the ad group.")
-    state: Annotated[DSPState, lenient_enum(DSPState)] | None = Field(default=None)
+    state: Annotated[DSPState | str, lenient_enum(DSPState)] | None = Field(default=None)
     status: DSPStatus | None = Field(default=None)
     tags: list[DSPTag] | None = Field(
         default=None,
@@ -2048,7 +2062,7 @@ class DSPForecastAdGroupOut(LenientModel):
 class DSPForecastCampaign(StrictModel):
     """Campaign domain model"""
 
-    adProduct: Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)] | None = Field(default=None)
+    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)] | None = Field(default=None)
     adomains: list[str] | None = Field(
         default=None,
         min_length=0,
@@ -2070,7 +2084,7 @@ class DSPForecastCampaign(StrictModel):
         default=None,
         description="This is the ID of the originally generated campaign preset that the campaign is associated with.",
     )
-    countries: list[Annotated[DSPCountryCode, lenient_enum(DSPCountryCode)]] | None = Field(
+    countries: list[Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)]] | None = Field(
         default=None,
         min_length=0,
         max_length=249,
@@ -2112,8 +2126,10 @@ class DSPForecastCampaign(StrictModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global campaign that enables overriding certain attributes at individual marketplace level. For example, if a global campaign is ENABLED and startDate '2024-06-01' but needs to be PAUSED in DE with startDateTime '2024-06-02' marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED, startDate: '2024-06-02'}}]. When a marketplace-specific override is not provided, the campaign's global value is applied to that marketplace.",
     )
-    marketplaceScope: Annotated[DSPMarketplaceScope, lenient_enum(DSPMarketplaceScope)] | None = Field(default=None)
-    marketplaces: list[Annotated[DSPMarketplace, lenient_enum(DSPMarketplace)]] | None = Field(
+    marketplaceScope: Annotated[DSPMarketplaceScope | str, lenient_enum(DSPMarketplaceScope)] | None = Field(
+        default=None
+    )
+    marketplaces: list[Annotated[DSPMarketplace | str, lenient_enum(DSPMarketplace)]] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
@@ -2134,7 +2150,7 @@ class DSPForecastCampaign(StrictModel):
     )
     startDate: date | None = Field(default=None, description="The start date of the campaign.")
     startDateTime: datetime | None = Field(default=None, description="The start date time for the campaign.")
-    state: Annotated[DSPState, lenient_enum(DSPState)] | None = Field(default=None)
+    state: Annotated[DSPState | str, lenient_enum(DSPState)] | None = Field(default=None)
     status: DSPStatus | None = Field(default=None)
     tags: list[DSPTag] | None = Field(
         default=None,
@@ -2320,9 +2336,9 @@ class DSPForecastMetricsDescription(StrictModel):
     """Describe how user select to see all metrics or selected ones."""
 
     allMetrics: bool = Field(description="If it is true, all the supported metrics would return.")
-    selectedMetrics: list[Annotated[DSPSelectedForecastMetric, lenient_enum(DSPSelectedForecastMetric)]] | None = Field(
-        default=None, min_length=0, max_length=20, description="The list of selected metrics in order."
-    )
+    selectedMetrics: (
+        list[Annotated[DSPSelectedForecastMetric | str, lenient_enum(DSPSelectedForecastMetric)]] | None
+    ) = Field(default=None, min_length=0, max_length=20, description="The list of selected metrics in order.")
 
 
 class DSPForecastMetricsDescriptionOut(LenientModel):
@@ -2339,7 +2355,7 @@ class DSPForecastTarget(StrictModel):
         default=None,
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets.",
     )
-    adProduct: Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)] | None = Field(default=None)
+    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)] | None = Field(default=None)
     bid: DSPTargetBid | None = Field(default=None)
     campaignId: str | None = Field(
         default=None,
@@ -2356,15 +2372,17 @@ class DSPForecastTarget(StrictModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global target that enables overriding certain attributes at individual marketplace level. For example, if a global target is ENABLED but needs to be PAUSED in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, the target's global value is applied to that marketplace.",
     )
-    marketplaceScope: Annotated[DSPMarketplaceScope, lenient_enum(DSPMarketplaceScope)] | None = Field(default=None)
-    marketplaces: list[Annotated[DSPMarketplace, lenient_enum(DSPMarketplace)]] | None = Field(
+    marketplaceScope: Annotated[DSPMarketplaceScope | str, lenient_enum(DSPMarketplaceScope)] | None = Field(
+        default=None
+    )
+    marketplaces: list[Annotated[DSPMarketplace | str, lenient_enum(DSPMarketplace)]] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
         description="A list of country codes representing Amazon marketplaces",
     )
     negative: bool | None = Field(default=None, description="Indicates whether the target is negative or not.")
-    state: Annotated[DSPState, lenient_enum(DSPState)] | None = Field(default=None)
+    state: Annotated[DSPState | str, lenient_enum(DSPState)] | None = Field(default=None)
     status: DSPStatus | None = Field(default=None)
     tags: list[DSPTag] | None = Field(
         default=None,
@@ -2374,8 +2392,8 @@ class DSPForecastTarget(StrictModel):
     )
     targetDetails: DSPTargetDetails | None = Field(default=None)
     targetId: str | None = Field(default=None, description="A unique identifier for the target.")
-    targetLevel: Annotated[DSPTargetLevel, lenient_enum(DSPTargetLevel)] | None = Field(default=None)
-    targetType: Annotated[DSPTargetType, lenient_enum(DSPTargetType)] | None = Field(default=None)
+    targetLevel: Annotated[DSPTargetLevel | str, lenient_enum(DSPTargetLevel)] | None = Field(default=None)
+    targetType: Annotated[DSPTargetType | str, lenient_enum(DSPTargetType)] | None = Field(default=None)
 
 
 class DSPForecastTargetOut(LenientModel):
@@ -2436,14 +2454,14 @@ class DSPFrequency(StrictModel):
         le=99000,
         description="The maximum number of times an EventType is served per user. For ADSP ad group, maximum supported value is 500.",
     )
-    frequencyTargetingSetting: Annotated[DSPFrequencyTargetingSetting, lenient_enum(DSPFrequencyTargetingSetting)]
+    frequencyTargetingSetting: Annotated[DSPFrequencyTargetingSetting | str, lenient_enum(DSPFrequencyTargetingSetting)]
     timeCount: int | None = Field(
         default=None,
         ge=1,
         le=60,
         description="The value associated with the time and unit of time for this frequency cap.",
     )
-    timeUnit: Annotated[DSPTimeUnit, lenient_enum(DSPTimeUnit)] | None = Field(default=None)
+    timeUnit: Annotated[DSPTimeUnit | str, lenient_enum(DSPTimeUnit)] | None = Field(default=None)
 
 
 class DSPFrequencyOut(LenientModel):
@@ -2463,9 +2481,9 @@ class DSPFrequencyOut(LenientModel):
 
 
 class DSPGoalSettings(StrictModel):
-    currencyCode: Annotated[DSPCurrencyCode, lenient_enum(DSPCurrencyCode)] | None = Field(default=None)
-    goal: Annotated[DSPGoal, lenient_enum(DSPGoal)]
-    kpi: Annotated[DSPKPI, lenient_enum(DSPKPI)] | None = Field(default=None)
+    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)] | None = Field(default=None)
+    goal: Annotated[DSPGoal | str, lenient_enum(DSPGoal)]
+    kpi: Annotated[DSPKPI | str, lenient_enum(DSPKPI)] | None = Field(default=None)
     kpiValue: float | None = Field(
         default=None, description="The value of the KPI that the campaign is working to optimize."
     )
@@ -2496,30 +2514,30 @@ class DSPIntegralAdScienceBrandSafety(StrictModel):
     excludeContent: bool | None = Field(
         default=None, description="Set to true to exclude content that Integral Ad Science is not able to rate."
     )
-    iasBrandSafetyAdult: Annotated[DSPIASBrandSafetyLevelType, lenient_enum(DSPIASBrandSafetyLevelType)] | None = Field(
-        default=None
-    )
-    iasBrandSafetyAlcohol: Annotated[DSPIASBrandSafetyLevelType, lenient_enum(DSPIASBrandSafetyLevelType)] | None = (
-        Field(default=None)
-    )
-    iasBrandSafetyGambling: Annotated[DSPIASBrandSafetyLevelType, lenient_enum(DSPIASBrandSafetyLevelType)] | None = (
-        Field(default=None)
-    )
-    iasBrandSafetyHateSpeech: Annotated[DSPIASBrandSafetyLevelType, lenient_enum(DSPIASBrandSafetyLevelType)] | None = (
-        Field(default=None)
-    )
+    iasBrandSafetyAdult: (
+        Annotated[DSPIASBrandSafetyLevelType | str, lenient_enum(DSPIASBrandSafetyLevelType)] | None
+    ) = Field(default=None)
+    iasBrandSafetyAlcohol: (
+        Annotated[DSPIASBrandSafetyLevelType | str, lenient_enum(DSPIASBrandSafetyLevelType)] | None
+    ) = Field(default=None)
+    iasBrandSafetyGambling: (
+        Annotated[DSPIASBrandSafetyLevelType | str, lenient_enum(DSPIASBrandSafetyLevelType)] | None
+    ) = Field(default=None)
+    iasBrandSafetyHateSpeech: (
+        Annotated[DSPIASBrandSafetyLevelType | str, lenient_enum(DSPIASBrandSafetyLevelType)] | None
+    ) = Field(default=None)
     iasBrandSafetyIllegalDownloads: (
-        Annotated[DSPIASBrandSafetyLevelType, lenient_enum(DSPIASBrandSafetyLevelType)] | None
+        Annotated[DSPIASBrandSafetyLevelType | str, lenient_enum(DSPIASBrandSafetyLevelType)] | None
     ) = Field(default=None)
     iasBrandSafetyIllegalDrugs: (
-        Annotated[DSPIASBrandSafetyLevelType, lenient_enum(DSPIASBrandSafetyLevelType)] | None
+        Annotated[DSPIASBrandSafetyLevelType | str, lenient_enum(DSPIASBrandSafetyLevelType)] | None
     ) = Field(default=None)
     iasBrandSafetyOffensiveLanguage: (
-        Annotated[DSPIASBrandSafetyLevelType, lenient_enum(DSPIASBrandSafetyLevelType)] | None
+        Annotated[DSPIASBrandSafetyLevelType | str, lenient_enum(DSPIASBrandSafetyLevelType)] | None
     ) = Field(default=None)
-    iasBrandSafetyViolence: Annotated[DSPIASBrandSafetyLevelType, lenient_enum(DSPIASBrandSafetyLevelType)] | None = (
-        Field(default=None)
-    )
+    iasBrandSafetyViolence: (
+        Annotated[DSPIASBrandSafetyLevelType | str, lenient_enum(DSPIASBrandSafetyLevelType)] | None
+    ) = Field(default=None)
 
 
 class DSPIntegralAdScienceBrandSafetyOut(LenientModel):
@@ -2601,9 +2619,9 @@ class DSPIntegralAdScienceContextualTargetingOut(LenientModel):
 
 
 class DSPIntegralAdScienceFraudInvalidTraffic(StrictModel):
-    targetSetting: Annotated[DSPIASFraudInvalidTrafficType, lenient_enum(DSPIASFraudInvalidTrafficType)] | None = Field(
-        default=None
-    )
+    targetSetting: (
+        Annotated[DSPIASFraudInvalidTrafficType | str, lenient_enum(DSPIASFraudInvalidTrafficType)] | None
+    ) = Field(default=None)
 
 
 class DSPIntegralAdScienceFraudInvalidTrafficOut(LenientModel):
@@ -2623,8 +2641,8 @@ class DSPIntegralAdScienceQualitySyncOut(LenientModel):
 class DSPIntegralAdScienceViewability(StrictModel):
     """The IAS viewability standard."""
 
-    standard: Annotated[DSPIASViewabilityStandardType, lenient_enum(DSPIASViewabilityStandardType)]
-    viewabilityTargeting: Annotated[DSPViewabilityTierType, lenient_enum(DSPViewabilityTierType)] | None = Field(
+    standard: Annotated[DSPIASViewabilityStandardType | str, lenient_enum(DSPIASViewabilityStandardType)]
+    viewabilityTargeting: Annotated[DSPViewabilityTierType | str, lenient_enum(DSPViewabilityTierType)] | None = Field(
         default=None
     )
 
@@ -2642,7 +2660,7 @@ class DSPInventorySourceTarget(StrictModel):
     """Target based on the source of the inventory."""
 
     inventorySourceId: DSPMarketplaceStringValue
-    inventorySourceType: Annotated[DSPInventorySourceType, lenient_enum(DSPInventorySourceType)]
+    inventorySourceType: Annotated[DSPInventorySourceType | str, lenient_enum(DSPInventorySourceType)]
 
 
 class DSPInventorySourceTargetOut(LenientModel):
@@ -2658,7 +2676,7 @@ class DSPKeywordTarget(StrictModel):
     keyword: str = Field(
         description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints)."
     )
-    matchType: Annotated[DSPKeywordMatchType, lenient_enum(DSPKeywordMatchType)]
+    matchType: Annotated[DSPKeywordMatchType | str, lenient_enum(DSPKeywordMatchType)]
 
 
 class DSPKeywordTargetOut(LenientModel):
@@ -2707,7 +2725,7 @@ class DSPMarketplaceTargetConfigurationsOut(LenientModel):
 
 
 class DSPMonetaryBudget(StrictModel):
-    currencyCode: Annotated[DSPCurrencyCode, lenient_enum(DSPCurrencyCode)]
+    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
     value: float = Field(description="The monetary amount of the budget cap in the given currency.")
 
 
@@ -2727,7 +2745,7 @@ class DSPMonetaryBudgetValueOut(LenientModel):
 class DSPNativeContentPositionTarget(StrictModel):
     """Targets ads to a specific native content position"""
 
-    nativePosition: Annotated[DSPNativeContentPosition, lenient_enum(DSPNativeContentPosition)]
+    nativePosition: Annotated[DSPNativeContentPosition | str, lenient_enum(DSPNativeContentPosition)]
 
 
 class DSPNativeContentPositionTargetOut(LenientModel):
@@ -2740,7 +2758,7 @@ class DSPNewsGuardBrandGuardMisinformationSafety(StrictModel):
     avoidanceList: (
         list[
             Annotated[
-                DSPNewsGuardBrandGuardMisinformationSafetyType,
+                DSPNewsGuardBrandGuardMisinformationSafetyType | str,
                 lenient_enum(DSPNewsGuardBrandGuardMisinformationSafetyType),
             ]
         ]
@@ -2766,7 +2784,7 @@ class DSPNewsGuardBrandGuardTrustedNewsTargeting(StrictModel):
     targetingList: (
         list[
             Annotated[
-                DSPNewsGuardBrandGuardTrustedNewsTargetingType,
+                DSPNewsGuardBrandGuardTrustedNewsTargetingType | str,
                 lenient_enum(DSPNewsGuardBrandGuardTrustedNewsTargetingType),
             ]
         ]
@@ -2789,7 +2807,7 @@ class DSPNewsGuardBrandGuardTrustedNewsTargetingOut(LenientModel):
 
 
 class DSPOptimization(StrictModel):
-    bidStrategy: Annotated[DSPBidStrategy, lenient_enum(DSPBidStrategy)] | None = Field(default=None)
+    bidStrategy: Annotated[DSPBidStrategy | str, lenient_enum(DSPBidStrategy)] | None = Field(default=None)
     budgetSettings: DSPAdGroupBudgetSettings | None = Field(default=None)
 
 
@@ -2799,7 +2817,7 @@ class DSPOptimizationOut(LenientModel):
 
 
 class DSPPacing(StrictModel):
-    deliveryProfile: Annotated[DSPDeliveryProfile, lenient_enum(DSPDeliveryProfile)] | None = Field(default=None)
+    deliveryProfile: Annotated[DSPDeliveryProfile | str, lenient_enum(DSPDeliveryProfile)] | None = Field(default=None)
 
 
 class DSPPacingOut(LenientModel):
@@ -2847,7 +2865,7 @@ class DSPPixalateFraudInvalidTrafficOut(LenientModel):
 class DSPPlacementTypeTarget(StrictModel):
     """Target based on the placement type."""
 
-    placementType: Annotated[DSPPlacementType, lenient_enum(DSPPlacementType)]
+    placementType: Annotated[DSPPlacementType | str, lenient_enum(DSPPlacementType)]
 
 
 class DSPPlacementTypeTargetOut(LenientModel):
@@ -2891,7 +2909,7 @@ class DSPProductCategoryTargetOut(LenientModel):
 
 
 class DSPProductMarketplaceSetting(StrictModel):
-    marketplace: Annotated[DSPMarketplace, lenient_enum(DSPMarketplace)]
+    marketplace: Annotated[DSPMarketplace | str, lenient_enum(DSPMarketplace)]
     productId: str = Field(description="The product id applicable at the specified marketplace.")
 
 
@@ -2903,9 +2921,9 @@ class DSPProductMarketplaceSettingOut(LenientModel):
 class DSPProductTarget(StrictModel):
     """Targets a specific product."""
 
-    matchType: Annotated[DSPProductMatchType, lenient_enum(DSPProductMatchType)]
+    matchType: Annotated[DSPProductMatchType | str, lenient_enum(DSPProductMatchType)]
     product: DSPProductValue
-    productIdType: Annotated[DSPProductIdType, lenient_enum(DSPProductIdType)]
+    productIdType: Annotated[DSPProductIdType | str, lenient_enum(DSPProductIdType)]
 
 
 class DSPProductTargetOut(LenientModel):
@@ -2982,10 +3000,10 @@ class DSPRetrieveCampaignForecastRequest(StrictModel):
 
 
 class DSPStatus(StrictModel):
-    deliveryReasons: list[Annotated[DSPDeliveryReason, lenient_enum(DSPDeliveryReason)]] | None = Field(
+    deliveryReasons: list[Annotated[DSPDeliveryReason | str, lenient_enum(DSPDeliveryReason)]] | None = Field(
         default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
     )
-    deliveryStatus: Annotated[DSPDeliveryStatus, lenient_enum(DSPDeliveryStatus)]
+    deliveryStatus: Annotated[DSPDeliveryStatus | str, lenient_enum(DSPDeliveryStatus)]
 
 
 class DSPStatusOut(LenientModel):
@@ -3246,28 +3264,28 @@ type DSPTargetDetailsOut = DSPTargetDetailsOutKeywordTarget | DSPTargetDetailsOu
 class DSPTargetingSettings(StrictModel):
     amazonViewability: DSPAmazonViewability | None = Field(default=None)
     automatedTargetingTactic: (
-        Annotated[DSPAutomatedTargetingTactic, lenient_enum(DSPAutomatedTargetingTactic)] | None
+        Annotated[DSPAutomatedTargetingTactic | str, lenient_enum(DSPAutomatedTargetingTactic)] | None
     ) = Field(default=None)
     defaultAudienceTargetingMatchType: (
-        Annotated[DSPDefaultAudienceTargetingMatchType, lenient_enum(DSPDefaultAudienceTargetingMatchType)] | None
+        Annotated[DSPDefaultAudienceTargetingMatchType | str, lenient_enum(DSPDefaultAudienceTargetingMatchType)] | None
     ) = Field(default=None)
     enableLanguageTargeting: bool | None = Field(
         default=None,
         description="If set to true, creatives will only target supply where the content language matches the creative language.",
     )
-    siteLanguage: Annotated[DSPSiteLanguage, lenient_enum(DSPSiteLanguage)] | None = Field(default=None)
+    siteLanguage: Annotated[DSPSiteLanguage | str, lenient_enum(DSPSiteLanguage)] | None = Field(default=None)
     tacticsConvertersExclusionType: (
-        Annotated[DSPTacticsConvertersExclusionType, lenient_enum(DSPTacticsConvertersExclusionType)] | None
+        Annotated[DSPTacticsConvertersExclusionType | str, lenient_enum(DSPTacticsConvertersExclusionType)] | None
     ) = Field(default=None)
     targetedPGDealId: str | None = Field(
         default=None,
         description="DealId to be targeted by the Ad Group being created. If you are creating an ad group targeting a programmatic guaranteed deal, the deal can be provided here.",
     )
-    timeZoneType: Annotated[DSPTimeZoneType, lenient_enum(DSPTimeZoneType)] | None = Field(default=None)
-    userLocationSignal: Annotated[DSPUserLocationSignal, lenient_enum(DSPUserLocationSignal)] | None = Field(
+    timeZoneType: Annotated[DSPTimeZoneType | str, lenient_enum(DSPTimeZoneType)] | None = Field(default=None)
+    userLocationSignal: Annotated[DSPUserLocationSignal | str, lenient_enum(DSPUserLocationSignal)] | None = Field(
         default=None
     )
-    videoCompletionTier: Annotated[DSPVideoCompletionTier, lenient_enum(DSPVideoCompletionTier)] | None = Field(
+    videoCompletionTier: Annotated[DSPVideoCompletionTier | str, lenient_enum(DSPVideoCompletionTier)] | None = Field(
         default=None
     )
 
@@ -3304,7 +3322,7 @@ class DSPTargetingSettingsOut(LenientModel):
 class DSPThemeTarget(StrictModel):
     """Theme targets let advertisers select high-performing targets based on a common theme."""
 
-    matchType: Annotated[DSPThemeMatchType, lenient_enum(DSPThemeMatchType)]
+    matchType: Annotated[DSPThemeMatchType | str, lenient_enum(DSPThemeMatchType)]
 
 
 class DSPThemeTargetOut(LenientModel):
@@ -3315,7 +3333,7 @@ class DSPThemeTargetOut(LenientModel):
 
 class DSPThirdPartyTarget(StrictModel):
     thirdPartyTargetDetails: DSPThirdPartyTargetDetails
-    thirdPartyTargetType: Annotated[DSPThirdPartyTargetType, lenient_enum(DSPThirdPartyTargetType)]
+    thirdPartyTargetType: Annotated[DSPThirdPartyTargetType | str, lenient_enum(DSPThirdPartyTargetType)]
 
 
 class DSPThirdPartyTargetDetailsDoubleVerifyFraudInvalidTraffic(StrictModel):
@@ -3463,7 +3481,7 @@ class DSPTimeOfDay(StrictModel):
 
 
 class DSPTwitchContentRating(StrictModel):
-    twitchContentRating: Annotated[DSPTwitchContentRatingEnum, lenient_enum(DSPTwitchContentRatingEnum)]
+    twitchContentRating: Annotated[DSPTwitchContentRatingEnum | str, lenient_enum(DSPTwitchContentRatingEnum)]
 
 
 class DSPTwitchContentRatingOut(LenientModel):
@@ -3473,7 +3491,7 @@ class DSPTwitchContentRatingOut(LenientModel):
 class DSPVideoAdFormatTarget(StrictModel):
     """Target based on the video ad format."""
 
-    videoAdFormat: Annotated[DSPVideoAdFormat, lenient_enum(DSPVideoAdFormat)]
+    videoAdFormat: Annotated[DSPVideoAdFormat | str, lenient_enum(DSPVideoAdFormat)]
 
 
 class DSPVideoAdFormatTargetOut(LenientModel):
@@ -3485,7 +3503,7 @@ class DSPVideoAdFormatTargetOut(LenientModel):
 class DSPVideoContentDurationTarget(StrictModel):
     """Targets ads to a specific video content duration"""
 
-    duration: Annotated[DSPVideoContentDuration, lenient_enum(DSPVideoContentDuration)]
+    duration: Annotated[DSPVideoContentDuration | str, lenient_enum(DSPVideoContentDuration)]
 
 
 class DSPVideoContentDurationTargetOut(LenientModel):

@@ -193,16 +193,16 @@ class SponsoredProductsCreateTargetingClause(StrictModel):
         min_length=0, max_length=1000, description="The targeting expression."
     )
     expressionType: Annotated[
-        SponsoredProductsCreateExpressionType, lenient_enum(SponsoredProductsCreateExpressionType)
+        SponsoredProductsCreateExpressionType | str, lenient_enum(SponsoredProductsCreateExpressionType)
     ]
     state: Annotated[
-        SponsoredProductsCreateOrUpdateEntityState, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
+        SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
     ]
 
 
 class SponsoredProductsCreateTargetingExpressionPredicate(StrictModel):
     type: Annotated[
-        SponsoredProductsCreateTargetingExpressionPredicateType,
+        SponsoredProductsCreateTargetingExpressionPredicateType | str,
         lenient_enum(SponsoredProductsCreateTargetingExpressionPredicateType),
     ]
     value: str | None = Field(default=None, description="The expression value")
@@ -219,8 +219,8 @@ class SponsoredProductsDeleteSponsoredProductsTargetingClausesResponseContent(Le
 class SponsoredProductsExpressionTypeFilter(StrictModel):
     """Filter entities by ExpressionType"""
 
-    include: list[Annotated[SponsoredProductsExpressionType, lenient_enum(SponsoredProductsExpressionType)]] = Field(
-        min_length=0, max_length=2
+    include: list[Annotated[SponsoredProductsExpressionType | str, lenient_enum(SponsoredProductsExpressionType)]] = (
+        Field(min_length=0, max_length=2)
     )
 
 
@@ -335,7 +335,7 @@ class SponsoredProductsTargetingExpressionPredicate(LenientModel):
 
 class SponsoredProductsTargetingExpressionPredicateWithoutOther(StrictModel):
     type: Annotated[
-        SponsoredProductsTargetingExpressionPredicateTypeWithoutOther,
+        SponsoredProductsTargetingExpressionPredicateTypeWithoutOther | str,
         lenient_enum(SponsoredProductsTargetingExpressionPredicateTypeWithoutOther),
     ]
     value: str | None = Field(default=None, description="The expression value")
@@ -361,12 +361,14 @@ class SponsoredProductsUpdateTargetingClause(StrictModel):
     )
     expressionType: (
         Annotated[
-            SponsoredProductsExpressionTypeWithoutOther, lenient_enum(SponsoredProductsExpressionTypeWithoutOther)
+            SponsoredProductsExpressionTypeWithoutOther | str, lenient_enum(SponsoredProductsExpressionTypeWithoutOther)
         ]
         | None
     ) = Field(default=None)
     state: (
-        Annotated[SponsoredProductsCreateOrUpdateEntityState, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)]
+        Annotated[
+            SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
+        ]
         | None
     ) = Field(default=None)
     targetId: str = Field(description="The target identifier")

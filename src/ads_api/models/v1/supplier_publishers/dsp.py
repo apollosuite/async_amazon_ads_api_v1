@@ -303,6 +303,10 @@ class DSPLanguageIso(StrEnum):
 class DSPSupplierPublisherSortOptionsFields(StrEnum):
     """
     Specify which field to order by.
+    | Field Name | Supported Ordering |
+    | --- | --- |
+    | name | ASCENDING,DESCENDING |
+    | supplierPublisherId | ASCENDING,DESCENDING |
     """
 
     name = "name"
@@ -822,8 +826,8 @@ type DSPSupplierPublisherExtension = DSPSupplierPublisherExtensionAmazonPublishe
 
 
 class DSPSupplierPublisherSortOption(StrictModel):
-    by: Annotated[DSPSupplierPublisherSortOptionsFields, lenient_enum(DSPSupplierPublisherSortOptionsFields)]
-    direction: Annotated[DSPSortDirection, lenient_enum(DSPSortDirection)] | None = Field(default=None)
+    by: Annotated[DSPSupplierPublisherSortOptionsFields | str, lenient_enum(DSPSupplierPublisherSortOptionsFields)]
+    direction: Annotated[DSPSortDirection | str, lenient_enum(DSPSortDirection)] | None = Field(default=None)
 
 
 class DSPSupplierPublisherSuccessResponse(LenientModel):
@@ -837,7 +841,7 @@ class DSPSupplierPublisherSupplierNameFilter(StrictModel):
 
 
 class DSPSupplierPublisherSupplierPublisherTypeFilter(StrictModel):
-    include: list[Annotated[DSPSupplierPublisherType, lenient_enum(DSPSupplierPublisherType)]] = Field(
+    include: list[Annotated[DSPSupplierPublisherType | str, lenient_enum(DSPSupplierPublisherType)]] = Field(
         min_length=1, max_length=1
     )
 

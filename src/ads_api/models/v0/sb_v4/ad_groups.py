@@ -156,7 +156,7 @@ class BulkAdGroupOperationResponse(LenientModel):
 class CreateAdGroup(StrictModel):
     campaignId: str = Field(description="The identifier of the campaign to which the keyword is associated.")
     name: str = Field(min_length=1, max_length=255, description="The name of the ad group.")
-    state: Annotated[CreateOrUpdateEntityState, lenient_enum(CreateOrUpdateEntityState)]
+    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
 
 
 class CreateSponsoredBrandsAdGroupsRequestContent(StrictModel):
@@ -205,7 +205,9 @@ class ListSponsoredBrandsAdGroupsResponseContent(LenientModel):
 
 class UpdateAdGroup(StrictModel):
     name: str | None = Field(default=None, min_length=1, max_length=255, description="The name of the ad group.")
-    state: Annotated[CreateOrUpdateEntityState, lenient_enum(CreateOrUpdateEntityState)] | None = Field(default=None)
+    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)] | None = Field(
+        default=None
+    )
     adGroupId: str = Field(description="The identifier of the keyword.")
 
 

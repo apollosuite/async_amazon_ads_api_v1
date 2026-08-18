@@ -220,11 +220,11 @@ class SBCreateKeywordTarget(StrictModel):
     keyword: str = Field(
         description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints)."
     )
-    matchType: Annotated[SBKeywordMatchType, lenient_enum(SBKeywordMatchType)]
+    matchType: Annotated[SBKeywordMatchType | str, lenient_enum(SBKeywordMatchType)]
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser."
     )
-    nativeLanguageLocale: Annotated[SBLanguageLocale, lenient_enum(SBLanguageLocale)] | None = Field(default=None)
+    nativeLanguageLocale: Annotated[SBLanguageLocale | str, lenient_enum(SBLanguageLocale)] | None = Field(default=None)
 
 
 class SBCreateProductCategoryRefinement(StrictModel):
@@ -261,9 +261,9 @@ class SBCreateProductCategoryTarget(StrictModel):
 class SBCreateProductTarget(StrictModel):
     """Targets a specific product."""
 
-    matchType: Annotated[SBProductMatchType, lenient_enum(SBProductMatchType)]
+    matchType: Annotated[SBProductMatchType | str, lenient_enum(SBProductMatchType)]
     product: SBCreateProductValue
-    productIdType: Annotated[SBProductIdType, lenient_enum(SBProductIdType)]
+    productIdType: Annotated[SBProductIdType | str, lenient_enum(SBProductIdType)]
 
 
 class SBCreateProductValue(StrictModel):
@@ -303,7 +303,7 @@ class SBCreateTargetRequest(StrictModel):
 class SBCreateThemeTarget(StrictModel):
     """Theme targets let advertisers select high-performing targets based on a common theme."""
 
-    matchType: Annotated[SBThemeMatchType, lenient_enum(SBThemeMatchType)]
+    matchType: Annotated[SBThemeMatchType | str, lenient_enum(SBThemeMatchType)]
 
 
 class SBDeleteTargetRequest(StrictModel):
@@ -427,7 +427,7 @@ class SBTargetAdGroupIdFilter(StrictModel):
 
 
 class SBTargetAdProductFilter(StrictModel):
-    include: list[Annotated[SBAdProduct, lenient_enum(SBAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class SBTargetBid(LenientModel):
@@ -443,16 +443,16 @@ class SBTargetCreate(StrictModel):
     adGroupId: str = Field(
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets."
     )
-    adProduct: Annotated[SBAdProduct, lenient_enum(SBAdProduct)]
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
     bid: SBCreateTargetBid | None = Field(default=None)
     campaignId: str | None = Field(
         default=None,
         description="A unique identifier for the campaign associated with the target. Only used for campaign-level targets.",
     )
     negative: bool = Field(description="Indicates whether the target is negative or not.")
-    state: Annotated[SBCreateState, lenient_enum(SBCreateState)]
+    state: Annotated[SBCreateState | str, lenient_enum(SBCreateState)]
     targetDetails: SBCreateTargetDetails
-    targetType: Annotated[SBTargetType, lenient_enum(SBTargetType)]
+    targetType: Annotated[SBTargetType | str, lenient_enum(SBTargetType)]
 
 
 class SBTargetDetailsKeywordTarget(LenientModel):
@@ -476,15 +476,15 @@ type SBTargetDetails = SBTargetDetailsKeywordTarget | SBTargetDetailsProductCate
 
 class SBTargetKeywordFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=2)
-    queryTermMatchType: Annotated[SBTargetKeywordFilterType, lenient_enum(SBTargetKeywordFilterType)]
+    queryTermMatchType: Annotated[SBTargetKeywordFilterType | str, lenient_enum(SBTargetKeywordFilterType)]
 
 
 class SBTargetLanguageLocaleFilter(StrictModel):
-    include: list[Annotated[SBLanguageLocale, lenient_enum(SBLanguageLocale)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SBLanguageLocale | str, lenient_enum(SBLanguageLocale)]] = Field(min_length=1, max_length=1)
 
 
 class SBTargetMatchTypeFilter(StrictModel):
-    include: list[Annotated[SBMatchType, lenient_enum(SBMatchType)]] = Field(min_length=1, max_length=10)
+    include: list[Annotated[SBMatchType | str, lenient_enum(SBMatchType)]] = Field(min_length=1, max_length=10)
 
 
 class SBTargetMultiStatusResponse(LenientModel):
@@ -502,7 +502,7 @@ class SBTargetNegativeFilter(StrictModel):
 
 
 class SBTargetStateFilter(StrictModel):
-    include: list[Annotated[SBState, lenient_enum(SBState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SBState | str, lenient_enum(SBState)]] = Field(min_length=1, max_length=3)
 
 
 class SBTargetSuccessResponse(LenientModel):
@@ -515,12 +515,12 @@ class SBTargetTargetIdFilter(StrictModel):
 
 
 class SBTargetTargetTypeFilter(StrictModel):
-    include: list[Annotated[SBTargetType, lenient_enum(SBTargetType)]] = Field(min_length=1, max_length=4)
+    include: list[Annotated[SBTargetType | str, lenient_enum(SBTargetType)]] = Field(min_length=1, max_length=4)
 
 
 class SBTargetUpdate(StrictModel):
     bid: SBUpdateTargetBid | None = Field(default=None)
-    state: Annotated[SBUpdateState, lenient_enum(SBUpdateState)] | None = Field(default=None)
+    state: Annotated[SBUpdateState | str, lenient_enum(SBUpdateState)] | None = Field(default=None)
     targetId: str = Field(description="A unique identifier for the target.")
 
 

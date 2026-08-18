@@ -245,7 +245,7 @@ class DSPCreateNotes(StrictModel):
     """Notes for an object with origin information."""
 
     note: str = Field(description="The note content.")
-    origin: Annotated[DSPNoteOrigin, lenient_enum(DSPNoteOrigin)]
+    origin: Annotated[DSPNoteOrigin | str, lenient_enum(DSPNoteOrigin)]
 
 
 class DSPCreateSize(StrictModel):
@@ -499,7 +499,7 @@ class DSPCreateSupplierProposedDealExtension(StrictModel):
 class DSPCreateSupplierStateReason(StrictModel):
     """Additional context for a resource's lifecycle state."""
 
-    archiveReason: Annotated[DSPSupplierArchiveReason, lenient_enum(DSPSupplierArchiveReason)] | None = Field(
+    archiveReason: Annotated[DSPSupplierArchiveReason | str, lenient_enum(DSPSupplierArchiveReason)] | None = Field(
         default=None
     )
     description: str | None = Field(
@@ -660,7 +660,7 @@ class DSPTimeOfDayOut(LenientModel):
 class DSPUpdateSupplierStateReason(StrictModel):
     """Additional context for a resource's lifecycle state."""
 
-    archiveReason: Annotated[DSPSupplierArchiveReason, lenient_enum(DSPSupplierArchiveReason)] | None = Field(
+    archiveReason: Annotated[DSPSupplierArchiveReason | str, lenient_enum(DSPSupplierArchiveReason)] | None = Field(
         default=None
     )
     description: str | None = Field(

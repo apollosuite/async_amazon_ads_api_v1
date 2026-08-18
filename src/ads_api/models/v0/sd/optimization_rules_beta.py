@@ -2,16 +2,24 @@
 
 from __future__ import annotations
 
+from typing import Annotated
+
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
+from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
+    BaseOptimizationRuleState,
+    RuleConditionComparisonOperator,
+    RuleConditionMetricName,
     RuleId,
 )
 
 
 class BaseOptimizationRule(StrictModel):
-    state: str | None = Field(default=None, description="The state of the optimization rule.")
+    state: Annotated[BaseOptimizationRuleState | str, lenient_enum(BaseOptimizationRuleState)] | None = Field(
+        default=None, description="The state of the optimization rule."
+    )
     ruleName: str | None = Field(default=None, description="The name of the optimization rule.")
     ruleConditions: list[RuleCondition] | None = Field(
         default=None,
@@ -22,7 +30,9 @@ class BaseOptimizationRule(StrictModel):
 
 
 class BaseOptimizationRuleOut(LenientModel):
-    state: str | None = Field(default=None, description="The state of the optimization rule.")
+    state: Annotated[BaseOptimizationRuleState | str, lenient_enum(BaseOptimizationRuleState)] | None = Field(
+        default=None, description="The state of the optimization rule."
+    )
     ruleName: str | None = Field(default=None, description="The name of the optimization rule.")
     ruleConditions: list[RuleConditionOut] | None = Field(
         default=None,
@@ -39,7 +49,9 @@ class CreateAssociatedOptimizationRulesRequest(StrictModel):
 
 
 class CreateOptimizationRule(StrictModel):
-    state: str = Field(description="The state of the optimization rule.")
+    state: Annotated[BaseOptimizationRuleState | str, lenient_enum(BaseOptimizationRuleState)] = Field(
+        description="The state of the optimization rule."
+    )
     ruleName: str | None = Field(default=None, description="The name of the optimization rule.")
     ruleConditions: list[RuleCondition] = Field(
         min_length=1,
@@ -49,7 +61,9 @@ class CreateOptimizationRule(StrictModel):
 
 
 class OptimizationRule(LenientModel):
-    state: str | None = Field(default=None, description="The state of the optimization rule.")
+    state: Annotated[BaseOptimizationRuleState | str, lenient_enum(BaseOptimizationRuleState)] | None = Field(
+        default=None, description="The state of the optimization rule."
+    )
     ruleName: str | None = Field(default=None, description="The name of the optimization rule.")
     ruleConditions: list[RuleConditionOut] | None = Field(
         default=None,
@@ -79,28 +93,52 @@ class RuleCondition(StrictModel):
     """A rule condition that defines the advertiser's intent for the outcome of the rule.
     Certain actions are performed by the product to achieve and maintain the rule condition."""
 
-    metricName: str = Field(description="""
+    metricName: Annotated[RuleConditionMetricName | str, lenient_enum(RuleConditionMetricName)] = Field(description="""
 The name of the metric.
 Supported rule metrics and corresponding supported comparisonOperators:
+|      MetricName      |ComparisonOperator  |Description|
+|------------------|--------------------|-------------------|
+|COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS     |              LESS_THAN_OR_EQUAL_TO             |Maximize viewable impressions while cost per 1000 views less than or equal to `threshold`|
+|COST_PER_CLICK    |              LESS_THAN_OR_EQUAL_TO            |Maximize page visits while cost per click less than or equal to `threshold`|
+|COST_PER_ORDER    |              LESS_THAN_OR_EQUAL_TO            |Maximize viewable impressions/page visits/conversion while cost per order less than or equal to `threshold`|
 """)
-    comparisonOperator: str = Field(description="The comparison operator.")
-    threshold: float = Field(
-        description="The value of the threshold associated with the metric. The threshold values has defined minimums depending on the metric names in the following table:"
-    )
+    comparisonOperator: Annotated[
+        RuleConditionComparisonOperator | str, lenient_enum(RuleConditionComparisonOperator)
+    ] = Field(description="The comparison operator.")
+    threshold: float = Field(description="""
+The value of the threshold associated with the metric. The threshold values has defined minimums depending on the metric names in the following table:
+|                  MetricName            | Minimum of `threshold` Value  |
+|----------------------------------------|-----------------------------------|
+|COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS  | 1                                 |
+|COST_PER_CLICK                          | 0.5                               |
+|COST_PER_ORDER                          | 5                                 |
+""")
 
 
 class RuleConditionOut(LenientModel):
     """A rule condition that defines the advertiser's intent for the outcome of the rule.
     Certain actions are performed by the product to achieve and maintain the rule condition."""
 
-    metricName: str = Field(description="""
+    metricName: Annotated[RuleConditionMetricName | str, lenient_enum(RuleConditionMetricName)] = Field(description="""
 The name of the metric.
 Supported rule metrics and corresponding supported comparisonOperators:
+|      MetricName      |ComparisonOperator  |Description|
+|------------------|--------------------|-------------------|
+|COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS     |              LESS_THAN_OR_EQUAL_TO             |Maximize viewable impressions while cost per 1000 views less than or equal to `threshold`|
+|COST_PER_CLICK    |              LESS_THAN_OR_EQUAL_TO            |Maximize page visits while cost per click less than or equal to `threshold`|
+|COST_PER_ORDER    |              LESS_THAN_OR_EQUAL_TO            |Maximize viewable impressions/page visits/conversion while cost per order less than or equal to `threshold`|
 """)
-    comparisonOperator: str = Field(description="The comparison operator.")
-    threshold: float = Field(
-        description="The value of the threshold associated with the metric. The threshold values has defined minimums depending on the metric names in the following table:"
-    )
+    comparisonOperator: Annotated[
+        RuleConditionComparisonOperator | str, lenient_enum(RuleConditionComparisonOperator)
+    ] = Field(description="The comparison operator.")
+    threshold: float = Field(description="""
+The value of the threshold associated with the metric. The threshold values has defined minimums depending on the metric names in the following table:
+|                  MetricName            | Minimum of `threshold` Value  |
+|----------------------------------------|-----------------------------------|
+|COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS  | 1                                 |
+|COST_PER_CLICK                          | 0.5                               |
+|COST_PER_ORDER                          | 5                                 |
+""")
 
 
 class SingleOptimizationRuleAssociationResult(LenientModel):
@@ -110,7 +148,9 @@ class SingleOptimizationRuleAssociationResult(LenientModel):
 
 
 class UpdateOptimizationRule(StrictModel):
-    state: str | None = Field(default=None, description="The state of the optimization rule.")
+    state: Annotated[BaseOptimizationRuleState | str, lenient_enum(BaseOptimizationRuleState)] | None = Field(
+        default=None, description="The state of the optimization rule."
+    )
     ruleName: str | None = Field(default=None, description="The name of the optimization rule.")
     ruleConditions: list[RuleCondition] | None = Field(
         default=None,
@@ -124,12 +164,15 @@ class UpdateOptimizationRule(StrictModel):
 __all__ = [
     "BaseOptimizationRule",
     "BaseOptimizationRuleOut",
+    "BaseOptimizationRuleState",
     "CreateAssociatedOptimizationRulesRequest",
     "CreateOptimizationRule",
     "OptimizationRule",
     "OptimizationRuleAssociationResponse",
     "OptimizationRuleResponse",
     "RuleCondition",
+    "RuleConditionComparisonOperator",
+    "RuleConditionMetricName",
     "RuleConditionOut",
     "RuleId",
     "SingleOptimizationRuleAssociationResult",

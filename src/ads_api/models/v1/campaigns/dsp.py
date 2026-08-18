@@ -529,7 +529,7 @@ class DSPCampaign(LenientModel):
 
 
 class DSPCampaignAdProductFilter(StrictModel):
-    include: list[Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class DSPCampaignCampaignIdFilter(StrictModel):
@@ -537,7 +537,7 @@ class DSPCampaignCampaignIdFilter(StrictModel):
 
 
 class DSPCampaignCreate(StrictModel):
-    adProduct: Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)]
+    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)]
     adomains: list[str] | None = Field(
         default=None,
         min_length=0,
@@ -551,7 +551,7 @@ class DSPCampaignCreate(StrictModel):
         max_length=2,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
-    countries: list[Annotated[DSPCountryCode, lenient_enum(DSPCountryCode)]] | None = Field(
+    countries: list[Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)]] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -566,7 +566,7 @@ class DSPCampaignCreate(StrictModel):
     frequencies: list[DSPCreateFrequency] | None = Field(
         default=None, min_length=0, max_length=3, description="Any frequency caps associated with the campaign."
     )
-    marketplaces: list[Annotated[DSPMarketplace, lenient_enum(DSPMarketplace)]] | None = Field(
+    marketplaces: list[Annotated[DSPMarketplace | str, lenient_enum(DSPMarketplace)]] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -581,7 +581,7 @@ class DSPCampaignCreate(StrictModel):
         default=None,
         description="StoreKit AdNetwork application ID. Represents iTunes application ID with which SKAN-enabled campaigns are associated.",
     )
-    state: Annotated[DSPCreateState, lenient_enum(DSPCreateState)]
+    state: Annotated[DSPCreateState | str, lenient_enum(DSPCreateState)]
     tags: list[DSPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -631,7 +631,7 @@ class DSPCampaignOptimizations(LenientModel):
 
 
 class DSPCampaignStateFilter(StrictModel):
-    include: list[Annotated[DSPState, lenient_enum(DSPState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[DSPState | str, lenient_enum(DSPState)]] = Field(min_length=1, max_length=3)
 
 
 class DSPCampaignSuccessResponse(LenientModel):
@@ -671,7 +671,7 @@ class DSPCampaignUpdate(StrictModel):
         default=None,
         description="StoreKit AdNetwork application ID. Represents iTunes application ID with which SKAN-enabled campaigns are associated.",
     )
-    state: Annotated[DSPUpdateState, lenient_enum(DSPUpdateState)] | None = Field(default=None)
+    state: Annotated[DSPUpdateState | str, lenient_enum(DSPUpdateState)] | None = Field(default=None)
     tags: list[DSPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -687,19 +687,21 @@ class DSPCreateAutoCreationSettings(StrictModel):
 
 
 class DSPCreateBidSettings(StrictModel):
-    bidStrategy: Annotated[DSPBidStrategy, lenient_enum(DSPBidStrategy)]
+    bidStrategy: Annotated[DSPBidStrategy | str, lenient_enum(DSPBidStrategy)]
 
 
 class DSPCreateBudget(StrictModel):
-    budgetType: Annotated[DSPBudgetType, lenient_enum(DSPBudgetType)]
+    budgetType: Annotated[DSPBudgetType | str, lenient_enum(DSPBudgetType)]
     budgetValue: DSPCreateBudgetValue
-    recurrenceTimePeriod: Annotated[DSPRecurrence, lenient_enum(DSPRecurrence)]
+    recurrenceTimePeriod: Annotated[DSPRecurrence | str, lenient_enum(DSPRecurrence)]
 
 
 class DSPCreateBudgetSettings(StrictModel):
-    budgetAllocation: Annotated[DSPBudgetAllocation, lenient_enum(DSPBudgetAllocation)] | None = Field(default=None)
-    flightBudgetRolloverStrategy: Annotated[DSPRolloverStrategy, lenient_enum(DSPRolloverStrategy)] | None = Field(
+    budgetAllocation: Annotated[DSPBudgetAllocation | str, lenient_enum(DSPBudgetAllocation)] | None = Field(
         default=None
+    )
+    flightBudgetRolloverStrategy: Annotated[DSPRolloverStrategy | str, lenient_enum(DSPRolloverStrategy)] | None = (
+        Field(default=None)
     )
 
 
@@ -708,11 +710,11 @@ class DSPCreateBudgetValue(StrictModel):
 
 
 class DSPCreateCampaignFee(StrictModel):
-    feeType: Annotated[DSPCampaignFeeType, lenient_enum(DSPCampaignFeeType)]
+    feeType: Annotated[DSPCampaignFeeType | str, lenient_enum(DSPCampaignFeeType)]
     feeValue: float = Field(
         description="A service fee that is subtracted from the campaign budget as a percent of budget. This setting can’t be changed after an ad group has been added to a campaign."
     )
-    feeValueType: Annotated[DSPCampaignFeeValueType, lenient_enum(DSPCampaignFeeValueType)]
+    feeValueType: Annotated[DSPCampaignFeeValueType | str, lenient_enum(DSPCampaignFeeValueType)]
 
 
 class DSPCreateCampaignFlight(StrictModel):
@@ -727,13 +729,13 @@ class DSPCreateCampaignOptimizations(StrictModel):
     bidSettings: DSPCreateBidSettings
     budgetSettings: DSPCreateBudgetSettings | None = Field(default=None)
     goalSettings: DSPCreateGoalSettings | None = Field(default=None)
-    primaryInventoryTypes: list[Annotated[DSPPrimaryInventoryType, lenient_enum(DSPPrimaryInventoryType)]] | None = (
-        Field(
-            default=None,
-            min_length=0,
-            max_length=10,
-            description="Primary inventory type of the campaign for filtering KPIs and recommending tactics.",
-        )
+    primaryInventoryTypes: (
+        list[Annotated[DSPPrimaryInventoryType | str, lenient_enum(DSPPrimaryInventoryType)]] | None
+    ) = Field(
+        default=None,
+        min_length=0,
+        max_length=10,
+        description="Primary inventory type of the campaign for filtering KPIs and recommending tactics.",
     )
 
 
@@ -742,7 +744,7 @@ class DSPCreateCampaignRequest(StrictModel):
 
 
 class DSPCreateFlightBudget(StrictModel):
-    budgetType: Annotated[DSPBudgetType, lenient_enum(DSPBudgetType)]
+    budgetType: Annotated[DSPBudgetType | str, lenient_enum(DSPBudgetType)]
     budgetValue: DSPCreateBudgetValue
 
 
@@ -752,15 +754,15 @@ class DSPCreateFrequency(StrictModel):
         le=99000,
         description="The maximum number of times an EventType is served per user. For ADSP ad group, maximum supported value is 500.",
     )
-    frequencyTargetingSetting: Annotated[DSPFrequencyTargetingSetting, lenient_enum(DSPFrequencyTargetingSetting)]
+    frequencyTargetingSetting: Annotated[DSPFrequencyTargetingSetting | str, lenient_enum(DSPFrequencyTargetingSetting)]
     timeCount: int = Field(
         ge=1, le=60, description="The value associated with the time and unit of time for this frequency cap."
     )
-    timeUnit: Annotated[DSPTimeUnit, lenient_enum(DSPTimeUnit)]
+    timeUnit: Annotated[DSPTimeUnit | str, lenient_enum(DSPTimeUnit)]
 
 
 class DSPCreateGoalSettings(StrictModel):
-    kpi: Annotated[DSPKPI, lenient_enum(DSPKPI)]
+    kpi: Annotated[DSPKPI | str, lenient_enum(DSPKPI)]
     kpiValue: float | None = Field(
         default=None, description="The value of the KPI that the campaign is working to optimize."
     )
@@ -870,13 +872,15 @@ class DSPTag(LenientModel):
 
 
 class DSPUpdateBidSettings(StrictModel):
-    bidStrategy: Annotated[DSPBidStrategy, lenient_enum(DSPBidStrategy)] | None = Field(default=None)
+    bidStrategy: Annotated[DSPBidStrategy | str, lenient_enum(DSPBidStrategy)] | None = Field(default=None)
 
 
 class DSPUpdateBudgetSettings(StrictModel):
-    budgetAllocation: Annotated[DSPBudgetAllocation, lenient_enum(DSPBudgetAllocation)] | None = Field(default=None)
-    flightBudgetRolloverStrategy: Annotated[DSPRolloverStrategy, lenient_enum(DSPRolloverStrategy)] | None = Field(
+    budgetAllocation: Annotated[DSPBudgetAllocation | str, lenient_enum(DSPBudgetAllocation)] | None = Field(
         default=None
+    )
+    flightBudgetRolloverStrategy: Annotated[DSPRolloverStrategy | str, lenient_enum(DSPRolloverStrategy)] | None = (
+        Field(default=None)
     )
 
 
@@ -884,13 +888,13 @@ class DSPUpdateCampaignOptimizations(StrictModel):
     bidSettings: DSPUpdateBidSettings | None = Field(default=None)
     budgetSettings: DSPUpdateBudgetSettings | None = Field(default=None)
     goalSettings: DSPUpdateGoalSettings | None = Field(default=None)
-    primaryInventoryTypes: list[Annotated[DSPPrimaryInventoryType, lenient_enum(DSPPrimaryInventoryType)]] | None = (
-        Field(
-            default=None,
-            min_length=0,
-            max_length=10,
-            description="Primary inventory type of the campaign for filtering KPIs and recommending tactics.",
-        )
+    primaryInventoryTypes: (
+        list[Annotated[DSPPrimaryInventoryType | str, lenient_enum(DSPPrimaryInventoryType)]] | None
+    ) = Field(
+        default=None,
+        min_length=0,
+        max_length=10,
+        description="Primary inventory type of the campaign for filtering KPIs and recommending tactics.",
     )
 
 
@@ -899,7 +903,7 @@ class DSPUpdateCampaignRequest(StrictModel):
 
 
 class DSPUpdateGoalSettings(StrictModel):
-    kpi: Annotated[DSPKPI, lenient_enum(DSPKPI)] | None = Field(default=None)
+    kpi: Annotated[DSPKPI | str, lenient_enum(DSPKPI)] | None = Field(default=None)
     kpiValue: float | None = Field(
         default=None, description="The value of the KPI that the campaign is working to optimize."
     )

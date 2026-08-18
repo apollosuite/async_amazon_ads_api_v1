@@ -130,7 +130,7 @@ class STTargetAdGroupIdFilter(StrictModel):
 
 
 class STTargetAdProductFilter(StrictModel):
-    include: list[Annotated[STAdProduct, lenient_enum(STAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[STAdProduct | str, lenient_enum(STAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class STTargetCampaignIdFilter(StrictModel):
@@ -141,11 +141,11 @@ class STTargetCreate(StrictModel):
     adGroupId: str = Field(
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets."
     )
-    adProduct: Annotated[STAdProduct, lenient_enum(STAdProduct)]
+    adProduct: Annotated[STAdProduct | str, lenient_enum(STAdProduct)]
     negative: bool = Field(description="Indicates whether the target is negative or not.")
-    state: Annotated[STCreateState, lenient_enum(STCreateState)]
+    state: Annotated[STCreateState | str, lenient_enum(STCreateState)]
     targetDetails: STCreateTargetDetails
-    targetType: Annotated[STTargetType, lenient_enum(STTargetType)]
+    targetType: Annotated[STTargetType | str, lenient_enum(STTargetType)]
 
 
 class STTargetDetailsAudienceTarget(LenientModel):
@@ -170,7 +170,7 @@ class STTargetMultiStatusSuccess(LenientModel):
 
 
 class STTargetStateFilter(StrictModel):
-    include: list[Annotated[STState, lenient_enum(STState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[STState | str, lenient_enum(STState)]] = Field(min_length=1, max_length=3)
 
 
 class STTargetSuccessResponse(LenientModel):
@@ -184,7 +184,7 @@ class STTargetTargetIdFilter(StrictModel):
 
 
 class STTargetUpdate(StrictModel):
-    state: Annotated[STUpdateState, lenient_enum(STUpdateState)] | None = Field(default=None)
+    state: Annotated[STUpdateState | str, lenient_enum(STUpdateState)] | None = Field(default=None)
     targetId: str = Field(description="A unique identifier for the target.")
 
 

@@ -11,6 +11,114 @@ from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models._core.lenient_enum import lenient_enum
 
 
+class BaseAdGroupBidOptimization(StrEnum):
+    """
+    Bid Optimization for the Adgroup. Default behavior is to optimize for clicks.
+    |Name|CostType|Description|
+    |----|--------|-----------|
+    |reach |vcpm|Optimize for viewable impressions. $1 is the minimum bid for vCPM.|
+    |clicks |cpc|[Default] Optimize for page visits.|
+    |conversions |cpc|Optimize for conversion.|
+    """
+
+    reach = "reach"
+    clicks = "clicks"
+    conversions = "conversions"
+
+
+class BaseAdGroupState(StrEnum):
+    """
+    The state of the ad group.
+    """
+
+    enabled = "enabled"
+    paused = "paused"
+    archived = "archived"
+
+
+class BaseCampaignBudgetType(StrEnum):
+    """
+    The time period over which the amount specified in the `budget` property is allocated.
+    """
+
+    daily = "daily"
+
+
+class BaseCampaignCostType(StrEnum):
+    """
+    Determines how the campaign will bid and charge.
+    |Name|Description|
+    |----|----------|
+    |cpc |[Default] The performance of this campaign is measured by the clicks triggered by the ad.|
+    |vcpm |The performance of this campaign is measured by the viewed impressions triggered by the ad. |
+
+    To view minimum and maximum bids based on the costType, see [Limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).
+    """
+
+    cpc = "cpc"
+    vcpm = "vcpm"
+
+
+class BaseCampaignState(StrEnum):
+    """
+    The state of the campaign.
+    """
+
+    enabled = "enabled"
+    paused = "paused"
+    archived = "archived"
+
+
+class BaseNegativeTargetingClauseState(StrEnum):
+    enabled = "enabled"
+    paused = "paused"
+    archived = "archived"
+
+
+class BaseOptimizationRuleState(StrEnum):
+    """
+    The state of the optimization rule.
+    """
+
+    enabled = "enabled"
+    paused_COMING_LATER = "paused [COMING LATER]"
+
+
+class BaseProductAdState(StrEnum):
+    """
+    The state of the campaign associated with the product ad.
+    """
+
+    enabled = "enabled"
+    paused = "paused"
+    archived = "archived"
+
+
+class BaseTargetingClauseState(StrEnum):
+    enabled = "enabled"
+    paused = "paused"
+    archived = "archived"
+
+
+class BidAnalysisType(StrEnum):
+    """
+    The type of bids in bid analyses. <br>`SUGGESTED_UPPER` - The upper bound for the suggested bid. <br>`SUGGESTED_LOWER` - The lower bound for the suggested bid. <br>`SUGGESTED` - The suggested bid value. <br>'ALTERNATIVE' - The alternative bids that is included in the bid analyses.
+    """
+
+    ALTERNATIVE = "ALTERNATIVE"
+    SUGGESTED = "SUGGESTED"
+    SUGGESTED_LOWER = "SUGGESTED_LOWER"
+    SUGGESTED_UPPER = "SUGGESTED_UPPER"
+
+
+class CampaignDeliveryProfile(StrEnum):
+    as_soon_as_possible = "as_soon_as_possible"
+
+
+class ContentTargetingPredicateType(StrEnum):
+    contentCategorySameAs = "contentCategorySameAs"
+
+
 class CreateOrUpdateEntityState(StrEnum):
     """
     Entity state for create or update operation.
@@ -21,6 +129,12 @@ class CreateOrUpdateEntityState(StrEnum):
 
 
 class CreativePropertyToOptimize(StrEnum):
+    """
+    | CreativePropertyToOptimize                            |  Description                                                                            |
+    |------------------------------------|-----------------------------------------------------------------------------------------|
+    | HEADLINE                            | Optimizes headlines by leveraging provided versions and customizing them based on factors such as audience, placement, and featured products.                                                                            |
+    """
+
     HEADLINE = "HEADLINE"
 
 
@@ -40,6 +154,10 @@ class CreativeStatus(StrEnum):
 class CreativeTypeInCreativeResponse(StrEnum):
     """
     The type of the creative.
+    |Name|Description|
+    |----|-----------|
+    |IMAGE |The creative will display static assets (e.g. headline, brandLogo or custom image).|
+    |VIDEO |The creative will display video assets. This type of creative must have video assets provided.|
     """
 
     IMAGE = "IMAGE"
@@ -89,6 +207,20 @@ class MmpPlatform(StrEnum):
     IOS = "IOS"
 
 
+class NegativeTargetingClauseExpressionType(StrEnum):
+    manual = "manual"
+    auto = "auto"
+
+
+class NegativeTargetingExpressionType(StrEnum):
+    """
+    The intent type. See the [targeting topic](https://advertising.amazon.com/help#GQCBASRVERXSARL3) in the Amazon Ads support center for more information.
+    """
+
+    asinSameAs = "asinSameAs"
+    asinBrandSameAs = "asinBrandSameAs"
+
+
 class QueryTermMatchType(StrEnum):
     """
     Defines how would the string resource field (e.g. campaign name, ad group name) be matched with the query term in filter.
@@ -96,6 +228,30 @@ class QueryTermMatchType(StrEnum):
 
     BROAD_MATCH = "BROAD_MATCH"
     EXACT_MATCH = "EXACT_MATCH"
+
+
+class RuleConditionComparisonOperator(StrEnum):
+    """
+    The comparison operator.
+    """
+
+    LESS_THAN_OR_EQUAL_TO = "LESS_THAN_OR_EQUAL_TO"
+
+
+class RuleConditionMetricName(StrEnum):
+    """
+    The name of the metric.
+    Supported rule metrics and corresponding supported comparisonOperators:
+    |      MetricName      |ComparisonOperator  |Description|
+    |------------------|--------------------|-------------------|
+    |COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS     |              LESS_THAN_OR_EQUAL_TO             |Maximize viewable impressions while cost per 1000 views less than or equal to `threshold`|
+    |COST_PER_CLICK    |              LESS_THAN_OR_EQUAL_TO            |Maximize page visits while cost per click less than or equal to `threshold`|
+    |COST_PER_ORDER    |              LESS_THAN_OR_EQUAL_TO            |Maximize viewable impressions/page visits/conversion while cost per order less than or equal to `threshold`|
+    """
+
+    COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS = "COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS"
+    COST_PER_CLICK = "COST_PER_CLICK"
+    COST_PER_ORDER = "COST_PER_ORDER"
 
 
 class SponsoredProductsBiddingErrorReason(StrEnum):
@@ -389,10 +545,92 @@ class SponsoredProductsValueLimitErrorReason(StrEnum):
 class Tactic(StrEnum):
     """
     The advertising tactic associated with the campaign. The following table lists available tactic names:
+    |Tactic Name|Type|Description|
+    |-----------|-----|-----------|
+    |T00020     |Contextual targeting | Choose individual products to show your ads in placements related to those products.<br> Choose individual categories to show your ads in placements related to those categories on and off Amazon.|
+    |T00030     |Audiences or Contextual Targeting | Select individual products, categories, refined categories, or audiences to show your ads.|
     """
 
     T00020 = "T00020"
     T00030 = "T00030"
+
+
+class TargetingExpressionType(StrEnum):
+    CLOSE_MATCH = "CLOSE_MATCH"
+    COMPLEMENTS = "COMPLEMENTS"
+    KEYWORD_BROAD_MATCH = "KEYWORD_BROAD_MATCH"
+    KEYWORD_EXACT_MATCH = "KEYWORD_EXACT_MATCH"
+    KEYWORD_PHRASE_MATCH = "KEYWORD_PHRASE_MATCH"
+    LOOSE_MATCH = "LOOSE_MATCH"
+    SUBSTITUTES = "SUBSTITUTES"
+
+
+class TargetingPredicateBaseType(StrEnum):
+    asinCategorySameAs = "asinCategorySameAs"
+    asinBrandSameAs = "asinBrandSameAs"
+    asinPriceBetween = "asinPriceBetween"
+    asinPriceGreaterThan = "asinPriceGreaterThan"
+    asinPriceLessThan = "asinPriceLessThan"
+    asinReviewRatingLessThan = "asinReviewRatingLessThan"
+    asinReviewRatingGreaterThan = "asinReviewRatingGreaterThan"
+    asinReviewRatingBetween = "asinReviewRatingBetween"
+    similarProduct = "similarProduct"
+    exactProduct = "exactProduct"
+    asinIsPrimeShippingEligible = "asinIsPrimeShippingEligible"
+    asinAgeRangeSameAs = "asinAgeRangeSameAs"
+    asinGenreSameAs = "asinGenreSameAs"
+    audienceSameAs = "audienceSameAs"
+    lookback = "lookback"
+    negative = "negative"
+    relatedProduct = "relatedProduct"
+
+
+class TargetingPredicateLegacyEventType(StrEnum):
+    """
+    The type of event that the value applies to. Only available for similarProduct and exactProduct currently.
+    * views event type corresponds to a customer who viewed the detail page of the product(s).
+    """
+
+    views = "views"
+
+
+class TargetingPredicateLegacyType(StrEnum):
+    asinSameAs = "asinSameAs"
+    asinCategorySameAs = "asinCategorySameAs"
+    asinBrandSameAs = "asinBrandSameAs"
+    asinPriceBetween = "asinPriceBetween"
+    asinPriceGreaterThan = "asinPriceGreaterThan"
+    asinPriceLessThan = "asinPriceLessThan"
+    asinReviewRatingLessThan = "asinReviewRatingLessThan"
+    asinReviewRatingGreaterThan = "asinReviewRatingGreaterThan"
+    asinReviewRatingBetween = "asinReviewRatingBetween"
+    similarProduct = "similarProduct"
+    exactProduct = "exactProduct"
+    asinIsPrimeShippingEligible = "asinIsPrimeShippingEligible"
+    asinAgeRangeSameAs = "asinAgeRangeSameAs"
+    asinGenreSameAs = "asinGenreSameAs"
+
+
+class TargetingPredicateNestedType(StrEnum):
+    views = "views"
+    audience = "audience"
+    purchases = "purchases"
+
+
+class TargetingPredicateType(StrEnum):
+    asinSameAs = "asinSameAs"
+    asinCategorySameAs = "asinCategorySameAs"
+    asinBrandSameAs = "asinBrandSameAs"
+    asinPriceBetween = "asinPriceBetween"
+    asinPriceGreaterThan = "asinPriceGreaterThan"
+    asinPriceLessThan = "asinPriceLessThan"
+    asinReviewRatingLessThan = "asinReviewRatingLessThan"
+    asinReviewRatingGreaterThan = "asinReviewRatingGreaterThan"
+    asinReviewRatingBetween = "asinReviewRatingBetween"
+    asinIsPrimeShippingEligible = "asinIsPrimeShippingEligible"
+    asinAgeRangeSameAs = "asinAgeRangeSameAs"
+    asinGenreSameAs = "asinGenreSameAs"
+    similarProduct = "similarProduct"
 
 
 class Theme(StrEnum):
@@ -420,15 +658,27 @@ class BaseAdGroup(StrictModel):
         default=None,
         description="The amount of the default bid associated with the ad group. Used if no bid is specified.",
     )
-    bidOptimization: str | None = Field(
-        default=None, description="Bid Optimization for the Adgroup. Default behavior is to optimize for clicks."
+    bidOptimization: Annotated[BaseAdGroupBidOptimization | str, lenient_enum(BaseAdGroupBidOptimization)] | None = (
+        Field(
+            default=None,
+            description="""
+Bid Optimization for the Adgroup. Default behavior is to optimize for clicks.
+|Name|CostType|Description|
+|----|--------|-----------|
+|reach |vcpm|Optimize for viewable impressions. $1 is the minimum bid for vCPM.|
+|clicks |cpc|[Default] Optimize for page visits.|
+|conversions |cpc|Optimize for conversion.|
+""",
+        )
     )
-    state: str | None = Field(default=None, description="The state of the ad group.")
+    state: Annotated[BaseAdGroupState | str, lenient_enum(BaseAdGroupState)] | None = Field(
+        default=None, description="The state of the ad group."
+    )
 
 
 class BaseCampaign(StrictModel):
     name: str | None = Field(default=None, description="The name of the campaign.")
-    budgetType: str | None = Field(
+    budgetType: Annotated[BaseCampaignBudgetType | str, lenient_enum(BaseCampaignBudgetType)] | None = Field(
         default=None,
         description="The time period over which the amount specified in the `budget` property is allocated.",
     )
@@ -437,14 +687,21 @@ class BaseCampaign(StrictModel):
         default=None, description="The YYYYMMDD start date of the campaign. The date must be today or in the future."
     )
     endDate: str | None = Field(default=None, description="The YYYYMMDD end date of the campaign.")
-    costType: str | None = Field(
+    costType: Annotated[BaseCampaignCostType | str, lenient_enum(BaseCampaignCostType)] | None = Field(
         default=None,
         description="""
 Determines how the campaign will bid and charge.
+|Name|Description|
+|----|----------|
+|cpc |[Default] The performance of this campaign is measured by the clicks triggered by the ad.|
+|vcpm |The performance of this campaign is measured by the viewed impressions triggered by the ad. |
+
 To view minimum and maximum bids based on the costType, see [Limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).
 """,
     )
-    state: str | None = Field(default=None, description="The state of the campaign.")
+    state: Annotated[BaseCampaignState | str, lenient_enum(BaseCampaignState)] | None = Field(
+        default=None, description="The state of the campaign."
+    )
     portfolioId: int | None = Field(
         default=None,
         description="Identifier of the portfolio that will be associated with the campaign. If null then the campaign will be disassociated from existing portfolio. Campaigns with CPC and vCPM costType are supported.",
@@ -452,15 +709,21 @@ To view minimum and maximum bids based on the costType, see [Limits](https://adv
 
 
 class BaseNegativeTargetingClause(StrictModel):
-    state: str | None = Field(default=None)
+    state: Annotated[BaseNegativeTargetingClauseState | str, lenient_enum(BaseNegativeTargetingClauseState)] | None = (
+        Field(default=None)
+    )
 
 
 class BaseProductAd(StrictModel):
-    state: str | None = Field(default=None, description="The state of the campaign associated with the product ad.")
+    state: Annotated[BaseProductAdState | str, lenient_enum(BaseProductAdState)] | None = Field(
+        default=None, description="The state of the campaign associated with the product ad."
+    )
 
 
 class BaseTargetingClause(StrictModel):
-    state: str | None = Field(default=None)
+    state: Annotated[BaseTargetingClauseState | str, lenient_enum(BaseTargetingClauseState)] | None = Field(
+        default=None
+    )
     bid: float | None = Field(
         default=None,
         ge=0.02,
@@ -482,7 +745,7 @@ class BidAnalysesPerPlacement(LenientModel):
 class BidAnalysis(LenientModel):
     bid: float = Field(ge=0)
     impactMetrics: BidAnalysisImpactMetrics
-    type: str = Field(
+    type: Annotated[BidAnalysisType | str, lenient_enum(BidAnalysisType)] = Field(
         description="The type of bids in bid analyses. <br>`SUGGESTED_UPPER` - The upper bound for the suggested bid. <br>`SUGGESTED_LOWER` - The lower bound for the suggested bid. <br>`SUGGESTED` - The suggested bid value. <br>'ALTERNATIVE' - The alternative bids that is included in the bid analyses."
     )
 
@@ -509,13 +772,72 @@ type CampaignId = int  # The identifier of the campaign.
 class ContentTargetingPredicate(StrictModel):
     """A predicate to match against in the content targeting expression."""
 
-    type: str | None = Field(default=None)
+    type: Annotated[ContentTargetingPredicateType | str, lenient_enum(ContentTargetingPredicateType)] | None = Field(
+        default=None
+    )
     value: str | None = Field(
         default=None,
         description="""
 The value to be targeted.
 
 The following table shows all possible values of the `contentCategorySameAs` predicate.
+| Category              | Subcategory                             | Value                    |
+|-----------------------|-----------------------------------------|--------------------------|
+| Movies and Television | All Movies and Television               | amzn1.iab-content.SPSHQ5 |
+| Movies and Television | Action or Adventure                     | amzn1.iab-content.325    |
+| Movies and Television | Animation or Anime                      | amzn1.iab-content.641    |
+| Movies and Television | Biographies                             | amzn1.iab-content.44     |
+| Movies and Television | Comedy                                  | amzn1.iab-content.646    |
+| Movies and Television | Documentary                             | amzn1.iab-content.332    |
+| Movies and Television | Drama                                   | amzn1.iab-content.647    |
+| Movies and Television | Factual                                 | amzn1.iab-content.648    |
+| Movies and Television | Family                                  | amzn1.iab-content.645    |
+| Movies and Television | Fantasy                                 | amzn1.iab-content.335    |
+| Movies and Television | History                                 | amzn1.iab-content.EZWB7V |
+| Movies and Television | Holiday                                 | amzn1.iab-content.649    |
+| Movies and Television | Horror                                  | amzn1.iab-content.336    |
+| Movies and Television | Lifestyle                               | amzn1.iab-content.TIFQA5 |
+| Movies and Television | Music Video                             | amzn1.iab-content.650    |
+| Movies and Television | Musicals                                | amzn1.iab-content.156    |
+| Movies and Television | Mystery                                 | amzn1.iab-content.331    |
+| Movies and Television | Reality TV                              | amzn1.iab-content.651    |
+| Movies and Television | Romance                                 | amzn1.iab-content.326    |
+| Movies and Television | Science Fiction                         | amzn1.iab-content.652    |
+| Movies and Television | Soap Opera                              | amzn1.iab-content.642    |
+| Movies and Television | Special Interest (Indie or Art House)   | amzn1.iab-content.643    |
+| Movies and Television | Sports Radio                            | amzn1.iab-content.370    |
+| Movies and Television | Talk Show                               | amzn1.iab-content.A0AH3G |
+| Movies and Television | True Crime                              | amzn1.iab-content.KHPC5A |
+| Movies and Television | Western                                 | amzn1.iab-content.KHPC6A |
+| Music and Radio       | All Music and Radio                     | amzn1.iab-content.338    |
+| Music and Radio       | Blues                                   | amzn1.iab-content.360    |
+| Music and Radio       | Classical Music                         | amzn1.iab-content.346    |
+| Music and Radio       | Comedy (Music and Audio)                | amzn1.iab-content.348    |
+| Music and Radio       | Pop, Contemporary Hits, or Top 40 Music | amzn1.iab-content.349    |
+| Music and Radio       | Country Music                           | amzn1.iab-content.350    |
+| Music and Radio       | Dance and Electronic Music              | amzn1.iab-content.351    |
+| Music and Radio       | Hip Hop Music                           | amzn1.iab-content.355    |
+| Music and Radio       | Inspirational or New Age Music          | amzn1.iab-content.356    |
+| Music and Radio       | Jazz                                    | amzn1.iab-content.357    |
+| Music and Radio       | Oldies or Adult Standards               | amzn1.iab-content.358    |
+| Music and Radio       | R&B, Soul or Funk Music                 | amzn1.iab-content.362    |
+| Music and Radio       | Reggae                                  | amzn1.iab-content.359    |
+| Music and Radio       | Rock Music                              | amzn1.iab-content.363    |
+| Music and Radio       | Songwriters or Folk                     | amzn1.iab-content.353    |
+| Music and Radio       | World or International Music            | amzn1.iab-content.352    |
+| Video Games           | All Video Games                         | amzn1.iab-content.680    |
+| Video Games           | Action-Adventure Games                  | amzn1.iab-content.691    |
+| Video Games           | Casual Games                            | amzn1.iab-content.693    |
+| Video Games           | Puzzle Video Games                      | amzn1.iab-content.698    |
+| Video Games           | Racing Video Games                      | amzn1.iab-content.VK7KD0 |
+| Video Games           | Role-Playing Video Games                | amzn1.iab-content.687    |
+| Video Games           | Simulation Video Games                  | amzn1.iab-content.688    |
+| Video Games           | Sports Video Games                      | amzn1.iab-content.689    |
+| Video Games           | Strategy Video Games                    | amzn1.iab-content.690    |
+| Video Games           | PC Games                                | amzn1.iab-content.684    |
+| Video Games           | Mobile Games                            | amzn1.iab-content.683    |
+| Video Games           | Console Games                           | amzn1.iab-content.681    |
+| Video Games           | eSports                                 | amzn1.iab-content.682    |
 """,
     )
 
@@ -565,7 +887,7 @@ class DisassociateAssociatedBudgetRuleResponse(LenientModel):
 class EntityStateFilter(StrictModel):
     """Filter entities by state."""
 
-    include: list[Annotated[EntityState, lenient_enum(EntityState)]] | None = Field(
+    include: list[Annotated[EntityState | str, lenient_enum(EntityState)]] | None = Field(
         default=None, min_length=0, max_length=10
     )
 
@@ -634,11 +956,11 @@ class ImpactMetrics(LenientModel):
     orders: ImpactMetric | None = Field(default=None)
 
 
-type LandingPageURL = str  # The URL where customers will land after clicking on its link. Must be provided if a LandingPageType is set. Please note that if a single product ad sets the landing page url, only one product ad can be added to the ad group. This field is not supported when using ASIN or SKU fields.
+type LandingPageURL = str
 
 
 class LocationExpression(StrictModel):
-    type: Annotated[LocationPredicate, lenient_enum(LocationPredicate)] | None = Field(default=None)
+    type: Annotated[LocationPredicate | str, lenient_enum(LocationPredicate)] | None = Field(default=None)
     value: str | None = Field(
         default=None,
         description="The location identifier. Currently, this can correspond to either a 'city', 'state', 'dma', 'postal code', or 'country'. Its value is discoverable using the GET /locations API.",
@@ -671,14 +993,18 @@ class MmpMetadata(LenientModel):
 class NameFilter(StrictModel):
     """Filter entities by name."""
 
-    queryTermMatchType: Annotated[QueryTermMatchType, lenient_enum(QueryTermMatchType)] | None = Field(default=None)
+    queryTermMatchType: Annotated[QueryTermMatchType | str, lenient_enum(QueryTermMatchType)] | None = Field(
+        default=None
+    )
     include: list[str] | None = Field(default=None, min_length=0, max_length=100)
 
 
 class NegativeTargetingExpression(StrictModel):
-    type: str | None = Field(
-        default=None,
-        description="The intent type. See the [targeting topic](https://advertising.amazon.com/help#GQCBASRVERXSARL3) in the Amazon Ads support center for more information.",
+    type: Annotated[NegativeTargetingExpressionType | str, lenient_enum(NegativeTargetingExpressionType)] | None = (
+        Field(
+            default=None,
+            description="The intent type. See the [targeting topic](https://advertising.amazon.com/help#GQCBASRVERXSARL3) in the Amazon Ads support center for more information.",
+        )
     )
     value: str | None = Field(
         default=None, description="The value to be negatively targeted. Used only in manual expressions."
@@ -739,7 +1065,7 @@ class SDGoalProduct(StrictModel):
 class SponsoredProductsAsinFilter(StrictModel):
     include: list[str] | None = Field(default=None, max_length=100)
     queryTermMatchType: (
-        Annotated[SponsoredProductsQueryTermMatchType, lenient_enum(SponsoredProductsQueryTermMatchType)] | None
+        Annotated[SponsoredProductsQueryTermMatchType | str, lenient_enum(SponsoredProductsQueryTermMatchType)] | None
     ) = Field(default=None)
 
 
@@ -766,7 +1092,7 @@ class SponsoredProductsBillingError(LenientModel):
 
 class SponsoredProductsCreateOrUpdateNegativeTargetingExpressionPredicate(StrictModel):
     type: Annotated[
-        SponsoredProductsCreateOrUpdateNegativeTargetingExpressionPredicateType,
+        SponsoredProductsCreateOrUpdateNegativeTargetingExpressionPredicateType | str,
         lenient_enum(SponsoredProductsCreateOrUpdateNegativeTargetingExpressionPredicateType),
     ]
     value: str | None = Field(default=None, description="The expression value")
@@ -823,7 +1149,7 @@ class SponsoredProductsEntityStateError(LenientModel):
 class SponsoredProductsEntityStateFilter(StrictModel):
     """Filter entities by state. To filter live entities, only 'ENABLED', 'PAUSED' and 'ARCHIVED' can be used"""
 
-    include: list[Annotated[SponsoredProductsEntityState, lenient_enum(SponsoredProductsEntityState)]] = Field(
+    include: list[Annotated[SponsoredProductsEntityState | str, lenient_enum(SponsoredProductsEntityState)]] = Field(
         min_length=0, max_length=10
     )
 
@@ -875,7 +1201,7 @@ class SponsoredProductsKeywordTextFilter(StrictModel):
 
     include: list[str] | None = Field(default=None, min_length=0, max_length=100)
     queryTermMatchType: Annotated[
-        SponsoredProductsQueryTermMatchType, lenient_enum(SponsoredProductsQueryTermMatchType)
+        SponsoredProductsQueryTermMatchType | str, lenient_enum(SponsoredProductsQueryTermMatchType)
     ]
 
 
@@ -918,7 +1244,7 @@ class SponsoredProductsNameFilter(StrictModel):
 
     include: list[str] | None = Field(default=None, min_length=0, max_length=100)
     queryTermMatchType: (
-        Annotated[SponsoredProductsQueryTermMatchType, lenient_enum(SponsoredProductsQueryTermMatchType)] | None
+        Annotated[SponsoredProductsQueryTermMatchType | str, lenient_enum(SponsoredProductsQueryTermMatchType)] | None
     ) = Field(default=None)
 
 
@@ -1040,7 +1366,7 @@ class TargetingPredicate(StrictModel):
     * When using either of the 'between' strings to construct a targeting expression the format of the string is 'double-double' where the first double must be smaller than the second double. Prices are not inclusive.
     """
 
-    type: str | None = Field(default=None)
+    type: Annotated[TargetingPredicateType | str, lenient_enum(TargetingPredicateType)] | None = Field(default=None)
     value: str | None = Field(default=None, description="The value to be targeted.")
 
 
@@ -1056,7 +1382,9 @@ class TargetingPredicateBase(StrictModel):
     * A 'relatedProduct' TargetingPredicateBase will Target an audience that has purchased a related product in the past 7,14,30,60,90,180, or 365 days.
     * The 'audiencesLikelyInterestedInAd' type is only supported when using landingPageType of OFF_AMAZON_LINK."""
 
-    type: str | None = Field(default=None)
+    type: Annotated[TargetingPredicateBaseType | str, lenient_enum(TargetingPredicateBaseType)] | None = Field(
+        default=None
+    )
     value: str | None = Field(default=None, description="The value to be targeted.")
 
 
@@ -1068,7 +1396,9 @@ class TargetingPredicateNested(StrictModel):
     * For Amazon Audiences targeting, the TargetingPredicateNested type should be set to 'audience' and the value array should include one TargetingPredicateBase component with type set to 'audienceSameAs'.
     """
 
-    type: str | None = Field(default=None)
+    type: Annotated[TargetingPredicateNestedType | str, lenient_enum(TargetingPredicateNestedType)] | None = Field(
+        default=None
+    )
     value: list[TargetingPredicateBase] | None = Field(default=None)
 
 
@@ -1077,17 +1407,29 @@ __all__ = [
     "AdId",
     "AdName",
     "BaseAdGroup",
+    "BaseAdGroupBidOptimization",
+    "BaseAdGroupState",
     "BaseCampaign",
+    "BaseCampaignBudgetType",
+    "BaseCampaignCostType",
+    "BaseCampaignState",
     "BaseNegativeTargetingClause",
+    "BaseNegativeTargetingClauseState",
+    "BaseOptimizationRuleState",
     "BaseProductAd",
+    "BaseProductAdState",
     "BaseTargetingClause",
+    "BaseTargetingClauseState",
     "BidAnalyses",
     "BidAnalysesPerPlacement",
     "BidAnalysis",
     "BidAnalysisImpactMetrics",
+    "BidAnalysisType",
     "BiddingError",
+    "CampaignDeliveryProfile",
     "CampaignId",
     "ContentTargetingPredicate",
+    "ContentTargetingPredicateType",
     "CreateOrUpdateEntityState",
     "CreativePropertyToOptimize",
     "CreativeStatus",
@@ -1114,12 +1456,16 @@ __all__ = [
     "MmpName",
     "MmpPlatform",
     "NameFilter",
+    "NegativeTargetingClauseExpressionType",
     "NegativeTargetingExpression",
+    "NegativeTargetingExpressionType",
     "ObjectIdFilter",
     "OtherError",
     "QueryTermMatchType",
     "RangeError",
     "RangeMetricValue",
+    "RuleConditionComparisonOperator",
+    "RuleConditionMetricName",
     "RuleId",
     "SBTargetingBrand",
     "SDASIN",
@@ -1185,8 +1531,14 @@ __all__ = [
     "Tactic",
     "TargetId",
     "TargetResponse",
+    "TargetingExpressionType",
     "TargetingPredicate",
     "TargetingPredicateBase",
+    "TargetingPredicateBaseType",
+    "TargetingPredicateLegacyEventType",
+    "TargetingPredicateLegacyType",
     "TargetingPredicateNested",
+    "TargetingPredicateNestedType",
+    "TargetingPredicateType",
     "Theme",
 ]

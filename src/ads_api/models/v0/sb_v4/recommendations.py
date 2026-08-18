@@ -22,6 +22,11 @@ class CostControlMetric(StrEnum):
     COST_PER_CLICK = "COST_PER_CLICK"
 
 
+class HeadlineSuggestionRequestAdFormat(StrEnum):
+    SPONSORED_BRANDS = "SPONSORED_BRANDS"
+    SPONSORED_BRANDS_SPOTLIGHT = "SPONSORED_BRANDS_SPOTLIGHT"
+
+
 class LandingPageType(StrEnum):
     """
     The type of landing page, such as store page, product list (simple landing page), custom url.
@@ -85,7 +90,9 @@ class HeadlineSuggestionRequest(StrictModel):
         le=10,
         description="Maximum number of suggestions that API should return. Response will [0, maxNumSuggestions] suggestions (suggestions are not guaranteed).",
     )
-    adFormat: str | None = Field(default=None)
+    adFormat: (
+        Annotated[HeadlineSuggestionRequestAdFormat | str, lenient_enum(HeadlineSuggestionRequestAdFormat)] | None
+    ) = Field(default=None)
 
 
 class HeadlineSuggestionResponse(LenientModel):
@@ -101,7 +108,7 @@ class HeadlineSuggestionResponse(LenientModel):
 
 class LandingPage(StrictModel):
     asins: list[str] | None = Field(default=None, min_length=3, max_length=100)
-    pageType: Annotated[LandingPageType, lenient_enum(LandingPageType)] | None = Field(default=None)
+    pageType: Annotated[LandingPageType | str, lenient_enum(LandingPageType)] | None = Field(default=None)
     url: str | None = Field(
         default=None,
         description="""
@@ -115,7 +122,7 @@ Note that brandVideo ads only support Store page as landing page and does not al
 
 
 class SBOptimizationRecommendationRequestContent(StrictModel):
-    costControlMetric: Annotated[CostControlMetric, lenient_enum(CostControlMetric)]
+    costControlMetric: Annotated[CostControlMetric | str, lenient_enum(CostControlMetric)]
     landingPages: list[LandingPage] = Field(min_length=1, max_length=10)
 
 
@@ -195,6 +202,7 @@ __all__ = [
     "GetBudgetRecommendationsRequestContent",
     "GetBudgetRecommendationsResponseContent",
     "HeadlineSuggestionRequest",
+    "HeadlineSuggestionRequestAdFormat",
     "HeadlineSuggestionResponse",
     "LandingPage",
     "LandingPageType",

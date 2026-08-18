@@ -517,12 +517,14 @@ class AudienceResponseMetadata(LenientModel):
 class ConversionDefinitionMetadata(StrictModel):
     """Base metadata related to a Conversion Definition, typically used in CD creation requests."""
 
-    conversionType: Annotated[ConversionDefinitionTypeV1, lenient_enum(ConversionDefinitionTypeV1)]
-    countingMethod: Annotated[ConversionDefinitionCountingMethodV1, lenient_enum(ConversionDefinitionCountingMethodV1)]
+    conversionType: Annotated[ConversionDefinitionTypeV1 | str, lenient_enum(ConversionDefinitionTypeV1)]
+    countingMethod: Annotated[
+        ConversionDefinitionCountingMethodV1 | str, lenient_enum(ConversionDefinitionCountingMethodV1)
+    ]
     name: str
     partner: str | None = Field(default=None)
-    source: Annotated[ConversionDefinitionSourceV1, lenient_enum(ConversionDefinitionSourceV1)]
-    sourceType: Annotated[ConversionDefinitionSourceTypeV1, lenient_enum(ConversionDefinitionSourceTypeV1)]
+    source: Annotated[ConversionDefinitionSourceV1 | str, lenient_enum(ConversionDefinitionSourceV1)]
+    sourceType: Annotated[ConversionDefinitionSourceTypeV1 | str, lenient_enum(ConversionDefinitionSourceTypeV1)]
     value: float
 
 
@@ -552,7 +554,7 @@ The account (e.g., DSP Advertiser Account) entityId. This is different from 'des
 This is also known as "parent entity id".
 """,
     )
-    application: Annotated[ApplicationId, lenient_enum(ApplicationId)]
+    application: Annotated[ApplicationId | str, lenient_enum(ApplicationId)]
     dataSetId: str = Field(
         min_length=1,
         description="""
@@ -620,7 +622,7 @@ class ListSharingRulesRequestContent(StrictModel):
     activatedBefore: datetime | None = Field(
         default=None, description="The UTC date-time on or before which the sharing rule was activated."
     )
-    application: Annotated[ApplicationId, lenient_enum(ApplicationId)] | None = Field(default=None)
+    application: Annotated[ApplicationId | str, lenient_enum(ApplicationId)] | None = Field(default=None)
     datasetIds: list[str] | None = Field(
         default=None, min_length=1, description="The list of dataset ids to filter sharing rules by."
     )
@@ -634,7 +636,7 @@ class ListSharingRulesRequestContent(StrictModel):
         description="The maximum number of sharing rule results to return within one response.",
     )
     nextToken: str | None = Field(default=None, description="nextToken is used for pagination.")
-    statuses: list[Annotated[SharingRuleStatus, lenient_enum(SharingRuleStatus)]] | None = Field(
+    statuses: list[Annotated[SharingRuleStatus | str, lenient_enum(SharingRuleStatus)]] | None = Field(
         default=None,
         min_length=1,
         description="""
@@ -670,7 +672,7 @@ class MMPMetadataOut(LenientModel):
 class MarketplaceFee(StrictModel):
     """The fee charged for a supply type in a specific marketplace."""
 
-    currency: Annotated[Currency, lenient_enum(Currency)]
+    currency: Annotated[Currency | str, lenient_enum(Currency)]
     value: float = Field(
         description="The fee amount as a decimal in the given currency. For example, a $0.50 CPM is 0.5."
     )
@@ -686,7 +688,7 @@ class PubTechMetadata(StrictModel):
     """Metadata specific to PubTech, including audience information.
     Data provider metadata is stored on the ADM Sharing Grant, not in the sharing rule request."""
 
-    allowedCountries: list[Annotated[CountryCode, lenient_enum(CountryCode)]] | None = Field(
+    allowedCountries: list[Annotated[CountryCode | str, lenient_enum(CountryCode)]] | None = Field(
         default=None,
         min_length=1,
         max_length=10,

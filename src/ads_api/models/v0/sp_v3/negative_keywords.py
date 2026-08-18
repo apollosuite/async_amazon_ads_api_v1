@@ -69,14 +69,15 @@ class SponsoredProductsCreateNegativeKeyword(StrictModel):
     campaignId: str = Field(description="The identifer of the campaign to which the keyword is associated.")
     keywordText: str = Field(description="The keyword text.")
     matchType: Annotated[
-        SponsoredProductsCreateOrUpdateNegativeMatchType, lenient_enum(SponsoredProductsCreateOrUpdateNegativeMatchType)
+        SponsoredProductsCreateOrUpdateNegativeMatchType | str,
+        lenient_enum(SponsoredProductsCreateOrUpdateNegativeMatchType),
     ]
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser"
     )
     nativeLanguageLocale: str | None = Field(default=None, description="The locale preference of the advertiser.")
     state: Annotated[
-        SponsoredProductsCreateOrUpdateEntityState, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
+        SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
     ]
 
 
@@ -109,7 +110,8 @@ class SponsoredProductsListSponsoredProductsNegativeKeywordsRequestContent(Stric
         default=None, description="Restricts results to negativeKeywords that match the specified locale."
     )
     matchTypeFilter: (
-        list[Annotated[SponsoredProductsNegativeMatchType, lenient_enum(SponsoredProductsNegativeMatchType)]] | None
+        list[Annotated[SponsoredProductsNegativeMatchType | str, lenient_enum(SponsoredProductsNegativeMatchType)]]
+        | None
     ) = Field(
         default=None, description="Only the negativeKeyword with the match type that is in this list will be listed"
     )
@@ -199,7 +201,9 @@ class SponsoredProductsNegativeKeywordSuccessResponseItem(LenientModel):
 class SponsoredProductsUpdateNegativeKeyword(StrictModel):
     keywordId: str = Field(description="The identifier of the keyword.")
     state: (
-        Annotated[SponsoredProductsCreateOrUpdateEntityState, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)]
+        Annotated[
+            SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
+        ]
         | None
     ) = Field(default=None)
 

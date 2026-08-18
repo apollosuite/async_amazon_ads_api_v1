@@ -509,8 +509,8 @@ class DSPAmazonPublisherServicesGoalDetails(LenientModel):
 
 
 class DSPCreateAdvertisingDealPrice(StrictModel):
-    currencyCode: Annotated[DSPCurrencyCode, lenient_enum(DSPCurrencyCode)]
-    priceType: Annotated[DSPAdvertisingDealPriceType, lenient_enum(DSPAdvertisingDealPriceType)]
+    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
+    priceType: Annotated[DSPAdvertisingDealPriceType | str, lenient_enum(DSPAdvertisingDealPriceType)]
     value: float = Field(description="The monetary amount of the price in the given currency.")
 
 
@@ -553,9 +553,11 @@ class DSPCreateAmazonPublisherServicesGoalDetails(StrictModel):
     """Goal details including type, target, and unit."""
 
     target: int | None = Field(default=None, description="The target value for the goal.")
-    type: Annotated[DSPAmazonPublisherServicesGoalTypes, lenient_enum(DSPAmazonPublisherServicesGoalTypes)]
+    type: Annotated[DSPAmazonPublisherServicesGoalTypes | str, lenient_enum(DSPAmazonPublisherServicesGoalTypes)]
     unit: (
-        Annotated[DSPAmazonPublisherServicesGoalTargetUnit, lenient_enum(DSPAmazonPublisherServicesGoalTargetUnit)]
+        Annotated[
+            DSPAmazonPublisherServicesGoalTargetUnit | str, lenient_enum(DSPAmazonPublisherServicesGoalTargetUnit)
+        ]
         | None
     ) = Field(default=None)
 
@@ -593,23 +595,24 @@ class DSPCreateFrequency(StrictModel):
         le=99000,
         description="The maximum number of times an EventType is served per user. For ADSP ad group, maximum supported value is 500.",
     )
-    eventType: Annotated[DSPEventType, lenient_enum(DSPEventType)] | None = Field(default=None)
+    eventType: Annotated[DSPEventType | str, lenient_enum(DSPEventType)] | None = Field(default=None)
     extraFrequencyCapImpressionTypes: (
-        list[Annotated[DSPExtraFrequencyCapImpressionType, lenient_enum(DSPExtraFrequencyCapImpressionType)]] | None
+        list[Annotated[DSPExtraFrequencyCapImpressionType | str, lenient_enum(DSPExtraFrequencyCapImpressionType)]]
+        | None
     ) = Field(
         default=None,
         min_length=0,
         max_length=10,
         description="Add the additional types of impression to frequency cap. Default to empty list when not selected",
     )
-    frequencyTargetingSetting: Annotated[DSPFrequencyTargetingSetting, lenient_enum(DSPFrequencyTargetingSetting)]
+    frequencyTargetingSetting: Annotated[DSPFrequencyTargetingSetting | str, lenient_enum(DSPFrequencyTargetingSetting)]
     timeCount: int | None = Field(
         default=None,
         ge=1,
         le=60,
         description="The value associated with the time and unit of time for this frequency cap.",
     )
-    timeUnit: Annotated[DSPTimeUnit, lenient_enum(DSPTimeUnit)] | None = Field(default=None)
+    timeUnit: Annotated[DSPTimeUnit | str, lenient_enum(DSPTimeUnit)] | None = Field(default=None)
 
 
 class DSPCreateFrequencyCap(StrictModel):
@@ -621,7 +624,7 @@ class DSPCreateFrequencyCap(StrictModel):
 
 
 class DSPCreateMonetaryBudget(StrictModel):
-    currencyCode: Annotated[DSPCurrencyCode, lenient_enum(DSPCurrencyCode)]
+    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )
@@ -631,10 +634,11 @@ class DSPCreateMonetaryBudget(StrictModel):
 class DSPCreateSupplierDayPartTarget(StrictModel):
     """Supplier target based on time of day."""
 
-    dayOfWeek: Annotated[DSPDayOfWeek, lenient_enum(DSPDayOfWeek)]
+    dayOfWeek: Annotated[DSPDayOfWeek | str, lenient_enum(DSPDayOfWeek)]
     timeOfDay: DSPCreateTimeOfDay
     timeZoneType: (
-        Annotated[DSPSupplierTargetingDaypartTimezoneType, lenient_enum(DSPSupplierTargetingDaypartTimezoneType)] | None
+        Annotated[DSPSupplierTargetingDaypartTimezoneType | str, lenient_enum(DSPSupplierTargetingDaypartTimezoneType)]
+        | None
     ) = Field(default=None)
 
 
@@ -642,8 +646,8 @@ class DSPCreateSupplierProposedDealCreativeRequirement(StrictModel):
     """Creative requirement with inventory type."""
 
     creativeRequirement: DSPCreateSupplierProposedDealCreativeRequirements
-    inventoryType: Annotated[DSPInventoryType, lenient_enum(DSPInventoryType)]
-    languages: list[Annotated[DSPLanguageIso, lenient_enum(DSPLanguageIso)]] | None = Field(
+    inventoryType: Annotated[DSPInventoryType | str, lenient_enum(DSPInventoryType)]
+    languages: list[Annotated[DSPLanguageIso | str, lenient_enum(DSPLanguageIso)]] | None = Field(
         default=None, min_length=0, max_length=100, description="Languages available for this creative requirement."
     )
 
@@ -675,7 +679,7 @@ class DSPCreateSupplierTarget(StrictModel):
         description="Indicates whether the target is negative or not. Negative targeting allows advertisers to provide intent where they do not want to show ads. Please ensure that the supplier for this target supports negative targeting before setting to true. If this field is not present, then negative is assumed to be false (meaning that a target is inclusive by default).",
     )
     supplierTargetDetails: DSPCreateSupplierTargetDetails
-    supplierTargetType: Annotated[DSPSupplierTargetType, lenient_enum(DSPSupplierTargetType)]
+    supplierTargetType: Annotated[DSPSupplierTargetType | str, lenient_enum(DSPSupplierTargetType)]
 
 
 class DSPCreateSupplierTargetDetailsSupplierAppTarget(StrictModel):
@@ -781,7 +785,7 @@ class DSPCreateSupplierTargetGroup(StrictModel):
     groupDetails: DSPCreateSupplierGroupDetails | None = Field(default=None)
     groupName: str
     groupTargets: list[DSPCreateSupplierTarget] = Field(min_length=1, max_length=49)
-    groupType: Annotated[DSPSupplierGroupType, lenient_enum(DSPSupplierGroupType)] | None = Field(default=None)
+    groupType: Annotated[DSPSupplierGroupType | str, lenient_enum(DSPSupplierGroupType)] | None = Field(default=None)
 
 
 class DSPDeliveryIntent(LenientModel):
@@ -1200,7 +1204,7 @@ class DSPSupplierProposedDeal(LenientModel):
 
 
 class DSPSupplierProposedDealAdProductFilter(StrictModel):
-    include: list[Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class DSPSupplierProposedDealAdvertiserAccountIdFilter(StrictModel):
@@ -1212,25 +1216,25 @@ class DSPSupplierProposedDealAdvertisingDealIdFilter(StrictModel):
 
 
 class DSPSupplierProposedDealAdvertisingDealTypeFilter(StrictModel):
-    include: list[Annotated[DSPAdvertisingDealType, lenient_enum(DSPAdvertisingDealType)]] = Field(
+    include: list[Annotated[DSPAdvertisingDealType | str, lenient_enum(DSPAdvertisingDealType)]] = Field(
         min_length=1, max_length=10
     )
 
 
 class DSPSupplierProposedDealCreate(StrictModel):
-    adProduct: Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)] | None = Field(default=None)
+    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)] | None = Field(default=None)
     advertiserAccountId: str | None = Field(
         default=None,
         description="The ADSP advertiserId for this proposal. If advertiserId is null, then we treat it as manager account level proposal.",
     )
-    countries: list[Annotated[DSPCountryCode, lenient_enum(DSPCountryCode)]] | None = Field(
+    countries: list[Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)]] | None = Field(
         default=None, min_length=0, max_length=49, description="The country for the proposed deal."
     )
     creativeRequirements: list[DSPCreateSupplierProposedDealCreativeRequirement] | None = Field(
         default=None, min_length=0, max_length=49, description="Creative requirements for this proposed deal."
     )
     dealName: str = Field(pattern="^[ -:<-z|]+$", description="The name of the deal.")
-    dealType: Annotated[DSPAdvertisingDealType, lenient_enum(DSPAdvertisingDealType)]
+    dealType: Annotated[DSPAdvertisingDealType | str, lenient_enum(DSPAdvertisingDealType)]
     deliveryIntent: DSPCreateDeliveryIntent | None = Field(default=None)
     description: str | None = Field(default=None, description="The description of the deal.")
     endDateTime: datetime = Field(description="The delivery end date.")
@@ -1238,7 +1242,7 @@ class DSPSupplierProposedDealCreate(StrictModel):
         default=None, min_length=0, max_length=49, description="User provided notes for this proposed deal."
     )
     startDateTime: datetime = Field(description="The delivery start date.")
-    state: Annotated[DSPCreateState, lenient_enum(DSPCreateState)] | None = Field(default=None)
+    state: Annotated[DSPCreateState | str, lenient_enum(DSPCreateState)] | None = Field(default=None)
     stateReason: DSPCreateSupplierStateReason | None = Field(default=None)
     supplierAdProductId: str | None = Field(default=None, description="The supplier ad product unique identifier.")
     supplierProposalDestinationId: str | None = Field(
@@ -1249,7 +1253,7 @@ class DSPSupplierProposedDealCreate(StrictModel):
     )
     supplierProposedDealExtension: DSPCreateSupplierProposedDealExtension
     supplierProposedDealType: (
-        Annotated[DSPSupplierProposedDealType, lenient_enum(DSPSupplierProposedDealType)] | None
+        Annotated[DSPSupplierProposedDealType | str, lenient_enum(DSPSupplierProposedDealType)] | None
     ) = Field(default=None)
     supplierPublisherId: list[str] | None = Field(
         default=None, min_length=0, max_length=49, description="The publisher ids associated with this proposed deal."
@@ -1338,13 +1342,13 @@ class DSPSupplierProposedDealSupplierProposedDealIdFilter(StrictModel):
 
 
 class DSPSupplierProposedDealSupplierProposedDealStatusFilter(StrictModel):
-    include: list[Annotated[DSPSupplierProposedDealStatus, lenient_enum(DSPSupplierProposedDealStatus)]] = Field(
+    include: list[Annotated[DSPSupplierProposedDealStatus | str, lenient_enum(DSPSupplierProposedDealStatus)]] = Field(
         min_length=1, max_length=20
     )
 
 
 class DSPSupplierProposedDealUpdate(StrictModel):
-    adProduct: Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)] | None = Field(default=None)
+    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)] | None = Field(default=None)
     creativeRequirements: list[DSPCreateSupplierProposedDealCreativeRequirement] | None = Field(
         default=None, min_length=0, max_length=49, description="Creative requirements for this proposed deal."
     )
@@ -1356,7 +1360,7 @@ class DSPSupplierProposedDealUpdate(StrictModel):
         default=None, min_length=0, max_length=49, description="User provided notes for this proposed deal."
     )
     startDateTime: datetime | None = Field(default=None, description="The delivery start date.")
-    state: Annotated[DSPUpdateState, lenient_enum(DSPUpdateState)] | None = Field(default=None)
+    state: Annotated[DSPUpdateState | str, lenient_enum(DSPUpdateState)] | None = Field(default=None)
     stateReason: DSPUpdateSupplierStateReason | None = Field(default=None)
     supplierProposalDestinationId: str | None = Field(
         default=None, description="The supplier proposal destination id for this deal."
@@ -1507,8 +1511,8 @@ class DSPTimeOfDay(LenientModel):
 
 
 class DSPUpdateAdvertisingDealPrice(StrictModel):
-    currencyCode: Annotated[DSPCurrencyCode, lenient_enum(DSPCurrencyCode)] | None = Field(default=None)
-    priceType: Annotated[DSPAdvertisingDealPriceType, lenient_enum(DSPAdvertisingDealPriceType)] | None = Field(
+    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)] | None = Field(default=None)
+    priceType: Annotated[DSPAdvertisingDealPriceType | str, lenient_enum(DSPAdvertisingDealPriceType)] | None = Field(
         default=None
     )
     value: float | None = Field(default=None, description="The monetary amount of the price in the given currency.")
@@ -1597,7 +1601,7 @@ class DSPUpdateFrequencyCap(StrictModel):
 
 
 class DSPUpdateMonetaryBudget(StrictModel):
-    currencyCode: Annotated[DSPCurrencyCode, lenient_enum(DSPCurrencyCode)] | None = Field(default=None)
+    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)] | None = Field(default=None)
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )

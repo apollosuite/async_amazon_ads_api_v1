@@ -99,7 +99,7 @@ class STAdAdIdFilter(StrictModel):
 
 
 class STAdAdProductFilter(StrictModel):
-    include: list[Annotated[STAdProduct, lenient_enum(STAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[STAdProduct | str, lenient_enum(STAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class STAdCampaignIdFilter(StrictModel):
@@ -108,11 +108,11 @@ class STAdCampaignIdFilter(StrictModel):
 
 class STAdCreate(StrictModel):
     adGroupId: str = Field(description="The ad group associated with the ad.")
-    adProduct: Annotated[STAdProduct, lenient_enum(STAdProduct)]
-    adType: Annotated[STAdType, lenient_enum(STAdType)]
+    adProduct: Annotated[STAdProduct | str, lenient_enum(STAdProduct)]
+    adType: Annotated[STAdType | str, lenient_enum(STAdType)]
     creative: STCreateCreative
     name: str = Field(description="The name of the ad.")
-    state: Annotated[STCreateState, lenient_enum(STCreateState)]
+    state: Annotated[STCreateState | str, lenient_enum(STCreateState)]
 
 
 class STAdMultiStatusResponse(LenientModel):
@@ -126,7 +126,7 @@ class STAdMultiStatusSuccess(LenientModel):
 
 
 class STAdStateFilter(StrictModel):
-    include: list[Annotated[STState, lenient_enum(STState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[STState | str, lenient_enum(STState)]] = Field(min_length=1, max_length=3)
 
 
 class STAdSuccessResponse(LenientModel):
@@ -138,7 +138,7 @@ class STAdUpdate(StrictModel):
     adId: str = Field(description="The identifier of the ad.")
     creative: STUpdateCreative | None = Field(default=None)
     name: str | None = Field(default=None, description="The name of the ad.")
-    state: Annotated[STUpdateState, lenient_enum(STUpdateState)] | None = Field(default=None)
+    state: Annotated[STUpdateState | str, lenient_enum(STUpdateState)] | None = Field(default=None)
 
 
 class STAdvertisedProducts(LenientModel):
@@ -157,7 +157,7 @@ class STCreateAdRequest(StrictModel):
 
 class STCreateAdvertisedProducts(StrictModel):
     productId: str | None = Field(default=None, description="The identifier of the advertised product.")
-    productIdType: Annotated[STProductIdType, lenient_enum(STProductIdType)]
+    productIdType: Annotated[STProductIdType | str, lenient_enum(STProductIdType)]
 
 
 class STCreateCreative(StrictModel):
@@ -182,7 +182,7 @@ class STCreateVideoCreative(StrictModel):
 
 
 class STCreateVideoLandingPage(StrictModel):
-    landingPageType: Annotated[STVideoLandingPageType, lenient_enum(STVideoLandingPageType)]
+    landingPageType: Annotated[STVideoLandingPageType | str, lenient_enum(STVideoLandingPageType)]
     landingPageUrl: str | None = Field(default=None, description="The URL of landing page where the ad directs.")
 
 

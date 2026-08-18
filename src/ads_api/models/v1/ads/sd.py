@@ -74,16 +74,16 @@ class SDAd(LenientModel):
 
 
 class SDAdAdProductFilter(StrictModel):
-    include: list[Annotated[SDAdProduct, lenient_enum(SDAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class SDAdCreate(StrictModel):
     adGroupId: str = Field(description="The ad group associated with the ad.")
-    adProduct: Annotated[SDAdProduct, lenient_enum(SDAdProduct)]
-    adType: Annotated[SDAdType, lenient_enum(SDAdType)]
+    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
+    adType: Annotated[SDAdType | str, lenient_enum(SDAdType)]
     creative: SDCreateCreative
     name: str | None = Field(default=None, description="The name of the ad.")
-    state: Annotated[SDCreateState, lenient_enum(SDCreateState)]
+    state: Annotated[SDCreateState | str, lenient_enum(SDCreateState)]
 
 
 class SDAdMultiStatusResponse(LenientModel):
@@ -104,7 +104,7 @@ class SDAdSuccessResponse(LenientModel):
 class SDAdUpdate(StrictModel):
     adId: str = Field(description="The identifier of the ad.")
     creative: SDUpdateCreative | None = Field(default=None)
-    state: Annotated[SDUpdateState, lenient_enum(SDUpdateState)] | None = Field(default=None)
+    state: Annotated[SDUpdateState | str, lenient_enum(SDUpdateState)] | None = Field(default=None)
 
 
 class SDAdvertisedProducts(LenientModel):
@@ -162,7 +162,7 @@ class SDCreateAdRequest(StrictModel):
 
 class SDCreateAdvertisedProducts(StrictModel):
     productId: str = Field(description="The identifier of the advertised product.")
-    productIdType: Annotated[SDProductIdType, lenient_enum(SDProductIdType)]
+    productIdType: Annotated[SDProductIdType | str, lenient_enum(SDProductIdType)]
 
 
 class SDCreateAssetBasedCreativeSettings(StrictModel):
@@ -176,7 +176,7 @@ class SDCreateComponentCreative(StrictModel):
 
 
 class SDCreateComponentLandingPage(StrictModel):
-    landingPageType: Annotated[SDComponentLandingPageType, lenient_enum(SDComponentLandingPageType)]
+    landingPageType: Annotated[SDComponentLandingPageType | str, lenient_enum(SDComponentLandingPageType)]
     landingPageUrl: str = Field(description="The URL of landing page where the ad directs.")
 
 
@@ -194,7 +194,9 @@ class SDCreateProductVideoSettings(StrictModel):
 
 
 class SDCreateResponsiveEcommerceLandingPage(StrictModel):
-    landingPageType: Annotated[SDResponsiveEcommerceLandingPageType, lenient_enum(SDResponsiveEcommerceLandingPageType)]
+    landingPageType: Annotated[
+        SDResponsiveEcommerceLandingPageType | str, lenient_enum(SDResponsiveEcommerceLandingPageType)
+    ]
     landingPageUrl: str = Field(description="The URL of landing page where the ad directs.")
 
 
@@ -209,7 +211,7 @@ class SDCreateResponsiveEcommerceSettings(StrictModel):
 
 
 class SDCreateVideoLandingPage(StrictModel):
-    landingPageType: Annotated[SDVideoLandingPageType, lenient_enum(SDVideoLandingPageType)]
+    landingPageType: Annotated[SDVideoLandingPageType | str, lenient_enum(SDVideoLandingPageType)]
     landingPageUrl: str = Field(description="The URL of landing page where the ad directs.")
 
 

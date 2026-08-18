@@ -59,7 +59,7 @@ class DSPCreateRadiusLocation(StrictModel):
         description="Address. Example '2111 7th Ave, Seattle, WA 98121, United States' or 'Amazon Spheres'",
     )
     pointOfInterestRadius: float = Field(description="Radius of circle in kilometers or miles")
-    units: Annotated[DSPDistanceUnit, lenient_enum(DSPDistanceUnit)]
+    units: Annotated[DSPDistanceUnit | str, lenient_enum(DSPDistanceUnit)]
 
 
 class DSPCreateSmartLocation(StrictModel):

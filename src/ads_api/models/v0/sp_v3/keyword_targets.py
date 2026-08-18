@@ -2,16 +2,48 @@
 
 from __future__ import annotations
 
-from typing import Any
+from enum import StrEnum
+from typing import Annotated, Any
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel
+from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     ImpactMetric,
     ImpactMetrics,
     RangeMetricValue,
 )
+
+
+class KeywordBidInfoMatchType(StrEnum):
+    """
+    Keyword match type. The default value will be BROAD.
+    """
+
+    BROAD = "BROAD"
+    EXACT = "EXACT"
+    PHRASE = "PHRASE"
+
+
+class KeywordTargetMatchType(StrEnum):
+    """
+    Keyword match type. The default value will be BROAD.
+    """
+
+    BROAD = "BROAD"
+    EXACT = "EXACT"
+    PHRASE = "PHRASE"
+
+
+class ThemedBidMatchType(StrEnum):
+    """
+    Keyword match type. The default value will be BROAD.
+    """
+
+    BROAD = "BROAD"
+    EXACT = "EXACT"
+    PHRASE = "PHRASE"
 
 
 class BidSuggestion(LenientModel):
@@ -40,7 +72,9 @@ class KeywordBidInfo(LenientModel):
         default=None,
         description="The bid value for the keyword, in minor currency units (example: cents). The default value will be the suggested bid.",
     )
-    matchType: str | None = Field(default=None, description="Keyword match type. The default value will be BROAD.")
+    matchType: Annotated[KeywordBidInfoMatchType | str, lenient_enum(KeywordBidInfoMatchType)] | None = Field(
+        default=None, description="Keyword match type. The default value will be BROAD."
+    )
     rank: float | None = Field(default=None, description="The keyword target rank")
     suggestedBid: BidSuggestion | None = Field(default=None)
 
@@ -51,7 +85,9 @@ class KeywordTarget(LenientModel):
         description="The bid value for the keyword, in minor currency units (example: cents). The default value will be the suggested bid.",
     )
     keyword: str | None = Field(default=None, description="The keyword value")
-    matchType: str | None = Field(default=None, description="Keyword match type. The default value will be BROAD.")
+    matchType: Annotated[KeywordTargetMatchType | str, lenient_enum(KeywordTargetMatchType)] | None = Field(
+        default=None, description="Keyword match type. The default value will be BROAD."
+    )
     userSelectedKeyword: bool | None = Field(
         default=None, description="Flag that tells if keyword was selected by the user or was recommended by KRS"
     )
@@ -63,7 +99,9 @@ class KeywordTargetResponse(LenientModel):
         description="The bid value for the keyword, in minor currency units (example: cents). The default value will be the suggested bid.",
     )
     keyword: str | None = Field(default=None, description="The keyword value")
-    matchType: str | None = Field(default=None, description="Keyword match type. The default value will be BROAD.")
+    matchType: Annotated[KeywordTargetMatchType | str, lenient_enum(KeywordTargetMatchType)] | None = Field(
+        default=None, description="Keyword match type. The default value will be BROAD."
+    )
     userSelectedKeyword: bool | None = Field(
         default=None, description="Flag that tells if keyword was selected by the user or was recommended by KRS"
     )
@@ -134,7 +172,9 @@ class ThemedBid(LenientModel):
         default=None,
         description="The bid value for the keyword, in minor currency units (example: cents). The default value will be the suggested bid.",
     )
-    matchType: str | None = Field(default=None, description="Keyword match type. The default value will be BROAD.")
+    matchType: Annotated[ThemedBidMatchType | str, lenient_enum(ThemedBidMatchType)] | None = Field(
+        default=None, description="Keyword match type. The default value will be BROAD."
+    )
     rank: float | None = Field(default=None, description="The keyword target rank.")
     suggestedBid: BidValues | None = Field(default=None)
     theme: str | None = Field(
@@ -149,7 +189,9 @@ __all__ = [
     "ImpactMetric",
     "ImpactMetrics",
     "KeywordBidInfo",
+    "KeywordBidInfoMatchType",
     "KeywordTarget",
+    "KeywordTargetMatchType",
     "KeywordTargetResponse",
     "RangeMetricValue",
     "RankedTargetResponse",
@@ -158,4 +200,5 @@ __all__ = [
     "RankedTargetWithThemedBidsResponse",
     "RecKeywordTarget",
     "ThemedBid",
+    "ThemedBidMatchType",
 ]

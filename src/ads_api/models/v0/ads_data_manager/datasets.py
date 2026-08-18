@@ -405,7 +405,7 @@ class GetDatasetAggregatesRequestContent(StrictModel):
     endDate: datetime | None = Field(
         default=None, description="The end date for the metrics aggregation window, in UTC"
     )
-    metrics: list[Annotated[DatasetMetric, lenient_enum(DatasetMetric)]] | None = Field(
+    metrics: list[Annotated[DatasetMetric | str, lenient_enum(DatasetMetric)]] | None = Field(
         default=None, description="The list of metrics to retrieve for the dataset"
     )
     startDate: datetime | None = Field(

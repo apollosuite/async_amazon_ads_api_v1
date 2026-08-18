@@ -123,10 +123,11 @@ class SponsoredProductsCreateCampaignNegativeKeyword(StrictModel):
     campaignId: str = Field(description="The identifier of the campaign to which the keyword is associated.")
     keywordText: str = Field(description="The keyword text.")
     matchType: Annotated[
-        SponsoredProductsCreateOrUpdateNegativeMatchType, lenient_enum(SponsoredProductsCreateOrUpdateNegativeMatchType)
+        SponsoredProductsCreateOrUpdateNegativeMatchType | str,
+        lenient_enum(SponsoredProductsCreateOrUpdateNegativeMatchType),
     ]
     state: Annotated[
-        SponsoredProductsCreateOrUpdateEntityState, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
+        SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
     ]
 
 
@@ -157,7 +158,8 @@ class SponsoredProductsListSponsoredProductsCampaignNegativeKeywordsRequestConte
         description="Whether to get entity with extended data fields such as creationDate, lastUpdateDate, servingStatus",
     )
     matchTypeFilter: (
-        list[Annotated[SponsoredProductsNegativeMatchType, lenient_enum(SponsoredProductsNegativeMatchType)]] | None
+        list[Annotated[SponsoredProductsNegativeMatchType | str, lenient_enum(SponsoredProductsNegativeMatchType)]]
+        | None
     ) = Field(default=None, description="Restricts results to resources with the selected matchType")
     maxResults: int | None = Field(
         default=None,
@@ -182,7 +184,9 @@ class SponsoredProductsListSponsoredProductsCampaignNegativeKeywordsResponseCont
 class SponsoredProductsUpdateCampaignNegativeKeyword(StrictModel):
     keywordId: str = Field(description="The identifier of the keyword.")
     state: (
-        Annotated[SponsoredProductsCreateOrUpdateEntityState, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)]
+        Annotated[
+            SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
+        ]
         | None
     ) = Field(default=None)
 

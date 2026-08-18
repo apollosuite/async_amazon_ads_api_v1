@@ -48,7 +48,7 @@ class SBTargetingLocale(StrEnum):
 class SBTargetingSupplySource(StrEnum):
     """
     [UPDATE: As of 05/28/2024, `STREAMING_VIDEO` is deprecated].
-    The supply source where the target will be used. Use `AMAZON` for placements on Amazon website. Use `STREAMING_VIDEO` for off-site video placements such as IMDb TV.
+     The supply source where the target will be used. Use `AMAZON` for placements on Amazon website. Use `STREAMING_VIDEO` for off-site video placements such as IMDb TV.
     """
 
     AMAZON = "AMAZON"

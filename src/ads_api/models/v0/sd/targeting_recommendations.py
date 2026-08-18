@@ -36,6 +36,17 @@ class SDLandingPageType(StrEnum):
     OFF_AMAZON_LINK = "OFF_AMAZON_LINK"
 
 
+class SDProductTargetingThemeExpressionType(StrEnum):
+    """
+    The contextual targeting grammar used to define the targeting theme. Note asinAsBestSeller is currently not supported.
+    """
+
+    asinPriceGreaterThan = "asinPriceGreaterThan"
+    asinBrandSameAs = "asinBrandSameAs"
+    asinReviewRatingLessThan = "asinReviewRatingLessThan"
+    asinGlanceViewsGreaterThan = "asinGlanceViewsGreaterThan"
+
+
 class SDRecommendationType(StrEnum):
     """
     Signifies a type of recommendation
@@ -77,6 +88,9 @@ class SDRecommendationTypeV33(StrEnum):
 class SDTactic(StrEnum):
     """
     The advertising tactic associated with the campaign. The following table lists available tactic names:
+    |Tactic Name|Type|Description|
+            |-----------|-----|-----------|
+            |T00020 &nbsp;    |Products&nbsp;| Products: Choose individual products to show your ads in placements related to those products.<br>Categories: Choose individual categories to show your ads in placements related to those categories.
     """
 
     T00020 = "T00020"
@@ -85,6 +99,10 @@ class SDTactic(StrEnum):
 class SDTacticV31(StrEnum):
     """
     The advertising tactic associated with the campaign. The following table lists available tactic names:
+    |Tactic Name|Type|Description|
+            |-----------|-----|-----------|
+            |T00020 &nbsp;    |Products&nbsp;| Products: Choose individual products to show your ads in placements related to those products.<br>Categories: Choose individual categories to show your ads in placements related to those categories.|
+            |T00030&nbsp;|Audiences or Contextual Targeting &nbsp;|Select individual products, categories, refined categories, or audiences to show your ads.|
     """
 
     T00020 = "T00020"
@@ -124,11 +142,21 @@ class SDTargetingRecommendationsLocale(StrEnum):
     zh_CN = "zh_CN"
 
 
+class SDTargetingRecommendationsRequestV35CategoryType(StrEnum):
+    """
+    This field is optional unless the field locationExpression is present in the request. It is used for category audience targeting
+    to specify if the audience is for views (re-marketing) or purchases (re-purchasing). The specified categories will be returned accordingly.
+    """
+
+    views = "views"
+    purchases = "purchases"
+
+
 class SDAdvertisedProduct(StrictModel):
     """Product that advertisers want to advertise. Recommendations will be made for specified products. SDAdvertisedProduct can only contain either asins or landing pages. If landingPageUrl is used, there can only be one item for each request."""
 
     asin: SDASIN | None = Field(default=None)
-    landingPageType: Annotated[SDLandingPageType, lenient_enum(SDLandingPageType)] | None = Field(default=None)
+    landingPageType: Annotated[SDLandingPageType | str, lenient_enum(SDLandingPageType)] | None = Field(default=None)
     landingPageURL: SDLandingPageURL | None = Field(default=None)
 
 
@@ -346,7 +374,9 @@ Note: Currently the service only supports one item in the array.
 class SDProductTargetingThemeExpression(StrictModel):
     """The expression used to define the contextual targeting theme."""
 
-    type: str = Field(
+    type: Annotated[
+        SDProductTargetingThemeExpressionType | str, lenient_enum(SDProductTargetingThemeExpressionType)
+    ] = Field(
         description="The contextual targeting grammar used to define the targeting theme. Note asinAsBestSeller is currently not supported."
     )
 
@@ -354,7 +384,9 @@ class SDProductTargetingThemeExpression(StrictModel):
 class SDProductTargetingThemeExpressionOut(LenientModel):
     """The expression used to define the contextual targeting theme."""
 
-    type: str = Field(
+    type: Annotated[
+        SDProductTargetingThemeExpressionType | str, lenient_enum(SDProductTargetingThemeExpressionType)
+    ] = Field(
         description="The contextual targeting grammar used to define the targeting theme. Note asinAsBestSeller is currently not supported."
     )
 
@@ -383,11 +415,11 @@ class SDTargetingRecommendationsProductsV31(StrictModel):
 class SDTargetingRecommendationsRequest(StrictModel):
     """Request for targeting recommendations"""
 
-    tactic: Annotated[SDTactic, lenient_enum(SDTactic)]
+    tactic: Annotated[SDTactic | str, lenient_enum(SDTactic)]
     products: list[SDGoalProduct] = Field(
         min_length=1, max_length=10000, description="A list of products for which to get targeting recommendations"
     )
-    typeFilter: list[Annotated[SDRecommendationType, lenient_enum(SDRecommendationType)]] = Field(
+    typeFilter: list[Annotated[SDRecommendationType | str, lenient_enum(SDRecommendationType)]] = Field(
         min_length=1, max_length=1, description="A filter to indicate which types of recommendations to request."
     )
 
@@ -395,7 +427,7 @@ class SDTargetingRecommendationsRequest(StrictModel):
 class SDTargetingRecommendationsRequestV31(StrictModel):
     """Request for targeting recommendations"""
 
-    tactic: Annotated[SDTacticV31, lenient_enum(SDTacticV31)]
+    tactic: Annotated[SDTacticV31 | str, lenient_enum(SDTacticV31)]
     products: SDTargetingRecommendationsProducts
     typeFilter: SDTargetingRecommendationsTypeFilterV31
 
@@ -403,7 +435,7 @@ class SDTargetingRecommendationsRequestV31(StrictModel):
 class SDTargetingRecommendationsRequestV32(StrictModel):
     """Request for targeting recommendations for API version 3.2."""
 
-    tactic: Annotated[SDTacticV31, lenient_enum(SDTacticV31)]
+    tactic: Annotated[SDTacticV31 | str, lenient_enum(SDTacticV31)]
     products: SDTargetingRecommendationsProducts
     typeFilter: SDTargetingRecommendationsTypeFilterV31
     themes: SDTargetingRecommendationsThemes | None = Field(default=None)
@@ -412,7 +444,7 @@ class SDTargetingRecommendationsRequestV32(StrictModel):
 class SDTargetingRecommendationsRequestV33(StrictModel):
     """Request for targeting recommendations for API version 3.3."""
 
-    tactic: Annotated[SDTacticV31, lenient_enum(SDTacticV31)]
+    tactic: Annotated[SDTacticV31 | str, lenient_enum(SDTacticV31)]
     products: SDTargetingRecommendationsProducts
     typeFilter: SDTargetingRecommendationsTypeFilterV32
     themes: SDTargetingRecommendationsThemes | None = Field(default=None)
@@ -421,7 +453,7 @@ class SDTargetingRecommendationsRequestV33(StrictModel):
 class SDTargetingRecommendationsRequestV34(StrictModel):
     """Request for targeting recommendations for API version 3.4."""
 
-    tactic: Annotated[SDTacticV31, lenient_enum(SDTacticV31)]
+    tactic: Annotated[SDTacticV31 | str, lenient_enum(SDTacticV31)]
     products: SDTargetingRecommendationsProducts
     typeFilter: SDTargetingRecommendationsTypeFilterV32
     themes: SDTargetingRecommendationsThemes | None = Field(default=None)
@@ -430,11 +462,17 @@ class SDTargetingRecommendationsRequestV34(StrictModel):
 class SDTargetingRecommendationsRequestV35(StrictModel):
     """Request for targeting recommendations for API version 3.5."""
 
-    tactic: Annotated[SDTacticV31, lenient_enum(SDTacticV31)]
+    tactic: Annotated[SDTacticV31 | str, lenient_enum(SDTacticV31)]
     products: SDTargetingRecommendationsProductsV31
     typeFilter: SDTargetingRecommendationsTypeFilterV33
     themes: SDTargetingRecommendationsThemes | None = Field(default=None)
-    categoryType: str | None = Field(
+    categoryType: (
+        Annotated[
+            SDTargetingRecommendationsRequestV35CategoryType | str,
+            lenient_enum(SDTargetingRecommendationsRequestV35CategoryType),
+        ]
+        | None
+    ) = Field(
         default=None,
         description="""
 This field is optional unless the field locationExpression is present in the request. It is used for category audience targeting
@@ -632,6 +670,7 @@ __all__ = [
     "SDProductTargetingTheme",
     "SDProductTargetingThemeExpression",
     "SDProductTargetingThemeExpressionOut",
+    "SDProductTargetingThemeExpressionType",
     "SDRecommendationType",
     "SDRecommendationTypeV31",
     "SDRecommendationTypeV32",
@@ -648,6 +687,7 @@ __all__ = [
     "SDTargetingRecommendationsRequestV33",
     "SDTargetingRecommendationsRequestV34",
     "SDTargetingRecommendationsRequestV35",
+    "SDTargetingRecommendationsRequestV35CategoryType",
     "SDTargetingRecommendationsResponse",
     "SDTargetingRecommendationsResponseV31",
     "SDTargetingRecommendationsResponseV32",

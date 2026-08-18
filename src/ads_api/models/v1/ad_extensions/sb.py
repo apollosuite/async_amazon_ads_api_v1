@@ -175,11 +175,15 @@ class SBAdExtensionAdExtensionIdFilter(StrictModel):
 
 
 class SBAdExtensionAdExtensionStatusFilter(StrictModel):
-    include: list[Annotated[SBAdExtensionStatus, lenient_enum(SBAdExtensionStatus)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SBAdExtensionStatus | str, lenient_enum(SBAdExtensionStatus)]] = Field(
+        min_length=1, max_length=1
+    )
 
 
 class SBAdExtensionAdExtensionTypeFilter(StrictModel):
-    include: list[Annotated[SBAdExtensionType, lenient_enum(SBAdExtensionType)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SBAdExtensionType | str, lenient_enum(SBAdExtensionType)]] = Field(
+        min_length=1, max_length=1
+    )
 
 
 class SBAdExtensionAdGroupIdFilter(StrictModel):
@@ -191,27 +195,29 @@ class SBAdExtensionAdIdFilter(StrictModel):
 
 
 class SBAdExtensionAdProductFilter(StrictModel):
-    include: list[Annotated[SBAdProduct, lenient_enum(SBAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class SBAdExtensionCreate(StrictModel):
     adExtensionSettings: SBCreateAdExtensionSettings
-    adExtensionStatus: Annotated[SBAdExtensionStatus, lenient_enum(SBAdExtensionStatus)] | None = Field(default=None)
-    adExtensionType: Annotated[SBAdExtensionType, lenient_enum(SBAdExtensionType)]
+    adExtensionStatus: Annotated[SBAdExtensionStatus | str, lenient_enum(SBAdExtensionStatus)] | None = Field(
+        default=None
+    )
+    adExtensionType: Annotated[SBAdExtensionType | str, lenient_enum(SBAdExtensionType)]
     adGroupId: str | None = Field(
         default=None, description="A unique identifier for the ad group associated with the ad_extension."
     )
     adId: str | None = Field(
         default=None, description="A unique identifier for the ad associated with the ad_extension."
     )
-    adProduct: Annotated[SBAdProduct, lenient_enum(SBAdProduct)]
-    marketplaceScope: Annotated[SBMarketplaceScope, lenient_enum(SBMarketplaceScope)]
-    marketplaces: list[Annotated[SBMarketplace, lenient_enum(SBMarketplace)]] = Field(
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
+    marketplaceScope: Annotated[SBMarketplaceScope | str, lenient_enum(SBMarketplaceScope)]
+    marketplaces: list[Annotated[SBMarketplace | str, lenient_enum(SBMarketplace)]] = Field(
         min_length=1,
         max_length=1,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
     )
-    state: Annotated[SBCreateState, lenient_enum(SBCreateState)]
+    state: Annotated[SBCreateState | str, lenient_enum(SBCreateState)]
 
 
 class SBAdExtensionMultiStatusResponse(LenientModel):
@@ -229,7 +235,7 @@ class SBAdExtensionSettings(LenientModel):
 
 
 class SBAdExtensionStateFilter(StrictModel):
-    include: list[Annotated[SBState, lenient_enum(SBState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SBState | str, lenient_enum(SBState)]] = Field(min_length=1, max_length=3)
 
 
 class SBAdExtensionSuccessResponse(LenientModel):
@@ -239,7 +245,7 @@ class SBAdExtensionSuccessResponse(LenientModel):
 
 class SBAdExtensionUpdate(StrictModel):
     adExtensionId: str = Field(description="A unique identifier for the ad_extension.")
-    state: Annotated[SBUpdateState, lenient_enum(SBUpdateState)] | None = Field(default=None)
+    state: Annotated[SBUpdateState | str, lenient_enum(SBUpdateState)] | None = Field(default=None)
 
 
 class SBCreateAdExtensionRequest(StrictModel):

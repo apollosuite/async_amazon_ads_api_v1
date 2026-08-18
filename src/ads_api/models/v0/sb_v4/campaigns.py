@@ -149,7 +149,9 @@ class SiteRestriction(StrEnum):
 
 class AudienceSegment(StrictModel):
     audienceId: str | None = Field(default=None)
-    audienceSegmentType: Annotated[AudienceSegmentType, lenient_enum(AudienceSegmentType)] | None = Field(default=None)
+    audienceSegmentType: Annotated[AudienceSegmentType | str, lenient_enum(AudienceSegmentType)] | None = Field(
+        default=None
+    )
 
 
 class AudienceSegmentOut(LenientModel):
@@ -161,7 +163,7 @@ class AudienceSegmentOut(LenientModel):
 
 class BidAdjustmentByPlacement(StrictModel):
     percentage: float | None = Field(default=None, ge=-99, le=900)
-    placement: Annotated[Placement, lenient_enum(Placement)] | None = Field(default=None)
+    placement: Annotated[Placement | str, lenient_enum(Placement)] | None = Field(default=None)
 
 
 class BidAdjustmentByPlacementOut(LenientModel):
@@ -351,7 +353,7 @@ class CampaignMutationSuccessResponseItem(LenientModel):
 
 
 class CreateCampaign(StrictModel):
-    budgetType: Annotated[BudgetType, lenient_enum(BudgetType)]
+    budgetType: Annotated[BudgetType | str, lenient_enum(BudgetType)]
     brandEntityId: str | None = Field(
         default=None,
         description="Please note that brandEntityId is only required for sellers. You can get the brandEntityId by calling the [GET /brands](https://advertising.amazon.com/API/docs/en-us/sponsored-brands/3-0/openapi#tag/Brands/operation/getBrands) endpoint.",
@@ -371,7 +373,7 @@ The goal type of the campaign.
         pattern="^20[1-9][0-9]-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",
         description="endDate is optional. If endDate is specified, startDate must be specified as well.",
     )
-    productLocation: Annotated[ProductLocation, lenient_enum(ProductLocation)] | None = Field(default=None)
+    productLocation: Annotated[ProductLocation | str, lenient_enum(ProductLocation)] | None = Field(default=None)
     tags: Tags | None = Field(default=None)
     portfolioId: str | None = Field(
         default=None, description="The identifier of an existing portfolio to which the campaign is associated."
@@ -404,14 +406,14 @@ Example: ["TARGETING"]
 """,
     )
     name: str = Field(min_length=1, max_length=128, description="The name of the campaign.")
-    state: Annotated[CreateOrUpdateEntityState, lenient_enum(CreateOrUpdateEntityState)]
+    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
     startDate: str | None = Field(
         default=None,
         pattern="^20[1-9][0-9]-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",
         description="startDate is optional. If startDate is not specified, current date will be used.",
     )
     budget: float = Field(description="The budget of the campaign.")
-    siteRestrictions: list[Annotated[SiteRestriction, lenient_enum(SiteRestriction)]] | None = Field(
+    siteRestrictions: list[Annotated[SiteRestriction | str, lenient_enum(SiteRestriction)]] | None = Field(
         default=None,
         min_length=1,
         max_length=1,
@@ -485,7 +487,7 @@ class RuleBasedBudget(LenientModel):
 
 
 class ShopperCohortBidAdjustment(StrictModel):
-    shopperCohortType: Annotated[ShopperCohortType, lenient_enum(ShopperCohortType)] | None = Field(default=None)
+    shopperCohortType: Annotated[ShopperCohortType | str, lenient_enum(ShopperCohortType)] | None = Field(default=None)
     percentage: float | None = Field(default=None, ge=0, le=900)
     audienceSegments: list[AudienceSegment] | None = Field(
         default=None,
@@ -530,7 +532,9 @@ class UpdateCampaign(StrictModel):
     )
     campaignId: str = Field(description="The identifier of the campaign.")
     name: str | None = Field(default=None, min_length=1, max_length=128, description="The name of the campaign.")
-    state: Annotated[CreateOrUpdateEntityState, lenient_enum(CreateOrUpdateEntityState)] | None = Field(default=None)
+    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)] | None = Field(
+        default=None
+    )
     startDate: str | None = Field(
         default=None,
         pattern="^20[1-9][0-9]-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$",

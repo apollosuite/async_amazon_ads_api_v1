@@ -3,20 +3,90 @@
 from __future__ import annotations
 
 from datetime import datetime
+from enum import StrEnum
+from typing import Annotated
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
+from ads_api.models._core.lenient_enum import lenient_enum
+
+
+class BaseUniversalApiExportRequestAdProductFilter(StrEnum):
+    SPONSORED_BRANDS = "SPONSORED_BRANDS"
+    SPONSORED_DISPLAY = "SPONSORED_DISPLAY"
+    SPONSORED_PRODUCTS = "SPONSORED_PRODUCTS"
+
+
+class BaseUniversalApiExportRequestStateFilter(StrEnum):
+    ARCHIVED = "ARCHIVED"
+    ENABLED = "ENABLED"
+    PAUSED = "PAUSED"
+
+
+class TargetsUniversalApiExportRequestTargetLevelFilter(StrEnum):
+    AD_GROUP = "AD_GROUP"
+    CAMPAIGN = "CAMPAIGN"
+
+
+class TargetsUniversalApiExportRequestTargetTypeFilter(StrEnum):
+    AUDIENCE = "AUDIENCE"
+    AUTO = "AUTO"
+    CONTENT_CATEGORY = "CONTENT_CATEGORY"
+    KEYWORD = "KEYWORD"
+    PRODUCT = "PRODUCT"
+    PRODUCT_AUDIENCE = "PRODUCT_AUDIENCE"
+    PRODUCT_CATEGORY = "PRODUCT_CATEGORY"
+    PRODUCT_CATEGORY_AUDIENCE = "PRODUCT_CATEGORY_AUDIENCE"
+    THEME = "THEME"
+
+
+class UniversalApiErrorErrorCode(StrEnum):
+    """
+    - INTERNAL_ERROR: The export has failed with an internal error. If the issue persists, please contact customer support.
+    - TIMED_OUT: The export request has timed out. For exports with millions of entities, try using filters to reduce the size of the export. If the issue persists, please contact customer support.
+    """
+
+    INTERNAL_ERROR = "INTERNAL_ERROR"
+    TIMED_OUT = "TIMED_OUT"
+
+
+class UniversalApiExportResponseStatus(StrEnum):
+    """
+    The generation status of the export.
+    - PROCESSING: Export is currently in progress.
+    - COMPLETED: Export has completed successfully.
+    - FAILED: Export has failed. See the error message for more details.
+    """
+
+    COMPLETED = "COMPLETED"
+    FAILED = "FAILED"
+    PROCESSING = "PROCESSING"
 
 
 class BaseUniversalApiExportRequest(StrictModel):
-    adProductFilter: list[str] | None = Field(
+    adProductFilter: (
+        list[
+            Annotated[
+                BaseUniversalApiExportRequestAdProductFilter | str,
+                lenient_enum(BaseUniversalApiExportRequestAdProductFilter),
+            ]
+        ]
+        | None
+    ) = Field(
         default=["SPONSORED_BRANDS", "SPONSORED_DISPLAY", "SPONSORED_PRODUCTS"],
         min_length=1,
         max_length=3,
         description="Filters the entities returned in export only to selected ad products. In case the filter is not provided, it returns entities from all ad products.",
     )
-    stateFilter: list[str] | None = Field(
+    stateFilter: (
+        list[
+            Annotated[
+                BaseUniversalApiExportRequestStateFilter | str, lenient_enum(BaseUniversalApiExportRequestStateFilter)
+            ]
+        ]
+        | None
+    ) = Field(
         default=["ENABLED", "PAUSED"],
         min_length=1,
         max_length=3,
@@ -25,13 +95,28 @@ class BaseUniversalApiExportRequest(StrictModel):
 
 
 class TargetsUniversalApiExportRequest(StrictModel):
-    adProductFilter: list[str] | None = Field(
+    adProductFilter: (
+        list[
+            Annotated[
+                BaseUniversalApiExportRequestAdProductFilter | str,
+                lenient_enum(BaseUniversalApiExportRequestAdProductFilter),
+            ]
+        ]
+        | None
+    ) = Field(
         default=["SPONSORED_BRANDS", "SPONSORED_DISPLAY", "SPONSORED_PRODUCTS"],
         min_length=1,
         max_length=3,
         description="Filters the entities returned in export only to selected ad products. In case the filter is not provided, it returns entities from all ad products.",
     )
-    stateFilter: list[str] | None = Field(
+    stateFilter: (
+        list[
+            Annotated[
+                BaseUniversalApiExportRequestStateFilter | str, lenient_enum(BaseUniversalApiExportRequestStateFilter)
+            ]
+        ]
+        | None
+    ) = Field(
         default=["ENABLED", "PAUSED"],
         min_length=1,
         max_length=3,
@@ -43,13 +128,29 @@ class TargetsUniversalApiExportRequest(StrictModel):
         max_length=2,
         description="Filters the targets returned in export to negative or positive targets. In case the filter is not provided, it returns both negative and positive targets.",
     )
-    targetLevelFilter: list[str] | None = Field(
+    targetLevelFilter: (
+        list[
+            Annotated[
+                TargetsUniversalApiExportRequestTargetLevelFilter | str,
+                lenient_enum(TargetsUniversalApiExportRequestTargetLevelFilter),
+            ]
+        ]
+        | None
+    ) = Field(
         default=["AD_GROUP", "CAMPAIGN"],
         min_length=1,
         max_length=2,
         description="Filters the targets returned in export only to selected levels. In case the filter is not provided, it returns both `CAMPAIGN` and `AD_GROUP` level targets.",
     )
-    targetTypeFilter: list[str] | None = Field(
+    targetTypeFilter: (
+        list[
+            Annotated[
+                TargetsUniversalApiExportRequestTargetTypeFilter | str,
+                lenient_enum(TargetsUniversalApiExportRequestTargetTypeFilter),
+            ]
+        ]
+        | None
+    ) = Field(
         default=[
             "AUDIENCE",
             "AUTO",
@@ -68,7 +169,7 @@ class TargetsUniversalApiExportRequest(StrictModel):
 
 
 class UniversalApiError(LenientModel):
-    errorCode: str | None = Field(
+    errorCode: Annotated[UniversalApiErrorErrorCode | str, lenient_enum(UniversalApiErrorErrorCode)] | None = Field(
         default=None,
         description="""
 - INTERNAL_ERROR: The export has failed with an internal error. If the issue persists, please contact customer support.
@@ -84,12 +185,14 @@ class UniversalApiExportResponse(LenientModel):
     exportId: str = Field(description="The export identifier.")
     fileSize: float | None = Field(default=None, description="Byte size of the generated file.")
     generatedAt: datetime | None = Field(default=None, description="Date of when the export was finished generating.")
-    status: str = Field(description="""
+    status: Annotated[UniversalApiExportResponseStatus | str, lenient_enum(UniversalApiExportResponseStatus)] = Field(
+        description="""
 The generation status of the export.
 - PROCESSING: Export is currently in progress.
 - COMPLETED: Export has completed successfully.
 - FAILED: Export has failed. See the error message for more details.
-""")
+"""
+    )
     url: str | None = Field(
         default=None, description="A URL for the export. It’s only available if status is COMPLETED."
     )
@@ -100,7 +203,13 @@ The generation status of the export.
 
 __all__ = [
     "BaseUniversalApiExportRequest",
+    "BaseUniversalApiExportRequestAdProductFilter",
+    "BaseUniversalApiExportRequestStateFilter",
     "TargetsUniversalApiExportRequest",
+    "TargetsUniversalApiExportRequestTargetLevelFilter",
+    "TargetsUniversalApiExportRequestTargetTypeFilter",
     "UniversalApiError",
+    "UniversalApiErrorErrorCode",
     "UniversalApiExportResponse",
+    "UniversalApiExportResponseStatus",
 ]

@@ -223,7 +223,7 @@ class SponsoredProductsCreateAdGroup(StrictModel):
     )
     name: str = Field(description="The name of the ad group.")
     state: Annotated[
-        SponsoredProductsCreateOrUpdateEntityState, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
+        SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
     ]
 
 
@@ -249,7 +249,7 @@ class SponsoredProductsListSponsoredProductsAdGroupsRequestContent(StrictModel):
     adGroupIdFilter: SponsoredProductsObjectIdFilter | None = Field(default=None)
     campaignIdFilter: SponsoredProductsReducedObjectIdFilter | None = Field(default=None)
     campaignTargetingTypeFilter: (
-        Annotated[SponsoredProductsTargetingType, lenient_enum(SponsoredProductsTargetingType)] | None
+        Annotated[SponsoredProductsTargetingType | str, lenient_enum(SponsoredProductsTargetingType)] | None
     ) = Field(default=None)
     includeExtendedDataFields: bool | None = Field(
         default=None,
@@ -282,7 +282,9 @@ class SponsoredProductsUpdateAdGroup(StrictModel):
     )
     name: str | None = Field(default=None, description="The name of the ad group.")
     state: (
-        Annotated[SponsoredProductsCreateOrUpdateEntityState, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)]
+        Annotated[
+            SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
+        ]
         | None
     ) = Field(default=None)
 

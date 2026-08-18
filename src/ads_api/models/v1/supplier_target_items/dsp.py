@@ -45,6 +45,9 @@ class DSPSupplierTargetItemNameFilterType(StrEnum):
 class DSPSupplierTargetItemSortOptionsFields(StrEnum):
     """
     Specify which field to order by.
+    | Field Name | Supported Ordering |
+    | --- | --- |
+    | name | ASCENDING,DESCENDING |
     """
 
     name = "name"
@@ -119,7 +122,7 @@ class DSPSupplierTargetItem(LenientModel):
 
 
 class DSPSupplierTargetItemAdProductFilter(StrictModel):
-    include: list[Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class DSPSupplierTargetItemCategoryFilter(StrictModel):
@@ -127,7 +130,7 @@ class DSPSupplierTargetItemCategoryFilter(StrictModel):
 
 
 class DSPSupplierTargetItemCountryCodeFilter(StrictModel):
-    include: list[Annotated[DSPCountryCode, lenient_enum(DSPCountryCode)]] = Field(min_length=1, max_length=10)
+    include: list[Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)]] = Field(min_length=1, max_length=10)
 
 
 class DSPSupplierTargetItemIdFilter(StrictModel):
@@ -137,13 +140,13 @@ class DSPSupplierTargetItemIdFilter(StrictModel):
 class DSPSupplierTargetItemNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=1)
     queryTermMatchType: Annotated[
-        DSPSupplierTargetItemNameFilterType, lenient_enum(DSPSupplierTargetItemNameFilterType)
+        DSPSupplierTargetItemNameFilterType | str, lenient_enum(DSPSupplierTargetItemNameFilterType)
     ]
 
 
 class DSPSupplierTargetItemSortOption(StrictModel):
-    by: Annotated[DSPSupplierTargetItemSortOptionsFields, lenient_enum(DSPSupplierTargetItemSortOptionsFields)]
-    direction: Annotated[DSPSortDirection, lenient_enum(DSPSortDirection)] | None = Field(default=None)
+    by: Annotated[DSPSupplierTargetItemSortOptionsFields | str, lenient_enum(DSPSupplierTargetItemSortOptionsFields)]
+    direction: Annotated[DSPSortDirection | str, lenient_enum(DSPSortDirection)] | None = Field(default=None)
 
 
 class DSPSupplierTargetItemSuccessResponse(LenientModel):
@@ -161,7 +164,7 @@ class DSPSupplierTargetItemSupplierProposalDestinationIdFilter(StrictModel):
 
 
 class DSPSupplierTargetItemSupplierTargetTypeFilter(StrictModel):
-    include: list[Annotated[DSPSupplierTargetType, lenient_enum(DSPSupplierTargetType)]] = Field(
+    include: list[Annotated[DSPSupplierTargetType | str, lenient_enum(DSPSupplierTargetType)]] = Field(
         min_length=1, max_length=12
     )
 

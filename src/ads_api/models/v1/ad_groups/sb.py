@@ -167,7 +167,7 @@ class SBAdGroupAdGroupIdFilter(StrictModel):
 
 
 class SBAdGroupAdProductFilter(StrictModel):
-    include: list[Annotated[SBAdProduct, lenient_enum(SBAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class SBAdGroupCampaignIdFilter(StrictModel):
@@ -175,10 +175,10 @@ class SBAdGroupCampaignIdFilter(StrictModel):
 
 
 class SBAdGroupCreate(StrictModel):
-    adProduct: Annotated[SBAdProduct, lenient_enum(SBAdProduct)]
+    adProduct: Annotated[SBAdProduct | str, lenient_enum(SBAdProduct)]
     campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
     name: str = Field(description="The name of the ad group.")
-    state: Annotated[SBCreateState, lenient_enum(SBCreateState)]
+    state: Annotated[SBCreateState | str, lenient_enum(SBCreateState)]
     tags: list[SBCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -199,11 +199,11 @@ class SBAdGroupMultiStatusSuccess(LenientModel):
 
 class SBAdGroupNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[SBAdGroupNameFilterType, lenient_enum(SBAdGroupNameFilterType)]
+    queryTermMatchType: Annotated[SBAdGroupNameFilterType | str, lenient_enum(SBAdGroupNameFilterType)]
 
 
 class SBAdGroupStateFilter(StrictModel):
-    include: list[Annotated[SBState, lenient_enum(SBState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SBState | str, lenient_enum(SBState)]] = Field(min_length=1, max_length=3)
 
 
 class SBAdGroupSuccessResponse(LenientModel):
@@ -214,7 +214,7 @@ class SBAdGroupSuccessResponse(LenientModel):
 class SBAdGroupUpdate(StrictModel):
     adGroupId: str = Field(description="The unique identifier of the ad group.")
     name: str | None = Field(default=None, description="The name of the ad group.")
-    state: Annotated[SBUpdateState, lenient_enum(SBUpdateState)] | None = Field(default=None)
+    state: Annotated[SBUpdateState | str, lenient_enum(SBUpdateState)] | None = Field(default=None)
     tags: list[SBCreateTag] | None = Field(
         default=None,
         min_length=0,

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from enum import StrEnum
 from typing import Annotated
 
 from pydantic import Field
@@ -13,6 +14,10 @@ from ads_api.models.v0._shared import (
     LocationExpression,
     LocationPredicate,
 )
+
+
+class BaseLocationState(StrEnum):
+    enabled = "enabled"
 
 
 class ArchiveLocationRequest(StrictModel):
@@ -32,15 +37,15 @@ class ArchiveLocationResponse(LenientModel):
 
 
 class BaseLocation(StrictModel):
-    state: str | None = Field(default=None)
+    state: Annotated[BaseLocationState | str, lenient_enum(BaseLocationState)] | None = Field(default=None)
 
 
 class BaseLocationOut(LenientModel):
-    state: str | None = Field(default=None)
+    state: Annotated[BaseLocationState | str, lenient_enum(BaseLocationState)] | None = Field(default=None)
 
 
 class CreateLocation(StrictModel):
-    state: str
+    state: Annotated[BaseLocationState | str, lenient_enum(BaseLocationState)]
     adGroupId: AdGroupId
     expression: list[LocationExpression] = Field(description="The location definition.")
 
@@ -52,7 +57,7 @@ class Include(StrictModel):
 
 
 class Location(LenientModel):
-    state: str | None = Field(default=None)
+    state: Annotated[BaseLocationState | str, lenient_enum(BaseLocationState)] | None = Field(default=None)
     locationExpressionId: LocationExpressionId | None = Field(default=None)
     adGroupId: AdGroupId | None = Field(default=None)
     expression: list[LocationExpressionOut] | None = Field(default=None, description="The Location definition.")
@@ -89,6 +94,7 @@ __all__ = [
     "ArchiveLocationResponse",
     "BaseLocation",
     "BaseLocationOut",
+    "BaseLocationState",
     "CreateLocation",
     "Include",
     "Location",

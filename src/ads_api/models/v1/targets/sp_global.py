@@ -120,22 +120,22 @@ class SPGlobalCreateKeywordTarget(StrictModel):
     keyword: str = Field(
         description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints)."
     )
-    matchType: Annotated[SPGlobalKeywordMatchType, lenient_enum(SPGlobalKeywordMatchType)]
+    matchType: Annotated[SPGlobalKeywordMatchType | str, lenient_enum(SPGlobalKeywordMatchType)]
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser."
     )
-    nativeLanguageLocale: Annotated[SPGlobalLanguageLocale, lenient_enum(SPGlobalLanguageLocale)] | None = Field(
+    nativeLanguageLocale: Annotated[SPGlobalLanguageLocale | str, lenient_enum(SPGlobalLanguageLocale)] | None = Field(
         default=None
     )
 
 
 class SPGlobalCreateMarketplaceTargetConfigurations(StrictModel):
-    marketplace: Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]
+    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
     overrides: SPGlobalCreateMarketplaceTargetFieldOverrides
 
 
 class SPGlobalCreateMarketplaceTargetFieldOverrides(StrictModel):
-    state: Annotated[SPGlobalState, lenient_enum(SPGlobalState)] | None = Field(default=None)
+    state: Annotated[SPGlobalState | str, lenient_enum(SPGlobalState)] | None = Field(default=None)
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -182,7 +182,7 @@ class SPGlobalCreateProductCategoryRefinement(StrictModel):
 
 
 class SPGlobalCreateProductCategoryRefinementMarketplaceSetting(StrictModel):
-    marketplace: Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]
+    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
     productCategoryRefinement: SPGlobalCreateProductCategoryRefinement
 
 
@@ -206,16 +206,16 @@ class SPGlobalCreateProductGenreRefinement(StrictModel):
 
 
 class SPGlobalCreateProductMarketplaceSetting(StrictModel):
-    marketplace: Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]
+    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
     productId: str = Field(description="The product id applicable at the specified marketplace.")
 
 
 class SPGlobalCreateProductTarget(StrictModel):
     """Targets a specific product."""
 
-    matchType: Annotated[SPGlobalProductMatchType, lenient_enum(SPGlobalProductMatchType)]
+    matchType: Annotated[SPGlobalProductMatchType | str, lenient_enum(SPGlobalProductMatchType)]
     product: SPGlobalCreateProductValue
-    productIdType: Annotated[SPGlobalProductIdType, lenient_enum(SPGlobalProductIdType)]
+    productIdType: Annotated[SPGlobalProductIdType | str, lenient_enum(SPGlobalProductIdType)]
 
 
 class SPGlobalCreateProductValue(StrictModel):
@@ -241,8 +241,8 @@ class SPGlobalCreateTargetBid(StrictModel):
 
 class SPGlobalCreateTargetBidMarketplaceSetting(StrictModel):
     bid: float | None = Field(default=None, description="The maximum bid for a target.")
-    currencyCode: Annotated[SPGlobalCurrencyCode, lenient_enum(SPGlobalCurrencyCode)]
-    marketplace: Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]
+    currencyCode: Annotated[SPGlobalCurrencyCode | str, lenient_enum(SPGlobalCurrencyCode)]
+    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
 
 
 class SPGlobalCreateTargetDetailsKeywordTarget(StrictModel):
@@ -271,7 +271,7 @@ class SPGlobalCreateTargetRequest(StrictModel):
 class SPGlobalCreateThemeTarget(StrictModel):
     """Theme targets let advertisers select high-performing targets based on a common theme."""
 
-    matchType: Annotated[SPGlobalThemeMatchType, lenient_enum(SPGlobalThemeMatchType)]
+    matchType: Annotated[SPGlobalThemeMatchType | str, lenient_enum(SPGlobalThemeMatchType)]
 
 
 class SPGlobalDeleteTargetRequest(StrictModel):
@@ -481,7 +481,9 @@ class SPGlobalTargetAdGroupIdFilter(StrictModel):
 
 
 class SPGlobalTargetAdProductFilter(StrictModel):
-    include: list[Annotated[SPGlobalAdProduct, lenient_enum(SPGlobalAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SPGlobalAdProduct | str, lenient_enum(SPGlobalAdProduct)]] = Field(
+        min_length=1, max_length=1
+    )
 
 
 class SPGlobalTargetBid(LenientModel):
@@ -508,7 +510,7 @@ class SPGlobalTargetCreate(StrictModel):
         default=None,
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets.",
     )
-    adProduct: Annotated[SPGlobalAdProduct, lenient_enum(SPGlobalAdProduct)]
+    adProduct: Annotated[SPGlobalAdProduct | str, lenient_enum(SPGlobalAdProduct)]
     bid: SPGlobalCreateTargetBid | None = Field(default=None)
     campaignId: str | None = Field(
         default=None,
@@ -520,14 +522,14 @@ class SPGlobalTargetCreate(StrictModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global target that enables overriding certain attributes at individual marketplace level. For example, if a global target is ENABLED but needs to be PAUSED in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, the target's global value is applied to that marketplace.",
     )
-    marketplaceScope: Annotated[SPGlobalMarketplaceScope, lenient_enum(SPGlobalMarketplaceScope)]
-    marketplaces: list[Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]] = Field(
+    marketplaceScope: Annotated[SPGlobalMarketplaceScope | str, lenient_enum(SPGlobalMarketplaceScope)]
+    marketplaces: list[Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]] = Field(
         min_length=1,
         max_length=30,
         description="The list of marketplace in which the global target is applicable. The marketplaces included should either be same as or subset of parent campaign/ad group",
     )
     negative: bool = Field(description="Indicates whether the target is negative or not.")
-    state: Annotated[SPGlobalCreateState, lenient_enum(SPGlobalCreateState)]
+    state: Annotated[SPGlobalCreateState | str, lenient_enum(SPGlobalCreateState)]
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -535,7 +537,7 @@ class SPGlobalTargetCreate(StrictModel):
         description="Open ended labels with a key value pair applied to the target",
     )
     targetDetails: SPGlobalCreateTargetDetails
-    targetType: Annotated[SPGlobalTargetType, lenient_enum(SPGlobalTargetType)]
+    targetType: Annotated[SPGlobalTargetType | str, lenient_enum(SPGlobalTargetType)]
 
 
 class SPGlobalTargetDetailsKeywordTarget(LenientModel):
@@ -558,13 +560,15 @@ type SPGlobalTargetDetails = SPGlobalTargetDetailsKeywordTarget | SPGlobalTarget
 
 
 class SPGlobalTargetMarketplaceScopeFilter(StrictModel):
-    include: list[Annotated[SPGlobalMarketplaceScope, lenient_enum(SPGlobalMarketplaceScope)]] = Field(
+    include: list[Annotated[SPGlobalMarketplaceScope | str, lenient_enum(SPGlobalMarketplaceScope)]] = Field(
         min_length=1, max_length=1
     )
 
 
 class SPGlobalTargetMatchTypeFilter(StrictModel):
-    include: list[Annotated[SPGlobalMatchType, lenient_enum(SPGlobalMatchType)]] = Field(min_length=1, max_length=10)
+    include: list[Annotated[SPGlobalMatchType | str, lenient_enum(SPGlobalMatchType)]] = Field(
+        min_length=1, max_length=10
+    )
 
 
 class SPGlobalTargetMultiStatusResponseWithPartialErrors(LenientModel):
@@ -590,11 +594,13 @@ class SPGlobalTargetPartialIndex(LenientModel):
 
 class SPGlobalTargetProductIdFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[SPGlobalTargetProductIdFilterType, lenient_enum(SPGlobalTargetProductIdFilterType)]
+    queryTermMatchType: Annotated[
+        SPGlobalTargetProductIdFilterType | str, lenient_enum(SPGlobalTargetProductIdFilterType)
+    ]
 
 
 class SPGlobalTargetStateFilter(StrictModel):
-    include: list[Annotated[SPGlobalState, lenient_enum(SPGlobalState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SPGlobalState | str, lenient_enum(SPGlobalState)]] = Field(min_length=1, max_length=3)
 
 
 class SPGlobalTargetSuccessResponse(LenientModel):
@@ -607,7 +613,9 @@ class SPGlobalTargetTargetIdFilter(StrictModel):
 
 
 class SPGlobalTargetTargetTypeFilter(StrictModel):
-    include: list[Annotated[SPGlobalTargetType, lenient_enum(SPGlobalTargetType)]] = Field(min_length=1, max_length=4)
+    include: list[Annotated[SPGlobalTargetType | str, lenient_enum(SPGlobalTargetType)]] = Field(
+        min_length=1, max_length=4
+    )
 
 
 class SPGlobalTargetUpdate(StrictModel):
@@ -618,13 +626,13 @@ class SPGlobalTargetUpdate(StrictModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global target that enables overriding certain attributes at individual marketplace level. For example, if a global target is ENABLED but needs to be PAUSED in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, the target's global value is applied to that marketplace.",
     )
-    marketplaces: list[Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]] | None = Field(
+    marketplaces: list[Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]] | None = Field(
         default=None,
         min_length=1,
         max_length=30,
         description="The list of marketplace in which the global target is applicable. The marketplaces included should either be same as or subset of parent campaign/ad group",
     )
-    state: Annotated[SPGlobalUpdateState, lenient_enum(SPGlobalUpdateState)] | None = Field(default=None)
+    state: Annotated[SPGlobalUpdateState | str, lenient_enum(SPGlobalUpdateState)] | None = Field(default=None)
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,

@@ -42,7 +42,7 @@ class CreateTermsTokenRequestContent(StrictModel):
         default=None,
         description="Optional account ID (Global Account or Manager Account) for accepting terms on existing accounts",
     )
-    termsType: Annotated[TermsType, lenient_enum(TermsType)] | None = Field(default=None)
+    termsType: Annotated[TermsType | str, lenient_enum(TermsType)] | None = Field(default=None)
 
 
 class CreateTermsTokenResponseContent(LenientModel):

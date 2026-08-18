@@ -85,7 +85,7 @@ class SponsoredProductsCreateKeywordTarget(StrictModel):
         description="Bid associated with the target. For more information about bid constraints by marketplace, see [bid limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).",
     )
     keyword: str = Field(description="The keyword text.")
-    matchType: Annotated[SponsoredProductsKeywordMatchType, lenient_enum(SponsoredProductsKeywordMatchType)]
+    matchType: Annotated[SponsoredProductsKeywordMatchType | str, lenient_enum(SponsoredProductsKeywordMatchType)]
 
 
 class SponsoredProductsCreateProductTarget(StrictModel):
@@ -97,7 +97,7 @@ class SponsoredProductsCreateProductTarget(StrictModel):
         description="Bid associated with the target. For more information about bid constraints by marketplace, see [bid limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).",
     )
     matchType: Annotated[
-        SponsoredProductsTargetingExpressionMatchType, lenient_enum(SponsoredProductsTargetingExpressionMatchType)
+        SponsoredProductsTargetingExpressionMatchType | str, lenient_enum(SponsoredProductsTargetingExpressionMatchType)
     ]
     target: str = Field(description="The product ASIN of the target.")
 

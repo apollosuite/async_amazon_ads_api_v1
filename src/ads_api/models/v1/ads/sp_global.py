@@ -100,13 +100,15 @@ class SPGlobalAdAdIdFilter(StrictModel):
 
 
 class SPGlobalAdAdProductFilter(StrictModel):
-    include: list[Annotated[SPGlobalAdProduct, lenient_enum(SPGlobalAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SPGlobalAdProduct | str, lenient_enum(SPGlobalAdProduct)]] = Field(
+        min_length=1, max_length=1
+    )
 
 
 class SPGlobalAdCreate(StrictModel):
     adGroupId: str = Field(description="The ad group associated with the ad.")
-    adProduct: Annotated[SPGlobalAdProduct, lenient_enum(SPGlobalAdProduct)]
-    adType: Annotated[SPGlobalAdType, lenient_enum(SPGlobalAdType)]
+    adProduct: Annotated[SPGlobalAdProduct | str, lenient_enum(SPGlobalAdProduct)]
+    adType: Annotated[SPGlobalAdType | str, lenient_enum(SPGlobalAdType)]
     creative: SPGlobalCreateCreative
     marketplaceConfigurations: list[SPGlobalCreateMarketplaceAdConfigurations] | None = Field(
         default=None,
@@ -114,13 +116,13 @@ class SPGlobalAdCreate(StrictModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global ad that enables overriding certain attributes at individual marketplace level. For example, if a global ad is ENABLED but needs to be PAUSED in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, the ad's global value is applied to that marketplace.",
     )
-    marketplaceScope: Annotated[SPGlobalMarketplaceScope, lenient_enum(SPGlobalMarketplaceScope)]
-    marketplaces: list[Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]] = Field(
+    marketplaceScope: Annotated[SPGlobalMarketplaceScope | str, lenient_enum(SPGlobalMarketplaceScope)]
+    marketplaces: list[Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]] = Field(
         min_length=1,
         max_length=30,
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
-    state: Annotated[SPGlobalCreateState, lenient_enum(SPGlobalCreateState)]
+    state: Annotated[SPGlobalCreateState | str, lenient_enum(SPGlobalCreateState)]
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -130,7 +132,7 @@ class SPGlobalAdCreate(StrictModel):
 
 
 class SPGlobalAdMarketplaceScopeFilter(StrictModel):
-    include: list[Annotated[SPGlobalMarketplaceScope, lenient_enum(SPGlobalMarketplaceScope)]] = Field(
+    include: list[Annotated[SPGlobalMarketplaceScope | str, lenient_enum(SPGlobalMarketplaceScope)]] = Field(
         min_length=1, max_length=1
     )
 
@@ -153,7 +155,7 @@ class SPGlobalAdPartialIndex(LenientModel):
 
 
 class SPGlobalAdStateFilter(StrictModel):
-    include: list[Annotated[SPGlobalState, lenient_enum(SPGlobalState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SPGlobalState | str, lenient_enum(SPGlobalState)]] = Field(min_length=1, max_length=3)
 
 
 class SPGlobalAdSuccessResponse(LenientModel):
@@ -169,13 +171,13 @@ class SPGlobalAdUpdate(StrictModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global ad that enables overriding certain attributes at individual marketplace level. For example, if a global ad is ENABLED but needs to be PAUSED in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, the ad's global value is applied to that marketplace.",
     )
-    marketplaces: list[Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]] | None = Field(
+    marketplaces: list[Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]] | None = Field(
         default=None,
         min_length=1,
         max_length=30,
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
-    state: Annotated[SPGlobalUpdateState, lenient_enum(SPGlobalUpdateState)] | None = Field(default=None)
+    state: Annotated[SPGlobalUpdateState | str, lenient_enum(SPGlobalUpdateState)] | None = Field(default=None)
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -213,7 +215,7 @@ class SPGlobalCreateAdRequest(StrictModel):
 
 class SPGlobalCreateAdvertisedProductMarketplaceSetting(StrictModel):
     globalStoreSetting: SPGlobalCreateGlobalStoreSettings | None = Field(default=None)
-    marketplace: Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]
+    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
     productId: str = Field(description="The identifier of the product advertised.")
 
 
@@ -224,7 +226,7 @@ class SPGlobalCreateAdvertisedProducts(StrictModel):
         max_length=30,
         description="List of advertised product selectively applied at the given marketplace level",
     )
-    productIdType: Annotated[SPGlobalProductIdType, lenient_enum(SPGlobalProductIdType)]
+    productIdType: Annotated[SPGlobalProductIdType | str, lenient_enum(SPGlobalProductIdType)]
 
 
 class SPGlobalCreateCreative(StrictModel):
@@ -232,18 +234,18 @@ class SPGlobalCreateCreative(StrictModel):
 
 
 class SPGlobalCreateGlobalStoreSettings(StrictModel):
-    catalogSourceMarketplace: Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)] | None = Field(
+    catalogSourceMarketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)] | None = Field(
         default=None
     )
 
 
 class SPGlobalCreateMarketplaceAdConfigurations(StrictModel):
-    marketplace: Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]
+    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
     overrides: SPGlobalCreateMarketplaceAdFieldOverrides
 
 
 class SPGlobalCreateMarketplaceAdFieldOverrides(StrictModel):
-    state: Annotated[SPGlobalState, lenient_enum(SPGlobalState)] | None = Field(default=None)
+    state: Annotated[SPGlobalState | str, lenient_enum(SPGlobalState)] | None = Field(default=None)
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,

@@ -298,7 +298,7 @@ class SponsoredProductsCreateProductAd(StrictModel):
         default=None, description="The SKU associated with the product. Defined for seller accounts only."
     )
     state: Annotated[
-        SponsoredProductsCreateOrUpdateEntityState, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
+        SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
     ]
 
 
@@ -461,7 +461,9 @@ class SponsoredProductsUnsupportedOperationError(LenientModel):
 class SponsoredProductsUpdateProductAd(StrictModel):
     adId: str = Field(description="The product ad identifier.")
     state: (
-        Annotated[SponsoredProductsCreateOrUpdateEntityState, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)]
+        Annotated[
+            SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
+        ]
         | None
     ) = Field(default=None)
 

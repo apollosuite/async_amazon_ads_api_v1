@@ -97,7 +97,7 @@ class DSPCommitmentCommitmentIdFilter(StrictModel):
 class DSPCommitmentCommitmentNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=1)
     queryTermMatchType: Annotated[
-        DSPCommitmentCommitmentNameFilterType, lenient_enum(DSPCommitmentCommitmentNameFilterType)
+        DSPCommitmentCommitmentNameFilterType | str, lenient_enum(DSPCommitmentCommitmentNameFilterType)
     ]
 
 
@@ -110,13 +110,13 @@ class DSPCommitmentCreate(StrictModel):
     )
     commitmentName: str = Field(description="The name of the commitment.")
     committedSpend: float = Field(description="The total committed spend for the commitment.")
-    currencyCode: Annotated[DSPCurrencyCode, lenient_enum(DSPCurrencyCode)]
+    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)]
     dealIds: list[str] | None = Field(
         default=None, min_length=0, max_length=1000, description="Deal IDs associated with the commitment."
     )
     endDateTime: datetime = Field(description="The end date and time of the commitment.")
-    fulfillmentLevel: Annotated[DSPFulfillmentLevel, lenient_enum(DSPFulfillmentLevel)]
-    spendCalculationMode: Annotated[DSPSpendCalculationMode, lenient_enum(DSPSpendCalculationMode)]
+    fulfillmentLevel: Annotated[DSPFulfillmentLevel | str, lenient_enum(DSPFulfillmentLevel)]
+    spendCalculationMode: Annotated[DSPSpendCalculationMode | str, lenient_enum(DSPSpendCalculationMode)]
     startDateTime: datetime = Field(description="The start date and time of the commitment.")
 
 
@@ -131,7 +131,7 @@ class DSPCommitmentMultiStatusSuccess(LenientModel):
 
 
 class DSPCommitmentSpendCalculationModeFilter(StrictModel):
-    include: list[Annotated[DSPSpendCalculationMode, lenient_enum(DSPSpendCalculationMode)]] = Field(
+    include: list[Annotated[DSPSpendCalculationMode | str, lenient_enum(DSPSpendCalculationMode)]] = Field(
         min_length=1, max_length=1
     )
 
@@ -151,14 +151,16 @@ class DSPCommitmentUpdate(StrictModel):
     commitmentId: str = Field(description="A unique identifier for the commitment.")
     commitmentName: str | None = Field(default=None, description="The name of the commitment.")
     committedSpend: float | None = Field(default=None, description="The total committed spend for the commitment.")
-    currencyCode: Annotated[DSPCurrencyCode, lenient_enum(DSPCurrencyCode)] | None = Field(default=None)
+    currencyCode: Annotated[DSPCurrencyCode | str, lenient_enum(DSPCurrencyCode)] | None = Field(default=None)
     dealIds: list[str] | None = Field(
         default=None, min_length=0, max_length=1000, description="Deal IDs associated with the commitment."
     )
     endDateTime: datetime | None = Field(default=None, description="The end date and time of the commitment.")
-    fulfillmentLevel: Annotated[DSPFulfillmentLevel, lenient_enum(DSPFulfillmentLevel)] | None = Field(default=None)
-    spendCalculationMode: Annotated[DSPSpendCalculationMode, lenient_enum(DSPSpendCalculationMode)] | None = Field(
+    fulfillmentLevel: Annotated[DSPFulfillmentLevel | str, lenient_enum(DSPFulfillmentLevel)] | None = Field(
         default=None
+    )
+    spendCalculationMode: Annotated[DSPSpendCalculationMode | str, lenient_enum(DSPSpendCalculationMode)] | None = (
+        Field(default=None)
     )
     startDateTime: datetime | None = Field(default=None, description="The start date and time of the commitment.")
 

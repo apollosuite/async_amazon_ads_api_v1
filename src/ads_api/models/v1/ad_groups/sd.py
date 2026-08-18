@@ -78,7 +78,7 @@ class SDAdGroupAdGroupIdFilter(StrictModel):
 
 
 class SDAdGroupAdProductFilter(StrictModel):
-    include: list[Annotated[SDAdProduct, lenient_enum(SDAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class SDAdGroupBid(LenientModel):
@@ -94,19 +94,19 @@ class SDAdGroupCampaignIdFilter(StrictModel):
 
 
 class SDAdGroupCreate(StrictModel):
-    adProduct: Annotated[SDAdProduct, lenient_enum(SDAdProduct)]
+    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
     bid: SDCreateAdGroupBid | None = Field(default=None)
     campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
-    creativeType: Annotated[SDCreativeType, lenient_enum(SDCreativeType)] | None = Field(default=None)
-    marketplaceScope: Annotated[SDMarketplaceScope, lenient_enum(SDMarketplaceScope)]
-    marketplaces: list[Annotated[SDMarketplace, lenient_enum(SDMarketplace)]] = Field(
+    creativeType: Annotated[SDCreativeType | str, lenient_enum(SDCreativeType)] | None = Field(default=None)
+    marketplaceScope: Annotated[SDMarketplaceScope | str, lenient_enum(SDMarketplaceScope)]
+    marketplaces: list[Annotated[SDMarketplace | str, lenient_enum(SDMarketplace)]] = Field(
         min_length=1,
         max_length=1,
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
     )
     name: str = Field(description="The name of the ad group.")
     optimization: SDCreateOptimization | None = Field(default=None)
-    state: Annotated[SDCreateState, lenient_enum(SDCreateState)]
+    state: Annotated[SDCreateState | str, lenient_enum(SDCreateState)]
 
 
 class SDAdGroupGoalSettings(LenientModel):
@@ -125,11 +125,11 @@ class SDAdGroupMultiStatusSuccess(LenientModel):
 
 class SDAdGroupNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[SDAdGroupNameFilterType, lenient_enum(SDAdGroupNameFilterType)]
+    queryTermMatchType: Annotated[SDAdGroupNameFilterType | str, lenient_enum(SDAdGroupNameFilterType)]
 
 
 class SDAdGroupStateFilter(StrictModel):
-    include: list[Annotated[SDState, lenient_enum(SDState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SDState | str, lenient_enum(SDState)]] = Field(min_length=1, max_length=3)
 
 
 class SDAdGroupSuccessResponse(LenientModel):
@@ -142,7 +142,7 @@ class SDAdGroupUpdate(StrictModel):
     bid: SDUpdateAdGroupBid | None = Field(default=None)
     name: str | None = Field(default=None, description="The name of the ad group.")
     optimization: SDUpdateOptimization | None = Field(default=None)
-    state: Annotated[SDUpdateState, lenient_enum(SDUpdateState)] | None = Field(default=None)
+    state: Annotated[SDUpdateState | str, lenient_enum(SDUpdateState)] | None = Field(default=None)
 
 
 class SDCreateAdGroupBid(StrictModel):
@@ -153,7 +153,7 @@ class SDCreateAdGroupBid(StrictModel):
 
 
 class SDCreateAdGroupGoalSettings(StrictModel):
-    kpi: Annotated[SDKPI, lenient_enum(SDKPI)] | None = Field(default=None)
+    kpi: Annotated[SDKPI | str, lenient_enum(SDKPI)] | None = Field(default=None)
 
 
 class SDCreateAdGroupRequest(StrictModel):
@@ -190,7 +190,7 @@ class SDUpdateAdGroupBid(StrictModel):
 
 
 class SDUpdateAdGroupGoalSettings(StrictModel):
-    kpi: Annotated[SDKPI, lenient_enum(SDKPI)] | None = Field(default=None)
+    kpi: Annotated[SDKPI | str, lenient_enum(SDKPI)] | None = Field(default=None)
 
 
 class SDUpdateAdGroupRequest(StrictModel):

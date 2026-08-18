@@ -195,6 +195,19 @@ def is_mutation_result_schema(schema: dict[str, Any]) -> bool:
     return not bool(props & _ENTITY_FIELDS)
 
 
+def _assert_unique_python_names(emitted: list[EmittedModel]) -> None:
+    by_python: dict[str, list[SchemaKey]] = {}
+    for item in emitted:
+        by_python.setdefault(item.python_name, []).append(item.key)
+    collisions = {name: ks for name, ks in by_python.items() if len(ks) > 1}
+    if collisions:
+        details = "; ".join(
+            f"{target} ← {', '.join(f'{k.openapi_name}[{k.role}]' for k in ks)}"
+            for target, ks in sorted(collisions.items())
+        )
+        raise RuntimeError(f"Schema naming collisions: {details}")
+
+
 def python_name_for(openapi_name: str, role: SchemaRole, shared_entities: set[str]) -> str:
     if role == SchemaRole.NEUTRAL:
         return openapi_name
@@ -263,22 +276,16 @@ def discover_emissions(
             keys.append(SchemaKey(name, role))
 
     emitted: list[EmittedModel] = []
-    by_python: dict[str, list[SchemaKey]] = {}
     for key in keys:
         schema = all_schemas[key.openapi_name]
         python_name = python_name_for(key.openapi_name, key.role, shared_entities)
         extra: ExtraMode = "forbid" if key.role == SchemaRole.INPUT else "allow"
         emitted.append(EmittedModel(key=key, python_name=python_name, schema=schema, extra=extra))
-        by_python.setdefault(python_name, []).append(key)
 
-    collisions = {name: ks for name, ks in by_python.items() if len(ks) > 1}
-    if collisions:
-        details = "; ".join(
-            f"{target} ← {', '.join(f'{k.openapi_name}[{k.role}]' for k in ks)}"
-            for target, ks in sorted(collisions.items())
-        )
-        raise RuntimeError(f"Schema naming collisions: {details}")
+    from codegen.transform import promote_inline_enums  # 避免与 transform → schema 循环导入
 
+    emitted = promote_inline_enums(emitted)
+    _assert_unique_python_names(emitted)
     return emitted, NameMap(emitted)
 
 

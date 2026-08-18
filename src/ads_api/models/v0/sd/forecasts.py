@@ -14,32 +14,90 @@ from ads_api.models.v0._shared import (
     AdId,
     AdName,
     BaseAdGroup,
+    BaseAdGroupBidOptimization,
+    BaseAdGroupState,
     BaseCampaign,
+    BaseCampaignBudgetType,
+    BaseCampaignCostType,
+    BaseCampaignState,
     BaseNegativeTargetingClause,
+    BaseNegativeTargetingClauseState,
+    BaseOptimizationRuleState,
     BaseProductAd,
+    BaseProductAdState,
     BaseTargetingClause,
+    BaseTargetingClauseState,
+    CampaignDeliveryProfile,
     CampaignId,
     ContentTargetingPredicate,
+    ContentTargetingPredicateType,
     LandingPageURL,
     LocationExpression,
     LocationPredicate,
+    NegativeTargetingClauseExpressionType,
     NegativeTargetingExpression,
+    NegativeTargetingExpressionType,
+    RuleConditionComparisonOperator,
+    RuleConditionMetricName,
     RuleId,
     Tactic,
     TargetId,
     TargetingPredicate,
     TargetingPredicateBase,
+    TargetingPredicateBaseType,
+    TargetingPredicateLegacyEventType,
+    TargetingPredicateLegacyType,
     TargetingPredicateNested,
+    TargetingPredicateNestedType,
+    TargetingPredicateType,
 )
 
 
 class CreativeType(StrEnum):
     """
     The type of the associated creative. If the field is empty or null, a default value of IMAGE will be used. One ad group only supports one type (VIDEO or IMAGE) of creativeType at a time.
+    |Name|Description|
+    |----|-----------|
+    |IMAGE |The creative will display static assets (e.g. headline, brandLogo or custom image).|
+    |VIDEO |The creative will display video assets. This type of creative must have a video asset provided. Only supported when using productAds with ASIN or SKU.|
     """
 
     IMAGE = "IMAGE"
     VIDEO = "VIDEO"
+
+
+class CurveGraph(StrEnum):
+    """
+    Type of Graph.
+    """
+
+    BUDGET = "BUDGET"
+
+
+class CurvePointRangedValueLabel(StrEnum):
+    """
+    KPI label.
+    """
+
+    CLICKS = "CLICKS"
+    REACH = "REACH"
+
+
+class ForecastMetric(StrEnum):
+    """
+    Describes which metric is forecasted.
+    |Name|Description|
+    |-----------|------------------------|
+    |IMPRESSIONS| Available impressions|
+    |REACH      | Delivered viewable impressions|
+    |CLICKS     | Delivered page visits|
+    |CONVERSIONS| [Preview only] Delivered conversions|
+    """
+
+    IMPRESSIONS = "IMPRESSIONS"
+    REACH = "REACH"
+    CLICKS = "CLICKS"
+    CONVERSIONS = "CONVERSIONS"
 
 
 class ForecastStatus(StrEnum):
@@ -62,6 +120,15 @@ class LandingPageType(StrEnum):
     OFF_AMAZON_LINK = "OFF_AMAZON_LINK"
 
 
+class SDForecastRequestTargetingClauseExpressionType(StrEnum):
+    """
+    Tactic T00020 & T00030 ad groups should use 'manual' targeting.
+    """
+
+    manual = "manual"
+    auto = "auto"
+
+
 class AdGroup(StrictModel):
     name: str | None = Field(default=None, description="The name of the ad group.")
     campaignId: CampaignId | None = Field(default=None)
@@ -69,17 +136,31 @@ class AdGroup(StrictModel):
         default=None,
         description="The amount of the default bid associated with the ad group. Used if no bid is specified.",
     )
-    bidOptimization: str | None = Field(
-        default=None, description="Bid Optimization for the Adgroup. Default behavior is to optimize for clicks."
+    bidOptimization: Annotated[BaseAdGroupBidOptimization | str, lenient_enum(BaseAdGroupBidOptimization)] | None = (
+        Field(
+            default=None,
+            description="""
+Bid Optimization for the Adgroup. Default behavior is to optimize for clicks.
+|Name|CostType|Description|
+|----|--------|-----------|
+|reach |vcpm|Optimize for viewable impressions. $1 is the minimum bid for vCPM.|
+|clicks |cpc|[Default] Optimize for page visits.|
+|conversions |cpc|Optimize for conversion.|
+""",
+        )
     )
-    state: str | None = Field(default=None, description="The state of the ad group.")
+    state: Annotated[BaseAdGroupState | str, lenient_enum(BaseAdGroupState)] | None = Field(
+        default=None, description="The state of the ad group."
+    )
     adGroupId: AdGroupId | None = Field(default=None)
-    tactic: Annotated[Tactic, lenient_enum(Tactic)] | None = Field(default=None)
-    creativeType: Annotated[CreativeType, lenient_enum(CreativeType)] | None = Field(default=None)
+    tactic: Annotated[Tactic | str, lenient_enum(Tactic)] | None = Field(default=None)
+    creativeType: Annotated[CreativeType | str, lenient_enum(CreativeType)] | None = Field(default=None)
 
 
 class BaseOptimizationRule(StrictModel):
-    state: str | None = Field(default=None, description="The state of the optimization rule.")
+    state: Annotated[BaseOptimizationRuleState | str, lenient_enum(BaseOptimizationRuleState)] | None = Field(
+        default=None, description="The state of the optimization rule."
+    )
     ruleName: str | None = Field(default=None, description="The name of the optimization rule.")
     ruleConditions: list[RuleCondition] | None = Field(
         default=None,
@@ -91,7 +172,7 @@ class BaseOptimizationRule(StrictModel):
 
 class Campaign(StrictModel):
     name: str | None = Field(default=None, description="The name of the campaign.")
-    budgetType: str | None = Field(
+    budgetType: Annotated[BaseCampaignBudgetType | str, lenient_enum(BaseCampaignBudgetType)] | None = Field(
         default=None,
         description="The time period over which the amount specified in the `budget` property is allocated.",
     )
@@ -100,21 +181,30 @@ class Campaign(StrictModel):
         default=None, description="The YYYYMMDD start date of the campaign. The date must be today or in the future."
     )
     endDate: str | None = Field(default=None, description="The YYYYMMDD end date of the campaign.")
-    costType: str | None = Field(
+    costType: Annotated[BaseCampaignCostType | str, lenient_enum(BaseCampaignCostType)] | None = Field(
         default=None,
         description="""
 Determines how the campaign will bid and charge.
+|Name|Description|
+|----|----------|
+|cpc |[Default] The performance of this campaign is measured by the clicks triggered by the ad.|
+|vcpm |The performance of this campaign is measured by the viewed impressions triggered by the ad. |
+
 To view minimum and maximum bids based on the costType, see [Limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).
 """,
     )
-    state: str | None = Field(default=None, description="The state of the campaign.")
+    state: Annotated[BaseCampaignState | str, lenient_enum(BaseCampaignState)] | None = Field(
+        default=None, description="The state of the campaign."
+    )
     portfolioId: int | None = Field(
         default=None,
         description="Identifier of the portfolio that will be associated with the campaign. If null then the campaign will be disassociated from existing portfolio. Campaigns with CPC and vCPM costType are supported.",
     )
     campaignId: CampaignId | None = Field(default=None)
-    tactic: Annotated[Tactic, lenient_enum(Tactic)] | None = Field(default=None)
-    deliveryProfile: str | None = Field(default=None)
+    tactic: Annotated[Tactic | str, lenient_enum(Tactic)] | None = Field(default=None)
+    deliveryProfile: Annotated[CampaignDeliveryProfile | str, lenient_enum(CampaignDeliveryProfile)] | None = Field(
+        default=None
+    )
     ruleBasedBudget: RuleBasedBudget | None = Field(default=None)
 
 
@@ -124,7 +214,9 @@ class Curve(LenientModel):
     meetThreshold: bool | None = Field(
         default=None, description="True if the budget utilization is good to show the curve."
     )
-    graph: str | None = Field(default=None, description="Type of Graph.")
+    graph: Annotated[CurveGraph | str, lenient_enum(CurveGraph)] | None = Field(
+        default=None, description="Type of Graph."
+    )
     points: list[CurvePoint] | None = Field(default=None, min_length=50, max_length=100)
 
 
@@ -145,14 +237,27 @@ class CurvePointFixedValue(LenientModel):
 class CurvePointRangedValue(LenientModel):
     """A ranged value."""
 
-    label: str | None = Field(default=None, description="KPI label.")
+    label: Annotated[CurvePointRangedValueLabel | str, lenient_enum(CurvePointRangedValueLabel)] | None = Field(
+        default=None, description="KPI label."
+    )
     value: ForecastRangeDouble | None = Field(default=None)
 
 
 class Forecast(LenientModel):
     """Forecast impressions, clicks, reach, or conversions."""
 
-    metric: str | None = Field(default=None, description="Describes which metric is forecasted.")
+    metric: Annotated[ForecastMetric | str, lenient_enum(ForecastMetric)] | None = Field(
+        default=None,
+        description="""
+Describes which metric is forecasted.
+|Name|Description|
+|-----------|------------------------|
+|IMPRESSIONS| Available impressions|
+|REACH      | Delivered viewable impressions|
+|CLICKS     | Delivered page visits|
+|CONVERSIONS| [Preview only] Delivered conversions|
+""",
+    )
     value: ForecastRange | None = Field(default=None)
 
 
@@ -172,10 +277,15 @@ class ForecastRangeDouble(LenientModel):
 
 
 class NegativeTargetingClause(StrictModel):
-    state: str | None = Field(default=None)
+    state: Annotated[BaseNegativeTargetingClauseState | str, lenient_enum(BaseNegativeTargetingClauseState)] | None = (
+        Field(default=None)
+    )
     targetId: TargetId | None = Field(default=None)
     adGroupId: AdGroupId | None = Field(default=None)
-    expressionType: str | None = Field(default=None)
+    expressionType: (
+        Annotated[NegativeTargetingClauseExpressionType | str, lenient_enum(NegativeTargetingClauseExpressionType)]
+        | None
+    ) = Field(default=None)
     expression: list[NegativeTargetingExpression] | None = Field(
         default=None,
         description="""
@@ -191,7 +301,9 @@ The expression to negatively match against.
 
 
 class OptimizationRule(StrictModel):
-    state: str | None = Field(default=None, description="The state of the optimization rule.")
+    state: Annotated[BaseOptimizationRuleState | str, lenient_enum(BaseOptimizationRuleState)] | None = Field(
+        default=None, description="The state of the optimization rule."
+    )
     ruleName: str | None = Field(default=None, description="The name of the optimization rule.")
     ruleConditions: list[RuleCondition] | None = Field(
         default=None,
@@ -203,12 +315,14 @@ class OptimizationRule(StrictModel):
 
 
 class ProductAd(StrictModel):
-    state: str | None = Field(default=None, description="The state of the campaign associated with the product ad.")
+    state: Annotated[BaseProductAdState | str, lenient_enum(BaseProductAdState)] | None = Field(
+        default=None, description="The state of the campaign associated with the product ad."
+    )
     adId: AdId | None = Field(default=None)
     adGroupId: AdGroupId | None = Field(default=None)
     campaignId: CampaignId | None = Field(default=None)
     landingPageURL: LandingPageURL | None = Field(default=None)
-    landingPageType: Annotated[LandingPageType, lenient_enum(LandingPageType)] | None = Field(default=None)
+    landingPageType: Annotated[LandingPageType | str, lenient_enum(LandingPageType)] | None = Field(default=None)
     adName: AdName | None = Field(default=None)
     asin: str | None = Field(
         default=None,
@@ -231,18 +345,43 @@ class RuleCondition(StrictModel):
     """A rule condition that defines the advertiser's intent for the outcome of the rule.
     Certain actions are performed by the product to achieve and maintain the rule condition."""
 
-    metricName: str = Field(description="""
+    metricName: Annotated[RuleConditionMetricName | str, lenient_enum(RuleConditionMetricName)] = Field(description="""
 The name of the metric.
 Supported rule metrics and corresponding supported comparisonOperators:
+|      MetricName      |ComparisonOperator  |Description|
+|------------------|--------------------|-------------------|
+|COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS     |              LESS_THAN_OR_EQUAL_TO             |Maximize viewable impressions while cost per 1000 views less than or equal to `threshold`|
+|COST_PER_CLICK    |              LESS_THAN_OR_EQUAL_TO            |Maximize page visits while cost per click less than or equal to `threshold`|
+|COST_PER_ORDER    |              LESS_THAN_OR_EQUAL_TO            |Maximize viewable impressions/page visits/conversion while cost per order less than or equal to `threshold`|
 """)
-    comparisonOperator: str = Field(description="The comparison operator.")
-    threshold: float = Field(
-        description="The value of the threshold associated with the metric. The threshold values has defined minimums depending on the metric names in the following table:"
-    )
+    comparisonOperator: Annotated[
+        RuleConditionComparisonOperator | str, lenient_enum(RuleConditionComparisonOperator)
+    ] = Field(description="The comparison operator.")
+    threshold: float = Field(description="""
+The value of the threshold associated with the metric. The threshold values has defined minimums depending on the metric names in the following table:
+|                  MetricName            | Minimum of `threshold` Value  |
+|----------------------------------------|-----------------------------------|
+|COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS  | 1                                 |
+|COST_PER_CLICK                          | 0.5                               |
+|COST_PER_ORDER                          | 5                                 |
+""")
 
 
 class SDForecastRequest(StrictModel):
-    """Request payload for SD forecasting. Below are required and optional fields. Fields not listed will not impact forecast results."""
+    """Request payload for SD forecasting. Below are required and optional fields. Fields not listed will not impact forecast results.
+    |Field              |Object            |Required|
+    |-------------------|------------------|--------|
+    |startDate          |Campaign          |required|
+    |endDate            |Campaign          |optional|
+    |costType           |Campaign          |optional|
+    |bidOptimization    |AdGroup           |required|
+    |creativeType       |AdGroup           |optional|
+    |defaultBid         |AdGroup           |optional|
+    |asin               |ProductAds        |required for vendors|
+    |sku                |ProductAds        |required for sellers|
+    |bid                |TargetingClauses  |required when defaultBid is not set|
+    |expression         |TargetingClauses  |required|
+    |ruleConditions     |OptimizationRules |optional|"""
 
     campaign: Campaign
     adGroup: AdGroup
@@ -268,7 +407,9 @@ class SDForecastRequest(StrictModel):
 
 
 class SDForecastRequestTargetingClause(StrictModel):
-    state: str | None = Field(default=None)
+    state: Annotated[BaseTargetingClauseState | str, lenient_enum(BaseTargetingClauseState)] | None = Field(
+        default=None
+    )
     bid: float | None = Field(
         default=None,
         ge=0.02,
@@ -276,9 +417,13 @@ class SDForecastRequestTargetingClause(StrictModel):
     )
     targetId: TargetId | None = Field(default=None)
     adGroupId: AdGroupId | None = Field(default=None)
-    expressionType: str | None = Field(
-        default=None, description="Tactic T00020 & T00030 ad groups should use 'manual' targeting."
-    )
+    expressionType: (
+        Annotated[
+            SDForecastRequestTargetingClauseExpressionType | str,
+            lenient_enum(SDForecastRequestTargetingClauseExpressionType),
+        ]
+        | None
+    ) = Field(default=None, description="Tactic T00020 & T00030 ad groups should use 'manual' targeting.")
     expression: TargetingExpression | None = Field(
         default=None, description="The targeting expression to match against."
     )
@@ -326,9 +471,13 @@ class TargetingExpression(StrictModel):
 
 
 class TargetingPredicateLegacy(StrictModel):
-    type: str | None = Field(default=None)
+    type: Annotated[TargetingPredicateLegacyType | str, lenient_enum(TargetingPredicateLegacyType)] | None = Field(
+        default=None
+    )
     value: str | None = Field(default=None, description="The value to be targeted.")
-    eventType: str | None = Field(
+    eventType: (
+        Annotated[TargetingPredicateLegacyEventType | str, lenient_enum(TargetingPredicateLegacyEventType)] | None
+    ) = Field(
         default=None,
         description="""
 The type of event that the value applies to. Only available for similarProduct and exactProduct currently.
@@ -343,20 +492,34 @@ __all__ = [
     "AdId",
     "AdName",
     "BaseAdGroup",
+    "BaseAdGroupBidOptimization",
+    "BaseAdGroupState",
     "BaseCampaign",
+    "BaseCampaignBudgetType",
+    "BaseCampaignCostType",
+    "BaseCampaignState",
     "BaseNegativeTargetingClause",
+    "BaseNegativeTargetingClauseState",
     "BaseOptimizationRule",
+    "BaseOptimizationRuleState",
     "BaseProductAd",
+    "BaseProductAdState",
     "BaseTargetingClause",
+    "BaseTargetingClauseState",
     "Campaign",
+    "CampaignDeliveryProfile",
     "CampaignId",
     "ContentTargetingPredicate",
+    "ContentTargetingPredicateType",
     "CreativeType",
     "Curve",
+    "CurveGraph",
     "CurvePoint",
     "CurvePointFixedValue",
     "CurvePointRangedValue",
+    "CurvePointRangedValueLabel",
     "Forecast",
+    "ForecastMetric",
     "ForecastRange",
     "ForecastRangeDouble",
     "ForecastStatus",
@@ -365,20 +528,30 @@ __all__ = [
     "LocationExpression",
     "LocationPredicate",
     "NegativeTargetingClause",
+    "NegativeTargetingClauseExpressionType",
     "NegativeTargetingExpression",
+    "NegativeTargetingExpressionType",
     "OptimizationRule",
     "ProductAd",
     "RuleBasedBudget",
     "RuleCondition",
+    "RuleConditionComparisonOperator",
+    "RuleConditionMetricName",
     "RuleId",
     "SDForecastRequest",
     "SDForecastRequestTargetingClause",
+    "SDForecastRequestTargetingClauseExpressionType",
     "SDForecastResponse",
     "Tactic",
     "TargetId",
     "TargetingExpression",
     "TargetingPredicate",
     "TargetingPredicateBase",
+    "TargetingPredicateBaseType",
     "TargetingPredicateLegacy",
+    "TargetingPredicateLegacyEventType",
+    "TargetingPredicateLegacyType",
     "TargetingPredicateNested",
+    "TargetingPredicateNestedType",
+    "TargetingPredicateType",
 ]

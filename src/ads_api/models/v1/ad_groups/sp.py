@@ -96,7 +96,7 @@ class SPAdGroupAdGroupIdFilter(StrictModel):
 
 
 class SPAdGroupAdProductFilter(StrictModel):
-    include: list[Annotated[SPAdProduct, lenient_enum(SPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class SPAdGroupBid(LenientModel):
@@ -111,12 +111,12 @@ class SPAdGroupCampaignIdFilter(StrictModel):
 
 
 class SPAdGroupCreate(StrictModel):
-    adProduct: Annotated[SPAdProduct, lenient_enum(SPAdProduct)]
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
     adSettings: SPCreateAdSettings | None = Field(default=None)
     bid: SPCreateAdGroupBid
     campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
     name: str = Field(description="The name of the ad group.")
-    state: Annotated[SPCreateState, lenient_enum(SPCreateState)]
+    state: Annotated[SPCreateState | str, lenient_enum(SPCreateState)]
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -137,11 +137,11 @@ class SPAdGroupMultiStatusSuccess(LenientModel):
 
 class SPAdGroupNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[SPAdGroupNameFilterType, lenient_enum(SPAdGroupNameFilterType)]
+    queryTermMatchType: Annotated[SPAdGroupNameFilterType | str, lenient_enum(SPAdGroupNameFilterType)]
 
 
 class SPAdGroupStateFilter(StrictModel):
-    include: list[Annotated[SPState, lenient_enum(SPState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SPState | str, lenient_enum(SPState)]] = Field(min_length=1, max_length=3)
 
 
 class SPAdGroupSuccessResponse(LenientModel):
@@ -154,7 +154,7 @@ class SPAdGroupUpdate(StrictModel):
     adSettings: SPUpdateAdSettings | None = Field(default=None)
     bid: SPUpdateAdGroupBid | None = Field(default=None)
     name: str | None = Field(default=None, description="The name of the ad group.")
-    state: Annotated[SPUpdateState, lenient_enum(SPUpdateState)] | None = Field(default=None)
+    state: Annotated[SPUpdateState | str, lenient_enum(SPUpdateState)] | None = Field(default=None)
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,

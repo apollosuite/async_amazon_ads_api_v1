@@ -83,11 +83,11 @@ class ManagerAccount(LenientModel):
 
 
 class ManagerAccountCreate(StrictModel):
-    accountUsageType: Annotated[AccountUsageType, lenient_enum(AccountUsageType)] | None = Field(default=None)
+    accountUsageType: Annotated[AccountUsageType | str, lenient_enum(AccountUsageType)] | None = Field(default=None)
     businessDetails: CreateBusinessDetail | None = Field(default=None)
-    currencyCode: Annotated[CurrencyCode, lenient_enum(CurrencyCode)] | None = Field(default=None)
-    industryVertical: Annotated[IndustryVertical, lenient_enum(IndustryVertical)] | None = Field(default=None)
-    timeZoneIana: Annotated[TimeZoneIana, lenient_enum(TimeZoneIana)] | None = Field(default=None)
+    currencyCode: Annotated[CurrencyCode | str, lenient_enum(CurrencyCode)] | None = Field(default=None)
+    industryVertical: Annotated[IndustryVertical | str, lenient_enum(IndustryVertical)] | None = Field(default=None)
+    timeZoneIana: Annotated[TimeZoneIana | str, lenient_enum(TimeZoneIana)] | None = Field(default=None)
 
 
 class ManagerAccountManagerAccountIdFilter(StrictModel):
@@ -111,10 +111,10 @@ class ManagerAccountSuccessResponse(LenientModel):
 
 class ManagerAccountUpdate(StrictModel):
     businessDetails: UpdateBusinessDetail | None = Field(default=None)
-    currencyCode: Annotated[CurrencyCode, lenient_enum(CurrencyCode)] | None = Field(default=None)
-    industryVertical: Annotated[IndustryVertical, lenient_enum(IndustryVertical)] | None = Field(default=None)
+    currencyCode: Annotated[CurrencyCode | str, lenient_enum(CurrencyCode)] | None = Field(default=None)
+    industryVertical: Annotated[IndustryVertical | str, lenient_enum(IndustryVertical)] | None = Field(default=None)
     managerAccountId: str | None = Field(default=None, description="The identifier of the manager account.")
-    timeZoneIana: Annotated[TimeZoneIana, lenient_enum(TimeZoneIana)] | None = Field(default=None)
+    timeZoneIana: Annotated[TimeZoneIana | str, lenient_enum(TimeZoneIana)] | None = Field(default=None)
 
 
 class QueryManagerAccountRequest(StrictModel):

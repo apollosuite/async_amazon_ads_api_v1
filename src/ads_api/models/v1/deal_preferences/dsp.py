@@ -43,7 +43,7 @@ class DSPCreateDealPreferenceTarget(StrictModel):
         description="The supplier destination for this target (e.g., AmazonMedia, AmazonSP, AdX)."
     )
     supplierTargetItemId: str = Field(description="The specific target item to include or exclude.")
-    supplierTargetType: Annotated[DSPSupplierTargetType, lenient_enum(DSPSupplierTargetType)]
+    supplierTargetType: Annotated[DSPSupplierTargetType | str, lenient_enum(DSPSupplierTargetType)]
 
 
 class DSPDealPreference(LenientModel):

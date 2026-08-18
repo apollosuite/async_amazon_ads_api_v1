@@ -73,7 +73,7 @@ class SponsoredProductsCreateNegativeTargetingClause(StrictModel):
         min_length=0, max_length=1000, description="The NegativeTargeting expression."
     )
     state: Annotated[
-        SponsoredProductsCreateOrUpdateEntityState, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
+        SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
     ]
 
 
@@ -192,7 +192,9 @@ class SponsoredProductsUpdateNegativeTargetingClause(StrictModel):
         default=None, min_length=0, max_length=1000, description="The NegativeTargeting expression."
     )
     state: (
-        Annotated[SponsoredProductsCreateOrUpdateEntityState, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)]
+        Annotated[
+            SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
+        ]
         | None
     ) = Field(default=None)
     targetId: str = Field(description="The target identifier")

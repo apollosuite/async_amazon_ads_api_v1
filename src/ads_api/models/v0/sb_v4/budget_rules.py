@@ -97,7 +97,7 @@ class AssociatedCampaign(LenientModel):
 
 
 class BudgetIncreaseBy(StrictModel):
-    type: Annotated[BudgetChangeType, lenient_enum(BudgetChangeType)]
+    type: Annotated[BudgetChangeType | str, lenient_enum(BudgetChangeType)]
     value: float = Field(description="The budget value.")
 
 
@@ -200,8 +200,8 @@ class GetSBBudgetRulesForAdvertiserResponse(LenientModel):
 
 
 class PerformanceMeasureConditionForSB(StrictModel):
-    metricName: Annotated[PerformanceMetricForSB, lenient_enum(PerformanceMetricForSB)]
-    comparisonOperator: Annotated[ComparisonOperator, lenient_enum(ComparisonOperator)]
+    metricName: Annotated[PerformanceMetricForSB | str, lenient_enum(PerformanceMetricForSB)]
+    comparisonOperator: Annotated[ComparisonOperator | str, lenient_enum(ComparisonOperator)]
     threshold: float = Field(description="The performance threshold value.")
 
 
@@ -212,8 +212,8 @@ class PerformanceMeasureConditionForSBOut(LenientModel):
 
 
 class Recurrence(StrictModel):
-    type: Annotated[RecurrenceType, lenient_enum(RecurrenceType)] | None = Field(default=None)
-    daysOfWeek: list[Annotated[DayOfWeek, lenient_enum(DayOfWeek)]] | None = Field(
+    type: Annotated[RecurrenceType | str, lenient_enum(RecurrenceType)] | None = Field(default=None)
+    daysOfWeek: list[Annotated[DayOfWeek | str, lenient_enum(DayOfWeek)]] | None = Field(
         default=None,
         description="Object representing days of the week for weekly type rule. It is not required for daily recurrence type",
     )
@@ -248,7 +248,7 @@ class RuleDurationOut(LenientModel):
 
 
 class SBBudgetRule(StrictModel):
-    ruleState: Annotated[State, lenient_enum(State)] | None = Field(default=None)
+    ruleState: Annotated[State | str, lenient_enum(State)] | None = Field(default=None)
     lastUpdatedDate: float | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
     createdDate: float | None = Field(default=None, description="Epoch time of budget rule creation. Read-only.")
     ruleDetails: SBBudgetRuleDetails | None = Field(default=None)
@@ -259,7 +259,7 @@ class SBBudgetRule(StrictModel):
 class SBBudgetRuleDetails(StrictModel):
     duration: RuleDuration | None = Field(default=None)
     recurrence: Recurrence | None = Field(default=None)
-    ruleType: Annotated[SBRuleType, lenient_enum(SBRuleType)] | None = Field(default=None)
+    ruleType: Annotated[SBRuleType | str, lenient_enum(SBRuleType)] | None = Field(default=None)
     budgetIncreaseBy: BudgetIncreaseBy | None = Field(default=None)
     name: str | None = Field(
         default=None, max_length=355, description="The budget rule name. Required to be unique within a campaign."

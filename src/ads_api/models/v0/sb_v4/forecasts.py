@@ -124,7 +124,14 @@ class SBForecastingRequestCampaignObject(StrictModel):
     """The campaign settings."""
 
     budget: float = Field(description="The amount of the budget.")
-    budgetType: str = Field(description="Budget can be set to DAILY or LIFETIME.")
+    budgetType: str = Field(description="""
+Budget can be set to DAILY or LIFETIME.
+
+|BudgetType|Description|
+|-----------|-----------|
+|DAILY| The amount that you're willing to spend on this campaign each day. If the campaign spends less than your daily budget, the unspent amount can be used to increase your daily budget on the other days of the calendar month.|
+|LIFETIME| The total amount that you are willing to spend on this campaign.|
+""")
     forecastType: str = Field(description="""
 The forecast type. can be set to WEEKLY or MONTHLY.
 

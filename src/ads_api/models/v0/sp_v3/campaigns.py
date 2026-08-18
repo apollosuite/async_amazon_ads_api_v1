@@ -241,7 +241,7 @@ class SponsoredProductsAudienceSegment(StrictModel):
         min_length=1, max_length=20, description="`audienceId` is specified based on the `audienceSegmentType` used."
     )
     audienceSegmentType: (
-        Annotated[SponsoredProductsAudienceSegmentType, lenient_enum(SponsoredProductsAudienceSegmentType)] | None
+        Annotated[SponsoredProductsAudienceSegmentType | str, lenient_enum(SponsoredProductsAudienceSegmentType)] | None
     ) = Field(default=None)
 
 
@@ -384,7 +384,7 @@ class SponsoredProductsCreateCampaign(StrictModel):
         default=None, description="The identifier of an existing portfolio to which the campaign is associated."
     )
     siteRestrictions: (
-        list[Annotated[SponsoredProductsSiteRestriction, lenient_enum(SponsoredProductsSiteRestriction)]] | None
+        list[Annotated[SponsoredProductsSiteRestriction | str, lenient_enum(SponsoredProductsSiteRestriction)]] | None
     ) = Field(
         default=None,
         min_length=1,
@@ -402,16 +402,16 @@ Please note that: 1) AMAZON_BUSINESS option is only available for Amazon Busines
         default=None, description="Default: today's date. The format of the date is YYYY-MM-DD."
     )
     state: Annotated[
-        SponsoredProductsCreateOrUpdateEntityState, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
+        SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
     ]
     tags: SponsoredProductsTags | None = Field(default=None)
-    targetingType: Annotated[SponsoredProductsTargetingType, lenient_enum(SponsoredProductsTargetingType)]
+    targetingType: Annotated[SponsoredProductsTargetingType | str, lenient_enum(SponsoredProductsTargetingType)]
 
 
 class SponsoredProductsCreateOrUpdateBudget(StrictModel):
     budget: float = Field(description="Monetary value")
     budgetType: Annotated[
-        SponsoredProductsCreateOrUpdateBudgetType, lenient_enum(SponsoredProductsCreateOrUpdateBudgetType)
+        SponsoredProductsCreateOrUpdateBudgetType | str, lenient_enum(SponsoredProductsCreateOrUpdateBudgetType)
     ]
 
 
@@ -432,7 +432,8 @@ You can enable this control to adjust your bid based on the shopper cohorts. The
     )
     strategy: (
         Annotated[
-            SponsoredProductsCreateOrUpdateBiddingStrategy, lenient_enum(SponsoredProductsCreateOrUpdateBiddingStrategy)
+            SponsoredProductsCreateOrUpdateBiddingStrategy | str,
+            lenient_enum(SponsoredProductsCreateOrUpdateBiddingStrategy),
         ]
         | None
     ) = Field(default=None)
@@ -444,7 +445,7 @@ class SponsoredProductsCreateOrUpdateOffAmazonSettings(StrictModel):
 
     offAmazonBudgetControlStrategy: (
         Annotated[
-            SponsoredProductsCreateOrUpdateOffAmazonBudgetControlStrategy,
+            SponsoredProductsCreateOrUpdateOffAmazonBudgetControlStrategy | str,
             lenient_enum(SponsoredProductsCreateOrUpdateOffAmazonBudgetControlStrategy),
         ]
         | None
@@ -529,7 +530,8 @@ class SponsoredProductsMarketplaceBudgetAllocationFilter(StrictModel):
 
     include: list[
         Annotated[
-            SponsoredProductsMarketplaceBudgetAllocation, lenient_enum(SponsoredProductsMarketplaceBudgetAllocation)
+            SponsoredProductsMarketplaceBudgetAllocation | str,
+            lenient_enum(SponsoredProductsMarketplaceBudgetAllocation),
         ]
     ] = Field(min_length=0, max_length=2)
 
@@ -546,7 +548,7 @@ class SponsoredProductsOffAmazonSettings(LenientModel):
 
 class SponsoredProductsPlacementBidding(StrictModel):
     percentage: int | None = Field(default=None, ge=0, le=900)
-    placement: Annotated[SponsoredProductsPlacement, lenient_enum(SponsoredProductsPlacement)] | None = Field(
+    placement: Annotated[SponsoredProductsPlacement | str, lenient_enum(SponsoredProductsPlacement)] | None = Field(
         default=None
     )
 
@@ -566,7 +568,9 @@ class SponsoredProductsShopperCohortBidding(StrictModel):
         description='A list of Audience Segments. Shoppers belonging to these segments will be selected for applying the bid adjustments. This is a required field when using "AUDIENCE_SEGMENT" option for `shopperCohortType`.',
     )
     percentage: int | None = Field(default=None, ge=0, le=900)
-    shopperCohortType: Annotated[SponsoredProductsShopperCohortType, lenient_enum(SponsoredProductsShopperCohortType)]
+    shopperCohortType: Annotated[
+        SponsoredProductsShopperCohortType | str, lenient_enum(SponsoredProductsShopperCohortType)
+    ]
 
 
 class SponsoredProductsShopperCohortBiddingOut(LenientModel):
@@ -599,7 +603,7 @@ class SponsoredProductsUpdateCampaign(StrictModel):
         default=None, description="The identifier of an existing portfolio to which the campaign is associated."
     )
     siteRestrictions: (
-        list[Annotated[SponsoredProductsSiteRestriction, lenient_enum(SponsoredProductsSiteRestriction)]] | None
+        list[Annotated[SponsoredProductsSiteRestriction | str, lenient_enum(SponsoredProductsSiteRestriction)]] | None
     ) = Field(
         default=None,
         min_length=1,
@@ -615,13 +619,15 @@ Please note that: 1) AMAZON_BUSINESS option is only available for Amazon Busines
     )
     startDate: date | None = Field(default=None, description="The format of the date is YYYY-MM-DD.")
     state: (
-        Annotated[SponsoredProductsCreateOrUpdateEntityState, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)]
+        Annotated[
+            SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
+        ]
         | None
     ) = Field(default=None)
     tags: SponsoredProductsTags | None = Field(default=None)
-    targetingType: Annotated[SponsoredProductsTargetingType, lenient_enum(SponsoredProductsTargetingType)] | None = (
-        Field(default=None)
-    )
+    targetingType: (
+        Annotated[SponsoredProductsTargetingType | str, lenient_enum(SponsoredProductsTargetingType)] | None
+    ) = Field(default=None)
 
 
 class SponsoredProductsUpdateSponsoredProductsCampaignsRequestContent(StrictModel):

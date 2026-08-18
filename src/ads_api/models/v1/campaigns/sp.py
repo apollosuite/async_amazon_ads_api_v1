@@ -244,7 +244,7 @@ class SPCampaign(LenientModel):
 
 
 class SPCampaignAdProductFilter(StrictModel):
-    include: list[Annotated[SPAdProduct, lenient_enum(SPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class SPCampaignCampaignIdFilter(StrictModel):
@@ -252,22 +252,22 @@ class SPCampaignCampaignIdFilter(StrictModel):
 
 
 class SPCampaignCreate(StrictModel):
-    adProduct: Annotated[SPAdProduct, lenient_enum(SPAdProduct)]
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
     autoCreationSettings: SPCreateAutoCreationSettings
     budgets: list[SPCreateBudget] = Field(
         min_length=1,
         max_length=1,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
-    countries: list[Annotated[SPCountryCode, lenient_enum(SPCountryCode)]] | None = Field(
+    countries: list[Annotated[SPCountryCode | str, lenient_enum(SPCountryCode)]] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
         description="This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.",
     )
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
-    marketplaceScope: Annotated[SPMarketplaceScope, lenient_enum(SPMarketplaceScope)]
-    marketplaces: list[Annotated[SPMarketplace, lenient_enum(SPMarketplace)]] | None = Field(
+    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
+    marketplaces: list[Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -276,11 +276,11 @@ class SPCampaignCreate(StrictModel):
     name: str = Field(description="The name of the campaign.")
     optimizations: SPCreateCampaignOptimizations | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
-    siteRestrictions: list[Annotated[SPSiteRestriction, lenient_enum(SPSiteRestriction)]] | None = Field(
+    siteRestrictions: list[Annotated[SPSiteRestriction | str, lenient_enum(SPSiteRestriction)]] | None = Field(
         default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site"
     )
     startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: Annotated[SPCreateState, lenient_enum(SPCreateState)]
+    state: Annotated[SPCreateState | str, lenient_enum(SPCreateState)]
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -301,7 +301,7 @@ class SPCampaignMultiStatusSuccess(LenientModel):
 
 class SPCampaignNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[SPCampaignNameFilterType, lenient_enum(SPCampaignNameFilterType)]
+    queryTermMatchType: Annotated[SPCampaignNameFilterType | str, lenient_enum(SPCampaignNameFilterType)]
 
 
 class SPCampaignOptimizations(LenientModel):
@@ -314,7 +314,7 @@ class SPCampaignPortfolioIdFilter(StrictModel):
 
 
 class SPCampaignStateFilter(StrictModel):
-    include: list[Annotated[SPState, lenient_enum(SPState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SPState | str, lenient_enum(SPState)]] = Field(min_length=1, max_length=3)
 
 
 class SPCampaignSuccessResponse(LenientModel):
@@ -334,11 +334,11 @@ class SPCampaignUpdate(StrictModel):
     name: str | None = Field(default=None, description="The name of the campaign.")
     optimizations: SPUpdateCampaignOptimizations | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
-    siteRestrictions: list[Annotated[SPSiteRestriction, lenient_enum(SPSiteRestriction)]] | None = Field(
+    siteRestrictions: list[Annotated[SPSiteRestriction | str, lenient_enum(SPSiteRestriction)]] | None = Field(
         default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site"
     )
     startDateTime: datetime | None = Field(default=None, description="The start date time for the campaign.")
-    state: Annotated[SPUpdateState, lenient_enum(SPUpdateState)] | None = Field(default=None)
+    state: Annotated[SPUpdateState | str, lenient_enum(SPUpdateState)] | None = Field(default=None)
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -383,18 +383,18 @@ class SPCreateBidAdjustments(StrictModel):
 
 class SPCreateBidSettings(StrictModel):
     bidAdjustments: SPCreateBidAdjustments | None = Field(default=None)
-    bidStrategy: Annotated[SPBidStrategy, lenient_enum(SPBidStrategy)] | None = Field(default=None)
+    bidStrategy: Annotated[SPBidStrategy | str, lenient_enum(SPBidStrategy)] | None = Field(default=None)
 
 
 class SPCreateBudget(StrictModel):
-    budgetType: Annotated[SPBudgetType, lenient_enum(SPBudgetType)]
+    budgetType: Annotated[SPBudgetType | str, lenient_enum(SPBudgetType)]
     budgetValue: SPCreateBudgetValue
-    recurrenceTimePeriod: Annotated[SPRecurrence, lenient_enum(SPRecurrence)]
+    recurrenceTimePeriod: Annotated[SPRecurrence | str, lenient_enum(SPRecurrence)]
 
 
 class SPCreateBudgetSettings(StrictModel):
     offAmazonBudgetControlStrategy: (
-        Annotated[SPOffAmazonBudgetControlStrategy, lenient_enum(SPOffAmazonBudgetControlStrategy)] | None
+        Annotated[SPOffAmazonBudgetControlStrategy | str, lenient_enum(SPOffAmazonBudgetControlStrategy)] | None
     ) = Field(default=None)
 
 
@@ -412,8 +412,8 @@ class SPCreateCampaignRequest(StrictModel):
 
 
 class SPCreateCreativeBidAdjustment(StrictModel):
-    creativeType: Annotated[SPCreativeBidAdjustmentType, lenient_enum(SPCreativeBidAdjustmentType)] | None = Field(
-        default=None
+    creativeType: Annotated[SPCreativeBidAdjustmentType | str, lenient_enum(SPCreativeBidAdjustmentType)] | None = (
+        Field(default=None)
     )
     percentage: int = Field(
         description="The selection of the percentage change associated with the creative type and bid adjustment settings."
@@ -432,7 +432,7 @@ class SPCreatePlacementBidAdjustment(StrictModel):
     percentage: int = Field(
         description="The selection of the percentage change associated with a given placement and bid adjustment settings."
     )
-    placement: Annotated[SPPlacement, lenient_enum(SPPlacement)]
+    placement: Annotated[SPPlacement | str, lenient_enum(SPPlacement)]
 
 
 class SPCreativeBidAdjustment(LenientModel):
@@ -497,12 +497,12 @@ class SPUpdateBidAdjustments(StrictModel):
 
 class SPUpdateBidSettings(StrictModel):
     bidAdjustments: SPUpdateBidAdjustments | None = Field(default=None)
-    bidStrategy: Annotated[SPBidStrategy, lenient_enum(SPBidStrategy)] | None = Field(default=None)
+    bidStrategy: Annotated[SPBidStrategy | str, lenient_enum(SPBidStrategy)] | None = Field(default=None)
 
 
 class SPUpdateBudgetSettings(StrictModel):
     offAmazonBudgetControlStrategy: (
-        Annotated[SPOffAmazonBudgetControlStrategy, lenient_enum(SPOffAmazonBudgetControlStrategy)] | None
+        Annotated[SPOffAmazonBudgetControlStrategy | str, lenient_enum(SPOffAmazonBudgetControlStrategy)] | None
     ) = Field(default=None)
 
 

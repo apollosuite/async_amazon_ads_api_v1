@@ -100,11 +100,11 @@ class CampaignOptimizationRuleErrorResult(LenientModel):
 
 class CreateSPCampaignOptimizationRulesRequest(StrictModel):
     campaignIds: list[RuleCampaignId] = Field(max_length=20, description="A list of campaign ids")
-    recurrence: Annotated[RecurrenceType, lenient_enum(RecurrenceType)]
-    ruleAction: Annotated[RuleAction, lenient_enum(RuleAction)]
+    recurrence: Annotated[RecurrenceType | str, lenient_enum(RecurrenceType)]
+    ruleAction: Annotated[RuleAction | str, lenient_enum(RuleAction)]
     ruleCondition: RuleConditionList | None = Field(default=None)
     ruleName: RuleName | None = Field(default=None)
-    ruleType: Annotated[RuleType, lenient_enum(RuleType)]
+    ruleType: Annotated[RuleType | str, lenient_enum(RuleType)]
 
 
 class CreateSPCampaignOptimizationRulesResult(LenientModel):
@@ -127,8 +127,8 @@ type RuleCampaignId = str  # campaignId
 
 
 class RuleCondition(StrictModel):
-    comparisonOperator: Annotated[ComparisonOperator, lenient_enum(ComparisonOperator)]
-    metricName: Annotated[RuleConditionMetric, lenient_enum(RuleConditionMetric)]
+    comparisonOperator: Annotated[ComparisonOperator | str, lenient_enum(ComparisonOperator)]
+    metricName: Annotated[RuleConditionMetric | str, lenient_enum(RuleConditionMetric)]
     threshold: float = Field(description="The performance threshold value.")
 
 
@@ -228,11 +228,11 @@ class UpdateSPCampaignOptimizationRulesRequest(StrictModel):
 
     campaignIds: list[RuleCampaignId] = Field(max_length=20, description="A list of campaign ids")
     campaignOptimizationId: CampaignOptimizationId
-    recurrence: Annotated[RecurrenceType, lenient_enum(RecurrenceType)]
-    ruleAction: Annotated[RuleAction, lenient_enum(RuleAction)]
+    recurrence: Annotated[RecurrenceType | str, lenient_enum(RecurrenceType)]
+    ruleAction: Annotated[RuleAction | str, lenient_enum(RuleAction)]
     ruleCondition: RuleConditionList | None = Field(default=None)
     ruleName: RuleName | None = Field(default=None)
-    ruleType: Annotated[RuleType, lenient_enum(RuleType)]
+    ruleType: Annotated[RuleType | str, lenient_enum(RuleType)]
 
 
 __all__ = [

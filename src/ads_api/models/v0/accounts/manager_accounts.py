@@ -22,6 +22,15 @@ class AccountRelationshipRole(StrEnum):
     SELLER_USER = "SELLER_USER"
 
 
+class AccountToUpdateType(StrEnum):
+    """
+    The type of the Id
+    """
+
+    ACCOUNT_ID = "ACCOUNT_ID"
+    DSP_ADVERTISER_ID = "DSP_ADVERTISER_ID"
+
+
 class AccountType(StrEnum):
     """
     Type of the Amazon Advertising account.
@@ -31,6 +40,23 @@ class AccountType(StrEnum):
     MARKETING_CLOUD = "MARKETING_CLOUD"
     SELLER = "SELLER"
     VENDOR = "VENDOR"
+
+
+class CreateManagerAccountRequestManagerAccountType(StrEnum):
+    """
+    Type of the Manager account, which indicates how the Manager account will be used. Use `Advertiser` if the Manager account will be used for **your own** products and services, or `Agency` if you are managing accounts **on behalf of your clients**.
+    """
+
+    Advertiser = "Advertiser"
+    Agency = "Agency"
+
+
+class ErrorDetailCode(StrEnum):
+    BAD_REQUEST = "BAD_REQUEST"
+    FORBIDDEN = "FORBIDDEN"
+    INTERNAL_SERVICE_ERROR = "INTERNAL_SERVICE_ERROR"
+    TOO_MANY_REQUESTS = "TOO_MANY_REQUESTS"
+    UNAUTHORIZED = "UNAUTHORIZED"
 
 
 class Account(LenientModel):
@@ -59,11 +85,13 @@ class AccountToUpdate(StrictModel):
     """
 
     id: str | None = Field(default=None, description="Id of the Amazon Advertising account.")
-    roles: list[Annotated[AccountRelationshipRole, lenient_enum(AccountRelationshipRole)]] | None = Field(
+    roles: list[Annotated[AccountRelationshipRole | str, lenient_enum(AccountRelationshipRole)]] | None = Field(
         default=None,
         description="The types of role that will exist with the Amazon Advertising account. Depending on account type, the default role will be ENTITY_USER or SELLER_USER. Only one role at a time is currently supported",
     )
-    type: str | None = Field(default=None, description="The type of the Id")
+    type: Annotated[AccountToUpdateType | str, lenient_enum(AccountToUpdateType)] | None = Field(
+        default=None, description="The type of the Id"
+    )
 
 
 class AccountToUpdateFailure(LenientModel):
@@ -83,14 +111,22 @@ class AccountToUpdateOut(LenientModel):
         default=None,
         description="The types of role that will exist with the Amazon Advertising account. Depending on account type, the default role will be ENTITY_USER or SELLER_USER. Only one role at a time is currently supported",
     )
-    type: str | None = Field(default=None, description="The type of the Id")
+    type: Annotated[AccountToUpdateType | str, lenient_enum(AccountToUpdateType)] | None = Field(
+        default=None, description="The type of the Id"
+    )
 
 
 class CreateManagerAccountRequest(StrictModel):
     """Request object that defines the fields required to create a Manager account."""
 
     managerAccountName: str | None = Field(default=None, description="Name of the Manager account.")
-    managerAccountType: str | None = Field(
+    managerAccountType: (
+        Annotated[
+            CreateManagerAccountRequestManagerAccountType | str,
+            lenient_enum(CreateManagerAccountRequestManagerAccountType),
+        ]
+        | None
+    ) = Field(
         default=None,
         description="Type of the Manager account, which indicates how the Manager account will be used. Use `Advertiser` if the Manager account will be used for **your own** products and services, or `Agency` if you are managing accounts **on behalf of your clients**.",
     )
@@ -99,7 +135,7 @@ class CreateManagerAccountRequest(StrictModel):
 class ErrorDetail(LenientModel):
     """The error response object."""
 
-    code: str | None = Field(default=None)
+    code: Annotated[ErrorDetailCode | str, lenient_enum(ErrorDetailCode)] | None = Field(default=None)
     message: str | None = Field(default=None, description="A human-readable description of the error.")
 
 
@@ -147,9 +183,12 @@ __all__ = [
     "AccountToUpdate",
     "AccountToUpdateFailure",
     "AccountToUpdateOut",
+    "AccountToUpdateType",
     "AccountType",
     "CreateManagerAccountRequest",
+    "CreateManagerAccountRequestManagerAccountType",
     "ErrorDetail",
+    "ErrorDetailCode",
     "GetManagerAccountsResponse",
     "ManagerAccount",
     "UpdateAdvertisingAccountsInManagerAccountRequest",

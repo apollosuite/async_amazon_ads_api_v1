@@ -11,6 +11,86 @@ from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models._core.lenient_enum import lenient_enum
 
 
+class AudienceSegmentAudienceSegmentType(StrEnum):
+    """
+    Type of audience segment.
+    """
+
+    BEHAVIOR_DYNAMIC = "BEHAVIOR_DYNAMIC"
+    SPONSORED_ADS_AMC = "SPONSORED_ADS_AMC"
+
+
+class BiddingStrategyRecommendationAction(StrEnum):
+    """
+    Type of suggested action.
+    """
+
+    UPDATE = "UPDATE"
+
+
+class BiddingStrategyRecommendationSuggestedBiddingStrategy(StrEnum):
+    """
+    The suggested bidding strategy value for the campaign.
+    """
+
+    AUTO_FOR_SALES = "AUTO_FOR_SALES"  # Dynamic bids - up and down | Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
+    LEGACY_FOR_SALES = "LEGACY_FOR_SALES"  # Dynamic bids - down only | Lowers your bids in real time when your ad may be less likely to convert to a sale. Campaigns created before the release of the bidding controls feature used this setting by default.
+    MANUAL = "MANUAL"  # Fixed bid | Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
+
+
+class BudgetRecommendationAction(StrEnum):
+    """
+    Type of suggested action.
+    """
+
+    DECREASE = "DECREASE"
+    INCREASE = "INCREASE"
+
+
+class KeywordTargetingRecommendationAction(StrEnum):
+    """
+    Type of action for the keyword targeting.
+    """
+
+    ADD = "ADD"
+    DECREASE = "DECREASE"
+    INCREASE = "INCREASE"
+    REMOVE = "REMOVE"
+    UPDATE = "UPDATE"
+
+
+class KeywordTargetingRecommendationMatchType(StrEnum):
+    """
+    Keyword match type. | Value | Description | | --- | --- | | `BROAD` | Use BROAD to broadly match your keyword targeting ads with search queries.| | `EXACT` | Use EXACT to exactly match your keyword targeting ads with search queries.| | `PHRASE` | Use PHRASE to match your keyword targeting ads with search phrases.| | `GROUP` | Use GROUP to match your keyword targeting ads with keyword group. |
+    """
+
+    BROAD = "BROAD"
+    EXACT = "EXACT"
+    GROUP = "GROUP"
+    PHRASE = "PHRASE"
+
+
+class PlacementBiddingRecommendationAction(StrEnum):
+    """
+    Type of suggested action.
+    """
+
+    ADD = "ADD"
+    DECREASE = "DECREASE"
+    INCREASE = "INCREASE"
+    REMOVE = "REMOVE"
+
+
+class PlacementBiddingRecommendationPlacementType(StrEnum):
+    """
+    The placement type.
+    """
+
+    PLACEMENT_PRODUCT_PAGE = "PLACEMENT_PRODUCT_PAGE"
+    PLACEMENT_REST_OF_SEARCH = "PLACEMENT_REST_OF_SEARCH"
+    PLACEMENT_TOP = "PLACEMENT_TOP"
+
+
 class RecommendationType(StrEnum):
     """
     Type of recommendations requested.
@@ -28,30 +108,84 @@ class RecommendationType(StrEnum):
     )
 
 
+class ShopperCohortBiddingRecommendationAction(StrEnum):
+    """
+    Recommended action for shopper cohort bidding.
+    """
+
+    ADD = "ADD"
+    REMOVE = "REMOVE"
+    UPDATE = "UPDATE"
+
+
+class ShopperCohortBiddingRecommendationShopperCohortType(StrEnum):
+    """
+    Type of shopper cohort.
+    """
+
+    AUDIENCE_SEGMENT = "AUDIENCE_SEGMENT"
+
+
+class TargetingGroupBidRecommendationAction(StrEnum):
+    """
+    Type of suggested action.
+    """
+
+    ADD = "ADD"
+    DECREASE = "DECREASE"
+    INCREASE = "INCREASE"
+    REMOVE = "REMOVE"
+
+
+class TargetingGroupBidRecommendationTargetingGroupExpression(StrEnum):
+    """
+    The type of targeting group expression.
+    """
+
+    CLOSE_MATCH = (
+        "CLOSE_MATCH"  # This will show your ad to shoppers who use search terms closely related to your products.
+    )
+    COMPLEMENTS = "COMPLEMENTS"  # This will show your ad to shoppers who view the detail pages of products that complement your product.
+    LOOSE_MATCH = (
+        "LOOSE_MATCH"  # This will show your ad to shoppers who use search terms loosely related to your products.
+    )
+    SUBSTITUTES = "SUBSTITUTES"  # This will show your ad to shoppers who use detail pages of products similar to yours.
+
+
 class AudienceSegment(LenientModel):
     audienceId: str = Field(description="Unique identifier for the audience segment.")
-    audienceSegmentType: str = Field(description="Type of audience segment.")
+    audienceSegmentType: Annotated[
+        AudienceSegmentAudienceSegmentType | str, lenient_enum(AudienceSegmentAudienceSegmentType)
+    ] = Field(description="Type of audience segment.")
 
 
 class BiddingStrategyRecommendation(LenientModel):
     """Contains suggested recommendation for the campaign bidding strategy."""
 
-    action: str | None = Field(default=None, description="Type of suggested action.")
-    suggestedBiddingStrategy: str | None = Field(
-        default=None, description="The suggested bidding strategy value for the campaign."
-    )
+    action: (
+        Annotated[BiddingStrategyRecommendationAction | str, lenient_enum(BiddingStrategyRecommendationAction)] | None
+    ) = Field(default=None, description="Type of suggested action.")
+    suggestedBiddingStrategy: (
+        Annotated[
+            BiddingStrategyRecommendationSuggestedBiddingStrategy | str,
+            lenient_enum(BiddingStrategyRecommendationSuggestedBiddingStrategy),
+        ]
+        | None
+    ) = Field(default=None, description="The suggested bidding strategy value for the campaign.")
 
 
 class BudgetRecommendation(LenientModel):
     """Contains suggested recommendation for the campaign budget."""
 
-    action: str | None = Field(default=None, description="Type of suggested action.")
+    action: Annotated[BudgetRecommendationAction | str, lenient_enum(BudgetRecommendationAction)] | None = Field(
+        default=None, description="Type of suggested action."
+    )
     suggestedBudget: float | None = Field(default=None, description="The suggested budget value for the campaign.")
 
 
 class Campaign(StrictModel):
     campaignId: str = Field(description="The identifier of the campaign.")
-    recommendationType: Annotated[RecommendationType, lenient_enum(RecommendationType)]
+    recommendationType: Annotated[RecommendationType | str, lenient_enum(RecommendationType)]
 
 
 class CampaignRecommendation(LenientModel):
@@ -140,11 +274,16 @@ class GetCampaignRecommendationsResponseV2(LenientModel):
 class KeywordTargetingRecommendation(LenientModel):
     """Contains suggested recommendation for the keyword targeting."""
 
-    action: str | None = Field(default=None, description="Type of action for the keyword targeting.")
+    action: (
+        Annotated[KeywordTargetingRecommendationAction | str, lenient_enum(KeywordTargetingRecommendationAction)] | None
+    ) = Field(default=None, description="Type of action for the keyword targeting.")
     adGroupId: str | None = Field(default=None, description="The ad group identifier.")
     keywordId: str | None = Field(default=None, description="The identifier of the keyword targeting.")
     keywordText: str | None = Field(default=None, description="The keyword text.")
-    matchType: str | None = Field(
+    matchType: (
+        Annotated[KeywordTargetingRecommendationMatchType | str, lenient_enum(KeywordTargetingRecommendationMatchType)]
+        | None
+    ) = Field(
         default=None,
         description="Keyword match type. | Value | Description | | --- | --- | | `BROAD` | Use BROAD to broadly match your keyword targeting ads with search queries.| | `EXACT` | Use EXACT to exactly match your keyword targeting ads with search queries.| | `PHRASE` | Use PHRASE to match your keyword targeting ads with search phrases.| | `GROUP` | Use GROUP to match your keyword targeting ads with keyword group. |",
     )
@@ -156,7 +295,9 @@ class KeywordTargetingRecommendation(LenientModel):
 class PlacementBiddingRecommendation(LenientModel):
     """Contains suggested recommendation for a placement bid adjustment."""
 
-    action: str | None = Field(default=None, description="Type of suggested action.")
+    action: (
+        Annotated[PlacementBiddingRecommendationAction | str, lenient_enum(PlacementBiddingRecommendationAction)] | None
+    ) = Field(default=None, description="Type of suggested action.")
     incrementalImpressionsLowerPercent: int | None = Field(
         default=None,
         description="Lower bound of the estimated incremental impressions that could be gained if this optimization used",
@@ -165,7 +306,12 @@ class PlacementBiddingRecommendation(LenientModel):
         default=None,
         description="Upper bound of the estimated incremental impressions that could be gained if this optimization used",
     )
-    placementType: str | None = Field(default=None, description="The placement type.")
+    placementType: (
+        Annotated[
+            PlacementBiddingRecommendationPlacementType | str, lenient_enum(PlacementBiddingRecommendationPlacementType)
+        ]
+        | None
+    ) = Field(default=None, description="The placement type.")
     suggestedBidAdjustment: float | None = Field(
         default=None, description="The suggested bid adjustment percent value for this placement type."
     )
@@ -213,30 +359,48 @@ class SevenDaysEstimatedOpportunities(LenientModel):
 
 
 class ShopperCohortBiddingRecommendation(LenientModel):
-    action: str = Field(description="Recommended action for shopper cohort bidding.")
+    action: Annotated[
+        ShopperCohortBiddingRecommendationAction | str, lenient_enum(ShopperCohortBiddingRecommendationAction)
+    ] = Field(description="Recommended action for shopper cohort bidding.")
     audienceSegments: list[AudienceSegment] = Field(
         min_length=1, max_length=10, description="List of audience segments for this recommendation."
     )
     percentage: int = Field(ge=0, le=900, description="Bid adjustment percentage (basis points, e.g., 900 = 9%).")
-    shopperCohortType: str = Field(description="Type of shopper cohort.")
+    shopperCohortType: Annotated[
+        ShopperCohortBiddingRecommendationShopperCohortType | str,
+        lenient_enum(ShopperCohortBiddingRecommendationShopperCohortType),
+    ] = Field(description="Type of shopper cohort.")
 
 
 class TargetingGroupBidRecommendation(LenientModel):
     """Contains suggested recommendation for the auto targeting group."""
 
-    action: str | None = Field(default=None, description="Type of suggested action.")
+    action: (
+        Annotated[TargetingGroupBidRecommendationAction | str, lenient_enum(TargetingGroupBidRecommendationAction)]
+        | None
+    ) = Field(default=None, description="Type of suggested action.")
     adGroupId: str | None = Field(default=None, description="The ad group identifier.")
     suggestedBid: float | None = Field(
         default=None, description="The suggested bid value associated with this targeting."
     )
     targetId: str | None = Field(default=None, description="The target identifier.")
-    targetingGroupExpression: str | None = Field(default=None, description="The type of targeting group expression.")
+    targetingGroupExpression: (
+        Annotated[
+            TargetingGroupBidRecommendationTargetingGroupExpression | str,
+            lenient_enum(TargetingGroupBidRecommendationTargetingGroupExpression),
+        ]
+        | None
+    ) = Field(default=None, description="The type of targeting group expression.")
 
 
 __all__ = [
     "AudienceSegment",
+    "AudienceSegmentAudienceSegmentType",
     "BiddingStrategyRecommendation",
+    "BiddingStrategyRecommendationAction",
+    "BiddingStrategyRecommendationSuggestedBiddingStrategy",
     "BudgetRecommendation",
+    "BudgetRecommendationAction",
     "Campaign",
     "CampaignRecommendation",
     "ForecastEstimates",
@@ -244,11 +408,19 @@ __all__ = [
     "GetCampaignRecommendationsResponse",
     "GetCampaignRecommendationsResponseV2",
     "KeywordTargetingRecommendation",
+    "KeywordTargetingRecommendationAction",
+    "KeywordTargetingRecommendationMatchType",
     "PlacementBiddingRecommendation",
+    "PlacementBiddingRecommendationAction",
+    "PlacementBiddingRecommendationPlacementType",
     "Recommendation",
     "RecommendationDetails",
     "RecommendationType",
     "SevenDaysEstimatedOpportunities",
     "ShopperCohortBiddingRecommendation",
+    "ShopperCohortBiddingRecommendationAction",
+    "ShopperCohortBiddingRecommendationShopperCohortType",
     "TargetingGroupBidRecommendation",
+    "TargetingGroupBidRecommendationAction",
+    "TargetingGroupBidRecommendationTargetingGroupExpression",
 ]

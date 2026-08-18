@@ -73,7 +73,7 @@ class STAdGroupAdGroupIdFilter(StrictModel):
 
 
 class STAdGroupAdProductFilter(StrictModel):
-    include: list[Annotated[STAdProduct, lenient_enum(STAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[STAdProduct | str, lenient_enum(STAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class STAdGroupBid(LenientModel):
@@ -90,17 +90,17 @@ class STAdGroupCampaignIdFilter(StrictModel):
 
 
 class STAdGroupCreate(StrictModel):
-    adProduct: Annotated[STAdProduct, lenient_enum(STAdProduct)]
+    adProduct: Annotated[STAdProduct | str, lenient_enum(STAdProduct)]
     bid: STCreateAdGroupBid | None = Field(default=None)
     campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
-    marketplaces: list[Annotated[STMarketplace, lenient_enum(STMarketplace)]] | None = Field(
+    marketplaces: list[Annotated[STMarketplace | str, lenient_enum(STMarketplace)]] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
     )
     name: str = Field(description="The name of the ad group.")
-    state: Annotated[STCreateState, lenient_enum(STCreateState)]
+    state: Annotated[STCreateState | str, lenient_enum(STCreateState)]
 
 
 class STAdGroupMultiStatusResponse(LenientModel):
@@ -115,11 +115,11 @@ class STAdGroupMultiStatusSuccess(LenientModel):
 
 class STAdGroupNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[STAdGroupNameFilterType, lenient_enum(STAdGroupNameFilterType)]
+    queryTermMatchType: Annotated[STAdGroupNameFilterType | str, lenient_enum(STAdGroupNameFilterType)]
 
 
 class STAdGroupStateFilter(StrictModel):
-    include: list[Annotated[STState, lenient_enum(STState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[STState | str, lenient_enum(STState)]] = Field(min_length=1, max_length=3)
 
 
 class STAdGroupSuccessResponse(LenientModel):
@@ -129,16 +129,16 @@ class STAdGroupSuccessResponse(LenientModel):
 
 class STAdGroupUpdate(StrictModel):
     adGroupId: str = Field(description="The unique identifier of the ad group.")
-    adProduct: Annotated[STAdProduct, lenient_enum(STAdProduct)] | None = Field(default=None)
+    adProduct: Annotated[STAdProduct | str, lenient_enum(STAdProduct)] | None = Field(default=None)
     bid: STUpdateAdGroupBid | None = Field(default=None)
-    marketplaces: list[Annotated[STMarketplace, lenient_enum(STMarketplace)]] | None = Field(
+    marketplaces: list[Annotated[STMarketplace | str, lenient_enum(STMarketplace)]] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
     )
     name: str | None = Field(default=None, description="The name of the ad group.")
-    state: Annotated[STUpdateState, lenient_enum(STUpdateState)] | None = Field(default=None)
+    state: Annotated[STUpdateState | str, lenient_enum(STUpdateState)] | None = Field(default=None)
 
 
 class STCreateAdGroupBid(StrictModel):

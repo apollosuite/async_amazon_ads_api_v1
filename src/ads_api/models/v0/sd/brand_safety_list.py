@@ -39,12 +39,22 @@ class BrandSafetyDenyListDomainUpdateResultStatus(StrEnum):
     FAILURE = "FAILURE"
 
 
+class BrandSafetyRequestStatusStatus(StrEnum):
+    """
+    The status of the request
+    """
+
+    IN_PROGRESS = "IN_PROGRESS"
+    COMPLETED = "COMPLETED"
+    FAILURE = "FAILURE"
+
+
 class BrandSafetyDenyListDomain(StrictModel):
     name: str = Field(
         max_length=250,
         description="The website or app identifier. This can be in the form of full domain (eg. 'example.com' or 'example.net'), or mobile app identifier (eg. 'com.example.app' for Android apps or '1234567890' for iOS apps)",
     )
-    type: Annotated[BrandSafetyDenyListDomainType, lenient_enum(BrandSafetyDenyListDomainType)]
+    type: Annotated[BrandSafetyDenyListDomainType | str, lenient_enum(BrandSafetyDenyListDomainType)]
 
 
 class BrandSafetyDenyListProcessedDomain(LenientModel):
@@ -124,7 +134,9 @@ class BrandSafetyRequestResultsResponse(LenientModel):
 class BrandSafetyRequestStatus(LenientModel):
     requestId: str | None = Field(default=None, description="Request ID")
     timestamp: str | None = Field(default=None, description="Request timestamp")
-    status: str | None = Field(default=None, description="The status of the request")
+    status: Annotated[BrandSafetyRequestStatusStatus | str, lenient_enum(BrandSafetyRequestStatusStatus)] | None = (
+        Field(default=None, description="The status of the request")
+    )
     statusDetails: str | None = Field(default=None, description="Details related to the request status")
 
 
@@ -154,5 +166,6 @@ __all__ = [
     "BrandSafetyRequestResultsResponse",
     "BrandSafetyRequestStatus",
     "BrandSafetyRequestStatusResponse",
+    "BrandSafetyRequestStatusStatus",
     "BrandSafetyUpdateResponse",
 ]

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from enum import StrEnum
 from typing import Annotated, Any
 
 from pydantic import Field
@@ -13,11 +14,27 @@ from ads_api.models.v0._shared import (
     BidAnalysesPerPlacement,
     BidAnalysis,
     BidAnalysisImpactMetrics,
+    BidAnalysisType,
     ImpactMetric,
     ImpactMetrics,
     RangeMetricValue,
+    TargetingExpressionType,
     Theme,
 )
+
+
+class TargetingExpressionV4Type(StrEnum):
+    CLOSE_MATCH = "CLOSE_MATCH"
+    COMPLEMENTS = "COMPLEMENTS"
+    KEYWORD_BROAD_MATCH = "KEYWORD_BROAD_MATCH"
+    KEYWORD_EXACT_MATCH = "KEYWORD_EXACT_MATCH"
+    KEYWORD_GROUP = "KEYWORD_GROUP"
+    KEYWORD_PHRASE_MATCH = "KEYWORD_PHRASE_MATCH"
+    LOOSE_MATCH = "LOOSE_MATCH"
+    PAT_ASIN = "PAT_ASIN"
+    PAT_CATEGORY = "PAT_CATEGORY"
+    PAT_CATEGORY_REFINEMENT = "PAT_CATEGORY_REFINEMENT"
+    SUBSTITUTES = "SUBSTITUTES"
 
 
 class BidAnalysesPerTargetingExpression(LenientModel):
@@ -50,14 +67,14 @@ class BidValue(LenientModel):
 class TargetingExpression(LenientModel):
     """The targeting expression. The `type` property specifies the targeting option. Use `CLOSE_MATCH` to match your auto targeting ads closely to the specified value. Use `LOOSE_MATCH` to match your auto targeting ads broadly to the specified value. Use `SUBSTITUTES` to display your auto targeting ads along with substitutable products. Use `COMPLEMENTS` to display your auto targeting ads along with affiliated products. Use `KEYWORD_BROAD_MATCH` to broadly match your keyword targeting ads with search queries. Use `KEYWORD_EXACT_MATCH` to exactly match your keyword targeting ads with search queries. Use `KEYWORD_PHRASE_MATCH` to match your keyword targeting ads with search phrases. your keyword targeting ads with search phrases."""
 
-    type: str
+    type: Annotated[TargetingExpressionType | str, lenient_enum(TargetingExpressionType)]
     value: str | None = Field(default=None, description="The targeting expression value.")
 
 
 class TargetingExpressionV4(LenientModel):
     """The targeting expression. The `type` property specifies the targeting option. Use `CLOSE_MATCH` to match your auto targeting ads closely to the specified value. Use `LOOSE_MATCH` to match your auto targeting ads broadly to the specified value. Use `SUBSTITUTES` to display your auto targeting ads along with substitutable products. Use `COMPLEMENTS` to display your auto targeting ads along with affiliated products. Use `KEYWORD_BROAD_MATCH` to broadly match your keyword targeting ads with search queries. Use `KEYWORD_EXACT_MATCH` to exactly match your keyword targeting ads with search queries. Use `KEYWORD_PHRASE_MATCH` to match your keyword targeting ads with search phrases. your keyword targeting ads with search phrases. Use `PAT_ASIN` to match your product attribute targeting ads with product ASIN. Use `PAT_CATEGORY` to match your product attribute targeting ads with product category. Use `PAT_CATEGORY_REFINEMENT` to match your product attribute targeting ads with product attribute, including brand, price, rating, prime shipping eligible, age range and genre. Use `KEYWORD_GROUP` to match your keyword targeting ads with keyword group."""
 
-    type: str
+    type: Annotated[TargetingExpressionV4Type | str, lenient_enum(TargetingExpressionV4Type)]
     value: str | None = Field(default=None, description="The targeting expression value.")
 
 
@@ -110,6 +127,7 @@ __all__ = [
     "BidAnalysesPerTargetingExpression",
     "BidAnalysis",
     "BidAnalysisImpactMetrics",
+    "BidAnalysisType",
     "BidRecommendationPerTargetingExpression",
     "BidRecommendationPerTargetingExpressionV4",
     "BidRecommendationPerTargetingExpressionV5",
@@ -118,7 +136,9 @@ __all__ = [
     "ImpactMetrics",
     "RangeMetricValue",
     "TargetingExpression",
+    "TargetingExpressionType",
     "TargetingExpressionV4",
+    "TargetingExpressionV4Type",
     "Theme",
     "ThemeBasedBidRecommendation",
     "ThemeBasedBidRecommendationResponse",

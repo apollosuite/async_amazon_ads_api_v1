@@ -97,13 +97,13 @@ class SPGlobalAdExtensionAdExtensionIdFilter(StrictModel):
 
 
 class SPGlobalAdExtensionAdExtensionStatusFilter(StrictModel):
-    include: list[Annotated[SPGlobalAdExtensionStatus, lenient_enum(SPGlobalAdExtensionStatus)]] = Field(
+    include: list[Annotated[SPGlobalAdExtensionStatus | str, lenient_enum(SPGlobalAdExtensionStatus)]] = Field(
         min_length=1, max_length=1
     )
 
 
 class SPGlobalAdExtensionAdExtensionTypeFilter(StrictModel):
-    include: list[Annotated[SPGlobalAdExtensionType, lenient_enum(SPGlobalAdExtensionType)]] = Field(
+    include: list[Annotated[SPGlobalAdExtensionType | str, lenient_enum(SPGlobalAdExtensionType)]] = Field(
         min_length=1, max_length=1
     )
 
@@ -117,29 +117,31 @@ class SPGlobalAdExtensionAdIdFilter(StrictModel):
 
 
 class SPGlobalAdExtensionAdProductFilter(StrictModel):
-    include: list[Annotated[SPGlobalAdProduct, lenient_enum(SPGlobalAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SPGlobalAdProduct | str, lenient_enum(SPGlobalAdProduct)]] = Field(
+        min_length=1, max_length=1
+    )
 
 
 class SPGlobalAdExtensionCreate(StrictModel):
     adExtensionSettings: SPGlobalCreateAdExtensionSettings
-    adExtensionStatus: Annotated[SPGlobalAdExtensionStatus, lenient_enum(SPGlobalAdExtensionStatus)] | None = Field(
-        default=None
+    adExtensionStatus: Annotated[SPGlobalAdExtensionStatus | str, lenient_enum(SPGlobalAdExtensionStatus)] | None = (
+        Field(default=None)
     )
-    adExtensionType: Annotated[SPGlobalAdExtensionType, lenient_enum(SPGlobalAdExtensionType)]
+    adExtensionType: Annotated[SPGlobalAdExtensionType | str, lenient_enum(SPGlobalAdExtensionType)]
     adGroupId: str | None = Field(
         default=None, description="A unique identifier for the ad group associated with the ad_extension."
     )
     adId: str | None = Field(
         default=None, description="A unique identifier for the ad associated with the ad_extension."
     )
-    adProduct: Annotated[SPGlobalAdProduct, lenient_enum(SPGlobalAdProduct)]
-    marketplaceScope: Annotated[SPGlobalMarketplaceScope, lenient_enum(SPGlobalMarketplaceScope)]
-    marketplaces: list[Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]] = Field(
+    adProduct: Annotated[SPGlobalAdProduct | str, lenient_enum(SPGlobalAdProduct)]
+    marketplaceScope: Annotated[SPGlobalMarketplaceScope | str, lenient_enum(SPGlobalMarketplaceScope)]
+    marketplaces: list[Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]] = Field(
         min_length=1,
         max_length=30,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
     )
-    state: Annotated[SPGlobalCreateState, lenient_enum(SPGlobalCreateState)]
+    state: Annotated[SPGlobalCreateState | str, lenient_enum(SPGlobalCreateState)]
 
 
 class SPGlobalAdExtensionMultiStatusResponseWithPartialErrors(LenientModel):
@@ -164,7 +166,7 @@ class SPGlobalAdExtensionSettings(LenientModel):
 
 
 class SPGlobalAdExtensionStateFilter(StrictModel):
-    include: list[Annotated[SPGlobalState, lenient_enum(SPGlobalState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SPGlobalState | str, lenient_enum(SPGlobalState)]] = Field(min_length=1, max_length=3)
 
 
 class SPGlobalAdExtensionSuccessResponse(LenientModel):
@@ -174,13 +176,13 @@ class SPGlobalAdExtensionSuccessResponse(LenientModel):
 
 class SPGlobalAdExtensionUpdate(StrictModel):
     adExtensionId: str = Field(description="A unique identifier for the ad_extension.")
-    marketplaces: list[Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]] | None = Field(
+    marketplaces: list[Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]] | None = Field(
         default=None,
         min_length=1,
         max_length=30,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
     )
-    state: Annotated[SPGlobalUpdateState, lenient_enum(SPGlobalUpdateState)] | None = Field(default=None)
+    state: Annotated[SPGlobalUpdateState | str, lenient_enum(SPGlobalUpdateState)] | None = Field(default=None)
 
 
 class SPGlobalCreateAdExtensionRequest(StrictModel):

@@ -14,6 +14,7 @@ from ads_api.models.v0._shared import (
     AdId,
     AdName,
     BaseProductAd,
+    BaseProductAdState,
     CampaignId,
     LandingPageURL,
 )
@@ -29,16 +30,69 @@ class LandingPageType(StrEnum):
     OFF_AMAZON_LINK = "OFF_AMAZON_LINK"
 
 
+class ProductAdResponseExServingStatus(StrEnum):
+    """
+    The status of the product ad.
+    """
+
+    ADVERTISER_STATUS_ENABLED = "ADVERTISER_STATUS_ENABLED"
+    STATUS_UNAVAILABLE = "STATUS_UNAVAILABLE"
+    ADVERTISER_PAUSED = "ADVERTISER_PAUSED"
+    ACCOUNT_OUT_OF_BUDGET = "ACCOUNT_OUT_OF_BUDGET"
+    ADVERTISER_PAYMENT_FAILURE = "ADVERTISER_PAYMENT_FAILURE"
+    CAMPAIGN_PAUSED = "CAMPAIGN_PAUSED"
+    CAMPAIGN_ARCHIVED = "CAMPAIGN_ARCHIVED"
+    PENDING_START_DATE = "PENDING_START_DATE"
+    ENDED = "ENDED"
+    CAMPAIGN_OUT_OF_BUDGET = "CAMPAIGN_OUT_OF_BUDGET"
+    AD_GROUP_STATUS_ENABLED = "AD_GROUP_STATUS_ENABLED"
+    AD_GROUP_PAUSED = "AD_GROUP_PAUSED"
+    AD_GROUP_ARCHIVED = "AD_GROUP_ARCHIVED"
+    AD_GROUP_INCOMPLETE = "AD_GROUP_INCOMPLETE"
+    AD_GROUP_LOW_BID = "AD_GROUP_LOW_BID"
+    AD_STATUS_LIVE = "AD_STATUS_LIVE"
+    AD_STATUS_PAUSED = "AD_STATUS_PAUSED"
+    AD_STATUS_ARCHIVED = "AD_STATUS_ARCHIVED"
+    MISSING_IMAGE = "MISSING_IMAGE"
+    MISSING_DECORATION = "MISSING_DECORATION"
+    NOT_BUYABLE = "NOT_BUYABLE"
+    NOT_IN_BUYBOX = "NOT_IN_BUYBOX"
+    OUT_OF_STOCK = "OUT_OF_STOCK"
+    NOT_IN_POLICY = "NOT_IN_POLICY"
+    ADVERTISER_EXCEED_SPENDS_LIMIT = "ADVERTISER_EXCEED_SPENDS_LIMIT"
+    AD_POLICING_PENDING_REVIEW = "AD_POLICING_PENDING_REVIEW"
+    CAMPAIGN_INCOMPLETE = "CAMPAIGN_INCOMPLETE"
+    INELIGIBLE = "INELIGIBLE"
+    PORTFOLIO_ENDED = "PORTFOLIO_ENDED"
+    PORTFOLIO_OUT_OF_BUDGET = "PORTFOLIO_OUT_OF_BUDGET"
+    ADVERTISER_ARCHIVED = "ADVERTISER_ARCHIVED"
+    ADVERTISER_ACCOUNT_OUT_OF_BUDGET = "ADVERTISER_ACCOUNT_OUT_OF_BUDGET"
+
+
+class ProductAdResponseExState(StrEnum):
+    """
+    The state of the product ad.
+    """
+
+    enabled = "enabled"
+    paused = "paused"
+    archived = "archived"
+
+
 class BaseProductAdOut(LenientModel):
-    state: str | None = Field(default=None, description="The state of the campaign associated with the product ad.")
+    state: Annotated[BaseProductAdState | str, lenient_enum(BaseProductAdState)] | None = Field(
+        default=None, description="The state of the campaign associated with the product ad."
+    )
 
 
 class CreateProductAd(StrictModel):
-    state: str = Field(description="The state of the campaign associated with the product ad.")
+    state: Annotated[BaseProductAdState | str, lenient_enum(BaseProductAdState)] = Field(
+        description="The state of the campaign associated with the product ad."
+    )
     adGroupId: AdGroupId
     campaignId: CampaignId
     landingPageURL: LandingPageURL | None = Field(default=None)
-    landingPageType: Annotated[LandingPageType, lenient_enum(LandingPageType)] | None = Field(default=None)
+    landingPageType: Annotated[LandingPageType | str, lenient_enum(LandingPageType)] | None = Field(default=None)
     adName: AdName | None = Field(default=None)
     asin: str | None = Field(
         default=None, description="The ASIN of the product advertised by the product ad. Defined for vendors only."
@@ -50,7 +104,9 @@ class CreateProductAd(StrictModel):
 
 
 class ProductAd(LenientModel):
-    state: str | None = Field(default=None, description="The state of the campaign associated with the product ad.")
+    state: Annotated[BaseProductAdState | str, lenient_enum(BaseProductAdState)] | None = Field(
+        default=None, description="The state of the campaign associated with the product ad."
+    )
     adId: AdId | None = Field(default=None)
     adGroupId: AdGroupId | None = Field(default=None)
     campaignId: CampaignId | None = Field(default=None)
@@ -88,8 +144,12 @@ class ProductAdResponseEx(LenientModel):
         default=None,
         description="The SKU of the product being advertised. This parameter is included in the response for sellers.",
     )
-    state: str | None = Field(default=None, description="The state of the product ad.")
-    servingStatus: str | None = Field(default=None, description="The status of the product ad.")
+    state: Annotated[ProductAdResponseExState | str, lenient_enum(ProductAdResponseExState)] | None = Field(
+        default=None, description="The state of the product ad."
+    )
+    servingStatus: (
+        Annotated[ProductAdResponseExServingStatus | str, lenient_enum(ProductAdResponseExServingStatus)] | None
+    ) = Field(default=None, description="The status of the product ad.")
     creationDate: int | None = Field(default=None, description="Epoch date the product ad was created.")
     lastUpdatedDate: int | None = Field(
         default=None, description="Epoch date of the last update to any property associated with the product ad."
@@ -97,7 +157,9 @@ class ProductAdResponseEx(LenientModel):
 
 
 class UpdateProductAd(StrictModel):
-    state: str | None = Field(default=None, description="The state of the campaign associated with the product ad.")
+    state: Annotated[BaseProductAdState | str, lenient_enum(BaseProductAdState)] | None = Field(
+        default=None, description="The state of the campaign associated with the product ad."
+    )
     adId: AdId
 
 
@@ -107,6 +169,7 @@ __all__ = [
     "AdName",
     "BaseProductAd",
     "BaseProductAdOut",
+    "BaseProductAdState",
     "CampaignId",
     "CreateProductAd",
     "LandingPageType",
@@ -114,5 +177,7 @@ __all__ = [
     "ProductAd",
     "ProductAdResponse",
     "ProductAdResponseEx",
+    "ProductAdResponseExServingStatus",
+    "ProductAdResponseExState",
     "UpdateProductAd",
 ]

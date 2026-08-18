@@ -202,7 +202,9 @@ class SPGlobalCampaign(LenientModel):
 
 
 class SPGlobalCampaignAdProductFilter(StrictModel):
-    include: list[Annotated[SPGlobalAdProduct, lenient_enum(SPGlobalAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SPGlobalAdProduct | str, lenient_enum(SPGlobalAdProduct)]] = Field(
+        min_length=1, max_length=1
+    )
 
 
 class SPGlobalCampaignCampaignIdFilter(StrictModel):
@@ -210,14 +212,14 @@ class SPGlobalCampaignCampaignIdFilter(StrictModel):
 
 
 class SPGlobalCampaignCreate(StrictModel):
-    adProduct: Annotated[SPGlobalAdProduct, lenient_enum(SPGlobalAdProduct)]
+    adProduct: Annotated[SPGlobalAdProduct | str, lenient_enum(SPGlobalAdProduct)]
     autoCreationSettings: SPGlobalCreateAutoCreationSettings
     budgets: list[SPGlobalCreateBudget] = Field(
         min_length=1,
         max_length=1,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
-    countries: list[Annotated[SPGlobalCountryCode, lenient_enum(SPGlobalCountryCode)]] | None = Field(
+    countries: list[Annotated[SPGlobalCountryCode | str, lenient_enum(SPGlobalCountryCode)]] | None = Field(
         default=None,
         min_length=0,
         max_length=249,
@@ -230,8 +232,8 @@ class SPGlobalCampaignCreate(StrictModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global campaign that enables overriding certain attributes at individual marketplace level. For example, if a global campaign is ENABLED and startDate '2024-06-01' but needs to be PAUSED in DE with startDateTime '2024-06-02' marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED, startDate: '2024-06-02'}}]. When a marketplace-specific override is not provided, the campaign's global value is applied to that marketplace.",
     )
-    marketplaceScope: Annotated[SPGlobalMarketplaceScope, lenient_enum(SPGlobalMarketplaceScope)]
-    marketplaces: list[Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]] | None = Field(
+    marketplaceScope: Annotated[SPGlobalMarketplaceScope | str, lenient_enum(SPGlobalMarketplaceScope)]
+    marketplaces: list[Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
@@ -240,11 +242,11 @@ class SPGlobalCampaignCreate(StrictModel):
     name: str = Field(description="The name of the campaign.")
     optimizations: SPGlobalCreateCampaignOptimizations | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
-    siteRestrictions: list[Annotated[SPGlobalSiteRestriction, lenient_enum(SPGlobalSiteRestriction)]] | None = Field(
-        default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site"
+    siteRestrictions: list[Annotated[SPGlobalSiteRestriction | str, lenient_enum(SPGlobalSiteRestriction)]] | None = (
+        Field(default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site")
     )
     startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: Annotated[SPGlobalCreateState, lenient_enum(SPGlobalCreateState)]
+    state: Annotated[SPGlobalCreateState | str, lenient_enum(SPGlobalCreateState)]
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -254,7 +256,7 @@ class SPGlobalCampaignCreate(StrictModel):
 
 
 class SPGlobalCampaignMarketplaceScopeFilter(StrictModel):
-    include: list[Annotated[SPGlobalMarketplaceScope, lenient_enum(SPGlobalMarketplaceScope)]] = Field(
+    include: list[Annotated[SPGlobalMarketplaceScope | str, lenient_enum(SPGlobalMarketplaceScope)]] = Field(
         min_length=1, max_length=1
     )
 
@@ -272,7 +274,7 @@ class SPGlobalCampaignMultiStatusSuccess(LenientModel):
 
 class SPGlobalCampaignNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[SPGlobalCampaignNameFilterType, lenient_enum(SPGlobalCampaignNameFilterType)]
+    queryTermMatchType: Annotated[SPGlobalCampaignNameFilterType | str, lenient_enum(SPGlobalCampaignNameFilterType)]
 
 
 class SPGlobalCampaignOptimizations(LenientModel):
@@ -290,7 +292,7 @@ class SPGlobalCampaignPortfolioIdFilter(StrictModel):
 
 
 class SPGlobalCampaignStateFilter(StrictModel):
-    include: list[Annotated[SPGlobalState, lenient_enum(SPGlobalState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SPGlobalState | str, lenient_enum(SPGlobalState)]] = Field(min_length=1, max_length=3)
 
 
 class SPGlobalCampaignSuccessResponse(LenientModel):
@@ -306,7 +308,7 @@ class SPGlobalCampaignUpdate(StrictModel):
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
     campaignId: str = Field(description="A unique identifier for a campaign.")
-    countries: list[Annotated[SPGlobalCountryCode, lenient_enum(SPGlobalCountryCode)]] | None = Field(
+    countries: list[Annotated[SPGlobalCountryCode | str, lenient_enum(SPGlobalCountryCode)]] | None = Field(
         default=None,
         min_length=0,
         max_length=249,
@@ -319,7 +321,7 @@ class SPGlobalCampaignUpdate(StrictModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global campaign that enables overriding certain attributes at individual marketplace level. For example, if a global campaign is ENABLED and startDate '2024-06-01' but needs to be PAUSED in DE with startDateTime '2024-06-02' marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED, startDate: '2024-06-02'}}]. When a marketplace-specific override is not provided, the campaign's global value is applied to that marketplace.",
     )
-    marketplaces: list[Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]] | None = Field(
+    marketplaces: list[Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
@@ -328,11 +330,11 @@ class SPGlobalCampaignUpdate(StrictModel):
     name: str | None = Field(default=None, description="The name of the campaign.")
     optimizations: SPGlobalUpdateCampaignOptimizations | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
-    siteRestrictions: list[Annotated[SPGlobalSiteRestriction, lenient_enum(SPGlobalSiteRestriction)]] | None = Field(
-        default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site"
+    siteRestrictions: list[Annotated[SPGlobalSiteRestriction | str, lenient_enum(SPGlobalSiteRestriction)]] | None = (
+        Field(default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site")
     )
     startDateTime: datetime | None = Field(default=None, description="The start date time for the campaign.")
-    state: Annotated[SPGlobalUpdateState, lenient_enum(SPGlobalUpdateState)] | None = Field(default=None)
+    state: Annotated[SPGlobalUpdateState | str, lenient_enum(SPGlobalUpdateState)] | None = Field(default=None)
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -358,13 +360,13 @@ class SPGlobalCreateBidAdjustments(StrictModel):
 
 class SPGlobalCreateBidSettings(StrictModel):
     bidAdjustments: SPGlobalCreateBidAdjustments | None = Field(default=None)
-    bidStrategy: Annotated[SPGlobalBidStrategy, lenient_enum(SPGlobalBidStrategy)] | None = Field(default=None)
+    bidStrategy: Annotated[SPGlobalBidStrategy | str, lenient_enum(SPGlobalBidStrategy)] | None = Field(default=None)
 
 
 class SPGlobalCreateBudget(StrictModel):
-    budgetType: Annotated[SPGlobalBudgetType, lenient_enum(SPGlobalBudgetType)]
+    budgetType: Annotated[SPGlobalBudgetType | str, lenient_enum(SPGlobalBudgetType)]
     budgetValue: SPGlobalCreateBudgetValue
-    recurrenceTimePeriod: Annotated[SPGlobalRecurrence, lenient_enum(SPGlobalRecurrence)]
+    recurrenceTimePeriod: Annotated[SPGlobalRecurrence | str, lenient_enum(SPGlobalRecurrence)]
 
 
 class SPGlobalCreateBudgetValue(StrictModel):
@@ -380,7 +382,7 @@ class SPGlobalCreateCampaignRequest(StrictModel):
 
 
 class SPGlobalCreateMarketplaceCampaignConfigurations(StrictModel):
-    marketplace: Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]
+    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
     overrides: SPGlobalCreateMarketplaceCampaignFieldOverrides
 
 
@@ -389,7 +391,7 @@ class SPGlobalCreateMarketplaceCampaignFieldOverrides(StrictModel):
     name: str | None = Field(default=None, description="The name of the campaign")
     optimizations: SPGlobalCreateCampaignOptimizations | None = Field(default=None)
     startDateTime: datetime | None = Field(default=None, description="The start date time for the campaign")
-    state: Annotated[SPGlobalState, lenient_enum(SPGlobalState)] | None = Field(default=None)
+    state: Annotated[SPGlobalState | str, lenient_enum(SPGlobalState)] | None = Field(default=None)
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -403,7 +405,7 @@ class SPGlobalCreateMonetaryBudget(StrictModel):
 
 
 class SPGlobalCreateMonetaryBudgetMarketplaceSetting(StrictModel):
-    marketplace: Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]
+    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
     monetaryBudget: SPGlobalCreateMonetaryBudget
 
 
@@ -419,7 +421,7 @@ class SPGlobalCreatePlacementBidAdjustment(StrictModel):
     percentage: int = Field(
         description="The selection of the percentage change associated with a given placement and bid adjustment settings."
     )
-    placement: Annotated[SPGlobalPlacement, lenient_enum(SPGlobalPlacement)]
+    placement: Annotated[SPGlobalPlacement | str, lenient_enum(SPGlobalPlacement)]
 
 
 class SPGlobalDeleteCampaignRequest(StrictModel):
@@ -518,7 +520,7 @@ class SPGlobalUpdateBidAdjustments(StrictModel):
 
 class SPGlobalUpdateBidSettings(StrictModel):
     bidAdjustments: SPGlobalUpdateBidAdjustments | None = Field(default=None)
-    bidStrategy: Annotated[SPGlobalBidStrategy, lenient_enum(SPGlobalBidStrategy)] | None = Field(default=None)
+    bidStrategy: Annotated[SPGlobalBidStrategy | str, lenient_enum(SPGlobalBidStrategy)] | None = Field(default=None)
 
 
 class SPGlobalUpdateCampaignOptimizations(StrictModel):

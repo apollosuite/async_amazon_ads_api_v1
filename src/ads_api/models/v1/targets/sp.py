@@ -138,11 +138,11 @@ class SPCreateKeywordTarget(StrictModel):
     keyword: str = Field(
         description="The customer search term or text to target. For valid characters and constraints, [see keyword character constraints](https://advertising.amazon.com/API/docs/en-us/reference/concepts/limits#keyword-character-constraints)."
     )
-    matchType: Annotated[SPKeywordMatchType, lenient_enum(SPKeywordMatchType)]
+    matchType: Annotated[SPKeywordMatchType | str, lenient_enum(SPKeywordMatchType)]
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser."
     )
-    nativeLanguageLocale: Annotated[SPLanguageLocale, lenient_enum(SPLanguageLocale)] | None = Field(default=None)
+    nativeLanguageLocale: Annotated[SPLanguageLocale | str, lenient_enum(SPLanguageLocale)] | None = Field(default=None)
 
 
 class SPCreateLocationTarget(StrictModel):
@@ -190,9 +190,9 @@ class SPCreateProductCategoryTarget(StrictModel):
 class SPCreateProductTarget(StrictModel):
     """Targets a specific product."""
 
-    matchType: Annotated[SPProductMatchType, lenient_enum(SPProductMatchType)]
+    matchType: Annotated[SPProductMatchType | str, lenient_enum(SPProductMatchType)]
     product: SPCreateProductValue
-    productIdType: Annotated[SPProductIdType, lenient_enum(SPProductIdType)]
+    productIdType: Annotated[SPProductIdType | str, lenient_enum(SPProductIdType)]
 
 
 class SPCreateProductValue(StrictModel):
@@ -235,7 +235,7 @@ class SPCreateTargetRequest(StrictModel):
 class SPCreateThemeTarget(StrictModel):
     """Theme targets let advertisers select high-performing targets based on a common theme."""
 
-    matchType: Annotated[SPThemeMatchType, lenient_enum(SPThemeMatchType)]
+    matchType: Annotated[SPThemeMatchType | str, lenient_enum(SPThemeMatchType)]
 
 
 class SPDeleteTargetRequest(StrictModel):
@@ -372,7 +372,7 @@ class SPTargetAdGroupIdFilter(StrictModel):
 
 
 class SPTargetAdProductFilter(StrictModel):
-    include: list[Annotated[SPAdProduct, lenient_enum(SPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class SPTargetBid(LenientModel):
@@ -389,14 +389,14 @@ class SPTargetCreate(StrictModel):
         default=None,
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets.",
     )
-    adProduct: Annotated[SPAdProduct, lenient_enum(SPAdProduct)]
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
     bid: SPCreateTargetBid | None = Field(default=None)
     campaignId: str | None = Field(
         default=None,
         description="A unique identifier for the campaign associated with the target. Only used for campaign-level targets.",
     )
     negative: bool = Field(description="Indicates whether the target is negative or not.")
-    state: Annotated[SPCreateState, lenient_enum(SPCreateState)]
+    state: Annotated[SPCreateState | str, lenient_enum(SPCreateState)]
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -404,7 +404,7 @@ class SPTargetCreate(StrictModel):
         description="Open ended labels with a key value pair applied to the target",
     )
     targetDetails: SPCreateTargetDetails
-    targetType: Annotated[SPTargetType, lenient_enum(SPTargetType)]
+    targetType: Annotated[SPTargetType | str, lenient_enum(SPTargetType)]
 
 
 class SPTargetDetailsKeywordTarget(LenientModel):
@@ -432,11 +432,11 @@ type SPTargetDetails = SPTargetDetailsKeywordTarget | SPTargetDetailsLocationTar
 
 class SPTargetKeywordFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[SPTargetKeywordFilterType, lenient_enum(SPTargetKeywordFilterType)]
+    queryTermMatchType: Annotated[SPTargetKeywordFilterType | str, lenient_enum(SPTargetKeywordFilterType)]
 
 
 class SPTargetMatchTypeFilter(StrictModel):
-    include: list[Annotated[SPMatchType, lenient_enum(SPMatchType)]] = Field(min_length=1, max_length=10)
+    include: list[Annotated[SPMatchType | str, lenient_enum(SPMatchType)]] = Field(min_length=1, max_length=10)
 
 
 class SPTargetMultiStatusResponse(LenientModel):
@@ -455,11 +455,11 @@ class SPTargetNegativeFilter(StrictModel):
 
 class SPTargetProductIdFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[SPTargetProductIdFilterType, lenient_enum(SPTargetProductIdFilterType)]
+    queryTermMatchType: Annotated[SPTargetProductIdFilterType | str, lenient_enum(SPTargetProductIdFilterType)]
 
 
 class SPTargetStateFilter(StrictModel):
-    include: list[Annotated[SPState, lenient_enum(SPState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SPState | str, lenient_enum(SPState)]] = Field(min_length=1, max_length=3)
 
 
 class SPTargetSuccessResponse(LenientModel):
@@ -472,12 +472,12 @@ class SPTargetTargetIdFilter(StrictModel):
 
 
 class SPTargetTargetTypeFilter(StrictModel):
-    include: list[Annotated[SPTargetType, lenient_enum(SPTargetType)]] = Field(min_length=1, max_length=4)
+    include: list[Annotated[SPTargetType | str, lenient_enum(SPTargetType)]] = Field(min_length=1, max_length=4)
 
 
 class SPTargetUpdate(StrictModel):
     bid: SPUpdateTargetBid | None = Field(default=None)
-    state: Annotated[SPUpdateState, lenient_enum(SPUpdateState)] | None = Field(default=None)
+    state: Annotated[SPUpdateState | str, lenient_enum(SPUpdateState)] | None = Field(default=None)
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,

@@ -118,7 +118,7 @@ class SDCampaign(LenientModel):
 
 
 class SDCampaignAdProductFilter(StrictModel):
-    include: list[Annotated[SDAdProduct, lenient_enum(SDAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class SDCampaignCampaignIdFilter(StrictModel):
@@ -126,22 +126,22 @@ class SDCampaignCampaignIdFilter(StrictModel):
 
 
 class SDCampaignCreate(StrictModel):
-    adProduct: Annotated[SDAdProduct, lenient_enum(SDAdProduct)]
+    adProduct: Annotated[SDAdProduct | str, lenient_enum(SDAdProduct)]
     budgets: list[SDCreateBudget] = Field(
         min_length=1,
         max_length=1,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
-    costType: Annotated[SDCostType, lenient_enum(SDCostType)]
-    countries: list[Annotated[SDCountryCode, lenient_enum(SDCountryCode)]] | None = Field(
+    costType: Annotated[SDCostType | str, lenient_enum(SDCostType)]
+    countries: list[Annotated[SDCountryCode | str, lenient_enum(SDCountryCode)]] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
         description="This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.",
     )
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
-    marketplaceScope: Annotated[SDMarketplaceScope, lenient_enum(SDMarketplaceScope)]
-    marketplaces: list[Annotated[SDMarketplace, lenient_enum(SDMarketplace)]] | None = Field(
+    marketplaceScope: Annotated[SDMarketplaceScope | str, lenient_enum(SDMarketplaceScope)]
+    marketplaces: list[Annotated[SDMarketplace | str, lenient_enum(SDMarketplace)]] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -150,7 +150,7 @@ class SDCampaignCreate(StrictModel):
     name: str = Field(description="The name of the campaign.")
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
     startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: Annotated[SDCreateState, lenient_enum(SDCreateState)]
+    state: Annotated[SDCreateState | str, lenient_enum(SDCreateState)]
     tags: list[SDCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -171,7 +171,7 @@ class SDCampaignMultiStatusSuccess(LenientModel):
 
 class SDCampaignNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[SDCampaignNameFilterType, lenient_enum(SDCampaignNameFilterType)]
+    queryTermMatchType: Annotated[SDCampaignNameFilterType | str, lenient_enum(SDCampaignNameFilterType)]
 
 
 class SDCampaignPortfolioIdFilter(StrictModel):
@@ -179,7 +179,7 @@ class SDCampaignPortfolioIdFilter(StrictModel):
 
 
 class SDCampaignStateFilter(StrictModel):
-    include: list[Annotated[SDState, lenient_enum(SDState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SDState | str, lenient_enum(SDState)]] = Field(min_length=1, max_length=3)
 
 
 class SDCampaignSuccessResponse(LenientModel):
@@ -195,12 +195,12 @@ class SDCampaignUpdate(StrictModel):
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
     campaignId: str = Field(description="A unique identifier for a campaign.")
-    costType: Annotated[SDCostType, lenient_enum(SDCostType)] | None = Field(default=None)
+    costType: Annotated[SDCostType | str, lenient_enum(SDCostType)] | None = Field(default=None)
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
     name: str | None = Field(default=None, description="The name of the campaign.")
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
     startDateTime: datetime | None = Field(default=None, description="The start date time for the campaign.")
-    state: Annotated[SDUpdateState, lenient_enum(SDUpdateState)] | None = Field(default=None)
+    state: Annotated[SDUpdateState | str, lenient_enum(SDUpdateState)] | None = Field(default=None)
     tags: list[SDCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -210,7 +210,7 @@ class SDCampaignUpdate(StrictModel):
 
 
 class SDCreateBudget(StrictModel):
-    budgetType: Annotated[SDBudgetType, lenient_enum(SDBudgetType)]
+    budgetType: Annotated[SDBudgetType | str, lenient_enum(SDBudgetType)]
     budgetValue: SDCreateBudgetValue
 
 

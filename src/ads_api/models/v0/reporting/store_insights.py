@@ -15,9 +15,9 @@ from ads_api.models._core.lenient_enum import lenient_enum
 class AsinEngagementDimension(StrEnum):
     """
     User can use dimensions to aggregate the engagement metrics. Supported dimension types:
-    * `ASIN` - Amazon Standard Identification Number.
+      * `ASIN` - Amazon Standard Identification Number.
 
-    When *dimension* is omitted, user can retrieve select metrics aggregated at the store level. See *metrics* for details.
+      When *dimension* is omitted, user can retrieve select metrics aggregated at the store level. See *metrics* for details.
     """
 
     ASIN = "ASIN"
@@ -26,23 +26,23 @@ class AsinEngagementDimension(StrEnum):
 class AsinEngagementMetric(StrEnum):
     """
     Store Metric Types: Metrics aggregated at the store level. To be used with *dimension* omitted, otherwise a 422 response is returned.
-    * `TOTAL_VIEWS` - Total number of times customers viewed ASINs on the store’s pages. A view can happen once per store page visit.
-    * `TOTAL_CLICKS` - Total count of times a customer clicked an ASIN related widget on the store’s pages.
+     * `TOTAL_VIEWS` - Total number of times customers viewed ASINs on the store’s pages. A view can happen once per store page visit.
+     * `TOTAL_CLICKS` - Total count of times a customer clicked an ASIN related widget on the store’s pages.
 
-    Asin Metric Types: Metrics aggregated at the ASIN level. To be used with a supported dimension type (see *dimension*), otherwise a 422 response is returned.
-    * `RENDERS` - Number of times the asin rendered on a store page, this does not guarentee the customer saw the asin.
-    * `VIEWS` - Number of times the a customer viewed an ASIN. Can happen once per page visit.
-    * `ORDERS` - Estimated total orders placed by Store visitors on the day of the ASIN view.
-    Orders can have one or more total units.
-    * `UNITS` - Estimated units purchased by Store visitors during attributed orders for the ASIN.
-    * `ADD_TO_CARTS` - Total number of times an asin was added to cart by a customer on a store page.
-    * `IN_STOCK_VIEWS` - Total views of an asin on a store page while the asin was in stock. For asins with variations, the customer must have selected a variation which as in stock to be counted.
-    * `AVERAGE_IN_STOCK_PRICE` - Average price in local currency the asin was viewed at by customers while it was in stock.
-    *  `IN_STOCK_RATE` - Rate at which customers viewed an asin while it was in stock.
-    *  `AVERAGE_SALE_PRICE` - Average price in local currency for which the asin sold for during the order.
-    *  `CONVERSION_RATE` - Rate at which customers ordered a unit of the item over how many times customers clicked the item.
-    *  `CLICKS` - Count of how many times a customer clicked an asin related widget on the store page.
-    *  `CLICK_RATE` - Rate at which the asin was clicker per view. This ratio can be above one if the widget is interacted with on a widget with engaging features. (Product Showcase, Variation Selection in Product Grid, or Interactive Image)
+     Asin Metric Types: Metrics aggregated at the ASIN level. To be used with a supported dimension type (see *dimension*), otherwise a 422 response is returned.
+      * `RENDERS` - Number of times the asin rendered on a store page, this does not guarentee the customer saw the asin.
+     * `VIEWS` - Number of times the a customer viewed an ASIN. Can happen once per page visit.
+      * `ORDERS` - Estimated total orders placed by Store visitors on the day of the ASIN view.
+     Orders can have one or more total units.
+     * `UNITS` - Estimated units purchased by Store visitors during attributed orders for the ASIN.
+     * `ADD_TO_CARTS` - Total number of times an asin was added to cart by a customer on a store page.
+      * `IN_STOCK_VIEWS` - Total views of an asin on a store page while the asin was in stock. For asins with variations, the customer must have selected a variation which as in stock to be counted.
+      * `AVERAGE_IN_STOCK_PRICE` - Average price in local currency the asin was viewed at by customers while it was in stock.
+      *  `IN_STOCK_RATE` - Rate at which customers viewed an asin while it was in stock.
+      *  `AVERAGE_SALE_PRICE` - Average price in local currency for which the asin sold for during the order.
+      *  `CONVERSION_RATE` - Rate at which customers ordered a unit of the item over how many times customers clicked the item.
+      *  `CLICKS` - Count of how many times a customer clicked an asin related widget on the store page.
+      *  `CLICK_RATE` - Rate at which the asin was clicker per view. This ratio can be above one if the widget is interacted with on a widget with engaging features. (Product Showcase, Variation Selection in Product Grid, or Interactive Image)
     """
 
     ADD_TO_CARTS = "ADD_TO_CARTS"
@@ -64,40 +64,40 @@ class AsinEngagementMetric(StrEnum):
 class InsightDimension(StrEnum):
     """
     User can use dimensions to aggregate the insight metrics. Supported dimension types:
-    * `DATE` - For aggregation by date.
-    * `PAGE` - For aggregation by page.
-    * `SOURCE` - For aggregation by source.
-    * `TAG` - For aggregation by tag.
-    * `STORE` - For aggregation by store. This dimension is only supported for "DWELL_TIME", "BOUNCE_RATE", "NEW_TO_STORE"
+      * `DATE` - For aggregation by date.
+      * `PAGE` - For aggregation by page.
+      * `SOURCE` - For aggregation by source.
+      * `TAG` - For aggregation by tag.
+      * `STORE` - For aggregation by store. This dimension is only supported for "DWELL_TIME", "BOUNCE_RATE", "NEW_TO_STORE"
 
-    Please check *metrics* for more detailsdetails.
+     Please check *metrics* for more detailsdetails.
 
     <br><br> Not all InsightMetrics can be aggregated using above dimensions. Below is the supported metrics for each dimension,
     <table>
+      <tr>
+        <th>InsightDimension</th>
+        <th>Supported InsightMetrics</th>
+      </tr>
+      <tr>
+        <th>DATE</th>
+        <th>Either "VIEWS, ORDERS, UNITS, SALES, VISITS, DWELL_TIME, BOUNCE_RATE, NEW_TO_STORE" or "SCORE_LEVEL, RECOMMENDATIONS, CONTRIBUTORS, DWELL, PEER_DWELL, COMPLETED_RECOMMENDATIONS, ACTIONS_TAKEN_BY_PEERS" (Store Quality metrics)</th>
+      </tr>
+      <tr>
+        <th>PAGE</th>
+        <th>VIEWS, ORDERS, UNITS, SALES, VISITS,  DWELL_TIME, BOUNCE_RATE </th>
+      </tr>
+      <tr>
+        <th>SOURCE</th>
+        <th>VIEWS, ORDERS, UNITS, SALES, VISITS,  DWELL_TIME, BOUNCE_RATE </th>
+      </tr>
+      <tr>
+        <th>TAG</th>
+        <th>VIEWS, ORDERS, UNITS, SALES, VISITS,  DWELL_TIME, BOUNCE_RATE </th>
+      </tr>
     <tr>
-    <th>InsightDimension</th>
-    <th>Supported InsightMetrics</th>
-    </tr>
-    <tr>
-    <th>DATE</th>
-    <th>Either "VIEWS, ORDERS, UNITS, SALES, VISITS, DWELL_TIME, BOUNCE_RATE, NEW_TO_STORE" or "SCORE_LEVEL, RECOMMENDATIONS, CONTRIBUTORS, DWELL, PEER_DWELL, COMPLETED_RECOMMENDATIONS, ACTIONS_TAKEN_BY_PEERS" (Store Quality metrics)</th>
-    </tr>
-    <tr>
-    <th>PAGE</th>
-    <th>VIEWS, ORDERS, UNITS, SALES, VISITS,  DWELL_TIME, BOUNCE_RATE </th>
-    </tr>
-    <tr>
-    <th>SOURCE</th>
-    <th>VIEWS, ORDERS, UNITS, SALES, VISITS,  DWELL_TIME, BOUNCE_RATE </th>
-    </tr>
-    <tr>
-    <th>TAG</th>
-    <th>VIEWS, ORDERS, UNITS, SALES, VISITS,  DWELL_TIME, BOUNCE_RATE </th>
-    </tr>
-    <tr>
-    <th> STORE </th>
-    <th> DWELL_TIME, BOUNCE_RATE, NEW_TO_STORE</th>
-    </tr>
+        <th> STORE </th>
+        <th> DWELL_TIME, BOUNCE_RATE, NEW_TO_STORE</th>
+      </tr>
     </table>
     <br><br>
     """
@@ -112,22 +112,22 @@ class InsightDimension(StrEnum):
 class InsightMetric(StrEnum):
     """
     Insight Metric Type:
-    * `VIEWS` - Number of page views. Data is available on a rolling 12-month window that updates based on the current date. <br> "VIEW" metric can be aggregated by all InsightDimensions.
-    * `ORDERS` - Estimated total orders placed by Store visitors within 14 days of their visit. Orders contain one or more units sold. Data is available on a rolling 12-month window that updates based on the current date. <br> "ORDERS" metric can be aggregated by all the InsightDimensions.
-    * `UNITS` - Estimated units purchased by Store visitors within 14 days of their last visit. Data is available on a rolling 12-month window that updates based on the current date. <br> "UNITS" metric can be aggregated by all the InsightDimensions.
-    * `SALES` - Estimated total sales generated by Store visitors within 14 days of their last visit. Data is available on a rolling 12-month window that updates based on the current date. <br> "SALES" metric can be aggregated by all the InsightDimensions.
-    * `VISITS` - Total visits to a page within a single day. Each visitor can visit more than one page, and they can visit your Store from more than one traffic source. Data is available on a rolling 12-month window that updates based on the current date. <br> "VISITS" metric can be aggregated by all the InsightDimensions.
-    * `VISITORS` - Total visitors to your Store within the selected date range, calculated based on daily unique users or devices. One visitor can visit more than one page, and they can visit your Store from more than one traffic source. The total visitors by page or source may sum up to a value larger than the total visitors by day to the Store or to the page. Data is available on a rolling 12-month window that updates based on the current date. <br> "VISITORS" metric currently can only be aggregated by InsightDimension "Date". Users won't be able to get this metric when specifying other InsightDimensions. This is because number of visitors are measured at store level. This also means this metric won't be impacted by the InsightFilter.
-    * `SCORE_LEVEL` This metric is the overall Store Quality rating calculated based on various factors defining the quality of a store. It can be `HIGH`, `MEDIUM` or `LOW`. This metric currently can only be aggregated by InsightDimension "DATE".
-    * `RECOMMENDATIONS` This metric is an Array of Objects containing recommendation details. Each object includes fields like `recommendedAction` (description of recommendation), `observedAverageDwellTimeIncrease` (improvement in dwell time), and `observedAverageSalesIncrease` (improvement in sales).
-    * `CONTRIBUTORS` This metric is the array of recommendations applied by the Store Owner which resulted in the improvement of overall store quality. This metric currently can only be aggregated by InsightDimension "DATE".
-    * `DWELL` This metric is the time a customer spends on the store, on an average. This metric is specifically for the store quality and measures the time spent by a shopping customer on the store. This is calculated differently from "DWELL_TIME". This metric currently can only be aggregated by InsightDimension "DATE".
-    * `SALES_LAST_60_DAYS` This metric represents the estimated sales performance of your stores by in last 60 days. This metric currently can only be aggregated by InsightDimension "DATE".
-    * `PEER_DWELL` This metric is the average time customers spend on other similar (peer) stores. This metric currently can only be aggregated by InsightDimension "DATE".
-    * `PEER_SALES_LAST_60_DAYS` This metric represents the estimated average sales performance of similar (peer) stores by looking back last 60 days. This metric currently can only be aggregated by InsightDimension "DATE".
-    * `DWELL_TIME` This metric represents the average time a customer spends on the store, providing insights into user engagement by calculating the average duration of visits. <br> "DWELL_TIME" metric can be aggregated by all the InsightDimensions or at the store level. For aggregation at store level, *dimension* must be omitted from the request.
-    * `BOUNCE_RATE` This metric provides insights into visitor engagement by measuring the ratio of total bounce visits(customer who landed on the store and left quickly without engaging) to total landing visits. It provides insights into user interaction, available at both page and store levels. <br> "BOUNCE_RATE" metric can be aggregated by all the InsightDimensions or at the store level. For aggregation at store level, *dimension* must be omitted from the request.
-    * `NEW_TO_STORE` This metric reports the total count of unique visitors who are new to the store, providing valuable insights into the number of first-time shoppers. <br> "NEW_TO_STORE" metric currently can only be aggregated by InsightDimension "DATE" or at the store level. For aggregation at store level, *dimension* must be omitted from the request.
+      * `VIEWS` - Number of page views. Data is available on a rolling 12-month window that updates based on the current date. <br> "VIEW" metric can be aggregated by all InsightDimensions.
+      * `ORDERS` - Estimated total orders placed by Store visitors within 14 days of their visit. Orders contain one or more units sold. Data is available on a rolling 12-month window that updates based on the current date. <br> "ORDERS" metric can be aggregated by all the InsightDimensions.
+      * `UNITS` - Estimated units purchased by Store visitors within 14 days of their last visit. Data is available on a rolling 12-month window that updates based on the current date. <br> "UNITS" metric can be aggregated by all the InsightDimensions.
+      * `SALES` - Estimated total sales generated by Store visitors within 14 days of their last visit. Data is available on a rolling 12-month window that updates based on the current date. <br> "SALES" metric can be aggregated by all the InsightDimensions.
+      * `VISITS` - Total visits to a page within a single day. Each visitor can visit more than one page, and they can visit your Store from more than one traffic source. Data is available on a rolling 12-month window that updates based on the current date. <br> "VISITS" metric can be aggregated by all the InsightDimensions.
+      * `VISITORS` - Total visitors to your Store within the selected date range, calculated based on daily unique users or devices. One visitor can visit more than one page, and they can visit your Store from more than one traffic source. The total visitors by page or source may sum up to a value larger than the total visitors by day to the Store or to the page. Data is available on a rolling 12-month window that updates based on the current date. <br> "VISITORS" metric currently can only be aggregated by InsightDimension "Date". Users won't be able to get this metric when specifying other InsightDimensions. This is because number of visitors are measured at store level. This also means this metric won't be impacted by the InsightFilter.
+      * `SCORE_LEVEL` This metric is the overall Store Quality rating calculated based on various factors defining the quality of a store. It can be `HIGH`, `MEDIUM` or `LOW`. This metric currently can only be aggregated by InsightDimension "DATE".
+      * `RECOMMENDATIONS` This metric is an Array of Objects containing recommendation details. Each object includes fields like `recommendedAction` (description of recommendation), `observedAverageDwellTimeIncrease` (improvement in dwell time), and `observedAverageSalesIncrease` (improvement in sales).
+      * `CONTRIBUTORS` This metric is the array of recommendations applied by the Store Owner which resulted in the improvement of overall store quality. This metric currently can only be aggregated by InsightDimension "DATE".
+      * `DWELL` This metric is the time a customer spends on the store, on an average. This metric is specifically for the store quality and measures the time spent by a shopping customer on the store. This is calculated differently from "DWELL_TIME". This metric currently can only be aggregated by InsightDimension "DATE".
+      * `SALES_LAST_60_DAYS` This metric represents the estimated sales performance of your stores by in last 60 days. This metric currently can only be aggregated by InsightDimension "DATE".
+      * `PEER_DWELL` This metric is the average time customers spend on other similar (peer) stores. This metric currently can only be aggregated by InsightDimension "DATE".
+      * `PEER_SALES_LAST_60_DAYS` This metric represents the estimated average sales performance of similar (peer) stores by looking back last 60 days. This metric currently can only be aggregated by InsightDimension "DATE".
+      * `DWELL_TIME` This metric represents the average time a customer spends on the store, providing insights into user engagement by calculating the average duration of visits. <br> "DWELL_TIME" metric can be aggregated by all the InsightDimensions or at the store level. For aggregation at store level, *dimension* must be omitted from the request.
+      * `BOUNCE_RATE` This metric provides insights into visitor engagement by measuring the ratio of total bounce visits(customer who landed on the store and left quickly without engaging) to total landing visits. It provides insights into user interaction, available at both page and store levels. <br> "BOUNCE_RATE" metric can be aggregated by all the InsightDimensions or at the store level. For aggregation at store level, *dimension* must be omitted from the request.
+      * `NEW_TO_STORE` This metric reports the total count of unique visitors who are new to the store, providing valuable insights into the number of first-time shoppers. <br> "NEW_TO_STORE" metric currently can only be aggregated by InsightDimension "DATE" or at the store level. For aggregation at store level, *dimension* must be omitted from the request.
     """
 
     ACTIONS_TAKEN_BY_PEERS = "ACTIONS_TAKEN_BY_PEERS"
@@ -168,9 +168,9 @@ class SortOrder(StrEnum):
 class TrafficSource(StrEnum):
     """
     Traffic Source Type:
-    * `ADS` - Traffic from Sponsored Brands ads on Amazon.
-    * `ORGANIC` - Traffic originating from your brand link on Amazon product detail pages.
-    * `OTHER` - All other traffic sources not categorized.
+      * `ADS` - Traffic from Sponsored Brands ads on Amazon.
+      * `ORGANIC` - Traffic originating from your brand link on Amazon product detail pages.
+      * `OTHER` - All other traffic sources not categorized.
     """
 
     ADS = "ADS"
@@ -185,16 +185,18 @@ class AsinEngagementDetail(LenientModel):
 
 
 class GetAsinEngagementForStoreRequest(StrictModel):
-    dimension: Annotated[AsinEngagementDimension, lenient_enum(AsinEngagementDimension)] | None = Field(default=None)
+    dimension: Annotated[AsinEngagementDimension | str, lenient_enum(AsinEngagementDimension)] | None = Field(
+        default=None
+    )
     endDate: date = Field(
         description="The end date (inclusive) in YYYY-MM-DD format for the time period from when to fetch the insights."
     )
-    metrics: list[Annotated[AsinEngagementMetric, lenient_enum(AsinEngagementMetric)]] = Field(
+    metrics: list[Annotated[AsinEngagementMetric | str, lenient_enum(AsinEngagementMetric)]] = Field(
         min_length=0,
         max_length=12,
         description="List of the engagement metrics to be fetched. At least one metric should be specified.",
     )
-    orderBy: Annotated[SortOrder, lenient_enum(SortOrder)] | None = Field(default=None)
+    orderBy: Annotated[SortOrder | str, lenient_enum(SortOrder)] | None = Field(default=None)
     sortBy: dict[str, Any] | None = Field(
         default=None,
         description="Nullable metric to sort on. If a value is provided, it must also appear in the metrics list. If no value is provided, the result is not guaranteed to be sorted. This field is only valid when the dimension is ASIN.",
@@ -212,7 +214,7 @@ class GetAsinEngagementForStoreResponse(LenientModel):
 
 
 class GetInsightsForStoreRequest(StrictModel):
-    dimension: Annotated[InsightDimension, lenient_enum(InsightDimension)]
+    dimension: Annotated[InsightDimension | str, lenient_enum(InsightDimension)]
     endDate: date = Field(
         description="The end date (inclusive) in YYYY-MM-DD format for the time period from when to fetch the insights."
     )
@@ -426,7 +428,7 @@ ko-KR</th>
         le=1500,
         description="The max number of result that will be returned in one response. The max allowed value will be 1500. If the parameter is not presented, it will be default to 1500.",
     )
-    metrics: list[Annotated[InsightMetric, lenient_enum(InsightMetric)]] = Field(
+    metrics: list[Annotated[InsightMetric | str, lenient_enum(InsightMetric)]] = Field(
         min_length=1,
         max_length=20,
         description="List of the insight metrics to be fetched. Only one metric should be specified.",
@@ -459,7 +461,7 @@ class InsightFilter(StrictModel):
         max_length=200,
         description="List of pages to be fetched for insight metrics. Users can first make request to the API with the same parameters but without the filter to retrieve all the available page ids.",
     )
-    sources: list[Annotated[TrafficSource, lenient_enum(TrafficSource)]] | None = Field(
+    sources: list[Annotated[TrafficSource | str, lenient_enum(TrafficSource)]] | None = Field(
         default=None, min_length=0, max_length=200, description="List of sources to be fetched for insight metrics."
     )
     tags: list[str] | None = Field(

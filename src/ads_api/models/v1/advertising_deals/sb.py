@@ -151,7 +151,7 @@ class SBAdvertisingDealCreate(StrictModel):
         default=None, description="The ID of an advertising deal that this deal intends to replace."
     )
     startDateTime: datetime = Field(description="The start date time for the deal.")
-    state: Annotated[SBAdvertisingDealState, lenient_enum(SBAdvertisingDealState)] | None = Field(default=None)
+    state: Annotated[SBAdvertisingDealState | str, lenient_enum(SBAdvertisingDealState)] | None = Field(default=None)
 
 
 class SBAdvertisingDealMultiStatusResponse(LenientModel):
@@ -166,7 +166,7 @@ class SBAdvertisingDealMultiStatusSuccess(LenientModel):
 
 class SBAdvertisingDealNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=10)
-    queryTermMatchType: Annotated[SBAdvertisingDealNameFilterType, lenient_enum(SBAdvertisingDealNameFilterType)]
+    queryTermMatchType: Annotated[SBAdvertisingDealNameFilterType | str, lenient_enum(SBAdvertisingDealNameFilterType)]
 
 
 class SBAdvertisingDealPrice(LenientModel):
@@ -193,11 +193,11 @@ class SBAdvertisingDealUpdate(StrictModel):
         default=None, description="The ID of an advertising deal that this deal intends to replace."
     )
     startDateTime: datetime | None = Field(default=None, description="The start date time for the deal.")
-    state: Annotated[SBAdvertisingDealState, lenient_enum(SBAdvertisingDealState)] | None = Field(default=None)
+    state: Annotated[SBAdvertisingDealState | str, lenient_enum(SBAdvertisingDealState)] | None = Field(default=None)
 
 
 class SBCreateAdvertisingDealPrice(StrictModel):
-    priceType: Annotated[SBAdvertisingDealPriceType, lenient_enum(SBAdvertisingDealPriceType)]
+    priceType: Annotated[SBAdvertisingDealPriceType | str, lenient_enum(SBAdvertisingDealPriceType)]
     value: float = Field(description="The monetary amount of the price in the given currency.")
 
 
@@ -228,7 +228,7 @@ class SBQueryAdvertisingDealRequest(StrictModel):
 
 
 class SBUpdateAdvertisingDealPrice(StrictModel):
-    priceType: Annotated[SBAdvertisingDealPriceType, lenient_enum(SBAdvertisingDealPriceType)] | None = Field(
+    priceType: Annotated[SBAdvertisingDealPriceType | str, lenient_enum(SBAdvertisingDealPriceType)] | None = Field(
         default=None
     )
     value: float | None = Field(default=None, description="The monetary amount of the price in the given currency.")

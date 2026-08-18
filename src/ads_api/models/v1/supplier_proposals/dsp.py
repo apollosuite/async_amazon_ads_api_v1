@@ -226,7 +226,7 @@ class DSPSupplierProposal(LenientModel):
 
 
 class DSPSupplierProposalAdProductFilter(StrictModel):
-    include: list[Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class DSPSupplierProposalAdvertiserAccountIdFilter(StrictModel):
@@ -234,16 +234,16 @@ class DSPSupplierProposalAdvertiserAccountIdFilter(StrictModel):
 
 
 class DSPSupplierProposalCountryCodeFilter(StrictModel):
-    include: list[Annotated[DSPCountryCode, lenient_enum(DSPCountryCode)]] = Field(min_length=1, max_length=50)
+    include: list[Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)]] = Field(min_length=1, max_length=50)
 
 
 class DSPSupplierProposalCreate(StrictModel):
-    adProduct: Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)] | None = Field(default=None)
+    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)] | None = Field(default=None)
     advertiserAccountId: str | None = Field(
         default=None,
         description="The ADSP advertiserId for this proposal. If advertiserId is null, then we treat it as manager account level proposal.",
     )
-    countries: list[Annotated[DSPCountryCode, lenient_enum(DSPCountryCode)]] | None = Field(
+    countries: list[Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)]] | None = Field(
         default=None, min_length=0, max_length=49, description="The country this proposal is located."
     )
     externalProposalId: str | None = Field(
@@ -253,14 +253,14 @@ class DSPSupplierProposalCreate(StrictModel):
     notes: list[DSPCreateNotes] | None = Field(
         default=None, min_length=0, max_length=49, description="User provided notes for this proposal."
     )
-    state: Annotated[DSPCreateState, lenient_enum(DSPCreateState)] | None = Field(default=None)
+    state: Annotated[DSPCreateState | str, lenient_enum(DSPCreateState)] | None = Field(default=None)
     stateReason: DSPCreateSupplierStateReason | None = Field(default=None)
     supplierProposalDestinationId: str | None = Field(
         default=None, description="The supplier proposal destination identifier."
     )
     supplierProposalExtension: DSPCreateSupplierProposalExtension | None = Field(default=None)
-    supplierProposalType: Annotated[DSPSupplierProposalType, lenient_enum(DSPSupplierProposalType)] | None = Field(
-        default=None
+    supplierProposalType: Annotated[DSPSupplierProposalType | str, lenient_enum(DSPSupplierProposalType)] | None = (
+        Field(default=None)
     )
 
 
@@ -316,18 +316,18 @@ class DSPSupplierProposalSupplierProposalIdFilter(StrictModel):
 
 
 class DSPSupplierProposalSupplierProposalStatusFilter(StrictModel):
-    include: list[Annotated[DSPSupplierProposalStatus, lenient_enum(DSPSupplierProposalStatus)]] = Field(
+    include: list[Annotated[DSPSupplierProposalStatus | str, lenient_enum(DSPSupplierProposalStatus)]] = Field(
         min_length=1, max_length=50
     )
 
 
 class DSPSupplierProposalUpdate(StrictModel):
-    adProduct: Annotated[DSPAdProduct, lenient_enum(DSPAdProduct)] | None = Field(default=None)
+    adProduct: Annotated[DSPAdProduct | str, lenient_enum(DSPAdProduct)] | None = Field(default=None)
     name: str | None = Field(default=None, pattern="^[ -:<-z|]+$", description="The user provided proposal name.")
     notes: list[DSPCreateNotes] | None = Field(
         default=None, min_length=0, max_length=49, description="User provided notes for this proposal."
     )
-    state: Annotated[DSPUpdateState, lenient_enum(DSPUpdateState)] | None = Field(default=None)
+    state: Annotated[DSPUpdateState | str, lenient_enum(DSPUpdateState)] | None = Field(default=None)
     stateReason: DSPUpdateSupplierStateReason | None = Field(default=None)
     supplierProposalDestinationId: str | None = Field(
         default=None, description="The supplier proposal destination identifier."

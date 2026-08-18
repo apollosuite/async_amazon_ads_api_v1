@@ -366,7 +366,7 @@ class SchemaType(StrEnum):
 class AdsCdxSolCreateAudienceRequestContent(StrictModel):
     """Create Audience DataSet Request."""
 
-    countryCode: Annotated[CountryCode, lenient_enum(CountryCode)]
+    countryCode: Annotated[CountryCode | str, lenient_enum(CountryCode)]
     description: str | None = Field(
         default=None, min_length=1, max_length=1000, description="A description of the DataSet."
     )
@@ -440,12 +440,12 @@ class AdsCdxSolListAudienceResponseContent(LenientModel):
 
 
 class AmznConsent(StrictModel):
-    amznAdStorage: Annotated[ConsentEnums, lenient_enum(ConsentEnums)] | None = Field(default=None)
-    amznUserData: Annotated[ConsentEnums, lenient_enum(ConsentEnums)] | None = Field(default=None)
+    amznAdStorage: Annotated[ConsentEnums | str, lenient_enum(ConsentEnums)] | None = Field(default=None)
+    amznUserData: Annotated[ConsentEnums | str, lenient_enum(ConsentEnums)] | None = Field(default=None)
 
 
 class AudienceMember(StrictModel):
-    action: Annotated[Action, lenient_enum(Action)]
+    action: Annotated[Action | str, lenient_enum(Action)]
     externalUserId: str = Field(
         description="This is an external user identifier defined by the data owner. Each unique user should have a unique external user identifier."
     )
@@ -505,7 +505,7 @@ class DetailedError(LenientModel):
 
 
 class Geo(StrictModel):
-    countryCode: Annotated[CountryCode, lenient_enum(CountryCode)] | None = Field(default=None)
+    countryCode: Annotated[CountryCode | str, lenient_enum(CountryCode)] | None = Field(default=None)
     ipAddress: str | None = Field(
         default=None,
         description="A String value holding an ipAddress used to determine country for members in this audience. Optional.",

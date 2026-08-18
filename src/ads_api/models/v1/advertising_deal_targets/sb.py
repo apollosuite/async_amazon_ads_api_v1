@@ -103,7 +103,7 @@ class SBAdvertisingDealTargetAdvertisingDealIdFilter(StrictModel):
 class SBAdvertisingDealTargetCreate(StrictModel):
     advertisingDealId: str = Field(description="A unique identifier for the deal associated with the target.")
     targetDetails: SBCreateAdvertisingDealTargetDetails
-    targetType: Annotated[SBAdvertisingDealTargetType, lenient_enum(SBAdvertisingDealTargetType)]
+    targetType: Annotated[SBAdvertisingDealTargetType | str, lenient_enum(SBAdvertisingDealTargetType)]
 
 
 class SBAdvertisingDealTargetDetails(LenientModel):

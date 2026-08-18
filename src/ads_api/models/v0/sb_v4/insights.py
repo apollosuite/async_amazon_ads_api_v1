@@ -48,7 +48,7 @@ class SBInsightsAdGroup(StrictModel):
     """The ad group settings."""
 
     keywords: list[SBInsightsKeyword] | None = Field(default=None, min_length=0, max_length=800)
-    adFormat: Annotated[SBInsightsAdFormat, lenient_enum(SBInsightsAdFormat)]
+    adFormat: Annotated[SBInsightsAdFormat | str, lenient_enum(SBInsightsAdFormat)]
 
 
 class SBInsightsCampaignInsightsRequestContent(StrictModel):
@@ -68,7 +68,7 @@ class SBInsightsCampaignInsightsResponseContent(LenientModel):
 class SBInsightsKeyword(StrictModel):
     """Keyword associated with the campaign."""
 
-    matchType: Annotated[SBInsightsMatchType, lenient_enum(SBInsightsMatchType)]
+    matchType: Annotated[SBInsightsMatchType | str, lenient_enum(SBInsightsMatchType)]
     bid: float = Field(
         description="The associated bid. Note that this value must be less than the budget associated with the Advertiser account. For more information, see [supported features](https://advertising.amazon.com/API/docs/v2/guides/supported_features)."
     )

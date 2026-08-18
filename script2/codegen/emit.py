@@ -30,6 +30,7 @@ _CONSTRAINTS = (
 )
 
 _ENUM_HEADER_RE = re.compile(r"^\s*\*\*[^*]+ Enum:\*\*\s*$")
+_ENUM_PLAIN_RE = re.compile(r"^\s*Enum:\s*")
 _TABLE_LINE_RE = re.compile(r"^\s*\|")
 _ENUM_ROW_RE = re.compile(r"^\|\s*`([^`]+)`\s*\|\s*(.*?)\s*\|$")
 _LENIENT_ENUM_RE = re.compile(r"^Annotated\[(.+?) \| str, lenient_enum\(.+\)\]$")
@@ -71,8 +72,6 @@ def schema_type(
         ref = openapi_schemas.get(openapi_name, {})
         if ref.get("enum"):
             imports.add("Annotated", "lenient_enum")
-            if context_role == SchemaRole.INPUT:
-                return f"Annotated[{python_name}, lenient_enum({python_name})]"
             return f"Annotated[{python_name} | str, lenient_enum({python_name})]"
         return python_name
     t = schema.get("type", "object")
@@ -105,21 +104,48 @@ def schema_type(
     return "Any"
 
 
+def _consume_table(lines: list[str], start: int) -> tuple[list[str], int]:
+    end = start
+    while end < len(lines) and _TABLE_LINE_RE.match(lines[end]):
+        end += 1
+    return lines[start:end], end
+
+
+def _is_enum_member_table(block: list[str]) -> bool:
+    """True when rows look like ``| `VALUE` | description |``."""
+    return any(_ENUM_ROW_RE.match(line.strip()) for line in block)
+
+
 def strip_markdown_tables(text: str) -> str:
-    """Drop OpenAPI enum markdown tables and blank padding."""
+    """Drop enum member catalogs; keep other markdown tables.
+
+    Strips ``**Xxx Enum:**`` / ``Enum: ...`` headers and tables whose cells are
+    backtick-wrapped enum values. Business tables (thresholds, field maps) stay.
+    """
+    lines = text.splitlines()
     kept: list[str] = []
-    in_table = False
-    for raw in text.splitlines():
+    skip_next_table = False
+    i = 0
+    while i < len(lines):
+        raw = lines[i]
+        if _ENUM_HEADER_RE.match(raw) or _ENUM_PLAIN_RE.match(raw):
+            skip_next_table = True
+            i += 1
+            continue
         if _TABLE_LINE_RE.match(raw):
-            in_table = True
+            block, i = _consume_table(lines, i)
+            if skip_next_table or _is_enum_member_table(block):
+                skip_next_table = False
+                continue
+            skip_next_table = False
+            kept.extend(line.rstrip() for line in block)
             continue
-        if in_table:
-            if not raw.strip():
-                in_table = False
+        if skip_next_table and not raw.strip():
+            i += 1
             continue
-        if _ENUM_HEADER_RE.match(raw):
-            continue
+        skip_next_table = False
         kept.append(raw.rstrip())
+        i += 1
     while kept and not kept[0].strip():
         kept.pop(0)
     while kept and not kept[-1].strip():
@@ -151,7 +177,7 @@ def _format_enum_doc(doc: str) -> str:
     cleaned = strip_markdown_tables(doc)
     if not cleaned:
         return ""
-    lines = [line.strip() for line in cleaned.splitlines()]
+    lines = [line.rstrip() for line in cleaned.splitlines()]
     body = ("\n    ").join(lines)
     return f'\n    """\n    {body}\n    """'
 

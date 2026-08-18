@@ -18,9 +18,38 @@ from ads_api.models.v0._shared import (
 )
 
 
+class CreativeModerationModerationStatus(StrEnum):
+    """
+    The moderation status of the creative.
+    |Status|Description|
+    |------|-----------|
+    |APPROVED|Moderation for the creative is complete.|
+    |IN_PROGRESS|Moderation for the creative is in progress. The expected date and time for completion are specfied in the `etaForModeration` field.|
+    |REJECTED|The creative has failed moderation. Specific information about the content that violated policy is available in `policyViolations`.|
+    """
+
+    APPROVED = "APPROVED"
+    PENDING_REVIEW = "PENDING_REVIEW"
+    REJECTED = "REJECTED"
+
+
+class CreativeModerationStatus(StrEnum):
+    """
+    The moderation status of the creative
+    """
+
+    APPROVED = "APPROVED"
+    PENDING_REVIEW = "PENDING_REVIEW"
+    REJECTED = "REJECTED"
+
+
 class CreativeTypeInCreativeRequest(StrEnum):
     """
     The type of the creative.
+    |Name|Description|
+    |----|-----------|
+    |IMAGE |The creative will display static assets (e.g. headline, brandLogo or custom image).|
+    |VIDEO |The creative will display video assets. This type of creative must have video assets provided. Only supported when using productAds with ASIN or SKU.|
     """
 
     IMAGE = "IMAGE"
@@ -101,8 +130,8 @@ class CreateCreative(StrictModel):
     """Creative create model."""
 
     adGroupId: float = Field(description="Unqiue identifier for the ad group associated with the creative.")
-    creativeType: Annotated[CreativeTypeInCreativeRequest, lenient_enum(CreativeTypeInCreativeRequest)] | None = Field(
-        default=None
+    creativeType: Annotated[CreativeTypeInCreativeRequest | str, lenient_enum(CreativeTypeInCreativeRequest)] | None = (
+        Field(default=None)
     )
     properties: CreativeProperties
     consentToTranslate: bool | None = Field(
@@ -118,7 +147,9 @@ class Creative(LenientModel):
     adGroupId: AdGroupId
     creativeType: Annotated[CreativeTypeInCreativeResponse | str, lenient_enum(CreativeTypeInCreativeResponse)]
     properties: CreativePropertiesOut
-    moderationStatus: str = Field(description="The moderation status of the creative")
+    moderationStatus: Annotated[CreativeModerationStatus | str, lenient_enum(CreativeModerationStatus)] = Field(
+        description="The moderation status of the creative"
+    )
 
 
 class CreativeModeration(LenientModel):
@@ -126,7 +157,18 @@ class CreativeModeration(LenientModel):
 
     creativeId: float = Field(description="Unique identifier of the creative.")
     creativeType: Annotated[CreativeTypeInCreativeResponse | str, lenient_enum(CreativeTypeInCreativeResponse)]
-    moderationStatus: str = Field(description="The moderation status of the creative.")
+    moderationStatus: Annotated[
+        CreativeModerationModerationStatus | str, lenient_enum(CreativeModerationModerationStatus)
+    ] = Field(
+        description="""
+The moderation status of the creative.
+|Status|Description|
+|------|-----------|
+|APPROVED|Moderation for the creative is complete.|
+|IN_PROGRESS|Moderation for the creative is in progress. The expected date and time for completion are specfied in the `etaForModeration` field.|
+|REJECTED|The creative has failed moderation. Specific information about the content that violated policy is available in `policyViolations`.|
+"""
+    )
     etaForModeration: datetime = Field(description="Expected date and time by which moderation will be complete.")
     policyViolations: list[dict[str, Any]] = Field(
         description="A list of policy violations for a creative that has failed moderation."
@@ -144,7 +186,7 @@ class CreativePreviewConfiguration(StrictModel):
         default=None, description="The products to preview. Currently only the first product is previewable."
     )
     landingPageURL: LandingPageURL | None = Field(default=None)
-    landingPageType: Annotated[LandingPageType, lenient_enum(LandingPageType)] | None = Field(default=None)
+    landingPageType: Annotated[LandingPageType | str, lenient_enum(LandingPageType)] | None = Field(default=None)
     adName: AdName | None = Field(default=None)
     isMobile: bool | None = Field(default=None, description="Preview the creative as if it is on a mobile environment.")
     isOnAmazon: bool | None = Field(
@@ -178,8 +220,8 @@ class CreativeUpdate(StrictModel):
     """Creative update model."""
 
     creativeId: float = Field(description="Unique identifier of the creative.")
-    creativeType: Annotated[CreativeTypeInCreativeRequest, lenient_enum(CreativeTypeInCreativeRequest)] | None = Field(
-        default=None
+    creativeType: Annotated[CreativeTypeInCreativeRequest | str, lenient_enum(CreativeTypeInCreativeRequest)] | None = (
+        Field(default=None)
     )
     properties: CreativeProperties
 
@@ -253,7 +295,12 @@ class HeadlineCreativePropertiesOut(LenientModel):
 
 
 class Image(StrictModel):
-    """This field denotes image which is displayed on the ad. This can either be a brand logo or a custom image. This field is optional and mutable. For custom image, both rectCustomImage and squareCustomImage should use the same asset id and asset version. Specific restrictions based on the Image type are listed in the following table."""
+    """This field denotes image which is displayed on the ad. This can either be a brand logo or a custom image. This field is optional and mutable. For custom image, both rectCustomImage and squareCustomImage should use the same asset id and asset version. Specific restrictions based on the Image type are listed in the following table.
+    |Image type|Maximum file size|Minimum width|Minimum height|Accepted file formats|
+    |------|-----------|-----------|-----------|-----------|
+    |Custom Image|5MB|1200|628|JPEG, JPG, PNG, GIF|
+    |Brand Logo|1MB|600|100|JPEG, JPG, PNG|
+    Note: For square custom images the cropped image should be 628x628 at minimum."""
 
     assetId: str = Field(
         description="The unique identifier of the image asset. This assetId comes from the Creative Asset Library."
@@ -265,7 +312,12 @@ class Image(StrictModel):
 
 
 class ImageOut(LenientModel):
-    """This field denotes image which is displayed on the ad. This can either be a brand logo or a custom image. This field is optional and mutable. For custom image, both rectCustomImage and squareCustomImage should use the same asset id and asset version. Specific restrictions based on the Image type are listed in the following table."""
+    """This field denotes image which is displayed on the ad. This can either be a brand logo or a custom image. This field is optional and mutable. For custom image, both rectCustomImage and squareCustomImage should use the same asset id and asset version. Specific restrictions based on the Image type are listed in the following table.
+    |Image type|Maximum file size|Minimum width|Minimum height|Accepted file formats|
+    |------|-----------|-----------|-----------|-----------|
+    |Custom Image|5MB|1200|628|JPEG, JPG, PNG, GIF|
+    |Brand Logo|1MB|600|100|JPEG, JPG, PNG|
+    Note: For square custom images the cropped image should be 628x628 at minimum."""
 
     assetId: str = Field(
         description="The unique identifier of the image asset. This assetId comes from the Creative Asset Library."
@@ -291,14 +343,31 @@ class LogoCreativePropertiesOut(LenientModel):
 class PreviewCreativeModel(StrictModel):
     """Creative model for preview."""
 
-    creativeType: Annotated[CreativeTypeInCreativeRequest, lenient_enum(CreativeTypeInCreativeRequest)] | None = Field(
-        default=None
+    creativeType: Annotated[CreativeTypeInCreativeRequest | str, lenient_enum(CreativeTypeInCreativeRequest)] | None = (
+        Field(default=None)
     )
     properties: CreativeProperties | None = Field(default=None)
 
 
 class Video(StrictModel):
-    """This field denotes video which is displayed on the ad. This field is optional and mutable. A video asset must be provided for a VIDEO creative. Specific restrictions based on the video are listed in the following table."""
+    """This field denotes video which is displayed on the ad. This field is optional and mutable. A video asset must be provided for a VIDEO creative. Specific restrictions based on the video are listed in the following table.
+    ||Specifications|
+    |------------------|------------------|
+    |Maximum file size|500MB|
+    |Aspect ratio|16:9|
+    |Minimum duration|6s|
+    |Maximum duration|45s|
+    |Minimum frame size|1920x1080|
+    |Minimum video bitrate|4mbps|
+    |Video frame rate(fps)|23.976(recommended), 24, 25, or 29.97|
+    |Video frame rate mode|Constant|
+    |Minimum audio bitrate|192kbps|
+    |Audio sample rate|44.1kHz or 48kHz|
+    |Supported Formats|Video: H.264, MPEG-2, or MPEG-4; Audio: PCM or AAC|
+    |Audio Channel|Audio format needs to be stereo or mono.|
+    |Recommended video bitrate|8mbps|
+    |Recommended duration|A duration of exactly 6s, 15s, 20s, or 30s is recommended. Use of videos outside of these durations may negatively impact your campaign performance. Shorter lengths will drive higher VCR (although scale on 6s may be limited).|
+    """
 
     assetId: str = Field(
         description="The unique identifier of the video asset. This assetId comes from the Creative Asset Library."
@@ -351,7 +420,24 @@ class VideoCreativePropertiesOut(LenientModel):
 
 
 class VideoOut(LenientModel):
-    """This field denotes video which is displayed on the ad. This field is optional and mutable. A video asset must be provided for a VIDEO creative. Specific restrictions based on the video are listed in the following table."""
+    """This field denotes video which is displayed on the ad. This field is optional and mutable. A video asset must be provided for a VIDEO creative. Specific restrictions based on the video are listed in the following table.
+    ||Specifications|
+    |------------------|------------------|
+    |Maximum file size|500MB|
+    |Aspect ratio|16:9|
+    |Minimum duration|6s|
+    |Maximum duration|45s|
+    |Minimum frame size|1920x1080|
+    |Minimum video bitrate|4mbps|
+    |Video frame rate(fps)|23.976(recommended), 24, 25, or 29.97|
+    |Video frame rate mode|Constant|
+    |Minimum audio bitrate|192kbps|
+    |Audio sample rate|44.1kHz or 48kHz|
+    |Supported Formats|Video: H.264, MPEG-2, or MPEG-4; Audio: PCM or AAC|
+    |Audio Channel|Audio format needs to be stereo or mono.|
+    |Recommended video bitrate|8mbps|
+    |Recommended duration|A duration of exactly 6s, 15s, 20s, or 30s is recommended. Use of videos outside of these durations may negatively impact your campaign performance. Shorter lengths will drive higher VCR (although scale on 6s may be limited).|
+    """
 
     assetId: str = Field(
         description="The unique identifier of the video asset. This assetId comes from the Creative Asset Library."
@@ -401,6 +487,8 @@ __all__ = [
     "CreateCreative",
     "Creative",
     "CreativeModeration",
+    "CreativeModerationModerationStatus",
+    "CreativeModerationStatus",
     "CreativePreviewConfiguration",
     "CreativePreviewConfigurations",
     "CreativePreviewRequest",

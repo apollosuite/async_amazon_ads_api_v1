@@ -77,7 +77,9 @@ class BrandStoreEditionPublishVersionMultiStatusSuccess(LenientModel):
 
 
 class BrandStoreEditionPublishVersionStorePublishStatusFilter(StrictModel):
-    include: list[Annotated[StorePublishStatus, lenient_enum(StorePublishStatus)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[StorePublishStatus | str, lenient_enum(StorePublishStatus)]] = Field(
+        min_length=1, max_length=1
+    )
 
 
 class BrandStoreEditionPublishVersionSuccessResponse(LenientModel):
@@ -89,7 +91,7 @@ class BrandStoreEditionPublishVersionSuccessResponse(LenientModel):
 
 class BrandStoreEditionPublishVersionUpdate(StrictModel):
     editionId: str | None = Field(default=None, description="Reference to the store edition")
-    publishState: Annotated[StorePublishState, lenient_enum(StorePublishState)] | None = Field(default=None)
+    publishState: Annotated[StorePublishState | str, lenient_enum(StorePublishState)] | None = Field(default=None)
     storeEditionPublishId: str = Field(description="Unique identifier for the publish version")
     storeId: str | None = Field(default=None, description="Identifier of the associated store")
 

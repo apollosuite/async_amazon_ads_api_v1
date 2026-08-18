@@ -87,7 +87,7 @@ class SponsoredProductsCreateKeyword(StrictModel):
     campaignId: str = Field(description="The identifer of the campaign to which the keyword is associated.")
     keywordText: str = Field(description="The keyword text.")
     matchType: Annotated[
-        SponsoredProductsCreateOrUpdateMatchType, lenient_enum(SponsoredProductsCreateOrUpdateMatchType)
+        SponsoredProductsCreateOrUpdateMatchType | str, lenient_enum(SponsoredProductsCreateOrUpdateMatchType)
     ]
     nativeLanguageKeyword: str | None = Field(
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser."
@@ -97,7 +97,7 @@ class SponsoredProductsCreateKeyword(StrictModel):
         description="The locale preference of the advertiser. For example, if the advertiser’s preferred language is Simplified Chinese, set the locale to zh_CN. Supported locales include: Simplified Chinese (locale: zh_CN) for US, UK and CA. English (locale: en_GB) for DE, FR, IT and ES.",
     )
     state: Annotated[
-        SponsoredProductsCreateOrUpdateEntityState, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
+        SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
     ]
 
 
@@ -201,9 +201,9 @@ class SponsoredProductsListSponsoredProductsKeywordsRequestContent(StrictModel):
     keywordIdFilter: SponsoredProductsObjectIdFilter | None = Field(default=None)
     keywordTextFilter: SponsoredProductsKeywordTextFilter | None = Field(default=None)
     locale: str | None = Field(default=None, description="Restricts results to keywords associated with locale")
-    matchTypeFilter: list[Annotated[SponsoredProductsMatchType, lenient_enum(SponsoredProductsMatchType)]] | None = (
-        Field(default=None, description="Only the keyword with match type that is in this list will be listed")
-    )
+    matchTypeFilter: (
+        list[Annotated[SponsoredProductsMatchType | str, lenient_enum(SponsoredProductsMatchType)]] | None
+    ) = Field(default=None, description="Only the keyword with match type that is in this list will be listed")
     maxResults: int | None = Field(
         default=None,
         description="Number of records to include in the paginated response. Defaults to max page size for given API",
@@ -229,7 +229,9 @@ class SponsoredProductsUpdateKeyword(StrictModel):
     )
     keywordId: str = Field(description="The identifier of the keyword.")
     state: (
-        Annotated[SponsoredProductsCreateOrUpdateEntityState, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)]
+        Annotated[
+            SponsoredProductsCreateOrUpdateEntityState | str, lenient_enum(SponsoredProductsCreateOrUpdateEntityState)
+        ]
         | None
     ) = Field(default=None)
 

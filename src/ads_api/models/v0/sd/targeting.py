@@ -2,24 +2,99 @@
 
 from __future__ import annotations
 
+from enum import StrEnum
+from typing import Annotated
+
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
+from ads_api.models._core.lenient_enum import lenient_enum
 from ads_api.models.v0._shared import (
     AdGroupId,
     BaseTargetingClause,
+    BaseTargetingClauseState,
     CampaignId,
     ContentTargetingPredicate,
+    ContentTargetingPredicateType,
     TargetId,
     TargetingPredicate,
     TargetingPredicateBase,
+    TargetingPredicateBaseType,
+    TargetingPredicateLegacyEventType,
+    TargetingPredicateLegacyType,
     TargetingPredicateNested,
+    TargetingPredicateNestedType,
+    TargetingPredicateType,
     TargetResponse,
 )
 
 
+class CreateTargetingClauseExpressionType(StrEnum):
+    """
+    Tactic T00020 ad groups only allow manual targeting.
+    """
+
+    manual = "manual"
+    auto = "auto"
+
+
+class TargetingClauseExExpressionType(StrEnum):
+    auto = "auto"
+    manual = "manual"
+
+
+class TargetingClauseExServingStatus(StrEnum):
+    """
+    The status of the target.
+    """
+
+    ADVERTISER_STATUS_ENABLED = "ADVERTISER_STATUS_ENABLED"
+    STATUS_UNAVAILABLE = "STATUS_UNAVAILABLE"
+    ADVERTISER_PAUSED = "ADVERTISER_PAUSED"
+    ACCOUNT_OUT_OF_BUDGET = "ACCOUNT_OUT_OF_BUDGET"
+    ADVERTISER_PAYMENT_FAILURE = "ADVERTISER_PAYMENT_FAILURE"
+    CAMPAIGN_PAUSED = "CAMPAIGN_PAUSED"
+    CAMPAIGN_ARCHIVED = "CAMPAIGN_ARCHIVED"
+    PENDING_START_DATE = "PENDING_START_DATE"
+    ENDED = "ENDED"
+    CAMPAIGN_OUT_OF_BUDGET = "CAMPAIGN_OUT_OF_BUDGET"
+    AD_GROUP_STATUS_ENABLED = "AD_GROUP_STATUS_ENABLED"
+    AD_GROUP_PAUSED = "AD_GROUP_PAUSED"
+    AD_GROUP_ARCHIVED = "AD_GROUP_ARCHIVED"
+    AD_GROUP_INCOMPLETE = "AD_GROUP_INCOMPLETE"
+    AD_GROUP_LOW_BID = "AD_GROUP_LOW_BID"
+    TARGET_STATUS_LIVE = "TARGET_STATUS_LIVE"
+    TARGET_STATUS_PAUSED = "TARGET_STATUS_PAUSED"
+    TARGET_STATUS_ARCHIVED = "TARGET_STATUS_ARCHIVED"
+    ADVERTISER_EXCEED_SPENDS_LIMIT = "ADVERTISER_EXCEED_SPENDS_LIMIT"
+    AD_POLICING_PENDING_REVIEW = "AD_POLICING_PENDING_REVIEW"
+    CAMPAIGN_INCOMPLETE = "CAMPAIGN_INCOMPLETE"
+    INELIGIBLE = "INELIGIBLE"
+    PORTFOLIO_ENDED = "PORTFOLIO_ENDED"
+    PORTFOLIO_OUT_OF_BUDGET = "PORTFOLIO_OUT_OF_BUDGET"
+    ADVERTISER_ARCHIVED = "ADVERTISER_ARCHIVED"
+    ADVERTISER_ACCOUNT_OUT_OF_BUDGET = "ADVERTISER_ACCOUNT_OUT_OF_BUDGET"
+
+
+class TargetingClauseExState(StrEnum):
+    enabled = "enabled"
+    paused = "paused"
+    archived = "archived"
+
+
+class TargetingClauseExpressionType(StrEnum):
+    """
+    Tactic T00020 & T00030 ad groups should use 'manual' targeting.
+    """
+
+    manual = "manual"
+    auto = "auto"
+
+
 class BaseTargetingClauseOut(LenientModel):
-    state: str | None = Field(default=None)
+    state: Annotated[BaseTargetingClauseState | str, lenient_enum(BaseTargetingClauseState)] | None = Field(
+        default=None
+    )
     bid: float | None = Field(
         default=None,
         ge=0.02,
@@ -30,26 +105,89 @@ class BaseTargetingClauseOut(LenientModel):
 class ContentTargetingPredicateOut(LenientModel):
     """A predicate to match against in the content targeting expression."""
 
-    type: str | None = Field(default=None)
+    type: Annotated[ContentTargetingPredicateType | str, lenient_enum(ContentTargetingPredicateType)] | None = Field(
+        default=None
+    )
     value: str | None = Field(
         default=None,
         description="""
 The value to be targeted.
 
 The following table shows all possible values of the `contentCategorySameAs` predicate.
+| Category              | Subcategory                             | Value                    |
+|-----------------------|-----------------------------------------|--------------------------|
+| Movies and Television | All Movies and Television               | amzn1.iab-content.SPSHQ5 |
+| Movies and Television | Action or Adventure                     | amzn1.iab-content.325    |
+| Movies and Television | Animation or Anime                      | amzn1.iab-content.641    |
+| Movies and Television | Biographies                             | amzn1.iab-content.44     |
+| Movies and Television | Comedy                                  | amzn1.iab-content.646    |
+| Movies and Television | Documentary                             | amzn1.iab-content.332    |
+| Movies and Television | Drama                                   | amzn1.iab-content.647    |
+| Movies and Television | Factual                                 | amzn1.iab-content.648    |
+| Movies and Television | Family                                  | amzn1.iab-content.645    |
+| Movies and Television | Fantasy                                 | amzn1.iab-content.335    |
+| Movies and Television | History                                 | amzn1.iab-content.EZWB7V |
+| Movies and Television | Holiday                                 | amzn1.iab-content.649    |
+| Movies and Television | Horror                                  | amzn1.iab-content.336    |
+| Movies and Television | Lifestyle                               | amzn1.iab-content.TIFQA5 |
+| Movies and Television | Music Video                             | amzn1.iab-content.650    |
+| Movies and Television | Musicals                                | amzn1.iab-content.156    |
+| Movies and Television | Mystery                                 | amzn1.iab-content.331    |
+| Movies and Television | Reality TV                              | amzn1.iab-content.651    |
+| Movies and Television | Romance                                 | amzn1.iab-content.326    |
+| Movies and Television | Science Fiction                         | amzn1.iab-content.652    |
+| Movies and Television | Soap Opera                              | amzn1.iab-content.642    |
+| Movies and Television | Special Interest (Indie or Art House)   | amzn1.iab-content.643    |
+| Movies and Television | Sports Radio                            | amzn1.iab-content.370    |
+| Movies and Television | Talk Show                               | amzn1.iab-content.A0AH3G |
+| Movies and Television | True Crime                              | amzn1.iab-content.KHPC5A |
+| Movies and Television | Western                                 | amzn1.iab-content.KHPC6A |
+| Music and Radio       | All Music and Radio                     | amzn1.iab-content.338    |
+| Music and Radio       | Blues                                   | amzn1.iab-content.360    |
+| Music and Radio       | Classical Music                         | amzn1.iab-content.346    |
+| Music and Radio       | Comedy (Music and Audio)                | amzn1.iab-content.348    |
+| Music and Radio       | Pop, Contemporary Hits, or Top 40 Music | amzn1.iab-content.349    |
+| Music and Radio       | Country Music                           | amzn1.iab-content.350    |
+| Music and Radio       | Dance and Electronic Music              | amzn1.iab-content.351    |
+| Music and Radio       | Hip Hop Music                           | amzn1.iab-content.355    |
+| Music and Radio       | Inspirational or New Age Music          | amzn1.iab-content.356    |
+| Music and Radio       | Jazz                                    | amzn1.iab-content.357    |
+| Music and Radio       | Oldies or Adult Standards               | amzn1.iab-content.358    |
+| Music and Radio       | R&B, Soul or Funk Music                 | amzn1.iab-content.362    |
+| Music and Radio       | Reggae                                  | amzn1.iab-content.359    |
+| Music and Radio       | Rock Music                              | amzn1.iab-content.363    |
+| Music and Radio       | Songwriters or Folk                     | amzn1.iab-content.353    |
+| Music and Radio       | World or International Music            | amzn1.iab-content.352    |
+| Video Games           | All Video Games                         | amzn1.iab-content.680    |
+| Video Games           | Action-Adventure Games                  | amzn1.iab-content.691    |
+| Video Games           | Casual Games                            | amzn1.iab-content.693    |
+| Video Games           | Puzzle Video Games                      | amzn1.iab-content.698    |
+| Video Games           | Racing Video Games                      | amzn1.iab-content.VK7KD0 |
+| Video Games           | Role-Playing Video Games                | amzn1.iab-content.687    |
+| Video Games           | Simulation Video Games                  | amzn1.iab-content.688    |
+| Video Games           | Sports Video Games                      | amzn1.iab-content.689    |
+| Video Games           | Strategy Video Games                    | amzn1.iab-content.690    |
+| Video Games           | PC Games                                | amzn1.iab-content.684    |
+| Video Games           | Mobile Games                            | amzn1.iab-content.683    |
+| Video Games           | Console Games                           | amzn1.iab-content.681    |
+| Video Games           | eSports                                 | amzn1.iab-content.682    |
 """,
     )
 
 
 class CreateTargetingClause(StrictModel):
-    state: str | None = Field(default=None)
+    state: Annotated[BaseTargetingClauseState | str, lenient_enum(BaseTargetingClauseState)] | None = Field(
+        default=None
+    )
     bid: float | None = Field(
         default=None,
         ge=0.02,
         description="The bid will override the adGroup bid if specified. This field is not used for negative targeting clauses. The bid must be less than the maximum allowable bid for the campaign's marketplace; for a list of maximum allowable bids, find the [\"Bid constraints by marketplace\" table in our documentation overview](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace). You cannot manually set a bid when the targeting clause's adGroup has an enabled optimization rule.",
     )
     adGroupId: AdGroupId
-    expressionType: str = Field(description="Tactic T00020 ad groups only allow manual targeting.")
+    expressionType: Annotated[
+        CreateTargetingClauseExpressionType | str, lenient_enum(CreateTargetingClauseExpressionType)
+    ] = Field(description="Tactic T00020 ad groups only allow manual targeting.")
     expression: CreateTargetingExpression = Field(description="The targeting expression to match against.")
 
 
@@ -72,7 +210,9 @@ class CreateTargetingExpression(StrictModel):
 
 
 class TargetingClause(LenientModel):
-    state: str | None = Field(default=None)
+    state: Annotated[BaseTargetingClauseState | str, lenient_enum(BaseTargetingClauseState)] | None = Field(
+        default=None
+    )
     bid: float | None = Field(
         default=None,
         ge=0.02,
@@ -81,9 +221,9 @@ class TargetingClause(LenientModel):
     targetId: TargetId | None = Field(default=None)
     adGroupId: AdGroupId | None = Field(default=None)
     campaignId: CampaignId | None = Field(default=None)
-    expressionType: str | None = Field(
-        default=None, description="Tactic T00020 & T00030 ad groups should use 'manual' targeting."
-    )
+    expressionType: (
+        Annotated[TargetingClauseExpressionType | str, lenient_enum(TargetingClauseExpressionType)] | None
+    ) = Field(default=None, description="Tactic T00020 & T00030 ad groups should use 'manual' targeting.")
     expression: TargetingExpression | None = Field(
         default=None, description="The targeting expression to match against."
     )
@@ -96,15 +236,19 @@ class TargetingClauseEx(LenientModel):
     targetId: float | None = Field(default=None)
     adGroupId: float | None = Field(default=None)
     campaignId: float | None = Field(default=None)
-    state: str | None = Field(default=None)
-    expressionType: str | None = Field(default=None)
+    state: Annotated[TargetingClauseExState | str, lenient_enum(TargetingClauseExState)] | None = Field(default=None)
+    expressionType: (
+        Annotated[TargetingClauseExExpressionType | str, lenient_enum(TargetingClauseExExpressionType)] | None
+    ) = Field(default=None)
     bid: float | None = Field(
         default=None,
         description="If a value for `bid` is specified, it overrides the current adGroup bid. When using vcpm costType. $1 is the minimum bid for vCPM. Note that this field is ignored for negative targeting clauses.",
     )
     expression: TargetingExpression | None = Field(default=None)
     resolvedExpression: TargetingExpression | None = Field(default=None)
-    servingStatus: str | None = Field(default=None, description="The status of the target.")
+    servingStatus: (
+        Annotated[TargetingClauseExServingStatus | str, lenient_enum(TargetingClauseExServingStatus)] | None
+    ) = Field(default=None, description="The status of the target.")
     creationDate: int | None = Field(default=None, description="Epoch date the target was created.")
     lastUpdatedDate: int | None = Field(
         default=None, description="Epoch date of the last update to any property associated with the target."
@@ -141,14 +285,20 @@ class TargetingPredicateBaseOut(LenientModel):
     * A 'relatedProduct' TargetingPredicateBase will Target an audience that has purchased a related product in the past 7,14,30,60,90,180, or 365 days.
     * The 'audiencesLikelyInterestedInAd' type is only supported when using landingPageType of OFF_AMAZON_LINK."""
 
-    type: str | None = Field(default=None)
+    type: Annotated[TargetingPredicateBaseType | str, lenient_enum(TargetingPredicateBaseType)] | None = Field(
+        default=None
+    )
     value: str | None = Field(default=None, description="The value to be targeted.")
 
 
 class TargetingPredicateLegacy(LenientModel):
-    type: str | None = Field(default=None)
+    type: Annotated[TargetingPredicateLegacyType | str, lenient_enum(TargetingPredicateLegacyType)] | None = Field(
+        default=None
+    )
     value: str | None = Field(default=None, description="The value to be targeted.")
-    eventType: str | None = Field(
+    eventType: (
+        Annotated[TargetingPredicateLegacyEventType | str, lenient_enum(TargetingPredicateLegacyEventType)] | None
+    ) = Field(
         default=None,
         description="""
 The type of event that the value applies to. Only available for similarProduct and exactProduct currently.
@@ -165,7 +315,9 @@ class TargetingPredicateNestedOut(LenientModel):
     * For Amazon Audiences targeting, the TargetingPredicateNested type should be set to 'audience' and the value array should include one TargetingPredicateBase component with type set to 'audienceSameAs'.
     """
 
-    type: str | None = Field(default=None)
+    type: Annotated[TargetingPredicateNestedType | str, lenient_enum(TargetingPredicateNestedType)] | None = Field(
+        default=None
+    )
     value: list[TargetingPredicateBaseOut] | None = Field(default=None)
 
 
@@ -178,12 +330,14 @@ class TargetingPredicateOut(LenientModel):
     * When using either of the 'between' strings to construct a targeting expression the format of the string is 'double-double' where the first double must be smaller than the second double. Prices are not inclusive.
     """
 
-    type: str | None = Field(default=None)
+    type: Annotated[TargetingPredicateType | str, lenient_enum(TargetingPredicateType)] | None = Field(default=None)
     value: str | None = Field(default=None, description="The value to be targeted.")
 
 
 class UpdateTargetingClause(StrictModel):
-    state: str | None = Field(default=None)
+    state: Annotated[BaseTargetingClauseState | str, lenient_enum(BaseTargetingClauseState)] | None = Field(
+        default=None
+    )
     bid: float | None = Field(
         default=None,
         ge=0.02,
@@ -196,22 +350,34 @@ __all__ = [
     "AdGroupId",
     "BaseTargetingClause",
     "BaseTargetingClauseOut",
+    "BaseTargetingClauseState",
     "CampaignId",
     "ContentTargetingPredicate",
     "ContentTargetingPredicateOut",
+    "ContentTargetingPredicateType",
     "CreateTargetingClause",
+    "CreateTargetingClauseExpressionType",
     "CreateTargetingExpression",
     "TargetId",
     "TargetResponse",
     "TargetingClause",
     "TargetingClauseEx",
+    "TargetingClauseExExpressionType",
+    "TargetingClauseExServingStatus",
+    "TargetingClauseExState",
+    "TargetingClauseExpressionType",
     "TargetingExpression",
     "TargetingPredicate",
     "TargetingPredicateBase",
     "TargetingPredicateBaseOut",
+    "TargetingPredicateBaseType",
     "TargetingPredicateLegacy",
+    "TargetingPredicateLegacyEventType",
+    "TargetingPredicateLegacyType",
     "TargetingPredicateNested",
     "TargetingPredicateNestedOut",
+    "TargetingPredicateNestedType",
     "TargetingPredicateOut",
+    "TargetingPredicateType",
     "UpdateTargetingClause",
 ]

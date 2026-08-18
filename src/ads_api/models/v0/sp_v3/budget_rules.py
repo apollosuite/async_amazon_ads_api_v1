@@ -98,7 +98,7 @@ class AssociatedCampaign(LenientModel):
 
 
 class BudgetIncreaseBy(StrictModel):
-    type: Annotated[BudgetChangeType, lenient_enum(BudgetChangeType)]
+    type: Annotated[BudgetChangeType | str, lenient_enum(BudgetChangeType)]
     value: float = Field(description="The budget value.")
 
 
@@ -234,8 +234,8 @@ class GetSPBudgetRulesForAdvertiserResponse(LenientModel):
 
 
 class PerformanceMeasureCondition(StrictModel):
-    comparisonOperator: Annotated[ComparisonOperator, lenient_enum(ComparisonOperator)]
-    metricName: Annotated[PerformanceMetric, lenient_enum(PerformanceMetric)]
+    comparisonOperator: Annotated[ComparisonOperator | str, lenient_enum(ComparisonOperator)]
+    metricName: Annotated[PerformanceMetric | str, lenient_enum(PerformanceMetric)]
     threshold: float = Field(description="The performance threshold value.")
 
 
@@ -246,7 +246,7 @@ class PerformanceMeasureConditionOut(LenientModel):
 
 
 class Recurrence(StrictModel):
-    daysOfWeek: list[Annotated[DayOfWeek, lenient_enum(DayOfWeek)]] | None = Field(
+    daysOfWeek: list[Annotated[DayOfWeek | str, lenient_enum(DayOfWeek)]] | None = Field(
         default=None,
         description="Object representing days of the week for weekly type rule. It is not required for daily recurrence type",
     )
@@ -255,7 +255,7 @@ class Recurrence(StrictModel):
         max_length=1,
         description="List of objects representing start and end time of desired intra-day budget rule window",
     )
-    type: Annotated[RecurrenceType, lenient_enum(RecurrenceType)] | None = Field(default=None)
+    type: Annotated[RecurrenceType | str, lenient_enum(RecurrenceType)] | None = Field(default=None)
 
 
 class RecurrenceOut(LenientModel):
@@ -286,7 +286,7 @@ class SPBudgetRule(StrictModel):
     lastUpdatedDate: float | None = Field(default=None, description="Epoch time of budget rule update. Read-only.")
     ruleDetails: SPBudgetRuleDetails | None = Field(default=None)
     ruleId: str = Field(description="The budget rule identifier.")
-    ruleState: Annotated[State, lenient_enum(State)] | None = Field(default=None)
+    ruleState: Annotated[State | str, lenient_enum(State)] | None = Field(default=None)
     ruleStatus: str | None = Field(default=None, description="The budget rule status. Read-only.")
 
 
@@ -300,7 +300,7 @@ class SPBudgetRuleDetails(StrictModel):
     )
     performanceMeasureCondition: PerformanceMeasureCondition | None = Field(default=None)
     recurrence: Recurrence | None = Field(default=None)
-    ruleType: Annotated[SPRuleType, lenient_enum(SPRuleType)] | None = Field(default=None)
+    ruleType: Annotated[SPRuleType | str, lenient_enum(SPRuleType)] | None = Field(default=None)
 
 
 class SPBudgetRuleDetailsOut(LenientModel):

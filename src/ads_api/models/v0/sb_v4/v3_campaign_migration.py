@@ -10,7 +10,18 @@ from ads_api.models._core.base import LenientModel, StrictModel
 class CampaignMigrationFinalStatus(LenientModel):
     legacyCampaignId: str | None = Field(default=None, description="Entity object identifier.")
     newCampaignId: str | None = Field(default=None)
-    migrationStatus: str | None = Field(default=None, description="Enumerated status code for migration job status")
+    migrationStatus: str | None = Field(
+        default=None,
+        description="""
+Enumerated status code for migration job status
+| Status                                             |  Description |
+|----------------------------------------------------------|--------------|
+| MIGRATION_COMPLETE  | Migration is complete and new V4 campaigns are ready to serve. The V3 campaigns are archived |
+| STAGING_COMPLETE    | Staging of V4 campaign IDs are complete |
+| MIGRATION_FAILED         | Migration of V3 campaign failed  |
+| MIGRATION_IN_PROGRESS   | Migration for V3 campaign is in-progress |
+""",
+    )
     migrationStatusReason: str | None = Field(default=None, description="Status reason for the given migration status")
 
 
@@ -23,7 +34,17 @@ class MigrationJobResultsRequestContent(StrictModel):
 
 class MigrationJobResultsResponseContent(LenientModel):
     jobId: str | None = Field(default=None)
-    migrationJobStatus: str | None = Field(default=None, description="Enumerated status code for migration job status")
+    migrationJobStatus: str | None = Field(
+        default=None,
+        description="""
+Enumerated status code for migration job status
+| Status                                             |  Description |
+|----------------------------------------------------------|--------------|
+| COMPLETE  | Migration job is complete |
+| FAILED    | Migration failed and no V3 campaigns were migrated |
+| IN_PROGRESS    | Migration job is running |
+""",
+    )
     campaigns: list[CampaignMigrationFinalStatus] | None = Field(default=None)
     nextToken: str | None = Field(
         default=None, description="Token value allowing to navigate to the next response page."
@@ -36,7 +57,17 @@ class MigrationJobStatusRequestContent(StrictModel):
 
 class MigrationJobStatusResponseContent(LenientModel):
     jobId: str | None = Field(default=None)
-    migrationJobStatus: str | None = Field(default=None, description="Enumerated status code for migration job status")
+    migrationJobStatus: str | None = Field(
+        default=None,
+        description="""
+Enumerated status code for migration job status
+| Status                                             |  Description |
+|----------------------------------------------------------|--------------|
+| COMPLETE  | Migration job is complete |
+| FAILED    | Migration failed and no V3 campaigns were migrated |
+| IN_PROGRESS    | Migration job is running |
+""",
+    )
     migrationJobStatusReason: str | None = Field(default=None, description="Status reason for the migration job status")
 
 
@@ -69,6 +100,9 @@ By default it will always be false
         description="""
 This is optional parameter. By default, the new migrated campaigns will have the original status of V3 campaigns. If this parameter is set, then all newly migrated campaigns will have this state.
  Supported campaign states
+| State                                              |  Description |
+|----------------------------------------------------------|--------------|
+| ENABLED                               | Campaign entity has ENABLED state |
 """,
     )
     enableThemeTargeting: bool = Field(

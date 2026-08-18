@@ -111,11 +111,15 @@ class SPAdExtensionAdExtensionIdFilter(StrictModel):
 
 
 class SPAdExtensionAdExtensionStatusFilter(StrictModel):
-    include: list[Annotated[SPAdExtensionStatus, lenient_enum(SPAdExtensionStatus)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SPAdExtensionStatus | str, lenient_enum(SPAdExtensionStatus)]] = Field(
+        min_length=1, max_length=1
+    )
 
 
 class SPAdExtensionAdExtensionTypeFilter(StrictModel):
-    include: list[Annotated[SPAdExtensionType, lenient_enum(SPAdExtensionType)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SPAdExtensionType | str, lenient_enum(SPAdExtensionType)]] = Field(
+        min_length=1, max_length=1
+    )
 
 
 class SPAdExtensionAdGroupIdFilter(StrictModel):
@@ -127,27 +131,29 @@ class SPAdExtensionAdIdFilter(StrictModel):
 
 
 class SPAdExtensionAdProductFilter(StrictModel):
-    include: list[Annotated[SPAdProduct, lenient_enum(SPAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]] = Field(min_length=1, max_length=1)
 
 
 class SPAdExtensionCreate(StrictModel):
     adExtensionSettings: SPCreateAdExtensionSettings
-    adExtensionStatus: Annotated[SPAdExtensionStatus, lenient_enum(SPAdExtensionStatus)] | None = Field(default=None)
-    adExtensionType: Annotated[SPAdExtensionType, lenient_enum(SPAdExtensionType)]
+    adExtensionStatus: Annotated[SPAdExtensionStatus | str, lenient_enum(SPAdExtensionStatus)] | None = Field(
+        default=None
+    )
+    adExtensionType: Annotated[SPAdExtensionType | str, lenient_enum(SPAdExtensionType)]
     adGroupId: str | None = Field(
         default=None, description="A unique identifier for the ad group associated with the ad_extension."
     )
     adId: str | None = Field(
         default=None, description="A unique identifier for the ad associated with the ad_extension."
     )
-    adProduct: Annotated[SPAdProduct, lenient_enum(SPAdProduct)]
-    marketplaceScope: Annotated[SPMarketplaceScope, lenient_enum(SPMarketplaceScope)]
-    marketplaces: list[Annotated[SPMarketplace, lenient_enum(SPMarketplace)]] = Field(
+    adProduct: Annotated[SPAdProduct | str, lenient_enum(SPAdProduct)]
+    marketplaceScope: Annotated[SPMarketplaceScope | str, lenient_enum(SPMarketplaceScope)]
+    marketplaces: list[Annotated[SPMarketplace | str, lenient_enum(SPMarketplace)]] = Field(
         min_length=1,
         max_length=1,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
     )
-    state: Annotated[SPCreateState, lenient_enum(SPCreateState)]
+    state: Annotated[SPCreateState | str, lenient_enum(SPCreateState)]
 
 
 class SPAdExtensionMultiStatusResponse(LenientModel):
@@ -172,7 +178,7 @@ type SPAdExtensionSettings = SPAdExtensionSettingsPromptExtension | SPAdExtensio
 
 
 class SPAdExtensionStateFilter(StrictModel):
-    include: list[Annotated[SPState, lenient_enum(SPState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SPState | str, lenient_enum(SPState)]] = Field(min_length=1, max_length=3)
 
 
 class SPAdExtensionSuccessResponse(LenientModel):
@@ -182,7 +188,7 @@ class SPAdExtensionSuccessResponse(LenientModel):
 
 class SPAdExtensionUpdate(StrictModel):
     adExtensionId: str = Field(description="A unique identifier for the ad_extension.")
-    state: Annotated[SPUpdateState, lenient_enum(SPUpdateState)] | None = Field(default=None)
+    state: Annotated[SPUpdateState | str, lenient_enum(SPUpdateState)] | None = Field(default=None)
 
 
 class SPCreateAdExtensionRequest(StrictModel):

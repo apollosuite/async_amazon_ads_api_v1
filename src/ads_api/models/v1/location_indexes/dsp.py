@@ -161,7 +161,7 @@ class DSPLocationIndex(LenientModel):
 
 
 class DSPLocationIndexCreate(StrictModel):
-    countryCode: Annotated[DSPCountryCode, lenient_enum(DSPCountryCode)] | None = Field(default=None)
+    countryCode: Annotated[DSPCountryCode | str, lenient_enum(DSPCountryCode)] | None = Field(default=None)
     indexData: DSPCreateIndexValues
     indexName: str = Field(description="The name of the location index.")
 

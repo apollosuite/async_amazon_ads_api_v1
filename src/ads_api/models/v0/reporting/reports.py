@@ -24,6 +24,39 @@ class AsyncReportAdProduct(StrEnum):
     SPONSORED_TELEVISION = "SPONSORED_TELEVISION"
 
 
+class AsyncReportConfigurationFormat(StrEnum):
+    """
+    The report file format.
+    """
+
+    GZIP_JSON = "GZIP_JSON"
+
+
+class AsyncReportConfigurationTimeUnit(StrEnum):
+    """
+    The aggregation level of report data. If the timeUnit is set to `SUMMARY`, the report data is aggregated at the time period specified. The availability
+    of time unit breakdowns depends on the selection of reportTypeId.
+    """
+
+    DAILY = "DAILY"
+    SUMMARY = "SUMMARY"
+
+
+class AsyncReportStatus(StrEnum):
+    """
+    The build status of the report.
+      - `PENDING` - Report is created and awaiting processing.
+      - `PROCESSING` - Report is processing. Please wait.
+      - `COMPLETED` - Report has completed.  Check the `url` for the output file.
+      - `FAILED` - Report generation failed.  Check the `failureReason` for details.
+    """
+
+    COMPLETED = "COMPLETED"
+    FAILED = "FAILED"
+    PENDING = "PENDING"
+    PROCESSING = "PROCESSING"
+
+
 class AsyncReport(LenientModel):
     configuration: AsyncReportConfigurationOut
     createdAt: str = Field(description="The date at which the report was created in ISO 8601 date time format.")
@@ -38,7 +71,7 @@ class AsyncReport(LenientModel):
     name: str | None = Field(default=None, description="Optional. The name of the generated report.")
     reportId: str = Field(description="The identifier of the requested report.")
     startDate: str = Field(description="The start date for the reporting period in YYYY-mm-dd format.")
-    status: str = Field(description="""
+    status: Annotated[AsyncReportStatus | str, lenient_enum(AsyncReportStatus)] = Field(description="""
 The build status of the report.
   - `PENDING` - Report is created and awaiting processing.
   - `PROCESSING` - Report is processing. Please wait.
@@ -54,7 +87,7 @@ The build status of the report.
 
 
 class AsyncReportConfiguration(StrictModel):
-    adProduct: Annotated[AsyncReportAdProduct, lenient_enum(AsyncReportAdProduct)]
+    adProduct: Annotated[AsyncReportAdProduct | str, lenient_enum(AsyncReportAdProduct)]
     columns: list[str] = Field(description="""
 The list of columns to be used for report. The availability of
 columns depends on the selection of reportTypeId. This list cannot be null or empty.
@@ -63,16 +96,20 @@ columns depends on the selection of reportTypeId. This list cannot be null or em
         default=None,
         description="The list of filters supported by a report type. The availability of filters fields depends on the selection of reportTypeId.",
     )
-    format: str = Field(description="The report file format.")
+    format: Annotated[AsyncReportConfigurationFormat | str, lenient_enum(AsyncReportConfigurationFormat)] = Field(
+        description="The report file format."
+    )
     groupBy: list[str] = Field(description="""
 This field determines the aggregation level of the report data and also makes additional fields available
 for selection. This field cannot be null or empty.
 """)
     reportTypeId: str = Field(description="The identifier of the Report Type to be generated.")
-    timeUnit: str = Field(description="""
+    timeUnit: Annotated[AsyncReportConfigurationTimeUnit | str, lenient_enum(AsyncReportConfigurationTimeUnit)] = Field(
+        description="""
 The aggregation level of report data. If the timeUnit is set to `SUMMARY`, the report data is aggregated at the time period specified. The availability
 of time unit breakdowns depends on the selection of reportTypeId.
-""")
+"""
+    )
 
 
 class AsyncReportConfigurationOut(LenientModel):
@@ -85,16 +122,20 @@ columns depends on the selection of reportTypeId. This list cannot be null or em
         default=None,
         description="The list of filters supported by a report type. The availability of filters fields depends on the selection of reportTypeId.",
     )
-    format: str = Field(description="The report file format.")
+    format: Annotated[AsyncReportConfigurationFormat | str, lenient_enum(AsyncReportConfigurationFormat)] = Field(
+        description="The report file format."
+    )
     groupBy: list[str] = Field(description="""
 This field determines the aggregation level of the report data and also makes additional fields available
 for selection. This field cannot be null or empty.
 """)
     reportTypeId: str = Field(description="The identifier of the Report Type to be generated.")
-    timeUnit: str = Field(description="""
+    timeUnit: Annotated[AsyncReportConfigurationTimeUnit | str, lenient_enum(AsyncReportConfigurationTimeUnit)] = Field(
+        description="""
 The aggregation level of report data. If the timeUnit is set to `SUMMARY`, the report data is aggregated at the time period specified. The availability
 of time unit breakdowns depends on the selection of reportTypeId.
-""")
+"""
+    )
 
 
 class AsyncReportFilter(StrictModel):
@@ -128,9 +169,12 @@ __all__ = [
     "AsyncReport",
     "AsyncReportAdProduct",
     "AsyncReportConfiguration",
+    "AsyncReportConfigurationFormat",
     "AsyncReportConfigurationOut",
+    "AsyncReportConfigurationTimeUnit",
     "AsyncReportFilter",
     "AsyncReportFilterOut",
+    "AsyncReportStatus",
     "CreateAsyncReportRequest",
     "DeleteAsyncReportResponse",
 ]

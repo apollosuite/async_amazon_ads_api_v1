@@ -93,7 +93,9 @@ class SPGlobalAdGroup(LenientModel):
 
 
 class SPGlobalAdGroupAdProductFilter(StrictModel):
-    include: list[Annotated[SPGlobalAdProduct, lenient_enum(SPGlobalAdProduct)]] = Field(min_length=1, max_length=1)
+    include: list[Annotated[SPGlobalAdProduct | str, lenient_enum(SPGlobalAdProduct)]] = Field(
+        min_length=1, max_length=1
+    )
 
 
 class SPGlobalAdGroupBid(LenientModel):
@@ -119,7 +121,7 @@ class SPGlobalAdGroupCampaignIdFilter(StrictModel):
 
 
 class SPGlobalAdGroupCreate(StrictModel):
-    adProduct: Annotated[SPGlobalAdProduct, lenient_enum(SPGlobalAdProduct)]
+    adProduct: Annotated[SPGlobalAdProduct | str, lenient_enum(SPGlobalAdProduct)]
     adSettings: SPGlobalCreateAdSettings | None = Field(default=None)
     bid: SPGlobalCreateAdGroupBid
     campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
@@ -129,14 +131,14 @@ class SPGlobalAdGroupCreate(StrictModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global ad group that enables overriding certain attributes at individual marketplace level. For example, if a global ad group state is ENABLED and needs to be PAUSED only in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, ad group's global value is applied to that marketplace.",
     )
-    marketplaceScope: Annotated[SPGlobalMarketplaceScope, lenient_enum(SPGlobalMarketplaceScope)]
-    marketplaces: list[Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]] = Field(
+    marketplaceScope: Annotated[SPGlobalMarketplaceScope | str, lenient_enum(SPGlobalMarketplaceScope)]
+    marketplaces: list[Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]] = Field(
         min_length=1,
         max_length=30,
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
     )
     name: str = Field(description="The name of the ad group.")
-    state: Annotated[SPGlobalCreateState, lenient_enum(SPGlobalCreateState)]
+    state: Annotated[SPGlobalCreateState | str, lenient_enum(SPGlobalCreateState)]
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -146,7 +148,7 @@ class SPGlobalAdGroupCreate(StrictModel):
 
 
 class SPGlobalAdGroupMarketplaceScopeFilter(StrictModel):
-    include: list[Annotated[SPGlobalMarketplaceScope, lenient_enum(SPGlobalMarketplaceScope)]] = Field(
+    include: list[Annotated[SPGlobalMarketplaceScope | str, lenient_enum(SPGlobalMarketplaceScope)]] = Field(
         min_length=1, max_length=1
     )
 
@@ -164,7 +166,7 @@ class SPGlobalAdGroupMultiStatusSuccess(LenientModel):
 
 class SPGlobalAdGroupNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: Annotated[SPGlobalAdGroupNameFilterType, lenient_enum(SPGlobalAdGroupNameFilterType)]
+    queryTermMatchType: Annotated[SPGlobalAdGroupNameFilterType | str, lenient_enum(SPGlobalAdGroupNameFilterType)]
 
 
 class SPGlobalAdGroupPartialIndex(LenientModel):
@@ -174,7 +176,7 @@ class SPGlobalAdGroupPartialIndex(LenientModel):
 
 
 class SPGlobalAdGroupStateFilter(StrictModel):
-    include: list[Annotated[SPGlobalState, lenient_enum(SPGlobalState)]] = Field(min_length=1, max_length=3)
+    include: list[Annotated[SPGlobalState | str, lenient_enum(SPGlobalState)]] = Field(min_length=1, max_length=3)
 
 
 class SPGlobalAdGroupSuccessResponse(LenientModel):
@@ -192,14 +194,14 @@ class SPGlobalAdGroupUpdate(StrictModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global ad group that enables overriding certain attributes at individual marketplace level. For example, if a global ad group state is ENABLED and needs to be PAUSED only in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, ad group's global value is applied to that marketplace.",
     )
-    marketplaces: list[Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]] | None = Field(
+    marketplaces: list[Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]] | None = Field(
         default=None,
         min_length=1,
         max_length=30,
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
     )
     name: str | None = Field(default=None, description="The name of the ad group.")
-    state: Annotated[SPGlobalUpdateState, lenient_enum(SPGlobalUpdateState)] | None = Field(default=None)
+    state: Annotated[SPGlobalUpdateState | str, lenient_enum(SPGlobalUpdateState)] | None = Field(default=None)
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -226,12 +228,12 @@ class SPGlobalCreateAdGroupBid(StrictModel):
 
 
 class SPGlobalCreateAdGroupBidMarketplaceSetting(StrictModel):
-    currencyCode: Annotated[SPGlobalCurrencyCode, lenient_enum(SPGlobalCurrencyCode)]
+    currencyCode: Annotated[SPGlobalCurrencyCode | str, lenient_enum(SPGlobalCurrencyCode)]
     defaultBid: float | None = Field(
         default=None,
         description="The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.",
     )
-    marketplace: Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]
+    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
 
 
 class SPGlobalCreateAdGroupRequest(StrictModel):
@@ -247,13 +249,13 @@ class SPGlobalCreateAdSettings(StrictModel):
 
 
 class SPGlobalCreateMarketplaceAdGroupConfigurations(StrictModel):
-    marketplace: Annotated[SPGlobalMarketplace, lenient_enum(SPGlobalMarketplace)]
+    marketplace: Annotated[SPGlobalMarketplace | str, lenient_enum(SPGlobalMarketplace)]
     overrides: SPGlobalCreateMarketplaceAdGroupFieldOverrides
 
 
 class SPGlobalCreateMarketplaceAdGroupFieldOverrides(StrictModel):
     name: str | None = Field(default=None, description="The name of the ad group for this marketplace")
-    state: Annotated[SPGlobalState, lenient_enum(SPGlobalState)] | None = Field(default=None)
+    state: Annotated[SPGlobalState | str, lenient_enum(SPGlobalState)] | None = Field(default=None)
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None, min_length=0, max_length=50, description="Marketplace specific tags for the ad group"
     )

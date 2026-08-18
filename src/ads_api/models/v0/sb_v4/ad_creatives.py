@@ -323,7 +323,7 @@ If Amazon is unable to translate them, the ad will be rejected by moderation. We
 """,
     )
     creativePropertiesToOptimize: (
-        list[Annotated[CreativePropertyToOptimize, lenient_enum(CreativePropertyToOptimize)]] | None
+        list[Annotated[CreativePropertyToOptimize | str, lenient_enum(CreativePropertyToOptimize)]] | None
     ) = Field(
         default=None,
         min_length=0,
@@ -341,7 +341,7 @@ See [the policy](https://advertising.amazon.com/resources/ad-policy/sponsored-ad
 
 
 class ListCreativesRequestContent(StrictModel):
-    creativeTypeFilter: list[Annotated[CreativeType, lenient_enum(CreativeType)]] | None = Field(
+    creativeTypeFilter: list[Annotated[CreativeType | str, lenient_enum(CreativeType)]] | None = Field(
         default=None,
         description="""
 Filters creatives by optional creative type.
@@ -368,7 +368,7 @@ Filters creatives by optional creative version.
 This means you can either list all creative versions without specific creative version filter, all just retrieve a single creative version by providing a specific version identifier.
 """,
     )
-    creativeStatusFilter: list[Annotated[CreativeStatus, lenient_enum(CreativeStatus)]] | None = Field(
+    creativeStatusFilter: list[Annotated[CreativeStatus | str, lenient_enum(CreativeStatus)]] | None = Field(
         default=None,
         description="""
 Filters creatives by optional creative status.
@@ -453,7 +453,7 @@ If Amazon is unable to translate them, the ad will be rejected by moderation. We
 """,
     )
     creativePropertiesToOptimize: (
-        list[Annotated[CreativePropertyToOptimize, lenient_enum(CreativePropertyToOptimize)]] | None
+        list[Annotated[CreativePropertyToOptimize | str, lenient_enum(CreativePropertyToOptimize)]] | None
     ) = Field(
         default=None,
         min_length=0,

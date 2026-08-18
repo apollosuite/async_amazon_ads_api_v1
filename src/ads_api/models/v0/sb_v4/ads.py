@@ -203,8 +203,8 @@ class AdSuccessResponseItem(LenientModel):
 
 
 class BrandCollectionLandingPage(StrictModel):
-    pageType: Annotated[BrandCollectionLandingPageType, lenient_enum(BrandCollectionLandingPageType)] | None = Field(
-        default=None
+    pageType: Annotated[BrandCollectionLandingPageType | str, lenient_enum(BrandCollectionLandingPageType)] | None = (
+        Field(default=None)
     )
     url: str | None = Field(
         default=None,
@@ -249,7 +249,7 @@ class CreateAutoCollectionAd(StrictModel):
     adGroupId: str = Field(description="Entity object identifier.")
     creative: CreateAutoCollectionCreative
     name: str = Field(min_length=1, max_length=255)
-    state: Annotated[CreateOrUpdateEntityState, lenient_enum(CreateOrUpdateEntityState)]
+    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
 
 
 class CreateAutoCollectionCreative(StrictModel):
@@ -262,7 +262,7 @@ class CreateAutoCollectionCreative(StrictModel):
 class CreateBrandVideoAd(StrictModel):
     landingPage: LandingPage
     name: str = Field(min_length=1, max_length=255, description="The name of the ad.")
-    state: Annotated[CreateOrUpdateEntityState, lenient_enum(CreateOrUpdateEntityState)]
+    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
     adGroupId: str = Field(description="The adGroup identifier.")
     creative: CreateBrandVideoCreative
 
@@ -288,7 +288,7 @@ class CreateBrandVideoCreative(StrictModel):
 class CreateExtendedProductCollectionAd(StrictModel):
     landingPage: LandingPage
     name: str = Field(min_length=1, max_length=255, description="The name of the ad.")
-    state: Annotated[CreateOrUpdateEntityState, lenient_enum(CreateOrUpdateEntityState)]
+    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
     adGroupId: str = Field(description="The adGroup identifier.")
     creative: CreateExtendedProductCollectionCreative
 
@@ -308,7 +308,7 @@ class CreateExtendedProductCollectionCreative(StrictModel):
         description="If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation. We only support translating headlines and videos from English to German, French, Italian, Spanish, Japanese, and Dutch. See developer notes for more information.",
     )
     creativePropertiesToOptimize: (
-        list[Annotated[CreativePropertyToOptimize, lenient_enum(CreativePropertyToOptimize)]] | None
+        list[Annotated[CreativePropertyToOptimize | str, lenient_enum(CreativePropertyToOptimize)]] | None
     ) = Field(
         default=None,
         min_length=0,
@@ -323,7 +323,7 @@ class CreateManualCollectionAd(StrictModel):
     adGroupId: str = Field(description="Entity object identifier.")
     creative: CreateManualCollectionCreative
     name: str = Field(min_length=1, max_length=255)
-    state: Annotated[CreateOrUpdateEntityState, lenient_enum(CreateOrUpdateEntityState)]
+    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
 
 
 class CreateManualCollectionCreative(StrictModel):
@@ -342,7 +342,7 @@ class CreateManualCollectionCreative(StrictModel):
 class CreateProductCollectionAd(StrictModel):
     landingPage: LandingPage
     name: str = Field(min_length=1, max_length=255, description="The name of the ad.")
-    state: Annotated[CreateOrUpdateEntityState, lenient_enum(CreateOrUpdateEntityState)]
+    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
     adGroupId: str = Field(description="The adGroup identifier.")
     creative: CreateProductCollectionCreative
 
@@ -425,7 +425,7 @@ class CreateSponsoredBrandsVideoAdsResponseContent(LenientModel):
 class CreateStoreSpotlightAd(StrictModel):
     landingPage: LandingPage
     name: str = Field(min_length=1, max_length=255, description="The name of the ad.")
-    state: Annotated[CreateOrUpdateEntityState, lenient_enum(CreateOrUpdateEntityState)]
+    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
     adGroupId: str = Field(description="The adGroup identifier.")
     creative: CreateStoreSpotlightCreative
 
@@ -439,7 +439,7 @@ class CreateStoreSpotlightCreative(StrictModel):
         description="If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation. We only support translating headlines and videos from English to German, French, Italian, Spanish, Japanese, and Dutch. See developer notes for more information.",
     )
     creativePropertiesToOptimize: (
-        list[Annotated[CreativePropertyToOptimize, lenient_enum(CreativePropertyToOptimize)]] | None
+        list[Annotated[CreativePropertyToOptimize | str, lenient_enum(CreativePropertyToOptimize)]] | None
     ) = Field(
         default=None,
         min_length=0,
@@ -457,7 +457,7 @@ class CreateStoreSpotlightCreative(StrictModel):
 
 class CreateVideoAd(StrictModel):
     name: str = Field(min_length=1, max_length=255, description="The name of the ad.")
-    state: Annotated[CreateOrUpdateEntityState, lenient_enum(CreateOrUpdateEntityState)]
+    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)]
     adGroupId: str = Field(description="The adGroup identifier.")
     creative: CreateVideoCreative
 
@@ -577,7 +577,7 @@ class DeleteSponsoredBrandsAdsResponseContent(LenientModel):
 
 class LandingPage(StrictModel):
     asins: list[str] | None = Field(default=None, min_length=3, max_length=100)
-    pageType: Annotated[LandingPageType, lenient_enum(LandingPageType)] | None = Field(default=None)
+    pageType: Annotated[LandingPageType | str, lenient_enum(LandingPageType)] | None = Field(default=None)
     url: str | None = Field(
         default=None,
         description="""
@@ -644,7 +644,9 @@ class MultiAdGroupAd(LenientModel):
 class UpdateAd(StrictModel):
     adId: str = Field(description="The product ad identifier.")
     name: str | None = Field(default=None, min_length=1, max_length=255, description="The name of the ad.")
-    state: Annotated[CreateOrUpdateEntityState, lenient_enum(CreateOrUpdateEntityState)] | None = Field(default=None)
+    state: Annotated[CreateOrUpdateEntityState | str, lenient_enum(CreateOrUpdateEntityState)] | None = Field(
+        default=None
+    )
 
 
 class UpdateAutoCollectionAd(StrictModel):
