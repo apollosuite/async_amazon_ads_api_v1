@@ -24,25 +24,21 @@ from ads_api.models.v1._shared.sd import (
     SDUpdateState,
 )
 
-type SDAdType = Literal["COMPONENT",]  # A creative that can features a collection of videos, images, and products.
+type SDAdType = Literal["COMPONENT"]
 """
 Supported values:
 - `COMPONENT`: A creative that can features a collection of videos, images, and products.
 """
 
 
-type SDComponentLandingPageType = Literal["OFF_AMAZON_LINK",]  # An off-Amazon landing page.
+type SDComponentLandingPageType = Literal["OFF_AMAZON_LINK"]
 """
 Supported values:
 - `OFF_AMAZON_LINK`: An off-Amazon landing page.
 """
 
 
-type SDModerationStatus = Literal[
-    "PUBLISHED",  # The creative passed moderation and is serving.
-    "REJECTED_BY_MODERATION",  # The creative was rejected during the moderation process.
-    "SUBMITTED_FOR_MODERATION",  # The creative has been submitted, but has not yet been reviewed.
-]
+type SDModerationStatus = Literal["PUBLISHED", "REJECTED_BY_MODERATION", "SUBMITTED_FOR_MODERATION"]
 """
 Supported values:
 - `PUBLISHED`: The creative passed moderation and is serving.
@@ -51,10 +47,7 @@ Supported values:
 """
 
 
-type SDResponsiveEcommerceLandingPageType = Literal[
-    "MOMENT",  # A moment landing page.
-    "STORE",  # A brand Store landing page.
-]
+type SDResponsiveEcommerceLandingPageType = Literal["MOMENT", "STORE"]
 """
 Supported values:
 - `MOMENT`: A moment landing page.
@@ -62,10 +55,7 @@ Supported values:
 """
 
 
-type SDVideoLandingPageType = Literal[
-    "MOMENT",  # A moment landing page.
-    "STORE",  # A brand Store landing page.
-]
+type SDVideoLandingPageType = Literal["MOMENT", "STORE"]
 """
 Supported values:
 - `MOMENT`: A moment landing page.
@@ -76,14 +66,8 @@ Supported values:
 class SDAd(LenientModel):
     adGroupId: str = Field(description="The ad group associated with the ad.")
     adId: str = Field(description="The identifier of the ad.")
-    adProduct: SDAdProduct | str = Field(description="""
-Supported values:
-- `SPONSORED_DISPLAY`: Sponsored Display ad product.
-""")
-    adType: SDAdType | str = Field(description="""
-Supported values:
-- `COMPONENT`: A creative that can features a collection of videos, images, and products.
-""")
+    adProduct: SDAdProduct | str
+    adType: SDAdType | str
     campaignId: str = Field(description="The campaign associated with the ad. It's a read-only field.")
     creationDateTime: datetime = Field(description="The date time that the ad was created.")
     creative: SDCreative
@@ -95,43 +79,21 @@ Supported values:
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
     name: str | None = Field(default=None, description="The name of the ad.")
-    state: SDState | str = Field(description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SDState | str
     status: SDStatus | None = Field(default=None)
 
 
 class SDAdAdProductFilter(StrictModel):
-    include: list[SDAdProduct | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `SPONSORED_DISPLAY`: Sponsored Display ad product.
-""",
-    )
+    include: list[SDAdProduct | str] = Field(min_length=1, max_length=1)
 
 
 class SDAdCreate(StrictModel):
     adGroupId: str = Field(description="The ad group associated with the ad.")
-    adProduct: SDAdProduct = Field(description="""
-Supported values:
-- `SPONSORED_DISPLAY`: Sponsored Display ad product.
-""")
-    adType: SDAdType = Field(description="""
-Supported values:
-- `COMPONENT`: A creative that can features a collection of videos, images, and products.
-""")
+    adProduct: SDAdProduct
+    adType: SDAdType
     creative: SDCreateCreative
     name: str | None = Field(default=None, description="The name of the ad.")
-    state: SDCreateState = Field(description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SDCreateState
 
 
 class SDAdMultiStatusResponse(LenientModel):
@@ -152,23 +114,12 @@ class SDAdSuccessResponse(LenientModel):
 class SDAdUpdate(StrictModel):
     adId: str = Field(description="The identifier of the ad.")
     creative: SDUpdateCreative | None = Field(default=None)
-    state: SDUpdateState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    state: SDUpdateState | None = Field(default=None)
 
 
 class SDAdvertisedProducts(LenientModel):
     productId: str = Field(description="The identifier of the advertised product.")
-    productIdType: SDProductIdType | str = Field(description="""
-Supported values:
-- `ASIN`: ASIN identifier type.
-- `SKU`: SKU identifier type.
-""")
+    productIdType: SDProductIdType | str
 
 
 class SDAssetBasedCreativeSettings(LenientModel):
@@ -211,10 +162,7 @@ class SDComponentCreative(LenientModel):
 
 
 class SDComponentLandingPage(LenientModel):
-    landingPageType: SDComponentLandingPageType | str = Field(description="""
-Supported values:
-- `OFF_AMAZON_LINK`: An off-Amazon landing page.
-""")
+    landingPageType: SDComponentLandingPageType | str
     landingPageUrl: str = Field(description="The URL of landing page where the ad directs.")
 
 
@@ -224,11 +172,7 @@ class SDCreateAdRequest(StrictModel):
 
 class SDCreateAdvertisedProducts(StrictModel):
     productId: str = Field(description="The identifier of the advertised product.")
-    productIdType: SDProductIdType = Field(description="""
-Supported values:
-- `ASIN`: ASIN identifier type.
-- `SKU`: SKU identifier type.
-""")
+    productIdType: SDProductIdType
 
 
 class SDCreateAssetBasedCreativeSettings(StrictModel):
@@ -242,10 +186,7 @@ class SDCreateComponentCreative(StrictModel):
 
 
 class SDCreateComponentLandingPage(StrictModel):
-    landingPageType: SDComponentLandingPageType = Field(description="""
-Supported values:
-- `OFF_AMAZON_LINK`: An off-Amazon landing page.
-""")
+    landingPageType: SDComponentLandingPageType
     landingPageUrl: str = Field(description="The URL of landing page where the ad directs.")
 
 
@@ -263,11 +204,7 @@ class SDCreateProductVideoSettings(StrictModel):
 
 
 class SDCreateResponsiveEcommerceLandingPage(StrictModel):
-    landingPageType: SDResponsiveEcommerceLandingPageType = Field(description="""
-Supported values:
-- `MOMENT`: A moment landing page.
-- `STORE`: A brand Store landing page.
-""")
+    landingPageType: SDResponsiveEcommerceLandingPageType
     landingPageUrl: str = Field(description="The URL of landing page where the ad directs.")
 
 
@@ -282,11 +219,7 @@ class SDCreateResponsiveEcommerceSettings(StrictModel):
 
 
 class SDCreateVideoLandingPage(StrictModel):
-    landingPageType: SDVideoLandingPageType = Field(description="""
-Supported values:
-- `MOMENT`: A moment landing page.
-- `STORE`: A brand Store landing page.
-""")
+    landingPageType: SDVideoLandingPageType
     landingPageUrl: str = Field(description="The URL of landing page where the ad directs.")
 
 
@@ -295,12 +228,7 @@ class SDCreative(LenientModel):
 
 
 class SDCreativeStatus(LenientModel):
-    moderationStatus: SDModerationStatus | str = Field(description="""
-Supported values:
-- `PUBLISHED`: The creative passed moderation and is serving.
-- `REJECTED_BY_MODERATION`: The creative was rejected during the moderation process.
-- `SUBMITTED_FOR_MODERATION`: The creative has been submitted, but has not yet been reviewed.
-""")
+    moderationStatus: SDModerationStatus | str
 
 
 class SDDeleteAdRequest(StrictModel):
@@ -366,11 +294,7 @@ class SDQueryAdRequest(StrictModel):
 
 
 class SDResponsiveEcommerceLandingPage(LenientModel):
-    landingPageType: SDResponsiveEcommerceLandingPageType | str = Field(description="""
-Supported values:
-- `MOMENT`: A moment landing page.
-- `STORE`: A brand Store landing page.
-""")
+    landingPageType: SDResponsiveEcommerceLandingPageType | str
     landingPageUrl: str = Field(description="The URL of landing page where the ad directs.")
 
 
@@ -429,11 +353,7 @@ class SDVideo(LenientModel):
 
 
 class SDVideoLandingPage(LenientModel):
-    landingPageType: SDVideoLandingPageType | str = Field(description="""
-Supported values:
-- `MOMENT`: A moment landing page.
-- `STORE`: A brand Store landing page.
-""")
+    landingPageType: SDVideoLandingPageType | str
     landingPageUrl: str = Field(description="The URL of landing page where the ad directs.")
 
 

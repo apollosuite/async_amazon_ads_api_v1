@@ -287,9 +287,6 @@ def discover_emissions(
         extra: ExtraMode = "forbid" if key.role == SchemaRole.INPUT else "allow"
         emitted.append(EmittedModel(key=key, python_name=python_name, schema=schema, extra=extra))
 
-    from codegen.transform import promote_inline_enums  # 避免与 transform → schema 循环导入
-
-    emitted = promote_inline_enums(emitted)
     _assert_unique_python_names(emitted)
     return emitted, NameMap(emitted)
 

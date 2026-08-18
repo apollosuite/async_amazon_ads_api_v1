@@ -9,64 +9,14 @@ from pydantic import Field
 from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models.v0._shared import (
     BaseCampaign,
-    BaseCampaignBudgetType,
-    BaseCampaignCostType,
-    BaseCampaignState,
-    CampaignDeliveryProfile,
     CampaignId,
     Tactic,
 )
 
-type CampaignResponseExBudgetType = Literal["daily"]
-"""
-The time period over which the amount specified in the `budget` property is allocated.
-"""
-
-
-type CampaignResponseExCostType = Literal["cpc", "vcpm"]
-"""
-Determines how the campaign will bid and charge.
-|Name|Description|
-|----|----------|-----------|
-|cpc |[Default] The performance of this campaign is measured by the clicks triggered by the ad.|
-|vcpm|The performance of this campaign is measured by the viewed impressions triggered by the ad. $1 is the minimum bid for vCPM.|
-"""
-
-
-type CampaignResponseExServingStatus = Literal[
-    "ADVERTISER_STATUS_ENABLED",
-    "STATUS_UNAVAILABLE",
-    "ADVERTISER_PAUSED",
-    "ACCOUNT_OUT_OF_BUDGET",
-    "ADVERTISER_PAYMENT_FAILURE",
-    "CAMPAIGN_PAUSED",
-    "CAMPAIGN_ARCHIVED",
-    "PENDING_START_DATE",
-    "ENDED",
-    "CAMPAIGN_OUT_OF_BUDGET",
-    "ADVERTISER_EXCEED_SPENDS_LIMIT",
-    "AD_POLICING_PENDING_REVIEW",
-    "CAMPAIGN_INCOMPLETE",
-    "INELIGIBLE",
-    "PORTFOLIO_ENDED",
-    "PORTFOLIO_OUT_OF_BUDGET",
-    "ADVERTISER_ARCHIVED",
-    "ADVERTISER_ACCOUNT_OUT_OF_BUDGET",
-]
-"""
-The status of the campaign.
-"""
-
-
-type CampaignResponseExState = Literal["enabled", "paused", "archived"]
-"""
-The state of the campaign.
-"""
-
 
 class BaseCampaignOut(LenientModel):
     name: str | None = Field(default=None, description="The name of the campaign.")
-    budgetType: BaseCampaignBudgetType | str | None = Field(
+    budgetType: Literal["daily"] | str | None = Field(
         default=None,
         description="The time period over which the amount specified in the `budget` property is allocated.",
     )
@@ -75,7 +25,7 @@ class BaseCampaignOut(LenientModel):
         default=None, description="The YYYYMMDD start date of the campaign. The date must be today or in the future."
     )
     endDate: str | None = Field(default=None, description="The YYYYMMDD end date of the campaign.")
-    costType: BaseCampaignCostType | str | None = Field(
+    costType: Literal["cpc", "vcpm"] | str | None = Field(
         default=None,
         description="""
 Determines how the campaign will bid and charge.
@@ -87,7 +37,9 @@ Determines how the campaign will bid and charge.
 To view minimum and maximum bids based on the costType, see [Limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).
 """,
     )
-    state: BaseCampaignState | str | None = Field(default=None, description="The state of the campaign.")
+    state: Literal["enabled", "paused", "archived"] | str | None = Field(
+        default=None, description="The state of the campaign."
+    )
     portfolioId: int | None = Field(
         default=None,
         description="Identifier of the portfolio that will be associated with the campaign. If null then the campaign will be disassociated from existing portfolio. Campaigns with CPC and vCPM costType are supported.",
@@ -96,7 +48,7 @@ To view minimum and maximum bids based on the costType, see [Limits](https://adv
 
 class Campaign(LenientModel):
     name: str | None = Field(default=None, description="The name of the campaign.")
-    budgetType: BaseCampaignBudgetType | str | None = Field(
+    budgetType: Literal["daily"] | str | None = Field(
         default=None,
         description="The time period over which the amount specified in the `budget` property is allocated.",
     )
@@ -105,7 +57,7 @@ class Campaign(LenientModel):
         default=None, description="The YYYYMMDD start date of the campaign. The date must be today or in the future."
     )
     endDate: str | None = Field(default=None, description="The YYYYMMDD end date of the campaign.")
-    costType: BaseCampaignCostType | str | None = Field(
+    costType: Literal["cpc", "vcpm"] | str | None = Field(
         default=None,
         description="""
 Determines how the campaign will bid and charge.
@@ -117,14 +69,16 @@ Determines how the campaign will bid and charge.
 To view minimum and maximum bids based on the costType, see [Limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).
 """,
     )
-    state: BaseCampaignState | str | None = Field(default=None, description="The state of the campaign.")
+    state: Literal["enabled", "paused", "archived"] | str | None = Field(
+        default=None, description="The state of the campaign."
+    )
     portfolioId: int | None = Field(
         default=None,
         description="Identifier of the portfolio that will be associated with the campaign. If null then the campaign will be disassociated from existing portfolio. Campaigns with CPC and vCPM costType are supported.",
     )
     campaignId: CampaignId | None = Field(default=None)
     tactic: Tactic | str | None = Field(default=None)
-    deliveryProfile: CampaignDeliveryProfile | str | None = Field(default=None)
+    deliveryProfile: Literal["as_soon_as_possible"] | str | None = Field(default=None)
     ruleBasedBudget: RuleBasedBudget | None = Field(default=None)
 
 
@@ -138,7 +92,7 @@ class CampaignResponseEx(LenientModel):
     campaignId: float | None = Field(default=None, description="The identifier of the campaign.")
     name: str | None = Field(default=None, description="The name of the campaign.")
     tactic: Tactic | str | None = Field(default=None)
-    budgetType: CampaignResponseExBudgetType | str | None = Field(
+    budgetType: Literal["daily"] | str | None = Field(
         default=None,
         description="The time period over which the amount specified in the `budget` property is allocated.",
     )
@@ -147,15 +101,38 @@ class CampaignResponseEx(LenientModel):
         default=None, description="The YYYYMMDD start date of the campaign. The date must be today or in the future."
     )
     endDate: str | None = Field(default=None, description="The YYYYMMDD end date of the campaign.")
-    state: CampaignResponseExState | str | None = Field(default=None, description="The state of the campaign.")
+    state: Literal["enabled", "paused", "archived"] | str | None = Field(
+        default=None, description="The state of the campaign."
+    )
     portfolioId: int | None = Field(
         default=None,
         description="Identifier of the portfolio that will be associated with the campaign. If null then the campaign will be disassociated from existing portfolio. Campaigns with CPC and vCPM costType are supported.",
     )
-    servingStatus: CampaignResponseExServingStatus | str | None = Field(
-        default=None, description="The status of the campaign."
-    )
-    costType: CampaignResponseExCostType | str | None = Field(
+    servingStatus: (
+        Literal[
+            "ADVERTISER_STATUS_ENABLED",
+            "STATUS_UNAVAILABLE",
+            "ADVERTISER_PAUSED",
+            "ACCOUNT_OUT_OF_BUDGET",
+            "ADVERTISER_PAYMENT_FAILURE",
+            "CAMPAIGN_PAUSED",
+            "CAMPAIGN_ARCHIVED",
+            "PENDING_START_DATE",
+            "ENDED",
+            "CAMPAIGN_OUT_OF_BUDGET",
+            "ADVERTISER_EXCEED_SPENDS_LIMIT",
+            "AD_POLICING_PENDING_REVIEW",
+            "CAMPAIGN_INCOMPLETE",
+            "INELIGIBLE",
+            "PORTFOLIO_ENDED",
+            "PORTFOLIO_OUT_OF_BUDGET",
+            "ADVERTISER_ARCHIVED",
+            "ADVERTISER_ACCOUNT_OUT_OF_BUDGET",
+        ]
+        | str
+        | None
+    ) = Field(default=None, description="The status of the campaign.")
+    costType: Literal["cpc", "vcpm"] | str | None = Field(
         default=None,
         description="""
 Determines how the campaign will bid and charge.
@@ -174,7 +151,7 @@ Determines how the campaign will bid and charge.
 
 class CreateCampaign(StrictModel):
     name: str | None = Field(default=None, description="The name of the campaign.")
-    budgetType: BaseCampaignBudgetType | None = Field(
+    budgetType: Literal["daily"] | None = Field(
         default=None,
         description="The time period over which the amount specified in the `budget` property is allocated.",
     )
@@ -183,7 +160,7 @@ class CreateCampaign(StrictModel):
         default=None, description="The YYYYMMDD start date of the campaign. The date must be today or in the future."
     )
     endDate: str | None = Field(default=None, description="The YYYYMMDD end date of the campaign.")
-    costType: BaseCampaignCostType | None = Field(
+    costType: Literal["cpc", "vcpm"] | None = Field(
         default=None,
         description="""
 Determines how the campaign will bid and charge.
@@ -195,7 +172,9 @@ Determines how the campaign will bid and charge.
 To view minimum and maximum bids based on the costType, see [Limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).
 """,
     )
-    state: BaseCampaignState | None = Field(default=None, description="The state of the campaign.")
+    state: Literal["enabled", "paused", "archived"] | None = Field(
+        default=None, description="The state of the campaign."
+    )
     portfolioId: int | None = Field(
         default=None,
         description="Identifier of the portfolio that will be associated with the campaign. If null then the campaign will be disassociated from existing portfolio. Campaigns with CPC and vCPM costType are supported.",
@@ -212,7 +191,7 @@ class RuleBasedBudget(LenientModel):
 
 class UpdateCampaign(StrictModel):
     name: str | None = Field(default=None, description="The name of the campaign.")
-    budgetType: BaseCampaignBudgetType | None = Field(
+    budgetType: Literal["daily"] | None = Field(
         default=None,
         description="The time period over which the amount specified in the `budget` property is allocated.",
     )
@@ -221,7 +200,7 @@ class UpdateCampaign(StrictModel):
         default=None, description="The YYYYMMDD start date of the campaign. The date must be today or in the future."
     )
     endDate: str | None = Field(default=None, description="The YYYYMMDD end date of the campaign.")
-    costType: BaseCampaignCostType | None = Field(
+    costType: Literal["cpc", "vcpm"] | None = Field(
         default=None,
         description="""
 Determines how the campaign will bid and charge.
@@ -233,7 +212,9 @@ Determines how the campaign will bid and charge.
 To view minimum and maximum bids based on the costType, see [Limits](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace).
 """,
     )
-    state: BaseCampaignState | None = Field(default=None, description="The state of the campaign.")
+    state: Literal["enabled", "paused", "archived"] | None = Field(
+        default=None, description="The state of the campaign."
+    )
     portfolioId: int | None = Field(
         default=None,
         description="Identifier of the portfolio that will be associated with the campaign. If null then the campaign will be disassociated from existing portfolio. Campaigns with CPC and vCPM costType are supported.",
@@ -243,19 +224,11 @@ To view minimum and maximum bids based on the costType, see [Limits](https://adv
 
 __all__ = [
     "BaseCampaign",
-    "BaseCampaignBudgetType",
-    "BaseCampaignCostType",
     "BaseCampaignOut",
-    "BaseCampaignState",
     "Campaign",
-    "CampaignDeliveryProfile",
     "CampaignId",
     "CampaignResponse",
     "CampaignResponseEx",
-    "CampaignResponseExBudgetType",
-    "CampaignResponseExCostType",
-    "CampaignResponseExServingStatus",
-    "CampaignResponseExState",
     "CreateCampaign",
     "RuleBasedBudget",
     "Tactic",

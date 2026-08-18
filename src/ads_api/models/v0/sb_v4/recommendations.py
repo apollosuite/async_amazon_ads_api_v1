@@ -17,15 +17,7 @@ Cost control metric to retrieve recommended value for.  Currently only COST_PER_
 """
 
 
-type HeadlineSuggestionRequestAdFormat = Literal["SPONSORED_BRANDS", "SPONSORED_BRANDS_SPOTLIGHT"]
-
-
-type LandingPageType = Literal[
-    "PRODUCT_LIST",
-    "STORE",
-    "CUSTOM_URL",
-    "DETAIL_PAGE",
-]
+type LandingPageType = Literal["PRODUCT_LIST", "STORE", "CUSTOM_URL", "DETAIL_PAGE"]
 """
 The type of landing page, such as store page, product list (simple landing page), custom url.
 """
@@ -83,7 +75,7 @@ class HeadlineSuggestionRequest(StrictModel):
         le=10,
         description="Maximum number of suggestions that API should return. Response will [0, maxNumSuggestions] suggestions (suggestions are not guaranteed).",
     )
-    adFormat: HeadlineSuggestionRequestAdFormat | None = Field(default=None)
+    adFormat: Literal["SPONSORED_BRANDS", "SPONSORED_BRANDS_SPOTLIGHT"] | None = Field(default=None)
 
 
 class HeadlineSuggestionResponse(LenientModel):
@@ -193,7 +185,6 @@ __all__ = [
     "GetBudgetRecommendationsRequestContent",
     "GetBudgetRecommendationsResponseContent",
     "HeadlineSuggestionRequest",
-    "HeadlineSuggestionRequestAdFormat",
     "HeadlineSuggestionResponse",
     "LandingPage",
     "LandingPageType",

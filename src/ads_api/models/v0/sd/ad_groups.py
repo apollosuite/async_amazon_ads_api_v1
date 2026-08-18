@@ -10,61 +10,10 @@ from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models.v0._shared import (
     AdGroupId,
     BaseAdGroup,
-    BaseAdGroupBidOptimization,
-    BaseAdGroupState,
     CampaignId,
     CreativeTypeInCreativeResponse,
     Tactic,
 )
-
-type AdGroupResponseExBidOptimization = Literal["reach", "clicks", "conversions"]
-"""
-Bid optimization type for the Adgroup. Default behavior is to optimize for clicks. Note, reach, clicks are only accepted with productAds that include landingPageURL OFF_AMAZON_LINK.
-|Name|CostType|Description|
-|----|--------|-----------|
-|reach|vcpm|Optimize for viewable impressions. $1 is the minimum bid for vCPM.|
-|clicks [Default]|cpc|Optimize for page visits.|
-|conversions|cpc|Optimize for conversion.|
-"""
-
-
-type AdGroupResponseExServingStatus = Literal[
-    "ADVERTISER_STATUS_ENABLED",
-    "STATUS_UNAVAILABLE",
-    "ADVERTISER_PAUSED",
-    "ACCOUNT_OUT_OF_BUDGET",
-    "ADVERTISER_PAYMENT_FAILURE",
-    "CAMPAIGN_PAUSED",
-    "CAMPAIGN_ARCHIVED",
-    "PENDING_START_DATE",
-    "ENDED",
-    "CAMPAIGN_OUT_OF_BUDGET",
-    "AD_GROUP_STATUS_ENABLED",
-    "AD_GROUP_PAUSED",
-    "AD_GROUP_ARCHIVED",
-    "AD_GROUP_INCOMPLETE",
-    "AD_GROUP_LOW_BID",
-    "ADGROUP_POLICING_PENDING_REVIEW",
-    "ADGROUP_POLICING_CREATIVE_REJECTED",
-    "ADVERTISER_EXCEED_SPENDS_LIMIT",
-    "AD_POLICING_PENDING_REVIEW",
-    "CAMPAIGN_INCOMPLETE",
-    "INELIGIBLE",
-    "PORTFOLIO_ENDED",
-    "PORTFOLIO_OUT_OF_BUDGET",
-    "ADVERTISER_ARCHIVED",
-    "ADVERTISER_ACCOUNT_OUT_OF_BUDGET",
-]
-"""
-The status of the ad group.
-"""
-
-
-type AdGroupResponseExState = Literal["enabled", "paused", "archived"]
-"""
-The delivery state of the ad group.
-"""
-
 
 type CreativeType = Literal["IMAGE", "VIDEO"]
 """
@@ -83,7 +32,7 @@ class AdGroup(LenientModel):
         default=None,
         description="The amount of the default bid associated with the ad group. Used if no bid is specified.",
     )
-    bidOptimization: BaseAdGroupBidOptimization | str | None = Field(
+    bidOptimization: Literal["reach", "clicks", "conversions"] | str | None = Field(
         default=None,
         description="""
 Bid Optimization for the Adgroup. Default behavior is to optimize for clicks.
@@ -94,7 +43,9 @@ Bid Optimization for the Adgroup. Default behavior is to optimize for clicks.
 |conversions |cpc|Optimize for conversion.|
 """,
     )
-    state: BaseAdGroupState | str | None = Field(default=None, description="The state of the ad group.")
+    state: Literal["enabled", "paused", "archived"] | str | None = Field(
+        default=None, description="The state of the ad group."
+    )
     adGroupId: AdGroupId | None = Field(default=None)
     tactic: Tactic | str | None = Field(default=None)
     creativeType: CreativeType | str | None = Field(default=None)
@@ -118,13 +69,43 @@ class AdGroupResponseEx(LenientModel):
         default=None,
         description="The amount of the default bid associated with the ad group. Used if no bid is specified.",
     )
-    state: AdGroupResponseExState | str | None = Field(default=None, description="The delivery state of the ad group.")
+    state: Literal["enabled", "paused", "archived"] | str | None = Field(
+        default=None, description="The delivery state of the ad group."
+    )
     tactic: Tactic | str | None = Field(default=None)
     creativeType: CreativeTypeInCreativeResponse | str | None = Field(default=None)
-    servingStatus: AdGroupResponseExServingStatus | str | None = Field(
-        default=None, description="The status of the ad group."
-    )
-    bidOptimization: AdGroupResponseExBidOptimization | str | None = Field(
+    servingStatus: (
+        Literal[
+            "ADVERTISER_STATUS_ENABLED",
+            "STATUS_UNAVAILABLE",
+            "ADVERTISER_PAUSED",
+            "ACCOUNT_OUT_OF_BUDGET",
+            "ADVERTISER_PAYMENT_FAILURE",
+            "CAMPAIGN_PAUSED",
+            "CAMPAIGN_ARCHIVED",
+            "PENDING_START_DATE",
+            "ENDED",
+            "CAMPAIGN_OUT_OF_BUDGET",
+            "AD_GROUP_STATUS_ENABLED",
+            "AD_GROUP_PAUSED",
+            "AD_GROUP_ARCHIVED",
+            "AD_GROUP_INCOMPLETE",
+            "AD_GROUP_LOW_BID",
+            "ADGROUP_POLICING_PENDING_REVIEW",
+            "ADGROUP_POLICING_CREATIVE_REJECTED",
+            "ADVERTISER_EXCEED_SPENDS_LIMIT",
+            "AD_POLICING_PENDING_REVIEW",
+            "CAMPAIGN_INCOMPLETE",
+            "INELIGIBLE",
+            "PORTFOLIO_ENDED",
+            "PORTFOLIO_OUT_OF_BUDGET",
+            "ADVERTISER_ARCHIVED",
+            "ADVERTISER_ACCOUNT_OUT_OF_BUDGET",
+        ]
+        | str
+        | None
+    ) = Field(default=None, description="The status of the ad group.")
+    bidOptimization: Literal["reach", "clicks", "conversions"] | str | None = Field(
         default=None,
         description="""
 Bid optimization type for the Adgroup. Default behavior is to optimize for clicks. Note, reach, clicks are only accepted with productAds that include landingPageURL OFF_AMAZON_LINK.
@@ -148,7 +129,7 @@ class BaseAdGroupOut(LenientModel):
         default=None,
         description="The amount of the default bid associated with the ad group. Used if no bid is specified.",
     )
-    bidOptimization: BaseAdGroupBidOptimization | str | None = Field(
+    bidOptimization: Literal["reach", "clicks", "conversions"] | str | None = Field(
         default=None,
         description="""
 Bid Optimization for the Adgroup. Default behavior is to optimize for clicks.
@@ -159,7 +140,9 @@ Bid Optimization for the Adgroup. Default behavior is to optimize for clicks.
 |conversions |cpc|Optimize for conversion.|
 """,
     )
-    state: BaseAdGroupState | str | None = Field(default=None, description="The state of the ad group.")
+    state: Literal["enabled", "paused", "archived"] | str | None = Field(
+        default=None, description="The state of the ad group."
+    )
 
 
 class CreateAdGroup(StrictModel):
@@ -169,7 +152,7 @@ class CreateAdGroup(StrictModel):
         default=None,
         description="The amount of the default bid associated with the ad group. Used if no bid is specified.",
     )
-    bidOptimization: BaseAdGroupBidOptimization | None = Field(
+    bidOptimization: Literal["reach", "clicks", "conversions"] | None = Field(
         default=None,
         description="""
 Bid Optimization for the Adgroup. Default behavior is to optimize for clicks.
@@ -180,7 +163,7 @@ Bid Optimization for the Adgroup. Default behavior is to optimize for clicks.
 |conversions |cpc|Optimize for conversion.|
 """,
     )
-    state: BaseAdGroupState = Field(description="The state of the ad group.")
+    state: Literal["enabled", "paused", "archived"] = Field(description="The state of the ad group.")
     creativeType: CreativeType | None = Field(default=None)
 
 
@@ -191,7 +174,7 @@ class UpdateAdGroup(StrictModel):
         default=None,
         description="The amount of the default bid associated with the ad group. Used if no bid is specified.",
     )
-    bidOptimization: BaseAdGroupBidOptimization | None = Field(
+    bidOptimization: Literal["reach", "clicks", "conversions"] | None = Field(
         default=None,
         description="""
 Bid Optimization for the Adgroup. Default behavior is to optimize for clicks.
@@ -202,7 +185,9 @@ Bid Optimization for the Adgroup. Default behavior is to optimize for clicks.
 |conversions |cpc|Optimize for conversion.|
 """,
     )
-    state: BaseAdGroupState | None = Field(default=None, description="The state of the ad group.")
+    state: Literal["enabled", "paused", "archived"] | None = Field(
+        default=None, description="The state of the ad group."
+    )
     adGroupId: AdGroupId
 
 
@@ -211,13 +196,8 @@ __all__ = [
     "AdGroupId",
     "AdGroupResponse",
     "AdGroupResponseEx",
-    "AdGroupResponseExBidOptimization",
-    "AdGroupResponseExServingStatus",
-    "AdGroupResponseExState",
     "BaseAdGroup",
-    "BaseAdGroupBidOptimization",
     "BaseAdGroupOut",
-    "BaseAdGroupState",
     "CampaignId",
     "CreateAdGroup",
     "CreativeType",

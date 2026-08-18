@@ -24,12 +24,7 @@ type Action = Literal["CREATE", "DELETE"]
 type ColumnType = Literal["DIMENSION", "METRIC"]
 
 
-type ConsentEnums = Literal[
-    "DENIED",
-    "GRANTED",
-    "NOT_APPLICABLE",
-    "UNKNOWN",
-]
+type ConsentEnums = Literal["DENIED", "GRANTED", "NOT_APPLICABLE", "UNKNOWN"]
 
 
 type CountryCode = Literal[
@@ -344,12 +339,7 @@ enum used to verify the different datatypes supported in ADM
 """
 
 
-type PartitionedByEnum = Literal[
-    "DAY",
-    "HOUR",
-    "MONTH",
-    "YEAR",
-]
+type PartitionedByEnum = Literal["DAY", "HOUR", "MONTH", "YEAR"]
 
 
 type SchemaType = Literal["AUDIENCE", "CUSTOM", "EVENT"]

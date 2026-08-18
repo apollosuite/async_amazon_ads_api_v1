@@ -44,12 +44,7 @@ Landing page type
 """
 
 
-type CreativeType = Literal[
-    "PRODUCT_COLLECTION",
-    "STORE_SPOTLIGHT",
-    "VIDEO",
-    "BRAND_VIDEO",
-]
+type CreativeType = Literal["PRODUCT_COLLECTION", "STORE_SPOTLIGHT", "VIDEO", "BRAND_VIDEO"]
 """
 The creative type of SB ad.
 """

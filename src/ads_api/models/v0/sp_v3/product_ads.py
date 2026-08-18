@@ -365,16 +365,7 @@ class SponsoredProductsProductAd(LenientModel):
     sku: str | None = Field(
         default=None, description="The SKU associated with the product. Defined for seller accounts only."
     )
-    state: SponsoredProductsEntityState | str = Field(description="""
-Supported values:
-- `ENABLED`: Enabled State
-- `PAUSED`: Paused State
-- `PROPOSED`: Proposed State (Upcoming Feature)
-- `ARCHIVED`: ARCHIVED State
-- `ENABLING`: State for Draft Entity Only
-- `USER_DELETED`: State for Draft Entity Only
-- `OTHER`: Read Only
-""")
+    state: SponsoredProductsEntityState | str
 
 
 class SponsoredProductsProductAdExtendedData(LenientModel):

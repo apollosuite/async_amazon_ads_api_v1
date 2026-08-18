@@ -9,14 +9,14 @@ from pydantic import Field
 from ads_api.models._core.base import LenientModel, StrictModel
 
 type ErrorCode = Literal[
-    "BAD_REQUEST",  # The request is not valid considering the documented schema.
-    "CONFLICT",  # Operation could not be completed due to a conflict. Please retry your request.
-    "DUPLICATE_RESOURCE_ID_FOUND",  # Multiple resources share the same ID. Remove the duplicate ID.
-    "FORBIDDEN",  # The caller is not authorized to make the given request.
-    "INTERNAL_ERROR",  # The server encountered an unexpected condition that prevented it from fulfilling the request.
-    "NOT_FOUND",  # The requested resource does not exist.
-    "TOO_MANY_REQUESTS",  # There have been too many requests, please slow down your call rate.
-    "UNAUTHORIZED",  # The request lacks the necessary credentials.
+    "BAD_REQUEST",
+    "CONFLICT",
+    "DUPLICATE_RESOURCE_ID_FOUND",
+    "FORBIDDEN",
+    "INTERNAL_ERROR",
+    "NOT_FOUND",
+    "TOO_MANY_REQUESTS",
+    "UNAUTHORIZED",
 ]
 """
 Supported values:
@@ -31,10 +31,7 @@ Supported values:
 """
 
 
-type StorePublishState = Literal[
-    "DRAFT",  # Content is in draft form
-    "PUBLISH",  # Submit Content to Publish to LIVE / SCHEDULED
-]
+type StorePublishState = Literal["DRAFT", "PUBLISH"]
 """
 User State for content
 
@@ -44,10 +41,7 @@ Supported values:
 """
 
 
-type StorePublishStatus = Literal[
-    "DRAFT",  # Content is in draft state
-    "REVIEW_IN_PROGRESS",  # Content is pending publication for review
-]
+type StorePublishStatus = Literal["DRAFT", "REVIEW_IN_PROGRESS"]
 """
 Status of content publish
 
@@ -65,16 +59,8 @@ class BrandStoreEditionPublishVersion(LenientModel):
         max_length=5000,
         description="Collection of page versions included in this publish version",
     )
-    publishState: StorePublishState | str = Field(description="""
-Supported values:
-- `DRAFT`: Content is in draft form
-- `PUBLISH`: Submit Content to Publish to LIVE / SCHEDULED
-""")
-    publishStatus: StorePublishStatus | str = Field(description="""
-Supported values:
-- `DRAFT`: Content is in draft state
-- `REVIEW_IN_PROGRESS`: Content is pending publication for review
-""")
+    publishState: StorePublishState | str
+    publishStatus: StorePublishStatus | str
     storeEditionPublishId: str = Field(description="Unique identifier for the publish version")
     storeId: str = Field(description="Identifier of the associated store")
 
@@ -100,15 +86,7 @@ class BrandStoreEditionPublishVersionMultiStatusSuccess(LenientModel):
 
 
 class BrandStoreEditionPublishVersionStorePublishStatusFilter(StrictModel):
-    include: list[StorePublishStatus | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `DRAFT`: Content is in draft state
-- `REVIEW_IN_PROGRESS`: Content is pending publication for review
-""",
-    )
+    include: list[StorePublishStatus | str] = Field(min_length=1, max_length=1)
 
 
 class BrandStoreEditionPublishVersionSuccessResponse(LenientModel):
@@ -120,30 +98,13 @@ class BrandStoreEditionPublishVersionSuccessResponse(LenientModel):
 
 class BrandStoreEditionPublishVersionUpdate(StrictModel):
     editionId: str | None = Field(default=None, description="Reference to the store edition")
-    publishState: StorePublishState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `DRAFT`: Content is in draft form
-- `PUBLISH`: Submit Content to Publish to LIVE / SCHEDULED
-""",
-    )
+    publishState: StorePublishState | None = Field(default=None)
     storeEditionPublishId: str = Field(description="Unique identifier for the publish version")
     storeId: str | None = Field(default=None, description="Identifier of the associated store")
 
 
 class Error(LenientModel):
-    code: ErrorCode | str = Field(description="""
-Supported values:
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-- `CONFLICT`: Operation could not be completed due to a conflict. Please retry your request.
-- `DUPLICATE_RESOURCE_ID_FOUND`: Multiple resources share the same ID. Remove the duplicate ID.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `NOT_FOUND`: The requested resource does not exist.
-- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
-""")
+    code: ErrorCode | str
     fieldLocation: str | None = Field(default=None)
     message: str
 

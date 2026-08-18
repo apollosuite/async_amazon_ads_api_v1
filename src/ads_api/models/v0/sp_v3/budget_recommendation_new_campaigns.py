@@ -7,34 +7,6 @@ from typing import Literal
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-from ads_api.models.v0._shared import (
-    TargetingExpressionType,
-)
-
-type BenchmarkBenchmarkStatus = Literal["failed", "partial", "success"]
-"""
-Specifies the processing status of the benchmark. Success - If all fields in values property (impressions, clicks, conversions) have all non-null values. Failed - If all fields in values property have all null values. Partial - If some of the fields (impressions, clicks, or conversions) in values property have null values.
-"""
-
-
-type BiddingStrategy = Literal[
-    "AUTO_FOR_SALES",
-    "LEGACY_FOR_SALES",
-    "MANUAL",
-    "RULE_BASED",
-]
-"""
-The bidding strategy selected for the campaign. Use LEGACY_FOR_SALES to lower your bid in real time when your ad may be less likely to convert to a sale. Use AUTO_FOR_SALES to increase your bid in real time when your ad may be more likely to convert to a sale or lower your bid when less likely to convert to a sale. Use MANUAL to use your exact bid along with any manual adjustments.
-"""
-
-
-type InitialBudgetRecommendationRequestTargetingType = Literal["auto", "manual"]
-"""
-Specifies the targeting type.
-"""
-
-
-type PlacementAdjustmentPredicate = Literal["PLACEMENT_PRODUCT_PAGE", "PLACEMENT_REST_OF_SEARCH", "PLACEMENT_TOP"]
 
 
 class AdGroup(StrictModel):
@@ -52,7 +24,7 @@ class Adjustment(StrictModel):
 class Benchmark(LenientModel):
     """Forecasted impact metrics for next 7 days or during special days."""
 
-    benchmarkStatus: BenchmarkBenchmarkStatus | str | None = Field(
+    benchmarkStatus: Literal["failed", "partial", "success"] | str | None = Field(
         default=None,
         description="Specifies the processing status of the benchmark. Success - If all fields in values property (impressions, clicks, conversions) have all non-null values. Failed - If all fields in values property have all null values. Partial - If some of the fields (impressions, clicks, or conversions) in values property have null values.",
     )
@@ -65,7 +37,7 @@ class Bidding(StrictModel):
     adjustments: list[Adjustment] | None = Field(
         default=None, min_length=0, max_length=2, description="Placement adjustment configuration for the campaign."
     )
-    strategy: BiddingStrategy = Field(
+    strategy: Literal["AUTO_FOR_SALES", "LEGACY_FOR_SALES", "MANUAL", "RULE_BASED"] = Field(
         description="The bidding strategy selected for the campaign. Use LEGACY_FOR_SALES to lower your bid in real time when your ad may be less likely to convert to a sale. Use AUTO_FOR_SALES to increase your bid in real time when your ad may be more likely to convert to a sale or lower your bid when less likely to convert to a sale. Use MANUAL to use your exact bid along with any manual adjustments."
     )
 
@@ -98,7 +70,7 @@ class InitialBudgetRecommendationRequest(StrictModel):
     bidding: Bidding
     endDate: str | None = Field(default=None, description="The end date of the campaign in YYYYMMDD format.")
     startDate: str | None = Field(default=None, description="The start date of the campaign in YYYYMMDD format.")
-    targetingType: InitialBudgetRecommendationRequestTargetingType = Field(description="Specifies the targeting type.")
+    targetingType: Literal["auto", "manual"] = Field(description="Specifies the targeting type.")
 
 
 class InitialBudgetRecommendationResponse(LenientModel):
@@ -118,7 +90,9 @@ class PlacementAdjustment(StrictModel):
     """Specifies bid adjustments based on the placement location. Use `PLACEMENT_TOP` for the top of the search page. Use `PLACEMENT_REST_OF_SEARCH` for the rest of the search page. Use `PLACEMENT_PRODUCT_PAGE` for a product page."""
 
     percentage: int | None = Field(default=None, ge=0, le=900)
-    predicate: PlacementAdjustmentPredicate | None = Field(default=None)
+    predicate: Literal["PLACEMENT_PRODUCT_PAGE", "PLACEMENT_REST_OF_SEARCH", "PLACEMENT_TOP"] | None = Field(
+        default=None
+    )
 
 
 class SpecialEvent(LenientModel):
@@ -138,7 +112,15 @@ class SpecialEvent(LenientModel):
 class TargetingExpression(StrictModel):
     """The targeting expression. The `type` property specifies the targeting option. Use `CLOSE_MATCH` to match your auto targeting ads closely to the specified value. Use `LOOSE_MATCH` to match your auto targeting ads broadly to the specified value. Use `SUBSTITUTES` to display your auto targeting ads along with substitutable products. Use `COMPLEMENTS` to display your auto targeting ads along with affiliated products. Use `KEYWORD_BROAD_MATCH` to broadly match your keyword targeting ads with search queries. Use `KEYWORD_EXACT_MATCH` to exactly match your keyword targeting ads with search queries. Use `KEYWORD_PHRASE_MATCH` to match your keyword targeting ads with search phrases. your keyword targeting ads with search phrases."""
 
-    type: TargetingExpressionType
+    type: Literal[
+        "CLOSE_MATCH",
+        "COMPLEMENTS",
+        "KEYWORD_BROAD_MATCH",
+        "KEYWORD_EXACT_MATCH",
+        "KEYWORD_PHRASE_MATCH",
+        "LOOSE_MATCH",
+        "SUBSTITUTES",
+    ]
     value: str | None = Field(default=None, description="The targeting expression value.")
 
 
@@ -154,19 +136,14 @@ __all__ = [
     "AdGroup",
     "Adjustment",
     "Benchmark",
-    "BenchmarkBenchmarkStatus",
     "Bidding",
-    "BiddingStrategy",
     "Clicks",
     "Conversions",
     "Impressions",
     "InitialBudgetRecommendationRequest",
-    "InitialBudgetRecommendationRequestTargetingType",
     "InitialBudgetRecommendationResponse",
     "PlacementAdjustment",
-    "PlacementAdjustmentPredicate",
     "SpecialEvent",
     "TargetingExpression",
-    "TargetingExpressionType",
     "Values",
 ]

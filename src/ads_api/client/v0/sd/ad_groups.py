@@ -90,7 +90,19 @@ class AdGroups(BaseResource):
         mode: Literal["pydantic"] = "pydantic",
         start_index: int | None = None,
         count: int | None = None,
-        state_filter: str | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
         campaign_id_filter: str | None = None,
         ad_group_id_filter: str | None = None,
         name: str | None = None,
@@ -102,7 +114,19 @@ class AdGroups(BaseResource):
         mode: Literal["dict"],
         start_index: int | None = None,
         count: int | None = None,
-        state_filter: str | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
         campaign_id_filter: str | None = None,
         ad_group_id_filter: str | None = None,
         name: str | None = None,
@@ -114,7 +138,19 @@ class AdGroups(BaseResource):
         mode: Literal["raw"],
         start_index: int | None = None,
         count: int | None = None,
-        state_filter: str | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
         campaign_id_filter: str | None = None,
         ad_group_id_filter: str | None = None,
         name: str | None = None,
@@ -125,7 +161,19 @@ class AdGroups(BaseResource):
         mode: Literal["pydantic", "dict", "raw"] = "pydantic",
         start_index: int | None = None,
         count: int | None = None,
-        state_filter: str | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
         campaign_id_filter: str | None = None,
         ad_group_id_filter: str | None = None,
         name: str | None = None,
@@ -151,7 +199,19 @@ class AdGroups(BaseResource):
         mode: Literal["pydantic"] = "pydantic",
         start_index: int | None = None,
         count: int | None = None,
-        state_filter: str | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
         campaign_id_filter: str | None = None,
         ad_group_id_filter: str | None = None,
         name: str | None = None,
@@ -163,7 +223,19 @@ class AdGroups(BaseResource):
         mode: Literal["dict"],
         start_index: int | None = None,
         count: int | None = None,
-        state_filter: str | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
         campaign_id_filter: str | None = None,
         ad_group_id_filter: str | None = None,
         name: str | None = None,
@@ -175,7 +247,19 @@ class AdGroups(BaseResource):
         mode: Literal["raw"],
         start_index: int | None = None,
         count: int | None = None,
-        state_filter: str | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
         campaign_id_filter: str | None = None,
         ad_group_id_filter: str | None = None,
         name: str | None = None,
@@ -186,7 +270,19 @@ class AdGroups(BaseResource):
         mode: Literal["pydantic", "dict", "raw"] = "pydantic",
         start_index: int | None = None,
         count: int | None = None,
-        state_filter: str | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
         campaign_id_filter: str | None = None,
         ad_group_id_filter: str | None = None,
         name: str | None = None,

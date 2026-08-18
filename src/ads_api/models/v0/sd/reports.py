@@ -8,18 +8,6 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 
-type ReportResponseRecordType = Literal["CAMPAIGN", "AD_GROUP", "PRODUCT_AD"]
-"""
-The type of report requested.
-"""
-
-
-type ReportResponseStatus = Literal["IN_PROGRESS", "SUCCESS", "FAILURE"]
-"""
-The build status of the report.
-"""
-
-
 type Segment = Literal["matchedTarget"]
 """
 Optional. A dimension used to further segment certain types of reports.
@@ -71,8 +59,12 @@ Each report type supports different metrics. **To understand supported metrics f
 
 class ReportResponse(LenientModel):
     reportId: str | None = Field(default=None, description="The identifier of the report.")
-    recordType: ReportResponseRecordType | str | None = Field(default=None, description="The type of report requested.")
-    status: ReportResponseStatus | str | None = Field(default=None, description="The build status of the report.")
+    recordType: Literal["CAMPAIGN", "AD_GROUP", "PRODUCT_AD"] | str | None = Field(
+        default=None, description="The type of report requested."
+    )
+    status: Literal["IN_PROGRESS", "SUCCESS", "FAILURE"] | str | None = Field(
+        default=None, description="The build status of the report."
+    )
     statusDetails: str | None = Field(default=None, description="A human-readable description of the current status.")
     location: str | None = Field(default=None, description="The URI location of the report.")
     fileSize: int | None = Field(default=None, description="The size of the report file, in bytes.")
@@ -81,11 +73,4 @@ class ReportResponse(LenientModel):
     )
 
 
-__all__ = [
-    "ReportRequest",
-    "ReportResponse",
-    "ReportResponseRecordType",
-    "ReportResponseStatus",
-    "Segment",
-    "TacticReport",
-]
+__all__ = ["ReportRequest", "ReportResponse", "Segment", "TacticReport"]

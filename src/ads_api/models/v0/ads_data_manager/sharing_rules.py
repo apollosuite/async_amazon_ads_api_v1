@@ -9,13 +9,7 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 
-type ApplicationId = Literal[
-    "AMAZON_MARKETING_CLOUD",
-    "DSP_AUDIENCES",
-    "EVENTS_MANAGER",
-    "GEO_LOCATIONS",
-    "PG_DEALS",
-]
+type ApplicationId = Literal["AMAZON_MARKETING_CLOUD", "DSP_AUDIENCES", "EVENTS_MANAGER", "GEO_LOCATIONS", "PG_DEALS"]
 """
 Unique identifier for applications integrating with Ads Data Manager.
 """
@@ -24,14 +18,7 @@ Unique identifier for applications integrating with Ads Data Manager.
 type ConversionDefinitionCountingMethodV1 = Literal["EVERY", "FIRST"]
 
 
-type ConversionDefinitionSourceTypeV1 = Literal[
-    "ANDROID",
-    "FIRE_TABLET",
-    "FIRE_TV",
-    "IOS",
-    "OFFLINE",
-    "WEBSITE",
-]
+type ConversionDefinitionSourceTypeV1 = Literal["ANDROID", "FIRE_TABLET", "FIRE_TV", "IOS", "OFFLINE", "WEBSITE"]
 
 
 type ConversionDefinitionSourceV1 = Literal["AMAZON_AD_TAG", "MMP", "SERVER_TO_SERVER"]
@@ -470,12 +457,7 @@ ISO 4217 currency codes. Mirrors PubTech's TaxonomyFeeCurrency.
 
 
 type SharingRuleStatus = Literal[
-    "ACTIVE",
-    "PENDING",
-    "REVOKED_BY_DATASET",
-    "REVOKED_BY_SHARING_GRANT",
-    "REVOKED_BY_USER",
-    "SHADOW",
+    "ACTIVE", "PENDING", "REVOKED_BY_DATASET", "REVOKED_BY_SHARING_GRANT", "REVOKED_BY_USER", "SHADOW"
 ]
 """
 Customer facing enum for SharingRule status.

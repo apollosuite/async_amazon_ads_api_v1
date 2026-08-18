@@ -50,10 +50,7 @@ from ads_api.models.v0._shared import (
     SponsoredProductsValueLimitErrorReason,
 )
 
-type SponsoredProductsAudienceSegmentType = Literal[
-    "BEHAVIOR_DYNAMIC",  # This type refers to the Audience Segments created by Amazon for Sponsored Ads. The Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_PRODUCTS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "Product"]]`. Only the audiences retrieved using these filters are usable.
-    "SPONSORED_ADS_AMC",  # This type refers to the Audience Segments created in AMC for Sponsored Ads. See [AMC API](https://advertising.amazon.com/API/docs/en-us/amc-rba#tag/Rule-based-audience) for details on how to create AMC Audiences. Once the AMC Audiences are created, the Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_PRODUCTS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "AMC"]]`. Only the audiences retrieved using these filters are usable.
-]
+type SponsoredProductsAudienceSegmentType = Literal["BEHAVIOR_DYNAMIC", "SPONSORED_ADS_AMC"]
 """
 DEPRECATED: This field is no longer used and any provided value will be ignored. The audience type is automatically determined via the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) by examining the Audience path. Audience IDs are guaranteed to be unique across all audience types, enabling this inference.
 
@@ -63,13 +60,7 @@ Supported values:
 """
 
 
-type SponsoredProductsBiddingStrategy = Literal[
-    "AUTO_FOR_SALES",  # Dynamic bids - up and down | Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
-    "LEGACY_FOR_SALES",  # Dynamic bids - down only | Lowers your bids in real time when your ad may be less likely to convert to a sale. Campaigns created before the release of the bidding controls feature used this setting by default.
-    "MANUAL",  # Fixed bid | Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
-    "OTHER",
-    "RULE_BASED",  # Rule based bidding | See Rule based bidding documentation https://advertising.amazon.com/API/docs/en-us/sponsored-products/rule-based-bidding/overview
-]
+type SponsoredProductsBiddingStrategy = Literal["AUTO_FOR_SALES", "LEGACY_FOR_SALES", "MANUAL", "OTHER", "RULE_BASED"]
 """
 The bidding strategy.
 
@@ -155,10 +146,7 @@ type SponsoredProductsCampaignServingStatusReason = Literal[
 
 
 type SponsoredProductsCreateOrUpdateBiddingStrategy = Literal[
-    "AUTO_FOR_SALES",  # Dynamic bids - up and down | Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
-    "LEGACY_FOR_SALES",  # Dynamic bids - down only | Lowers your bids in real time when your ad may be less likely to convert to a sale. Campaigns created before the release of the bidding controls feature used this setting by default.
-    "MANUAL",  # Fixed bid | Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
-    "RULE_BASED",  # Rule based bidding | See Rule based bidding documentation https://advertising.amazon.com/API/docs/en-us/sponsored-products/rule-based-bidding/overview
+    "AUTO_FOR_SALES", "LEGACY_FOR_SALES", "MANUAL", "RULE_BASED"
 ]
 """
 The bidding strategy.
@@ -175,10 +163,7 @@ Supported values:
 type SponsoredProductsCreateOrUpdateBudgetType = Literal["DAILY"]
 
 
-type SponsoredProductsCreateOrUpdateOffAmazonBudgetControlStrategy = Literal[
-    "MAXIMIZE_REACH",  # Prioritize more reach using your target settings. This setting may result in more impressions and opportunities for sales off Amazon.
-    "MINIMIZE_SPEND",  # Optimize ad delivery to minimize spending. This setting may result in fewer impressions off Amazon, but it can help control spend.
-]
+type SponsoredProductsCreateOrUpdateOffAmazonBudgetControlStrategy = Literal["MAXIMIZE_REACH", "MINIMIZE_SPEND"]
 """
 The budget control strategy for ads served off Amazon . `OffAmazonBudgetControlStrategy` is optional for create and update requests.
 Value |  Description |
@@ -210,10 +195,7 @@ type SponsoredProductsDateErrorReason = Literal[
 ]
 
 
-type SponsoredProductsMarketplaceBudgetAllocation = Literal[
-    "AUTO",  # Auto distribute global budget to marketplaces in global campaign. Budget updates for marketplaces are not allowed for AUTO campaigns. The budget can only be updated in global campaign for AUTO campaigns.
-    "MANUAL",  # Manually distribute global budget to marketplaces in global campaign.
-]
+type SponsoredProductsMarketplaceBudgetAllocation = Literal["AUTO", "MANUAL"]
 """
 Setting for distribution of global budget into marketplaces in global campaign.
 
@@ -227,10 +209,7 @@ type SponsoredProductsOffAmazonBudgetControlStrategy = Literal["MAXIMIZE_REACH",
 
 
 type SponsoredProductsPlacement = Literal[
-    "PLACEMENT_PRODUCT_PAGE",  # Product pages
-    "PLACEMENT_REST_OF_SEARCH",  # Rest of the search
-    "PLACEMENT_TOP",  # Top of search (first page)
-    "SITE_AMAZON_BUSINESS",  # Site Amazon Business
+    "PLACEMENT_PRODUCT_PAGE", "PLACEMENT_REST_OF_SEARCH", "PLACEMENT_TOP", "SITE_AMAZON_BUSINESS"
 ]
 """
 You can enable controls to adjust your bid based on the placement location. Specify a location where you want to use bid controls. The percentage value set is the percentage of the original bid for which you want to have your bid adjustment increased. For example, a 50% Top of Search adjustment on a $1.00 bid would increase the bid to $1.50 for the opportunity to win a Top of Search placement. A further 100% Amazon Business adjustment would increase the bid to $3.00 for the Amazon Business Top of Search placement and to $2.00 for all other Amazon Business placements.
@@ -244,7 +223,7 @@ Supported values:
 """
 
 
-type SponsoredProductsShopperCohortType = Literal["AUDIENCE_SEGMENT",]  # A predefined list of the shopper ids.
+type SponsoredProductsShopperCohortType = Literal["AUDIENCE_SEGMENT"]
 """
 This field specifies the type of shopper cohort used to apply bid adjustments. `AUDIENCE_SEGMENT` is the only supported type currently.
 
@@ -253,10 +232,7 @@ Supported values:
 """
 
 
-type SponsoredProductsSiteRestriction = Literal[
-    "AMAZON_BUSINESS",  # Restrict the ad to only show on Amazon Business.
-    "AMAZON_HAUL",  # Restrict the ad to only show on Amazon Haul.
-]
+type SponsoredProductsSiteRestriction = Literal["AMAZON_BUSINESS", "AMAZON_HAUL"]
 """
 Restrict the ad to a particular site.
 If the value is absent (ie null), it means no site restrictions and defaults to current Sponsored Products campaign behavior.
@@ -272,28 +248,14 @@ class SponsoredProductsAudienceSegment(StrictModel):
     audienceId: str = Field(
         min_length=1, max_length=20, description="`audienceId` is specified based on the `audienceSegmentType` used."
     )
-    audienceSegmentType: SponsoredProductsAudienceSegmentType | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `SPONSORED_ADS_AMC`: This type refers to the Audience Segments created in AMC for Sponsored Ads. See [AMC API](https://advertising.amazon.com/API/docs/en-us/amc-rba#tag/Rule-based-audience) for details on how to create AMC Audiences. Once the AMC Audiences are created, the Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_PRODUCTS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "AMC"]]`. Only the audiences retrieved using these filters are usable.
-- `BEHAVIOR_DYNAMIC`: This type refers to the Audience Segments created by Amazon for Sponsored Ads. The Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_PRODUCTS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "Product"]]`. Only the audiences retrieved using these filters are usable.
-""",
-    )
+    audienceSegmentType: SponsoredProductsAudienceSegmentType | None = Field(default=None)
 
 
 class SponsoredProductsAudienceSegmentOut(LenientModel):
     audienceId: str = Field(
         min_length=1, max_length=20, description="`audienceId` is specified based on the `audienceSegmentType` used."
     )
-    audienceSegmentType: SponsoredProductsAudienceSegmentType | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `SPONSORED_ADS_AMC`: This type refers to the Audience Segments created in AMC for Sponsored Ads. See [AMC API](https://advertising.amazon.com/API/docs/en-us/amc-rba#tag/Rule-based-audience) for details on how to create AMC Audiences. Once the AMC Audiences are created, the Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_PRODUCTS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "AMC"]]`. Only the audiences retrieved using these filters are usable.
-- `BEHAVIOR_DYNAMIC`: This type refers to the Audience Segments created by Amazon for Sponsored Ads. The Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_PRODUCTS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "Product"]]`. Only the audiences retrieved using these filters are usable.
-""",
-    )
+    audienceSegmentType: SponsoredProductsAudienceSegmentType | str | None = Field(default=None)
 
 
 class SponsoredProductsBudget(LenientModel):
@@ -329,40 +291,17 @@ class SponsoredProductsCampaign(LenientModel):
     globalCampaignId: str | None = Field(
         default=None, description="The global campaign identifier that manages this marketplace campaign."
     )
-    marketplaceBudgetAllocation: SponsoredProductsMarketplaceBudgetAllocation | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `AUTO`: Auto distribute global budget to marketplaces in global campaign. Budget updates for marketplaces are not allowed for AUTO campaigns. The budget can only be updated in global campaign for AUTO campaigns.
-- `MANUAL`: Manually distribute global budget to marketplaces in global campaign.
-""",
-    )
+    marketplaceBudgetAllocation: SponsoredProductsMarketplaceBudgetAllocation | str | None = Field(default=None)
     name: str = Field(description="The name of the campaign.")
     offAmazonSettings: SponsoredProductsOffAmazonSettings | None = Field(default=None)
     portfolioId: str | None = Field(
         default=None, description="The identifier of an existing portfolio to which the campaign is associated."
     )
     siteRestrictions: list[SponsoredProductsSiteRestriction | str] | None = Field(
-        default=None,
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `AMAZON_BUSINESS`: Restrict the ad to only show on Amazon Business.
-- `AMAZON_HAUL`: Restrict the ad to only show on Amazon Haul.
-""",
+        default=None, min_length=1, max_length=1
     )
     startDate: date = Field(description="The format of the date is YYYY-MM-DD.")
-    state: SponsoredProductsEntityState | str = Field(description="""
-Supported values:
-- `ENABLED`: Enabled State
-- `PAUSED`: Paused State
-- `PROPOSED`: Proposed State (Upcoming Feature)
-- `ARCHIVED`: ARCHIVED State
-- `ENABLING`: State for Draft Entity Only
-- `USER_DELETED`: State for Draft Entity Only
-- `OTHER`: Read Only
-""")
+    state: SponsoredProductsEntityState | str
     tags: SponsoredProductsTagsOut | None = Field(default=None)
     targetingType: SponsoredProductsTargetingType | str
 
@@ -444,10 +383,6 @@ Please note that: 1) AMAZON_BUSINESS option is only available for Amazon Busines
 2) siteRestrictions cannot be changed post campaign creation;
 3) siteRestrictions don’t support shopperCohortBidding setting, SITE_AMAZON_BUSINESS placementBidding setting and offAmazonSettings;
 4) Only AMAZON_BUSINESS option is ready for use at the moment.
-
-Supported values:
-- `AMAZON_BUSINESS`: Restrict the ad to only show on Amazon Business.
-- `AMAZON_HAUL`: Restrict the ad to only show on Amazon Haul.
 """,
     )
     startDate: date | None = Field(
@@ -478,16 +413,7 @@ Specifies Shopper Cohorts based bid adjustment controls. `shopperCohortBidding` 
 You can enable this control to adjust your bid based on the shopper cohorts. The percentage value set is the percentage of the original bid including any other bid adjustments such as `placementBidding`. For example, a `placementBidding` with 50% adjustment on a $1.00 bid would increase the bid to $1.50, and a `shopperCohortBidding` with 100% adjustment would further increase the bid to $3.00.
 """,
     )
-    strategy: SponsoredProductsCreateOrUpdateBiddingStrategy | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `LEGACY_FOR_SALES`: Dynamic bids - down only | Lowers your bids in real time when your ad may be less likely to convert to a sale. Campaigns created before the release of the bidding controls feature used this setting by default.
-- `AUTO_FOR_SALES`: Dynamic bids - up and down | Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
-- `MANUAL`: Fixed bid | Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
-- `RULE_BASED`: Rule based bidding | See Rule based bidding documentation https://advertising.amazon.com/API/docs/en-us/sponsored-products/rule-based-bidding/overview
-""",
-    )
+    strategy: SponsoredProductsCreateOrUpdateBiddingStrategy | None = Field(default=None)
 
 
 class SponsoredProductsCreateOrUpdateOffAmazonSettings(StrictModel):
@@ -495,12 +421,7 @@ class SponsoredProductsCreateOrUpdateOffAmazonSettings(StrictModel):
     This field is upcoming and is not ready for use."""
 
     offAmazonBudgetControlStrategy: SponsoredProductsCreateOrUpdateOffAmazonBudgetControlStrategy | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `MAXIMIZE_REACH`: Prioritize more reach using your target settings. This setting may result in more impressions and opportunities for sales off Amazon.
-- `MINIMIZE_SPEND`: Optimize ad delivery to minimize spending. This setting may result in fewer impressions off Amazon, but it can help control spend.
-""",
+        default=None
     )
 
 
@@ -547,13 +468,7 @@ Specifies Shopper Cohorts based bid adjustment controls. `shopperCohortBidding` 
 You can enable this control to adjust your bid based on the shopper cohorts. The percentage value set is the percentage of the original bid including any other bid adjustments such as `placementBidding`. For example, a `placementBidding` with 50% adjustment on a $1.00 bid would increase the bid to $1.50, and a `shopperCohortBidding` with 100% adjustment would further increase the bid to $3.00.
 """,
     )
-    strategy: SponsoredProductsBiddingStrategy | str = Field(description="""
-Supported values:
-- `LEGACY_FOR_SALES`: Dynamic bids - down only | Lowers your bids in real time when your ad may be less likely to convert to a sale. Campaigns created before the release of the bidding controls feature used this setting by default.
-- `AUTO_FOR_SALES`: Dynamic bids - up and down | Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
-- `MANUAL`: Fixed bid | Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
-- `RULE_BASED`: Rule based bidding | See Rule based bidding documentation https://advertising.amazon.com/API/docs/en-us/sponsored-products/rule-based-bidding/overview
-""")
+    strategy: SponsoredProductsBiddingStrategy | str
 
 
 class SponsoredProductsListSponsoredProductsCampaignsRequestContent(StrictModel):
@@ -586,15 +501,7 @@ class SponsoredProductsListSponsoredProductsCampaignsResponseContent(LenientMode
 class SponsoredProductsMarketplaceBudgetAllocationFilter(StrictModel):
     """Filter campaigns by MarketplaceBudgetAllocation setting. By default, only MANUAL campaigns are returned. This filter is not functional yet, will be functional soon."""
 
-    include: list[SponsoredProductsMarketplaceBudgetAllocation | str] = Field(
-        min_length=0,
-        max_length=2,
-        description="""
-Supported values:
-- `AUTO`: Auto distribute global budget to marketplaces in global campaign. Budget updates for marketplaces are not allowed for AUTO campaigns. The budget can only be updated in global campaign for AUTO campaigns.
-- `MANUAL`: Manually distribute global budget to marketplaces in global campaign.
-""",
-    )
+    include: list[SponsoredProductsMarketplaceBudgetAllocation | str] = Field(min_length=0, max_length=2)
 
 
 class SponsoredProductsOffAmazonSettings(LenientModel):
@@ -603,30 +510,12 @@ class SponsoredProductsOffAmazonSettings(LenientModel):
 
 class SponsoredProductsPlacementBidding(StrictModel):
     percentage: int | None = Field(default=None, ge=0, le=900)
-    placement: SponsoredProductsPlacement | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `PLACEMENT_TOP`: Top of search (first page)
-- `PLACEMENT_PRODUCT_PAGE`: Product pages
-- `PLACEMENT_REST_OF_SEARCH`: Rest of the search
-- `SITE_AMAZON_BUSINESS`: Site Amazon Business
-""",
-    )
+    placement: SponsoredProductsPlacement | None = Field(default=None)
 
 
 class SponsoredProductsPlacementBiddingOut(LenientModel):
     percentage: int | None = Field(default=None, ge=0, le=900)
-    placement: SponsoredProductsPlacement | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `PLACEMENT_TOP`: Top of search (first page)
-- `PLACEMENT_PRODUCT_PAGE`: Product pages
-- `PLACEMENT_REST_OF_SEARCH`: Rest of the search
-- `SITE_AMAZON_BUSINESS`: Site Amazon Business
-""",
-    )
+    placement: SponsoredProductsPlacement | str | None = Field(default=None)
 
 
 class SponsoredProductsShopperCohortBidding(StrictModel):
@@ -637,10 +526,7 @@ class SponsoredProductsShopperCohortBidding(StrictModel):
         description='A list of Audience Segments. Shoppers belonging to these segments will be selected for applying the bid adjustments. This is a required field when using "AUDIENCE_SEGMENT" option for `shopperCohortType`.',
     )
     percentage: int | None = Field(default=None, ge=0, le=900)
-    shopperCohortType: SponsoredProductsShopperCohortType = Field(description="""
-Supported values:
-- `AUDIENCE_SEGMENT`: A predefined list of the shopper ids.
-""")
+    shopperCohortType: SponsoredProductsShopperCohortType
 
 
 class SponsoredProductsShopperCohortBiddingOut(LenientModel):
@@ -651,10 +537,7 @@ class SponsoredProductsShopperCohortBiddingOut(LenientModel):
         description='A list of Audience Segments. Shoppers belonging to these segments will be selected for applying the bid adjustments. This is a required field when using "AUDIENCE_SEGMENT" option for `shopperCohortType`.',
     )
     percentage: int | None = Field(default=None, ge=0, le=900)
-    shopperCohortType: SponsoredProductsShopperCohortType | str = Field(description="""
-Supported values:
-- `AUDIENCE_SEGMENT`: A predefined list of the shopper ids.
-""")
+    shopperCohortType: SponsoredProductsShopperCohortType | str
 
 
 class SponsoredProductsTagsOut(LenientModel):
@@ -684,10 +567,6 @@ Please note that: 1) AMAZON_BUSINESS option is only available for Amazon Busines
 2) siteRestrictions cannot be changed post campaign creation;
 3) siteRestrictions don’t support shopperCohortBidding setting, SITE_AMAZON_BUSINESS placementBidding setting and offAmazonSettings;
 4) Only AMAZON_BUSINESS option is ready for use at the moment.
-
-Supported values:
-- `AMAZON_BUSINESS`: Restrict the ad to only show on Amazon Business.
-- `AMAZON_HAUL`: Restrict the ad to only show on Amazon Haul.
 """,
     )
     startDate: date | None = Field(default=None, description="The format of the date is YYYY-MM-DD.")

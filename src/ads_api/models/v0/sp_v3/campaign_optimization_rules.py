@@ -9,11 +9,7 @@ from pydantic import Field
 from ads_api.models._core.base import LenientModel, StrictModel
 
 type ComparisonOperator = Literal[
-    "EQUAL_TO",
-    "GREATER_THAN",
-    "GREATER_THAN_OR_EQUAL_TO",
-    "LESS_THAN",
-    "LESS_THAN_OR_EQUAL_TO",
+    "EQUAL_TO", "GREATER_THAN", "GREATER_THAN_OR_EQUAL_TO", "LESS_THAN", "LESS_THAN_OR_EQUAL_TO"
 ]
 """
 The comparison operator.

@@ -8,12 +8,7 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 
-type Status = Literal[
-    "CREATED",
-    "DISABLED",
-    "PARTIALLY_CREATED",
-    "PENDING",
-]
+type Status = Literal["CREATED", "DISABLED", "PARTIALLY_CREATED", "PENDING"]
 """
 The current state of the account. Statuses include Pending, Partially Created, Created, and Disabled.
 If the account is in pending, it's registration is in progress and you'll need to call back again for an updated status.

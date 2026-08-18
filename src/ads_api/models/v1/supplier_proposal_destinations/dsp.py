@@ -12,23 +12,7 @@ from ads_api.models.v1._shared.dsp import (
 )
 
 type DSPCountryCode = Literal[
-    "AD",
-    "AE",
-    "AF",
-    "AG",
-    "AI",
-    "AU",
-    "BR",
-    "CA",
-    "DE",
-    "ES",
-    "FR",
-    "GB",
-    "IT",
-    "JP",
-    "KR",
-    "MX",
-    "US",
+    "AD", "AE", "AF", "AG", "AI", "AU", "BR", "CA", "DE", "ES", "FR", "GB", "IT", "JP", "KR", "MX", "US"
 ]
 
 
@@ -67,14 +51,7 @@ class DSPSupplierProposalDestination(LenientModel):
 
 class DSPSupplierProposalDestinationSortOption(StrictModel):
     by: DSPSupplierProposalDestinationSortOptionsFields
-    direction: DSPSortDirection | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ASCENDING`: Sort in ascending order
-- `DESCENDING`: Sort in descending order
-""",
-    )
+    direction: DSPSortDirection | None = Field(default=None)
 
 
 class DSPSupplierProposalDestinationSuccessResponse(LenientModel):

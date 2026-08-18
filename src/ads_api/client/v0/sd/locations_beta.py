@@ -61,7 +61,7 @@ class LocationsBeta(BaseResource):
         mode: Literal["pydantic"] = "pydantic",
         start_index: int | None = None,
         count: int | None = None,
-        state_filter: str | None = None,
+        state_filter: Literal["enabled"] | str | None = None,
         ad_group_id_filter: str | None = None,
         campaign_id_filter: str | None = None,
     ) -> list[Location]: ...
@@ -72,7 +72,7 @@ class LocationsBeta(BaseResource):
         mode: Literal["dict"],
         start_index: int | None = None,
         count: int | None = None,
-        state_filter: str | None = None,
+        state_filter: Literal["enabled"] | str | None = None,
         ad_group_id_filter: str | None = None,
         campaign_id_filter: str | None = None,
     ) -> list[dict[str, Any]]: ...
@@ -83,7 +83,7 @@ class LocationsBeta(BaseResource):
         mode: Literal["raw"],
         start_index: int | None = None,
         count: int | None = None,
-        state_filter: str | None = None,
+        state_filter: Literal["enabled"] | str | None = None,
         ad_group_id_filter: str | None = None,
         campaign_id_filter: str | None = None,
     ) -> httpx.Response: ...
@@ -93,7 +93,7 @@ class LocationsBeta(BaseResource):
         mode: Literal["pydantic", "dict", "raw"] = "pydantic",
         start_index: int | None = None,
         count: int | None = None,
-        state_filter: str | None = None,
+        state_filter: Literal["enabled"] | str | None = None,
         ad_group_id_filter: str | None = None,
         campaign_id_filter: str | None = None,
     ) -> list[Location] | list[dict[str, Any]] | httpx.Response:

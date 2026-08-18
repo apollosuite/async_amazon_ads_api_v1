@@ -15,23 +15,6 @@ from ads_api.models.v0._shared import (
     LandingPageURL,
 )
 
-type CreativeModerationModerationStatus = Literal["APPROVED", "PENDING_REVIEW", "REJECTED"]
-"""
-The moderation status of the creative.
-|Status|Description|
-|------|-----------|
-|APPROVED|Moderation for the creative is complete.|
-|IN_PROGRESS|Moderation for the creative is in progress. The expected date and time for completion are specfied in the `etaForModeration` field.|
-|REJECTED|The creative has failed moderation. Specific information about the content that violated policy is available in `policyViolations`.|
-"""
-
-
-type CreativeModerationStatus = Literal["APPROVED", "PENDING_REVIEW", "REJECTED"]
-"""
-The moderation status of the creative
-"""
-
-
 type CreativeTypeInCreativeRequest = Literal["IMAGE", "VIDEO"]
 """
 The type of the creative.
@@ -127,7 +110,9 @@ class Creative(LenientModel):
     adGroupId: AdGroupId
     creativeType: CreativeTypeInCreativeResponse | str
     properties: CreativePropertiesOut
-    moderationStatus: CreativeModerationStatus | str = Field(description="The moderation status of the creative")
+    moderationStatus: Literal["APPROVED", "PENDING_REVIEW", "REJECTED"] | str = Field(
+        description="The moderation status of the creative"
+    )
 
 
 class CreativeModeration(LenientModel):
@@ -135,7 +120,7 @@ class CreativeModeration(LenientModel):
 
     creativeId: float = Field(description="Unique identifier of the creative.")
     creativeType: CreativeTypeInCreativeResponse | str
-    moderationStatus: CreativeModerationModerationStatus | str = Field(description="""
+    moderationStatus: Literal["APPROVED", "PENDING_REVIEW", "REJECTED"] | str = Field(description="""
 The moderation status of the creative.
 |Status|Description|
 |------|-----------|
@@ -457,8 +442,6 @@ __all__ = [
     "CreateCreative",
     "Creative",
     "CreativeModeration",
-    "CreativeModerationModerationStatus",
-    "CreativeModerationStatus",
     "CreativePreviewConfiguration",
     "CreativePreviewConfigurations",
     "CreativePreviewRequest",

@@ -19,12 +19,7 @@ from ads_api.models.v1._shared.general import (
     TimeZoneIana,
 )
 
-type AccountState = Literal[
-    "APPROVED",  # This signifies that the account has been successfully registered and is eligible to create and manage campaigns.
-    "ARCHIVED",  # This account has been permanently closed and cannot be reactivated. This may occur if the account was shut down at your request. To advertise again, you'll need to create a new account.
-    "REGISTRATION_IN_PROGRESS",  # This means the account registration request has been received and is currently in progress.
-    "REJECTED",  # This signifies that the account registration could not be completed successfully. To advertise again, you'll need to create a new account.
-]
+type AccountState = Literal["APPROVED", "ARCHIVED", "REGISTRATION_IN_PROGRESS", "REJECTED"]
 """
 This represents the current state of an advertising account.
 
@@ -37,31 +32,31 @@ Supported values:
 
 
 type ErrorCode = Literal[
-    "ACCESS_DENIED_FOR_MANAGER_ACCOUNT",  # The request does not have access to the manager account provided in the registration request.
-    "ACCOUNT_ALREADY_EXISTS_FOR_ACCOUNT_NAME",  # An advertiser account already exists with this display name.
-    "ACCOUNT_ALREADY_EXISTS_FOR_SELLING_ACCOUNT",  # An advertiser account already exists for this selling account.
-    "ACCOUNT_ALREADY_EXISTS_FOR_VENDOR",  # An advertiser account already exists for the selected vendor.
-    "ADDRESS_BUSINESS_NAME_TOO_LONG",  # Business name provided is too long.
-    "ADDRESS_INVALID_STATE",  # The state provided in business address is invalid.
-    "BAD_REQUEST",  # The request is not valid considering the documented schema.
-    "CONTENT_TOO_LARGE",  # The request is too large. Consider splitting it into multiple requests.
-    "FORBIDDEN",  # The caller is not authorized to make the given request.
-    "INTERNAL_ERROR",  # The server encountered an unexpected condition that prevented it from fulfilling the request.
-    "INVALID_INPUT",  # The request has invalid input parameters.
-    "INVALID_STATE_OR_REGION",  # The state provided in business address is invalid.
-    "INVALID_WEBSITE_URL",  # The website url provided in business detail is invalid
-    "INVALID_ZIP_CODE",  # The zip code provided in business address is invalid.
-    "MISSING_ADDRESS_LINE_ONE",  # Address line 1 is missing in business address.
-    "MISSING_BUSINESS_NAME",  # Business name is missing from business detail.
-    "MISSING_CITY",  # City is missing in business address.
-    "MISSING_COUNTRY_CODE",  # Country is missing in business address.
-    "MISSING_PHONE_NUMBER",  # Phone number is missing from business detail.
-    "MISSING_STATE",  # State is missing in business address.
-    "MISSING_WEBSITE_URL",  # Website url is missing from business detail.
-    "MISSING_ZIP_CODE",  # Zip code is missing in business address.
-    "NOT_FOUND",  # The requested resource does not exist.
-    "TOO_MANY_REQUESTS",  # There have been too many requests, please slow down your call rate.
-    "UNAUTHORIZED",  # The request lacks the necessary credentials.
+    "ACCESS_DENIED_FOR_MANAGER_ACCOUNT",
+    "ACCOUNT_ALREADY_EXISTS_FOR_ACCOUNT_NAME",
+    "ACCOUNT_ALREADY_EXISTS_FOR_SELLING_ACCOUNT",
+    "ACCOUNT_ALREADY_EXISTS_FOR_VENDOR",
+    "ADDRESS_BUSINESS_NAME_TOO_LONG",
+    "ADDRESS_INVALID_STATE",
+    "BAD_REQUEST",
+    "CONTENT_TOO_LARGE",
+    "FORBIDDEN",
+    "INTERNAL_ERROR",
+    "INVALID_INPUT",
+    "INVALID_STATE_OR_REGION",
+    "INVALID_WEBSITE_URL",
+    "INVALID_ZIP_CODE",
+    "MISSING_ADDRESS_LINE_ONE",
+    "MISSING_BUSINESS_NAME",
+    "MISSING_CITY",
+    "MISSING_COUNTRY_CODE",
+    "MISSING_PHONE_NUMBER",
+    "MISSING_STATE",
+    "MISSING_WEBSITE_URL",
+    "MISSING_ZIP_CODE",
+    "NOT_FOUND",
+    "TOO_MANY_REQUESTS",
+    "UNAUTHORIZED",
 ]
 """
 Supported values:
@@ -93,11 +88,7 @@ Supported values:
 """
 
 
-type RegionCode = Literal[
-    "EU",  # Europe
-    "FE",  # Far East
-    "NA",  # North America
-]
+type RegionCode = Literal["EU", "FE", "NA"]
 """
 Supported values:
 - `EU`: Europe
@@ -106,12 +97,7 @@ Supported values:
 """
 
 
-type SellingAccountLinkState = Literal[
-    "APPROVED",
-    "IN_PROGRESS",
-    "PENDING_APPROVAL",
-    "REJECTED",
-]
+type SellingAccountLinkState = Literal["APPROVED", "IN_PROGRESS", "PENDING_APPROVAL", "REJECTED"]
 
 
 class AdvertiserAccount(LenientModel):
@@ -127,72 +113,9 @@ class AdvertiserAccount(LenientModel):
         max_length=1,
         description="The business details for an advertising account, containing either an address token for sellingAccount, or an address object if the sellingAccount lacks a valid address.",
     )
-    currencyCode: CurrencyCode | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `AED`: United Arab Emirates Dirham
-- `AUD`: Australian Dollar
-- `BHD`: Bahraini Dinar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `CHF`: Swiss Franc
-- `CNY`: Chinese Yuan
-- `CZK`: Czech Koruna
-- `DKK`: Danish Krone
-- `EGP`: Egyptian Pound
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `HKD`: Hong Kong Dollar
-- `HUF`: Hungarian Forint
-- `ILS`: Israeli New Shekel
-- `INR`: Indian Rupee
-- `JOD`: Jordanian Dinar
-- `JPY`: Japanese Yen
-- `KWD`: Kuwaiti Dinar
-- `MXN`: Mexican Peso
-- `MXP`: Mexican Peso
-- `NGN`: Nigerian Naira
-- `NOK`: Norwegian Krone
-- `NZD`: New Zealand Dollar
-- `PLN`: Polish Złoty
-- `QAR`: Qatari Riyal
-- `RON`: Romanian Leu
-- `SAR`: Saudi Riyal
-- `SEK`: Swedish Krona
-- `SGD`: Singapore Dollar
-- `THB`: Thai Baht
-- `TRY`: Turkish Lira
-- `USD`: United States Dollar
-- `ZAR`: South African Rand
-""",
-    )
+    currencyCode: CurrencyCode | str | None = Field(default=None)
     displayName: str | None = Field(default=None, description="Display name for the advertiser account.")
-    industryVertical: IndustryVertical | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `AMS Keyword`: AMS Keyword
-- `AMS Self Service`: AMS Self Service
-- `Automotive`: Automotive
-- `Consumer Goods`: Consumer Goods
-- `Entertainment`: Entertainment
-- `Financial Services`: Financial Services
-- `Hardware & Electronics`: Hardware & Electronics
-- `Health`: Health
-- `House Ads`: House Ads
-- `Public Services`: Public Services
-- `Remnant Networks`: Remnant Networks
-- `Retail Goods & Services`: Retail Goods & Services
-- `Software`: Software
-- `Telecommunications`: Telecommunications
-- `Travel`: Travel
-- `Twitch TV`: Twitch TV
-- `Twitch`: Twitch
-- `Web Media`: Web Media
-- `eCommerce`: eCommerce
-""",
-    )
+    industryVertical: IndustryVertical | str | None = Field(default=None)
     isGlobalAccount: bool | None = Field(
         default=None, description="Indicates whether the advertising account is global or not."
     )
@@ -210,55 +133,7 @@ Supported values:
         description="The selling account link requests for an advertiser account, containing details for linking.",
     )
     status: AdvertiserAccountStatus
-    timeZoneIana: TimeZoneIana | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `America/Anchorage`: Alaska Time Zone (UTC-09:00)
-- `America/Caracas`: Venezuela Time Zone (UTC-04:00)
-- `America/Chicago`: Central Time Zone (UTC-06:00)
-- `America/Denver`: Mountain Time Zone (UTC-07:00)
-- `America/Halifax`: Atlantic Time Zone (UTC-04:00)
-- `America/Los_Angeles`: Pacific Time Zone (UTC-08:00)
-- `America/Mexico_City`: Central Mexico Time Zone (UTC-06:00)
-- `America/New_York`: Eastern Time Zone (UTC-05:00)
-- `America/Sao_Paulo`: Brasilia Time Zone (UTC-03:00)
-- `America/St_Johns`: Newfoundland Time Zone (UTC-03:30)
-- `Asia/Almaty`: Kazakhstan Time Zone (UTC+06:00)
-- `Asia/Baghdad`: Arabian Time Zone (UTC+03:00)
-- `Asia/Bangkok`: Indochina Time Zone (UTC+07:00)
-- `Asia/Dubai`: Gulf Time Zone (UTC+04:00)
-- `Asia/Hong_Kong`: Hong Kong Time Zone (UTC+08:00)
-- `Asia/Kabul`: Afghanistan Time Zone (UTC+04:30)
-- `Asia/Kathmandu`: Nepal Time Zone (UTC+05:45)
-- `Asia/Kolkata`: India Time Zone (UTC+05:30)
-- `Asia/Magadan`: Magadan Time Zone (UTC+11:00)
-- `Asia/Riyadh`: Saudi Arabia Time Zone (UTC+03:00)
-- `Asia/Shanghai`: China Time Zone (UTC+08:00)
-- `Asia/Singapore`: Singapore Time Zone (UTC+08:00)
-- `Asia/Tehran`: Iran Time Zone (UTC+03:30)
-- `Asia/Tokyo`: Japan Time Zone (UTC+09:00)
-- `Asia/Yekaterinburg`: Yekaterinburg Time Zone (UTC+05:00)
-- `Asia/Yerevan`: Armenia Time Zone (UTC+04:00)
-- `Atlantic/Azores`: Azores Time Zone (UTC-01:00)
-- `Atlantic/South_Georgia`: South Georgia Time Zone (UTC-02:00)
-- `Australia/Brisbane`: Australian Eastern Time Zone (UTC+10:00)
-- `Australia/Darwin`: Australian Central Time Zone (UTC+09:30)
-- `Australia/Sydney`: Australian Eastern Time Zone (UTC+10:00/+11:00)
-- `EET`: Eastern European Time Zone (UTC+02:00)
-- `Europe/Amsterdam`: Central European Time Zone (UTC+01:00)
-- `Europe/Istanbul`: Turkey Time Zone (UTC+03:00)
-- `Europe/London`: British Time Zone (UTC+00:00)
-- `Europe/Paris`: Central European Time Zone (UTC+01:00)
-- `Europe/Stockholm`: Central European Time Zone (UTC+01:00)
-- `Indian/Cocos`: Cocos Islands Time Zone (UTC+06:30)
-- `Pacific/Auckland`: New Zealand Time Zone (UTC+12:00/+13:00)
-- `Pacific/Fiji`: Fiji Time Zone (UTC+12:00)
-- `Pacific/Honolulu`: Hawaii Time Zone (UTC-10:00)
-- `Pacific/Kwajalein`: Marshall Islands Time Zone (UTC+12:00)
-- `Pacific/Midway`: Samoa Time Zone (UTC-11:00)
-""",
-    )
+    timeZoneIana: TimeZoneIana | str | None = Field(default=None)
 
 
 class AdvertiserAccountAdvertiserAccountIdFilter(StrictModel):
@@ -271,72 +146,9 @@ class AdvertiserAccountCreate(StrictModel):
         max_length=1,
         description="The business details for an advertising account, containing either an address token for sellingAccount, or an address object if the sellingAccount lacks a valid address.",
     )
-    currencyCode: CurrencyCode | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `AED`: United Arab Emirates Dirham
-- `AUD`: Australian Dollar
-- `BHD`: Bahraini Dinar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `CHF`: Swiss Franc
-- `CNY`: Chinese Yuan
-- `CZK`: Czech Koruna
-- `DKK`: Danish Krone
-- `EGP`: Egyptian Pound
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `HKD`: Hong Kong Dollar
-- `HUF`: Hungarian Forint
-- `ILS`: Israeli New Shekel
-- `INR`: Indian Rupee
-- `JOD`: Jordanian Dinar
-- `JPY`: Japanese Yen
-- `KWD`: Kuwaiti Dinar
-- `MXN`: Mexican Peso
-- `MXP`: Mexican Peso
-- `NGN`: Nigerian Naira
-- `NOK`: Norwegian Krone
-- `NZD`: New Zealand Dollar
-- `PLN`: Polish Złoty
-- `QAR`: Qatari Riyal
-- `RON`: Romanian Leu
-- `SAR`: Saudi Riyal
-- `SEK`: Swedish Krona
-- `SGD`: Singapore Dollar
-- `THB`: Thai Baht
-- `TRY`: Turkish Lira
-- `USD`: United States Dollar
-- `ZAR`: South African Rand
-""",
-    )
+    currencyCode: CurrencyCode | None = Field(default=None)
     displayName: str | None = Field(default=None, description="Display name for the advertiser account.")
-    industryVertical: IndustryVertical | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `AMS Keyword`: AMS Keyword
-- `AMS Self Service`: AMS Self Service
-- `Automotive`: Automotive
-- `Consumer Goods`: Consumer Goods
-- `Entertainment`: Entertainment
-- `Financial Services`: Financial Services
-- `Hardware & Electronics`: Hardware & Electronics
-- `Health`: Health
-- `House Ads`: House Ads
-- `Public Services`: Public Services
-- `Remnant Networks`: Remnant Networks
-- `Retail Goods & Services`: Retail Goods & Services
-- `Software`: Software
-- `Telecommunications`: Telecommunications
-- `Travel`: Travel
-- `Twitch TV`: Twitch TV
-- `Twitch`: Twitch
-- `Web Media`: Web Media
-- `eCommerce`: eCommerce
-""",
-    )
+    industryVertical: IndustryVertical | None = Field(default=None)
     isGlobalAccount: bool | None = Field(
         default=None, description="Indicates whether the advertising account is global or not."
     )
@@ -353,55 +165,7 @@ Supported values:
         max_length=1,
         description="The selling account link requests for an advertiser account, containing details for linking.",
     )
-    timeZoneIana: TimeZoneIana | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `America/Anchorage`: Alaska Time Zone (UTC-09:00)
-- `America/Caracas`: Venezuela Time Zone (UTC-04:00)
-- `America/Chicago`: Central Time Zone (UTC-06:00)
-- `America/Denver`: Mountain Time Zone (UTC-07:00)
-- `America/Halifax`: Atlantic Time Zone (UTC-04:00)
-- `America/Los_Angeles`: Pacific Time Zone (UTC-08:00)
-- `America/Mexico_City`: Central Mexico Time Zone (UTC-06:00)
-- `America/New_York`: Eastern Time Zone (UTC-05:00)
-- `America/Sao_Paulo`: Brasilia Time Zone (UTC-03:00)
-- `America/St_Johns`: Newfoundland Time Zone (UTC-03:30)
-- `Asia/Almaty`: Kazakhstan Time Zone (UTC+06:00)
-- `Asia/Baghdad`: Arabian Time Zone (UTC+03:00)
-- `Asia/Bangkok`: Indochina Time Zone (UTC+07:00)
-- `Asia/Dubai`: Gulf Time Zone (UTC+04:00)
-- `Asia/Hong_Kong`: Hong Kong Time Zone (UTC+08:00)
-- `Asia/Kabul`: Afghanistan Time Zone (UTC+04:30)
-- `Asia/Kathmandu`: Nepal Time Zone (UTC+05:45)
-- `Asia/Kolkata`: India Time Zone (UTC+05:30)
-- `Asia/Magadan`: Magadan Time Zone (UTC+11:00)
-- `Asia/Riyadh`: Saudi Arabia Time Zone (UTC+03:00)
-- `Asia/Shanghai`: China Time Zone (UTC+08:00)
-- `Asia/Singapore`: Singapore Time Zone (UTC+08:00)
-- `Asia/Tehran`: Iran Time Zone (UTC+03:30)
-- `Asia/Tokyo`: Japan Time Zone (UTC+09:00)
-- `Asia/Yekaterinburg`: Yekaterinburg Time Zone (UTC+05:00)
-- `Asia/Yerevan`: Armenia Time Zone (UTC+04:00)
-- `Atlantic/Azores`: Azores Time Zone (UTC-01:00)
-- `Atlantic/South_Georgia`: South Georgia Time Zone (UTC-02:00)
-- `Australia/Brisbane`: Australian Eastern Time Zone (UTC+10:00)
-- `Australia/Darwin`: Australian Central Time Zone (UTC+09:30)
-- `Australia/Sydney`: Australian Eastern Time Zone (UTC+10:00/+11:00)
-- `EET`: Eastern European Time Zone (UTC+02:00)
-- `Europe/Amsterdam`: Central European Time Zone (UTC+01:00)
-- `Europe/Istanbul`: Turkey Time Zone (UTC+03:00)
-- `Europe/London`: British Time Zone (UTC+00:00)
-- `Europe/Paris`: Central European Time Zone (UTC+01:00)
-- `Europe/Stockholm`: Central European Time Zone (UTC+01:00)
-- `Indian/Cocos`: Cocos Islands Time Zone (UTC+06:30)
-- `Pacific/Auckland`: New Zealand Time Zone (UTC+12:00/+13:00)
-- `Pacific/Fiji`: Fiji Time Zone (UTC+12:00)
-- `Pacific/Honolulu`: Hawaii Time Zone (UTC-10:00)
-- `Pacific/Kwajalein`: Marshall Islands Time Zone (UTC+12:00)
-- `Pacific/Midway`: Samoa Time Zone (UTC-11:00)
-""",
-    )
+    timeZoneIana: TimeZoneIana | None = Field(default=None)
 
 
 class AdvertiserAccountIsGlobalAccountFilter(StrictModel):
@@ -421,13 +185,7 @@ class AdvertiserAccountMultiStatusSuccess(LenientModel):
 class AdvertiserAccountStatus(LenientModel):
     """The current status of an AdvertiserAccount, including a status code and a human-readable message."""
 
-    statusCode: AccountState | str = Field(description="""
-Supported values:
-- `APPROVED`: This signifies that the account has been successfully registered and is eligible to create and manage campaigns.
-- `ARCHIVED`: This account has been permanently closed and cannot be reactivated. This may occur if the account was shut down at your request. To advertise again, you'll need to create a new account.
-- `REGISTRATION_IN_PROGRESS`: This means the account registration request has been received and is currently in progress.
-- `REJECTED`: This signifies that the account registration could not be completed successfully. To advertise again, you'll need to create a new account.
-""")
+    statusCode: AccountState | str
     statusMessage: str = Field(description="A human-friendly message describing the status of the advertising account.")
 
 
@@ -444,72 +202,9 @@ class AdvertiserAccountUpdate(StrictModel):
         max_length=1,
         description="The business details for an advertising account, containing either an address token for sellingAccount, or an address object if the sellingAccount lacks a valid address.",
     )
-    currencyCode: CurrencyCode | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `AED`: United Arab Emirates Dirham
-- `AUD`: Australian Dollar
-- `BHD`: Bahraini Dinar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `CHF`: Swiss Franc
-- `CNY`: Chinese Yuan
-- `CZK`: Czech Koruna
-- `DKK`: Danish Krone
-- `EGP`: Egyptian Pound
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `HKD`: Hong Kong Dollar
-- `HUF`: Hungarian Forint
-- `ILS`: Israeli New Shekel
-- `INR`: Indian Rupee
-- `JOD`: Jordanian Dinar
-- `JPY`: Japanese Yen
-- `KWD`: Kuwaiti Dinar
-- `MXN`: Mexican Peso
-- `MXP`: Mexican Peso
-- `NGN`: Nigerian Naira
-- `NOK`: Norwegian Krone
-- `NZD`: New Zealand Dollar
-- `PLN`: Polish Złoty
-- `QAR`: Qatari Riyal
-- `RON`: Romanian Leu
-- `SAR`: Saudi Riyal
-- `SEK`: Swedish Krona
-- `SGD`: Singapore Dollar
-- `THB`: Thai Baht
-- `TRY`: Turkish Lira
-- `USD`: United States Dollar
-- `ZAR`: South African Rand
-""",
-    )
+    currencyCode: CurrencyCode | None = Field(default=None)
     displayName: str | None = Field(default=None, description="Display name for the advertiser account.")
-    industryVertical: IndustryVertical | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `AMS Keyword`: AMS Keyword
-- `AMS Self Service`: AMS Self Service
-- `Automotive`: Automotive
-- `Consumer Goods`: Consumer Goods
-- `Entertainment`: Entertainment
-- `Financial Services`: Financial Services
-- `Hardware & Electronics`: Hardware & Electronics
-- `Health`: Health
-- `House Ads`: House Ads
-- `Public Services`: Public Services
-- `Remnant Networks`: Remnant Networks
-- `Retail Goods & Services`: Retail Goods & Services
-- `Software`: Software
-- `Telecommunications`: Telecommunications
-- `Travel`: Travel
-- `Twitch TV`: Twitch TV
-- `Twitch`: Twitch
-- `Web Media`: Web Media
-- `eCommerce`: eCommerce
-""",
-    )
+    industryVertical: IndustryVertical | None = Field(default=None)
     isGlobalAccount: bool | None = Field(
         default=None, description="Indicates whether the advertising account is global or not."
     )
@@ -526,55 +221,7 @@ Supported values:
         max_length=1,
         description="The selling account link requests for an advertiser account, containing details for linking.",
     )
-    timeZoneIana: TimeZoneIana | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `America/Anchorage`: Alaska Time Zone (UTC-09:00)
-- `America/Caracas`: Venezuela Time Zone (UTC-04:00)
-- `America/Chicago`: Central Time Zone (UTC-06:00)
-- `America/Denver`: Mountain Time Zone (UTC-07:00)
-- `America/Halifax`: Atlantic Time Zone (UTC-04:00)
-- `America/Los_Angeles`: Pacific Time Zone (UTC-08:00)
-- `America/Mexico_City`: Central Mexico Time Zone (UTC-06:00)
-- `America/New_York`: Eastern Time Zone (UTC-05:00)
-- `America/Sao_Paulo`: Brasilia Time Zone (UTC-03:00)
-- `America/St_Johns`: Newfoundland Time Zone (UTC-03:30)
-- `Asia/Almaty`: Kazakhstan Time Zone (UTC+06:00)
-- `Asia/Baghdad`: Arabian Time Zone (UTC+03:00)
-- `Asia/Bangkok`: Indochina Time Zone (UTC+07:00)
-- `Asia/Dubai`: Gulf Time Zone (UTC+04:00)
-- `Asia/Hong_Kong`: Hong Kong Time Zone (UTC+08:00)
-- `Asia/Kabul`: Afghanistan Time Zone (UTC+04:30)
-- `Asia/Kathmandu`: Nepal Time Zone (UTC+05:45)
-- `Asia/Kolkata`: India Time Zone (UTC+05:30)
-- `Asia/Magadan`: Magadan Time Zone (UTC+11:00)
-- `Asia/Riyadh`: Saudi Arabia Time Zone (UTC+03:00)
-- `Asia/Shanghai`: China Time Zone (UTC+08:00)
-- `Asia/Singapore`: Singapore Time Zone (UTC+08:00)
-- `Asia/Tehran`: Iran Time Zone (UTC+03:30)
-- `Asia/Tokyo`: Japan Time Zone (UTC+09:00)
-- `Asia/Yekaterinburg`: Yekaterinburg Time Zone (UTC+05:00)
-- `Asia/Yerevan`: Armenia Time Zone (UTC+04:00)
-- `Atlantic/Azores`: Azores Time Zone (UTC-01:00)
-- `Atlantic/South_Georgia`: South Georgia Time Zone (UTC-02:00)
-- `Australia/Brisbane`: Australian Eastern Time Zone (UTC+10:00)
-- `Australia/Darwin`: Australian Central Time Zone (UTC+09:30)
-- `Australia/Sydney`: Australian Eastern Time Zone (UTC+10:00/+11:00)
-- `EET`: Eastern European Time Zone (UTC+02:00)
-- `Europe/Amsterdam`: Central European Time Zone (UTC+01:00)
-- `Europe/Istanbul`: Turkey Time Zone (UTC+03:00)
-- `Europe/London`: British Time Zone (UTC+00:00)
-- `Europe/Paris`: Central European Time Zone (UTC+01:00)
-- `Europe/Stockholm`: Central European Time Zone (UTC+01:00)
-- `Indian/Cocos`: Cocos Islands Time Zone (UTC+06:30)
-- `Pacific/Auckland`: New Zealand Time Zone (UTC+12:00/+13:00)
-- `Pacific/Fiji`: Fiji Time Zone (UTC+12:00)
-- `Pacific/Honolulu`: Hawaii Time Zone (UTC-10:00)
-- `Pacific/Kwajalein`: Marshall Islands Time Zone (UTC+12:00)
-- `Pacific/Midway`: Samoa Time Zone (UTC-11:00)
-""",
-    )
+    timeZoneIana: TimeZoneIana | None = Field(default=None)
 
 
 class AlternateIdentifier(LenientModel):
@@ -590,15 +237,7 @@ class AlternateIdentifier(LenientModel):
     profileId: str | None = Field(
         default=None, description="The marketplace profile identifier of the advertising account."
     )
-    region: RegionCode | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `EU`: Europe
-- `FE`: Far East
-- `NA`: North America
-""",
-    )
+    region: RegionCode | str | None = Field(default=None)
 
 
 class CreateAdvertiserAccountRequest(StrictModel):
@@ -615,34 +254,7 @@ class CreateSellingAccountLinkRequest(StrictModel):
 
 
 class Error(LenientModel):
-    code: ErrorCode | str = Field(description="""
-Supported values:
-- `ACCESS_DENIED_FOR_MANAGER_ACCOUNT`: The request does not have access to the manager account provided in the registration request.
-- `ACCOUNT_ALREADY_EXISTS_FOR_ACCOUNT_NAME`: An advertiser account already exists with this display name.
-- `ACCOUNT_ALREADY_EXISTS_FOR_SELLING_ACCOUNT`: An advertiser account already exists for this selling account.
-- `ACCOUNT_ALREADY_EXISTS_FOR_VENDOR`: An advertiser account already exists for the selected vendor.
-- `ADDRESS_BUSINESS_NAME_TOO_LONG`: Business name provided is too long.
-- `ADDRESS_INVALID_STATE`: The state provided in business address is invalid.
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-- `CONTENT_TOO_LARGE`: The request is too large. Consider splitting it into multiple requests.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `INVALID_INPUT`: The request has invalid input parameters.
-- `INVALID_STATE_OR_REGION`: The state provided in business address is invalid.
-- `INVALID_WEBSITE_URL`: The website url provided in business detail is invalid
-- `INVALID_ZIP_CODE`: The zip code provided in business address is invalid.
-- `MISSING_ADDRESS_LINE_ONE`: Address line 1 is missing in business address.
-- `MISSING_BUSINESS_NAME`: Business name is missing from business detail.
-- `MISSING_CITY`: City is missing in business address.
-- `MISSING_COUNTRY_CODE`: Country is missing in business address.
-- `MISSING_PHONE_NUMBER`: Phone number is missing from business detail.
-- `MISSING_STATE`: State is missing in business address.
-- `MISSING_WEBSITE_URL`: Website url is missing from business detail.
-- `MISSING_ZIP_CODE`: Zip code is missing in business address.
-- `NOT_FOUND`: The requested resource does not exist.
-- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
-""")
+    code: ErrorCode | str
     fieldLocation: str | None = Field(default=None)
     message: str
 

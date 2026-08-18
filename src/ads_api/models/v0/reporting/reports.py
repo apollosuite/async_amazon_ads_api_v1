@@ -9,43 +9,10 @@ from pydantic import Field
 from ads_api.models._core.base import LenientModel, StrictModel
 
 type AsyncReportAdProduct = Literal[
-    "ALL",
-    "DEMAND_SIDE_PLATFORM",
-    "SPONSORED_BRANDS",
-    "SPONSORED_DISPLAY",
-    "SPONSORED_PRODUCTS",
-    "SPONSORED_TELEVISION",
+    "ALL", "DEMAND_SIDE_PLATFORM", "SPONSORED_BRANDS", "SPONSORED_DISPLAY", "SPONSORED_PRODUCTS", "SPONSORED_TELEVISION"
 ]
 """
 The advertising product.
-"""
-
-
-type AsyncReportConfigurationFormat = Literal["GZIP_JSON"]
-"""
-The report file format.
-"""
-
-
-type AsyncReportConfigurationTimeUnit = Literal["DAILY", "SUMMARY"]
-"""
-The aggregation level of report data. If the timeUnit is set to `SUMMARY`, the report data is aggregated at the time period specified. The availability
-of time unit breakdowns depends on the selection of reportTypeId.
-"""
-
-
-type AsyncReportStatus = Literal[
-    "COMPLETED",
-    "FAILED",
-    "PENDING",
-    "PROCESSING",
-]
-"""
-The build status of the report.
-  - `PENDING` - Report is created and awaiting processing.
-  - `PROCESSING` - Report is processing. Please wait.
-  - `COMPLETED` - Report has completed.  Check the `url` for the output file.
-  - `FAILED` - Report generation failed.  Check the `failureReason` for details.
 """
 
 
@@ -63,7 +30,7 @@ class AsyncReport(LenientModel):
     name: str | None = Field(default=None, description="Optional. The name of the generated report.")
     reportId: str = Field(description="The identifier of the requested report.")
     startDate: str = Field(description="The start date for the reporting period in YYYY-mm-dd format.")
-    status: AsyncReportStatus | str = Field(description="""
+    status: Literal["COMPLETED", "FAILED", "PENDING", "PROCESSING"] | str = Field(description="""
 The build status of the report.
   - `PENDING` - Report is created and awaiting processing.
   - `PROCESSING` - Report is processing. Please wait.
@@ -88,13 +55,13 @@ columns depends on the selection of reportTypeId. This list cannot be null or em
         default=None,
         description="The list of filters supported by a report type. The availability of filters fields depends on the selection of reportTypeId.",
     )
-    format: AsyncReportConfigurationFormat = Field(description="The report file format.")
+    format: Literal["GZIP_JSON"] = Field(description="The report file format.")
     groupBy: list[str] = Field(description="""
 This field determines the aggregation level of the report data and also makes additional fields available
 for selection. This field cannot be null or empty.
 """)
     reportTypeId: str = Field(description="The identifier of the Report Type to be generated.")
-    timeUnit: AsyncReportConfigurationTimeUnit = Field(description="""
+    timeUnit: Literal["DAILY", "SUMMARY"] = Field(description="""
 The aggregation level of report data. If the timeUnit is set to `SUMMARY`, the report data is aggregated at the time period specified. The availability
 of time unit breakdowns depends on the selection of reportTypeId.
 """)
@@ -110,13 +77,13 @@ columns depends on the selection of reportTypeId. This list cannot be null or em
         default=None,
         description="The list of filters supported by a report type. The availability of filters fields depends on the selection of reportTypeId.",
     )
-    format: AsyncReportConfigurationFormat | str = Field(description="The report file format.")
+    format: Literal["GZIP_JSON"] | str = Field(description="The report file format.")
     groupBy: list[str] = Field(description="""
 This field determines the aggregation level of the report data and also makes additional fields available
 for selection. This field cannot be null or empty.
 """)
     reportTypeId: str = Field(description="The identifier of the Report Type to be generated.")
-    timeUnit: AsyncReportConfigurationTimeUnit | str = Field(description="""
+    timeUnit: Literal["DAILY", "SUMMARY"] | str = Field(description="""
 The aggregation level of report data. If the timeUnit is set to `SUMMARY`, the report data is aggregated at the time period specified. The availability
 of time unit breakdowns depends on the selection of reportTypeId.
 """)
@@ -153,12 +120,9 @@ __all__ = [
     "AsyncReport",
     "AsyncReportAdProduct",
     "AsyncReportConfiguration",
-    "AsyncReportConfigurationFormat",
     "AsyncReportConfigurationOut",
-    "AsyncReportConfigurationTimeUnit",
     "AsyncReportFilter",
     "AsyncReportFilterOut",
-    "AsyncReportStatus",
     "CreateAsyncReportRequest",
     "DeleteAsyncReportResponse",
 ]

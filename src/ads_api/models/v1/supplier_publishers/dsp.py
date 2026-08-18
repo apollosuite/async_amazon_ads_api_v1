@@ -34,10 +34,7 @@ from ads_api.models.v1._shared.dsp import (
 )
 
 type DSPAmazonPublisherServicesGoalTypes = Literal[
-    "CLICK_THROUGH_RATE",
-    "ON_TARGET_REACH",
-    "VIDEO_COMPLETION_RATE",
-    "VIEW_THROUGH_RATE",
+    "CLICK_THROUGH_RATE", "ON_TARGET_REACH", "VIDEO_COMPLETION_RATE", "VIEW_THROUGH_RATE"
 ]
 """
 AmazonPublisherServicesGoalTypes is an enum representing the goal types that are supported in AmazonPublisherService. ON_TARGET_REACH: On-target reach, the absolute number of people in your target audience that is being reached by a campaign. CLICK_THROUGH_RATE: Clickthrough rate, a ratio showing how often people who see your ad or free product listing end up clicking it. VIDEO_COMPLETION_RATE: Video Completion Rate, measures the percentage of viewers who watch a video ad all the way to the end. VIEW_THROUGH_RATE: View-Through Rate, measures how many viewers watch a video ad to completion.
@@ -45,37 +42,11 @@ AmazonPublisherServicesGoalTypes is an enum representing the goal types that are
 
 
 type DSPCountryCode = Literal[
-    "AD",
-    "AE",
-    "AF",
-    "AG",
-    "AI",
-    "AU",
-    "BR",
-    "CA",
-    "DE",
-    "ES",
-    "FR",
-    "GB",
-    "IT",
-    "JP",
-    "KR",
-    "MX",
-    "US",
+    "AD", "AE", "AF", "AG", "AI", "AU", "BR", "CA", "DE", "ES", "FR", "GB", "IT", "JP", "KR", "MX", "US"
 ]
 
 
-type DSPCurrencyCode = Literal[
-    "AUD",  # Australian Dollar
-    "BRL",  # Brazilian Real
-    "CAD",  # Canadian Dollar
-    "EUR",  # Euro
-    "GBP",  # British Pound Sterling
-    "JPY",  # Japanese Yen
-    "KRW",  # South Korean Won
-    "MXN",  # Mexican Peso
-    "USD",  # United States Dollar
-]
+type DSPCurrencyCode = Literal["AUD", "BRL", "CAD", "EUR", "GBP", "JPY", "KRW", "MXN", "USD"]
 """
 Supported values:
 - `AUD`: Australian Dollar
@@ -90,15 +61,7 @@ Supported values:
 """
 
 
-type DSPDayOfWeek = Literal[
-    "FRIDAY",  # Friday.
-    "MONDAY",  # Monday.
-    "SATURDAY",  # Saturday.
-    "SUNDAY",  # Sunday.
-    "THURSDAY",  # Thursday.
-    "TUESDAY",  # Tuesday.
-    "WEDNESDAY",  # Wednesday.
-]
+type DSPDayOfWeek = Literal["FRIDAY", "MONDAY", "SATURDAY", "SUNDAY", "THURSDAY", "TUESDAY", "WEDNESDAY"]
 """
 Supported values:
 - `MONDAY`: Monday.
@@ -111,19 +74,14 @@ Supported values:
 """
 
 
-type DSPExtraFrequencyCapImpressionType = Literal[
-    "LinearTVImpression",  # Indicates include LinearTV impressions for CompleteTV Order Incremental Reach goal KPI.
-]
+type DSPExtraFrequencyCapImpressionType = Literal["LinearTVImpression"]
 """
 Supported values:
 - `LinearTVImpression`: Indicates include LinearTV impressions for CompleteTV Order Incremental Reach goal KPI.
 """
 
 
-type DSPFrequencyTargetingSetting = Literal[
-    "HOUSEHOLD",  # Control frequency an ad will be selected across people within the same household.
-    "USER",  # Control frequency an ad will be selected to a person.
-]
+type DSPFrequencyTargetingSetting = Literal["HOUSEHOLD", "USER"]
 """
 Supported values:
 - `USER`: Control frequency an ad will be selected to a person.
@@ -131,14 +89,7 @@ Supported values:
 """
 
 
-type DSPInventoryType = Literal[
-    "AUDIO",  # Audio ads that serve on streaming audio inventory.
-    "DISPLAY",
-    "ONLINE_VIDEO",
-    "STANDARD_DISPLAY",
-    "STREAMING_TV",
-    "VIDEO",
-]
+type DSPInventoryType = Literal["AUDIO", "DISPLAY", "ONLINE_VIDEO", "STANDARD_DISPLAY", "STREAMING_TV", "VIDEO"]
 """
 Supported values:
 - `AUDIO`: Audio ads that serve on streaming audio inventory.
@@ -146,190 +97,190 @@ Supported values:
 
 
 type DSPLanguageIso = Literal[
-    "aa",  # Afar.
-    "ab",  # Abkhazian.
-    "ae",  # Avestan.
-    "af",  # Afrikaans.
-    "ak",  # Akan.
-    "am",  # Amharic.
-    "an",  # Aragonese.
-    "ar",  # Arabic.
-    "as",  # Assamese.
-    "av",  # Avaric.
-    "ay",  # Aymara.
-    "az",  # Azerbaijani.
-    "ba",  # Bashkir.
-    "be",  # Belarusian.
-    "bg",  # Bulgarian.
-    "bh",  # Bihari.
-    "bi",  # Bislama.
-    "bm",  # Bambara.
-    "bn",  # Bengali.
-    "bo",  # Tibetan.
-    "br",  # Breton.
-    "bs",  # Bosnian.
-    "ca",  # Catalan.
-    "ce",  # Chechen.
-    "ch",  # Chamorro.
-    "co",  # Corsican.
-    "cr",  # Cree.
-    "cs",  # Czech.
-    "cu",  # Church Slavonic.
-    "cv",  # Chuvash.
-    "cy",  # Welsh.
-    "da",  # Danish.
-    "de",  # German.
-    "dv",  # Divehi.
-    "dz",  # Dzongkha.
-    "ee",  # Ewe.
-    "el",  # Greek.
-    "en",  # English.
-    "eo",  # Esperanto.
-    "es",  # Spanish.
-    "et",  # Estonian.
-    "eu",  # Basque.
-    "fa",  # Persian.
-    "ff",  # Fulah.
-    "fi",  # Finnish.
-    "fj",  # Fijian.
-    "fo",  # Faroese.
-    "fr",  # French.
-    "fy",  # Western Frisian.
-    "ga",  # Irish.
-    "gd",  # Scottish Gaelic.
-    "gl",  # Galician.
-    "gn",  # Guarani.
-    "gu",  # Gujarati.
-    "gv",  # Manx.
-    "ha",  # Hausa.
-    "he",  # Hebrew.
-    "hi",  # Hindi.
-    "ho",  # Hiri Motu.
-    "hr",  # Croatian.
-    "ht",  # Haitian Creole.
-    "hu",  # Hungarian.
-    "hy",  # Armenian.
-    "hz",  # Herero.
-    "ia",  # Interlingua.
-    "id",  # Indonesian.
-    "ie",  # Interlingue.
-    "ig",  # Igbo.
-    "ii",  # Sichuan Yi.
-    "ik",  # Inupiaq.
-    "io",  # Ido.
-    "is",  # Icelandic.
-    "it",  # Italian.
-    "iu",  # Inuktitut.
-    "ja",  # Japanese.
-    "jv",  # Javanese.
-    "ka",  # Georgian.
-    "kg",  # Kongo.
-    "ki",  # Kikuyu.
-    "kj",  # Kwanyama.
-    "kk",  # Kazakh.
-    "kl",  # Kalaallisut.
-    "km",  # Khmer.
-    "kn",  # Kannada.
-    "ko",  # Korean.
-    "kr",  # Kanuri.
-    "ks",  # Kashmiri.
-    "ku",  # Kurdish.
-    "kv",  # Komi.
-    "kw",  # Cornish.
-    "ky",  # Kyrgyz.
-    "la",  # Latin.
-    "lb",  # Luxembourgish.
-    "lg",  # Ganda.
-    "li",  # Limburgish.
-    "ln",  # Lingala.
-    "lo",  # Lao.
-    "lt",  # Lithuanian.
-    "lu",  # Luba-Katanga.
-    "lv",  # Latvian.
-    "mg",  # Malagasy.
-    "mh",  # Marshallese.
-    "mi",  # Māori.
-    "mk",  # Macedonian.
-    "ml",  # Malayalam.
-    "mn",  # Mongolian.
-    "mr",  # Marathi.
-    "ms",  # Malay.
-    "mt",  # Maltese.
-    "my",  # Burmese.
-    "na",  # Nauru.
-    "nb",  # Norwegian Bokmål.
-    "nd",  # North Ndebele.
-    "ne",  # Nepali.
-    "ng",  # Ndonga.
-    "nl",  # Dutch.
-    "nn",  # Norwegian Nynorsk.
-    "no",  # Norwegian.
-    "nr",  # South Ndebele.
-    "nv",  # Navajo.
-    "ny",  # Chichewa.
-    "oc",  # Occitan.
-    "oj",  # Ojibwa.
-    "om",  # Oromo.
-    "or",  # Oriya.
-    "os",  # Ossetian.
-    "pa",  # Punjabi.
-    "pi",  # Pali.
-    "pl",  # Polish.
-    "ps",  # Pashto.
-    "pt",  # Portuguese.
-    "qu",  # Quechua.
-    "rm",  # Romansh.
-    "rn",  # Kirundi.
-    "ro",  # Romanian.
-    "ru",  # Russian.
-    "rw",  # Kinyarwanda.
-    "sa",  # Sanskrit.
-    "sc",  # Sardinian.
-    "sd",  # Sindhi.
-    "se",  # Northern Sami.
-    "sg",  # Sango.
-    "si",  # Sinhala.
-    "sk",  # Slovak.
-    "sl",  # Slovenian.
-    "sm",  # Samoan.
-    "sn",  # Shona.
-    "so",  # Somali.
-    "sq",  # Albanian.
-    "sr",  # Serbian.
-    "ss",  # Swati.
-    "st",  # Southern Sotho.
-    "su",  # Sundanese.
-    "sv",  # Swedish.
-    "sw",  # Swahili.
-    "ta",  # Tamil.
-    "te",  # Telugu.
-    "tg",  # Tajik.
-    "th",  # Thai.
-    "ti",  # Tigrinya.
-    "tk",  # Turkmen.
-    "tl",  # Tagalog.
-    "tn",  # Tswana.
-    "to",  # Tonga.
-    "tr",  # Turkish.
-    "ts",  # Tsonga.
-    "tt",  # Tatar.
-    "tw",  # Twi.
-    "ty",  # Tahitian.
-    "ug",  # Uyghur.
-    "uk",  # Ukrainian.
-    "ur",  # Urdu.
-    "uz",  # Uzbek.
-    "ve",  # Venda.
-    "vi",  # Vietnamese.
-    "vo",  # Volapük.
-    "wa",  # Walloon.
-    "wo",  # Wolof.
-    "xh",  # Xhosa.
-    "yi",  # Yiddish.
-    "yo",  # Yoruba.
-    "za",  # Zhuang.
-    "zh",  # Chinese.
-    "zu",  # Zulu.
+    "aa",
+    "ab",
+    "ae",
+    "af",
+    "ak",
+    "am",
+    "an",
+    "ar",
+    "as",
+    "av",
+    "ay",
+    "az",
+    "ba",
+    "be",
+    "bg",
+    "bh",
+    "bi",
+    "bm",
+    "bn",
+    "bo",
+    "br",
+    "bs",
+    "ca",
+    "ce",
+    "ch",
+    "co",
+    "cr",
+    "cs",
+    "cu",
+    "cv",
+    "cy",
+    "da",
+    "de",
+    "dv",
+    "dz",
+    "ee",
+    "el",
+    "en",
+    "eo",
+    "es",
+    "et",
+    "eu",
+    "fa",
+    "ff",
+    "fi",
+    "fj",
+    "fo",
+    "fr",
+    "fy",
+    "ga",
+    "gd",
+    "gl",
+    "gn",
+    "gu",
+    "gv",
+    "ha",
+    "he",
+    "hi",
+    "ho",
+    "hr",
+    "ht",
+    "hu",
+    "hy",
+    "hz",
+    "ia",
+    "id",
+    "ie",
+    "ig",
+    "ii",
+    "ik",
+    "io",
+    "is",
+    "it",
+    "iu",
+    "ja",
+    "jv",
+    "ka",
+    "kg",
+    "ki",
+    "kj",
+    "kk",
+    "kl",
+    "km",
+    "kn",
+    "ko",
+    "kr",
+    "ks",
+    "ku",
+    "kv",
+    "kw",
+    "ky",
+    "la",
+    "lb",
+    "lg",
+    "li",
+    "ln",
+    "lo",
+    "lt",
+    "lu",
+    "lv",
+    "mg",
+    "mh",
+    "mi",
+    "mk",
+    "ml",
+    "mn",
+    "mr",
+    "ms",
+    "mt",
+    "my",
+    "na",
+    "nb",
+    "nd",
+    "ne",
+    "ng",
+    "nl",
+    "nn",
+    "no",
+    "nr",
+    "nv",
+    "ny",
+    "oc",
+    "oj",
+    "om",
+    "or",
+    "os",
+    "pa",
+    "pi",
+    "pl",
+    "ps",
+    "pt",
+    "qu",
+    "rm",
+    "rn",
+    "ro",
+    "ru",
+    "rw",
+    "sa",
+    "sc",
+    "sd",
+    "se",
+    "sg",
+    "si",
+    "sk",
+    "sl",
+    "sm",
+    "sn",
+    "so",
+    "sq",
+    "sr",
+    "ss",
+    "st",
+    "su",
+    "sv",
+    "sw",
+    "ta",
+    "te",
+    "tg",
+    "th",
+    "ti",
+    "tk",
+    "tl",
+    "tn",
+    "to",
+    "tr",
+    "ts",
+    "tt",
+    "tw",
+    "ty",
+    "ug",
+    "uk",
+    "ur",
+    "uz",
+    "ve",
+    "vi",
+    "vo",
+    "wa",
+    "wo",
+    "xh",
+    "yi",
+    "yo",
+    "za",
+    "zh",
+    "zu",
 ]
 """
 ISO-639-1 two-letter language codes.
@@ -568,10 +519,7 @@ type DSPSupplierTargetType = Literal[
 ]
 
 
-type DSPSupplierTargetingDaypartTimezoneType = Literal[
-    "DEAL",  # Set the daypart targeting to the timezone of the deal by the supplier
-    "VIEWER",  # Set the daypart targeting to the timezone of the viewer of the advertisement.
-]
+type DSPSupplierTargetingDaypartTimezoneType = Literal["DEAL", "VIEWER"]
 """
 Supported values:
 - `DEAL`: Set the daypart targeting to the timezone of the deal by the supplier
@@ -618,71 +566,8 @@ class DSPCountryConfiguration(LenientModel):
         max_length=49,
         description="Creative requirements override for this specific country. If this field is present, even if empty, the root-level creativeRequirements should be ignored for this country configuration.",
     )
-    currency: DSPCurrencyCode | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `JPY`: Japanese Yen
-- `KRW`: South Korean Won
-- `MXN`: Mexican Peso
-- `USD`: United States Dollar
-""",
-    )
-    timezone: DSPTimeZone | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `AMERICA_ANCHORAGE`: America/Anchorage
-- `AMERICA_CARACAS`: America/Caracas
-- `AMERICA_CHICAGO`: America/Chicago
-- `AMERICA_DENVER`: America/Denver
-- `AMERICA_HALIFAX`: America/Halifax
-- `AMERICA_LOS_ANGELES`: America/Los_Angeles
-- `AMERICA_NEW_YORK`: America/New_York
-- `AMERICA_MEXICO_CITY`: America/Mexico_City
-- `AMERICA_SAO_PAULO`: America/Sao_Paulo
-- `AMERICA_ST_JOHNS`: America/St_Johns
-- `ASIA_ALMATY`: Asia/Almaty
-- `ASIA_BAGHDAD`: Asia/Baghdad
-- `ASIA_BANGKOK`: Asia/Bangkok
-- `ASIA_DUBAI`: Asia/Dubai
-- `ASIA_HONG_KONG`: Asia/Hong_Kong
-- `ASIA_KABUL`: Asia/Kabul
-- `ASIA_KATHMANDU`: Asia/Kathmandu
-- `ASIA_KOLKATA`: Asia/Kolkata
-- `ASIA_MAGADAN`: Asia/Magadan
-- `ASIA_RIYADH`: Asia/Riyadh
-- `ASIA_SHANGHAI`: Asia/Shanghai
-- `ASIA_SINGAPORE`: Asia/Singapore
-- `ASIA_TEHRAN`: Asia/Tehran
-- `ASIA_TOKYO`: Asia/Tokyo
-- `ASIA_YEKATERINBURG`: Asia/Yekaterinburg
-- `ASIA_YEREVAN`: Asia/Yerevan
-- `ATLANTIC_AZORES`: Atlantic/Azores
-- `ATLANTIC_SOUTH_GEORGIA`: Atlantic/South_Georgia
-- `AUSTRALIA_BRISBANE`: Australia/Brisbane
-- `AUSTRALIA_DARWIN`: Australia/Darwin
-- `AUSTRALIA_SYDNEY`: Australia/Sydney
-- `EET`: EET
-- `EUROPE_AMSTERDAM`: Europe/Amsterdam
-- `EUROPE_ISTANBUL`: Europe/Istanbul
-- `EUROPE_LONDON`: Europe/London
-- `EUROPE_PARIS`: Europe/Paris
-- `EUROPE_STOCKHOLM`: Europe/Stockholm
-- `INDIAN_COCOS`: Indian/Cocos
-- `PACIFIC_FIJI`: Pacific/Fiji
-- `PACIFIC_HONOLULU`: Pacific/Honolulu
-- `PACIFIC_KWAJALEIN`: Pacific/Kwajalein
-- `PACIFIC_MIDWAY`: Pacific/Midway
-- `PACIFIC_AUCKLAND`: Pacific/Auckland
-- `UTC`: UTC
-""",
-    )
+    currency: DSPCurrencyCode | str | None = Field(default=None)
+    timezone: DSPTimeZone | str | None = Field(default=None)
 
 
 class DSPFrequency(LenientModel):
@@ -699,18 +584,9 @@ class DSPFrequency(LenientModel):
         default=None,
         min_length=0,
         max_length=10,
-        description="""
-Add the additional types of impression to frequency cap. Default to empty list when not selected
-
-Supported values:
-- `LinearTVImpression`: Indicates include LinearTV impressions for CompleteTV Order Incremental Reach goal KPI.
-""",
+        description="Add the additional types of impression to frequency cap. Default to empty list when not selected",
     )
-    frequencyTargetingSetting: DSPFrequencyTargetingSetting | str = Field(description="""
-Supported values:
-- `USER`: Control frequency an ad will be selected to a person.
-- `HOUSEHOLD`: Control frequency an ad will be selected across people within the same household.
-""")
+    frequencyTargetingSetting: DSPFrequencyTargetingSetting | str
     timeCount: int | None = Field(
         default=None,
         ge=1,
@@ -729,18 +605,7 @@ class DSPLogo(LenientModel):
 
 
 class DSPMonetaryBudget(LenientModel):
-    currencyCode: DSPCurrencyCode | str = Field(description="""
-Supported values:
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `JPY`: Japanese Yen
-- `KRW`: South Korean Won
-- `MXN`: Mexican Peso
-- `USD`: United States Dollar
-""")
+    currencyCode: DSPCurrencyCode | str
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )
@@ -995,25 +860,9 @@ class DSPSupplierDayPartDayTarget(LenientModel):
 class DSPSupplierDayPartTarget(LenientModel):
     """Supplier target based on time of day."""
 
-    dayOfWeek: DSPDayOfWeek | str = Field(description="""
-Supported values:
-- `MONDAY`: Monday.
-- `TUESDAY`: Tuesday.
-- `WEDNESDAY`: Wednesday.
-- `THURSDAY`: Thursday.
-- `FRIDAY`: Friday.
-- `SATURDAY`: Saturday.
-- `SUNDAY`: Sunday.
-""")
+    dayOfWeek: DSPDayOfWeek | str
     timeOfDay: DSPTimeOfDay
-    timeZoneType: DSPSupplierTargetingDaypartTimezoneType | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `DEAL`: Set the daypart targeting to the timezone of the deal by the supplier
-- `VIEWER`: Set the daypart targeting to the timezone of the viewer of the advertisement.
-""",
-    )
+    timeZoneType: DSPSupplierTargetingDaypartTimezoneType | str | None = Field(default=None)
 
 
 class DSPSupplierDayPartTimeTarget(LenientModel):
@@ -1085,203 +934,9 @@ class DSPSupplierProposedDealCreativeRequirement(LenientModel):
     """Creative requirement with inventory type."""
 
     creativeRequirement: DSPSupplierProposedDealCreativeRequirements
-    inventoryType: DSPInventoryType | str = Field(description="""
-Supported values:
-- `AUDIO`: Audio ads that serve on streaming audio inventory.
-""")
+    inventoryType: DSPInventoryType | str
     languages: list[DSPLanguageIso | str] | None = Field(
-        default=None,
-        min_length=0,
-        max_length=100,
-        description="""
-Languages available for this creative requirement.
-
-Supported values:
-- `aa`: Afar.
-- `ab`: Abkhazian.
-- `ae`: Avestan.
-- `af`: Afrikaans.
-- `ak`: Akan.
-- `am`: Amharic.
-- `an`: Aragonese.
-- `ar`: Arabic.
-- `as`: Assamese.
-- `av`: Avaric.
-- `ay`: Aymara.
-- `az`: Azerbaijani.
-- `ba`: Bashkir.
-- `be`: Belarusian.
-- `bg`: Bulgarian.
-- `bh`: Bihari.
-- `bi`: Bislama.
-- `bm`: Bambara.
-- `bn`: Bengali.
-- `bo`: Tibetan.
-- `br`: Breton.
-- `bs`: Bosnian.
-- `ca`: Catalan.
-- `ce`: Chechen.
-- `ch`: Chamorro.
-- `co`: Corsican.
-- `cr`: Cree.
-- `cs`: Czech.
-- `cu`: Church Slavonic.
-- `cv`: Chuvash.
-- `cy`: Welsh.
-- `da`: Danish.
-- `de`: German.
-- `dv`: Divehi.
-- `dz`: Dzongkha.
-- `ee`: Ewe.
-- `el`: Greek.
-- `en`: English.
-- `eo`: Esperanto.
-- `es`: Spanish.
-- `et`: Estonian.
-- `eu`: Basque.
-- `fa`: Persian.
-- `ff`: Fulah.
-- `fi`: Finnish.
-- `fj`: Fijian.
-- `fo`: Faroese.
-- `fr`: French.
-- `fy`: Western Frisian.
-- `ga`: Irish.
-- `gd`: Scottish Gaelic.
-- `gl`: Galician.
-- `gn`: Guarani.
-- `gu`: Gujarati.
-- `gv`: Manx.
-- `ha`: Hausa.
-- `he`: Hebrew.
-- `hi`: Hindi.
-- `ho`: Hiri Motu.
-- `hr`: Croatian.
-- `ht`: Haitian Creole.
-- `hu`: Hungarian.
-- `hy`: Armenian.
-- `hz`: Herero.
-- `ia`: Interlingua.
-- `id`: Indonesian.
-- `ie`: Interlingue.
-- `ig`: Igbo.
-- `ii`: Sichuan Yi.
-- `ik`: Inupiaq.
-- `io`: Ido.
-- `is`: Icelandic.
-- `it`: Italian.
-- `iu`: Inuktitut.
-- `ja`: Japanese.
-- `jv`: Javanese.
-- `ka`: Georgian.
-- `kg`: Kongo.
-- `ki`: Kikuyu.
-- `kj`: Kwanyama.
-- `kk`: Kazakh.
-- `kl`: Kalaallisut.
-- `km`: Khmer.
-- `kn`: Kannada.
-- `ko`: Korean.
-- `kr`: Kanuri.
-- `ks`: Kashmiri.
-- `ku`: Kurdish.
-- `kv`: Komi.
-- `kw`: Cornish.
-- `ky`: Kyrgyz.
-- `la`: Latin.
-- `lb`: Luxembourgish.
-- `lg`: Ganda.
-- `li`: Limburgish.
-- `ln`: Lingala.
-- `lo`: Lao.
-- `lt`: Lithuanian.
-- `lu`: Luba-Katanga.
-- `lv`: Latvian.
-- `mg`: Malagasy.
-- `mh`: Marshallese.
-- `mi`: Māori.
-- `mk`: Macedonian.
-- `ml`: Malayalam.
-- `mn`: Mongolian.
-- `mr`: Marathi.
-- `ms`: Malay.
-- `mt`: Maltese.
-- `my`: Burmese.
-- `na`: Nauru.
-- `nb`: Norwegian Bokmål.
-- `nd`: North Ndebele.
-- `ne`: Nepali.
-- `ng`: Ndonga.
-- `nl`: Dutch.
-- `nn`: Norwegian Nynorsk.
-- `no`: Norwegian.
-- `nr`: South Ndebele.
-- `nv`: Navajo.
-- `ny`: Chichewa.
-- `oc`: Occitan.
-- `oj`: Ojibwa.
-- `om`: Oromo.
-- `or`: Oriya.
-- `os`: Ossetian.
-- `pa`: Punjabi.
-- `pi`: Pali.
-- `pl`: Polish.
-- `ps`: Pashto.
-- `pt`: Portuguese.
-- `qu`: Quechua.
-- `rm`: Romansh.
-- `rn`: Kirundi.
-- `ro`: Romanian.
-- `ru`: Russian.
-- `rw`: Kinyarwanda.
-- `sa`: Sanskrit.
-- `sc`: Sardinian.
-- `sd`: Sindhi.
-- `se`: Northern Sami.
-- `sg`: Sango.
-- `si`: Sinhala.
-- `sk`: Slovak.
-- `sl`: Slovenian.
-- `sm`: Samoan.
-- `sn`: Shona.
-- `so`: Somali.
-- `sq`: Albanian.
-- `sr`: Serbian.
-- `ss`: Swati.
-- `st`: Southern Sotho.
-- `su`: Sundanese.
-- `sv`: Swedish.
-- `sw`: Swahili.
-- `ta`: Tamil.
-- `te`: Telugu.
-- `tg`: Tajik.
-- `th`: Thai.
-- `ti`: Tigrinya.
-- `tk`: Turkmen.
-- `tl`: Tagalog.
-- `tn`: Tswana.
-- `to`: Tonga.
-- `tr`: Turkish.
-- `ts`: Tsonga.
-- `tt`: Tatar.
-- `tw`: Twi.
-- `ty`: Tahitian.
-- `ug`: Uyghur.
-- `uk`: Ukrainian.
-- `ur`: Urdu.
-- `uz`: Uzbek.
-- `ve`: Venda.
-- `vi`: Vietnamese.
-- `vo`: Volapük.
-- `wa`: Walloon.
-- `wo`: Wolof.
-- `xh`: Xhosa.
-- `yi`: Yiddish.
-- `yo`: Yoruba.
-- `za`: Zhuang.
-- `zh`: Chinese.
-- `zu`: Zulu.
-""",
+        default=None, min_length=0, max_length=100, description="Languages available for this creative requirement."
     )
 
 
@@ -1334,14 +989,7 @@ type DSPSupplierPublisherExtension = DSPSupplierPublisherExtensionAmazonPublishe
 
 class DSPSupplierPublisherSortOption(StrictModel):
     by: DSPSupplierPublisherSortOptionsFields
-    direction: DSPSortDirection | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ASCENDING`: Sort in ascending order
-- `DESCENDING`: Sort in descending order
-""",
-    )
+    direction: DSPSortDirection | None = Field(default=None)
 
 
 class DSPSupplierPublisherSuccessResponse(LenientModel):

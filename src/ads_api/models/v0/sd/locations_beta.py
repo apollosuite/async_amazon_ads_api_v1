@@ -13,8 +13,6 @@ from ads_api.models.v0._shared import (
     LocationPredicate,
 )
 
-type BaseLocationState = Literal["enabled"]
-
 
 class ArchiveLocationRequest(StrictModel):
     """Request body for the Archive Locations API"""
@@ -33,15 +31,15 @@ class ArchiveLocationResponse(LenientModel):
 
 
 class BaseLocation(StrictModel):
-    state: BaseLocationState | None = Field(default=None)
+    state: Literal["enabled"] | None = Field(default=None)
 
 
 class BaseLocationOut(LenientModel):
-    state: BaseLocationState | str | None = Field(default=None)
+    state: Literal["enabled"] | str | None = Field(default=None)
 
 
 class CreateLocation(StrictModel):
-    state: BaseLocationState
+    state: Literal["enabled"]
     adGroupId: AdGroupId
     expression: list[LocationExpression] = Field(description="The location definition.")
 
@@ -53,7 +51,7 @@ class Include(StrictModel):
 
 
 class Location(LenientModel):
-    state: BaseLocationState | str | None = Field(default=None)
+    state: Literal["enabled"] | str | None = Field(default=None)
     locationExpressionId: LocationExpressionId | None = Field(default=None)
     adGroupId: AdGroupId | None = Field(default=None)
     expression: list[LocationExpressionOut] | None = Field(default=None, description="The Location definition.")
@@ -90,7 +88,6 @@ __all__ = [
     "ArchiveLocationResponse",
     "BaseLocation",
     "BaseLocationOut",
-    "BaseLocationState",
     "CreateLocation",
     "Include",
     "Location",

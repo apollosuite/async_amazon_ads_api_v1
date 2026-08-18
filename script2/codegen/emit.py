@@ -75,10 +75,21 @@ def schema_type(
                 return python_name
             return f"{python_name} | str"
         return python_name
+    if "enum" in schema and all(isinstance(v, str) for v in schema["enum"]):
+        imports.add("Literal")
+        items = ", ".join(f'"{v}"' for v in schema["enum"])
+        lit = f"Literal[{items}]"
+        if context_role == SchemaRole.INPUT:
+            return lit
+        return f"{lit} | str"
     t = schema.get("type", "object")
     fmt = schema.get("format", "")
     if t == "array":
         items_schema = schema.get("items", {})
+        if "enum" in items_schema and all(isinstance(v, str) for v in items_schema["enum"]):
+            imports.add("Literal")
+            items = ", ".join(f'"{v}"' for v in items_schema["enum"])
+            return f"list[Literal[{items}] | str]"
         if "$ref" in items_schema:
             ref_name = items_schema["$ref"].split("/")[-1]
             if openapi_schemas.get(ref_name, {}).get("enum"):
@@ -180,24 +191,6 @@ def parse_enum_member_docs(doc: str) -> dict[str, str]:
     return result
 
 
-def _extract_ref_enum_docs(fschema: dict[str, Any], openapi_schemas: dict[str, Any]) -> str:
-    ref_name = None
-    if "$ref" in fschema:
-        ref_name = fschema["$ref"].split("/")[-1]
-    elif fschema.get("type") == "array" and "$ref" in fschema.get("items", {}):
-        ref_name = fschema["items"]["$ref"].split("/")[-1]
-    if not ref_name:
-        return ""
-    ref_schema = openapi_schemas.get(ref_name, {})
-    if not ref_schema.get("enum"):
-        return ""
-    raw_doc = ref_schema.get("description", "")
-    member_docs = parse_enum_member_docs(raw_doc)
-    if not member_docs:
-        return ""
-    return "\n".join(f"- `{k}`: {v}" for k, v in member_docs.items())
-
-
 def _format_type_doc(doc: str, member_docs: dict[str, str] | None = None) -> str:
     cleaned = strip_markdown_tables(doc).strip()
     doc_sections: list[str] = []
@@ -223,22 +216,8 @@ def generate_enum(name: str, schema: dict[str, Any], imports: ImportSet) -> str:
         imports.add("Any")
         return f"type {name} = Any\n"
 
-    if any(str(v) in member_docs for v in values) or len(values) > 3:
-        members: list[str] = []
-        for value in values:
-            v_str = str(value)
-            line = f'    "{v_str}",'
-            if comment := member_docs.get(v_str):
-                comment_clean = re.sub(r"\s+", " ", comment)
-                line += f"  # {comment_clean}"
-            members.append(line)
-        body = "\n".join(members)
-        literal_def = f"type {name} = Literal[\n{body}\n]"
-    else:
-        items = ", ".join(f'"{v}"' for v in values)
-        literal_def = f"type {name} = Literal[{items}]"
-
-    return f"{literal_def}{docstring}\n"
+    items = ", ".join(f'"{v}"' for v in values)
+    return f"type {name} = Literal[{items}]{docstring}\n"
 
 
 def generate_type_alias(name: str, schema: dict[str, Any], imports: ImportSet) -> str:
@@ -348,12 +327,6 @@ def _field_lines(
         if not is_required:
             kwargs.insert(0, _format_default(fschema.get("default"), typ))
         desc = strip_markdown_tables(fschema.get("description", ""))
-        enum_doc = _extract_ref_enum_docs(fschema, openapi_schemas)
-        if enum_doc and enum_doc not in desc:
-            if desc:
-                desc = f"{desc}\n\nSupported values:\n{enum_doc}"
-            else:
-                desc = f"Supported values:\n{enum_doc}"
         if desc:
             imports.add("Field")
             if "\n" in desc:

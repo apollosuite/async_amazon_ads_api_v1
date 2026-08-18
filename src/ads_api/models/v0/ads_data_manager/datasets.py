@@ -275,23 +275,13 @@ Country Code. Two letter ISO 3166-1 alpha-2
 """
 
 
-type DataSetType = Literal[
-    "AUDIENCE",
-    "CUSTOM",
-    "EVENT",
-    "GEO_LOCATIONS",
-]
+type DataSetType = Literal["AUDIENCE", "CUSTOM", "EVENT", "GEO_LOCATIONS"]
 """
 Type of a DataSet.
 """
 
 
-type DatasetMetric = Literal[
-    "CONSENTED",
-    "RECEIVED",
-    "RESOLVED",
-    "VALID",
-]
+type DatasetMetric = Literal["CONSENTED", "RECEIVED", "RESOLVED", "VALID"]
 """
 The types of metrics that can be aggregated for a dataset
 """

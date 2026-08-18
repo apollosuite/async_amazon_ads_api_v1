@@ -56,13 +56,7 @@ Store Metric Types: Metrics aggregated at the store level. To be used with *dime
 """
 
 
-type InsightDimension = Literal[
-    "DATE",
-    "PAGE",
-    "SOURCE",
-    "STORE",
-    "TAG",
-]
+type InsightDimension = Literal["DATE", "PAGE", "SOURCE", "STORE", "TAG"]
 """
 User can use dimensions to aggregate the insight metrics. Supported dimension types:
   * `DATE` - For aggregation by date.

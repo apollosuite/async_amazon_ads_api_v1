@@ -8,47 +8,16 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 
-type AccountRelationshipRole = Literal[
-    "ENTITY_OWNER",
-    "ENTITY_USER",
-    "ENTITY_VIEWER",
-    "SELLER_USER",
-]
+type AccountRelationshipRole = Literal["ENTITY_OWNER", "ENTITY_USER", "ENTITY_VIEWER", "SELLER_USER"]
 """
 The type of a role used in account relationships.
 """
 
 
-type AccountToUpdateType = Literal["ACCOUNT_ID", "DSP_ADVERTISER_ID"]
-"""
-The type of the Id
-"""
-
-
-type AccountType = Literal[
-    "DSP_ADVERTISING_ACCOUNT",
-    "MARKETING_CLOUD",
-    "SELLER",
-    "VENDOR",
-]
+type AccountType = Literal["DSP_ADVERTISING_ACCOUNT", "MARKETING_CLOUD", "SELLER", "VENDOR"]
 """
 Type of the Amazon Advertising account.
 """
-
-
-type CreateManagerAccountRequestManagerAccountType = Literal["Advertiser", "Agency"]
-"""
-Type of the Manager account, which indicates how the Manager account will be used. Use `Advertiser` if the Manager account will be used for **your own** products and services, or `Agency` if you are managing accounts **on behalf of your clients**.
-"""
-
-
-type ErrorDetailCode = Literal[
-    "BAD_REQUEST",
-    "FORBIDDEN",
-    "INTERNAL_SERVICE_ERROR",
-    "TOO_MANY_REQUESTS",
-    "UNAUTHORIZED",
-]
 
 
 class Account(LenientModel):
@@ -81,7 +50,7 @@ class AccountToUpdate(StrictModel):
         default=None,
         description="The types of role that will exist with the Amazon Advertising account. Depending on account type, the default role will be ENTITY_USER or SELLER_USER. Only one role at a time is currently supported",
     )
-    type: AccountToUpdateType | None = Field(default=None, description="The type of the Id")
+    type: Literal["ACCOUNT_ID", "DSP_ADVERTISER_ID"] | None = Field(default=None, description="The type of the Id")
 
 
 class AccountToUpdateFailure(LenientModel):
@@ -101,14 +70,16 @@ class AccountToUpdateOut(LenientModel):
         default=None,
         description="The types of role that will exist with the Amazon Advertising account. Depending on account type, the default role will be ENTITY_USER or SELLER_USER. Only one role at a time is currently supported",
     )
-    type: AccountToUpdateType | str | None = Field(default=None, description="The type of the Id")
+    type: Literal["ACCOUNT_ID", "DSP_ADVERTISER_ID"] | str | None = Field(
+        default=None, description="The type of the Id"
+    )
 
 
 class CreateManagerAccountRequest(StrictModel):
     """Request object that defines the fields required to create a Manager account."""
 
     managerAccountName: str | None = Field(default=None, description="Name of the Manager account.")
-    managerAccountType: CreateManagerAccountRequestManagerAccountType | None = Field(
+    managerAccountType: Literal["Advertiser", "Agency"] | None = Field(
         default=None,
         description="Type of the Manager account, which indicates how the Manager account will be used. Use `Advertiser` if the Manager account will be used for **your own** products and services, or `Agency` if you are managing accounts **on behalf of your clients**.",
     )
@@ -117,7 +88,9 @@ class CreateManagerAccountRequest(StrictModel):
 class ErrorDetail(LenientModel):
     """The error response object."""
 
-    code: ErrorDetailCode | str | None = Field(default=None)
+    code: (
+        Literal["BAD_REQUEST", "FORBIDDEN", "INTERNAL_SERVICE_ERROR", "TOO_MANY_REQUESTS", "UNAUTHORIZED"] | str | None
+    ) = Field(default=None)
     message: str | None = Field(default=None, description="A human-readable description of the error.")
 
 
@@ -165,12 +138,9 @@ __all__ = [
     "AccountToUpdate",
     "AccountToUpdateFailure",
     "AccountToUpdateOut",
-    "AccountToUpdateType",
     "AccountType",
     "CreateManagerAccountRequest",
-    "CreateManagerAccountRequestManagerAccountType",
     "ErrorDetail",
-    "ErrorDetailCode",
     "GetManagerAccountsResponse",
     "ManagerAccount",
     "UpdateAdvertisingAccountsInManagerAccountRequest",

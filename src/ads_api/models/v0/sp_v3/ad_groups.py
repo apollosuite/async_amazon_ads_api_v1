@@ -131,16 +131,7 @@ class SponsoredProductsAdGroup(LenientModel):
         default=None, description="The global adGroup identifier that manages this marketplace adGroup."
     )
     name: str = Field(description="The name of the ad group.")
-    state: SponsoredProductsEntityState | str = Field(description="""
-Supported values:
-- `ENABLED`: Enabled State
-- `PAUSED`: Paused State
-- `PROPOSED`: Proposed State (Upcoming Feature)
-- `ARCHIVED`: ARCHIVED State
-- `ENABLING`: State for Draft Entity Only
-- `USER_DELETED`: State for Draft Entity Only
-- `OTHER`: Read Only
-""")
+    state: SponsoredProductsEntityState | str
 
 
 class SponsoredProductsAdGroupExtendedData(LenientModel):

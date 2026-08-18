@@ -12,14 +12,7 @@ from ads_api.models.v1._shared.general import (
     SellingProgram,
 )
 
-type Portal = Literal[
-    "AUTHOR_CENTRAL",
-    "GROCERY_CENTRAL",
-    "KDP_CENTRAL",
-    "MERCH",
-    "SELLER_CENTRAL",
-    "VENDOR_CENTRAL",
-]
+type Portal = Literal["AUTHOR_CENTRAL", "GROCERY_CENTRAL", "KDP_CENTRAL", "MERCH", "SELLER_CENTRAL", "VENDOR_CENTRAL"]
 
 
 class QuerySellingAccountRequest(StrictModel):

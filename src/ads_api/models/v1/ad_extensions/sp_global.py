@@ -20,7 +20,7 @@ from ads_api.models.v1._shared.sp_global import (
     SPGlobalUpdateState,
 )
 
-type SPGlobalAdExtensionStatus = Literal["OPTED_OUT",]  # If the advertiser has opted out of this Ad Extension.
+type SPGlobalAdExtensionStatus = Literal["OPTED_OUT"]
 """
 Ad Extension Status.
 
@@ -29,7 +29,7 @@ Supported values:
 """
 
 
-type SPGlobalAdExtensionType = Literal["PROMPTS",]  # Enables Prompt based Ad Extension.
+type SPGlobalAdExtensionType = Literal["PROMPTS"]
 """
 Ad Extension Type.
 
@@ -69,27 +69,15 @@ A list of country codes representing Amazon marketplaces
 class SPGlobalAdExtension(LenientModel):
     adExtensionId: str = Field(description="A unique identifier for the ad_extension.")
     adExtensionSettings: SPGlobalAdExtensionSettings
-    adExtensionStatus: SPGlobalAdExtensionStatus | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `OPTED_OUT`: If the advertiser has opted out of this Ad Extension.
-""",
-    )
-    adExtensionType: SPGlobalAdExtensionType | str = Field(description="""
-Supported values:
-- `PROMPTS`: Enables Prompt based Ad Extension.
-""")
+    adExtensionStatus: SPGlobalAdExtensionStatus | str | None = Field(default=None)
+    adExtensionType: SPGlobalAdExtensionType | str
     adGroupId: str | None = Field(
         default=None, description="A unique identifier for the ad group associated with the ad_extension."
     )
     adId: str | None = Field(
         default=None, description="A unique identifier for the ad associated with the ad_extension."
     )
-    adProduct: SPGlobalAdProduct | str = Field(description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""")
+    adProduct: SPGlobalAdProduct | str
     creationDateTime: datetime = Field(description="The date time the ad_extension was created.")
     lastUpdatedDateTime: datetime = Field(description="The date time the ad_extension was last updated.")
     marketplaceScope: SPGlobalMarketplaceScope | str
@@ -98,12 +86,7 @@ Supported values:
         max_length=30,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
     )
-    state: SPGlobalState | str = Field(description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SPGlobalState | str
 
 
 class SPGlobalAdExtensionAdExtensionIdFilter(StrictModel):
@@ -111,25 +94,11 @@ class SPGlobalAdExtensionAdExtensionIdFilter(StrictModel):
 
 
 class SPGlobalAdExtensionAdExtensionStatusFilter(StrictModel):
-    include: list[SPGlobalAdExtensionStatus | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `OPTED_OUT`: If the advertiser has opted out of this Ad Extension.
-""",
-    )
+    include: list[SPGlobalAdExtensionStatus | str] = Field(min_length=1, max_length=1)
 
 
 class SPGlobalAdExtensionAdExtensionTypeFilter(StrictModel):
-    include: list[SPGlobalAdExtensionType | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `PROMPTS`: Enables Prompt based Ad Extension.
-""",
-    )
+    include: list[SPGlobalAdExtensionType | str] = Field(min_length=1, max_length=1)
 
 
 class SPGlobalAdExtensionAdGroupIdFilter(StrictModel):
@@ -141,50 +110,27 @@ class SPGlobalAdExtensionAdIdFilter(StrictModel):
 
 
 class SPGlobalAdExtensionAdProductFilter(StrictModel):
-    include: list[SPGlobalAdProduct | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""",
-    )
+    include: list[SPGlobalAdProduct | str] = Field(min_length=1, max_length=1)
 
 
 class SPGlobalAdExtensionCreate(StrictModel):
     adExtensionSettings: SPGlobalCreateAdExtensionSettings
-    adExtensionStatus: SPGlobalAdExtensionStatus | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `OPTED_OUT`: If the advertiser has opted out of this Ad Extension.
-""",
-    )
-    adExtensionType: SPGlobalAdExtensionType = Field(description="""
-Supported values:
-- `PROMPTS`: Enables Prompt based Ad Extension.
-""")
+    adExtensionStatus: SPGlobalAdExtensionStatus | None = Field(default=None)
+    adExtensionType: SPGlobalAdExtensionType
     adGroupId: str | None = Field(
         default=None, description="A unique identifier for the ad group associated with the ad_extension."
     )
     adId: str | None = Field(
         default=None, description="A unique identifier for the ad associated with the ad_extension."
     )
-    adProduct: SPGlobalAdProduct = Field(description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""")
+    adProduct: SPGlobalAdProduct
     marketplaceScope: SPGlobalMarketplaceScope
     marketplaces: list[SPGlobalMarketplace | str] = Field(
         min_length=1,
         max_length=30,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
     )
-    state: SPGlobalCreateState = Field(description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SPGlobalCreateState
 
 
 class SPGlobalAdExtensionMultiStatusResponseWithPartialErrors(LenientModel):
@@ -209,16 +155,7 @@ class SPGlobalAdExtensionSettings(LenientModel):
 
 
 class SPGlobalAdExtensionStateFilter(StrictModel):
-    include: list[SPGlobalState | str] = Field(
-        min_length=1,
-        max_length=3,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    include: list[SPGlobalState | str] = Field(min_length=1, max_length=3)
 
 
 class SPGlobalAdExtensionSuccessResponse(LenientModel):
@@ -234,14 +171,7 @@ class SPGlobalAdExtensionUpdate(StrictModel):
         max_length=30,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
     )
-    state: SPGlobalUpdateState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    state: SPGlobalUpdateState | None = Field(default=None)
 
 
 class SPGlobalCreateAdExtensionRequest(StrictModel):

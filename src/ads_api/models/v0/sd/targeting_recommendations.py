@@ -14,12 +14,7 @@ from ads_api.models.v0._shared import (
     SDGoalProduct,
 )
 
-type SDAudienceCategory = Literal[
-    "In-market",
-    "Lifestyle",
-    "Interest",
-    "Life event",
-]
+type SDAudienceCategory = Literal["In-market", "Lifestyle", "Interest", "Life event"]
 """
 An audience category determines the goal of the audience such as In-market, Interest, Lifestyle and Life Event
 """
@@ -28,17 +23,6 @@ An audience category determines the goal of the audience such as In-market, Inte
 type SDLandingPageType = Literal["OFF_AMAZON_LINK"]
 """
 The type of the landingPage used. This field is not supported when using asin field.
-"""
-
-
-type SDProductTargetingThemeExpressionType = Literal[
-    "asinPriceGreaterThan",
-    "asinBrandSameAs",
-    "asinReviewRatingLessThan",
-    "asinGlanceViewsGreaterThan",
-]
-"""
-The contextual targeting grammar used to define the targeting theme. Note asinAsBestSeller is currently not supported.
 """
 
 
@@ -60,12 +44,7 @@ Signifies a type of recommendation. PRODUCT and CATEGORY are supported by tactic
 """
 
 
-type SDRecommendationTypeV33 = Literal[
-    "PRODUCT",
-    "CATEGORY",
-    "AUDIENCE",
-    "CONTENT_CATEGORY",
-]
+type SDRecommendationTypeV33 = Literal["PRODUCT", "CATEGORY", "AUDIENCE", "CONTENT_CATEGORY"]
 """
 Signifies a type of recommendation. PRODUCT, CATEGORY, and CONTENT_CATEGORY are supported by tactic T00020. CATEGORY, AUDIENCE, and CONTENT_CATEGORY are supported by tactic T00030.
 """
@@ -120,13 +99,6 @@ type SDTargetingRecommendationsLocale = Literal[
 ]
 """
 List of supported locales.
-"""
-
-
-type SDTargetingRecommendationsRequestV35CategoryType = Literal["views", "purchases"]
-"""
-This field is optional unless the field locationExpression is present in the request. It is used for category audience targeting
-to specify if the audience is for views (re-marketing) or purchases (re-purchasing). The specified categories will be returned accordingly.
 """
 
 
@@ -352,7 +324,9 @@ Note: Currently the service only supports one item in the array.
 class SDProductTargetingThemeExpression(StrictModel):
     """The expression used to define the contextual targeting theme."""
 
-    type: SDProductTargetingThemeExpressionType = Field(
+    type: Literal[
+        "asinPriceGreaterThan", "asinBrandSameAs", "asinReviewRatingLessThan", "asinGlanceViewsGreaterThan"
+    ] = Field(
         description="The contextual targeting grammar used to define the targeting theme. Note asinAsBestSeller is currently not supported."
     )
 
@@ -360,7 +334,10 @@ class SDProductTargetingThemeExpression(StrictModel):
 class SDProductTargetingThemeExpressionOut(LenientModel):
     """The expression used to define the contextual targeting theme."""
 
-    type: SDProductTargetingThemeExpressionType | str = Field(
+    type: (
+        Literal["asinPriceGreaterThan", "asinBrandSameAs", "asinReviewRatingLessThan", "asinGlanceViewsGreaterThan"]
+        | str
+    ) = Field(
         description="The contextual targeting grammar used to define the targeting theme. Note asinAsBestSeller is currently not supported."
     )
 
@@ -440,7 +417,7 @@ class SDTargetingRecommendationsRequestV35(StrictModel):
     products: SDTargetingRecommendationsProductsV31
     typeFilter: SDTargetingRecommendationsTypeFilterV33
     themes: SDTargetingRecommendationsThemes | None = Field(default=None)
-    categoryType: SDTargetingRecommendationsRequestV35CategoryType | None = Field(
+    categoryType: Literal["views", "purchases"] | None = Field(
         default=None,
         description="""
 This field is optional unless the field locationExpression is present in the request. It is used for category audience targeting
@@ -638,7 +615,6 @@ __all__ = [
     "SDProductTargetingTheme",
     "SDProductTargetingThemeExpression",
     "SDProductTargetingThemeExpressionOut",
-    "SDProductTargetingThemeExpressionType",
     "SDRecommendationType",
     "SDRecommendationTypeV31",
     "SDRecommendationTypeV32",
@@ -655,7 +631,6 @@ __all__ = [
     "SDTargetingRecommendationsRequestV33",
     "SDTargetingRecommendationsRequestV34",
     "SDTargetingRecommendationsRequestV35",
-    "SDTargetingRecommendationsRequestV35CategoryType",
     "SDTargetingRecommendationsResponse",
     "SDTargetingRecommendationsResponseV31",
     "SDTargetingRecommendationsResponseV32",

@@ -10,75 +10,18 @@ from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models.v0._shared import (
     AdGroupId,
     BaseTargetingClause,
-    BaseTargetingClauseState,
     CampaignId,
     ContentTargetingPredicate,
-    ContentTargetingPredicateType,
     TargetId,
     TargetingPredicate,
     TargetingPredicateBase,
-    TargetingPredicateBaseType,
-    TargetingPredicateLegacyEventType,
-    TargetingPredicateLegacyType,
     TargetingPredicateNested,
-    TargetingPredicateNestedType,
-    TargetingPredicateType,
     TargetResponse,
 )
 
-type CreateTargetingClauseExpressionType = Literal["manual", "auto"]
-"""
-Tactic T00020 ad groups only allow manual targeting.
-"""
-
-
-type TargetingClauseExExpressionType = Literal["auto", "manual"]
-
-
-type TargetingClauseExServingStatus = Literal[
-    "ADVERTISER_STATUS_ENABLED",
-    "STATUS_UNAVAILABLE",
-    "ADVERTISER_PAUSED",
-    "ACCOUNT_OUT_OF_BUDGET",
-    "ADVERTISER_PAYMENT_FAILURE",
-    "CAMPAIGN_PAUSED",
-    "CAMPAIGN_ARCHIVED",
-    "PENDING_START_DATE",
-    "ENDED",
-    "CAMPAIGN_OUT_OF_BUDGET",
-    "AD_GROUP_STATUS_ENABLED",
-    "AD_GROUP_PAUSED",
-    "AD_GROUP_ARCHIVED",
-    "AD_GROUP_INCOMPLETE",
-    "AD_GROUP_LOW_BID",
-    "TARGET_STATUS_LIVE",
-    "TARGET_STATUS_PAUSED",
-    "TARGET_STATUS_ARCHIVED",
-    "ADVERTISER_EXCEED_SPENDS_LIMIT",
-    "AD_POLICING_PENDING_REVIEW",
-    "CAMPAIGN_INCOMPLETE",
-    "INELIGIBLE",
-    "PORTFOLIO_ENDED",
-    "PORTFOLIO_OUT_OF_BUDGET",
-    "ADVERTISER_ARCHIVED",
-    "ADVERTISER_ACCOUNT_OUT_OF_BUDGET",
-]
-"""
-The status of the target.
-"""
-
-
-type TargetingClauseExState = Literal["enabled", "paused", "archived"]
-
-
-type TargetingClauseExpressionType = Literal["manual", "auto"]
-"""
-Tactic T00020 & T00030 ad groups should use 'manual' targeting.
-"""
-
 
 class BaseTargetingClauseOut(LenientModel):
-    state: BaseTargetingClauseState | str | None = Field(default=None)
+    state: Literal["enabled", "paused", "archived"] | str | None = Field(default=None)
     bid: float | None = Field(
         default=None,
         ge=0.02,
@@ -89,7 +32,7 @@ class BaseTargetingClauseOut(LenientModel):
 class ContentTargetingPredicateOut(LenientModel):
     """A predicate to match against in the content targeting expression."""
 
-    type: ContentTargetingPredicateType | str | None = Field(default=None)
+    type: Literal["contentCategorySameAs"] | str | None = Field(default=None)
     value: str | None = Field(
         default=None,
         description="""
@@ -158,14 +101,14 @@ The following table shows all possible values of the `contentCategorySameAs` pre
 
 
 class CreateTargetingClause(StrictModel):
-    state: BaseTargetingClauseState | None = Field(default=None)
+    state: Literal["enabled", "paused", "archived"] | None = Field(default=None)
     bid: float | None = Field(
         default=None,
         ge=0.02,
         description="The bid will override the adGroup bid if specified. This field is not used for negative targeting clauses. The bid must be less than the maximum allowable bid for the campaign's marketplace; for a list of maximum allowable bids, find the [\"Bid constraints by marketplace\" table in our documentation overview](https://advertising.amazon.com/API/docs/en-us/concepts/limits#bid-constraints-by-marketplace). You cannot manually set a bid when the targeting clause's adGroup has an enabled optimization rule.",
     )
     adGroupId: AdGroupId
-    expressionType: CreateTargetingClauseExpressionType = Field(
+    expressionType: Literal["manual", "auto"] = Field(
         description="Tactic T00020 ad groups only allow manual targeting."
     )
     expression: CreateTargetingExpression = Field(description="The targeting expression to match against.")
@@ -190,7 +133,7 @@ class CreateTargetingExpression(StrictModel):
 
 
 class TargetingClause(LenientModel):
-    state: BaseTargetingClauseState | str | None = Field(default=None)
+    state: Literal["enabled", "paused", "archived"] | str | None = Field(default=None)
     bid: float | None = Field(
         default=None,
         ge=0.02,
@@ -199,7 +142,7 @@ class TargetingClause(LenientModel):
     targetId: TargetId | None = Field(default=None)
     adGroupId: AdGroupId | None = Field(default=None)
     campaignId: CampaignId | None = Field(default=None)
-    expressionType: TargetingClauseExpressionType | str | None = Field(
+    expressionType: Literal["manual", "auto"] | str | None = Field(
         default=None, description="Tactic T00020 & T00030 ad groups should use 'manual' targeting."
     )
     expression: TargetingExpression | None = Field(
@@ -214,17 +157,46 @@ class TargetingClauseEx(LenientModel):
     targetId: float | None = Field(default=None)
     adGroupId: float | None = Field(default=None)
     campaignId: float | None = Field(default=None)
-    state: TargetingClauseExState | str | None = Field(default=None)
-    expressionType: TargetingClauseExExpressionType | str | None = Field(default=None)
+    state: Literal["enabled", "paused", "archived"] | str | None = Field(default=None)
+    expressionType: Literal["auto", "manual"] | str | None = Field(default=None)
     bid: float | None = Field(
         default=None,
         description="If a value for `bid` is specified, it overrides the current adGroup bid. When using vcpm costType. $1 is the minimum bid for vCPM. Note that this field is ignored for negative targeting clauses.",
     )
     expression: TargetingExpression | None = Field(default=None)
     resolvedExpression: TargetingExpression | None = Field(default=None)
-    servingStatus: TargetingClauseExServingStatus | str | None = Field(
-        default=None, description="The status of the target."
-    )
+    servingStatus: (
+        Literal[
+            "ADVERTISER_STATUS_ENABLED",
+            "STATUS_UNAVAILABLE",
+            "ADVERTISER_PAUSED",
+            "ACCOUNT_OUT_OF_BUDGET",
+            "ADVERTISER_PAYMENT_FAILURE",
+            "CAMPAIGN_PAUSED",
+            "CAMPAIGN_ARCHIVED",
+            "PENDING_START_DATE",
+            "ENDED",
+            "CAMPAIGN_OUT_OF_BUDGET",
+            "AD_GROUP_STATUS_ENABLED",
+            "AD_GROUP_PAUSED",
+            "AD_GROUP_ARCHIVED",
+            "AD_GROUP_INCOMPLETE",
+            "AD_GROUP_LOW_BID",
+            "TARGET_STATUS_LIVE",
+            "TARGET_STATUS_PAUSED",
+            "TARGET_STATUS_ARCHIVED",
+            "ADVERTISER_EXCEED_SPENDS_LIMIT",
+            "AD_POLICING_PENDING_REVIEW",
+            "CAMPAIGN_INCOMPLETE",
+            "INELIGIBLE",
+            "PORTFOLIO_ENDED",
+            "PORTFOLIO_OUT_OF_BUDGET",
+            "ADVERTISER_ARCHIVED",
+            "ADVERTISER_ACCOUNT_OUT_OF_BUDGET",
+        ]
+        | str
+        | None
+    ) = Field(default=None, description="The status of the target.")
     creationDate: int | None = Field(default=None, description="Epoch date the target was created.")
     lastUpdatedDate: int | None = Field(
         default=None, description="Epoch date of the last update to any property associated with the target."
@@ -261,14 +233,55 @@ class TargetingPredicateBaseOut(LenientModel):
     * A 'relatedProduct' TargetingPredicateBase will Target an audience that has purchased a related product in the past 7,14,30,60,90,180, or 365 days.
     * The 'audiencesLikelyInterestedInAd' type is only supported when using landingPageType of OFF_AMAZON_LINK."""
 
-    type: TargetingPredicateBaseType | str | None = Field(default=None)
+    type: (
+        Literal[
+            "asinCategorySameAs",
+            "asinBrandSameAs",
+            "asinPriceBetween",
+            "asinPriceGreaterThan",
+            "asinPriceLessThan",
+            "asinReviewRatingLessThan",
+            "asinReviewRatingGreaterThan",
+            "asinReviewRatingBetween",
+            "similarProduct",
+            "exactProduct",
+            "asinIsPrimeShippingEligible",
+            "asinAgeRangeSameAs",
+            "asinGenreSameAs",
+            "audienceSameAs",
+            "lookback",
+            "negative",
+            "relatedProduct",
+        ]
+        | str
+        | None
+    ) = Field(default=None)
     value: str | None = Field(default=None, description="The value to be targeted.")
 
 
 class TargetingPredicateLegacy(LenientModel):
-    type: TargetingPredicateLegacyType | str | None = Field(default=None)
+    type: (
+        Literal[
+            "asinSameAs",
+            "asinCategorySameAs",
+            "asinBrandSameAs",
+            "asinPriceBetween",
+            "asinPriceGreaterThan",
+            "asinPriceLessThan",
+            "asinReviewRatingLessThan",
+            "asinReviewRatingGreaterThan",
+            "asinReviewRatingBetween",
+            "similarProduct",
+            "exactProduct",
+            "asinIsPrimeShippingEligible",
+            "asinAgeRangeSameAs",
+            "asinGenreSameAs",
+        ]
+        | str
+        | None
+    ) = Field(default=None)
     value: str | None = Field(default=None, description="The value to be targeted.")
-    eventType: TargetingPredicateLegacyEventType | str | None = Field(
+    eventType: Literal["views"] | str | None = Field(
         default=None,
         description="""
 The type of event that the value applies to. Only available for similarProduct and exactProduct currently.
@@ -285,7 +298,7 @@ class TargetingPredicateNestedOut(LenientModel):
     * For Amazon Audiences targeting, the TargetingPredicateNested type should be set to 'audience' and the value array should include one TargetingPredicateBase component with type set to 'audienceSameAs'.
     """
 
-    type: TargetingPredicateNestedType | str | None = Field(default=None)
+    type: Literal["views", "audience", "purchases"] | str | None = Field(default=None)
     value: list[TargetingPredicateBaseOut] | None = Field(default=None)
 
 
@@ -298,12 +311,30 @@ class TargetingPredicateOut(LenientModel):
     * When using either of the 'between' strings to construct a targeting expression the format of the string is 'double-double' where the first double must be smaller than the second double. Prices are not inclusive.
     """
 
-    type: TargetingPredicateType | str | None = Field(default=None)
+    type: (
+        Literal[
+            "asinSameAs",
+            "asinCategorySameAs",
+            "asinBrandSameAs",
+            "asinPriceBetween",
+            "asinPriceGreaterThan",
+            "asinPriceLessThan",
+            "asinReviewRatingLessThan",
+            "asinReviewRatingGreaterThan",
+            "asinReviewRatingBetween",
+            "asinIsPrimeShippingEligible",
+            "asinAgeRangeSameAs",
+            "asinGenreSameAs",
+            "similarProduct",
+        ]
+        | str
+        | None
+    ) = Field(default=None)
     value: str | None = Field(default=None, description="The value to be targeted.")
 
 
 class UpdateTargetingClause(StrictModel):
-    state: BaseTargetingClauseState | None = Field(default=None)
+    state: Literal["enabled", "paused", "archived"] | None = Field(default=None)
     bid: float | None = Field(
         default=None,
         ge=0.02,
@@ -316,34 +347,22 @@ __all__ = [
     "AdGroupId",
     "BaseTargetingClause",
     "BaseTargetingClauseOut",
-    "BaseTargetingClauseState",
     "CampaignId",
     "ContentTargetingPredicate",
     "ContentTargetingPredicateOut",
-    "ContentTargetingPredicateType",
     "CreateTargetingClause",
-    "CreateTargetingClauseExpressionType",
     "CreateTargetingExpression",
     "TargetId",
     "TargetResponse",
     "TargetingClause",
     "TargetingClauseEx",
-    "TargetingClauseExExpressionType",
-    "TargetingClauseExServingStatus",
-    "TargetingClauseExState",
-    "TargetingClauseExpressionType",
     "TargetingExpression",
     "TargetingPredicate",
     "TargetingPredicateBase",
     "TargetingPredicateBaseOut",
-    "TargetingPredicateBaseType",
     "TargetingPredicateLegacy",
-    "TargetingPredicateLegacyEventType",
-    "TargetingPredicateLegacyType",
     "TargetingPredicateNested",
     "TargetingPredicateNestedOut",
-    "TargetingPredicateNestedType",
     "TargetingPredicateOut",
-    "TargetingPredicateType",
     "UpdateTargetingClause",
 ]

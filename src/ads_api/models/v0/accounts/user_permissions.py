@@ -8,12 +8,7 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 
-type AccessScope = Literal[
-    "ALL",
-    "DIRECT",
-    "EFFECTIVE",
-    "INDIRECT",
-]
+type AccessScope = Literal["ALL", "DIRECT", "EFFECTIVE", "INDIRECT"]
 
 
 type CountryCode = Literal[

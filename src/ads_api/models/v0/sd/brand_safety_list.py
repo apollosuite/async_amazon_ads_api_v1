@@ -27,12 +27,6 @@ The state of the domain.
 """
 
 
-type BrandSafetyRequestStatusStatus = Literal["IN_PROGRESS", "COMPLETED", "FAILURE"]
-"""
-The status of the request
-"""
-
-
 class BrandSafetyDenyListDomain(StrictModel):
     name: str = Field(
         max_length=250,
@@ -109,7 +103,9 @@ class BrandSafetyRequestResultsResponse(LenientModel):
 class BrandSafetyRequestStatus(LenientModel):
     requestId: str | None = Field(default=None, description="Request ID")
     timestamp: str | None = Field(default=None, description="Request timestamp")
-    status: BrandSafetyRequestStatusStatus | str | None = Field(default=None, description="The status of the request")
+    status: Literal["IN_PROGRESS", "COMPLETED", "FAILURE"] | str | None = Field(
+        default=None, description="The status of the request"
+    )
     statusDetails: str | None = Field(default=None, description="Details related to the request status")
 
 
@@ -139,6 +135,5 @@ __all__ = [
     "BrandSafetyRequestResultsResponse",
     "BrandSafetyRequestStatus",
     "BrandSafetyRequestStatusResponse",
-    "BrandSafetyRequestStatusStatus",
     "BrandSafetyUpdateResponse",
 ]

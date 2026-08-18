@@ -38,39 +38,47 @@ class Profiles(BaseResource):
         self,
         *,
         mode: Literal["pydantic"] = "pydantic",
-        api_program: str | None = None,
-        access_level: str | None = None,
-        profile_type_filter: str | None = None,
-        valid_payment_method_filter: str | None = None,
+        api_program: (
+            Literal["billing", "campaign", "paymentMethod", "store", "report", "account", "posts"] | str | None
+        ) = None,
+        access_level: Literal["edit", "view"] | str | None = None,
+        profile_type_filter: Literal["seller", "vendor", "agency"] | str | None = None,
+        valid_payment_method_filter: Literal["true", "false"] | str | None = None,
     ) -> list[ProfileOut]: ...
     @overload
     async def list_profiles(
         self,
         *,
         mode: Literal["dict"],
-        api_program: str | None = None,
-        access_level: str | None = None,
-        profile_type_filter: str | None = None,
-        valid_payment_method_filter: str | None = None,
+        api_program: (
+            Literal["billing", "campaign", "paymentMethod", "store", "report", "account", "posts"] | str | None
+        ) = None,
+        access_level: Literal["edit", "view"] | str | None = None,
+        profile_type_filter: Literal["seller", "vendor", "agency"] | str | None = None,
+        valid_payment_method_filter: Literal["true", "false"] | str | None = None,
     ) -> list[dict[str, Any]]: ...
     @overload
     async def list_profiles(
         self,
         *,
         mode: Literal["raw"],
-        api_program: str | None = None,
-        access_level: str | None = None,
-        profile_type_filter: str | None = None,
-        valid_payment_method_filter: str | None = None,
+        api_program: (
+            Literal["billing", "campaign", "paymentMethod", "store", "report", "account", "posts"] | str | None
+        ) = None,
+        access_level: Literal["edit", "view"] | str | None = None,
+        profile_type_filter: Literal["seller", "vendor", "agency"] | str | None = None,
+        valid_payment_method_filter: Literal["true", "false"] | str | None = None,
     ) -> httpx.Response: ...
     async def list_profiles(
         self,
         *,
         mode: Literal["pydantic", "dict", "raw"] = "pydantic",
-        api_program: str | None = None,
-        access_level: str | None = None,
-        profile_type_filter: str | None = None,
-        valid_payment_method_filter: str | None = None,
+        api_program: (
+            Literal["billing", "campaign", "paymentMethod", "store", "report", "account", "posts"] | str | None
+        ) = None,
+        access_level: Literal["edit", "view"] | str | None = None,
+        profile_type_filter: Literal["seller", "vendor", "agency"] | str | None = None,
+        valid_payment_method_filter: Literal["true", "false"] | str | None = None,
     ) -> list[ProfileOut] | list[dict[str, Any]] | httpx.Response:
         """Note that this operation does not return a response unless the current account has created at least one campaign using the advertising console."""
 

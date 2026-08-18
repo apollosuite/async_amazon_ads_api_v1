@@ -22,7 +22,7 @@ from ads_api.models.v1._shared.sp import (
     SPUpdateState,
 )
 
-type SPAdExtensionStatus = Literal["OPTED_OUT",]  # If the advertiser has opted out of this Ad Extension.
+type SPAdExtensionStatus = Literal["OPTED_OUT"]
 """
 Ad Extension Status.
 
@@ -31,10 +31,7 @@ Supported values:
 """
 
 
-type SPAdExtensionType = Literal[
-    "PROMPTS",  # Enables Prompt based Ad Extension.
-    "VIDEO",  # Enables Video based Ad Extension.
-]
+type SPAdExtensionType = Literal["PROMPTS", "VIDEO"]
 """
 Ad Extension Type.
 
@@ -74,7 +71,7 @@ A list of country codes representing Amazon marketplaces
 """
 
 
-type SPVideoType = Literal["SPOTLIGHT",]  # SPOTLIGHT Video Asset.
+type SPVideoType = Literal["SPOTLIGHT"]
 """
 Video Type: Video type of the asset added in the ad extension and its rendering form.
 
@@ -86,28 +83,15 @@ Supported values:
 class SPAdExtension(LenientModel):
     adExtensionId: str = Field(description="A unique identifier for the ad_extension.")
     adExtensionSettings: SPAdExtensionSettings
-    adExtensionStatus: SPAdExtensionStatus | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `OPTED_OUT`: If the advertiser has opted out of this Ad Extension.
-""",
-    )
-    adExtensionType: SPAdExtensionType | str = Field(description="""
-Supported values:
-- `PROMPTS`: Enables Prompt based Ad Extension.
-- `VIDEO`: Enables Video based Ad Extension.
-""")
+    adExtensionStatus: SPAdExtensionStatus | str | None = Field(default=None)
+    adExtensionType: SPAdExtensionType | str
     adGroupId: str | None = Field(
         default=None, description="A unique identifier for the ad group associated with the ad_extension."
     )
     adId: str | None = Field(
         default=None, description="A unique identifier for the ad associated with the ad_extension."
     )
-    adProduct: SPAdProduct | str = Field(description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""")
+    adProduct: SPAdProduct | str
     creationDateTime: datetime = Field(description="The date time the ad_extension was created.")
     lastUpdatedDateTime: datetime = Field(description="The date time the ad_extension was last updated.")
     marketplaceScope: SPMarketplaceScope | str
@@ -116,12 +100,7 @@ Supported values:
         max_length=1,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
     )
-    state: SPState | str = Field(description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SPState | str
     status: SPStatus | None = Field(default=None)
 
 
@@ -130,26 +109,11 @@ class SPAdExtensionAdExtensionIdFilter(StrictModel):
 
 
 class SPAdExtensionAdExtensionStatusFilter(StrictModel):
-    include: list[SPAdExtensionStatus | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `OPTED_OUT`: If the advertiser has opted out of this Ad Extension.
-""",
-    )
+    include: list[SPAdExtensionStatus | str] = Field(min_length=1, max_length=1)
 
 
 class SPAdExtensionAdExtensionTypeFilter(StrictModel):
-    include: list[SPAdExtensionType | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `PROMPTS`: Enables Prompt based Ad Extension.
-- `VIDEO`: Enables Video based Ad Extension.
-""",
-    )
+    include: list[SPAdExtensionType | str] = Field(min_length=1, max_length=1)
 
 
 class SPAdExtensionAdGroupIdFilter(StrictModel):
@@ -161,51 +125,27 @@ class SPAdExtensionAdIdFilter(StrictModel):
 
 
 class SPAdExtensionAdProductFilter(StrictModel):
-    include: list[SPAdProduct | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""",
-    )
+    include: list[SPAdProduct | str] = Field(min_length=1, max_length=1)
 
 
 class SPAdExtensionCreate(StrictModel):
     adExtensionSettings: SPCreateAdExtensionSettings
-    adExtensionStatus: SPAdExtensionStatus | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `OPTED_OUT`: If the advertiser has opted out of this Ad Extension.
-""",
-    )
-    adExtensionType: SPAdExtensionType = Field(description="""
-Supported values:
-- `PROMPTS`: Enables Prompt based Ad Extension.
-- `VIDEO`: Enables Video based Ad Extension.
-""")
+    adExtensionStatus: SPAdExtensionStatus | None = Field(default=None)
+    adExtensionType: SPAdExtensionType
     adGroupId: str | None = Field(
         default=None, description="A unique identifier for the ad group associated with the ad_extension."
     )
     adId: str | None = Field(
         default=None, description="A unique identifier for the ad associated with the ad_extension."
     )
-    adProduct: SPAdProduct = Field(description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""")
+    adProduct: SPAdProduct
     marketplaceScope: SPMarketplaceScope
     marketplaces: list[SPMarketplace | str] = Field(
         min_length=1,
         max_length=1,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
     )
-    state: SPCreateState = Field(description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SPCreateState
 
 
 class SPAdExtensionMultiStatusResponse(LenientModel):
@@ -230,16 +170,7 @@ type SPAdExtensionSettings = SPAdExtensionSettingsPromptExtension | SPAdExtensio
 
 
 class SPAdExtensionStateFilter(StrictModel):
-    include: list[SPState | str] = Field(
-        min_length=1,
-        max_length=3,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    include: list[SPState | str] = Field(min_length=1, max_length=3)
 
 
 class SPAdExtensionSuccessResponse(LenientModel):
@@ -249,14 +180,7 @@ class SPAdExtensionSuccessResponse(LenientModel):
 
 class SPAdExtensionUpdate(StrictModel):
     adExtensionId: str = Field(description="A unique identifier for the ad_extension.")
-    state: SPUpdateState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    state: SPUpdateState | None = Field(default=None)
 
 
 class SPCreateAdExtensionRequest(StrictModel):
@@ -315,10 +239,7 @@ class SPVideoExtension(LenientModel):
     renderedCoverImageUrl: str | None = Field(
         default=None, description="The image displayed over the video player before the video is played."
     )
-    videoType: SPVideoType | str = Field(description="""
-Supported values:
-- `SPOTLIGHT`: SPOTLIGHT Video Asset.
-""")
+    videoType: SPVideoType | str
 
 
 __all__ = [

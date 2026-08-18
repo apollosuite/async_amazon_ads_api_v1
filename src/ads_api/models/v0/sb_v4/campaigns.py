@@ -21,10 +21,7 @@ from ads_api.models.v0._shared import (
     RangeError,
 )
 
-type AudienceSegmentType = Literal[
-    "SPONSORED_ADS_AMC",  # This type refers to the Audience Segments created in AMC for Sponsored Ads. See [AMC API](https://advertising.amazon.com/API/docs/en-us/amc-rba#tag/Rule-based-audience) for details on how to create AMC Audiences. Once the AMC Audiences are created, the Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_BRANDS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "AMC"]]`. Only the audiences retrieved using these filters are usable.
-    "BEHAVIOR_DYNAMIC",  # This type refers to the Audience Segments created by Amazon for Sponsored Ads. The Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_BRANDS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "Product"]]`. Only the audiences retrieved using these filters are usable.
-]
+type AudienceSegmentType = Literal["SPONSORED_ADS_AMC", "BEHAVIOR_DYNAMIC"]
 """
 The audience segment type is required to specify the type of audience being used to apply bid adjustments.
 
@@ -105,12 +102,7 @@ The campaign serving status determined by system.
 """
 
 
-type Placement = Literal[
-    "HOME",
-    "DETAIL_PAGE",
-    "OTHER",
-    "TOP_OF_SEARCH",
-]
+type Placement = Literal["HOME", "DETAIL_PAGE", "OTHER", "TOP_OF_SEARCH"]
 """
 List of bid adjustments for placements.
 - HOME - The home page of the Amazon store.
@@ -140,26 +132,12 @@ type SiteRestriction = Literal["AMAZON_BUSINESS"]
 
 class AudienceSegment(StrictModel):
     audienceId: str | None = Field(default=None)
-    audienceSegmentType: AudienceSegmentType | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `SPONSORED_ADS_AMC`: This type refers to the Audience Segments created in AMC for Sponsored Ads. See [AMC API](https://advertising.amazon.com/API/docs/en-us/amc-rba#tag/Rule-based-audience) for details on how to create AMC Audiences. Once the AMC Audiences are created, the Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_BRANDS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "AMC"]]`. Only the audiences retrieved using these filters are usable.
-- `BEHAVIOR_DYNAMIC`: This type refers to the Audience Segments created by Amazon for Sponsored Ads. The Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_BRANDS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "Product"]]`. Only the audiences retrieved using these filters are usable.
-""",
-    )
+    audienceSegmentType: AudienceSegmentType | None = Field(default=None)
 
 
 class AudienceSegmentOut(LenientModel):
     audienceId: str | None = Field(default=None)
-    audienceSegmentType: AudienceSegmentType | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `SPONSORED_ADS_AMC`: This type refers to the Audience Segments created in AMC for Sponsored Ads. See [AMC API](https://advertising.amazon.com/API/docs/en-us/amc-rba#tag/Rule-based-audience) for details on how to create AMC Audiences. Once the AMC Audiences are created, the Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_BRANDS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "AMC"]]`. Only the audiences retrieved using these filters are usable.
-- `BEHAVIOR_DYNAMIC`: This type refers to the Audience Segments created by Amazon for Sponsored Ads. The Audience Ids can be retrieved using the Discovery API [ListTargetableEntities](https://advertising.amazon.com/API/docs/en-us/targetable-entities#operation/ListTargetableEntities) with parameters; `adProduct`=`SPONSORED_BRANDS`, `targetTypeFilter`=`AUDIENCE` and `pathsFilter` = `[["Audience Category", "Custom-built", "Product"]]`. Only the audiences retrieved using these filters are usable.
-""",
-    )
+    audienceSegmentType: AudienceSegmentType | str | None = Field(default=None)
 
 
 class BidAdjustmentByPlacement(StrictModel):

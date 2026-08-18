@@ -30,22 +30,154 @@ class ProductTargeting(BaseResource):
         body: GetCategoryRecommendationsForAsinsRequest,
         *,
         mode: Literal["pydantic"] = "pydantic",
-        locale: str | None = None,
+        locale: (
+            Literal[
+                "ar_AE",
+                "de_DE",
+                "en_AE",
+                "en_AU",
+                "en_CA",
+                "en_GB",
+                "en_IN",
+                "en_SG",
+                "en_US",
+                "es_ES",
+                "es_MX",
+                "fr_CA",
+                "fr_FR",
+                "hi_IN",
+                "it_IT",
+                "ja_JP",
+                "ko_KR",
+                "nl_NL",
+                "pl_PL",
+                "pt_BR",
+                "sv_SE",
+                "ta_IN",
+                "th_TH",
+                "tr_TR",
+                "vi_VN",
+                "zh_CN",
+            ]
+            | str
+            | None
+        ) = None,
     ) -> CategoryRecommendations: ...
     @overload
     async def get_category_recommendations_for_asi_ns(
-        self, body: GetCategoryRecommendationsForAsinsRequest, *, mode: Literal["dict"], locale: str | None = None
+        self,
+        body: GetCategoryRecommendationsForAsinsRequest,
+        *,
+        mode: Literal["dict"],
+        locale: (
+            Literal[
+                "ar_AE",
+                "de_DE",
+                "en_AE",
+                "en_AU",
+                "en_CA",
+                "en_GB",
+                "en_IN",
+                "en_SG",
+                "en_US",
+                "es_ES",
+                "es_MX",
+                "fr_CA",
+                "fr_FR",
+                "hi_IN",
+                "it_IT",
+                "ja_JP",
+                "ko_KR",
+                "nl_NL",
+                "pl_PL",
+                "pt_BR",
+                "sv_SE",
+                "ta_IN",
+                "th_TH",
+                "tr_TR",
+                "vi_VN",
+                "zh_CN",
+            ]
+            | str
+            | None
+        ) = None,
     ) -> dict[str, Any]: ...
     @overload
     async def get_category_recommendations_for_asi_ns(
-        self, body: GetCategoryRecommendationsForAsinsRequest, *, mode: Literal["raw"], locale: str | None = None
+        self,
+        body: GetCategoryRecommendationsForAsinsRequest,
+        *,
+        mode: Literal["raw"],
+        locale: (
+            Literal[
+                "ar_AE",
+                "de_DE",
+                "en_AE",
+                "en_AU",
+                "en_CA",
+                "en_GB",
+                "en_IN",
+                "en_SG",
+                "en_US",
+                "es_ES",
+                "es_MX",
+                "fr_CA",
+                "fr_FR",
+                "hi_IN",
+                "it_IT",
+                "ja_JP",
+                "ko_KR",
+                "nl_NL",
+                "pl_PL",
+                "pt_BR",
+                "sv_SE",
+                "ta_IN",
+                "th_TH",
+                "tr_TR",
+                "vi_VN",
+                "zh_CN",
+            ]
+            | str
+            | None
+        ) = None,
     ) -> httpx.Response: ...
     async def get_category_recommendations_for_asi_ns(
         self,
         body: GetCategoryRecommendationsForAsinsRequest,
         *,
         mode: Literal["pydantic", "dict", "raw"] = "pydantic",
-        locale: str | None = None,
+        locale: (
+            Literal[
+                "ar_AE",
+                "de_DE",
+                "en_AE",
+                "en_AU",
+                "en_CA",
+                "en_GB",
+                "en_IN",
+                "en_SG",
+                "en_US",
+                "es_ES",
+                "es_MX",
+                "fr_CA",
+                "fr_FR",
+                "hi_IN",
+                "it_IT",
+                "ja_JP",
+                "ko_KR",
+                "nl_NL",
+                "pl_PL",
+                "pt_BR",
+                "sv_SE",
+                "ta_IN",
+                "th_TH",
+                "tr_TR",
+                "vi_VN",
+                "zh_CN",
+            ]
+            | str
+            | None
+        ) = None,
     ) -> CategoryRecommendations | dict[str, Any] | httpx.Response:
         """Returns a list of category recommendations for the input list of ASINs. Use this API to discover relevant categories to target. To find ASINs, either use the Product Metadata API or browse the Amazon Retail Website. <br> <ul><li>Response can be requested in different versions with the help of accept header. Please review the response mediaTypes for more information.</li><ul>"""
 
@@ -92,7 +224,38 @@ class ProductTargeting(BaseResource):
             "application/vnd.spproducttargetingresponse.v3+json", "application/vnd.spproducttargetingresponse.v4+json"
         ] = "application/vnd.spproducttargetingresponse.v3+json",
         mode: Literal["pydantic"] = "pydantic",
-        locale: str | None = None,
+        locale: (
+            Literal[
+                "ar_AE",
+                "de_DE",
+                "en_AE",
+                "en_AU",
+                "en_CA",
+                "en_GB",
+                "en_IN",
+                "en_SG",
+                "en_US",
+                "es_ES",
+                "es_MX",
+                "fr_CA",
+                "fr_FR",
+                "hi_IN",
+                "it_IT",
+                "ja_JP",
+                "ko_KR",
+                "nl_NL",
+                "pl_PL",
+                "pt_BR",
+                "sv_SE",
+                "ta_IN",
+                "th_TH",
+                "tr_TR",
+                "vi_VN",
+                "zh_CN",
+            ]
+            | str
+            | None
+        ) = None,
     ) -> Refinements: ...
     @overload
     async def get_refinements_for_category(
@@ -103,7 +266,38 @@ class ProductTargeting(BaseResource):
             "application/vnd.spproducttargetingresponse.v3+json", "application/vnd.spproducttargetingresponse.v4+json"
         ] = "application/vnd.spproducttargetingresponse.v3+json",
         mode: Literal["dict"],
-        locale: str | None = None,
+        locale: (
+            Literal[
+                "ar_AE",
+                "de_DE",
+                "en_AE",
+                "en_AU",
+                "en_CA",
+                "en_GB",
+                "en_IN",
+                "en_SG",
+                "en_US",
+                "es_ES",
+                "es_MX",
+                "fr_CA",
+                "fr_FR",
+                "hi_IN",
+                "it_IT",
+                "ja_JP",
+                "ko_KR",
+                "nl_NL",
+                "pl_PL",
+                "pt_BR",
+                "sv_SE",
+                "ta_IN",
+                "th_TH",
+                "tr_TR",
+                "vi_VN",
+                "zh_CN",
+            ]
+            | str
+            | None
+        ) = None,
     ) -> dict[str, Any]: ...
     @overload
     async def get_refinements_for_category(
@@ -114,7 +308,38 @@ class ProductTargeting(BaseResource):
             "application/vnd.spproducttargetingresponse.v3+json", "application/vnd.spproducttargetingresponse.v4+json"
         ] = "application/vnd.spproducttargetingresponse.v3+json",
         mode: Literal["raw"],
-        locale: str | None = None,
+        locale: (
+            Literal[
+                "ar_AE",
+                "de_DE",
+                "en_AE",
+                "en_AU",
+                "en_CA",
+                "en_GB",
+                "en_IN",
+                "en_SG",
+                "en_US",
+                "es_ES",
+                "es_MX",
+                "fr_CA",
+                "fr_FR",
+                "hi_IN",
+                "it_IT",
+                "ja_JP",
+                "ko_KR",
+                "nl_NL",
+                "pl_PL",
+                "pt_BR",
+                "sv_SE",
+                "ta_IN",
+                "th_TH",
+                "tr_TR",
+                "vi_VN",
+                "zh_CN",
+            ]
+            | str
+            | None
+        ) = None,
     ) -> httpx.Response: ...
     async def get_refinements_for_category(
         self,
@@ -124,7 +349,38 @@ class ProductTargeting(BaseResource):
             "application/vnd.spproducttargetingresponse.v3+json", "application/vnd.spproducttargetingresponse.v4+json"
         ] = "application/vnd.spproducttargetingresponse.v3+json",
         mode: Literal["pydantic", "dict", "raw"] = "pydantic",
-        locale: str | None = None,
+        locale: (
+            Literal[
+                "ar_AE",
+                "de_DE",
+                "en_AE",
+                "en_AU",
+                "en_CA",
+                "en_GB",
+                "en_IN",
+                "en_SG",
+                "en_US",
+                "es_ES",
+                "es_MX",
+                "fr_CA",
+                "fr_FR",
+                "hi_IN",
+                "it_IT",
+                "ja_JP",
+                "ko_KR",
+                "nl_NL",
+                "pl_PL",
+                "pt_BR",
+                "sv_SE",
+                "ta_IN",
+                "th_TH",
+                "tr_TR",
+                "vi_VN",
+                "zh_CN",
+            ]
+            | str
+            | None
+        ) = None,
     ) -> Refinements | dict[str, Any] | httpx.Response:
         """Returns refinements according to category input."""
 
@@ -177,7 +433,38 @@ class ProductTargeting(BaseResource):
             "application/vnd.spproducttargetingresponse.v5+json",
         ] = "application/vnd.spproducttargetingresponse.v3+json",
         mode: Literal["pydantic"] = "pydantic",
-        locale: str | None = None,
+        locale: (
+            Literal[
+                "ar_AE",
+                "de_DE",
+                "en_AE",
+                "en_AU",
+                "en_CA",
+                "en_GB",
+                "en_IN",
+                "en_SG",
+                "en_US",
+                "es_ES",
+                "es_MX",
+                "fr_CA",
+                "fr_FR",
+                "hi_IN",
+                "it_IT",
+                "ja_JP",
+                "ko_KR",
+                "nl_NL",
+                "pl_PL",
+                "pt_BR",
+                "sv_SE",
+                "ta_IN",
+                "th_TH",
+                "tr_TR",
+                "vi_VN",
+                "zh_CN",
+            ]
+            | str
+            | None
+        ) = None,
     ) -> TargetableCategories: ...
     @overload
     async def get_targetable_categories(
@@ -189,7 +476,38 @@ class ProductTargeting(BaseResource):
             "application/vnd.spproducttargetingresponse.v5+json",
         ] = "application/vnd.spproducttargetingresponse.v3+json",
         mode: Literal["dict"],
-        locale: str | None = None,
+        locale: (
+            Literal[
+                "ar_AE",
+                "de_DE",
+                "en_AE",
+                "en_AU",
+                "en_CA",
+                "en_GB",
+                "en_IN",
+                "en_SG",
+                "en_US",
+                "es_ES",
+                "es_MX",
+                "fr_CA",
+                "fr_FR",
+                "hi_IN",
+                "it_IT",
+                "ja_JP",
+                "ko_KR",
+                "nl_NL",
+                "pl_PL",
+                "pt_BR",
+                "sv_SE",
+                "ta_IN",
+                "th_TH",
+                "tr_TR",
+                "vi_VN",
+                "zh_CN",
+            ]
+            | str
+            | None
+        ) = None,
     ) -> dict[str, Any]: ...
     @overload
     async def get_targetable_categories(
@@ -201,7 +519,38 @@ class ProductTargeting(BaseResource):
             "application/vnd.spproducttargetingresponse.v5+json",
         ] = "application/vnd.spproducttargetingresponse.v3+json",
         mode: Literal["raw"],
-        locale: str | None = None,
+        locale: (
+            Literal[
+                "ar_AE",
+                "de_DE",
+                "en_AE",
+                "en_AU",
+                "en_CA",
+                "en_GB",
+                "en_IN",
+                "en_SG",
+                "en_US",
+                "es_ES",
+                "es_MX",
+                "fr_CA",
+                "fr_FR",
+                "hi_IN",
+                "it_IT",
+                "ja_JP",
+                "ko_KR",
+                "nl_NL",
+                "pl_PL",
+                "pt_BR",
+                "sv_SE",
+                "ta_IN",
+                "th_TH",
+                "tr_TR",
+                "vi_VN",
+                "zh_CN",
+            ]
+            | str
+            | None
+        ) = None,
     ) -> httpx.Response: ...
     async def get_targetable_categories(
         self,
@@ -212,7 +561,38 @@ class ProductTargeting(BaseResource):
             "application/vnd.spproducttargetingresponse.v5+json",
         ] = "application/vnd.spproducttargetingresponse.v3+json",
         mode: Literal["pydantic", "dict", "raw"] = "pydantic",
-        locale: str | None = None,
+        locale: (
+            Literal[
+                "ar_AE",
+                "de_DE",
+                "en_AE",
+                "en_AU",
+                "en_CA",
+                "en_GB",
+                "en_IN",
+                "en_SG",
+                "en_US",
+                "es_ES",
+                "es_MX",
+                "fr_CA",
+                "fr_FR",
+                "hi_IN",
+                "it_IT",
+                "ja_JP",
+                "ko_KR",
+                "nl_NL",
+                "pl_PL",
+                "pt_BR",
+                "sv_SE",
+                "ta_IN",
+                "th_TH",
+                "tr_TR",
+                "vi_VN",
+                "zh_CN",
+            ]
+            | str
+            | None
+        ) = None,
     ) -> TargetableCategories | dict[str, Any] | httpx.Response:
         """Returns all targetable categories. This API returns a large JSON string containing a tree of category nodes. Each category node has the fields - category id, category name, and child categories."""
 

@@ -12,7 +12,6 @@ from ads_api.models.v0._shared import (
     AdId,
     AdName,
     BaseProductAd,
-    BaseProductAdState,
     CampaignId,
     LandingPageURL,
 )
@@ -23,59 +22,16 @@ The type of the landingPage used. This field is completely optional and will be 
 """
 
 
-type ProductAdResponseExServingStatus = Literal[
-    "ADVERTISER_STATUS_ENABLED",
-    "STATUS_UNAVAILABLE",
-    "ADVERTISER_PAUSED",
-    "ACCOUNT_OUT_OF_BUDGET",
-    "ADVERTISER_PAYMENT_FAILURE",
-    "CAMPAIGN_PAUSED",
-    "CAMPAIGN_ARCHIVED",
-    "PENDING_START_DATE",
-    "ENDED",
-    "CAMPAIGN_OUT_OF_BUDGET",
-    "AD_GROUP_STATUS_ENABLED",
-    "AD_GROUP_PAUSED",
-    "AD_GROUP_ARCHIVED",
-    "AD_GROUP_INCOMPLETE",
-    "AD_GROUP_LOW_BID",
-    "AD_STATUS_LIVE",
-    "AD_STATUS_PAUSED",
-    "AD_STATUS_ARCHIVED",
-    "MISSING_IMAGE",
-    "MISSING_DECORATION",
-    "NOT_BUYABLE",
-    "NOT_IN_BUYBOX",
-    "OUT_OF_STOCK",
-    "NOT_IN_POLICY",
-    "ADVERTISER_EXCEED_SPENDS_LIMIT",
-    "AD_POLICING_PENDING_REVIEW",
-    "CAMPAIGN_INCOMPLETE",
-    "INELIGIBLE",
-    "PORTFOLIO_ENDED",
-    "PORTFOLIO_OUT_OF_BUDGET",
-    "ADVERTISER_ARCHIVED",
-    "ADVERTISER_ACCOUNT_OUT_OF_BUDGET",
-]
-"""
-The status of the product ad.
-"""
-
-
-type ProductAdResponseExState = Literal["enabled", "paused", "archived"]
-"""
-The state of the product ad.
-"""
-
-
 class BaseProductAdOut(LenientModel):
-    state: BaseProductAdState | str | None = Field(
+    state: Literal["enabled", "paused", "archived"] | str | None = Field(
         default=None, description="The state of the campaign associated with the product ad."
     )
 
 
 class CreateProductAd(StrictModel):
-    state: BaseProductAdState = Field(description="The state of the campaign associated with the product ad.")
+    state: Literal["enabled", "paused", "archived"] = Field(
+        description="The state of the campaign associated with the product ad."
+    )
     adGroupId: AdGroupId
     campaignId: CampaignId
     landingPageURL: LandingPageURL | None = Field(default=None)
@@ -91,7 +47,7 @@ class CreateProductAd(StrictModel):
 
 
 class ProductAd(LenientModel):
-    state: BaseProductAdState | str | None = Field(
+    state: Literal["enabled", "paused", "archived"] | str | None = Field(
         default=None, description="The state of the campaign associated with the product ad."
     )
     adId: AdId | None = Field(default=None)
@@ -131,10 +87,47 @@ class ProductAdResponseEx(LenientModel):
         default=None,
         description="The SKU of the product being advertised. This parameter is included in the response for sellers.",
     )
-    state: ProductAdResponseExState | str | None = Field(default=None, description="The state of the product ad.")
-    servingStatus: ProductAdResponseExServingStatus | str | None = Field(
-        default=None, description="The status of the product ad."
+    state: Literal["enabled", "paused", "archived"] | str | None = Field(
+        default=None, description="The state of the product ad."
     )
+    servingStatus: (
+        Literal[
+            "ADVERTISER_STATUS_ENABLED",
+            "STATUS_UNAVAILABLE",
+            "ADVERTISER_PAUSED",
+            "ACCOUNT_OUT_OF_BUDGET",
+            "ADVERTISER_PAYMENT_FAILURE",
+            "CAMPAIGN_PAUSED",
+            "CAMPAIGN_ARCHIVED",
+            "PENDING_START_DATE",
+            "ENDED",
+            "CAMPAIGN_OUT_OF_BUDGET",
+            "AD_GROUP_STATUS_ENABLED",
+            "AD_GROUP_PAUSED",
+            "AD_GROUP_ARCHIVED",
+            "AD_GROUP_INCOMPLETE",
+            "AD_GROUP_LOW_BID",
+            "AD_STATUS_LIVE",
+            "AD_STATUS_PAUSED",
+            "AD_STATUS_ARCHIVED",
+            "MISSING_IMAGE",
+            "MISSING_DECORATION",
+            "NOT_BUYABLE",
+            "NOT_IN_BUYBOX",
+            "OUT_OF_STOCK",
+            "NOT_IN_POLICY",
+            "ADVERTISER_EXCEED_SPENDS_LIMIT",
+            "AD_POLICING_PENDING_REVIEW",
+            "CAMPAIGN_INCOMPLETE",
+            "INELIGIBLE",
+            "PORTFOLIO_ENDED",
+            "PORTFOLIO_OUT_OF_BUDGET",
+            "ADVERTISER_ARCHIVED",
+            "ADVERTISER_ACCOUNT_OUT_OF_BUDGET",
+        ]
+        | str
+        | None
+    ) = Field(default=None, description="The status of the product ad.")
     creationDate: int | None = Field(default=None, description="Epoch date the product ad was created.")
     lastUpdatedDate: int | None = Field(
         default=None, description="Epoch date of the last update to any property associated with the product ad."
@@ -142,7 +135,7 @@ class ProductAdResponseEx(LenientModel):
 
 
 class UpdateProductAd(StrictModel):
-    state: BaseProductAdState | None = Field(
+    state: Literal["enabled", "paused", "archived"] | None = Field(
         default=None, description="The state of the campaign associated with the product ad."
     )
     adId: AdId
@@ -154,7 +147,6 @@ __all__ = [
     "AdName",
     "BaseProductAd",
     "BaseProductAdOut",
-    "BaseProductAdState",
     "CampaignId",
     "CreateProductAd",
     "LandingPageType",
@@ -162,7 +154,5 @@ __all__ = [
     "ProductAd",
     "ProductAdResponse",
     "ProductAdResponseEx",
-    "ProductAdResponseExServingStatus",
-    "ProductAdResponseExState",
     "UpdateProductAd",
 ]

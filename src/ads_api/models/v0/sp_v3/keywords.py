@@ -58,12 +58,7 @@ from ads_api.models.v0._shared import (
 type SponsoredProductsCreateOrUpdateMatchType = Literal["BROAD", "EXACT", "PHRASE"]
 
 
-type SponsoredProductsMatchType = Literal[
-    "BROAD",
-    "EXACT",
-    "OTHER",
-    "PHRASE",
-]
+type SponsoredProductsMatchType = Literal["BROAD", "EXACT", "OTHER", "PHRASE"]
 
 
 class SponsoredProductsBulkKeywordOperationResponse(LenientModel):
@@ -131,16 +126,7 @@ class SponsoredProductsKeyword(LenientModel):
         default=None,
         description="The locale preference of the advertiser. For example, if the advertiser’s preferred language is Simplified Chinese, set the locale to zh_CN. Supported locales include: Simplified Chinese (locale: zh_CN) for US, UK and CA. English (locale: en_GB) for DE, FR, IT and ES.",
     )
-    state: SponsoredProductsEntityState | str = Field(description="""
-Supported values:
-- `ENABLED`: Enabled State
-- `PAUSED`: Paused State
-- `PROPOSED`: Proposed State (Upcoming Feature)
-- `ARCHIVED`: ARCHIVED State
-- `ENABLING`: State for Draft Entity Only
-- `USER_DELETED`: State for Draft Entity Only
-- `OTHER`: Read Only
-""")
+    state: SponsoredProductsEntityState | str
 
 
 class SponsoredProductsKeywordExtendedData(LenientModel):

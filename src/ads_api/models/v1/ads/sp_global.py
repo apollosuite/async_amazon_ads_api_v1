@@ -25,7 +25,7 @@ from ads_api.models.v1._shared.sp_global import (
     SPGlobalUpdateState,
 )
 
-type SPGlobalAdType = Literal["PRODUCT_AD",]  # A creative built based on a specified product.
+type SPGlobalAdType = Literal["PRODUCT_AD"]
 """
 Supported values:
 - `PRODUCT_AD`: A creative built based on a specified product.
@@ -63,14 +63,8 @@ A list of country codes representing Amazon marketplaces
 class SPGlobalAd(LenientModel):
     adGroupId: str = Field(description="The ad group associated with the ad.")
     adId: str = Field(description="The identifier of the ad.")
-    adProduct: SPGlobalAdProduct | str = Field(description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""")
-    adType: SPGlobalAdType | str = Field(description="""
-Supported values:
-- `PRODUCT_AD`: A creative built based on a specified product.
-""")
+    adProduct: SPGlobalAdProduct | str
+    adType: SPGlobalAdType | str
     campaignId: str = Field(description="The campaign associated with the ad. It's a read-only field.")
     creationDateTime: datetime = Field(description="The date time that the ad was created.")
     creative: SPGlobalCreative
@@ -87,12 +81,7 @@ Supported values:
         max_length=30,
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
-    state: SPGlobalState | str = Field(description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SPGlobalState | str
     status: SPGlobalStatus | None = Field(default=None)
     tags: list[SPGlobalTag] | None = Field(
         default=None,
@@ -111,26 +100,13 @@ class SPGlobalAdAdIdFilter(StrictModel):
 
 
 class SPGlobalAdAdProductFilter(StrictModel):
-    include: list[SPGlobalAdProduct | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""",
-    )
+    include: list[SPGlobalAdProduct | str] = Field(min_length=1, max_length=1)
 
 
 class SPGlobalAdCreate(StrictModel):
     adGroupId: str = Field(description="The ad group associated with the ad.")
-    adProduct: SPGlobalAdProduct = Field(description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""")
-    adType: SPGlobalAdType = Field(description="""
-Supported values:
-- `PRODUCT_AD`: A creative built based on a specified product.
-""")
+    adProduct: SPGlobalAdProduct
+    adType: SPGlobalAdType
     creative: SPGlobalCreateCreative
     marketplaceConfigurations: list[SPGlobalCreateMarketplaceAdConfigurations] | None = Field(
         default=None,
@@ -144,11 +120,7 @@ Supported values:
         max_length=30,
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
-    state: SPGlobalCreateState = Field(description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SPGlobalCreateState
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -179,16 +151,7 @@ class SPGlobalAdPartialIndex(LenientModel):
 
 
 class SPGlobalAdStateFilter(StrictModel):
-    include: list[SPGlobalState | str] = Field(
-        min_length=1,
-        max_length=3,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    include: list[SPGlobalState | str] = Field(min_length=1, max_length=3)
 
 
 class SPGlobalAdSuccessResponse(LenientModel):
@@ -210,14 +173,7 @@ class SPGlobalAdUpdate(StrictModel):
         max_length=30,
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
-    state: SPGlobalUpdateState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    state: SPGlobalUpdateState | None = Field(default=None)
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -243,19 +199,8 @@ class SPGlobalAdvertisedProducts(LenientModel):
         max_length=30,
         description="List of advertised product selectively applied at the given marketplace level",
     )
-    productIdType: SPGlobalProductIdType | str = Field(description="""
-Supported values:
-- `ASIN`: ASIN identifier type.
-- `SKU`: SKU identifier type.
-""")
-    resolvedProductIdType: SPGlobalProductIdType | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ASIN`: ASIN identifier type.
-- `SKU`: SKU identifier type.
-""",
-    )
+    productIdType: SPGlobalProductIdType | str
+    resolvedProductIdType: SPGlobalProductIdType | str | None = Field(default=None)
 
 
 class SPGlobalCreateAdRequest(StrictModel):
@@ -275,11 +220,7 @@ class SPGlobalCreateAdvertisedProducts(StrictModel):
         max_length=30,
         description="List of advertised product selectively applied at the given marketplace level",
     )
-    productIdType: SPGlobalProductIdType = Field(description="""
-Supported values:
-- `ASIN`: ASIN identifier type.
-- `SKU`: SKU identifier type.
-""")
+    productIdType: SPGlobalProductIdType
 
 
 class SPGlobalCreateCreative(StrictModel):
@@ -296,15 +237,7 @@ class SPGlobalCreateMarketplaceAdConfigurations(StrictModel):
 
 
 class SPGlobalCreateMarketplaceAdFieldOverrides(StrictModel):
-    state: SPGlobalState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    state: SPGlobalState | None = Field(default=None)
     tags: list[SPGlobalCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -344,15 +277,7 @@ class SPGlobalMarketplaceAdConfigurations(LenientModel):
 
 
 class SPGlobalMarketplaceAdFieldOverrides(LenientModel):
-    state: SPGlobalState | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    state: SPGlobalState | str | None = Field(default=None)
     tags: list[SPGlobalTag] | None = Field(
         default=None,
         min_length=0,
@@ -383,26 +308,9 @@ class SPGlobalQueryAdRequest(StrictModel):
 
 class SPGlobalStatus(LenientModel):
     deliveryReasons: list[SPGlobalDeliveryReason | str] | None = Field(
-        default=None,
-        min_length=0,
-        max_length=50,
-        description="""
-This is the list of reasons behind the delivery status.
-
-Supported values:
-- `ADVERTISER_OUT_OF_BUDGET`: Indicates that an advertiser is out of budget for Sponsored Products campaigns for sellers.
-- `ADVERTISER_OUT_OF_POSTPAY_CREDIT_LIMIT`: Indicates that a postpay advertiser is out of credit limit for all Sponsored Ads campaigns.
-- `ADVERTISER_OUT_OF_POSTPAY_MONTHLY_BUDGET`: Indicates that a postpay advertiser is out of monthly budget for all Sponsored Ads campaigns.
-- `ADVERTISER_OUT_OF_PREPAY_BALANCE`: Indicates that a prepay advertiser is out of prepay balance for all Sponsored Ads campaigns.
-""",
+        default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
     )
-    deliveryStatus: SPGlobalDeliveryStatus | str = Field(description="""
-Supported values:
-- `DELIVERING`: Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces
-- `LIMITED`: Represents partial delivery status, applicable to global resources that have different delivery status across marketplaces
-- `NOT_DELIVERING`: Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces
-- `UNAVAILABLE`: Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces
-""")
+    deliveryStatus: SPGlobalDeliveryStatus | str
     marketplaceSettings: list[SPGlobalStatusMarketplaceSetting] = Field(
         min_length=1,
         max_length=30,
@@ -412,26 +320,9 @@ Supported values:
 
 class SPGlobalStatusMarketplaceSetting(LenientModel):
     deliveryReasons: list[SPGlobalDeliveryReason | str] | None = Field(
-        default=None,
-        min_length=0,
-        max_length=50,
-        description="""
-This is the list of reasons behind the delivery status.
-
-Supported values:
-- `ADVERTISER_OUT_OF_BUDGET`: Indicates that an advertiser is out of budget for Sponsored Products campaigns for sellers.
-- `ADVERTISER_OUT_OF_POSTPAY_CREDIT_LIMIT`: Indicates that a postpay advertiser is out of credit limit for all Sponsored Ads campaigns.
-- `ADVERTISER_OUT_OF_POSTPAY_MONTHLY_BUDGET`: Indicates that a postpay advertiser is out of monthly budget for all Sponsored Ads campaigns.
-- `ADVERTISER_OUT_OF_PREPAY_BALANCE`: Indicates that a prepay advertiser is out of prepay balance for all Sponsored Ads campaigns.
-""",
+        default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
     )
-    deliveryStatus: SPGlobalDeliveryStatus | str = Field(description="""
-Supported values:
-- `DELIVERING`: Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces
-- `LIMITED`: Represents partial delivery status, applicable to global resources that have different delivery status across marketplaces
-- `NOT_DELIVERING`: Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces
-- `UNAVAILABLE`: Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces
-""")
+    deliveryStatus: SPGlobalDeliveryStatus | str
     marketplace: SPGlobalMarketplace | str
 
 

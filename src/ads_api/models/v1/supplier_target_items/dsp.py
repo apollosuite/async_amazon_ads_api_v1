@@ -11,7 +11,7 @@ from ads_api.models.v1._shared.dsp import (
     DSPSortDirection,
 )
 
-type DSPAdProduct = Literal["AMAZON_DSP",]  # Amazon Demand-Side Platform ad product.
+type DSPAdProduct = Literal["AMAZON_DSP"]
 """
 Supported values:
 - `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
@@ -19,27 +19,11 @@ Supported values:
 
 
 type DSPCountryCode = Literal[
-    "AD",
-    "AE",
-    "AF",
-    "AG",
-    "AI",
-    "AU",
-    "BR",
-    "CA",
-    "DE",
-    "ES",
-    "FR",
-    "GB",
-    "IT",
-    "JP",
-    "KR",
-    "MX",
-    "US",
+    "AD", "AE", "AF", "AG", "AI", "AU", "BR", "CA", "DE", "ES", "FR", "GB", "IT", "JP", "KR", "MX", "US"
 ]
 
 
-type DSPSupplierTargetItemNameFilterType = Literal["BROAD_MATCH",]  # Filter by broad match.
+type DSPSupplierTargetItemNameFilterType = Literal["BROAD_MATCH"]
 """
 Supported values:
 - `BROAD_MATCH`: Filter by broad match.
@@ -105,13 +89,7 @@ class DSPQuerySupplierTargetItemRequest(StrictModel):
 
 
 class DSPSupplierTargetItem(LenientModel):
-    adProduct: DSPAdProduct | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
-""",
-    )
+    adProduct: DSPAdProduct | str | None = Field(default=None)
     category: list[str] | None = Field(
         default=None, min_length=0, max_length=49, description="Categories for this targeting item."
     )
@@ -131,14 +109,7 @@ Supported values:
 
 
 class DSPSupplierTargetItemAdProductFilter(StrictModel):
-    include: list[DSPAdProduct | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
-""",
-    )
+    include: list[DSPAdProduct | str] = Field(min_length=1, max_length=1)
 
 
 class DSPSupplierTargetItemCategoryFilter(StrictModel):
@@ -155,22 +126,12 @@ class DSPSupplierTargetItemIdFilter(StrictModel):
 
 class DSPSupplierTargetItemNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=1)
-    queryTermMatchType: DSPSupplierTargetItemNameFilterType = Field(description="""
-Supported values:
-- `BROAD_MATCH`: Filter by broad match.
-""")
+    queryTermMatchType: DSPSupplierTargetItemNameFilterType
 
 
 class DSPSupplierTargetItemSortOption(StrictModel):
     by: DSPSupplierTargetItemSortOptionsFields
-    direction: DSPSortDirection | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ASCENDING`: Sort in ascending order
-- `DESCENDING`: Sort in descending order
-""",
-    )
+    direction: DSPSortDirection | None = Field(default=None)
 
 
 class DSPSupplierTargetItemSuccessResponse(LenientModel):

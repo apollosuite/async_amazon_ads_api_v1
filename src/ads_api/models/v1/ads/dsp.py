@@ -15,28 +15,17 @@ from ads_api.models.v1._shared.dsp import (
     DSPSize,
 )
 
-type DSPAdChoicesPosition = Literal[
-    "BOTTOM_LEFT",
-    "BOTTOM_RIGHT",
-    "TOP_LEFT",
-    "TOP_RIGHT",
-]
+type DSPAdChoicesPosition = Literal["BOTTOM_LEFT", "BOTTOM_RIGHT", "TOP_LEFT", "TOP_RIGHT"]
 
 
-type DSPAdProduct = Literal["AMAZON_DSP",]  # Amazon Demand-Side Platform ad product.
+type DSPAdProduct = Literal["AMAZON_DSP"]
 """
 Supported values:
 - `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
 """
 
 
-type DSPAdType = Literal[
-    "AUDIO",  # A creative that features one or more audio assets.
-    "COMPONENT",  # A creative that can features a collection of videos, images, and products.
-    "DISPLAY",  # A creative that features one or more custom images.
-    "THIRD_PARTY",  # A creative that is served from a third party ad server.
-    "VIDEO",  # A creative that features one or more videos.
-]
+type DSPAdType = Literal["AUDIO", "COMPONENT", "DISPLAY", "THIRD_PARTY", "VIDEO"]
 """
 Supported values:
 - `AUDIO`: A creative that features one or more audio assets.
@@ -64,22 +53,13 @@ type DSPAssetBasedCreativeCallToActionType = Literal[
 ]
 
 
-type DSPBrandStoreCallToActionType = Literal[
-    "BUY_NOW",
-    "DISCOVER_MORE",
-    "LEARN_MORE",
-    "SEE_DETAILS",
-    "SHOP_NOW",
-]
+type DSPBrandStoreCallToActionType = Literal["BUY_NOW", "DISCOVER_MORE", "LEARN_MORE", "SEE_DETAILS", "SHOP_NOW"]
 
 
 type DSPComponentInventoryType = Literal["DISPLAY", "NATIVE"]
 
 
-type DSPCreateState = Literal[
-    "ENABLED",  # The object is set active by user and eligible for delivery.
-    "PAUSED",  # The object is stopped by user and not eligible for delivery.
-]
+type DSPCreateState = Literal["ENABLED", "PAUSED"]
 """
 The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
 
@@ -100,13 +80,13 @@ type DSPDeliveryReason = Literal[
     "AD_GROUPS_NOT_RUNNING",
     "AD_GROUP_ARCHIVED",
     "AD_GROUP_ENDED",
-    "AD_GROUP_INELIGIBLE_GOAL_KPI",  # Indicates that the ad group is suspended because the campaign's goal KPI is not supported.
-    "AD_GROUP_MISSING_CONVERSION_TRACKING_SELECTIONS",  # Indicates that the ad group is suspended because the campaign is missing conversion tracking selections.
+    "AD_GROUP_INELIGIBLE_GOAL_KPI",
+    "AD_GROUP_MISSING_CONVERSION_TRACKING_SELECTIONS",
     "AD_GROUP_PAUSED",
     "AD_GROUP_PENDING_START_DATE",
     "AD_GROUP_POLICING_SUSPENDED",
-    "AD_GROUP_TOO_FEW_CONVERSION_TRACKING_SELECTIONS",  # Indicates that the ad group is suspended because the campaign has an insufficient number of conversion tracking selections.
-    "AD_GROUP_TOO_MANY_CONVERSION_TRACKING_SELECTIONS",  # Indicates that the ad group is suspended because the campaign exceeded the maximum number of conversion tracking selections.
+    "AD_GROUP_TOO_FEW_CONVERSION_TRACKING_SELECTIONS",
+    "AD_GROUP_TOO_MANY_CONVERSION_TRACKING_SELECTIONS",
     "AD_NOT_APPROVED_FOR_ALL_AD_GROUPS",
     "AD_NOT_ASSOCIATED_WITH_AD_GROUP",
     "AD_POLICING_PENDING_REVIEW",
@@ -127,12 +107,7 @@ Supported values:
 """
 
 
-type DSPDeliveryStatus = Literal[
-    "DELIVERING",  # Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces
-    "LIMITED",  # Represents partial delivery status, applicable to global resources that have different delivery status across marketplaces
-    "NOT_DELIVERING",  # Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces
-    "UNAVAILABLE",  # Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces
-]
+type DSPDeliveryStatus = Literal["DELIVERING", "LIMITED", "NOT_DELIVERING", "UNAVAILABLE"]
 """
 Supported values:
 - `DELIVERING`: Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces
@@ -143,53 +118,53 @@ Supported values:
 
 
 type DSPErrorCode = Literal[
-    "ACTION_NOT_SUPPORTED",  # The request is not supported.
-    "ACTIVE_RESOURCE_LIMIT_EXCEEDED",  # Too many live resources. Remove resources and try again.
-    "ARCHIVED_PARENT_CANNOT_CREATE",  # New resources cannot be created within an archived parent.
-    "ARCHIVED_PARENT_CANNOT_EDIT",  # Resources within an archived parent cannot be edited.
-    "ARCHIVED_RESOURCE_CANNOT_EDIT",  # Archived resources cannot be edited.
-    "ASSET_NOT_READY",  # The provided asset is still being processed.
-    "AUTOCREATED_ENTITY_CANNOT_EDIT",  # Autocreated entities cannot be edited. To complete this action, create the resource manually.
-    "BAD_REQUEST",  # The request is not valid considering the documented schema.
-    "CONFLICT",  # Operation could not be completed due to a conflict. Please retry your request.
-    "CONTENT_TOO_LARGE",  # The request is too large. Consider splitting it into multiple requests.
-    "DATE_CANNOT_BE_IN_PAST",  # Update the date to be in the future.
-    "DATE_CANNOT_BE_NULL",  # Update the date.
-    "DATE_TOO_SOON",  # Update the date to be further in the future.
-    "DUPLICATE_FIELD_VALUE_FOUND",  # Multiple resources share the non-unique field values. Remove the non-unique field value.
-    "DUPLICATE_RESOURCE_ID_FOUND",  # Multiple resources share the same ID. Remove the duplicate ID.
-    "DURATION_TOO_SHORT",  # Update the length to be within the required range.
-    "FEATURE_DISCONTINUED",  # Feature has been discontinued.
-    "FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT",  # Update the value to be within the required range.
-    "FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT",  # Update the value to be within the required range.
-    "FIELD_SIZE_IS_OUT_OF_RANGE",  # Update the value to be within the required range.
-    "FIELD_VALUE_CANNOT_EDIT",  # Field value cannot be edited.
-    "FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS",  # Update the request with the required information for this resource.
-    "FIELD_VALUE_CONTAINS_INVALID_CHARACTERS",  # Remove the invalid characters and try again.
-    "FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT",  # Update the value to be within the required range.
-    "FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT",  # Update the value to be within the required range.
-    "FIELD_VALUE_IS_EMPTY",  # Update the request with the required information for this resource.
-    "FIELD_VALUE_IS_INVALID",  # Update the request with the required information for this resource.
-    "FIELD_VALUE_IS_NULL",  # Update the request with the required information for this resource.
-    "FIELD_VALUE_IS_OUT_OF_RANGE",  # Update the value to be within the required range.
-    "FIELD_VALUE_MISMATCH",  # Mismatch among resource field values.
-    "FIELD_VALUE_MUST_BE_EMPTY_OR_NULL",  # Update the request with the required information for this resource.
-    "FIELD_VALUE_NOT_FOUND",  # Resource specified in the field value not found. Try again with valid value.
-    "FIELD_VALUE_NOT_UNIQUE",  # Resource field value conflicts with existing resource. Try again with an unique field value.
-    "FORBIDDEN",  # The caller is not authorized to make the given request.
-    "INTERNAL_ERROR",  # The server encountered an unexpected condition that prevented it from fulfilling the request.
-    "NOT_FOUND",  # The requested resource does not exist.
-    "PAYMENT_ISSUE",  # Payment failed.
-    "PRODUCT_INELIGIBLE",  # Product is not eligible for advertising. Try again with a valid product.
-    "RESOURCE_DOES_NOT_BELONG_TO_PARENT",  # Resource does not belong to the specified parent. Try again with a valid parent ID.
-    "RESOURCE_ID_NOT_FOUND",  # Resource ID not found. Try again with valid ID.
-    "RESOURCE_IS_EMPTY",  # Update the request with the required information for this resource.
-    "RESOURCE_IS_IN_TERMINAL_STATE",  # Resource is in terminal state.
-    "RESOURCE_IS_NULL",  # Update the request with the required information for this resource.
-    "TOO_MANY_REQUESTS",  # There have been too many requests, please slow down your call rate.
-    "TOTAL_RESOURCE_LIMIT_EXCEEDED",  # Too many resources. Remove resources and try again.
-    "UNAUTHORIZED",  # The request lacks the necessary credentials.
-    "UNSUPPORTED_MARKETPLACE",  # Marketplace not supported. Try again with a supported marketplace.
+    "ACTION_NOT_SUPPORTED",
+    "ACTIVE_RESOURCE_LIMIT_EXCEEDED",
+    "ARCHIVED_PARENT_CANNOT_CREATE",
+    "ARCHIVED_PARENT_CANNOT_EDIT",
+    "ARCHIVED_RESOURCE_CANNOT_EDIT",
+    "ASSET_NOT_READY",
+    "AUTOCREATED_ENTITY_CANNOT_EDIT",
+    "BAD_REQUEST",
+    "CONFLICT",
+    "CONTENT_TOO_LARGE",
+    "DATE_CANNOT_BE_IN_PAST",
+    "DATE_CANNOT_BE_NULL",
+    "DATE_TOO_SOON",
+    "DUPLICATE_FIELD_VALUE_FOUND",
+    "DUPLICATE_RESOURCE_ID_FOUND",
+    "DURATION_TOO_SHORT",
+    "FEATURE_DISCONTINUED",
+    "FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT",
+    "FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT",
+    "FIELD_SIZE_IS_OUT_OF_RANGE",
+    "FIELD_VALUE_CANNOT_EDIT",
+    "FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS",
+    "FIELD_VALUE_CONTAINS_INVALID_CHARACTERS",
+    "FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT",
+    "FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT",
+    "FIELD_VALUE_IS_EMPTY",
+    "FIELD_VALUE_IS_INVALID",
+    "FIELD_VALUE_IS_NULL",
+    "FIELD_VALUE_IS_OUT_OF_RANGE",
+    "FIELD_VALUE_MISMATCH",
+    "FIELD_VALUE_MUST_BE_EMPTY_OR_NULL",
+    "FIELD_VALUE_NOT_FOUND",
+    "FIELD_VALUE_NOT_UNIQUE",
+    "FORBIDDEN",
+    "INTERNAL_ERROR",
+    "NOT_FOUND",
+    "PAYMENT_ISSUE",
+    "PRODUCT_INELIGIBLE",
+    "RESOURCE_DOES_NOT_BELONG_TO_PARENT",
+    "RESOURCE_ID_NOT_FOUND",
+    "RESOURCE_IS_EMPTY",
+    "RESOURCE_IS_IN_TERMINAL_STATE",
+    "RESOURCE_IS_NULL",
+    "TOO_MANY_REQUESTS",
+    "TOTAL_RESOURCE_LIMIT_EXCEEDED",
+    "UNAUTHORIZED",
+    "UNSUPPORTED_MARKETPLACE",
 ]
 """
 Supported values:
@@ -244,193 +219,193 @@ Supported values:
 
 
 type DSPLanguageLocale = Literal[
-    "aa_ET",  # Afar (Ethiopia).
-    "ab_GE",  # Abkhazian (Georgia).
-    "ae_INT",  # Avestan (International).
-    "af_ZA",  # Afrikaans (South Africa).
-    "ak_GH",  # Akan (Ghana).
-    "am_ET",  # Amharic (Ethiopia).
-    "an_ES",  # Aragonese (Spain).
-    "ar_AE",  # Arabic (UAE).
-    "as_IN",  # Assamese (India).
-    "av_RU",  # Avaric (Russia).
-    "ay_BO",  # Aymara (Bolivia).
-    "az_AZ",  # Azerbaijani (Azerbaijan).
-    "ba_RU",  # Bashkir (Russia).
-    "be_BY",  # Belarusian (Belarus).
-    "bg_BG",  # Bulgarian (Bulgaria).
-    "bh_IN",  # Bihari (India).
-    "bi_VU",  # Bislama (Vanuatu).
-    "bm_ML",  # Bambara (Mali).
-    "bn_BD",  # Bengali (Bangladesh).
-    "bo_CN",  # Tibetan (China).
-    "br_FR",  # Breton (France).
-    "bs_BA",  # Bosnian (Bosnia and Herzegovina).
-    "ca_ES",  # Catalan (Spain).
-    "ce_RU",  # Chechen (Russia).
-    "ch_GU",  # Chamorro (Guam).
-    "co_FR",  # Corsican (France).
-    "cr_CA",  # Cree (Canada).
-    "cs_CZ",  # Czech (Czech Republic).
-    "cu_INT",  # Church Slavonic (International).
-    "cv_RU",  # Chuvash (Russia).
-    "cy_GB",  # Welsh (United Kingdom).
-    "da_DK",  # Danish (Denmark).
-    "de_DE",  # German (Germany).
-    "dv_MV",  # Divehi (Maldives).
-    "dz_BT",  # Dzongkha (Bhutan).
-    "ee_GH",  # Ewe (Ghana).
-    "el_GR",  # Greek (Greece).
-    "en_US",  # English (United States).
-    "eo_INT",  # Esperanto (International).
-    "es_ES",  # Spanish (Spain).
-    "et_EE",  # Estonian (Estonia).
-    "eu_ES",  # Basque (Spain).
-    "fa_IR",  # Persian (Iran).
-    "ff_SN",  # Fulah (Senegal).
-    "fi_FI",  # Finnish (Finland).
-    "fj_FJ",  # Fijian (Fiji).
-    "fo_FO",  # Faroese (Faroe Islands).
-    "fr_FR",  # French (France).
-    "fy_NL",  # Western Frisian (Netherlands).
-    "ga_IE",  # Irish (Ireland).
-    "gd_GB",  # Scottish Gaelic (United Kingdom).
-    "gl_ES",  # Galician (Spain).
-    "gn_PY",  # Guarani (Paraguay).
-    "gu_IN",  # Gujarati (India).
-    "gv_IM",  # Manx (Isle of Man).
-    "ha_NG",  # Hausa (Nigeria).
-    "he_IL",  # Hebrew (Israel).
-    "hi_IN",  # Hindi (India).
-    "ho_PG",  # Hiri Motu (Papua New Guinea).
-    "hr_HR",  # Croatian (Croatia).
-    "ht_HT",  # Haitian Creole (Haiti).
-    "hu_HU",  # Hungarian (Hungary).
-    "hy_AM",  # Armenian (Armenia).
-    "hz_NA",  # Herero (Namibia).
-    "ia_INT",  # Interlingua (International).
-    "id_ID",  # Indonesian (Indonesia).
-    "ie_INT",  # Interlingue (International).
-    "ig_NG",  # Igbo (Nigeria).
-    "ii_CN",  # Sichuan Yi (China).
-    "ik_US",  # Inupiaq (United States).
-    "io_INT",  # Ido (International).
-    "is_IS",  # Icelandic (Iceland).
-    "it_IT",  # Italian (Italy).
-    "iu_CA",  # Inuktitut (Canada).
-    "iw_IL",  # Hebrew (Israel).
-    "ja_JP",  # Japanese (Japan).
-    "ji_IL",  # Yiddish (Israel).
-    "jv_ID",  # Javanese (Indonesia).
-    "ka_GE",  # Georgian (Georgia).
-    "kg_CD",  # Kongo (Democratic Republic of the Congo).
-    "ki_KE",  # Kikuyu (Kenya).
-    "kj_NA",  # Kwanyama (Namibia).
-    "kk_KZ",  # Kazakh (Kazakhstan).
-    "kl_GL",  # Kalaallisut (Greenland).
-    "km_KH",  # Khmer (Cambodia).
-    "kn_IN",  # Kannada (India).
-    "ko_KR",  # Korean (South Korea).
-    "kr_NG",  # Kanuri (Nigeria).
-    "ks_IN",  # Kashmiri (India).
-    "ku_TR",  # Kurdish (Turkey).
-    "kv_RU",  # Komi (Russia).
-    "kw_GB",  # Cornish (United Kingdom).
-    "ky_KG",  # Kyrgyz (Kyrgyzstan).
-    "la_VA",  # Latin (Vatican City).
-    "lb_LU",  # Luxembourgish (Luxembourg).
-    "lg_UG",  # Ganda (Uganda).
-    "li_NL",  # Limburgish (Netherlands).
-    "ln_CD",  # Lingala (Democratic Republic of the Congo).
-    "lo_LA",  # Lao (Laos).
-    "lt_LT",  # Lithuanian (Lithuania).
-    "lu_CD",  # Luba-Katanga (Democratic Republic of the Congo).
-    "lv_LV",  # Latvian (Latvia).
-    "mg_MG",  # Malagasy (Madagascar).
-    "mh_MH",  # Marshallese (Marshall Islands).
-    "mi_NZ",  # Māori (New Zealand).
-    "mk_MK",  # Macedonian (North Macedonia).
-    "ml_IN",  # Malayalam (India).
-    "mn_MN",  # Mongolian (Mongolia).
-    "mo_MD",  # Moldavian (Moldova).
-    "mr_IN",  # Marathi (India).
-    "ms_MY",  # Malay (Malaysia).
-    "mt_MT",  # Maltese (Malta).
-    "my_MM",  # Burmese (Myanmar).
-    "na_NR",  # Nauru (Nauru).
-    "nb_NO",  # Norwegian Bokmål (Norway).
-    "nd_ZW",  # North Ndebele (Zimbabwe).
-    "ne_NP",  # Nepali (Nepal).
-    "ng_NA",  # Ndonga (Namibia).
-    "nl_NL",  # Dutch (Netherlands).
-    "nn_NO",  # Norwegian Nynorsk (Norway).
-    "no_NO",  # Norwegian (Norway).
-    "nr_ZA",  # South Ndebele (South Africa).
-    "nv_US",  # Navajo (United States).
-    "ny_MW",  # Chichewa (Malawi).
-    "oc_FR",  # Occitan (France).
-    "oj_CA",  # Ojibwa (Canada).
-    "om_ET",  # Oromo (Ethiopia).
-    "or_IN",  # Oriya (India).
-    "os_RU",  # Ossetian (Russia).
-    "pa_IN",  # Punjabi (India).
-    "pi_IN",  # Pali (India).
-    "pl_PL",  # Polish (Poland).
-    "ps_AF",  # Pashto (Afghanistan).
-    "pt_PT",  # Portuguese (Portugal).
-    "qu_PE",  # Quechua (Peru).
-    "rm_CH",  # Romansh (Switzerland).
-    "rn_BI",  # Kirundi (Burundi).
-    "ro_RO",  # Romanian (Romania).
-    "ru_RU",  # Russian (Russia).
-    "rw_RW",  # Kinyarwanda (Rwanda).
-    "sa_IN",  # Sanskrit (India).
-    "sc_IT",  # Sardinian (Italy).
-    "sd_PK",  # Sindhi (Pakistan).
-    "se_NO",  # Northern Sami (Norway).
-    "sg_CF",  # Sango (Central African Republic).
-    "si_LK",  # Sinhala (Sri Lanka).
-    "sk_SK",  # Slovak (Slovakia).
-    "sl_SI",  # Slovenian (Slovenia).
-    "sm_WS",  # Samoan (Samoa).
-    "sn_ZW",  # Shona (Zimbabwe).
-    "so_SO",  # Somali (Somalia).
-    "sq_AL",  # Albanian (Albania).
-    "sr_RS",  # Serbian (Serbia).
-    "ss_SZ",  # Swati (Eswatini).
-    "st_LS",  # Southern Sotho (Lesotho).
-    "su_ID",  # Sundanese (Indonesia).
-    "sv_SE",  # Swedish (Sweden).
-    "sw_TZ",  # Swahili (Tanzania).
-    "ta_IN",  # Tamil (India).
-    "te_IN",  # Telugu (India).
-    "tg_TJ",  # Tajik (Tajikistan).
-    "th_TH",  # Thai (Thailand).
-    "ti_ET",  # Tigrinya (Ethiopia).
-    "tk_TM",  # Turkmen (Turkmenistan).
-    "tl_PH",  # Tagalog (Philippines).
-    "tn_BW",  # Tswana (Botswana).
-    "to_TO",  # Tonga (Tonga).
-    "tr_TR",  # Turkish (Turkey).
-    "ts_ZA",  # Tsonga (South Africa).
-    "tt_RU",  # Tatar (Russia).
-    "tw_GH",  # Twi (Ghana).
-    "ty_PF",  # Tahitian (French Polynesia).
-    "ug_CN",  # Uyghur (China).
-    "uk_UA",  # Ukrainian (Ukraine).
-    "ur_PK",  # Urdu (Pakistan).
-    "uz_UZ",  # Uzbek (Uzbekistan).
-    "ve_ZA",  # Venda (South Africa).
-    "vi_VN",  # Vietnamese (Vietnam).
-    "vo_INT",  # Volapük (International).
-    "wa_BE",  # Walloon (Belgium).
-    "wo_SN",  # Wolof (Senegal).
-    "xh_ZA",  # Xhosa (South Africa).
-    "yi_IL",  # Yiddish (Israel).
-    "yo_NG",  # Yoruba (Nigeria).
-    "za_CN",  # Zhuang (China).
-    "zh_CN",  # Chinese (China).
-    "zu_ZA",  # Zulu (South Africa).
+    "aa_ET",
+    "ab_GE",
+    "ae_INT",
+    "af_ZA",
+    "ak_GH",
+    "am_ET",
+    "an_ES",
+    "ar_AE",
+    "as_IN",
+    "av_RU",
+    "ay_BO",
+    "az_AZ",
+    "ba_RU",
+    "be_BY",
+    "bg_BG",
+    "bh_IN",
+    "bi_VU",
+    "bm_ML",
+    "bn_BD",
+    "bo_CN",
+    "br_FR",
+    "bs_BA",
+    "ca_ES",
+    "ce_RU",
+    "ch_GU",
+    "co_FR",
+    "cr_CA",
+    "cs_CZ",
+    "cu_INT",
+    "cv_RU",
+    "cy_GB",
+    "da_DK",
+    "de_DE",
+    "dv_MV",
+    "dz_BT",
+    "ee_GH",
+    "el_GR",
+    "en_US",
+    "eo_INT",
+    "es_ES",
+    "et_EE",
+    "eu_ES",
+    "fa_IR",
+    "ff_SN",
+    "fi_FI",
+    "fj_FJ",
+    "fo_FO",
+    "fr_FR",
+    "fy_NL",
+    "ga_IE",
+    "gd_GB",
+    "gl_ES",
+    "gn_PY",
+    "gu_IN",
+    "gv_IM",
+    "ha_NG",
+    "he_IL",
+    "hi_IN",
+    "ho_PG",
+    "hr_HR",
+    "ht_HT",
+    "hu_HU",
+    "hy_AM",
+    "hz_NA",
+    "ia_INT",
+    "id_ID",
+    "ie_INT",
+    "ig_NG",
+    "ii_CN",
+    "ik_US",
+    "io_INT",
+    "is_IS",
+    "it_IT",
+    "iu_CA",
+    "iw_IL",
+    "ja_JP",
+    "ji_IL",
+    "jv_ID",
+    "ka_GE",
+    "kg_CD",
+    "ki_KE",
+    "kj_NA",
+    "kk_KZ",
+    "kl_GL",
+    "km_KH",
+    "kn_IN",
+    "ko_KR",
+    "kr_NG",
+    "ks_IN",
+    "ku_TR",
+    "kv_RU",
+    "kw_GB",
+    "ky_KG",
+    "la_VA",
+    "lb_LU",
+    "lg_UG",
+    "li_NL",
+    "ln_CD",
+    "lo_LA",
+    "lt_LT",
+    "lu_CD",
+    "lv_LV",
+    "mg_MG",
+    "mh_MH",
+    "mi_NZ",
+    "mk_MK",
+    "ml_IN",
+    "mn_MN",
+    "mo_MD",
+    "mr_IN",
+    "ms_MY",
+    "mt_MT",
+    "my_MM",
+    "na_NR",
+    "nb_NO",
+    "nd_ZW",
+    "ne_NP",
+    "ng_NA",
+    "nl_NL",
+    "nn_NO",
+    "no_NO",
+    "nr_ZA",
+    "nv_US",
+    "ny_MW",
+    "oc_FR",
+    "oj_CA",
+    "om_ET",
+    "or_IN",
+    "os_RU",
+    "pa_IN",
+    "pi_IN",
+    "pl_PL",
+    "ps_AF",
+    "pt_PT",
+    "qu_PE",
+    "rm_CH",
+    "rn_BI",
+    "ro_RO",
+    "ru_RU",
+    "rw_RW",
+    "sa_IN",
+    "sc_IT",
+    "sd_PK",
+    "se_NO",
+    "sg_CF",
+    "si_LK",
+    "sk_SK",
+    "sl_SI",
+    "sm_WS",
+    "sn_ZW",
+    "so_SO",
+    "sq_AL",
+    "sr_RS",
+    "ss_SZ",
+    "st_LS",
+    "su_ID",
+    "sv_SE",
+    "sw_TZ",
+    "ta_IN",
+    "te_IN",
+    "tg_TJ",
+    "th_TH",
+    "ti_ET",
+    "tk_TM",
+    "tl_PH",
+    "tn_BW",
+    "to_TO",
+    "tr_TR",
+    "ts_ZA",
+    "tt_RU",
+    "tw_GH",
+    "ty_PF",
+    "ug_CN",
+    "uk_UA",
+    "ur_PK",
+    "uz_UZ",
+    "ve_ZA",
+    "vi_VN",
+    "vo_INT",
+    "wa_BE",
+    "wo_SN",
+    "xh_ZA",
+    "yi_IL",
+    "yo_NG",
+    "za_CN",
+    "zh_CN",
+    "zu_ZA",
 ]
 """
 A combination of ISO-639 standard for language code and ISO-3166 for country code.
@@ -627,37 +602,21 @@ Supported values:
 
 
 type DSPMarketplace = Literal[
-    "AE",
-    "AU",
-    "BR",
-    "CA",
-    "DE",
-    "ES",
-    "FR",
-    "GB",
-    "IN",
-    "IT",
-    "JP",
-    "MX",
-    "NL",
-    "SA",
-    "SE",
-    "TR",
-    "US",
+    "AE", "AU", "BR", "CA", "DE", "ES", "FR", "GB", "IN", "IT", "JP", "MX", "NL", "SA", "SE", "TR", "US"
 ]
 """
 A list of country codes representing Amazon marketplaces
 """
 
 
-type DSPProductIdType = Literal["ASIN",]  # ASIN identifier type.
+type DSPProductIdType = Literal["ASIN"]
 """
 Supported values:
 - `ASIN`: ASIN identifier type.
 """
 
 
-type DSPPublisherHostedCreativeSource = Literal["GOOGLE_AD_MANAGER",]  # Google Ad Manager publisher ad server.
+type DSPPublisherHostedCreativeSource = Literal["GOOGLE_AD_MANAGER"]
 """
 The publisher ad server source for publisher hosted creative placeholder creatives.
 
@@ -666,15 +625,10 @@ Supported values:
 """
 
 
-type DSPResponsiveEcommerceAdVariations = Literal[
-    "ADD_TO_CART",
-    "COUPON",
-    "CUSTOMER_REVIEWS",
-    "SHOP_NOW",
-]
+type DSPResponsiveEcommerceAdVariations = Literal["ADD_TO_CART", "COUPON", "CUSTOMER_REVIEWS", "SHOP_NOW"]
 
 
-type DSPResponsiveEcommerceCreativePropertiesToOptimize = Literal["HEADLINE",]  # The headline in the creative.
+type DSPResponsiveEcommerceCreativePropertiesToOptimize = Literal["HEADLINE"]
 """
 Supported values:
 - `HEADLINE`: The headline in the creative.
@@ -684,11 +638,7 @@ Supported values:
 type DSPResponsiveSizingBehavior = Literal["DISABLED", "ENABLED"]
 
 
-type DSPState = Literal[
-    "ARCHIVED",  # The object is permanently stopped and cannot be reactivated. Terminal end state.
-    "ENABLED",  # The object is set active by user and eligible for delivery.
-    "PAUSED",  # The object is stopped by user and not eligible for delivery.
-]
+type DSPState = Literal["ARCHIVED", "ENABLED", "PAUSED"]
 """
 The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
 
@@ -702,10 +652,7 @@ Supported values:
 type DSPSupportedThirdPartySellers = Literal["ALL", "NONE"]
 
 
-type DSPUpdateState = Literal[
-    "ENABLED",  # The object is set active by user and eligible for delivery.
-    "PAUSED",  # The object is stopped by user and not eligible for delivery.
-]
+type DSPUpdateState = Literal["ENABLED", "PAUSED"]
 """
 The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
 
@@ -720,18 +667,8 @@ type DSPVideoCallToActionPosition = Literal["LEFT", "MINIMAL", "RIGHT"]
 
 class DSPAd(LenientModel):
     adId: str = Field(description="The identifier of the ad.")
-    adProduct: DSPAdProduct | str = Field(description="""
-Supported values:
-- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
-""")
-    adType: DSPAdType | str = Field(description="""
-Supported values:
-- `AUDIO`: A creative that features one or more audio assets.
-- `COMPONENT`: A creative that can features a collection of videos, images, and products.
-- `DISPLAY`: A creative that features one or more custom images.
-- `THIRD_PARTY`: A creative that is served from a third party ad server.
-- `VIDEO`: A creative that features one or more videos.
-""")
+    adProduct: DSPAdProduct | str
+    adType: DSPAdType | str
     creationDateTime: datetime = Field(description="The date time that the ad was created.")
     creative: DSPCreative
     lastUpdatedDateTime: datetime = Field(description="The date time that the ad was last updated.")
@@ -743,12 +680,7 @@ Supported values:
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
     name: str = Field(description="The name of the ad.")
-    state: DSPState | str = Field(description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: DSPState | str
     status: DSPStatus | None = Field(default=None)
     tags: list[DSPTag] | None = Field(
         default=None,
@@ -763,29 +695,12 @@ class DSPAdAdIdFilter(StrictModel):
 
 
 class DSPAdAdProductFilter(StrictModel):
-    include: list[DSPAdProduct | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
-""",
-    )
+    include: list[DSPAdProduct | str] = Field(min_length=1, max_length=1)
 
 
 class DSPAdCreate(StrictModel):
-    adProduct: DSPAdProduct = Field(description="""
-Supported values:
-- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
-""")
-    adType: DSPAdType = Field(description="""
-Supported values:
-- `AUDIO`: A creative that features one or more audio assets.
-- `COMPONENT`: A creative that can features a collection of videos, images, and products.
-- `DISPLAY`: A creative that features one or more custom images.
-- `THIRD_PARTY`: A creative that is served from a third party ad server.
-- `VIDEO`: A creative that features one or more videos.
-""")
+    adProduct: DSPAdProduct
+    adType: DSPAdType
     creative: DSPCreateCreative
     marketplaces: list[DSPMarketplace | str] | None = Field(
         default=None,
@@ -794,11 +709,7 @@ Supported values:
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
     name: str = Field(description="The name of the ad.")
-    state: DSPCreateState = Field(description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: DSPCreateState
     tags: list[DSPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -832,14 +743,7 @@ class DSPAdUpdate(StrictModel):
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
     name: str | None = Field(default=None, description="The name of the ad.")
-    state: DSPUpdateState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    state: DSPUpdateState | None = Field(default=None)
     tags: list[DSPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -854,10 +758,7 @@ class DSPAddToCartVideoCallToActionSettings(LenientModel):
 
 class DSPAdvertisedProducts(LenientModel):
     productId: str = Field(description="The identifier of the advertised product.")
-    productIdType: DSPProductIdType | str = Field(description="""
-Supported values:
-- `ASIN`: ASIN identifier type.
-""")
+    productIdType: DSPProductIdType | str
 
 
 class DSPAssetBasedCreativeCallToAction(LenientModel):
@@ -911,196 +812,7 @@ class DSPAssetBasedCreativeSettings(LenientModel):
     inventoryTypes: list[DSPComponentInventoryType | str] = Field(
         min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
-    language: DSPLanguageLocale | str = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
+    language: DSPLanguageLocale | str
     logos: list[DSPImage] | None = Field(
         default=None,
         min_length=0,
@@ -1177,196 +889,7 @@ class DSPBrandStoreSettings(LenientModel):
     inventoryTypes: list[DSPComponentInventoryType | str] = Field(
         min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
-    language: DSPLanguageLocale | str = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
+    language: DSPLanguageLocale | str
     logos: DSPImage | None = Field(default=None)
     optimizationGoalKpi: DSPCreativeOptimizationGoalKpi | str
     responsiveSizingBehavior: DSPResponsiveSizingBehavior | str
@@ -1414,10 +937,7 @@ class DSPCreateAddToCartVideoCallToActionSettings(StrictModel):
 
 class DSPCreateAdvertisedProducts(StrictModel):
     productId: str = Field(description="The identifier of the advertised product.")
-    productIdType: DSPProductIdType = Field(description="""
-Supported values:
-- `ASIN`: ASIN identifier type.
-""")
+    productIdType: DSPProductIdType
 
 
 class DSPCreateAssetBasedCreativeCallToAction(StrictModel):
@@ -1471,196 +991,7 @@ class DSPCreateAssetBasedCreativeSettings(StrictModel):
     inventoryTypes: list[DSPComponentInventoryType | str] = Field(
         min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
-    language: DSPLanguageLocale = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
+    language: DSPLanguageLocale
     logos: list[DSPCreateImage] | None = Field(
         default=None,
         min_length=0,
@@ -1737,196 +1068,7 @@ class DSPCreateBrandStoreSettings(StrictModel):
     inventoryTypes: list[DSPComponentInventoryType | str] = Field(
         min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
-    language: DSPLanguageLocale = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
+    language: DSPLanguageLocale
     logos: DSPCreateImage | None = Field(default=None)
     optimizationGoalKpi: DSPCreativeOptimizationGoalKpi
     responsiveSizingBehavior: DSPResponsiveSizingBehavior
@@ -2044,196 +1186,7 @@ class DSPCreateOnlineVideoSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: DSPLanguageLocale = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
+    language: DSPLanguageLocale
     products: DSPCreateAdvertisedProducts | None = Field(default=None)
     videos: DSPCreateVideo
 
@@ -2249,12 +1202,7 @@ class DSPCreateResponsiveEcommerceSettings(StrictModel):
         default=None,
         min_length=0,
         max_length=3,
-        description="""
-The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-
-Supported values:
-- `HEADLINE`: The headline in the creative.
-""",
+        description="The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.",
     )
     creativeSizes: list[DSPCreateSize] | None = Field(
         default=None, min_length=0, max_length=20, description="The placement sizes this creative should serve on."
@@ -2277,196 +1225,7 @@ Supported values:
     inventoryTypes: list[DSPComponentInventoryType | str] = Field(
         min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
-    language: DSPLanguageLocale = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
+    language: DSPLanguageLocale
     logos: DSPCreateImage | None = Field(default=None)
     optimizationGoalKpi: DSPCreativeOptimizationGoalKpi
     products: list[DSPCreateAdvertisedProducts] = Field(
@@ -2495,196 +1254,7 @@ class DSPCreateStandardAudioExperienceSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded. Urls cannot exceed 2048 characters.",
     )
-    language: DSPLanguageLocale = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
+    language: DSPLanguageLocale
     products: list[DSPCreateAdvertisedProducts] | None = Field(
         default=None, min_length=0, max_length=10, description="The product(s) being advertised."
     )
@@ -2711,196 +1281,7 @@ class DSPCreateStandardDisplaySettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: DSPLanguageLocale = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
+    language: DSPLanguageLocale
 
 
 class DSPCreateStreamingTvSettings(StrictModel):
@@ -2913,196 +1294,7 @@ class DSPCreateStreamingTvSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: DSPLanguageLocale = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
+    language: DSPLanguageLocale
     products: list[DSPCreateAdvertisedProducts] | None = Field(
         default=None, min_length=0, max_length=20, description="The product advertised on this video creative."
     )
@@ -3137,203 +1329,8 @@ class DSPCreateThirdPartyDisplaySettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: DSPLanguageLocale = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
-    publisherHostedCreativeSource: DSPPublisherHostedCreativeSource | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `GOOGLE_AD_MANAGER`: Google Ad Manager publisher ad server.
-""",
-    )
+    language: DSPLanguageLocale
+    publisherHostedCreativeSource: DSPPublisherHostedCreativeSource | None = Field(default=None)
     thirdPartyTagHostingSource: str | None = Field(
         default=None,
         description="The html tag to use to fetch this creative from the 3p ad server. Required for non publisher hosted creatives (when publisherHostedCreativeSource is not set).",
@@ -3347,203 +1344,8 @@ class DSPCreateThirdPartyVideoSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: DSPLanguageLocale = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
-    publisherHostedCreativeSource: DSPPublisherHostedCreativeSource | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `GOOGLE_AD_MANAGER`: Google Ad Manager publisher ad server.
-""",
-    )
+    language: DSPLanguageLocale
+    publisherHostedCreativeSource: DSPPublisherHostedCreativeSource | None = Field(default=None)
     vastUrl: str | None = Field(
         default=None,
         description="The url to use to fetch the VAST XML for this video creative. Required for non publisher hosted creatives (when publisherHostedCreativeSource is not set).",
@@ -3618,56 +1420,7 @@ class DSPDisplayCreative(LenientModel):
 
 
 class DSPError(LenientModel):
-    code: DSPErrorCode | str = Field(description="""
-Supported values:
-- `ACTION_NOT_SUPPORTED`: The request is not supported.
-- `ACTIVE_RESOURCE_LIMIT_EXCEEDED`: Too many live resources. Remove resources and try again.
-- `ARCHIVED_PARENT_CANNOT_CREATE`: New resources cannot be created within an archived parent.
-- `ARCHIVED_PARENT_CANNOT_EDIT`: Resources within an archived parent cannot be edited.
-- `ARCHIVED_RESOURCE_CANNOT_EDIT`: Archived resources cannot be edited.
-- `ASSET_NOT_READY`: The provided asset is still being processed.
-- `AUTOCREATED_ENTITY_CANNOT_EDIT`: Autocreated entities cannot be edited. To complete this action, create the resource manually.
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-- `CONFLICT`: Operation could not be completed due to a conflict. Please retry your request.
-- `CONTENT_TOO_LARGE`: The request is too large. Consider splitting it into multiple requests.
-- `DATE_CANNOT_BE_IN_PAST`: Update the date to be in the future.
-- `DATE_CANNOT_BE_NULL`: Update the date.
-- `DATE_TOO_SOON`: Update the date to be further in the future.
-- `DUPLICATE_FIELD_VALUE_FOUND`: Multiple resources share the non-unique field values. Remove the non-unique field value.
-- `DUPLICATE_RESOURCE_ID_FOUND`: Multiple resources share the same ID. Remove the duplicate ID.
-- `DURATION_TOO_SHORT`: Update the length to be within the required range.
-- `FEATURE_DISCONTINUED`: Feature has been discontinued.
-- `FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
-- `FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
-- `FIELD_SIZE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
-- `FIELD_VALUE_CANNOT_EDIT`: Field value cannot be edited.
-- `FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS`: Update the request with the required information for this resource.
-- `FIELD_VALUE_CONTAINS_INVALID_CHARACTERS`: Remove the invalid characters and try again.
-- `FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
-- `FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
-- `FIELD_VALUE_IS_EMPTY`: Update the request with the required information for this resource.
-- `FIELD_VALUE_IS_INVALID`: Update the request with the required information for this resource.
-- `FIELD_VALUE_IS_NULL`: Update the request with the required information for this resource.
-- `FIELD_VALUE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
-- `FIELD_VALUE_MISMATCH`: Mismatch among resource field values.
-- `FIELD_VALUE_MUST_BE_EMPTY_OR_NULL`: Update the request with the required information for this resource.
-- `FIELD_VALUE_NOT_FOUND`: Resource specified in the field value not found. Try again with valid value.
-- `FIELD_VALUE_NOT_UNIQUE`: Resource field value conflicts with existing resource. Try again with an unique field value.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `NOT_FOUND`: The requested resource does not exist.
-- `PAYMENT_ISSUE`: Payment failed.
-- `PRODUCT_INELIGIBLE`: Product is not eligible for advertising. Try again with a valid product.
-- `RESOURCE_DOES_NOT_BELONG_TO_PARENT`: Resource does not belong to the specified parent. Try again with a valid parent ID.
-- `RESOURCE_ID_NOT_FOUND`: Resource ID not found. Try again with valid ID.
-- `RESOURCE_IS_EMPTY`: Update the request with the required information for this resource.
-- `RESOURCE_IS_IN_TERMINAL_STATE`: Resource is in terminal state.
-- `RESOURCE_IS_NULL`: Update the request with the required information for this resource.
-- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
-- `TOTAL_RESOURCE_LIMIT_EXCEEDED`: Too many resources. Remove resources and try again.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
-- `UNSUPPORTED_MARKETPLACE`: Marketplace not supported. Try again with a supported marketplace.
-""")
+    code: DSPErrorCode | str
     fieldLocation: str | None = Field(default=None)
     message: str
 
@@ -3715,196 +1468,7 @@ class DSPOnlineVideoSettings(LenientModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: DSPLanguageLocale | str = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
+    language: DSPLanguageLocale | str
     products: DSPAdvertisedProducts | None = Field(default=None)
     videos: DSPVideo
 
@@ -3927,12 +1491,7 @@ class DSPResponsiveEcommerceSettings(LenientModel):
         default=None,
         min_length=0,
         max_length=3,
-        description="""
-The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-
-Supported values:
-- `HEADLINE`: The headline in the creative.
-""",
+        description="The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.",
     )
     creativeSizes: list[DSPSize] | None = Field(
         default=None, min_length=0, max_length=20, description="The placement sizes this creative should serve on."
@@ -3953,196 +1512,7 @@ Supported values:
     inventoryTypes: list[DSPComponentInventoryType | str] = Field(
         min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
-    language: DSPLanguageLocale | str = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
+    language: DSPLanguageLocale | str
     logos: DSPImage | None = Field(default=None)
     optimizationGoalKpi: DSPCreativeOptimizationGoalKpi | str
     products: list[DSPAdvertisedProducts] = Field(
@@ -4171,196 +1541,7 @@ class DSPStandardAudioExperienceSettings(LenientModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded. Urls cannot exceed 2048 characters.",
     )
-    language: DSPLanguageLocale | str = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
+    language: DSPLanguageLocale | str
     products: list[DSPAdvertisedProducts] | None = Field(
         default=None, min_length=0, max_length=10, description="The product(s) being advertised."
     )
@@ -4387,220 +1568,14 @@ class DSPStandardDisplaySettings(LenientModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: DSPLanguageLocale | str = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
+    language: DSPLanguageLocale | str
 
 
 class DSPStatus(LenientModel):
     deliveryReasons: list[DSPDeliveryReason | str] | None = Field(
-        default=None,
-        min_length=0,
-        max_length=50,
-        description="""
-This is the list of reasons behind the delivery status.
-
-Supported values:
-- `AD_GROUP_INELIGIBLE_GOAL_KPI`: Indicates that the ad group is suspended because the campaign's goal KPI is not supported.
-- `AD_GROUP_MISSING_CONVERSION_TRACKING_SELECTIONS`: Indicates that the ad group is suspended because the campaign is missing conversion tracking selections.
-- `AD_GROUP_TOO_FEW_CONVERSION_TRACKING_SELECTIONS`: Indicates that the ad group is suspended because the campaign has an insufficient number of conversion tracking selections.
-- `AD_GROUP_TOO_MANY_CONVERSION_TRACKING_SELECTIONS`: Indicates that the ad group is suspended because the campaign exceeded the maximum number of conversion tracking selections.
-""",
+        default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
     )
-    deliveryStatus: DSPDeliveryStatus | str = Field(description="""
-Supported values:
-- `DELIVERING`: Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces
-- `LIMITED`: Represents partial delivery status, applicable to global resources that have different delivery status across marketplaces
-- `NOT_DELIVERING`: Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces
-- `UNAVAILABLE`: Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces
-""")
+    deliveryStatus: DSPDeliveryStatus | str
 
 
 class DSPStreamingTvSettings(LenientModel):
@@ -4613,196 +1588,7 @@ class DSPStreamingTvSettings(LenientModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: DSPLanguageLocale | str = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
+    language: DSPLanguageLocale | str
     products: list[DSPAdvertisedProducts] | None = Field(
         default=None, min_length=0, max_length=20, description="The product advertised on this video creative."
     )
@@ -4844,203 +1630,8 @@ class DSPThirdPartyDisplaySettings(LenientModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: DSPLanguageLocale | str = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
-    publisherHostedCreativeSource: DSPPublisherHostedCreativeSource | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `GOOGLE_AD_MANAGER`: Google Ad Manager publisher ad server.
-""",
-    )
+    language: DSPLanguageLocale | str
+    publisherHostedCreativeSource: DSPPublisherHostedCreativeSource | str | None = Field(default=None)
     thirdPartyTagHostingSource: str | None = Field(
         default=None,
         description="The html tag to use to fetch this creative from the 3p ad server. Required for non publisher hosted creatives (when publisherHostedCreativeSource is not set).",
@@ -5054,203 +1645,8 @@ class DSPThirdPartyVideoSettings(LenientModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: DSPLanguageLocale | str = Field(description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""")
-    publisherHostedCreativeSource: DSPPublisherHostedCreativeSource | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `GOOGLE_AD_MANAGER`: Google Ad Manager publisher ad server.
-""",
-    )
+    language: DSPLanguageLocale | str
+    publisherHostedCreativeSource: DSPPublisherHostedCreativeSource | str | None = Field(default=None)
     vastUrl: str | None = Field(
         default=None,
         description="The url to use to fetch the VAST XML for this video creative. Required for non publisher hosted creatives (when publisherHostedCreativeSource is not set).",
@@ -5263,13 +1659,7 @@ class DSPUpdateAdRequest(StrictModel):
 
 class DSPUpdateAdvertisedProducts(StrictModel):
     productId: str | None = Field(default=None, description="The identifier of the advertised product.")
-    productIdType: DSPProductIdType | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ASIN`: ASIN identifier type.
-""",
-    )
+    productIdType: DSPProductIdType | None = Field(default=None)
 
 
 class DSPUpdateAssetBasedCreativeCallToAction(StrictModel):
@@ -5326,199 +1716,7 @@ class DSPUpdateAssetBasedCreativeSettings(StrictModel):
     inventoryTypes: list[DSPComponentInventoryType | str] | None = Field(
         default=None, min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
-    language: DSPLanguageLocale | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""",
-    )
+    language: DSPLanguageLocale | None = Field(default=None)
     logos: list[DSPCreateImage] | None = Field(
         default=None,
         min_length=0,
@@ -5606,199 +1804,7 @@ class DSPUpdateBrandStoreSettings(StrictModel):
     inventoryTypes: list[DSPComponentInventoryType | str] | None = Field(
         default=None, min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
-    language: DSPLanguageLocale | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""",
-    )
+    language: DSPLanguageLocale | None = Field(default=None)
     logos: DSPUpdateImage | None = Field(default=None)
     optimizationGoalKpi: DSPCreativeOptimizationGoalKpi | None = Field(default=None)
     responsiveSizingBehavior: DSPResponsiveSizingBehavior | None = Field(default=None)
@@ -5904,199 +1910,7 @@ class DSPUpdateOnlineVideoSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: DSPLanguageLocale | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""",
-    )
+    language: DSPLanguageLocale | None = Field(default=None)
     products: DSPUpdateAdvertisedProducts | None = Field(default=None)
     videos: DSPUpdateVideo | None = Field(default=None)
 
@@ -6112,12 +1926,7 @@ class DSPUpdateResponsiveEcommerceSettings(StrictModel):
         default=None,
         min_length=0,
         max_length=3,
-        description="""
-The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-
-Supported values:
-- `HEADLINE`: The headline in the creative.
-""",
+        description="The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.",
     )
     creativeSizes: list[DSPCreateSize] | None = Field(
         default=None, min_length=0, max_length=20, description="The placement sizes this creative should serve on."
@@ -6140,199 +1949,7 @@ Supported values:
     inventoryTypes: list[DSPComponentInventoryType | str] | None = Field(
         default=None, min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
-    language: DSPLanguageLocale | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""",
-    )
+    language: DSPLanguageLocale | None = Field(default=None)
     logos: DSPUpdateImage | None = Field(default=None)
     optimizationGoalKpi: DSPCreativeOptimizationGoalKpi | None = Field(default=None)
     products: list[DSPCreateAdvertisedProducts] | None = Field(
@@ -6365,199 +1982,7 @@ class DSPUpdateStandardAudioExperienceSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded. Urls cannot exceed 2048 characters.",
     )
-    language: DSPLanguageLocale | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""",
-    )
+    language: DSPLanguageLocale | None = Field(default=None)
     products: list[DSPCreateAdvertisedProducts] | None = Field(
         default=None, min_length=0, max_length=10, description="The product(s) being advertised."
     )
@@ -6590,199 +2015,7 @@ class DSPUpdateStandardDisplaySettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: DSPLanguageLocale | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""",
-    )
+    language: DSPLanguageLocale | None = Field(default=None)
 
 
 class DSPUpdateStreamingTvSettings(StrictModel):
@@ -6795,199 +2028,7 @@ class DSPUpdateStreamingTvSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: DSPLanguageLocale | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""",
-    )
+    language: DSPLanguageLocale | None = Field(default=None)
     products: list[DSPCreateAdvertisedProducts] | None = Field(
         default=None, min_length=0, max_length=20, description="The product advertised on this video creative."
     )
@@ -7022,206 +2063,8 @@ class DSPUpdateThirdPartyDisplaySettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: DSPLanguageLocale | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""",
-    )
-    publisherHostedCreativeSource: DSPPublisherHostedCreativeSource | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `GOOGLE_AD_MANAGER`: Google Ad Manager publisher ad server.
-""",
-    )
+    language: DSPLanguageLocale | None = Field(default=None)
+    publisherHostedCreativeSource: DSPPublisherHostedCreativeSource | None = Field(default=None)
     thirdPartyTagHostingSource: str | None = Field(
         default=None,
         description="The html tag to use to fetch this creative from the 3p ad server. Required for non publisher hosted creatives (when publisherHostedCreativeSource is not set).",
@@ -7235,206 +2078,8 @@ class DSPUpdateThirdPartyVideoSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    language: DSPLanguageLocale | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `aa_ET`: Afar (Ethiopia).
-- `ab_GE`: Abkhazian (Georgia).
-- `ae_INT`: Avestan (International).
-- `af_ZA`: Afrikaans (South Africa).
-- `ak_GH`: Akan (Ghana).
-- `am_ET`: Amharic (Ethiopia).
-- `an_ES`: Aragonese (Spain).
-- `ar_AE`: Arabic (UAE).
-- `as_IN`: Assamese (India).
-- `av_RU`: Avaric (Russia).
-- `ay_BO`: Aymara (Bolivia).
-- `az_AZ`: Azerbaijani (Azerbaijan).
-- `ba_RU`: Bashkir (Russia).
-- `be_BY`: Belarusian (Belarus).
-- `bg_BG`: Bulgarian (Bulgaria).
-- `bh_IN`: Bihari (India).
-- `bi_VU`: Bislama (Vanuatu).
-- `bm_ML`: Bambara (Mali).
-- `bn_BD`: Bengali (Bangladesh).
-- `bo_CN`: Tibetan (China).
-- `br_FR`: Breton (France).
-- `bs_BA`: Bosnian (Bosnia and Herzegovina).
-- `ca_ES`: Catalan (Spain).
-- `ce_RU`: Chechen (Russia).
-- `ch_GU`: Chamorro (Guam).
-- `co_FR`: Corsican (France).
-- `cr_CA`: Cree (Canada).
-- `cs_CZ`: Czech (Czech Republic).
-- `cu_INT`: Church Slavonic (International).
-- `cv_RU`: Chuvash (Russia).
-- `cy_GB`: Welsh (United Kingdom).
-- `da_DK`: Danish (Denmark).
-- `de_DE`: German (Germany).
-- `dv_MV`: Divehi (Maldives).
-- `dz_BT`: Dzongkha (Bhutan).
-- `ee_GH`: Ewe (Ghana).
-- `el_GR`: Greek (Greece).
-- `en_US`: English (United States).
-- `eo_INT`: Esperanto (International).
-- `es_ES`: Spanish (Spain).
-- `et_EE`: Estonian (Estonia).
-- `eu_ES`: Basque (Spain).
-- `fa_IR`: Persian (Iran).
-- `ff_SN`: Fulah (Senegal).
-- `fi_FI`: Finnish (Finland).
-- `fj_FJ`: Fijian (Fiji).
-- `fo_FO`: Faroese (Faroe Islands).
-- `fr_FR`: French (France).
-- `fy_NL`: Western Frisian (Netherlands).
-- `ga_IE`: Irish (Ireland).
-- `gd_GB`: Scottish Gaelic (United Kingdom).
-- `gl_ES`: Galician (Spain).
-- `gn_PY`: Guarani (Paraguay).
-- `gu_IN`: Gujarati (India).
-- `gv_IM`: Manx (Isle of Man).
-- `ha_NG`: Hausa (Nigeria).
-- `he_IL`: Hebrew (Israel).
-- `hi_IN`: Hindi (India).
-- `ho_PG`: Hiri Motu (Papua New Guinea).
-- `hr_HR`: Croatian (Croatia).
-- `ht_HT`: Haitian Creole (Haiti).
-- `hu_HU`: Hungarian (Hungary).
-- `hy_AM`: Armenian (Armenia).
-- `hz_NA`: Herero (Namibia).
-- `ia_INT`: Interlingua (International).
-- `id_ID`: Indonesian (Indonesia).
-- `ie_INT`: Interlingue (International).
-- `ig_NG`: Igbo (Nigeria).
-- `ii_CN`: Sichuan Yi (China).
-- `ik_US`: Inupiaq (United States).
-- `io_INT`: Ido (International).
-- `is_IS`: Icelandic (Iceland).
-- `it_IT`: Italian (Italy).
-- `iu_CA`: Inuktitut (Canada).
-- `iw_IL`: Hebrew (Israel).
-- `ja_JP`: Japanese (Japan).
-- `ji_IL`: Yiddish (Israel).
-- `jv_ID`: Javanese (Indonesia).
-- `ka_GE`: Georgian (Georgia).
-- `kg_CD`: Kongo (Democratic Republic of the Congo).
-- `ki_KE`: Kikuyu (Kenya).
-- `kj_NA`: Kwanyama (Namibia).
-- `kk_KZ`: Kazakh (Kazakhstan).
-- `kl_GL`: Kalaallisut (Greenland).
-- `km_KH`: Khmer (Cambodia).
-- `kn_IN`: Kannada (India).
-- `ko_KR`: Korean (South Korea).
-- `kr_NG`: Kanuri (Nigeria).
-- `ks_IN`: Kashmiri (India).
-- `ku_TR`: Kurdish (Turkey).
-- `kv_RU`: Komi (Russia).
-- `kw_GB`: Cornish (United Kingdom).
-- `ky_KG`: Kyrgyz (Kyrgyzstan).
-- `la_VA`: Latin (Vatican City).
-- `lb_LU`: Luxembourgish (Luxembourg).
-- `lg_UG`: Ganda (Uganda).
-- `li_NL`: Limburgish (Netherlands).
-- `ln_CD`: Lingala (Democratic Republic of the Congo).
-- `lo_LA`: Lao (Laos).
-- `lt_LT`: Lithuanian (Lithuania).
-- `lu_CD`: Luba-Katanga (Democratic Republic of the Congo).
-- `lv_LV`: Latvian (Latvia).
-- `mg_MG`: Malagasy (Madagascar).
-- `mh_MH`: Marshallese (Marshall Islands).
-- `mi_NZ`: Māori (New Zealand).
-- `mk_MK`: Macedonian (North Macedonia).
-- `ml_IN`: Malayalam (India).
-- `mn_MN`: Mongolian (Mongolia).
-- `mo_MD`: Moldavian (Moldova).
-- `mr_IN`: Marathi (India).
-- `ms_MY`: Malay (Malaysia).
-- `mt_MT`: Maltese (Malta).
-- `my_MM`: Burmese (Myanmar).
-- `na_NR`: Nauru (Nauru).
-- `nb_NO`: Norwegian Bokmål (Norway).
-- `nd_ZW`: North Ndebele (Zimbabwe).
-- `ne_NP`: Nepali (Nepal).
-- `ng_NA`: Ndonga (Namibia).
-- `nl_NL`: Dutch (Netherlands).
-- `nn_NO`: Norwegian Nynorsk (Norway).
-- `no_NO`: Norwegian (Norway).
-- `nr_ZA`: South Ndebele (South Africa).
-- `nv_US`: Navajo (United States).
-- `ny_MW`: Chichewa (Malawi).
-- `oc_FR`: Occitan (France).
-- `oj_CA`: Ojibwa (Canada).
-- `om_ET`: Oromo (Ethiopia).
-- `or_IN`: Oriya (India).
-- `os_RU`: Ossetian (Russia).
-- `pa_IN`: Punjabi (India).
-- `pi_IN`: Pali (India).
-- `pl_PL`: Polish (Poland).
-- `ps_AF`: Pashto (Afghanistan).
-- `pt_PT`: Portuguese (Portugal).
-- `qu_PE`: Quechua (Peru).
-- `rm_CH`: Romansh (Switzerland).
-- `rn_BI`: Kirundi (Burundi).
-- `ro_RO`: Romanian (Romania).
-- `ru_RU`: Russian (Russia).
-- `rw_RW`: Kinyarwanda (Rwanda).
-- `sa_IN`: Sanskrit (India).
-- `sc_IT`: Sardinian (Italy).
-- `sd_PK`: Sindhi (Pakistan).
-- `se_NO`: Northern Sami (Norway).
-- `sg_CF`: Sango (Central African Republic).
-- `si_LK`: Sinhala (Sri Lanka).
-- `sk_SK`: Slovak (Slovakia).
-- `sl_SI`: Slovenian (Slovenia).
-- `sm_WS`: Samoan (Samoa).
-- `sn_ZW`: Shona (Zimbabwe).
-- `so_SO`: Somali (Somalia).
-- `sq_AL`: Albanian (Albania).
-- `sr_RS`: Serbian (Serbia).
-- `ss_SZ`: Swati (Eswatini).
-- `st_LS`: Southern Sotho (Lesotho).
-- `su_ID`: Sundanese (Indonesia).
-- `sv_SE`: Swedish (Sweden).
-- `sw_TZ`: Swahili (Tanzania).
-- `ta_IN`: Tamil (India).
-- `te_IN`: Telugu (India).
-- `tg_TJ`: Tajik (Tajikistan).
-- `th_TH`: Thai (Thailand).
-- `ti_ET`: Tigrinya (Ethiopia).
-- `tk_TM`: Turkmen (Turkmenistan).
-- `tl_PH`: Tagalog (Philippines).
-- `tn_BW`: Tswana (Botswana).
-- `to_TO`: Tonga (Tonga).
-- `tr_TR`: Turkish (Turkey).
-- `ts_ZA`: Tsonga (South Africa).
-- `tt_RU`: Tatar (Russia).
-- `tw_GH`: Twi (Ghana).
-- `ty_PF`: Tahitian (French Polynesia).
-- `ug_CN`: Uyghur (China).
-- `uk_UA`: Ukrainian (Ukraine).
-- `ur_PK`: Urdu (Pakistan).
-- `uz_UZ`: Uzbek (Uzbekistan).
-- `ve_ZA`: Venda (South Africa).
-- `vi_VN`: Vietnamese (Vietnam).
-- `vo_INT`: Volapük (International).
-- `wa_BE`: Walloon (Belgium).
-- `wo_SN`: Wolof (Senegal).
-- `xh_ZA`: Xhosa (South Africa).
-- `yi_IL`: Yiddish (Israel).
-- `yo_NG`: Yoruba (Nigeria).
-- `za_CN`: Zhuang (China).
-- `zh_CN`: Chinese (China).
-- `zu_ZA`: Zulu (South Africa).
-""",
-    )
-    publisherHostedCreativeSource: DSPPublisherHostedCreativeSource | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `GOOGLE_AD_MANAGER`: Google Ad Manager publisher ad server.
-""",
-    )
+    language: DSPLanguageLocale | None = Field(default=None)
+    publisherHostedCreativeSource: DSPPublisherHostedCreativeSource | None = Field(default=None)
     vastUrl: str | None = Field(
         default=None,
         description="The url to use to fetch the VAST XML for this video creative. Required for non publisher hosted creatives (when publisherHostedCreativeSource is not set).",

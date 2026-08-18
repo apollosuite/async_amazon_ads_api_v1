@@ -154,16 +154,7 @@ class SponsoredProductsNegativeTargetingClause(LenientModel):
     resolvedExpression: list[SponsoredProductsNegativeTargetingExpressionPredicate] = Field(
         min_length=0, max_length=1000, description="The resolved NegativeTargeting expression."
     )
-    state: SponsoredProductsEntityState | str = Field(description="""
-Supported values:
-- `ENABLED`: Enabled State
-- `PAUSED`: Paused State
-- `PROPOSED`: Proposed State (Upcoming Feature)
-- `ARCHIVED`: ARCHIVED State
-- `ENABLING`: State for Draft Entity Only
-- `USER_DELETED`: State for Draft Entity Only
-- `OTHER`: Read Only
-""")
+    state: SponsoredProductsEntityState | str
     targetId: str = Field(description="The target identifier")
 
 

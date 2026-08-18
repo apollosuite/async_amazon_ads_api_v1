@@ -46,12 +46,7 @@ from ads_api.models.v1._shared.dsp import (
     DSPTimeOfDayOut,
 )
 
-type DSPAdvertisingDealPriceType = Literal[
-    "FIXED_CPM",  # Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
-    "FIXED_PRICE",  # Sale price for a specific ad placement regardless of auction performance.
-    "FLAT_FEE",  # This value is deprecated. Please use FIXED_PRICE.
-    "FLOOR_RATE",  # Minimum bid price for auction. Buyer must bid at or above this floor to compete. Used for PRIVATE_AUCTION deals.
-]
+type DSPAdvertisingDealPriceType = Literal["FIXED_CPM", "FIXED_PRICE", "FLAT_FEE", "FLOOR_RATE"]
 """
 Supported values:
 - `FIXED_CPM`: Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
@@ -61,17 +56,7 @@ Supported values:
 """
 
 
-type DSPCurrencyCode = Literal[
-    "AUD",  # Australian Dollar
-    "BRL",  # Brazilian Real
-    "CAD",  # Canadian Dollar
-    "EUR",  # Euro
-    "GBP",  # British Pound Sterling
-    "JPY",  # Japanese Yen
-    "KRW",  # South Korean Won
-    "MXN",  # Mexican Peso
-    "USD",  # United States Dollar
-]
+type DSPCurrencyCode = Literal["AUD", "BRL", "CAD", "EUR", "GBP", "JPY", "KRW", "MXN", "USD"]
 """
 Supported values:
 - `AUD`: Australian Dollar
@@ -86,15 +71,7 @@ Supported values:
 """
 
 
-type DSPDayOfWeek = Literal[
-    "FRIDAY",  # Friday.
-    "MONDAY",  # Monday.
-    "SATURDAY",  # Saturday.
-    "SUNDAY",  # Sunday.
-    "THURSDAY",  # Thursday.
-    "TUESDAY",  # Tuesday.
-    "WEDNESDAY",  # Wednesday.
-]
+type DSPDayOfWeek = Literal["FRIDAY", "MONDAY", "SATURDAY", "SUNDAY", "THURSDAY", "TUESDAY", "WEDNESDAY"]
 """
 Supported values:
 - `FRIDAY`: Friday.
@@ -108,12 +85,7 @@ Supported values:
 
 
 type DSPErrorCode = Literal[
-    "BAD_REQUEST",  # The request is not valid considering the documented schema.
-    "FORBIDDEN",  # The caller is not authorized to make the given request.
-    "INTERNAL_ERROR",  # The server encountered an unexpected condition that prevented it from fulfilling the request.
-    "NOT_FOUND",  # The requested resource does not exist.
-    "TOO_MANY_REQUESTS",  # There have been too many requests, please slow down your call rate.
-    "UNAUTHORIZED",  # The request lacks the necessary credentials.
+    "BAD_REQUEST", "FORBIDDEN", "INTERNAL_ERROR", "NOT_FOUND", "TOO_MANY_REQUESTS", "UNAUTHORIZED"
 ]
 """
 Supported values:
@@ -126,11 +98,7 @@ Supported values:
 """
 
 
-type DSPState = Literal[
-    "ARCHIVED",  # The object is permanently stopped and cannot be reactivated. Terminal end state.
-    "DRAFT",  # The resource is in draft status and has not yet been proposed or enabled.
-    "PROPOSED",  # Indicates an entity staged for review and adoption by advertisers.
-]
+type DSPState = Literal["ARCHIVED", "DRAFT", "PROPOSED"]
 """
 The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
 
@@ -142,25 +110,25 @@ Supported values:
 
 
 type DSPSupplierProposedDealStatus = Literal[
-    "APPROVED",  # The deal has been submitted and approved by the supplier and added to the ADSP for use.
-    "APPROVED_CURRENT",  # The deal is the current approved version after a revision was approved.
-    "APPROVED_PENDING_REGISTRATION",  # The deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
-    "CANCELLED",  # The deal has been canceled in both ADSPs and the supplier's systems.
-    "COUNTER_DRAFT",  # The deal is a counter draft.
-    "DRAFT",  # The deal has not yet been submitted to the supplier and may be edited.
-    "DRAFT_REVISION",  # The deal is a draft revision of an approved deal and may be edited.
-    "ERROR",  # Something has gone wrong during the submission of the deal and requires intervention to recover.
-    "PENDING",  # [To Be Deprecated] The deal is waiting to be updated asynchronously and is not ready to be targeted.
-    "REJECTED",  # The deal was rejected for approval by the supplier, and may be edited before being resubmitted for approval.
-    "REJECTED_REVISED",  # A previously rejected deal that has since been modified by the customer and is ready to be resubmitted for approval.
-    "REVISED",  # The deal is a previous version that has been superseded by a newer approved revision.
-    "REVISION_APPROVED_PENDING_REGISTRATION",  # The revision of the deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
-    "SELLER_RESPONDED",  # The seller responded with a new deal. Waiting for buyer's decision.
-    "SUBMITTED",  # The deal is currently being evaluated for approval by the supplier.
-    "SUBMITTED_REVISION",  # The deal revision is currently being evaluated for approval by the supplier.
-    "SUBMITTED_TERMINATE",  # The deal is currently being evaluated for termination by the supplier.
-    "TERMINATED",  # A deal has been submitted and terminated by the supplier and ingested into the ADSP to reflect the change.
-    "TERMINATED_PENDING_REGISTRATION",  # A deal has been submitted and terminated by the supplier, but is in the process of being made reflected in the ADSP.
+    "APPROVED",
+    "APPROVED_CURRENT",
+    "APPROVED_PENDING_REGISTRATION",
+    "CANCELLED",
+    "COUNTER_DRAFT",
+    "DRAFT",
+    "DRAFT_REVISION",
+    "ERROR",
+    "PENDING",
+    "REJECTED",
+    "REJECTED_REVISED",
+    "REVISED",
+    "REVISION_APPROVED_PENDING_REGISTRATION",
+    "SELLER_RESPONDED",
+    "SUBMITTED",
+    "SUBMITTED_REVISION",
+    "SUBMITTED_TERMINATE",
+    "TERMINATED",
+    "TERMINATED_PENDING_REGISTRATION",
 ]
 """
 Supported values:
@@ -219,10 +187,7 @@ type DSPSupplierTargetType = Literal[
 ]
 
 
-type DSPSupplierTargetingDaypartTimezoneType = Literal[
-    "DEAL",  # Set the daypart targeting to the timezone of the deal by the supplier
-    "VIEWER",  # Set the daypart targeting to the timezone of the viewer of the advertisement.
-]
+type DSPSupplierTargetingDaypartTimezoneType = Literal["DEAL", "VIEWER"]
 """
 Supported values:
 - `DEAL`: Set the daypart targeting to the timezone of the deal by the supplier
@@ -231,48 +196,14 @@ Supported values:
 
 
 class DSPAdvertisingDealPrice(StrictModel):
-    currencyCode: DSPCurrencyCode = Field(description="""
-Supported values:
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `JPY`: Japanese Yen
-- `KRW`: South Korean Won
-- `MXN`: Mexican Peso
-- `USD`: United States Dollar
-""")
-    priceType: DSPAdvertisingDealPriceType = Field(description="""
-Supported values:
-- `FIXED_CPM`: Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
-- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
-- `FLAT_FEE`: This value is deprecated. Please use FIXED_PRICE.
-- `FLOOR_RATE`: Minimum bid price for auction. Buyer must bid at or above this floor to compete. Used for PRIVATE_AUCTION deals.
-""")
+    currencyCode: DSPCurrencyCode
+    priceType: DSPAdvertisingDealPriceType
     value: float = Field(description="The monetary amount of the price in the given currency.")
 
 
 class DSPAdvertisingDealPriceOut(LenientModel):
-    currencyCode: DSPCurrencyCode | str = Field(description="""
-Supported values:
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `JPY`: Japanese Yen
-- `KRW`: South Korean Won
-- `MXN`: Mexican Peso
-- `USD`: United States Dollar
-""")
-    priceType: DSPAdvertisingDealPriceType | str = Field(description="""
-Supported values:
-- `FIXED_CPM`: Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
-- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
-- `FLAT_FEE`: This value is deprecated. Please use FIXED_PRICE.
-- `FLOOR_RATE`: Minimum bid price for auction. Buyer must bid at or above this floor to compete. Used for PRIVATE_AUCTION deals.
-""")
+    currencyCode: DSPCurrencyCode | str
+    priceType: DSPAdvertisingDealPriceType | str
     value: float = Field(description="The monetary amount of the price in the given currency.")
 
 
@@ -343,25 +274,8 @@ class DSPAmazonMediaProposedDealExtensionOut(LenientModel):
 
 
 class DSPCreateAdvertisingDealPrice(StrictModel):
-    currencyCode: DSPCurrencyCode = Field(description="""
-Supported values:
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `JPY`: Japanese Yen
-- `KRW`: South Korean Won
-- `MXN`: Mexican Peso
-- `USD`: United States Dollar
-""")
-    priceType: DSPAdvertisingDealPriceType = Field(description="""
-Supported values:
-- `FIXED_CPM`: Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
-- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
-- `FLAT_FEE`: This value is deprecated. Please use FIXED_PRICE.
-- `FLOOR_RATE`: Minimum bid price for auction. Buyer must bid at or above this floor to compete. Used for PRIVATE_AUCTION deals.
-""")
+    currencyCode: DSPCurrencyCode
+    priceType: DSPAdvertisingDealPriceType
     value: float = Field(description="The monetary amount of the price in the given currency.")
 
 
@@ -385,18 +299,7 @@ class DSPCreateAdvertisingDealTerms(StrictModel):
 
 
 class DSPCreateMonetaryBudget(StrictModel):
-    currencyCode: DSPCurrencyCode = Field(description="""
-Supported values:
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `JPY`: Japanese Yen
-- `KRW`: South Korean Won
-- `MXN`: Mexican Peso
-- `USD`: United States Dollar
-""")
+    currencyCode: DSPCurrencyCode
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )
@@ -406,25 +309,9 @@ Supported values:
 class DSPCreateSupplierDayPartTarget(StrictModel):
     """Supplier target based on time of day."""
 
-    dayOfWeek: DSPDayOfWeek = Field(description="""
-Supported values:
-- `FRIDAY`: Friday.
-- `MONDAY`: Monday.
-- `SATURDAY`: Saturday.
-- `SUNDAY`: Sunday.
-- `THURSDAY`: Thursday.
-- `TUESDAY`: Tuesday.
-- `WEDNESDAY`: Wednesday.
-""")
+    dayOfWeek: DSPDayOfWeek
     timeOfDay: DSPCreateTimeOfDay
-    timeZoneType: DSPSupplierTargetingDaypartTimezoneType | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `DEAL`: Set the daypart targeting to the timezone of the deal by the supplier
-- `VIEWER`: Set the daypart targeting to the timezone of the viewer of the advertisement.
-""",
-    )
+    timeZoneType: DSPSupplierTargetingDaypartTimezoneType | None = Field(default=None)
 
 
 class DSPCreateSupplierProposedDealRevisionDescription(StrictModel):
@@ -437,15 +324,7 @@ class DSPCreateSupplierProposedDealRevisionDescription(StrictModel):
         default=None, min_length=0, max_length=49, description="User provided notes for this proposed deal."
     )
     startDateTime: datetime | None = Field(default=None, description="The delivery start date.")
-    state: DSPState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
-- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
-""",
-    )
+    state: DSPState | None = Field(default=None)
     stateReason: DSPCreateSupplierStateReason | None = Field(default=None)
     supplierProposalDestinationId: str | None = Field(
         default=None, description="The supplier proposal destination id for this deal."
@@ -581,15 +460,7 @@ class DSPCreateSupplierTargetGroup(StrictModel):
 
 
 class DSPError(LenientModel):
-    code: DSPErrorCode | str = Field(description="""
-Supported values:
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `NOT_FOUND`: The requested resource does not exist.
-- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
-""")
+    code: DSPErrorCode | str
     fieldLocation: str | None = Field(default=None)
     message: str
 
@@ -600,18 +471,7 @@ class DSPErrorsIndex(LenientModel):
 
 
 class DSPMonetaryBudget(StrictModel):
-    currencyCode: DSPCurrencyCode = Field(description="""
-Supported values:
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `JPY`: Japanese Yen
-- `KRW`: South Korean Won
-- `MXN`: Mexican Peso
-- `USD`: United States Dollar
-""")
+    currencyCode: DSPCurrencyCode
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )
@@ -619,18 +479,7 @@ Supported values:
 
 
 class DSPMonetaryBudgetOut(LenientModel):
-    currencyCode: DSPCurrencyCode | str = Field(description="""
-Supported values:
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `JPY`: Japanese Yen
-- `KRW`: South Korean Won
-- `MXN`: Mexican Peso
-- `USD`: United States Dollar
-""")
+    currencyCode: DSPCurrencyCode | str
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )
@@ -1014,49 +863,17 @@ class DSPSupplierDayPartDayTargetOut(LenientModel):
 class DSPSupplierDayPartTarget(StrictModel):
     """Supplier target based on time of day."""
 
-    dayOfWeek: DSPDayOfWeek = Field(description="""
-Supported values:
-- `FRIDAY`: Friday.
-- `MONDAY`: Monday.
-- `SATURDAY`: Saturday.
-- `SUNDAY`: Sunday.
-- `THURSDAY`: Thursday.
-- `TUESDAY`: Tuesday.
-- `WEDNESDAY`: Wednesday.
-""")
+    dayOfWeek: DSPDayOfWeek
     timeOfDay: DSPTimeOfDay
-    timeZoneType: DSPSupplierTargetingDaypartTimezoneType | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `DEAL`: Set the daypart targeting to the timezone of the deal by the supplier
-- `VIEWER`: Set the daypart targeting to the timezone of the viewer of the advertisement.
-""",
-    )
+    timeZoneType: DSPSupplierTargetingDaypartTimezoneType | None = Field(default=None)
 
 
 class DSPSupplierDayPartTargetOut(LenientModel):
     """Supplier target based on time of day."""
 
-    dayOfWeek: DSPDayOfWeek | str = Field(description="""
-Supported values:
-- `FRIDAY`: Friday.
-- `MONDAY`: Monday.
-- `SATURDAY`: Saturday.
-- `SUNDAY`: Sunday.
-- `THURSDAY`: Thursday.
-- `TUESDAY`: Tuesday.
-- `WEDNESDAY`: Wednesday.
-""")
+    dayOfWeek: DSPDayOfWeek | str
     timeOfDay: DSPTimeOfDayOut
-    timeZoneType: DSPSupplierTargetingDaypartTimezoneType | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `DEAL`: Set the daypart targeting to the timezone of the deal by the supplier
-- `VIEWER`: Set the daypart targeting to the timezone of the viewer of the advertisement.
-""",
-    )
+    timeZoneType: DSPSupplierTargetingDaypartTimezoneType | str | None = Field(default=None)
 
 
 class DSPSupplierDayPartTimeTarget(StrictModel):
@@ -1186,28 +1003,7 @@ class DSPSupplierProposedDealExtensionOut(LenientModel):
 
 
 class DSPSupplierProposedDealRevision(LenientModel):
-    dealStatus: DSPSupplierProposedDealStatus | str = Field(description="""
-Supported values:
-- `APPROVED_CURRENT`: The deal is the current approved version after a revision was approved.
-- `APPROVED_PENDING_REGISTRATION`: The deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
-- `APPROVED`: The deal has been submitted and approved by the supplier and added to the ADSP for use.
-- `CANCELLED`: The deal has been canceled in both ADSPs and the supplier's systems.
-- `COUNTER_DRAFT`: The deal is a counter draft.
-- `DRAFT_REVISION`: The deal is a draft revision of an approved deal and may be edited.
-- `DRAFT`: The deal has not yet been submitted to the supplier and may be edited.
-- `ERROR`: Something has gone wrong during the submission of the deal and requires intervention to recover.
-- `PENDING`: [To Be Deprecated] The deal is waiting to be updated asynchronously and is not ready to be targeted.
-- `REJECTED_REVISED`: A previously rejected deal that has since been modified by the customer and is ready to be resubmitted for approval.
-- `REJECTED`: The deal was rejected for approval by the supplier, and may be edited before being resubmitted for approval.
-- `REVISED`: The deal is a previous version that has been superseded by a newer approved revision.
-- `REVISION_APPROVED_PENDING_REGISTRATION`: The revision of the deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
-- `SELLER_RESPONDED`: The seller responded with a new deal. Waiting for buyer's decision.
-- `SUBMITTED_REVISION`: The deal revision is currently being evaluated for approval by the supplier.
-- `SUBMITTED_TERMINATE`: The deal is currently being evaluated for termination by the supplier.
-- `SUBMITTED`: The deal is currently being evaluated for approval by the supplier.
-- `TERMINATED_PENDING_REGISTRATION`: A deal has been submitted and terminated by the supplier, but is in the process of being made reflected in the ADSP.
-- `TERMINATED`: A deal has been submitted and terminated by the supplier and ingested into the ADSP to reflect the change.
-""")
+    dealStatus: DSPSupplierProposedDealStatus | str
     supplierProposedDealId: str = Field(description="The unique identifier for the proposed deal.")
     supplierProposedDealRevisionDescription: DSPSupplierProposedDealRevisionDescriptionOut
     version: int = Field(description="The version number of the revised proposed deal.")
@@ -1228,15 +1024,7 @@ class DSPSupplierProposedDealRevisionDescription(StrictModel):
         default=None, min_length=0, max_length=49, description="User provided notes for this proposed deal."
     )
     startDateTime: datetime | None = Field(default=None, description="The delivery start date.")
-    state: DSPState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
-- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
-""",
-    )
+    state: DSPState | None = Field(default=None)
     stateReason: DSPSupplierStateReason | None = Field(default=None)
     supplierProposalDestinationId: str | None = Field(
         default=None, description="The supplier proposal destination id for this deal."
@@ -1260,15 +1048,7 @@ class DSPSupplierProposedDealRevisionDescriptionOut(LenientModel):
         default=None, min_length=0, max_length=49, description="User provided notes for this proposed deal."
     )
     startDateTime: datetime | None = Field(default=None, description="The delivery start date.")
-    state: DSPState | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
-- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
-""",
-    )
+    state: DSPState | str | None = Field(default=None)
     stateReason: DSPSupplierStateReasonOut | None = Field(default=None)
     supplierProposalDestinationId: str | None = Field(
         default=None, description="The supplier proposal destination id for this deal."

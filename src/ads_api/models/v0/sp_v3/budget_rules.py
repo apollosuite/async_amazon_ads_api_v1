@@ -18,37 +18,20 @@ The value by which to update the budget of the budget rule.
 
 
 type ComparisonOperator = Literal[
-    "EQUAL_TO",
-    "GREATER_THAN",
-    "GREATER_THAN_OR_EQUAL_TO",
-    "LESS_THAN",
-    "LESS_THAN_OR_EQUAL_TO",
+    "EQUAL_TO", "GREATER_THAN", "GREATER_THAN_OR_EQUAL_TO", "LESS_THAN", "LESS_THAN_OR_EQUAL_TO"
 ]
 """
 The comparison operator.
 """
 
 
-type DayOfWeek = Literal[
-    "FRIDAY",
-    "MONDAY",
-    "SATURDAY",
-    "SUNDAY",
-    "THURSDAY",
-    "TUESDAY",
-    "WEDNESDAY",
-]
+type DayOfWeek = Literal["FRIDAY", "MONDAY", "SATURDAY", "SUNDAY", "THURSDAY", "TUESDAY", "WEDNESDAY"]
 """
 The day of the week.
 """
 
 
-type PerformanceMetric = Literal[
-    "ACOS",
-    "CTR",
-    "CVR",
-    "ROAS",
-]
+type PerformanceMetric = Literal["ACOS", "CTR", "CVR", "ROAS"]
 """
 The advertising performance metric.
 """

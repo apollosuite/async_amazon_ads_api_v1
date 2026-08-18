@@ -25,10 +25,7 @@ from ads_api.models.v1._shared.sp import (
     SPUpdateState,
 )
 
-type SPAdGroupNameFilterType = Literal[
-    "BROAD_MATCH",  # Filter by broad match.
-    "EXACT_MATCH",  # Filter by exact match.
-]
+type SPAdGroupNameFilterType = Literal["BROAD_MATCH", "EXACT_MATCH"]
 """
 Supported values:
 - `EXACT_MATCH`: Filter by exact match.
@@ -68,10 +65,7 @@ A list of country codes representing Amazon marketplaces
 
 class SPAdGroup(LenientModel):
     adGroupId: str = Field(description="The unique identifier of the ad group.")
-    adProduct: SPAdProduct | str = Field(description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""")
+    adProduct: SPAdProduct | str
     adSettings: SPAdSettings | None = Field(default=None)
     bid: SPAdGroupBid
     campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
@@ -87,12 +81,7 @@ Supported values:
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
     )
     name: str = Field(description="The name of the ad group.")
-    state: SPState | str = Field(description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SPState | str
     status: SPStatus | None = Field(default=None)
     tags: list[SPTag] | None = Field(
         default=None,
@@ -107,44 +96,11 @@ class SPAdGroupAdGroupIdFilter(StrictModel):
 
 
 class SPAdGroupAdProductFilter(StrictModel):
-    include: list[SPAdProduct | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""",
-    )
+    include: list[SPAdProduct | str] = Field(min_length=1, max_length=1)
 
 
 class SPAdGroupBid(LenientModel):
-    currencyCode: SPCurrencyCode | str = Field(description="""
-Supported values:
-- `AED`: United Arab Emirates Dirham
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `CHF`: Swiss Franc
-- `CNY`: Chinese Yuan
-- `DKK`: Danish Krone
-- `EGP`: Egyptian Pound
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `INR`: Indian Rupee
-- `JPY`: Japanese Yen
-- `MXN`: Mexican Peso
-- `MXP`: Mexican Peso
-- `NGN`: Nigerian Naira
-- `NOK`: Norwegian Krone
-- `NZD`: New Zealand Dollar
-- `PLN`: Polish Złoty
-- `SAR`: Saudi Riyal
-- `SEK`: Swedish Krona
-- `SGD`: Singapore Dollar
-- `TRY`: Turkish Lira
-- `USD`: United States Dollar
-- `ZAR`: South African Rand
-""")
+    currencyCode: SPCurrencyCode | str
     defaultBid: float = Field(
         description="The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction."
     )
@@ -155,19 +111,12 @@ class SPAdGroupCampaignIdFilter(StrictModel):
 
 
 class SPAdGroupCreate(StrictModel):
-    adProduct: SPAdProduct = Field(description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""")
+    adProduct: SPAdProduct
     adSettings: SPCreateAdSettings | None = Field(default=None)
     bid: SPCreateAdGroupBid
     campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
     name: str = Field(description="The name of the ad group.")
-    state: SPCreateState = Field(description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SPCreateState
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -188,24 +137,11 @@ class SPAdGroupMultiStatusSuccess(LenientModel):
 
 class SPAdGroupNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: SPAdGroupNameFilterType = Field(description="""
-Supported values:
-- `EXACT_MATCH`: Filter by exact match.
-- `BROAD_MATCH`: Filter by broad match.
-""")
+    queryTermMatchType: SPAdGroupNameFilterType
 
 
 class SPAdGroupStateFilter(StrictModel):
-    include: list[SPState | str] = Field(
-        min_length=1,
-        max_length=3,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    include: list[SPState | str] = Field(min_length=1, max_length=3)
 
 
 class SPAdGroupSuccessResponse(LenientModel):
@@ -218,14 +154,7 @@ class SPAdGroupUpdate(StrictModel):
     adSettings: SPUpdateAdSettings | None = Field(default=None)
     bid: SPUpdateAdGroupBid | None = Field(default=None)
     name: str | None = Field(default=None, description="The name of the ad group.")
-    state: SPUpdateState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    state: SPUpdateState | None = Field(default=None)
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,

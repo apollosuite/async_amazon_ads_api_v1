@@ -25,38 +25,10 @@ from ads_api.models.v1._shared.st import (
 type STBudgetType = Literal["MONETARY"]
 
 
-type STCountryCode = Literal[
-    "AU",
-    "BR",
-    "CA",
-    "DE",
-    "ES",
-    "FR",
-    "GB",
-    "IN",
-    "IT",
-    "JP",
-    "MX",
-    "SG",
-    "US",
-]
+type STCountryCode = Literal["AU", "BR", "CA", "DE", "ES", "FR", "GB", "IN", "IT", "JP", "MX", "SG", "US"]
 
 
-type STMarketplace = Literal[
-    "AU",
-    "BR",
-    "CA",
-    "DE",
-    "ES",
-    "FR",
-    "GB",
-    "IN",
-    "IT",
-    "JP",
-    "MX",
-    "SG",
-    "US",
-]
+type STMarketplace = Literal["AU", "BR", "CA", "DE", "ES", "FR", "GB", "IN", "IT", "JP", "MX", "SG", "US"]
 """
 A list of country codes representing Amazon marketplaces
 """
@@ -76,10 +48,7 @@ class STBudgetValue(LenientModel):
 
 
 class STCampaign(LenientModel):
-    adProduct: STAdProduct | str = Field(description="""
-Supported values:
-- `SPONSORED_TELEVISION`: Sponsored Television ad product.
-""")
+    adProduct: STAdProduct | str
     budgets: list[STBudget] = Field(
         min_length=1,
         max_length=1,
@@ -103,31 +72,16 @@ Supported values:
     )
     name: str = Field(description="The name of the campaign.")
     startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: STState | str = Field(description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: STState | str
     status: STStatus | None = Field(default=None)
 
 
 class STCampaignAdProductFilter(StrictModel):
-    include: list[STAdProduct | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `SPONSORED_TELEVISION`: Sponsored Television ad product.
-""",
-    )
+    include: list[STAdProduct | str] = Field(min_length=1, max_length=1)
 
 
 class STCampaignCreate(StrictModel):
-    adProduct: STAdProduct = Field(description="""
-Supported values:
-- `SPONSORED_TELEVISION`: Sponsored Television ad product.
-""")
+    adProduct: STAdProduct
     budgets: list[STCreateBudget] = Field(
         min_length=1,
         max_length=1,
@@ -148,11 +102,7 @@ Supported values:
     )
     name: str = Field(description="The name of the campaign.")
     startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: STCreateState = Field(description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: STCreateState
 
 
 class STCampaignMultiStatusResponse(LenientModel):
@@ -166,16 +116,7 @@ class STCampaignMultiStatusSuccess(LenientModel):
 
 
 class STCampaignStateFilter(StrictModel):
-    include: list[STState | str] = Field(
-        min_length=1,
-        max_length=3,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    include: list[STState | str] = Field(min_length=1, max_length=3)
 
 
 class STCampaignSuccessResponse(LenientModel):
@@ -184,13 +125,7 @@ class STCampaignSuccessResponse(LenientModel):
 
 
 class STCampaignUpdate(StrictModel):
-    adProduct: STAdProduct | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `SPONSORED_TELEVISION`: Sponsored Television ad product.
-""",
-    )
+    adProduct: STAdProduct | None = Field(default=None)
     budgets: list[STCreateBudget] | None = Field(
         default=None,
         min_length=1,
@@ -213,14 +148,7 @@ Supported values:
     )
     name: str | None = Field(default=None, description="The name of the campaign.")
     startDateTime: datetime | None = Field(default=None, description="The start date time for the campaign.")
-    state: STUpdateState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    state: STUpdateState | None = Field(default=None)
 
 
 class STCreateBudget(StrictModel):
@@ -246,27 +174,7 @@ class STCreateMonetaryBudgetValue(StrictModel):
 
 
 class STMonetaryBudget(LenientModel):
-    currencyCode: STCurrencyCode | str = Field(description="""
-Supported values:
-- `AED`: United Arab Emirates Dirham
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `CHF`: Swiss Franc
-- `CNY`: Chinese Yuan
-- `DKK`: Danish Krone
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `INR`: Indian Rupee
-- `JPY`: Japanese Yen
-- `MXN`: Mexican Peso
-- `NOK`: Norwegian Krone
-- `SAR`: Saudi Riyal
-- `SEK`: Swedish Krona
-- `SGD`: Singapore Dollar
-- `TRY`: Turkish Lira
-- `USD`: United States Dollar
-""")
+    currencyCode: STCurrencyCode | str
     value: float = Field(description="The monetary amount of the budget cap in the given currency.")
 
 

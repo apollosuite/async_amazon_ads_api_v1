@@ -139,16 +139,7 @@ class SponsoredProductsNegativeKeyword(LenientModel):
         default=None, description="The unlocalized keyword text in the preferred locale of the advertiser"
     )
     nativeLanguageLocale: str | None = Field(default=None, description="The locale preference of the advertiser.")
-    state: SponsoredProductsEntityState | str = Field(description="""
-Supported values:
-- `ENABLED`: Enabled State
-- `PAUSED`: Paused State
-- `PROPOSED`: Proposed State (Upcoming Feature)
-- `ARCHIVED`: ARCHIVED State
-- `ENABLING`: State for Draft Entity Only
-- `USER_DELETED`: State for Draft Entity Only
-- `OTHER`: Read Only
-""")
+    state: SponsoredProductsEntityState | str
 
 
 class SponsoredProductsNegativeKeywordExtendedData(LenientModel):

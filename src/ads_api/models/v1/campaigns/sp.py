@@ -25,10 +25,7 @@ from ads_api.models.v1._shared.sp import (
     SPUpdateState,
 )
 
-type SPAutoScaleGlobalCampaignSetting = Literal[
-    "AUTO",  # Auto scale global campaign to new marketplaces
-    "MANUAL",  # Manually scale global campaign to new marketplaces
-]
+type SPAutoScaleGlobalCampaignSetting = Literal["AUTO", "MANUAL"]
 """
 Supported values:
 - `AUTO`: Auto scale global campaign to new marketplaces
@@ -36,12 +33,7 @@ Supported values:
 """
 
 
-type SPBidStrategy = Literal[
-    "MANUAL",  # Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
-    "RULE_BASED",  # Applies bidding rules defined by the advertiser.
-    "SALES_DOWN_ONLY",  # Decreases your bids in real time when your ad is less likely to convert to a sale. Bids will never increase beyond your set bid.
-    "SALES_UP_AND_DOWN",  # Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
-]
+type SPBidStrategy = Literal["MANUAL", "RULE_BASED", "SALES_DOWN_ONLY", "SALES_UP_AND_DOWN"]
 """
 Supported values:
 - `MANUAL`: Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
@@ -54,10 +46,7 @@ Supported values:
 type SPBudgetType = Literal["MONETARY"]
 
 
-type SPCampaignNameFilterType = Literal[
-    "BROAD_MATCH",  # Filter by broad match.
-    "EXACT_MATCH",  # Filter by exact match.
-]
+type SPCampaignNameFilterType = Literal["BROAD_MATCH", "EXACT_MATCH"]
 """
 Supported values:
 - `EXACT_MATCH`: Filter by exact match.
@@ -92,7 +81,7 @@ type SPCountryCode = Literal[
 ]
 
 
-type SPCreativeBidAdjustmentType = Literal["SPOTLIGHT",]  # SPOTLIGHT Video Asset.
+type SPCreativeBidAdjustmentType = Literal["SPOTLIGHT"]
 """
 Supported values:
 - `SPOTLIGHT`: SPOTLIGHT Video Asset.
@@ -129,10 +118,7 @@ A list of country codes representing Amazon marketplaces
 """
 
 
-type SPMarketplaceBudgetAllocation = Literal[
-    "AUTO",  # Auto distribute global budget to marketplaces in global campaign
-    "MANUAL",  # Manually distribute global budget to marketplaces in global campaign
-]
+type SPMarketplaceBudgetAllocation = Literal["AUTO", "MANUAL"]
 """
 Supported values:
 - `AUTO`: Auto distribute global budget to marketplaces in global campaign
@@ -140,10 +126,7 @@ Supported values:
 """
 
 
-type SPOffAmazonBudgetControlStrategy = Literal[
-    "MAXIMIZE_REACH",  # Maximize the reach of off-Amazon inventory within the budget.
-    "MINIMIZE_SPEND",  # Minimize spend on off-Amazon inventory while maintaining delivery.
-]
+type SPOffAmazonBudgetControlStrategy = Literal["MAXIMIZE_REACH", "MINIMIZE_SPEND"]
 """
 Supported values:
 - `MAXIMIZE_REACH`: Maximize the reach of off-Amazon inventory within the budget.
@@ -151,12 +134,7 @@ Supported values:
 """
 
 
-type SPPlacement = Literal[
-    "PRODUCT_PAGE",  # Placements on the product detail page, and all nonsearch placements such as the add-to-cart page.
-    "REST_OF_SEARCH",  # Placements on the middle or the bottom of the first-page search results. Also refers to ads on the second page of search results and beyond.
-    "SITE_AMAZON_BUSINESS",  # Amazon Business site placements.
-    "TOP_OF_SEARCH",  # Placements on the top row of the first-page search results.
-]
+type SPPlacement = Literal["PRODUCT_PAGE", "REST_OF_SEARCH", "SITE_AMAZON_BUSINESS", "TOP_OF_SEARCH"]
 """
 Supported values:
 - `PRODUCT_PAGE`: Placements on the product detail page, and all nonsearch placements such as the add-to-cart page.
@@ -169,10 +147,7 @@ Supported values:
 type SPRecurrence = Literal["DAILY"]
 
 
-type SPSiteRestriction = Literal[
-    "AMAZON_BUSINESS",  # Restrict the ad to only show on Amazon Business.
-    "AMAZON_HAUL",  # Restrict the ad to only show on Amazon Haul.
-]
+type SPSiteRestriction = Literal["AMAZON_BUSINESS", "AMAZON_HAUL"]
 """
 Supported values:
 - `AMAZON_BUSINESS`: Restrict the ad to only show on Amazon Business.
@@ -216,16 +191,7 @@ class SPBidAdjustments(LenientModel):
 
 class SPBidSettings(LenientModel):
     bidAdjustments: SPBidAdjustments | None = Field(default=None)
-    bidStrategy: SPBidStrategy | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `MANUAL`: Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
-- `RULE_BASED`: Applies bidding rules defined by the advertiser.
-- `SALES_DOWN_ONLY`: Decreases your bids in real time when your ad is less likely to convert to a sale. Bids will never increase beyond your set bid.
-- `SALES_UP_AND_DOWN`: Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
-""",
-    )
+    bidStrategy: SPBidStrategy | str | None = Field(default=None)
 
 
 class SPBudget(LenientModel):
@@ -235,22 +201,8 @@ class SPBudget(LenientModel):
 
 
 class SPBudgetSettings(LenientModel):
-    marketplaceBudgetAllocation: SPMarketplaceBudgetAllocation | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `AUTO`: Auto distribute global budget to marketplaces in global campaign
-- `MANUAL`: Manually distribute global budget to marketplaces in global campaign
-""",
-    )
-    offAmazonBudgetControlStrategy: SPOffAmazonBudgetControlStrategy | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `MAXIMIZE_REACH`: Maximize the reach of off-Amazon inventory within the budget.
-- `MINIMIZE_SPEND`: Minimize spend on off-Amazon inventory while maintaining delivery.
-""",
-    )
+    marketplaceBudgetAllocation: SPMarketplaceBudgetAllocation | str | None = Field(default=None)
+    offAmazonBudgetControlStrategy: SPOffAmazonBudgetControlStrategy | str | None = Field(default=None)
 
 
 class SPBudgetValue(LenientModel):
@@ -258,19 +210,9 @@ class SPBudgetValue(LenientModel):
 
 
 class SPCampaign(LenientModel):
-    adProduct: SPAdProduct | str = Field(description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""")
+    adProduct: SPAdProduct | str
     autoCreationSettings: SPAutoCreationSettings
-    autoScaleGlobalCampaign: SPAutoScaleGlobalCampaignSetting | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `AUTO`: Auto scale global campaign to new marketplaces
-- `MANUAL`: Manually scale global campaign to new marketplaces
-""",
-    )
+    autoScaleGlobalCampaign: SPAutoScaleGlobalCampaignSetting | str | None = Field(default=None)
     budgets: list[SPBudget] = Field(
         min_length=1,
         max_length=1,
@@ -300,24 +242,10 @@ Supported values:
     optimizations: SPCampaignOptimizations | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
     siteRestrictions: list[SPSiteRestriction | str] | None = Field(
-        default=None,
-        min_length=0,
-        max_length=1,
-        description="""
-Restrict the ad to a particular site
-
-Supported values:
-- `AMAZON_BUSINESS`: Restrict the ad to only show on Amazon Business.
-- `AMAZON_HAUL`: Restrict the ad to only show on Amazon Haul.
-""",
+        default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site"
     )
     startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: SPState | str = Field(description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SPState | str
     status: SPStatus | None = Field(default=None)
     tags: list[SPTag] | None = Field(
         default=None,
@@ -328,14 +256,7 @@ Supported values:
 
 
 class SPCampaignAdProductFilter(StrictModel):
-    include: list[SPAdProduct | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""",
-    )
+    include: list[SPAdProduct | str] = Field(min_length=1, max_length=1)
 
 
 class SPCampaignCampaignIdFilter(StrictModel):
@@ -343,10 +264,7 @@ class SPCampaignCampaignIdFilter(StrictModel):
 
 
 class SPCampaignCreate(StrictModel):
-    adProduct: SPAdProduct = Field(description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""")
+    adProduct: SPAdProduct
     autoCreationSettings: SPCreateAutoCreationSettings
     budgets: list[SPCreateBudget] = Field(
         min_length=1,
@@ -371,23 +289,10 @@ Supported values:
     optimizations: SPCreateCampaignOptimizations | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
     siteRestrictions: list[SPSiteRestriction | str] | None = Field(
-        default=None,
-        min_length=0,
-        max_length=1,
-        description="""
-Restrict the ad to a particular site
-
-Supported values:
-- `AMAZON_BUSINESS`: Restrict the ad to only show on Amazon Business.
-- `AMAZON_HAUL`: Restrict the ad to only show on Amazon Haul.
-""",
+        default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site"
     )
     startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: SPCreateState = Field(description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SPCreateState
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -408,11 +313,7 @@ class SPCampaignMultiStatusSuccess(LenientModel):
 
 class SPCampaignNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: SPCampaignNameFilterType = Field(description="""
-Supported values:
-- `EXACT_MATCH`: Filter by exact match.
-- `BROAD_MATCH`: Filter by broad match.
-""")
+    queryTermMatchType: SPCampaignNameFilterType
 
 
 class SPCampaignOptimizations(LenientModel):
@@ -425,16 +326,7 @@ class SPCampaignPortfolioIdFilter(StrictModel):
 
 
 class SPCampaignStateFilter(StrictModel):
-    include: list[SPState | str] = Field(
-        min_length=1,
-        max_length=3,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    include: list[SPState | str] = Field(min_length=1, max_length=3)
 
 
 class SPCampaignSuccessResponse(LenientModel):
@@ -455,26 +347,10 @@ class SPCampaignUpdate(StrictModel):
     optimizations: SPUpdateCampaignOptimizations | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
     siteRestrictions: list[SPSiteRestriction | str] | None = Field(
-        default=None,
-        min_length=0,
-        max_length=1,
-        description="""
-Restrict the ad to a particular site
-
-Supported values:
-- `AMAZON_BUSINESS`: Restrict the ad to only show on Amazon Business.
-- `AMAZON_HAUL`: Restrict the ad to only show on Amazon Haul.
-""",
+        default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site"
     )
     startDateTime: datetime | None = Field(default=None, description="The start date time for the campaign.")
-    state: SPUpdateState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    state: SPUpdateState | None = Field(default=None)
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -519,16 +395,7 @@ class SPCreateBidAdjustments(StrictModel):
 
 class SPCreateBidSettings(StrictModel):
     bidAdjustments: SPCreateBidAdjustments | None = Field(default=None)
-    bidStrategy: SPBidStrategy | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `MANUAL`: Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
-- `RULE_BASED`: Applies bidding rules defined by the advertiser.
-- `SALES_DOWN_ONLY`: Decreases your bids in real time when your ad is less likely to convert to a sale. Bids will never increase beyond your set bid.
-- `SALES_UP_AND_DOWN`: Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
-""",
-    )
+    bidStrategy: SPBidStrategy | None = Field(default=None)
 
 
 class SPCreateBudget(StrictModel):
@@ -538,14 +405,7 @@ class SPCreateBudget(StrictModel):
 
 
 class SPCreateBudgetSettings(StrictModel):
-    offAmazonBudgetControlStrategy: SPOffAmazonBudgetControlStrategy | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `MAXIMIZE_REACH`: Maximize the reach of off-Amazon inventory within the budget.
-- `MINIMIZE_SPEND`: Minimize spend on off-Amazon inventory while maintaining delivery.
-""",
-    )
+    offAmazonBudgetControlStrategy: SPOffAmazonBudgetControlStrategy | None = Field(default=None)
 
 
 class SPCreateBudgetValue(StrictModel):
@@ -562,13 +422,7 @@ class SPCreateCampaignRequest(StrictModel):
 
 
 class SPCreateCreativeBidAdjustment(StrictModel):
-    creativeType: SPCreativeBidAdjustmentType | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `SPOTLIGHT`: SPOTLIGHT Video Asset.
-""",
-    )
+    creativeType: SPCreativeBidAdjustmentType | None = Field(default=None)
     percentage: int = Field(
         description="The selection of the percentage change associated with the creative type and bid adjustment settings."
     )
@@ -586,23 +440,11 @@ class SPCreatePlacementBidAdjustment(StrictModel):
     percentage: int = Field(
         description="The selection of the percentage change associated with a given placement and bid adjustment settings."
     )
-    placement: SPPlacement = Field(description="""
-Supported values:
-- `PRODUCT_PAGE`: Placements on the product detail page, and all nonsearch placements such as the add-to-cart page.
-- `REST_OF_SEARCH`: Placements on the middle or the bottom of the first-page search results. Also refers to ads on the second page of search results and beyond.
-- `SITE_AMAZON_BUSINESS`: Amazon Business site placements.
-- `TOP_OF_SEARCH`: Placements on the top row of the first-page search results.
-""")
+    placement: SPPlacement
 
 
 class SPCreativeBidAdjustment(LenientModel):
-    creativeType: SPCreativeBidAdjustmentType | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `SPOTLIGHT`: SPOTLIGHT Video Asset.
-""",
-    )
+    creativeType: SPCreativeBidAdjustmentType | str | None = Field(default=None)
     percentage: int = Field(
         description="The selection of the percentage change associated with the creative type and bid adjustment settings."
     )
@@ -613,33 +455,7 @@ class SPDeleteCampaignRequest(StrictModel):
 
 
 class SPMonetaryBudget(LenientModel):
-    currencyCode: SPCurrencyCode | str = Field(description="""
-Supported values:
-- `AED`: United Arab Emirates Dirham
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `CHF`: Swiss Franc
-- `CNY`: Chinese Yuan
-- `DKK`: Danish Krone
-- `EGP`: Egyptian Pound
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `INR`: Indian Rupee
-- `JPY`: Japanese Yen
-- `MXN`: Mexican Peso
-- `MXP`: Mexican Peso
-- `NGN`: Nigerian Naira
-- `NOK`: Norwegian Krone
-- `NZD`: New Zealand Dollar
-- `PLN`: Polish Złoty
-- `SAR`: Saudi Riyal
-- `SEK`: Swedish Krona
-- `SGD`: Singapore Dollar
-- `TRY`: Turkish Lira
-- `USD`: United States Dollar
-- `ZAR`: South African Rand
-""")
+    currencyCode: SPCurrencyCode | str
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )
@@ -654,13 +470,7 @@ class SPPlacementBidAdjustment(LenientModel):
     percentage: int = Field(
         description="The selection of the percentage change associated with a given placement and bid adjustment settings."
     )
-    placement: SPPlacement | str = Field(description="""
-Supported values:
-- `PRODUCT_PAGE`: Placements on the product detail page, and all nonsearch placements such as the add-to-cart page.
-- `REST_OF_SEARCH`: Placements on the middle or the bottom of the first-page search results. Also refers to ads on the second page of search results and beyond.
-- `SITE_AMAZON_BUSINESS`: Amazon Business site placements.
-- `TOP_OF_SEARCH`: Placements on the top row of the first-page search results.
-""")
+    placement: SPPlacement | str
 
 
 class SPQueryCampaignRequest(StrictModel):
@@ -693,27 +503,11 @@ class SPUpdateBidAdjustments(StrictModel):
 
 class SPUpdateBidSettings(StrictModel):
     bidAdjustments: SPUpdateBidAdjustments | None = Field(default=None)
-    bidStrategy: SPBidStrategy | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `MANUAL`: Uses your exact bid and any placement adjustments you set, and is not subject to dynamic bidding.
-- `RULE_BASED`: Applies bidding rules defined by the advertiser.
-- `SALES_DOWN_ONLY`: Decreases your bids in real time when your ad is less likely to convert to a sale. Bids will never increase beyond your set bid.
-- `SALES_UP_AND_DOWN`: Increases or decreases your bids in real time by a maximum of 100%. With this setting bids increase when your ad is more likely to convert to a sale, and bids decrease when less likely to convert to a sale.
-""",
-    )
+    bidStrategy: SPBidStrategy | None = Field(default=None)
 
 
 class SPUpdateBudgetSettings(StrictModel):
-    offAmazonBudgetControlStrategy: SPOffAmazonBudgetControlStrategy | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `MAXIMIZE_REACH`: Maximize the reach of off-Amazon inventory within the budget.
-- `MINIMIZE_SPEND`: Minimize spend on off-Amazon inventory while maintaining delivery.
-""",
-    )
+    offAmazonBudgetControlStrategy: SPOffAmazonBudgetControlStrategy | None = Field(default=None)
 
 
 class SPUpdateCampaignOptimizations(StrictModel):

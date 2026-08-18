@@ -21,10 +21,7 @@ from ads_api.models.v1._shared.st import (
     STUpdateState,
 )
 
-type STTargetType = Literal[
-    "AUDIENCE",  # Target based on an audience segment.
-    "LOCATION",  # Target based on geographic location.
-]
+type STTargetType = Literal["AUDIENCE", "LOCATION"]
 """
 Supported values:
 - `AUDIENCE`: Target based on an audience segment.
@@ -114,30 +111,18 @@ class STTarget(LenientModel):
     adGroupId: str = Field(
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets."
     )
-    adProduct: STAdProduct | str = Field(description="""
-Supported values:
-- `SPONSORED_TELEVISION`: Sponsored Television ad product.
-""")
+    adProduct: STAdProduct | str
     campaignId: str = Field(
         description="A unique identifier for the campaign associated with the target. Only used for campaign-level targets."
     )
     creationDateTime: datetime = Field(description="The date time the target was created.")
     lastUpdatedDateTime: datetime = Field(description="The date time the target was last updated.")
     negative: bool = Field(description="Indicates whether the target is negative or not.")
-    state: STState | str = Field(description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: STState | str
     status: STStatus | None = Field(default=None)
     targetDetails: STTargetDetails
     targetId: str = Field(description="A unique identifier for the target.")
-    targetType: STTargetType | str = Field(description="""
-Supported values:
-- `AUDIENCE`: Target based on an audience segment.
-- `LOCATION`: Target based on geographic location.
-""")
+    targetType: STTargetType | str
 
 
 class STTargetAdGroupIdFilter(StrictModel):
@@ -145,14 +130,7 @@ class STTargetAdGroupIdFilter(StrictModel):
 
 
 class STTargetAdProductFilter(StrictModel):
-    include: list[STAdProduct | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `SPONSORED_TELEVISION`: Sponsored Television ad product.
-""",
-    )
+    include: list[STAdProduct | str] = Field(min_length=1, max_length=1)
 
 
 class STTargetCampaignIdFilter(StrictModel):
@@ -163,22 +141,11 @@ class STTargetCreate(StrictModel):
     adGroupId: str = Field(
         description="A unique identifier for the ad group associated with the target. Only used for ad-group level targets."
     )
-    adProduct: STAdProduct = Field(description="""
-Supported values:
-- `SPONSORED_TELEVISION`: Sponsored Television ad product.
-""")
+    adProduct: STAdProduct
     negative: bool = Field(description="Indicates whether the target is negative or not.")
-    state: STCreateState = Field(description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: STCreateState
     targetDetails: STCreateTargetDetails
-    targetType: STTargetType = Field(description="""
-Supported values:
-- `AUDIENCE`: Target based on an audience segment.
-- `LOCATION`: Target based on geographic location.
-""")
+    targetType: STTargetType
 
 
 class STTargetDetailsAudienceTarget(LenientModel):
@@ -203,16 +170,7 @@ class STTargetMultiStatusSuccess(LenientModel):
 
 
 class STTargetStateFilter(StrictModel):
-    include: list[STState | str] = Field(
-        min_length=1,
-        max_length=3,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    include: list[STState | str] = Field(min_length=1, max_length=3)
 
 
 class STTargetSuccessResponse(LenientModel):
@@ -226,14 +184,7 @@ class STTargetTargetIdFilter(StrictModel):
 
 
 class STTargetUpdate(StrictModel):
-    state: STUpdateState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    state: STUpdateState | None = Field(default=None)
     targetId: str = Field(description="A unique identifier for the target.")
 
 

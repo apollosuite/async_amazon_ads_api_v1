@@ -9,12 +9,7 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 
-type DSPAdvertisingDealType = Literal[
-    "PREFERRED",
-    "PRIVATE_AUCTION",
-    "PROGRAMMATIC_GUARANTEED",
-    "SHARE_OF_VOICE",
-]
+type DSPAdvertisingDealType = Literal["PREFERRED", "PRIVATE_AUCTION", "PROGRAMMATIC_GUARANTEED", "SHARE_OF_VOICE"]
 
 
 type DSPAmazonPublisherServicesGoalTargetUnit = Literal["MILLICENT", "PERCENTAGE"]
@@ -24,12 +19,7 @@ type DSPBudgetType = Literal["MONETARY"]
 
 
 type DSPDVBrandSafetyAppAgeRatingType = Literal[
-    "ADULTS_ONLY_18_PLUS",
-    "EVERYONE_4_PLUS",
-    "MATURE_17_PLUS",
-    "TEENS_12_PLUS",
-    "TWEENS_9_PLUS",
-    "UNKNOWN",
+    "ADULTS_ONLY_18_PLUS", "EVERYONE_4_PLUS", "MATURE_17_PLUS", "TEENS_12_PLUS", "TWEENS_9_PLUS", "UNKNOWN"
 ]
 
 
@@ -68,13 +58,7 @@ type DSPExcludeAppsAndSitesType = Literal[
 
 
 type DSPFeesThirdPartyProvider = Literal[
-    "COM_SCORE",
-    "CPM_1",
-    "CPM_2",
-    "CPM_3",
-    "DOUBLE_CLICK_CAMPAIGN_MANAGER",
-    "DOUBLE_VERIFY",
-    "INTEGRAL_AD_SCIENCE",
+    "COM_SCORE", "CPM_1", "CPM_2", "CPM_3", "DOUBLE_CLICK_CAMPAIGN_MANAGER", "DOUBLE_VERIFY", "INTEGRAL_AD_SCIENCE"
 ]
 
 
@@ -119,10 +103,7 @@ type DSPNoteOrigin = Literal["BUYER", "SUPPLIER"]
 type DSPRecurrence = Literal["DAILY", "LIFETIME", "MONTHLY"]
 
 
-type DSPSortDirection = Literal[
-    "ASCENDING",  # Sort in ascending order
-    "DESCENDING",  # Sort in descending order
-]
+type DSPSortDirection = Literal["ASCENDING", "DESCENDING"]
 """
 Supported values:
 - `ASCENDING`: Sort in ascending order
@@ -154,50 +135,50 @@ type DSPTimeUnit = Literal["DAYS", "HOURS", "MINUTES"]
 
 
 type DSPTimeZone = Literal[
-    "AMERICA_ANCHORAGE",  # America/Anchorage
-    "AMERICA_CARACAS",  # America/Caracas
-    "AMERICA_CHICAGO",  # America/Chicago
-    "AMERICA_DENVER",  # America/Denver
-    "AMERICA_HALIFAX",  # America/Halifax
-    "AMERICA_LOS_ANGELES",  # America/Los_Angeles
-    "AMERICA_MEXICO_CITY",  # America/Mexico_City
-    "AMERICA_NEW_YORK",  # America/New_York
-    "AMERICA_SAO_PAULO",  # America/Sao_Paulo
-    "AMERICA_ST_JOHNS",  # America/St_Johns
-    "ASIA_ALMATY",  # Asia/Almaty
-    "ASIA_BAGHDAD",  # Asia/Baghdad
-    "ASIA_BANGKOK",  # Asia/Bangkok
-    "ASIA_DUBAI",  # Asia/Dubai
-    "ASIA_HONG_KONG",  # Asia/Hong_Kong
-    "ASIA_KABUL",  # Asia/Kabul
-    "ASIA_KATHMANDU",  # Asia/Kathmandu
-    "ASIA_KOLKATA",  # Asia/Kolkata
-    "ASIA_MAGADAN",  # Asia/Magadan
-    "ASIA_RIYADH",  # Asia/Riyadh
-    "ASIA_SHANGHAI",  # Asia/Shanghai
-    "ASIA_SINGAPORE",  # Asia/Singapore
-    "ASIA_TEHRAN",  # Asia/Tehran
-    "ASIA_TOKYO",  # Asia/Tokyo
-    "ASIA_YEKATERINBURG",  # Asia/Yekaterinburg
-    "ASIA_YEREVAN",  # Asia/Yerevan
-    "ATLANTIC_AZORES",  # Atlantic/Azores
-    "ATLANTIC_SOUTH_GEORGIA",  # Atlantic/South_Georgia
-    "AUSTRALIA_BRISBANE",  # Australia/Brisbane
-    "AUSTRALIA_DARWIN",  # Australia/Darwin
-    "AUSTRALIA_SYDNEY",  # Australia/Sydney
-    "EET",  # EET
-    "EUROPE_AMSTERDAM",  # Europe/Amsterdam
-    "EUROPE_ISTANBUL",  # Europe/Istanbul
-    "EUROPE_LONDON",  # Europe/London
-    "EUROPE_PARIS",  # Europe/Paris
-    "EUROPE_STOCKHOLM",  # Europe/Stockholm
-    "INDIAN_COCOS",  # Indian/Cocos
-    "PACIFIC_AUCKLAND",  # Pacific/Auckland
-    "PACIFIC_FIJI",  # Pacific/Fiji
-    "PACIFIC_HONOLULU",  # Pacific/Honolulu
-    "PACIFIC_KWAJALEIN",  # Pacific/Kwajalein
-    "PACIFIC_MIDWAY",  # Pacific/Midway
-    "UTC",  # UTC
+    "AMERICA_ANCHORAGE",
+    "AMERICA_CARACAS",
+    "AMERICA_CHICAGO",
+    "AMERICA_DENVER",
+    "AMERICA_HALIFAX",
+    "AMERICA_LOS_ANGELES",
+    "AMERICA_MEXICO_CITY",
+    "AMERICA_NEW_YORK",
+    "AMERICA_SAO_PAULO",
+    "AMERICA_ST_JOHNS",
+    "ASIA_ALMATY",
+    "ASIA_BAGHDAD",
+    "ASIA_BANGKOK",
+    "ASIA_DUBAI",
+    "ASIA_HONG_KONG",
+    "ASIA_KABUL",
+    "ASIA_KATHMANDU",
+    "ASIA_KOLKATA",
+    "ASIA_MAGADAN",
+    "ASIA_RIYADH",
+    "ASIA_SHANGHAI",
+    "ASIA_SINGAPORE",
+    "ASIA_TEHRAN",
+    "ASIA_TOKYO",
+    "ASIA_YEKATERINBURG",
+    "ASIA_YEREVAN",
+    "ATLANTIC_AZORES",
+    "ATLANTIC_SOUTH_GEORGIA",
+    "AUSTRALIA_BRISBANE",
+    "AUSTRALIA_DARWIN",
+    "AUSTRALIA_SYDNEY",
+    "EET",
+    "EUROPE_AMSTERDAM",
+    "EUROPE_ISTANBUL",
+    "EUROPE_LONDON",
+    "EUROPE_PARIS",
+    "EUROPE_STOCKHOLM",
+    "INDIAN_COCOS",
+    "PACIFIC_AUCKLAND",
+    "PACIFIC_FIJI",
+    "PACIFIC_HONOLULU",
+    "PACIFIC_KWAJALEIN",
+    "PACIFIC_MIDWAY",
+    "UTC",
 ]
 """
 Each complies with the ISO 8601 TZ identifier standard

@@ -8,9 +8,6 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 
-type OptimizationRulesAPISwaggerActionDetailsActionUnit = Literal["PERCENT"]
-
-
 type OptimizationRulesAPISwaggerActionType = Literal["ADOPT"]
 """
 The action taken when the optimization rule is enabled. Defaults to ADOPT.
@@ -18,11 +15,7 @@ The action taken when the optimization rule is enabled. Defaults to ADOPT.
 
 
 type OptimizationRulesAPISwaggerComparisonOperator = Literal[
-    "EQUAL_TO",
-    "GREATER_THAN",
-    "GREATER_THAN_OR_EQUAL_TO",
-    "LESS_THAN",
-    "LESS_THAN_OR_EQUAL_TO",
+    "EQUAL_TO", "GREATER_THAN", "GREATER_THAN_OR_EQUAL_TO", "LESS_THAN", "LESS_THAN_OR_EQUAL_TO"
 ]
 """
 The comparison operator.
@@ -30,25 +23,14 @@ The comparison operator.
 
 
 type OptimizationRulesAPISwaggerDayOfTheWeek = Literal[
-    "FRIDAY",
-    "MONDAY",
-    "SATURDAY",
-    "SUNDAY",
-    "THURSDAY",
-    "TUESDAY",
-    "WEDNESDAY",
+    "FRIDAY", "MONDAY", "SATURDAY", "SUNDAY", "THURSDAY", "TUESDAY", "WEDNESDAY"
 ]
 """
 Day of the week.
 """
 
 
-type OptimizationRulesAPISwaggerExpressionType = Literal[
-    "BROAD",
-    "EXACT",
-    "EXPANDED",
-    "PHRASE",
-]
+type OptimizationRulesAPISwaggerExpressionType = Literal["BROAD", "EXACT", "EXPANDED", "PHRASE"]
 """
 The expression types of targets for the rule.
 """
@@ -73,16 +55,7 @@ The attribute of the rule.
 
 
 type OptimizationRulesAPISwaggerRuleAttributeV2 = Literal[
-    "ACOS",
-    "CLICKS",
-    "CPC",
-    "CTR",
-    "CVR",
-    "IMPRESSIONS",
-    "ORDERS",
-    "ROAS",
-    "SALES",
-    "SPEND",
+    "ACOS", "CLICKS", "CPC", "CTR", "CVR", "IMPRESSIONS", "ORDERS", "ROAS", "SALES", "SPEND"
 ]
 """
 The attribute of the rule.
@@ -107,12 +80,7 @@ The frequency of the optimization rule application.
 """
 
 
-type OptimizationRulesAPISwaggerRuleStatus = Literal[
-    "ENABLED",
-    "ENDED",
-    "PAUSED",
-    "SCHEDULED",
-]
+type OptimizationRulesAPISwaggerRuleStatus = Literal["ENABLED", "ENDED", "PAUSED", "SCHEDULED"]
 """
 The status of a rule. Only ENABLED and PAUSED are accepted in requests.
 """
@@ -146,7 +114,7 @@ class OptimizationRulesAPISwaggerActionDetails(StrictModel):
     """Details of a rule action."""
 
     actionOperator: OptimizationRulesAPISwaggerRuleActionOperator
-    actionUnit: OptimizationRulesAPISwaggerActionDetailsActionUnit
+    actionUnit: Literal["PERCENT"]
     value: float = Field(description="An integer between 1 & 100, representing the percent increase on base bid.")
 
 
@@ -154,7 +122,7 @@ class OptimizationRulesAPISwaggerActionDetailsOut(LenientModel):
     """Details of a rule action."""
 
     actionOperator: OptimizationRulesAPISwaggerRuleActionOperator | str
-    actionUnit: OptimizationRulesAPISwaggerActionDetailsActionUnit | str
+    actionUnit: Literal["PERCENT"] | str
     value: float = Field(description="An integer between 1 & 100, representing the percent increase on base bid.")
 
 
@@ -576,7 +544,6 @@ class OptimizationRulesAPISwaggerValueTypeRuleCriteriaOut(LenientModel):
 
 __all__ = [
     "OptimizationRulesAPISwaggerActionDetails",
-    "OptimizationRulesAPISwaggerActionDetailsActionUnit",
     "OptimizationRulesAPISwaggerActionDetailsOut",
     "OptimizationRulesAPISwaggerActionType",
     "OptimizationRulesAPISwaggerAssociateOptimizationRulesToCampaignRequest",

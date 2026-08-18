@@ -36,20 +36,7 @@ The country code.
 
 
 type DspSupportedCurrencyV1 = Literal[
-    "USD",
-    "CAD",
-    "JPY",
-    "GBP",
-    "EUR",
-    "INR",
-    "MXN",
-    "AED",
-    "SAR",
-    "BRL",
-    "AUD",
-    "SEK",
-    "SGD",
-    "TRY",
+    "USD", "CAD", "JPY", "GBP", "EUR", "INR", "MXN", "AED", "SAR", "BRL", "AUD", "SEK", "SGD", "TRY"
 ]
 """
 The supported currencies.

@@ -97,7 +97,6 @@ script2/
   codegen/
     spec.py          # 产品解析、ALL 过滤、前缀
     schema.py        # 请求/响应闭包、命名、跨实体共享
-    transform.py     # schema 改写（内联 enum 提升为具名 Literal）
     emit.py          # Pydantic + client 源码
   data/api-spec-v1/<entity>/meta.json
 ```

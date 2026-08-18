@@ -27,10 +27,7 @@ from ads_api.models.v1._shared.sd import (
 type SDBudgetType = Literal["MONETARY"]
 
 
-type SDCampaignNameFilterType = Literal[
-    "BROAD_MATCH",  # Filter by broad match.
-    "EXACT_MATCH",  # Filter by exact match.
-]
+type SDCampaignNameFilterType = Literal["BROAD_MATCH", "EXACT_MATCH"]
 """
 Supported values:
 - `EXACT_MATCH`: Filter by exact match.
@@ -38,10 +35,7 @@ Supported values:
 """
 
 
-type SDCostType = Literal[
-    "CPC",  # Cost per click.
-    "VCPM",  # Cost per thousand views.
-]
+type SDCostType = Literal["CPC", "VCPM"]
 """
 Supported values:
 - `CPC`: Cost per click.
@@ -88,21 +82,14 @@ class SDBudgetValue(LenientModel):
 
 
 class SDCampaign(LenientModel):
-    adProduct: SDAdProduct | str = Field(description="""
-Supported values:
-- `SPONSORED_DISPLAY`: Sponsored Display ad product.
-""")
+    adProduct: SDAdProduct | str
     budgets: list[SDBudget] = Field(
         min_length=1,
         max_length=1,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
     campaignId: str = Field(description="A unique identifier for a campaign.")
-    costType: SDCostType | str = Field(description="""
-Supported values:
-- `CPC`: Cost per click.
-- `VCPM`: Cost per thousand views.
-""")
+    costType: SDCostType | str
     countries: list[SDCountryCode | str] | None = Field(
         default=None,
         min_length=0,
@@ -122,12 +109,7 @@ Supported values:
     name: str = Field(description="The name of the campaign.")
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
     startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: SDState | str = Field(description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SDState | str
     status: SDStatus | None = Field(default=None)
     tags: list[SDTag] | None = Field(
         default=None,
@@ -138,14 +120,7 @@ Supported values:
 
 
 class SDCampaignAdProductFilter(StrictModel):
-    include: list[SDAdProduct | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `SPONSORED_DISPLAY`: Sponsored Display ad product.
-""",
-    )
+    include: list[SDAdProduct | str] = Field(min_length=1, max_length=1)
 
 
 class SDCampaignCampaignIdFilter(StrictModel):
@@ -153,20 +128,13 @@ class SDCampaignCampaignIdFilter(StrictModel):
 
 
 class SDCampaignCreate(StrictModel):
-    adProduct: SDAdProduct = Field(description="""
-Supported values:
-- `SPONSORED_DISPLAY`: Sponsored Display ad product.
-""")
+    adProduct: SDAdProduct
     budgets: list[SDCreateBudget] = Field(
         min_length=1,
         max_length=1,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
-    costType: SDCostType = Field(description="""
-Supported values:
-- `CPC`: Cost per click.
-- `VCPM`: Cost per thousand views.
-""")
+    costType: SDCostType
     countries: list[SDCountryCode | str] | None = Field(
         default=None,
         min_length=0,
@@ -184,11 +152,7 @@ Supported values:
     name: str = Field(description="The name of the campaign.")
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
     startDateTime: datetime = Field(description="The start date time for the campaign.")
-    state: SDCreateState = Field(description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SDCreateState
     tags: list[SDCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -209,11 +173,7 @@ class SDCampaignMultiStatusSuccess(LenientModel):
 
 class SDCampaignNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=100)
-    queryTermMatchType: SDCampaignNameFilterType = Field(description="""
-Supported values:
-- `EXACT_MATCH`: Filter by exact match.
-- `BROAD_MATCH`: Filter by broad match.
-""")
+    queryTermMatchType: SDCampaignNameFilterType
 
 
 class SDCampaignPortfolioIdFilter(StrictModel):
@@ -221,16 +181,7 @@ class SDCampaignPortfolioIdFilter(StrictModel):
 
 
 class SDCampaignStateFilter(StrictModel):
-    include: list[SDState | str] = Field(
-        min_length=1,
-        max_length=3,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    include: list[SDState | str] = Field(min_length=1, max_length=3)
 
 
 class SDCampaignSuccessResponse(LenientModel):
@@ -246,26 +197,12 @@ class SDCampaignUpdate(StrictModel):
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
     campaignId: str = Field(description="A unique identifier for a campaign.")
-    costType: SDCostType | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `CPC`: Cost per click.
-- `VCPM`: Cost per thousand views.
-""",
-    )
+    costType: SDCostType | None = Field(default=None)
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
     name: str | None = Field(default=None, description="The name of the campaign.")
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
     startDateTime: datetime | None = Field(default=None, description="The start date time for the campaign.")
-    state: SDUpdateState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    state: SDUpdateState | None = Field(default=None)
     tags: list[SDCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -307,33 +244,7 @@ class SDDeleteCampaignRequest(StrictModel):
 
 
 class SDMonetaryBudget(LenientModel):
-    currencyCode: SDCurrencyCode | str = Field(description="""
-Supported values:
-- `AED`: United Arab Emirates Dirham
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `CHF`: Swiss Franc
-- `CNY`: Chinese Yuan
-- `DKK`: Danish Krone
-- `EGP`: Egyptian Pound
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `INR`: Indian Rupee
-- `JPY`: Japanese Yen
-- `MXN`: Mexican Peso
-- `MXP`: Mexican Peso
-- `NGN`: Nigerian Naira
-- `NOK`: Norwegian Krone
-- `NZD`: New Zealand Dollar
-- `PLN`: Polish Złoty
-- `SAR`: Saudi Riyal
-- `SEK`: Swedish Krona
-- `SGD`: Singapore Dollar
-- `TRY`: Turkish Lira
-- `USD`: United States Dollar
-- `ZAR`: South African Rand
-""")
+    currencyCode: SDCurrencyCode | str
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )

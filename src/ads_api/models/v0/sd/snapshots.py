@@ -8,29 +8,6 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 
-type SnapshotRequestStateFilter = Literal["enabled", "paused", "archived"]
-"""
-Optional. Restricts results to entities with state within the specified comma-separated list. Default behavior is to include 'enabled' and 'paused'. You can include 'enabled', 'paused', and 'archived' or any combination.
-"""
-
-
-type SnapshotResponseRecordType = Literal[
-    "campaigns",
-    "adgroups",
-    "productAds",
-    "targets",
-]
-"""
-The record type of the snapshot file.
-"""
-
-
-type SnapshotResponseStatus = Literal["IN_PROGRESS", "SUCCESS", "FAILURE"]
-"""
-The status of the generation of the snapshot.
-"""
-
-
 type TacticFilter = Literal["T00020", "T00030", "T00020,T00030"]
 """
 Optional. Restricts results to entities with the advertising tactic associated with the campaign. Must be one of the following table lists available tactic names:
@@ -42,7 +19,7 @@ Optional. Restricts results to entities with the advertising tactic associated w
 
 
 class SnapshotRequest(StrictModel):
-    stateFilter: SnapshotRequestStateFilter | None = Field(
+    stateFilter: Literal["enabled", "paused", "archived"] | None = Field(
         default=None,
         description="Optional. Restricts results to entities with state within the specified comma-separated list. Default behavior is to include 'enabled' and 'paused'. You can include 'enabled', 'paused', and 'archived' or any combination.",
     )
@@ -51,10 +28,10 @@ class SnapshotRequest(StrictModel):
 
 class SnapshotResponse(LenientModel):
     snapshotId: str | None = Field(default=None, description="The identifier of the snapshot that was requested.")
-    recordType: SnapshotResponseRecordType | str | None = Field(
+    recordType: Literal["campaigns", "adgroups", "productAds", "targets"] | str | None = Field(
         default=None, description="The record type of the snapshot file."
     )
-    status: SnapshotResponseStatus | str | None = Field(
+    status: Literal["IN_PROGRESS", "SUCCESS", "FAILURE"] | str | None = Field(
         default=None, description="The status of the generation of the snapshot."
     )
     statusDetails: str | None = Field(default=None, description="Optional description of the status.")
@@ -70,11 +47,4 @@ class SnapshotResponse(LenientModel):
     )
 
 
-__all__ = [
-    "SnapshotRequest",
-    "SnapshotRequestStateFilter",
-    "SnapshotResponse",
-    "SnapshotResponseRecordType",
-    "SnapshotResponseStatus",
-    "TacticFilter",
-]
+__all__ = ["SnapshotRequest", "SnapshotResponse", "TacticFilter"]

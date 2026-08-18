@@ -123,23 +123,13 @@ The BrandCollectionLandingPageType is used for brand collection ads, supporting 
 """
 
 
-type CreativeType = Literal[
-    "PRODUCT_COLLECTION",
-    "STORE_SPOTLIGHT",
-    "VIDEO",
-    "BRAND_VIDEO",
-]
+type CreativeType = Literal["PRODUCT_COLLECTION", "STORE_SPOTLIGHT", "VIDEO", "BRAND_VIDEO"]
 """
 The creative type of SB ad.
 """
 
 
-type LandingPageType = Literal[
-    "PRODUCT_LIST",
-    "STORE",
-    "CUSTOM_URL",
-    "DETAIL_PAGE",
-]
+type LandingPageType = Literal["PRODUCT_LIST", "STORE", "CUSTOM_URL", "DETAIL_PAGE"]
 """
 The type of landing page, such as store page, product list (simple landing page), custom url.
 """

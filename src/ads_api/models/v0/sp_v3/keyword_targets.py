@@ -13,23 +13,6 @@ from ads_api.models.v0._shared import (
     RangeMetricValue,
 )
 
-type KeywordBidInfoMatchType = Literal["BROAD", "EXACT", "PHRASE"]
-"""
-Keyword match type. The default value will be BROAD.
-"""
-
-
-type KeywordTargetMatchType = Literal["BROAD", "EXACT", "PHRASE"]
-"""
-Keyword match type. The default value will be BROAD.
-"""
-
-
-type ThemedBidMatchType = Literal["BROAD", "EXACT", "PHRASE"]
-"""
-Keyword match type. The default value will be BROAD.
-"""
-
 
 class BidSuggestion(LenientModel):
     """Suggested bid range in major and minor currency units (example: dollars and cents)."""
@@ -57,7 +40,7 @@ class KeywordBidInfo(LenientModel):
         default=None,
         description="The bid value for the keyword, in minor currency units (example: cents). The default value will be the suggested bid.",
     )
-    matchType: KeywordBidInfoMatchType | str | None = Field(
+    matchType: Literal["BROAD", "EXACT", "PHRASE"] | str | None = Field(
         default=None, description="Keyword match type. The default value will be BROAD."
     )
     rank: float | None = Field(default=None, description="The keyword target rank")
@@ -70,7 +53,7 @@ class KeywordTarget(LenientModel):
         description="The bid value for the keyword, in minor currency units (example: cents). The default value will be the suggested bid.",
     )
     keyword: str | None = Field(default=None, description="The keyword value")
-    matchType: KeywordTargetMatchType | str | None = Field(
+    matchType: Literal["BROAD", "EXACT", "PHRASE"] | str | None = Field(
         default=None, description="Keyword match type. The default value will be BROAD."
     )
     userSelectedKeyword: bool | None = Field(
@@ -84,7 +67,7 @@ class KeywordTargetResponse(LenientModel):
         description="The bid value for the keyword, in minor currency units (example: cents). The default value will be the suggested bid.",
     )
     keyword: str | None = Field(default=None, description="The keyword value")
-    matchType: KeywordTargetMatchType | str | None = Field(
+    matchType: Literal["BROAD", "EXACT", "PHRASE"] | str | None = Field(
         default=None, description="Keyword match type. The default value will be BROAD."
     )
     userSelectedKeyword: bool | None = Field(
@@ -157,7 +140,7 @@ class ThemedBid(LenientModel):
         default=None,
         description="The bid value for the keyword, in minor currency units (example: cents). The default value will be the suggested bid.",
     )
-    matchType: ThemedBidMatchType | str | None = Field(
+    matchType: Literal["BROAD", "EXACT", "PHRASE"] | str | None = Field(
         default=None, description="Keyword match type. The default value will be BROAD."
     )
     rank: float | None = Field(default=None, description="The keyword target rank.")
@@ -174,9 +157,7 @@ __all__ = [
     "ImpactMetric",
     "ImpactMetrics",
     "KeywordBidInfo",
-    "KeywordBidInfoMatchType",
     "KeywordTarget",
-    "KeywordTargetMatchType",
     "KeywordTargetResponse",
     "RangeMetricValue",
     "RankedTargetResponse",
@@ -185,5 +166,4 @@ __all__ = [
     "RankedTargetWithThemedBidsResponse",
     "RecKeywordTarget",
     "ThemedBid",
-    "ThemedBidMatchType",
 ]

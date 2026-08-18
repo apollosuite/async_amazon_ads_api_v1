@@ -24,9 +24,6 @@ Determines what the recommended bids will be optimized for.
 """
 
 
-type SDContentTargetingPredicateV31Type = Literal["contentCategorySameAs"]
-
-
 type SDCostTypeV31 = Literal["cpc", "vcpm"]
 """
 Determines what performance metric the bid recommendations will be optimized for.
@@ -43,57 +40,6 @@ The type of the associated creative. If the field is empty or null, a default va
 """
 
 
-type SDTargetingClauseV31ExpressionType = Literal["manual", "auto"]
-"""
-Tactic T00020 ad groups only allow manual targeting.
-"""
-
-
-type SDTargetingClauseV32ExpressionType = Literal["manual", "auto"]
-"""
-Tactic T00020 ad groups only allow manual targeting.
-"""
-
-
-type SDTargetingPredicateBaseV31Type = Literal[
-    "asinCategorySameAs",
-    "asinBrandSameAs",
-    "asinPriceBetween",
-    "asinPriceGreaterThan",
-    "asinPriceLessThan",
-    "asinReviewRatingLessThan",
-    "asinReviewRatingGreaterThan",
-    "asinReviewRatingBetween",
-    "similarProduct",
-    "relatedProduct",
-    "exactProduct",
-    "asinIsPrimeShippingEligible",
-    "asinAgeRangeSameAs",
-    "asinGenreSameAs",
-    "audienceSameAs",
-    "lookback",
-]
-
-
-type SDTargetingPredicateNestedV31Type = Literal["views", "audience", "purchases"]
-
-
-type SDTargetingPredicateV31Type = Literal[
-    "asinSameAs",
-    "asinCategorySameAs",
-    "asinBrandSameAs",
-    "asinPriceBetween",
-    "asinPriceGreaterThan",
-    "asinPriceLessThan",
-    "asinReviewRatingLessThan",
-    "asinReviewRatingGreaterThan",
-    "asinReviewRatingBetween",
-    "asinIsPrimeShippingEligible",
-    "asinAgeRangeSameAs",
-    "asinGenreSameAs",
-]
-
-
 class SDBidRecommendationV31(LenientModel):
     """A recommended bid range to use for a target."""
 
@@ -105,7 +51,7 @@ class SDBidRecommendationV31(LenientModel):
 class SDContentTargetingPredicateV31(StrictModel):
     """A predicate to match against in the content targeting expression."""
 
-    type: SDContentTargetingPredicateV31Type
+    type: Literal["contentCategorySameAs"]
     value: str = Field(description="The value to be targeted.")
 
 
@@ -219,7 +165,7 @@ class SDTargetingBidRecommendationsResponseV32(LenientModel):
 class SDTargetingClauseV31(StrictModel):
     """The targeting clause"""
 
-    expressionType: SDTargetingClauseV31ExpressionType = Field(
+    expressionType: Literal["manual", "auto"] = Field(
         description="Tactic T00020 ad groups only allow manual targeting."
     )
     expression: SDTargetingExpressionV31
@@ -228,7 +174,7 @@ class SDTargetingClauseV31(StrictModel):
 class SDTargetingClauseV32(StrictModel):
     """The targeting clause"""
 
-    expressionType: SDTargetingClauseV32ExpressionType = Field(
+    expressionType: Literal["manual", "auto"] = Field(
         description="Tactic T00020 ad groups only allow manual targeting."
     )
     expression: SDTargetingExpressionV32
@@ -280,7 +226,24 @@ class SDTargetingPredicateBaseV31(StrictModel):
     * The exactProduct, similarProduct, relatedProduct, and negative types do not utilize the value field.
     * The only type currently applicable to Amazon Audiences targeting is 'audienceSameAs'."""
 
-    type: SDTargetingPredicateBaseV31Type
+    type: Literal[
+        "asinCategorySameAs",
+        "asinBrandSameAs",
+        "asinPriceBetween",
+        "asinPriceGreaterThan",
+        "asinPriceLessThan",
+        "asinReviewRatingLessThan",
+        "asinReviewRatingGreaterThan",
+        "asinReviewRatingBetween",
+        "similarProduct",
+        "relatedProduct",
+        "exactProduct",
+        "asinIsPrimeShippingEligible",
+        "asinAgeRangeSameAs",
+        "asinGenreSameAs",
+        "audienceSameAs",
+        "lookback",
+    ]
     value: str | None = Field(default=None, description="The value to be targeted.")
 
 
@@ -293,7 +256,7 @@ class SDTargetingPredicateNestedV31(StrictModel):
     * For Amazon Audiences targeting, the TargetingPredicateNested type should be set to 'audience' and the value array should include one TargetingPredicateBase component with type set to 'audienceSameAs'.
     """
 
-    type: SDTargetingPredicateNestedV31Type
+    type: Literal["views", "audience", "purchases"]
     value: list[SDTargetingPredicateBaseV31]
 
 
@@ -306,7 +269,20 @@ class SDTargetingPredicateV31(StrictModel):
     * When using either of the 'between' strings to construct a targeting expression the format of the string is 'double-double' where the first double must be smaller than the second double. Prices are not inclusive.
     """
 
-    type: SDTargetingPredicateV31Type
+    type: Literal[
+        "asinSameAs",
+        "asinCategorySameAs",
+        "asinBrandSameAs",
+        "asinPriceBetween",
+        "asinPriceGreaterThan",
+        "asinPriceLessThan",
+        "asinReviewRatingLessThan",
+        "asinReviewRatingGreaterThan",
+        "asinReviewRatingBetween",
+        "asinIsPrimeShippingEligible",
+        "asinAgeRangeSameAs",
+        "asinGenreSameAs",
+    ]
     value: str | None = Field(default=None, description="The value to be targeted.")
 
 
@@ -315,7 +291,6 @@ __all__ = [
     "SDBidOptimizationV32",
     "SDBidRecommendationV31",
     "SDContentTargetingPredicateV31",
-    "SDContentTargetingPredicateV31Type",
     "SDCostTypeV31",
     "SDCreativeType",
     "SDGoalProduct",
@@ -330,15 +305,10 @@ __all__ = [
     "SDTargetingBidRecommendationsResponseV31",
     "SDTargetingBidRecommendationsResponseV32",
     "SDTargetingClauseV31",
-    "SDTargetingClauseV31ExpressionType",
     "SDTargetingClauseV32",
-    "SDTargetingClauseV32ExpressionType",
     "SDTargetingExpressionV31",
     "SDTargetingExpressionV32",
     "SDTargetingPredicateBaseV31",
-    "SDTargetingPredicateBaseV31Type",
     "SDTargetingPredicateNestedV31",
-    "SDTargetingPredicateNestedV31Type",
     "SDTargetingPredicateV31",
-    "SDTargetingPredicateV31Type",
 ]

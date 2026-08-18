@@ -8,8 +8,6 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 
-type SDHeadlineRecommendationRequestAdFormat = Literal["SPONSORED_DISPLAY"]
-
 
 class RecommendedHeadline(LenientModel):
     """Recommended Headline in response object. Recommended headline will be locale specific, i.e. for an asin input in ES, Recommended headline will be in ES."""
@@ -30,7 +28,7 @@ class SDHeadlineRecommendationRequest(StrictModel):
         le=10,
         description="Maximum number of recommendations that API should return. Response will [0, maxNumRecommendations] recommendations (recommendations are not guaranteed as there can be instances where the ML model can not generate policy compliant headlines for the given set of asins).",
     )
-    adFormat: SDHeadlineRecommendationRequestAdFormat | None = Field(default=None)
+    adFormat: Literal["SPONSORED_DISPLAY"] | None = Field(default=None)
 
 
 class SDHeadlineRecommendationResponse(LenientModel):
@@ -47,9 +45,4 @@ class SDHeadlineRecommendationResponse(LenientModel):
     )
 
 
-__all__ = [
-    "RecommendedHeadline",
-    "SDHeadlineRecommendationRequest",
-    "SDHeadlineRecommendationRequestAdFormat",
-    "SDHeadlineRecommendationResponse",
-]
+__all__ = ["RecommendedHeadline", "SDHeadlineRecommendationRequest", "SDHeadlineRecommendationResponse"]

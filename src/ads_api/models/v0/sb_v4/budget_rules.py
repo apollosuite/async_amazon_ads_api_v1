@@ -17,26 +17,13 @@ The value by which to update the budget of the budget rule.
 """
 
 
-type ComparisonOperator = Literal[
-    "GREATER_THAN",
-    "LESS_THAN",
-    "LESS_THAN_OR_EQUAL_TO",
-    "GREATER_THAN_OR_EQUAL_TO",
-]
+type ComparisonOperator = Literal["GREATER_THAN", "LESS_THAN", "LESS_THAN_OR_EQUAL_TO", "GREATER_THAN_OR_EQUAL_TO"]
 """
 The comparison operator.
 """
 
 
-type DayOfWeek = Literal[
-    "MONDAY",
-    "TUESDAY",
-    "WEDNESDAY",
-    "THURSDAY",
-    "FRIDAY",
-    "SATURDAY",
-    "SUNDAY",
-]
+type DayOfWeek = Literal["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
 """
 The day of the week.
 """

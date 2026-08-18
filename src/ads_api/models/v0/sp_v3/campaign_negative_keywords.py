@@ -69,16 +69,7 @@ class SponsoredProductsCampaignNegativeKeyword(LenientModel):
     keywordId: str = Field(description="The identifier of the keyword.")
     keywordText: str = Field(description="The keyword text.")
     matchType: SponsoredProductsNegativeMatchType | str
-    state: SponsoredProductsEntityState | str = Field(description="""
-Supported values:
-- `ENABLED`: Enabled State
-- `PAUSED`: Paused State
-- `PROPOSED`: Proposed State (Upcoming Feature)
-- `ARCHIVED`: ARCHIVED State
-- `ENABLING`: State for Draft Entity Only
-- `USER_DELETED`: State for Draft Entity Only
-- `OTHER`: Read Only
-""")
+    state: SponsoredProductsEntityState | str
 
 
 class SponsoredProductsCampaignNegativeKeywordExtendedData(LenientModel):

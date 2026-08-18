@@ -21,28 +21,14 @@ from ads_api.models.v1._shared.st import (
     STUpdateState,
 )
 
-type STAdType = Literal["VIDEO",]  # A creative that features one or more videos.
+type STAdType = Literal["VIDEO"]
 """
 Supported values:
 - `VIDEO`: A creative that features one or more videos.
 """
 
 
-type STMarketplace = Literal[
-    "AU",
-    "BR",
-    "CA",
-    "DE",
-    "ES",
-    "FR",
-    "GB",
-    "IN",
-    "IT",
-    "JP",
-    "MX",
-    "SG",
-    "US",
-]
+type STMarketplace = Literal["AU", "BR", "CA", "DE", "ES", "FR", "GB", "IN", "IT", "JP", "MX", "SG", "US"]
 """
 A list of country codes representing Amazon marketplaces
 """
@@ -51,11 +37,7 @@ A list of country codes representing Amazon marketplaces
 type STMarketplaceScope = Literal["SINGLE_MARKETPLACE"]
 
 
-type STModerationStatus = Literal[
-    "PUBLISHED",  # The creative passed moderation and is serving.
-    "REJECTED_BY_MODERATION",  # The creative was rejected during the moderation process.
-    "SUBMITTED_FOR_MODERATION",  # The creative has been submitted, but has not yet been reviewed.
-]
+type STModerationStatus = Literal["PUBLISHED", "REJECTED_BY_MODERATION", "SUBMITTED_FOR_MODERATION"]
 """
 Supported values:
 - `PUBLISHED`: The creative passed moderation and is serving.
@@ -64,10 +46,7 @@ Supported values:
 """
 
 
-type STProductIdType = Literal[
-    "ASIN",  # ASIN identifier type.
-    "SKU",  # SKU identifier type.
-]
+type STProductIdType = Literal["ASIN", "SKU"]
 """
 Supported values:
 - `ASIN`: ASIN identifier type.
@@ -75,10 +54,7 @@ Supported values:
 """
 
 
-type STVideoLandingPageType = Literal[
-    "OFF_AMAZON_LINK",  # An off-Amazon landing page.
-    "STORE",  # A brand Store landing page.
-]
+type STVideoLandingPageType = Literal["OFF_AMAZON_LINK", "STORE"]
 """
 Supported values:
 - `OFF_AMAZON_LINK`: An off-Amazon landing page.
@@ -89,14 +65,8 @@ Supported values:
 class STAd(LenientModel):
     adGroupId: str = Field(description="The ad group associated with the ad.")
     adId: str = Field(description="The identifier of the ad.")
-    adProduct: STAdProduct | str = Field(description="""
-Supported values:
-- `SPONSORED_TELEVISION`: Sponsored Television ad product.
-""")
-    adType: STAdType | str = Field(description="""
-Supported values:
-- `VIDEO`: A creative that features one or more videos.
-""")
+    adProduct: STAdProduct | str
+    adType: STAdType | str
     campaignId: str = Field(description="The campaign associated with the ad. It's a read-only field.")
     creationDateTime: datetime = Field(description="The date time that the ad was created.")
     creative: STCreative
@@ -108,12 +78,7 @@ Supported values:
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
     name: str = Field(description="The name of the ad.")
-    state: STState | str = Field(description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: STState | str
     status: STStatus | None = Field(default=None)
 
 
@@ -126,14 +91,7 @@ class STAdAdIdFilter(StrictModel):
 
 
 class STAdAdProductFilter(StrictModel):
-    include: list[STAdProduct | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `SPONSORED_TELEVISION`: Sponsored Television ad product.
-""",
-    )
+    include: list[STAdProduct | str] = Field(min_length=1, max_length=1)
 
 
 class STAdCampaignIdFilter(StrictModel):
@@ -142,21 +100,11 @@ class STAdCampaignIdFilter(StrictModel):
 
 class STAdCreate(StrictModel):
     adGroupId: str = Field(description="The ad group associated with the ad.")
-    adProduct: STAdProduct = Field(description="""
-Supported values:
-- `SPONSORED_TELEVISION`: Sponsored Television ad product.
-""")
-    adType: STAdType = Field(description="""
-Supported values:
-- `VIDEO`: A creative that features one or more videos.
-""")
+    adProduct: STAdProduct
+    adType: STAdType
     creative: STCreateCreative
     name: str = Field(description="The name of the ad.")
-    state: STCreateState = Field(description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: STCreateState
 
 
 class STAdMultiStatusResponse(LenientModel):
@@ -170,16 +118,7 @@ class STAdMultiStatusSuccess(LenientModel):
 
 
 class STAdStateFilter(StrictModel):
-    include: list[STState | str] = Field(
-        min_length=1,
-        max_length=3,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    include: list[STState | str] = Field(min_length=1, max_length=3)
 
 
 class STAdSuccessResponse(LenientModel):
@@ -191,35 +130,17 @@ class STAdUpdate(StrictModel):
     adId: str = Field(description="The identifier of the ad.")
     creative: STUpdateCreative | None = Field(default=None)
     name: str | None = Field(default=None, description="The name of the ad.")
-    state: STUpdateState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    state: STUpdateState | None = Field(default=None)
 
 
 class STAdvertisedProducts(LenientModel):
     productId: str | None = Field(default=None, description="The identifier of the advertised product.")
-    productIdType: STProductIdType | str = Field(description="""
-Supported values:
-- `ASIN`: ASIN identifier type.
-- `SKU`: SKU identifier type.
-""")
+    productIdType: STProductIdType | str
     resolvedProductId: str | None = Field(
         default=None,
         description="The identifier of product associated with the advertised product. It's a read-only field.",
     )
-    resolvedProductIdType: STProductIdType | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ASIN`: ASIN identifier type.
-- `SKU`: SKU identifier type.
-""",
-    )
+    resolvedProductIdType: STProductIdType | str | None = Field(default=None)
 
 
 class STCreateAdRequest(StrictModel):
@@ -228,11 +149,7 @@ class STCreateAdRequest(StrictModel):
 
 class STCreateAdvertisedProducts(StrictModel):
     productId: str | None = Field(default=None, description="The identifier of the advertised product.")
-    productIdType: STProductIdType = Field(description="""
-Supported values:
-- `ASIN`: ASIN identifier type.
-- `SKU`: SKU identifier type.
-""")
+    productIdType: STProductIdType
 
 
 class STCreateCreative(StrictModel):
@@ -257,11 +174,7 @@ class STCreateVideoCreative(StrictModel):
 
 
 class STCreateVideoLandingPage(StrictModel):
-    landingPageType: STVideoLandingPageType = Field(description="""
-Supported values:
-- `OFF_AMAZON_LINK`: An off-Amazon landing page.
-- `STORE`: A brand Store landing page.
-""")
+    landingPageType: STVideoLandingPageType
     landingPageUrl: str | None = Field(default=None, description="The URL of landing page where the ad directs.")
 
 
@@ -270,12 +183,7 @@ class STCreative(LenientModel):
 
 
 class STCreativeStatus(LenientModel):
-    moderationStatus: STModerationStatus | str = Field(description="""
-Supported values:
-- `PUBLISHED`: The creative passed moderation and is serving.
-- `REJECTED_BY_MODERATION`: The creative was rejected during the moderation process.
-- `SUBMITTED_FOR_MODERATION`: The creative has been submitted, but has not yet been reviewed.
-""")
+    moderationStatus: STModerationStatus | str
 
 
 class STDeleteAdRequest(StrictModel):
@@ -334,11 +242,7 @@ class STVideoCreative(LenientModel):
 
 
 class STVideoLandingPage(LenientModel):
-    landingPageType: STVideoLandingPageType | str = Field(description="""
-Supported values:
-- `OFF_AMAZON_LINK`: An off-Amazon landing page.
-- `STORE`: A brand Store landing page.
-""")
+    landingPageType: STVideoLandingPageType | str
     landingPageUrl: str | None = Field(default=None, description="The URL of landing page where the ad directs.")
 
 

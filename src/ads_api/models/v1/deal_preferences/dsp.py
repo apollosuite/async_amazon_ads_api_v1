@@ -10,12 +10,7 @@ from pydantic import Field
 from ads_api.models._core.base import LenientModel, StrictModel
 
 type DSPErrorCode = Literal[
-    "BAD_REQUEST",  # The request is not valid considering the documented schema.
-    "FORBIDDEN",  # The caller is not authorized to make the given request.
-    "INTERNAL_ERROR",  # The server encountered an unexpected condition that prevented it from fulfilling the request.
-    "NOT_FOUND",  # The requested resource does not exist.
-    "TOO_MANY_REQUESTS",  # There have been too many requests, please slow down your call rate.
-    "UNAUTHORIZED",  # The request lacks the necessary credentials.
+    "BAD_REQUEST", "FORBIDDEN", "INTERNAL_ERROR", "NOT_FOUND", "TOO_MANY_REQUESTS", "UNAUTHORIZED"
 ]
 """
 Supported values:
@@ -107,15 +102,7 @@ class DSPDealPreferenceTarget(LenientModel):
 
 
 class DSPError(LenientModel):
-    code: DSPErrorCode | str = Field(description="""
-Supported values:
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `NOT_FOUND`: The requested resource does not exist.
-- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
-""")
+    code: DSPErrorCode | str
     fieldLocation: str | None = Field(default=None)
     message: str
 

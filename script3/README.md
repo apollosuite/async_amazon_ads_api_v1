@@ -61,7 +61,6 @@ script3/
   codegen/
     spec.py      # TOC 分组白名单、实体名推断、YAML 规范化、operationId 回退
     schema.py    # 请求/响应闭包、Python 命名（与 script2 同策略）
-    transform.py # schema 改写（内联 enum 提升为具名 Literal）
     emit.py      # Pydantic + client；vendor media type
   data/api-spec-v0/<group>/<entity>/meta.json
   data/api-spec-v0/<product>_vN/meta.json   # Version N 产品 API，如 sp_v3

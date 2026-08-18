@@ -12,7 +12,6 @@ from ads_api.models.v0._shared import (
     BidAnalysesPerPlacement,
     BidAnalysis,
     BidAnalysisImpactMetrics,
-    BidAnalysisType,
     Theme,
 )
 
@@ -82,7 +81,6 @@ __all__ = [
     "BidAnalysesPerPlacement",
     "BidAnalysis",
     "BidAnalysisImpactMetrics",
-    "BidAnalysisType",
     "MultiCountryBidAnalysesPerTargetingExpression",
     "MultiCountryBidRecommendationError",
     "MultiCountryBidRecommendationPerTargetingExpression",

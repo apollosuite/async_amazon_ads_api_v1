@@ -17,12 +17,7 @@ Redeemed means when the token is used and cannot be used again.
 """
 
 
-type TermsType = Literal[
-    "ADSP",
-    "ADVERTISING",
-    "MARKETING_CLOUD",
-    "PARTNER_NETWORK",
-]
+type TermsType = Literal["ADSP", "ADVERTISING", "MARKETING_CLOUD", "PARTNER_NETWORK"]
 """
 There are different Terms and Conditions for different amazon advertising platforms.
 This enum will keep track of these different types of terms and is used in validating

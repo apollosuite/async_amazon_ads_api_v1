@@ -48,18 +48,34 @@ class Reports(BaseResource):
 
     @overload
     async def request_report(
-        self, record_type: str, body: ReportRequest, *, mode: Literal["pydantic"] = "pydantic"
+        self,
+        record_type: Literal["campaigns", "adGroups", "productAds", "targets", "asins"] | str,
+        body: ReportRequest,
+        *,
+        mode: Literal["pydantic"] = "pydantic",
     ) -> ReportResponse: ...
     @overload
     async def request_report(
-        self, record_type: str, body: ReportRequest, *, mode: Literal["dict"]
+        self,
+        record_type: Literal["campaigns", "adGroups", "productAds", "targets", "asins"] | str,
+        body: ReportRequest,
+        *,
+        mode: Literal["dict"],
     ) -> dict[str, Any]: ...
     @overload
     async def request_report(
-        self, record_type: str, body: ReportRequest, *, mode: Literal["raw"]
+        self,
+        record_type: Literal["campaigns", "adGroups", "productAds", "targets", "asins"] | str,
+        body: ReportRequest,
+        *,
+        mode: Literal["raw"],
     ) -> httpx.Response: ...
     async def request_report(
-        self, record_type: str, body: ReportRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self,
+        record_type: Literal["campaigns", "adGroups", "productAds", "targets", "asins"] | str,
+        body: ReportRequest,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
     ) -> ReportResponse | dict[str, Any] | httpx.Response:
         """**To understand the call flow for asynchronous reports, see [Getting started with sponsored ads reports](/API/docs/en-us/guides/reporting/v2/sponsored-ads-reports).**"""
 

@@ -8,12 +8,7 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 
-type SBInsightsAdFormat = Literal[
-    "PRODUCT_COLLECTION",
-    "STORE_SPOTLIGHT",
-    "VIDEO",
-    "BRAND_VIDEO",
-]
+type SBInsightsAdFormat = Literal["PRODUCT_COLLECTION", "STORE_SPOTLIGHT", "VIDEO", "BRAND_VIDEO"]
 """
 Type of Ad format.
 """

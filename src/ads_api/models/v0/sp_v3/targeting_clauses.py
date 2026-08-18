@@ -59,20 +59,20 @@ type SponsoredProductsCreateExpressionType = Literal["MANUAL"]
 
 
 type SponsoredProductsCreateTargetingExpressionPredicateType = Literal[
-    "ASIN_AGE_RANGE_SAME_AS",  # Target an age range that is in the expressed range. This refinement can be applied for toys and games categories only.
-    "ASIN_BRAND_SAME_AS",  # Target the brand that is the same as the brand expressed.
-    "ASIN_CATEGORY_SAME_AS",  # Target the category that is the same as the category expressed.
-    "ASIN_EXPANDED_FROM",  # Target products similar in performance to the ASIN expressed.
-    "ASIN_GENRE_SAME_AS",  # Target products related to the expressed genre. This refinement can be applied for Books and eBooks categories only.
-    "ASIN_IS_PRIME_SHIPPING_ELIGIBLE",  # Target products that are Prime Shipping Eligible. This refinement can be applied at a category or brand level only.
-    "ASIN_PRICE_BETWEEN",  # Target a price that is between the prices expressed.
-    "ASIN_PRICE_GREATER_THAN",  # Target a price that is greater than the price expressed.
-    "ASIN_PRICE_LESS_THAN",  # Target a price that is less than the price expressed.
-    "ASIN_REVIEW_RATING_BETWEEN",  # Target a review rating that is between the review ratings expressed.
-    "ASIN_REVIEW_RATING_GREATER_THAN",  # Target a review rating that is greater than the review rating expressed.
-    "ASIN_REVIEW_RATING_LESS_THAN",  # Target a review rating less than the review rating that is expressed.
-    "ASIN_SAME_AS",  # Target an ASIN that is the same as the ASIN expressed.
-    "KEYWORD_GROUP_SAME_AS",  # Target the keyword group that is the same as the keyword group expressed (Beta coming soon).
+    "ASIN_AGE_RANGE_SAME_AS",
+    "ASIN_BRAND_SAME_AS",
+    "ASIN_CATEGORY_SAME_AS",
+    "ASIN_EXPANDED_FROM",
+    "ASIN_GENRE_SAME_AS",
+    "ASIN_IS_PRIME_SHIPPING_ELIGIBLE",
+    "ASIN_PRICE_BETWEEN",
+    "ASIN_PRICE_GREATER_THAN",
+    "ASIN_PRICE_LESS_THAN",
+    "ASIN_REVIEW_RATING_BETWEEN",
+    "ASIN_REVIEW_RATING_GREATER_THAN",
+    "ASIN_REVIEW_RATING_LESS_THAN",
+    "ASIN_SAME_AS",
+    "KEYWORD_GROUP_SAME_AS",
 ]
 """
 The type of targeting expression. You can specify values for the following predicates:
@@ -102,25 +102,25 @@ type SponsoredProductsExpressionTypeWithoutOther = Literal["AUTO", "MANUAL"]
 
 
 type SponsoredProductsTargetingExpressionPredicateType = Literal[
-    "ASIN_ACCESSORY_RELATED",  # Auto Targeting - cannot be manually created - corresponds to the `Complements` target type in the UI, this will show your ad to shoppers who view the detail pages of products that complement your product.
-    "ASIN_AGE_RANGE_SAME_AS",  # Target an age range that is in the expressed range. This refinement can be applied for toys and games categories only.
-    "ASIN_BRAND_SAME_AS",  # Target the brand that is the same as the brand expressed.
-    "ASIN_CATEGORY_SAME_AS",  # Target the category that is the same as the category expressed
-    "ASIN_EXPANDED_FROM",  # Target products similar in performance to the ASIN expressed.
-    "ASIN_GENRE_SAME_AS",  # Target products related to the expressed genre. This refinement can be applied for Books and eBooks categories only.
-    "ASIN_IS_PRIME_SHIPPING_ELIGIBLE",  # Target products that are Prime Shipping Eligible. This refinement can be applied at a category or brand level only.
-    "ASIN_PRICE_BETWEEN",  # Target a price that is between the prices expressed.
-    "ASIN_PRICE_GREATER_THAN",  # Target a price that is greater than the price expressed.
-    "ASIN_PRICE_LESS_THAN",  # Target a price that is less than the price expressed.
-    "ASIN_REVIEW_RATING_BETWEEN",  # Target a review rating that is between the review ratings expressed.
-    "ASIN_REVIEW_RATING_GREATER_THAN",  # Target a review rating that is greater than the review rating expressed.
-    "ASIN_REVIEW_RATING_LESS_THAN",  # Target a review rating less than the review rating that is expressed.
-    "ASIN_SAME_AS",  # Target an ASIN that is the same as the ASIN expressed.
-    "ASIN_SUBSTITUTE_RELATED",  # Auto Targeting - cannot be manually created - corresponds to the `Substitutes` target type in the UI, this will show your ad to shoppers who use detail pages of products similar to yours.
-    "KEYWORD_GROUP_SAME_AS",  # Target the keyword group that is the same as the keyword group expressed (Beta coming soon).
-    "OTHER",  # Other Type.
-    "QUERY_BROAD_REL_MATCHES",  # Auto Targeting - cannot be manually created - corresponds to the `Loose match` target type in the UI, this will show your ad to shoppers who use search terms loosely related to your products.
-    "QUERY_HIGH_REL_MATCHES",  # Auto Targeting - cannot be manually created - corresponds to the `Close match` target type in the UI, this will show your ad to shoppers who use search terms closely related to your products.
+    "ASIN_ACCESSORY_RELATED",
+    "ASIN_AGE_RANGE_SAME_AS",
+    "ASIN_BRAND_SAME_AS",
+    "ASIN_CATEGORY_SAME_AS",
+    "ASIN_EXPANDED_FROM",
+    "ASIN_GENRE_SAME_AS",
+    "ASIN_IS_PRIME_SHIPPING_ELIGIBLE",
+    "ASIN_PRICE_BETWEEN",
+    "ASIN_PRICE_GREATER_THAN",
+    "ASIN_PRICE_LESS_THAN",
+    "ASIN_REVIEW_RATING_BETWEEN",
+    "ASIN_REVIEW_RATING_GREATER_THAN",
+    "ASIN_REVIEW_RATING_LESS_THAN",
+    "ASIN_SAME_AS",
+    "ASIN_SUBSTITUTE_RELATED",
+    "KEYWORD_GROUP_SAME_AS",
+    "OTHER",
+    "QUERY_BROAD_REL_MATCHES",
+    "QUERY_HIGH_REL_MATCHES",
 ]
 """
 The type of targeting expression. You can specify values for the following predicates:
@@ -149,24 +149,24 @@ Supported values:
 
 
 type SponsoredProductsTargetingExpressionPredicateTypeWithoutOther = Literal[
-    "ASIN_ACCESSORY_RELATED",  # Auto Targeting - cannot be manually created - corresponds to the `Complements` target type in the UI, this will show your ad to shoppers who view the detail pages of products that complement your product.
-    "ASIN_AGE_RANGE_SAME_AS",  # Target an age range that is in the expressed range. This refinement can be applied for toys and games categories only.
-    "ASIN_BRAND_SAME_AS",  # Target the brand that is the same as the brand expressed.
-    "ASIN_CATEGORY_SAME_AS",  # Target the category that is the same as the category expressed
-    "ASIN_EXPANDED_FROM",  # Target products similar in performance to the ASIN expressed.
-    "ASIN_GENRE_SAME_AS",  # Target products related to the expressed genre. This refinement can be applied for Books and eBooks categories only.
-    "ASIN_IS_PRIME_SHIPPING_ELIGIBLE",  # Target products that are Prime Shipping Eligible. This refinement can be applied at a category or brand level only.
-    "ASIN_PRICE_BETWEEN",  # Target a price that is between the prices expressed.
-    "ASIN_PRICE_GREATER_THAN",  # Target a price that is greater than the price expressed.
-    "ASIN_PRICE_LESS_THAN",  # Target a price that is less than the price expressed.
-    "ASIN_REVIEW_RATING_BETWEEN",  # Target a review rating that is between the review ratings expressed.
-    "ASIN_REVIEW_RATING_GREATER_THAN",  # Target a review rating that is greater than the review rating expressed.
-    "ASIN_REVIEW_RATING_LESS_THAN",  # Target a review rating less than the review rating that is expressed.
-    "ASIN_SAME_AS",  # Target an ASIN that is the same as the ASIN expressed.
-    "ASIN_SUBSTITUTE_RELATED",  # Auto Targeting - cannot be manually created - corresponds to the `Substitutes` target type in the UI, this will show your ad to shoppers who use detail pages of products similar to yours.
-    "KEYWORD_GROUP_SAME_AS",  # Target the keyword group that is the same as the keyword group expressed (Beta coming soon).
-    "QUERY_BROAD_REL_MATCHES",  # Auto Targeting - cannot be manually created - corresponds to the `Loose match` target type in the UI, this will show your ad to shoppers who use search terms loosely related to your products.
-    "QUERY_HIGH_REL_MATCHES",  # Auto Targeting - cannot be manually created - corresponds to the `Close match` target type in the UI, this will show your ad to shoppers who use search terms closely related to your products.
+    "ASIN_ACCESSORY_RELATED",
+    "ASIN_AGE_RANGE_SAME_AS",
+    "ASIN_BRAND_SAME_AS",
+    "ASIN_CATEGORY_SAME_AS",
+    "ASIN_EXPANDED_FROM",
+    "ASIN_GENRE_SAME_AS",
+    "ASIN_IS_PRIME_SHIPPING_ELIGIBLE",
+    "ASIN_PRICE_BETWEEN",
+    "ASIN_PRICE_GREATER_THAN",
+    "ASIN_PRICE_LESS_THAN",
+    "ASIN_REVIEW_RATING_BETWEEN",
+    "ASIN_REVIEW_RATING_GREATER_THAN",
+    "ASIN_REVIEW_RATING_LESS_THAN",
+    "ASIN_SAME_AS",
+    "ASIN_SUBSTITUTE_RELATED",
+    "KEYWORD_GROUP_SAME_AS",
+    "QUERY_BROAD_REL_MATCHES",
+    "QUERY_HIGH_REL_MATCHES",
 ]
 """
 The type of targeting expression. You can specify values for the following predicates:
@@ -228,23 +228,7 @@ class SponsoredProductsCreateTargetingClause(StrictModel):
 
 
 class SponsoredProductsCreateTargetingExpressionPredicate(StrictModel):
-    type: SponsoredProductsCreateTargetingExpressionPredicateType = Field(description="""
-Supported values:
-- `ASIN_CATEGORY_SAME_AS`: Target the category that is the same as the category expressed.
-- `ASIN_BRAND_SAME_AS`: Target the brand that is the same as the brand expressed.
-- `ASIN_PRICE_LESS_THAN`: Target a price that is less than the price expressed.
-- `ASIN_PRICE_BETWEEN`: Target a price that is between the prices expressed.
-- `ASIN_PRICE_GREATER_THAN`: Target a price that is greater than the price expressed.
-- `ASIN_REVIEW_RATING_LESS_THAN`: Target a review rating less than the review rating that is expressed.
-- `ASIN_REVIEW_RATING_BETWEEN`: Target a review rating that is between the review ratings expressed.
-- `ASIN_REVIEW_RATING_GREATER_THAN`: Target a review rating that is greater than the review rating expressed.
-- `ASIN_SAME_AS`: Target an ASIN that is the same as the ASIN expressed.
-- `ASIN_IS_PRIME_SHIPPING_ELIGIBLE`: Target products that are Prime Shipping Eligible. This refinement can be applied at a category or brand level only.
-- `ASIN_AGE_RANGE_SAME_AS`: Target an age range that is in the expressed range. This refinement can be applied for toys and games categories only.
-- `ASIN_GENRE_SAME_AS`: Target products related to the expressed genre. This refinement can be applied for Books and eBooks categories only.
-- `ASIN_EXPANDED_FROM`: Target products similar in performance to the ASIN expressed.
-- `KEYWORD_GROUP_SAME_AS`: Target the keyword group that is the same as the keyword group expressed (Beta coming soon).
-""")
+    type: SponsoredProductsCreateTargetingExpressionPredicateType
     value: str | None = Field(default=None, description="The expression value")
 
 
@@ -331,16 +315,7 @@ class SponsoredProductsTargetingClause(LenientModel):
     resolvedExpression: list[SponsoredProductsTargetingExpressionPredicate] = Field(
         min_length=0, max_length=1000, description="The resolved targeting expression."
     )
-    state: SponsoredProductsEntityState | str = Field(description="""
-Supported values:
-- `ENABLED`: Enabled State
-- `PAUSED`: Paused State
-- `PROPOSED`: Proposed State (Upcoming Feature)
-- `ARCHIVED`: ARCHIVED State
-- `ENABLING`: State for Draft Entity Only
-- `USER_DELETED`: State for Draft Entity Only
-- `OTHER`: Read Only
-""")
+    state: SponsoredProductsEntityState | str
     targetId: str = Field(description="The target identifier")
 
 
@@ -367,57 +342,12 @@ class SponsoredProductsTargetingClauseSuccessResponseItem(LenientModel):
 
 
 class SponsoredProductsTargetingExpressionPredicate(LenientModel):
-    type: SponsoredProductsTargetingExpressionPredicateType | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `QUERY_BROAD_REL_MATCHES`: Auto Targeting - cannot be manually created - corresponds to the `Loose match` target type in the UI, this will show your ad to shoppers who use search terms loosely related to your products.
-- `QUERY_HIGH_REL_MATCHES`: Auto Targeting - cannot be manually created - corresponds to the `Close match` target type in the UI, this will show your ad to shoppers who use search terms closely related to your products.
-- `ASIN_ACCESSORY_RELATED`: Auto Targeting - cannot be manually created - corresponds to the `Complements` target type in the UI, this will show your ad to shoppers who view the detail pages of products that complement your product.
-- `ASIN_SUBSTITUTE_RELATED`: Auto Targeting - cannot be manually created - corresponds to the `Substitutes` target type in the UI, this will show your ad to shoppers who use detail pages of products similar to yours.
-- `ASIN_CATEGORY_SAME_AS`: Target the category that is the same as the category expressed
-- `ASIN_BRAND_SAME_AS`: Target the brand that is the same as the brand expressed.
-- `ASIN_PRICE_LESS_THAN`: Target a price that is less than the price expressed.
-- `ASIN_PRICE_BETWEEN`: Target a price that is between the prices expressed.
-- `ASIN_PRICE_GREATER_THAN`: Target a price that is greater than the price expressed.
-- `ASIN_REVIEW_RATING_LESS_THAN`: Target a review rating less than the review rating that is expressed.
-- `ASIN_REVIEW_RATING_BETWEEN`: Target a review rating that is between the review ratings expressed.
-- `ASIN_REVIEW_RATING_GREATER_THAN`: Target a review rating that is greater than the review rating expressed.
-- `ASIN_SAME_AS`: Target an ASIN that is the same as the ASIN expressed.
-- `ASIN_IS_PRIME_SHIPPING_ELIGIBLE`: Target products that are Prime Shipping Eligible. This refinement can be applied at a category or brand level only.
-- `ASIN_AGE_RANGE_SAME_AS`: Target an age range that is in the expressed range. This refinement can be applied for toys and games categories only.
-- `ASIN_GENRE_SAME_AS`: Target products related to the expressed genre. This refinement can be applied for Books and eBooks categories only.
-- `ASIN_EXPANDED_FROM`: Target products similar in performance to the ASIN expressed.
-- `KEYWORD_GROUP_SAME_AS`: Target the keyword group that is the same as the keyword group expressed (Beta coming soon).
-- `OTHER`: Other Type.
-""",
-    )
+    type: SponsoredProductsTargetingExpressionPredicateType | str | None = Field(default=None)
     value: str | None = Field(default=None, description="The expression value")
 
 
 class SponsoredProductsTargetingExpressionPredicateWithoutOther(StrictModel):
-    type: SponsoredProductsTargetingExpressionPredicateTypeWithoutOther = Field(description="""
-Supported values:
-- `QUERY_BROAD_REL_MATCHES`: Auto Targeting - cannot be manually created - corresponds to the `Loose match` target type in the UI, this will show your ad to shoppers who use search terms loosely related to your products.
-- `QUERY_HIGH_REL_MATCHES`: Auto Targeting - cannot be manually created - corresponds to the `Close match` target type in the UI, this will show your ad to shoppers who use search terms closely related to your products.
-- `ASIN_ACCESSORY_RELATED`: Auto Targeting - cannot be manually created - corresponds to the `Complements` target type in the UI, this will show your ad to shoppers who view the detail pages of products that complement your product.
-- `ASIN_SUBSTITUTE_RELATED`: Auto Targeting - cannot be manually created - corresponds to the `Substitutes` target type in the UI, this will show your ad to shoppers who use detail pages of products similar to yours.
-- `ASIN_CATEGORY_SAME_AS`: Target the category that is the same as the category expressed
-- `ASIN_BRAND_SAME_AS`: Target the brand that is the same as the brand expressed.
-- `ASIN_PRICE_LESS_THAN`: Target a price that is less than the price expressed.
-- `ASIN_PRICE_BETWEEN`: Target a price that is between the prices expressed.
-- `ASIN_PRICE_GREATER_THAN`: Target a price that is greater than the price expressed.
-- `ASIN_REVIEW_RATING_LESS_THAN`: Target a review rating less than the review rating that is expressed.
-- `ASIN_REVIEW_RATING_BETWEEN`: Target a review rating that is between the review ratings expressed.
-- `ASIN_REVIEW_RATING_GREATER_THAN`: Target a review rating that is greater than the review rating expressed.
-- `ASIN_SAME_AS`: Target an ASIN that is the same as the ASIN expressed.
-- `ASIN_IS_PRIME_SHIPPING_ELIGIBLE`: Target products that are Prime Shipping Eligible. This refinement can be applied at a category or brand level only.
-- `ASIN_AGE_RANGE_SAME_AS`: Target an age range that is in the expressed range. This refinement can be applied for toys and games categories only.
-- `ASIN_GENRE_SAME_AS`: Target products related to the expressed genre. This refinement can be applied for Books and eBooks categories only.
-- `ASIN_EXPANDED_FROM`: Target products similar in performance to the ASIN expressed.
-- `KEYWORD_GROUP_SAME_AS`: Target the keyword group that is the same as the keyword group expressed (Beta coming soon).
-- `OTHER`: Other Type.
-""")
+    type: SponsoredProductsTargetingExpressionPredicateTypeWithoutOther
     value: str | None = Field(default=None, description="The expression value")
 
 

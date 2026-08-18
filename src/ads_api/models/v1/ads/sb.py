@@ -22,10 +22,7 @@ from ads_api.models.v1._shared.sb import (
     SBUpdateState,
 )
 
-type SBAdNameFilterType = Literal[
-    "BROAD_MATCH",  # Filter by broad match.
-    "EXACT_MATCH",  # Filter by exact match.
-]
+type SBAdNameFilterType = Literal["BROAD_MATCH", "EXACT_MATCH"]
 """
 Supported values:
 - `EXACT_MATCH`: Filter by exact match.
@@ -33,24 +30,21 @@ Supported values:
 """
 
 
-type SBAdType = Literal["COMPONENT",]  # A creative that can features a collection of videos, images, and products.
+type SBAdType = Literal["COMPONENT"]
 """
 Supported values:
 - `COMPONENT`: A creative that can features a collection of videos, images, and products.
 """
 
 
-type SBBrandGalleryCreativePropertiesToOptimize = Literal["HEADLINE",]  # The headline in the creative.
+type SBBrandGalleryCreativePropertiesToOptimize = Literal["HEADLINE"]
 """
 Supported values:
 - `HEADLINE`: The headline in the creative.
 """
 
 
-type SBCollectionLandingPageType = Literal[
-    "ASIN_LIST",  # A list of products based on the products promoted in the ad creative.
-    "STORE",  # A brand Store landing page.
-]
+type SBCollectionLandingPageType = Literal["ASIN_LIST", "STORE"]
 """
 Supported values:
 - `ASIN_LIST`: A list of products based on the products promoted in the ad creative.
@@ -59,53 +53,53 @@ Supported values:
 
 
 type SBErrorCode = Literal[
-    "ACTION_NOT_SUPPORTED",  # The request is not supported.
-    "ACTIVE_RESOURCE_LIMIT_EXCEEDED",  # Too many live resources. Remove resources and try again.
-    "ARCHIVED_PARENT_CANNOT_CREATE",  # New resources cannot be created within an archived parent.
-    "ARCHIVED_PARENT_CANNOT_EDIT",  # Resources within an archived parent cannot be edited.
-    "ARCHIVED_RESOURCE_CANNOT_EDIT",  # Archived resources cannot be edited.
-    "AUTOCREATED_ENTITY_CANNOT_EDIT",  # Autocreated entities cannot be edited. To complete this action, create the resource manually.
-    "BAD_REQUEST",  # The request is not valid considering the documented schema.
-    "CONFLICT",  # Operation could not be completed due to a conflict. Please retry your request.
-    "CONTENT_TOO_LARGE",  # The request is too large. Consider splitting it into multiple requests.
-    "DATE_CANNOT_BE_IN_PAST",  # Update the date to be in the future.
-    "DATE_CANNOT_BE_NULL",  # Update the date.
-    "DATE_TOO_SOON",  # Update the date to be further in the future.
-    "DUPLICATE_FIELD_VALUE_FOUND",  # Multiple resources share the non-unique field values. Remove the non-unique field value.
-    "DUPLICATE_RESOURCE_ID_FOUND",  # Multiple resources share the same ID. Remove the duplicate ID.
-    "DURATION_TOO_SHORT",  # Update the length to be within the required range.
-    "FEATURE_DISCONTINUED",  # Feature has been discontinued.
-    "FEATURE_NOT_AVAILABLE",  # The requested feature is not available.
-    "FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT",  # Update the value to be within the required range.
-    "FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT",  # Update the value to be within the required range.
-    "FIELD_SIZE_IS_OUT_OF_RANGE",  # Update the value to be within the required range.
-    "FIELD_VALUE_CANNOT_EDIT",  # Field value cannot be edited.
-    "FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS",  # Update the request with the required information for this resource.
-    "FIELD_VALUE_CONTAINS_INVALID_CHARACTERS",  # Remove the invalid characters and try again.
-    "FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT",  # Update the value to be within the required range.
-    "FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT",  # Update the value to be within the required range.
-    "FIELD_VALUE_IS_EMPTY",  # Update the request with the required information for this resource.
-    "FIELD_VALUE_IS_INVALID",  # Update the request with the required information for this resource.
-    "FIELD_VALUE_IS_NULL",  # Update the request with the required information for this resource.
-    "FIELD_VALUE_IS_OUT_OF_RANGE",  # Update the value to be within the required range.
-    "FIELD_VALUE_MISMATCH",  # Mismatch among resource field values.
-    "FIELD_VALUE_MUST_BE_EMPTY_OR_NULL",  # Update the request with the required information for this resource.
-    "FIELD_VALUE_NOT_FOUND",  # Resource specified in the field value not found. Try again with valid value.
-    "FIELD_VALUE_NOT_UNIQUE",  # Resource field value conflicts with existing resource. Try again with an unique field value.
-    "FORBIDDEN",  # The caller is not authorized to make the given request.
-    "INTERNAL_ERROR",  # The server encountered an unexpected condition that prevented it from fulfilling the request.
-    "NOT_FOUND",  # The requested resource does not exist.
-    "PAYMENT_ISSUE",  # Payment failed.
-    "PRODUCT_INELIGIBLE",  # Product is not eligible for advertising. Try again with a valid product.
-    "RESOURCE_DOES_NOT_BELONG_TO_PARENT",  # Resource does not belong to the specified parent. Try again with a valid parent ID.
-    "RESOURCE_ID_NOT_FOUND",  # Resource ID not found. Try again with valid ID.
-    "RESOURCE_IS_EMPTY",  # Update the request with the required information for this resource.
-    "RESOURCE_IS_IN_TERMINAL_STATE",  # Resource is in terminal state.
-    "RESOURCE_IS_NULL",  # Update the request with the required information for this resource.
-    "TOO_MANY_REQUESTS",  # There have been too many requests, please slow down your call rate.
-    "TOTAL_RESOURCE_LIMIT_EXCEEDED",  # Too many resources. Remove resources and try again.
-    "UNAUTHORIZED",  # The request lacks the necessary credentials.
-    "UNSUPPORTED_MARKETPLACE",  # Marketplace not supported. Try again with a supported marketplace.
+    "ACTION_NOT_SUPPORTED",
+    "ACTIVE_RESOURCE_LIMIT_EXCEEDED",
+    "ARCHIVED_PARENT_CANNOT_CREATE",
+    "ARCHIVED_PARENT_CANNOT_EDIT",
+    "ARCHIVED_RESOURCE_CANNOT_EDIT",
+    "AUTOCREATED_ENTITY_CANNOT_EDIT",
+    "BAD_REQUEST",
+    "CONFLICT",
+    "CONTENT_TOO_LARGE",
+    "DATE_CANNOT_BE_IN_PAST",
+    "DATE_CANNOT_BE_NULL",
+    "DATE_TOO_SOON",
+    "DUPLICATE_FIELD_VALUE_FOUND",
+    "DUPLICATE_RESOURCE_ID_FOUND",
+    "DURATION_TOO_SHORT",
+    "FEATURE_DISCONTINUED",
+    "FEATURE_NOT_AVAILABLE",
+    "FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT",
+    "FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT",
+    "FIELD_SIZE_IS_OUT_OF_RANGE",
+    "FIELD_VALUE_CANNOT_EDIT",
+    "FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS",
+    "FIELD_VALUE_CONTAINS_INVALID_CHARACTERS",
+    "FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT",
+    "FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT",
+    "FIELD_VALUE_IS_EMPTY",
+    "FIELD_VALUE_IS_INVALID",
+    "FIELD_VALUE_IS_NULL",
+    "FIELD_VALUE_IS_OUT_OF_RANGE",
+    "FIELD_VALUE_MISMATCH",
+    "FIELD_VALUE_MUST_BE_EMPTY_OR_NULL",
+    "FIELD_VALUE_NOT_FOUND",
+    "FIELD_VALUE_NOT_UNIQUE",
+    "FORBIDDEN",
+    "INTERNAL_ERROR",
+    "NOT_FOUND",
+    "PAYMENT_ISSUE",
+    "PRODUCT_INELIGIBLE",
+    "RESOURCE_DOES_NOT_BELONG_TO_PARENT",
+    "RESOURCE_ID_NOT_FOUND",
+    "RESOURCE_IS_EMPTY",
+    "RESOURCE_IS_IN_TERMINAL_STATE",
+    "RESOURCE_IS_NULL",
+    "TOO_MANY_REQUESTS",
+    "TOTAL_RESOURCE_LIMIT_EXCEEDED",
+    "UNAUTHORIZED",
+    "UNSUPPORTED_MARKETPLACE",
 ]
 """
 Supported values:
@@ -190,11 +184,7 @@ A list of country codes representing Amazon marketplaces
 
 
 type SBModerationStatus = Literal[
-    "APPROVED_WITH_EXCEPTIONS",  # The creative passed basic moderation but was found to be invalid for some supplies. The creative is serving on approved supplies.
-    "PENDING_TRANSLATION",  # The creative is pending creative Translations.
-    "PUBLISHED",  # The creative passed moderation and is serving.
-    "REJECTED_BY_MODERATION",  # The creative was rejected during the moderation process.
-    "SUBMITTED_FOR_MODERATION",  # The creative has been submitted, but has not yet been reviewed.
+    "APPROVED_WITH_EXCEPTIONS", "PENDING_TRANSLATION", "PUBLISHED", "REJECTED_BY_MODERATION", "SUBMITTED_FOR_MODERATION"
 ]
 """
 Supported values:
@@ -206,18 +196,14 @@ Supported values:
 """
 
 
-type SBProductCollectionCreativePropertiesToOptimize = Literal["HEADLINE",]  # The headline in the creative.
+type SBProductCollectionCreativePropertiesToOptimize = Literal["HEADLINE"]
 """
 Supported values:
 - `HEADLINE`: The headline in the creative.
 """
 
 
-type SBProductCollectionLandingPageType = Literal[
-    "ASIN_LIST",  # A list of products based on the products promoted in the ad creative.
-    "CUSTOM_URL",  # A custom landing page. Available for vendors only.
-    "STORE",  # A brand Store landing page.
-]
+type SBProductCollectionLandingPageType = Literal["ASIN_LIST", "CUSTOM_URL", "STORE"]
 """
 Supported values:
 - `ASIN_LIST`: A list of products based on the products promoted in the ad creative.
@@ -226,24 +212,21 @@ Supported values:
 """
 
 
-type SBStoreSpotlightCreativePropertiesToOptimize = Literal["HEADLINE",]  # The headline in the creative.
+type SBStoreSpotlightCreativePropertiesToOptimize = Literal["HEADLINE"]
 """
 Supported values:
 - `HEADLINE`: The headline in the creative.
 """
 
 
-type SBStoreSpotlightLandingPageType = Literal["STORE",]  # A brand Store landing page.
+type SBStoreSpotlightLandingPageType = Literal["STORE"]
 """
 Supported values:
 - `STORE`: A brand Store landing page.
 """
 
 
-type SBVideoLandingPageType = Literal[
-    "DETAIL_PAGE",  # A product detail page.
-    "STORE",  # A brand Store landing page.
-]
+type SBVideoLandingPageType = Literal["DETAIL_PAGE", "STORE"]
 """
 Supported values:
 - `DETAIL_PAGE`: A product detail page.
@@ -255,14 +238,8 @@ class SBAd(LenientModel):
     activeCreative: SBCreative | None = Field(default=None)
     adGroupId: str = Field(description="The ad group associated with the ad.")
     adId: str = Field(description="The identifier of the ad.")
-    adProduct: SBAdProduct | str = Field(description="""
-Supported values:
-- `SPONSORED_BRANDS`: Sponsored Brands ad product.
-""")
-    adType: SBAdType | str = Field(description="""
-Supported values:
-- `COMPONENT`: A creative that can features a collection of videos, images, and products.
-""")
+    adProduct: SBAdProduct | str
+    adType: SBAdType | str
     campaignId: str = Field(description="The campaign associated with the ad. It's a read-only field.")
     creationDateTime: datetime = Field(description="The date time that the ad was created.")
     creative: SBCreative
@@ -274,12 +251,7 @@ Supported values:
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
     name: str = Field(description="The name of the ad.")
-    state: SBState | str = Field(description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SBState | str
     status: SBStatus | None = Field(default=None)
     tags: list[SBTag] | None = Field(
         default=None,
@@ -298,14 +270,7 @@ class SBAdAdIdFilter(StrictModel):
 
 
 class SBAdAdProductFilter(StrictModel):
-    include: list[SBAdProduct | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `SPONSORED_BRANDS`: Sponsored Brands ad product.
-""",
-    )
+    include: list[SBAdProduct | str] = Field(min_length=1, max_length=1)
 
 
 class SBAdCampaignIdFilter(StrictModel):
@@ -314,21 +279,11 @@ class SBAdCampaignIdFilter(StrictModel):
 
 class SBAdCreate(StrictModel):
     adGroupId: str = Field(description="The ad group associated with the ad.")
-    adProduct: SBAdProduct = Field(description="""
-Supported values:
-- `SPONSORED_BRANDS`: Sponsored Brands ad product.
-""")
-    adType: SBAdType = Field(description="""
-Supported values:
-- `COMPONENT`: A creative that can features a collection of videos, images, and products.
-""")
+    adProduct: SBAdProduct
+    adType: SBAdType
     creative: SBCreateCreative
     name: str = Field(description="The name of the ad.")
-    state: SBCreateState = Field(description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SBCreateState
     tags: list[SBCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -349,24 +304,11 @@ class SBAdMultiStatusSuccess(LenientModel):
 
 class SBAdNameFilter(StrictModel):
     include: list[str] = Field(min_length=1, max_length=10)
-    queryTermMatchType: SBAdNameFilterType = Field(description="""
-Supported values:
-- `EXACT_MATCH`: Filter by exact match.
-- `BROAD_MATCH`: Filter by broad match.
-""")
+    queryTermMatchType: SBAdNameFilterType
 
 
 class SBAdStateFilter(StrictModel):
-    include: list[SBState | str] = Field(
-        min_length=1,
-        max_length=3,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    include: list[SBState | str] = Field(min_length=1, max_length=3)
 
 
 class SBAdSuccessResponse(LenientModel):
@@ -378,14 +320,7 @@ class SBAdUpdate(StrictModel):
     adId: str = Field(description="The identifier of the ad.")
     creative: SBUpdateCreative | None = Field(default=None)
     name: str | None = Field(default=None, description="The name of the ad.")
-    state: SBUpdateState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    state: SBUpdateState | None = Field(default=None)
     tags: list[SBCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -396,10 +331,7 @@ Supported values:
 
 class SBAdvertisedProducts(LenientModel):
     productId: str | None = Field(default=None, description="The identifier of the advertised product.")
-    productIdType: SBProductIdType | str = Field(description="""
-Supported values:
-- `ASIN`: ASIN identifier type.
-""")
+    productIdType: SBProductIdType | str
 
 
 class SBAutoCollectionSettings(LenientModel):
@@ -434,12 +366,7 @@ class SBBrandGallerySettings(LenientModel):
         default=None,
         min_length=0,
         max_length=1,
-        description="""
-The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-
-Supported values:
-- `HEADLINE`: The headline in the creative.
-""",
+        description="The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.",
     )
     customImages: list[SBImage] | None = Field(
         default=None, min_length=0, max_length=1, description="The custom images featured in the ad."
@@ -467,11 +394,7 @@ class SBCardCreativeElement(LenientModel):
 
 
 class SBCollectionLandingPage(LenientModel):
-    landingPageType: SBCollectionLandingPageType | str = Field(description="""
-Supported values:
-- `ASIN_LIST`: A list of products based on the products promoted in the ad creative.
-- `STORE`: A brand Store landing page.
-""")
+    landingPageType: SBCollectionLandingPageType | str
     landingPageUrl: str | None = Field(default=None, description="The URL associated to the landing page.")
 
 
@@ -490,10 +413,7 @@ class SBCreateAdRequest(StrictModel):
 
 class SBCreateAdvertisedProducts(StrictModel):
     productId: str | None = Field(default=None, description="The identifier of the advertised product.")
-    productIdType: SBProductIdType = Field(description="""
-Supported values:
-- `ASIN`: ASIN identifier type.
-""")
+    productIdType: SBProductIdType
 
 
 class SBCreateAutoCollectionSettings(StrictModel):
@@ -528,12 +448,7 @@ class SBCreateBrandGallerySettings(StrictModel):
         default=None,
         min_length=0,
         max_length=1,
-        description="""
-The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-
-Supported values:
-- `HEADLINE`: The headline in the creative.
-""",
+        description="The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.",
     )
     customImages: list[SBCreateImage] | None = Field(
         default=None, min_length=0, max_length=1, description="The custom images featured in the ad."
@@ -557,11 +472,7 @@ class SBCreateCardCreativeElement(StrictModel):
 
 
 class SBCreateCollectionLandingPage(StrictModel):
-    landingPageType: SBCollectionLandingPageType = Field(description="""
-Supported values:
-- `ASIN_LIST`: A list of products based on the products promoted in the ad creative.
-- `STORE`: A brand Store landing page.
-""")
+    landingPageType: SBCollectionLandingPageType
     landingPageUrl: str | None = Field(default=None, description="The URL associated to the landing page.")
 
 
@@ -623,12 +534,7 @@ class SBCreateManualCollectionSettings(StrictModel):
 
 class SBCreateProductCollectionLandingPage(StrictModel):
     landingPageAsins: SBCreateLandingPageAsins | None = Field(default=None)
-    landingPageType: SBProductCollectionLandingPageType = Field(description="""
-Supported values:
-- `ASIN_LIST`: A list of products based on the products promoted in the ad creative.
-- `CUSTOM_URL`: A custom landing page. Available for vendors only.
-- `STORE`: A brand Store landing page.
-""")
+    landingPageType: SBProductCollectionLandingPageType
     landingPageUrl: str | None = Field(
         default=None, description="The URL associated to the landing page. Read only if landingPageType is ASIN_LIST"
     )
@@ -645,12 +551,7 @@ class SBCreateProductCollectionSettings(StrictModel):
         default=None,
         min_length=0,
         max_length=1,
-        description="""
-The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-
-Supported values:
-- `HEADLINE`: The headline in the creative.
-""",
+        description="The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.",
     )
     customImages: list[SBCreateImage] = Field(
         min_length=1, max_length=5, description="The set of custom images featured in the ad."
@@ -702,10 +603,7 @@ class SBCreateSharedCollectionSettings(StrictModel):
 
 
 class SBCreateStoreSpotlightLandingPage(StrictModel):
-    landingPageType: SBStoreSpotlightLandingPageType = Field(description="""
-Supported values:
-- `STORE`: A brand Store landing page.
-""")
+    landingPageType: SBStoreSpotlightLandingPageType
     landingPageUrl: str = Field(description="The URL of landing page where the ad directs.")
 
 
@@ -725,12 +623,7 @@ class SBCreateStoreSpotlightSettings(StrictModel):
         default=None,
         min_length=0,
         max_length=1,
-        description="""
-The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-
-Supported values:
-- `HEADLINE`: The headline in the creative.
-""",
+        description="The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.",
     )
     enableCreativeAutoTranslation: bool | None = Field(
         default=None,
@@ -750,11 +643,7 @@ class SBCreateVideo(StrictModel):
 
 
 class SBCreateVideoLandingPage(StrictModel):
-    landingPageType: SBVideoLandingPageType = Field(description="""
-Supported values:
-- `DETAIL_PAGE`: A product detail page.
-- `STORE`: A brand Store landing page.
-""")
+    landingPageType: SBVideoLandingPageType
     landingPageUrl: str | None = Field(default=None, description="The URL of landing page where the ad directs.")
 
 
@@ -763,14 +652,7 @@ class SBCreative(LenientModel):
 
 
 class SBCreativeStatus(LenientModel):
-    moderationStatus: SBModerationStatus | str = Field(description="""
-Supported values:
-- `APPROVED_WITH_EXCEPTIONS`: The creative passed basic moderation but was found to be invalid for some supplies. The creative is serving on approved supplies.
-- `PENDING_TRANSLATION`: The creative is pending creative Translations.
-- `PUBLISHED`: The creative passed moderation and is serving.
-- `REJECTED_BY_MODERATION`: The creative was rejected during the moderation process.
-- `SUBMITTED_FOR_MODERATION`: The creative has been submitted, but has not yet been reviewed.
-""")
+    moderationStatus: SBModerationStatus | str
 
 
 class SBDeleteAdRequest(StrictModel):
@@ -778,56 +660,7 @@ class SBDeleteAdRequest(StrictModel):
 
 
 class SBError(LenientModel):
-    code: SBErrorCode | str = Field(description="""
-Supported values:
-- `ACTION_NOT_SUPPORTED`: The request is not supported.
-- `ACTIVE_RESOURCE_LIMIT_EXCEEDED`: Too many live resources. Remove resources and try again.
-- `ARCHIVED_PARENT_CANNOT_CREATE`: New resources cannot be created within an archived parent.
-- `ARCHIVED_PARENT_CANNOT_EDIT`: Resources within an archived parent cannot be edited.
-- `ARCHIVED_RESOURCE_CANNOT_EDIT`: Archived resources cannot be edited.
-- `AUTOCREATED_ENTITY_CANNOT_EDIT`: Autocreated entities cannot be edited. To complete this action, create the resource manually.
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-- `CONFLICT`: Operation could not be completed due to a conflict. Please retry your request.
-- `CONTENT_TOO_LARGE`: The request is too large. Consider splitting it into multiple requests.
-- `DATE_CANNOT_BE_IN_PAST`: Update the date to be in the future.
-- `DATE_CANNOT_BE_NULL`: Update the date.
-- `DATE_TOO_SOON`: Update the date to be further in the future.
-- `DUPLICATE_FIELD_VALUE_FOUND`: Multiple resources share the non-unique field values. Remove the non-unique field value.
-- `DUPLICATE_RESOURCE_ID_FOUND`: Multiple resources share the same ID. Remove the duplicate ID.
-- `DURATION_TOO_SHORT`: Update the length to be within the required range.
-- `FEATURE_DISCONTINUED`: Feature has been discontinued.
-- `FEATURE_NOT_AVAILABLE`: The requested feature is not available.
-- `FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
-- `FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
-- `FIELD_SIZE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
-- `FIELD_VALUE_CANNOT_EDIT`: Field value cannot be edited.
-- `FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS`: Update the request with the required information for this resource.
-- `FIELD_VALUE_CONTAINS_INVALID_CHARACTERS`: Remove the invalid characters and try again.
-- `FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
-- `FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
-- `FIELD_VALUE_IS_EMPTY`: Update the request with the required information for this resource.
-- `FIELD_VALUE_IS_INVALID`: Update the request with the required information for this resource.
-- `FIELD_VALUE_IS_NULL`: Update the request with the required information for this resource.
-- `FIELD_VALUE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
-- `FIELD_VALUE_MISMATCH`: Mismatch among resource field values.
-- `FIELD_VALUE_MUST_BE_EMPTY_OR_NULL`: Update the request with the required information for this resource.
-- `FIELD_VALUE_NOT_FOUND`: Resource specified in the field value not found. Try again with valid value.
-- `FIELD_VALUE_NOT_UNIQUE`: Resource field value conflicts with existing resource. Try again with an unique field value.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `NOT_FOUND`: The requested resource does not exist.
-- `PAYMENT_ISSUE`: Payment failed.
-- `PRODUCT_INELIGIBLE`: Product is not eligible for advertising. Try again with a valid product.
-- `RESOURCE_DOES_NOT_BELONG_TO_PARENT`: Resource does not belong to the specified parent. Try again with a valid parent ID.
-- `RESOURCE_ID_NOT_FOUND`: Resource ID not found. Try again with valid ID.
-- `RESOURCE_IS_EMPTY`: Update the request with the required information for this resource.
-- `RESOURCE_IS_IN_TERMINAL_STATE`: Resource is in terminal state.
-- `RESOURCE_IS_NULL`: Update the request with the required information for this resource.
-- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
-- `TOTAL_RESOURCE_LIMIT_EXCEEDED`: Too many resources. Remove resources and try again.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
-- `UNSUPPORTED_MARKETPLACE`: Marketplace not supported. Try again with a supported marketplace.
-""")
+    code: SBErrorCode | str
     fieldLocation: str | None = Field(default=None)
     message: str
 
@@ -882,12 +715,7 @@ class SBManualCollectionSettings(LenientModel):
 
 class SBProductCollectionLandingPage(LenientModel):
     landingPageAsins: SBLandingPageAsins | None = Field(default=None)
-    landingPageType: SBProductCollectionLandingPageType | str = Field(description="""
-Supported values:
-- `ASIN_LIST`: A list of products based on the products promoted in the ad creative.
-- `CUSTOM_URL`: A custom landing page. Available for vendors only.
-- `STORE`: A brand Store landing page.
-""")
+    landingPageType: SBProductCollectionLandingPageType | str
     landingPageUrl: str | None = Field(
         default=None, description="The URL associated to the landing page. Read only if landingPageType is ASIN_LIST"
     )
@@ -904,12 +732,7 @@ class SBProductCollectionSettings(LenientModel):
         default=None,
         min_length=0,
         max_length=1,
-        description="""
-The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-
-Supported values:
-- `HEADLINE`: The headline in the creative.
-""",
+        description="The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.",
     )
     customImages: list[SBImage] = Field(
         min_length=1, max_length=5, description="The set of custom images featured in the ad."
@@ -984,10 +807,7 @@ class SBSharedCollectionSettings(LenientModel):
 
 
 class SBStoreSpotlightLandingPage(LenientModel):
-    landingPageType: SBStoreSpotlightLandingPageType | str = Field(description="""
-Supported values:
-- `STORE`: A brand Store landing page.
-""")
+    landingPageType: SBStoreSpotlightLandingPageType | str
     landingPageUrl: str = Field(description="The URL of landing page where the ad directs.")
 
 
@@ -1007,12 +827,7 @@ class SBStoreSpotlightSettings(LenientModel):
         default=None,
         min_length=0,
         max_length=1,
-        description="""
-The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-
-Supported values:
-- `HEADLINE`: The headline in the creative.
-""",
+        description="The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.",
     )
     enableCreativeAutoTranslation: bool | None = Field(
         default=None,
@@ -1060,12 +875,7 @@ class SBUpdateBrandGallerySettings(StrictModel):
         default=None,
         min_length=0,
         max_length=1,
-        description="""
-The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-
-Supported values:
-- `HEADLINE`: The headline in the creative.
-""",
+        description="The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.",
     )
     customImages: list[SBCreateImage] | None = Field(
         default=None, min_length=0, max_length=1, description="The custom images featured in the ad."
@@ -1084,14 +894,7 @@ Supported values:
 
 
 class SBUpdateCollectionLandingPage(StrictModel):
-    landingPageType: SBCollectionLandingPageType | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ASIN_LIST`: A list of products based on the products promoted in the ad creative.
-- `STORE`: A brand Store landing page.
-""",
-    )
+    landingPageType: SBCollectionLandingPageType | None = Field(default=None)
     landingPageUrl: str | None = Field(default=None, description="The URL associated to the landing page.")
 
 
@@ -1148,15 +951,7 @@ class SBUpdateManualCollectionSettings(StrictModel):
 
 class SBUpdateProductCollectionLandingPage(StrictModel):
     landingPageAsins: SBUpdateLandingPageAsins | None = Field(default=None)
-    landingPageType: SBProductCollectionLandingPageType | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ASIN_LIST`: A list of products based on the products promoted in the ad creative.
-- `CUSTOM_URL`: A custom landing page. Available for vendors only.
-- `STORE`: A brand Store landing page.
-""",
-    )
+    landingPageType: SBProductCollectionLandingPageType | None = Field(default=None)
     landingPageUrl: str | None = Field(
         default=None, description="The URL associated to the landing page. Read only if landingPageType is ASIN_LIST"
     )
@@ -1173,12 +968,7 @@ class SBUpdateProductCollectionSettings(StrictModel):
         default=None,
         min_length=0,
         max_length=1,
-        description="""
-The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-
-Supported values:
-- `HEADLINE`: The headline in the creative.
-""",
+        description="The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.",
     )
     customImages: list[SBCreateImage] | None = Field(
         default=None, min_length=1, max_length=5, description="The set of custom images featured in the ad."
@@ -1233,13 +1023,7 @@ class SBUpdateSharedCollectionSettings(StrictModel):
 
 
 class SBUpdateStoreSpotlightLandingPage(StrictModel):
-    landingPageType: SBStoreSpotlightLandingPageType | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `STORE`: A brand Store landing page.
-""",
-    )
+    landingPageType: SBStoreSpotlightLandingPageType | None = Field(default=None)
     landingPageUrl: str | None = Field(default=None, description="The URL of landing page where the ad directs.")
 
 
@@ -1260,12 +1044,7 @@ class SBUpdateStoreSpotlightSettings(StrictModel):
         default=None,
         min_length=0,
         max_length=1,
-        description="""
-The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.
-
-Supported values:
-- `HEADLINE`: The headline in the creative.
-""",
+        description="The CreativeProperty Amazon will enhance or generate based on various factors like audience, placement etc.",
     )
     enableCreativeAutoTranslation: bool | None = Field(
         default=None,
@@ -1281,14 +1060,7 @@ Supported values:
 
 
 class SBUpdateVideoLandingPage(StrictModel):
-    landingPageType: SBVideoLandingPageType | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `DETAIL_PAGE`: A product detail page.
-- `STORE`: A brand Store landing page.
-""",
-    )
+    landingPageType: SBVideoLandingPageType | None = Field(default=None)
     landingPageUrl: str | None = Field(default=None, description="The URL of landing page where the ad directs.")
 
 
@@ -1298,11 +1070,7 @@ class SBVideo(LenientModel):
 
 
 class SBVideoLandingPage(LenientModel):
-    landingPageType: SBVideoLandingPageType | str = Field(description="""
-Supported values:
-- `DETAIL_PAGE`: A product detail page.
-- `STORE`: A brand Store landing page.
-""")
+    landingPageType: SBVideoLandingPageType | str
     landingPageUrl: str | None = Field(default=None, description="The URL of landing page where the ad directs.")
 
 

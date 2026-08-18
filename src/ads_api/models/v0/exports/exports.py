@@ -9,54 +9,15 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 
-type BaseUniversalApiExportRequestAdProductFilter = Literal[
-    "SPONSORED_BRANDS", "SPONSORED_DISPLAY", "SPONSORED_PRODUCTS"
-]
-
-
-type BaseUniversalApiExportRequestStateFilter = Literal["ARCHIVED", "ENABLED", "PAUSED"]
-
-
-type TargetsUniversalApiExportRequestTargetLevelFilter = Literal["AD_GROUP", "CAMPAIGN"]
-
-
-type TargetsUniversalApiExportRequestTargetTypeFilter = Literal[
-    "AUDIENCE",
-    "AUTO",
-    "CONTENT_CATEGORY",
-    "KEYWORD",
-    "PRODUCT",
-    "PRODUCT_AUDIENCE",
-    "PRODUCT_CATEGORY",
-    "PRODUCT_CATEGORY_AUDIENCE",
-    "THEME",
-]
-
-
-type UniversalApiErrorErrorCode = Literal["INTERNAL_ERROR", "TIMED_OUT"]
-"""
-- INTERNAL_ERROR: The export has failed with an internal error. If the issue persists, please contact customer support.
-- TIMED_OUT: The export request has timed out. For exports with millions of entities, try using filters to reduce the size of the export. If the issue persists, please contact customer support.
-"""
-
-
-type UniversalApiExportResponseStatus = Literal["COMPLETED", "FAILED", "PROCESSING"]
-"""
-The generation status of the export.
-- PROCESSING: Export is currently in progress.
-- COMPLETED: Export has completed successfully.
-- FAILED: Export has failed. See the error message for more details.
-"""
-
 
 class BaseUniversalApiExportRequest(StrictModel):
-    adProductFilter: list[BaseUniversalApiExportRequestAdProductFilter | str] | None = Field(
+    adProductFilter: list[Literal["SPONSORED_BRANDS", "SPONSORED_DISPLAY", "SPONSORED_PRODUCTS"] | str] | None = Field(
         default=["SPONSORED_BRANDS", "SPONSORED_DISPLAY", "SPONSORED_PRODUCTS"],
         min_length=1,
         max_length=3,
         description="Filters the entities returned in export only to selected ad products. In case the filter is not provided, it returns entities from all ad products.",
     )
-    stateFilter: list[BaseUniversalApiExportRequestStateFilter | str] | None = Field(
+    stateFilter: list[Literal["ARCHIVED", "ENABLED", "PAUSED"] | str] | None = Field(
         default=["ENABLED", "PAUSED"],
         min_length=1,
         max_length=3,
@@ -65,13 +26,13 @@ class BaseUniversalApiExportRequest(StrictModel):
 
 
 class TargetsUniversalApiExportRequest(StrictModel):
-    adProductFilter: list[BaseUniversalApiExportRequestAdProductFilter | str] | None = Field(
+    adProductFilter: list[Literal["SPONSORED_BRANDS", "SPONSORED_DISPLAY", "SPONSORED_PRODUCTS"] | str] | None = Field(
         default=["SPONSORED_BRANDS", "SPONSORED_DISPLAY", "SPONSORED_PRODUCTS"],
         min_length=1,
         max_length=3,
         description="Filters the entities returned in export only to selected ad products. In case the filter is not provided, it returns entities from all ad products.",
     )
-    stateFilter: list[BaseUniversalApiExportRequestStateFilter | str] | None = Field(
+    stateFilter: list[Literal["ARCHIVED", "ENABLED", "PAUSED"] | str] | None = Field(
         default=["ENABLED", "PAUSED"],
         min_length=1,
         max_length=3,
@@ -83,13 +44,29 @@ class TargetsUniversalApiExportRequest(StrictModel):
         max_length=2,
         description="Filters the targets returned in export to negative or positive targets. In case the filter is not provided, it returns both negative and positive targets.",
     )
-    targetLevelFilter: list[TargetsUniversalApiExportRequestTargetLevelFilter | str] | None = Field(
+    targetLevelFilter: list[Literal["AD_GROUP", "CAMPAIGN"] | str] | None = Field(
         default=["AD_GROUP", "CAMPAIGN"],
         min_length=1,
         max_length=2,
         description="Filters the targets returned in export only to selected levels. In case the filter is not provided, it returns both `CAMPAIGN` and `AD_GROUP` level targets.",
     )
-    targetTypeFilter: list[TargetsUniversalApiExportRequestTargetTypeFilter | str] | None = Field(
+    targetTypeFilter: (
+        list[
+            Literal[
+                "AUDIENCE",
+                "AUTO",
+                "CONTENT_CATEGORY",
+                "KEYWORD",
+                "PRODUCT",
+                "PRODUCT_AUDIENCE",
+                "PRODUCT_CATEGORY",
+                "PRODUCT_CATEGORY_AUDIENCE",
+                "THEME",
+            ]
+            | str
+        ]
+        | None
+    ) = Field(
         default=[
             "AUDIENCE",
             "AUTO",
@@ -108,7 +85,7 @@ class TargetsUniversalApiExportRequest(StrictModel):
 
 
 class UniversalApiError(LenientModel):
-    errorCode: UniversalApiErrorErrorCode | str | None = Field(
+    errorCode: Literal["INTERNAL_ERROR", "TIMED_OUT"] | str | None = Field(
         default=None,
         description="""
 - INTERNAL_ERROR: The export has failed with an internal error. If the issue persists, please contact customer support.
@@ -124,7 +101,7 @@ class UniversalApiExportResponse(LenientModel):
     exportId: str = Field(description="The export identifier.")
     fileSize: float | None = Field(default=None, description="Byte size of the generated file.")
     generatedAt: datetime | None = Field(default=None, description="Date of when the export was finished generating.")
-    status: UniversalApiExportResponseStatus | str = Field(description="""
+    status: Literal["COMPLETED", "FAILED", "PROCESSING"] | str = Field(description="""
 The generation status of the export.
 - PROCESSING: Export is currently in progress.
 - COMPLETED: Export has completed successfully.
@@ -140,13 +117,7 @@ The generation status of the export.
 
 __all__ = [
     "BaseUniversalApiExportRequest",
-    "BaseUniversalApiExportRequestAdProductFilter",
-    "BaseUniversalApiExportRequestStateFilter",
     "TargetsUniversalApiExportRequest",
-    "TargetsUniversalApiExportRequestTargetLevelFilter",
-    "TargetsUniversalApiExportRequestTargetTypeFilter",
     "UniversalApiError",
-    "UniversalApiErrorErrorCode",
     "UniversalApiExportResponse",
-    "UniversalApiExportResponseStatus",
 ]

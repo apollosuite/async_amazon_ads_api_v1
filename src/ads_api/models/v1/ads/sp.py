@@ -25,7 +25,7 @@ from ads_api.models.v1._shared.sp import (
     SPUpdateState,
 )
 
-type SPAdType = Literal["PRODUCT_AD",]  # A creative built based on a specified product.
+type SPAdType = Literal["PRODUCT_AD"]
 """
 Supported values:
 - `PRODUCT_AD`: A creative built based on a specified product.
@@ -65,14 +65,8 @@ A list of country codes representing Amazon marketplaces
 class SPAd(LenientModel):
     adGroupId: str = Field(description="The ad group associated with the ad.")
     adId: str = Field(description="The identifier of the ad.")
-    adProduct: SPAdProduct | str = Field(description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""")
-    adType: SPAdType | str = Field(description="""
-Supported values:
-- `PRODUCT_AD`: A creative built based on a specified product.
-""")
+    adProduct: SPAdProduct | str
+    adType: SPAdType | str
     campaignId: str = Field(description="The campaign associated with the ad. It's a read-only field.")
     creationDateTime: datetime = Field(description="The date time that the ad was created.")
     creative: SPCreative
@@ -86,12 +80,7 @@ Supported values:
         max_length=1,
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
     )
-    state: SPState | str = Field(description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SPState | str
     status: SPStatus | None = Field(default=None)
     tags: list[SPTag] | None = Field(
         default=None,
@@ -110,14 +99,7 @@ class SPAdAdIdFilter(StrictModel):
 
 
 class SPAdAdProductFilter(StrictModel):
-    include: list[SPAdProduct | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""",
-    )
+    include: list[SPAdProduct | str] = Field(min_length=1, max_length=1)
 
 
 class SPAdCampaignIdFilter(StrictModel):
@@ -126,20 +108,10 @@ class SPAdCampaignIdFilter(StrictModel):
 
 class SPAdCreate(StrictModel):
     adGroupId: str = Field(description="The ad group associated with the ad.")
-    adProduct: SPAdProduct = Field(description="""
-Supported values:
-- `SPONSORED_PRODUCTS`: Sponsored Products ad product.
-""")
-    adType: SPAdType = Field(description="""
-Supported values:
-- `PRODUCT_AD`: A creative built based on a specified product.
-""")
+    adProduct: SPAdProduct
+    adType: SPAdType
     creative: SPCreateCreative
-    state: SPCreateState = Field(description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""")
+    state: SPCreateState
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -159,16 +131,7 @@ class SPAdMultiStatusSuccess(LenientModel):
 
 
 class SPAdStateFilter(StrictModel):
-    include: list[SPState | str] = Field(
-        min_length=1,
-        max_length=3,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    include: list[SPState | str] = Field(min_length=1, max_length=3)
 
 
 class SPAdSuccessResponse(LenientModel):
@@ -179,14 +142,7 @@ class SPAdSuccessResponse(LenientModel):
 class SPAdUpdate(StrictModel):
     adId: str = Field(description="The identifier of the ad.")
     creative: SPUpdateCreative | None = Field(default=None)
-    state: SPUpdateState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-""",
-    )
+    state: SPUpdateState | None = Field(default=None)
     tags: list[SPCreateTag] | None = Field(
         default=None,
         min_length=0,
@@ -198,23 +154,12 @@ Supported values:
 class SPAdvertisedProducts(LenientModel):
     globalStoreSetting: SPGlobalStoreSettings | None = Field(default=None)
     productId: str = Field(description="The identifier of the advertised product.")
-    productIdType: SPProductIdType | str = Field(description="""
-Supported values:
-- `ASIN`: ASIN identifier type.
-- `SKU`: SKU identifier type.
-""")
+    productIdType: SPProductIdType | str
     resolvedProductId: str | None = Field(
         default=None,
         description="The identifier of product associated with the advertised product. It's a read-only field.",
     )
-    resolvedProductIdType: SPProductIdType | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ASIN`: ASIN identifier type.
-- `SKU`: SKU identifier type.
-""",
-    )
+    resolvedProductIdType: SPProductIdType | str | None = Field(default=None)
 
 
 class SPCreateAdRequest(StrictModel):
@@ -224,11 +169,7 @@ class SPCreateAdRequest(StrictModel):
 class SPCreateAdvertisedProducts(StrictModel):
     globalStoreSetting: SPCreateGlobalStoreSettings | None = Field(default=None)
     productId: str = Field(description="The identifier of the advertised product.")
-    productIdType: SPProductIdType = Field(description="""
-Supported values:
-- `ASIN`: ASIN identifier type.
-- `SKU`: SKU identifier type.
-""")
+    productIdType: SPProductIdType
 
 
 class SPCreateCreative(StrictModel):

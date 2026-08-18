@@ -16,7 +16,7 @@ from ads_api.models.v1._shared.dsp import (
     DSPUpdateSupplierStateReason,
 )
 
-type DSPAdProduct = Literal["AMAZON_DSP",]  # Amazon Demand-Side Platform ad product.
+type DSPAdProduct = Literal["AMAZON_DSP"]
 """
 Supported values:
 - `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
@@ -24,30 +24,11 @@ Supported values:
 
 
 type DSPCountryCode = Literal[
-    "AD",
-    "AE",
-    "AF",
-    "AG",
-    "AI",
-    "AU",
-    "BR",
-    "CA",
-    "DE",
-    "ES",
-    "FR",
-    "GB",
-    "IT",
-    "JP",
-    "KR",
-    "MX",
-    "US",
+    "AD", "AE", "AF", "AG", "AI", "AU", "BR", "CA", "DE", "ES", "FR", "GB", "IT", "JP", "KR", "MX", "US"
 ]
 
 
-type DSPCreateState = Literal[
-    "DRAFT",  # The resource is in draft status and has not yet been proposed or enabled.
-    "PROPOSED",  # Indicates an entity staged for review and adoption by advertisers.
-]
+type DSPCreateState = Literal["DRAFT", "PROPOSED"]
 """
 The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
 
@@ -58,12 +39,7 @@ Supported values:
 
 
 type DSPErrorCode = Literal[
-    "BAD_REQUEST",  # The request is not valid considering the documented schema.
-    "FORBIDDEN",  # The caller is not authorized to make the given request.
-    "INTERNAL_ERROR",  # The server encountered an unexpected condition that prevented it from fulfilling the request.
-    "NOT_FOUND",  # The requested resource does not exist.
-    "TOO_MANY_REQUESTS",  # There have been too many requests, please slow down your call rate.
-    "UNAUTHORIZED",  # The request lacks the necessary credentials.
+    "BAD_REQUEST", "FORBIDDEN", "INTERNAL_ERROR", "NOT_FOUND", "TOO_MANY_REQUESTS", "UNAUTHORIZED"
 ]
 """
 Supported values:
@@ -76,11 +52,7 @@ Supported values:
 """
 
 
-type DSPState = Literal[
-    "ARCHIVED",  # The object is permanently stopped and cannot be reactivated. Terminal end state.
-    "DRAFT",  # The resource is in draft status and has not yet been proposed or enabled.
-    "PROPOSED",  # Indicates an entity staged for review and adoption by advertisers.
-]
+type DSPState = Literal["ARCHIVED", "DRAFT", "PROPOSED"]
 """
 The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
 
@@ -92,14 +64,7 @@ Supported values:
 
 
 type DSPSupplierProposalStatus = Literal[
-    "CANCELLED",  # A proposal that was previously submitted to a supplier, but was marked as canceled by the buyer before it was approved.
-    "COUNTER_DRAFT",  # A proposal that is undergoing negotiation with a supplier, a proposal that includes proposed deals has been received from the supplier, and the buyer has begun draft changes to the received proposal but has not yet submitted them to the supplier.
-    "DRAFT",  # A proposal that is in draft status, meaning that it may include changes that have not been submitted to a supplier.
-    "PENDING",  # The buyer has submitted a proposal to a supplier and is waiting for the supplier to take action.
-    "REJECTED",  # A proposal has been rejected by the supplier and negotiation has ended. No further changes may be done to a proposal nor may it be submitted again.
-    "REVIEWED",  # A proposal in REVIEWED status implies that all proposed deals related to this proposal have been reviewed and further action by the buyer is required. The proposed deals associated with this proposal may individually be either approved or rejcted.
-    "REVIEWED_PARTIAL",  # Implies that some proposed deals in this proposal have been approved, while some proposed deals are in PENDING status.
-    "SUPPLIER_REVIEWED",  # The supplier has reviewed the proposals and are awaiting buyer action.
+    "CANCELLED", "COUNTER_DRAFT", "DRAFT", "PENDING", "REJECTED", "REVIEWED", "REVIEWED_PARTIAL", "SUPPLIER_REVIEWED"
 ]
 """
 Supported values:
@@ -117,10 +82,7 @@ Supported values:
 type DSPSupplierProposalType = Literal["AMAZON_MEDIA", "AMAZON_PUBLISHER_CLOUD", "AMAZON_PUBLISHER_DIRECT"]
 
 
-type DSPUpdateState = Literal[
-    "DRAFT",  # The resource is in draft status and has not yet been proposed or enabled.
-    "PROPOSED",  # Indicates an entity staged for review and adoption by advertisers.
-]
+type DSPUpdateState = Literal["DRAFT", "PROPOSED"]
 """
 The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
 
@@ -186,15 +148,7 @@ class DSPCreateSupplierProposalRequest(StrictModel):
 
 
 class DSPError(LenientModel):
-    code: DSPErrorCode | str = Field(description="""
-Supported values:
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `NOT_FOUND`: The requested resource does not exist.
-- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
-""")
+    code: DSPErrorCode | str
     fieldLocation: str | None = Field(default=None)
     message: str
 
@@ -228,13 +182,7 @@ class DSPQuerySupplierProposalRequest(StrictModel):
 
 
 class DSPSupplierProposal(LenientModel):
-    adProduct: DSPAdProduct | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
-""",
-    )
+    adProduct: DSPAdProduct | str | None = Field(default=None)
     advertiserAccountId: str | None = Field(
         default=None,
         description="The ADSP advertiserId for this proposal. If advertiserId is null, then we treat it as manager account level proposal.",
@@ -253,27 +201,9 @@ Supported values:
         default=None, min_length=0, max_length=49, description="User provided notes for this proposal."
     )
     startDateTime: datetime | None = Field(default=None, description="The proposal start date.")
-    state: DSPState | str | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
-- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
-""",
-    )
+    state: DSPState | str | None = Field(default=None)
     stateReason: DSPSupplierStateReason | None = Field(default=None)
-    status: DSPSupplierProposalStatus | str = Field(description="""
-Supported values:
-- `CANCELLED`: A proposal that was previously submitted to a supplier, but was marked as canceled by the buyer before it was approved.
-- `COUNTER_DRAFT`: A proposal that is undergoing negotiation with a supplier, a proposal that includes proposed deals has been received from the supplier, and the buyer has begun draft changes to the received proposal but has not yet submitted them to the supplier.
-- `DRAFT`: A proposal that is in draft status, meaning that it may include changes that have not been submitted to a supplier.
-- `PENDING`: The buyer has submitted a proposal to a supplier and is waiting for the supplier to take action.
-- `REJECTED`: A proposal has been rejected by the supplier and negotiation has ended. No further changes may be done to a proposal nor may it be submitted again.
-- `REVIEWED_PARTIAL`: Implies that some proposed deals in this proposal have been approved, while some proposed deals are in PENDING status.
-- `REVIEWED`: A proposal in REVIEWED status implies that all proposed deals related to this proposal have been reviewed and further action by the buyer is required. The proposed deals associated with this proposal may individually be either approved or rejcted.
-- `SUPPLIER_REVIEWED`: The supplier has reviewed the proposals and are awaiting buyer action.
-""")
+    status: DSPSupplierProposalStatus | str
     supplierProposalDestinationId: str | None = Field(
         default=None, description="The supplier proposal destination identifier."
     )
@@ -287,14 +217,7 @@ Supported values:
 
 
 class DSPSupplierProposalAdProductFilter(StrictModel):
-    include: list[DSPAdProduct | str] = Field(
-        min_length=1,
-        max_length=1,
-        description="""
-Supported values:
-- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
-""",
-    )
+    include: list[DSPAdProduct | str] = Field(min_length=1, max_length=1)
 
 
 class DSPSupplierProposalAdvertiserAccountIdFilter(StrictModel):
@@ -306,13 +229,7 @@ class DSPSupplierProposalCountryCodeFilter(StrictModel):
 
 
 class DSPSupplierProposalCreate(StrictModel):
-    adProduct: DSPAdProduct | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
-""",
-    )
+    adProduct: DSPAdProduct | None = Field(default=None)
     advertiserAccountId: str | None = Field(
         default=None,
         description="The ADSP advertiserId for this proposal. If advertiserId is null, then we treat it as manager account level proposal.",
@@ -327,14 +244,7 @@ Supported values:
     notes: list[DSPCreateNotes] | None = Field(
         default=None, min_length=0, max_length=49, description="User provided notes for this proposal."
     )
-    state: DSPCreateState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
-- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
-""",
-    )
+    state: DSPCreateState | None = Field(default=None)
     stateReason: DSPCreateSupplierStateReason | None = Field(default=None)
     supplierProposalDestinationId: str | None = Field(
         default=None, description="The supplier proposal destination identifier."
@@ -395,43 +305,16 @@ class DSPSupplierProposalSupplierProposalIdFilter(StrictModel):
 
 
 class DSPSupplierProposalSupplierProposalStatusFilter(StrictModel):
-    include: list[DSPSupplierProposalStatus | str] = Field(
-        min_length=1,
-        max_length=50,
-        description="""
-Supported values:
-- `CANCELLED`: A proposal that was previously submitted to a supplier, but was marked as canceled by the buyer before it was approved.
-- `COUNTER_DRAFT`: A proposal that is undergoing negotiation with a supplier, a proposal that includes proposed deals has been received from the supplier, and the buyer has begun draft changes to the received proposal but has not yet submitted them to the supplier.
-- `DRAFT`: A proposal that is in draft status, meaning that it may include changes that have not been submitted to a supplier.
-- `PENDING`: The buyer has submitted a proposal to a supplier and is waiting for the supplier to take action.
-- `REJECTED`: A proposal has been rejected by the supplier and negotiation has ended. No further changes may be done to a proposal nor may it be submitted again.
-- `REVIEWED_PARTIAL`: Implies that some proposed deals in this proposal have been approved, while some proposed deals are in PENDING status.
-- `REVIEWED`: A proposal in REVIEWED status implies that all proposed deals related to this proposal have been reviewed and further action by the buyer is required. The proposed deals associated with this proposal may individually be either approved or rejcted.
-- `SUPPLIER_REVIEWED`: The supplier has reviewed the proposals and are awaiting buyer action.
-""",
-    )
+    include: list[DSPSupplierProposalStatus | str] = Field(min_length=1, max_length=50)
 
 
 class DSPSupplierProposalUpdate(StrictModel):
-    adProduct: DSPAdProduct | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
-""",
-    )
+    adProduct: DSPAdProduct | None = Field(default=None)
     name: str | None = Field(default=None, pattern="^[ -:<-z|]+$", description="The user provided proposal name.")
     notes: list[DSPCreateNotes] | None = Field(
         default=None, min_length=0, max_length=49, description="User provided notes for this proposal."
     )
-    state: DSPUpdateState | None = Field(
-        default=None,
-        description="""
-Supported values:
-- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
-- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
-""",
-    )
+    state: DSPUpdateState | None = Field(default=None)
     stateReason: DSPUpdateSupplierStateReason | None = Field(default=None)
     supplierProposalDestinationId: str | None = Field(
         default=None, description="The supplier proposal destination identifier."
