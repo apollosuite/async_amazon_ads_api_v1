@@ -11,14 +11,14 @@ from ads_api.models._core.base import LenientModel, StrictModel
 
 
 class BaseUniversalApiExportRequest(StrictModel):
-    adProductFilter: list[Literal["SPONSORED_BRANDS", "SPONSORED_DISPLAY", "SPONSORED_PRODUCTS"] | str] | None = Field(
-        default=["SPONSORED_BRANDS", "SPONSORED_DISPLAY", "SPONSORED_PRODUCTS"],
+    adProductFilter: list[Literal["SPONSORED_BRANDS", "SPONSORED_DISPLAY", "SPONSORED_PRODUCTS"]] | None = Field(
+        default=None,
         min_length=1,
         max_length=3,
         description="Filters the entities returned in export only to selected ad products. In case the filter is not provided, it returns entities from all ad products.",
     )
-    stateFilter: list[Literal["ARCHIVED", "ENABLED", "PAUSED"] | str] | None = Field(
-        default=["ENABLED", "PAUSED"],
+    stateFilter: list[Literal["ARCHIVED", "ENABLED", "PAUSED"]] | None = Field(
+        default=None,
         min_length=1,
         max_length=3,
         description="Filters the entities returned in export only to selected states. In case the filter is not provided, it returns only `ENABLED` or `PAUSED` entities.",
@@ -26,26 +26,26 @@ class BaseUniversalApiExportRequest(StrictModel):
 
 
 class TargetsUniversalApiExportRequest(StrictModel):
-    adProductFilter: list[Literal["SPONSORED_BRANDS", "SPONSORED_DISPLAY", "SPONSORED_PRODUCTS"] | str] | None = Field(
-        default=["SPONSORED_BRANDS", "SPONSORED_DISPLAY", "SPONSORED_PRODUCTS"],
+    adProductFilter: list[Literal["SPONSORED_BRANDS", "SPONSORED_DISPLAY", "SPONSORED_PRODUCTS"]] | None = Field(
+        default=None,
         min_length=1,
         max_length=3,
         description="Filters the entities returned in export only to selected ad products. In case the filter is not provided, it returns entities from all ad products.",
     )
-    stateFilter: list[Literal["ARCHIVED", "ENABLED", "PAUSED"] | str] | None = Field(
-        default=["ENABLED", "PAUSED"],
+    stateFilter: list[Literal["ARCHIVED", "ENABLED", "PAUSED"]] | None = Field(
+        default=None,
         min_length=1,
         max_length=3,
         description="Filters the entities returned in export only to selected states. In case the filter is not provided, it returns only `ENABLED` or `PAUSED` entities.",
     )
     negativeFilter: list[bool] | None = Field(
-        default=[False, True],
+        default=None,
         min_length=1,
         max_length=2,
         description="Filters the targets returned in export to negative or positive targets. In case the filter is not provided, it returns both negative and positive targets.",
     )
-    targetLevelFilter: list[Literal["AD_GROUP", "CAMPAIGN"] | str] | None = Field(
-        default=["AD_GROUP", "CAMPAIGN"],
+    targetLevelFilter: list[Literal["AD_GROUP", "CAMPAIGN"]] | None = Field(
+        default=None,
         min_length=1,
         max_length=2,
         description="Filters the targets returned in export only to selected levels. In case the filter is not provided, it returns both `CAMPAIGN` and `AD_GROUP` level targets.",
@@ -63,21 +63,10 @@ class TargetsUniversalApiExportRequest(StrictModel):
                 "PRODUCT_CATEGORY_AUDIENCE",
                 "THEME",
             ]
-            | str
         ]
         | None
     ) = Field(
-        default=[
-            "AUDIENCE",
-            "AUTO",
-            "CONTENT_CATEGORY",
-            "KEYWORD",
-            "PRODUCT",
-            "PRODUCT_AUDIENCE",
-            "PRODUCT_CATEGORY",
-            "PRODUCT_CATEGORY_AUDIENCE",
-            "THEME",
-        ],
+        default=None,
         min_length=1,
         max_length=9,
         description="Filters the targets returned in exports only to selected types. In case the filter is not provided, it returns targets with all target types. Target types are only supported by certain ad products - for instance, `THEME` targets are not available in `SPONSORED_BRANDS`. Please reference https://advertising.amazon.com/API/docs/en-us/reference/common-models/targets for more details.",

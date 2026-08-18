@@ -243,7 +243,7 @@ class SponsoredProductsDeleteSponsoredProductsTargetingClausesResponseContent(Le
 class SponsoredProductsExpressionTypeFilter(StrictModel):
     """Filter entities by ExpressionType"""
 
-    include: list[SponsoredProductsExpressionType | str] = Field(min_length=0, max_length=2)
+    include: list[SponsoredProductsExpressionType] = Field(min_length=0, max_length=2)
 
 
 class SponsoredProductsListSponsoredProductsTargetingClausesRequestContent(StrictModel):

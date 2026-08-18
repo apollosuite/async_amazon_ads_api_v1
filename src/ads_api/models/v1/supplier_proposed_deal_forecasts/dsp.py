@@ -708,7 +708,7 @@ class DSPCreateFrequency(StrictModel):
         description="The maximum number of times an EventType is served per user. For ADSP ad group, maximum supported value is 500.",
     )
     eventType: DSPEventType | None = Field(default=None)
-    extraFrequencyCapImpressionTypes: list[DSPExtraFrequencyCapImpressionType | str] | None = Field(
+    extraFrequencyCapImpressionTypes: list[DSPExtraFrequencyCapImpressionType] | None = Field(
         default=None,
         min_length=0,
         max_length=10,
@@ -753,7 +753,7 @@ class DSPCreateSupplierProposedDealCreativeRequirement(StrictModel):
 
     creativeRequirement: DSPCreateSupplierProposedDealCreativeRequirements
     inventoryType: DSPInventoryType
-    languages: list[DSPLanguageIso | str] | None = Field(
+    languages: list[DSPLanguageIso] | None = Field(
         default=None, min_length=0, max_length=100, description="Languages available for this creative requirement."
     )
 
@@ -776,7 +776,7 @@ type DSPCreateSupplierProposedDealCreativeRequirements = DSPCreateSupplierPropos
 class DSPCreateSupplierProposedDealForecastDescription(StrictModel):
     """The request body for a forecast should include all fields for creating a SupplierProposedDeal with exception of read-only fields."""
 
-    countries: list[DSPCountryCode | str] | None = Field(
+    countries: list[DSPCountryCode] | None = Field(
         default=None, min_length=0, max_length=49, description="The country for the proposed deal."
     )
     creativeRequirements: list[DSPCreateSupplierProposedDealCreativeRequirement] | None = Field(

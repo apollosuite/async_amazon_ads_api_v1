@@ -161,7 +161,7 @@ class DSPCommitmentMultiStatusSuccess(LenientModel):
 
 
 class DSPCommitmentSpendCalculationModeFilter(StrictModel):
-    include: list[DSPSpendCalculationMode | str] = Field(min_length=1, max_length=1)
+    include: list[DSPSpendCalculationMode] = Field(min_length=1, max_length=1)
 
 
 class DSPCommitmentSuccessResponse(LenientModel):

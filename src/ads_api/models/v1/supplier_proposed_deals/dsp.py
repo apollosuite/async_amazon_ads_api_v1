@@ -796,7 +796,7 @@ class DSPCreateFrequency(StrictModel):
         description="The maximum number of times an EventType is served per user. For ADSP ad group, maximum supported value is 500.",
     )
     eventType: DSPEventType | None = Field(default=None)
-    extraFrequencyCapImpressionTypes: list[DSPExtraFrequencyCapImpressionType | str] | None = Field(
+    extraFrequencyCapImpressionTypes: list[DSPExtraFrequencyCapImpressionType] | None = Field(
         default=None,
         min_length=0,
         max_length=10,
@@ -841,7 +841,7 @@ class DSPCreateSupplierProposedDealCreativeRequirement(StrictModel):
 
     creativeRequirement: DSPCreateSupplierProposedDealCreativeRequirements
     inventoryType: DSPInventoryType
-    languages: list[DSPLanguageIso | str] | None = Field(
+    languages: list[DSPLanguageIso] | None = Field(
         default=None, min_length=0, max_length=100, description="Languages available for this creative requirement."
     )
 
@@ -1390,7 +1390,7 @@ class DSPSupplierProposedDeal(LenientModel):
 
 
 class DSPSupplierProposedDealAdProductFilter(StrictModel):
-    include: list[DSPAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[DSPAdProduct] = Field(min_length=1, max_length=1)
 
 
 class DSPSupplierProposedDealAdvertiserAccountIdFilter(StrictModel):
@@ -1402,7 +1402,7 @@ class DSPSupplierProposedDealAdvertisingDealIdFilter(StrictModel):
 
 
 class DSPSupplierProposedDealAdvertisingDealTypeFilter(StrictModel):
-    include: list[DSPAdvertisingDealType | str] = Field(min_length=1, max_length=10)
+    include: list[DSPAdvertisingDealType] = Field(min_length=1, max_length=10)
 
 
 class DSPSupplierProposedDealCreate(StrictModel):
@@ -1411,7 +1411,7 @@ class DSPSupplierProposedDealCreate(StrictModel):
         default=None,
         description="The ADSP advertiserId for this proposal. If advertiserId is null, then we treat it as manager account level proposal.",
     )
-    countries: list[DSPCountryCode | str] | None = Field(
+    countries: list[DSPCountryCode] | None = Field(
         default=None, min_length=0, max_length=49, description="The country for the proposed deal."
     )
     creativeRequirements: list[DSPCreateSupplierProposedDealCreativeRequirement] | None = Field(
@@ -1524,7 +1524,7 @@ class DSPSupplierProposedDealSupplierProposedDealIdFilter(StrictModel):
 
 
 class DSPSupplierProposedDealSupplierProposedDealStatusFilter(StrictModel):
-    include: list[DSPSupplierProposedDealStatus | str] = Field(min_length=1, max_length=20)
+    include: list[DSPSupplierProposedDealStatus] = Field(min_length=1, max_length=20)
 
 
 class DSPSupplierProposedDealUpdate(StrictModel):

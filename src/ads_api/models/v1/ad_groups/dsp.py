@@ -611,7 +611,7 @@ class DSPAdGroupAdGroupIdFilter(StrictModel):
 
 
 class DSPAdGroupAdProductFilter(StrictModel):
-    include: list[DSPAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[DSPAdProduct] = Field(min_length=1, max_length=1)
 
 
 class DSPAdGroupBid(LenientModel):
@@ -683,7 +683,7 @@ class DSPAdGroupMultiStatusSuccess(LenientModel):
 
 
 class DSPAdGroupStateFilter(StrictModel):
-    include: list[DSPState | str] = Field(min_length=1, max_length=3)
+    include: list[DSPState] = Field(min_length=1, max_length=3)
 
 
 class DSPAdGroupSuccessResponse(LenientModel):

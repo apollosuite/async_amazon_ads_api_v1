@@ -270,7 +270,7 @@ class SBAdAdIdFilter(StrictModel):
 
 
 class SBAdAdProductFilter(StrictModel):
-    include: list[SBAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SBAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SBAdCampaignIdFilter(StrictModel):
@@ -308,7 +308,7 @@ class SBAdNameFilter(StrictModel):
 
 
 class SBAdStateFilter(StrictModel):
-    include: list[SBState | str] = Field(min_length=1, max_length=3)
+    include: list[SBState] = Field(min_length=1, max_length=3)
 
 
 class SBAdSuccessResponse(LenientModel):
@@ -444,7 +444,7 @@ class SBCreateBrandGallerySettings(StrictModel):
         max_length=5,
         description="The sub-elements of the creative. Each card highlights a different category associated to a brand.",
     )
-    creativePropertiesToOptimize: list[SBBrandGalleryCreativePropertiesToOptimize | str] | None = Field(
+    creativePropertiesToOptimize: list[SBBrandGalleryCreativePropertiesToOptimize] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -547,7 +547,7 @@ class SBCreateProductCollectionSettings(StrictModel):
     brandLogos: list[SBCreateImage] = Field(
         min_length=1, max_length=2, description="The brand logo image assets to be used in the ad."
     )
-    creativePropertiesToOptimize: list[SBProductCollectionCreativePropertiesToOptimize | str] | None = Field(
+    creativePropertiesToOptimize: list[SBProductCollectionCreativePropertiesToOptimize] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -619,7 +619,7 @@ class SBCreateStoreSpotlightSettings(StrictModel):
         max_length=3,
         description="The sub-elements of the creative. Each card highlights a different ASIN associated to a brand Store.",
     )
-    creativePropertiesToOptimize: list[SBStoreSpotlightCreativePropertiesToOptimize | str] | None = Field(
+    creativePropertiesToOptimize: list[SBStoreSpotlightCreativePropertiesToOptimize] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -871,7 +871,7 @@ class SBUpdateBrandGallerySettings(StrictModel):
         max_length=5,
         description="The sub-elements of the creative. Each card highlights a different category associated to a brand.",
     )
-    creativePropertiesToOptimize: list[SBBrandGalleryCreativePropertiesToOptimize | str] | None = Field(
+    creativePropertiesToOptimize: list[SBBrandGalleryCreativePropertiesToOptimize] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -964,7 +964,7 @@ class SBUpdateProductCollectionSettings(StrictModel):
     brandLogos: list[SBCreateImage] | None = Field(
         default=None, min_length=1, max_length=2, description="The brand logo image assets to be used in the ad."
     )
-    creativePropertiesToOptimize: list[SBProductCollectionCreativePropertiesToOptimize | str] | None = Field(
+    creativePropertiesToOptimize: list[SBProductCollectionCreativePropertiesToOptimize] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -1040,7 +1040,7 @@ class SBUpdateStoreSpotlightSettings(StrictModel):
         max_length=3,
         description="The sub-elements of the creative. Each card highlights a different ASIN associated to a brand Store.",
     )
-    creativePropertiesToOptimize: list[SBStoreSpotlightCreativePropertiesToOptimize | str] | None = Field(
+    creativePropertiesToOptimize: list[SBStoreSpotlightCreativePropertiesToOptimize] | None = Field(
         default=None,
         min_length=0,
         max_length=1,

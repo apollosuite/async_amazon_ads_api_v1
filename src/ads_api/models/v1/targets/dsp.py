@@ -1115,14 +1115,14 @@ class DSPCreateDoubleVerifyAuthenticBrandSafety(StrictModel):
 
 
 class DSPCreateDoubleVerifyBrandSafety(StrictModel):
-    appAgeRating: list[DSPDVBrandSafetyAppAgeRatingType | str] | None = Field(
+    appAgeRating: list[DSPDVBrandSafetyAppAgeRatingType] | None = Field(
         default=None,
         min_length=0,
         max_length=50,
         description="A list of app age ratings to be used for excluding apps. For example, TEENS_12_PLUS will only exclude apps with content rated for everyone ages 12 and over. UNKNOWN will exclude apps with content unrated or unknown to Double Verify.",
     )
     appStarRating: DSPDVBrandSafetyAppStarRatingType | None = Field(default=None)
-    contentCategories: list[DSPDVBrandSafetyContentCategoryType | str] | None = Field(
+    contentCategories: list[DSPDVBrandSafetyContentCategoryType] | None = Field(
         default=None, min_length=0, max_length=50, description="A list of content categories to exclude from targeting."
     )
     contentCategoriesWithRisk: list[DSPCreateDVBrandSafetyContentCategoriesWithRiskMap] | None = Field(
@@ -1152,7 +1152,7 @@ class DSPCreateDoubleVerifyFraudInvalidTraffic(StrictModel):
 
 
 class DSPCreateDoubleVerifyStandardDisplayBrandSafety(StrictModel):
-    contentCategories: list[DSPDVBrandSafetyContentCategoryType | str] | None = Field(
+    contentCategories: list[DSPDVBrandSafetyContentCategoryType] | None = Field(
         default=None, min_length=0, max_length=50, description="A list of content categories to exclude from targeting."
     )
     contentCategoriesWithRisk: list[DSPCreateDVBrandSafetyContentCategoriesWithRiskMap] | None = Field(
@@ -1271,7 +1271,7 @@ class DSPCreateNativeContentPositionTarget(StrictModel):
 
 
 class DSPCreateNewsGuardBrandGuardMisinformationSafety(StrictModel):
-    avoidanceList: list[DSPNewsGuardBrandGuardMisinformationSafetyType | str] | None = Field(
+    avoidanceList: list[DSPNewsGuardBrandGuardMisinformationSafetyType] | None = Field(
         default=None, min_length=0, max_length=20, description="The unique identifiers of misinformation targets"
     )
 
@@ -1279,7 +1279,7 @@ class DSPCreateNewsGuardBrandGuardMisinformationSafety(StrictModel):
 class DSPCreateNewsGuardBrandGuardTrustedNewsTargeting(StrictModel):
     """Only applicable for Web supply."""
 
-    targetingList: list[DSPNewsGuardBrandGuardTrustedNewsTargetingType | str] | None = Field(
+    targetingList: list[DSPNewsGuardBrandGuardTrustedNewsTargetingType] | None = Field(
         default=None, min_length=0, max_length=15, description="The unique identifiers of trusted news targets"
     )
 
@@ -1906,7 +1906,7 @@ class DSPTargetAdGroupIdFilter(StrictModel):
 
 
 class DSPTargetAdProductFilter(StrictModel):
-    include: list[DSPAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[DSPAdProduct] = Field(min_length=1, max_length=1)
 
 
 class DSPTargetCreate(StrictModel):
@@ -2028,7 +2028,7 @@ type DSPTargetDetails = DSPTargetDetailsAdInitiationTarget | DSPTargetDetailsAdP
 
 
 class DSPTargetInventorySourceTypeFilter(StrictModel):
-    include: list[DSPInventorySourceType | str] = Field(min_length=1, max_length=1)
+    include: list[DSPInventorySourceType] = Field(min_length=1, max_length=1)
 
 
 class DSPTargetMarketplaceStringValueFilter(StrictModel):
@@ -2046,7 +2046,7 @@ class DSPTargetMultiStatusSuccess(LenientModel):
 
 
 class DSPTargetStateFilter(StrictModel):
-    include: list[DSPState | str] = Field(min_length=1, max_length=3)
+    include: list[DSPState] = Field(min_length=1, max_length=3)
 
 
 class DSPTargetSuccessResponse(LenientModel):
@@ -2055,7 +2055,7 @@ class DSPTargetSuccessResponse(LenientModel):
 
 
 class DSPTargetTargetTypeFilter(StrictModel):
-    include: list[DSPTargetType | str] = Field(min_length=1, max_length=17)
+    include: list[DSPTargetType] = Field(min_length=1, max_length=17)
 
 
 class DSPThemeTarget(LenientModel):

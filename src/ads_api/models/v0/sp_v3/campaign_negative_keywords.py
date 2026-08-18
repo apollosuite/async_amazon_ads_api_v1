@@ -147,7 +147,7 @@ class SponsoredProductsListSponsoredProductsCampaignNegativeKeywordsRequestConte
         default=None,
         description="Whether to get entity with extended data fields such as creationDate, lastUpdateDate, servingStatus",
     )
-    matchTypeFilter: list[SponsoredProductsNegativeMatchType | str] | None = Field(
+    matchTypeFilter: list[SponsoredProductsNegativeMatchType] | None = Field(
         default=None, description="Restricts results to resources with the selected matchType"
     )
     maxResults: int | None = Field(

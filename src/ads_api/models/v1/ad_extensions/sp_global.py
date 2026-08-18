@@ -94,11 +94,11 @@ class SPGlobalAdExtensionAdExtensionIdFilter(StrictModel):
 
 
 class SPGlobalAdExtensionAdExtensionStatusFilter(StrictModel):
-    include: list[SPGlobalAdExtensionStatus | str] = Field(min_length=1, max_length=1)
+    include: list[SPGlobalAdExtensionStatus] = Field(min_length=1, max_length=1)
 
 
 class SPGlobalAdExtensionAdExtensionTypeFilter(StrictModel):
-    include: list[SPGlobalAdExtensionType | str] = Field(min_length=1, max_length=1)
+    include: list[SPGlobalAdExtensionType] = Field(min_length=1, max_length=1)
 
 
 class SPGlobalAdExtensionAdGroupIdFilter(StrictModel):
@@ -110,7 +110,7 @@ class SPGlobalAdExtensionAdIdFilter(StrictModel):
 
 
 class SPGlobalAdExtensionAdProductFilter(StrictModel):
-    include: list[SPGlobalAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SPGlobalAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SPGlobalAdExtensionCreate(StrictModel):
@@ -125,7 +125,7 @@ class SPGlobalAdExtensionCreate(StrictModel):
     )
     adProduct: SPGlobalAdProduct
     marketplaceScope: SPGlobalMarketplaceScope
-    marketplaces: list[SPGlobalMarketplace | str] = Field(
+    marketplaces: list[SPGlobalMarketplace] = Field(
         min_length=1,
         max_length=30,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
@@ -155,7 +155,7 @@ class SPGlobalAdExtensionSettings(LenientModel):
 
 
 class SPGlobalAdExtensionStateFilter(StrictModel):
-    include: list[SPGlobalState | str] = Field(min_length=1, max_length=3)
+    include: list[SPGlobalState] = Field(min_length=1, max_length=3)
 
 
 class SPGlobalAdExtensionSuccessResponse(LenientModel):
@@ -165,7 +165,7 @@ class SPGlobalAdExtensionSuccessResponse(LenientModel):
 
 class SPGlobalAdExtensionUpdate(StrictModel):
     adExtensionId: str = Field(description="A unique identifier for the ad_extension.")
-    marketplaces: list[SPGlobalMarketplace | str] | None = Field(
+    marketplaces: list[SPGlobalMarketplace] | None = Field(
         default=None,
         min_length=1,
         max_length=30,

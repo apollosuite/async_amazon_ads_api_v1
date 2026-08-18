@@ -390,7 +390,7 @@ Example: ["TARGETING"]
         description="startDate is optional. If startDate is not specified, current date will be used.",
     )
     budget: float = Field(description="The budget of the campaign.")
-    siteRestrictions: list[SiteRestriction | str] | None = Field(
+    siteRestrictions: list[SiteRestriction] | None = Field(
         default=None,
         min_length=1,
         max_length=1,

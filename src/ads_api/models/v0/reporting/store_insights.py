@@ -171,7 +171,7 @@ class GetAsinEngagementForStoreRequest(StrictModel):
     endDate: date = Field(
         description="The end date (inclusive) in YYYY-MM-DD format for the time period from when to fetch the insights."
     )
-    metrics: list[AsinEngagementMetric | str] = Field(
+    metrics: list[AsinEngagementMetric] = Field(
         min_length=0,
         max_length=12,
         description="List of the engagement metrics to be fetched. At least one metric should be specified.",
@@ -406,7 +406,7 @@ ko-KR</th>
         le=1500,
         description="The max number of result that will be returned in one response. The max allowed value will be 1500. If the parameter is not presented, it will be default to 1500.",
     )
-    metrics: list[InsightMetric | str] = Field(
+    metrics: list[InsightMetric] = Field(
         min_length=1,
         max_length=20,
         description="List of the insight metrics to be fetched. Only one metric should be specified.",
@@ -439,7 +439,7 @@ class InsightFilter(StrictModel):
         max_length=200,
         description="List of pages to be fetched for insight metrics. Users can first make request to the API with the same parameters but without the filter to retrieve all the available page ids.",
     )
-    sources: list[TrafficSource | str] | None = Field(
+    sources: list[TrafficSource] | None = Field(
         default=None, min_length=0, max_length=200, description="List of sources to be fetched for insight metrics."
     )
     tags: list[str] | None = Field(

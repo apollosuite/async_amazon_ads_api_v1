@@ -208,7 +208,7 @@ class SPGlobalCampaign(LenientModel):
 
 
 class SPGlobalCampaignAdProductFilter(StrictModel):
-    include: list[SPGlobalAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SPGlobalAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SPGlobalCampaignCampaignIdFilter(StrictModel):
@@ -223,7 +223,7 @@ class SPGlobalCampaignCreate(StrictModel):
         max_length=1,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
-    countries: list[SPGlobalCountryCode | str] | None = Field(
+    countries: list[SPGlobalCountryCode] | None = Field(
         default=None,
         min_length=0,
         max_length=249,
@@ -237,7 +237,7 @@ class SPGlobalCampaignCreate(StrictModel):
         description="List of marketplace-specific configurations for a global campaign that enables overriding certain attributes at individual marketplace level. For example, if a global campaign is ENABLED and startDate '2024-06-01' but needs to be PAUSED in DE with startDateTime '2024-06-02' marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED, startDate: '2024-06-02'}}]. When a marketplace-specific override is not provided, the campaign's global value is applied to that marketplace.",
     )
     marketplaceScope: SPGlobalMarketplaceScope
-    marketplaces: list[SPGlobalMarketplace | str] | None = Field(
+    marketplaces: list[SPGlobalMarketplace] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
@@ -246,7 +246,7 @@ class SPGlobalCampaignCreate(StrictModel):
     name: str = Field(description="The name of the campaign.")
     optimizations: SPGlobalCreateCampaignOptimizations | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
-    siteRestrictions: list[SPGlobalSiteRestriction | str] | None = Field(
+    siteRestrictions: list[SPGlobalSiteRestriction] | None = Field(
         default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site"
     )
     startDateTime: datetime = Field(description="The start date time for the campaign.")
@@ -260,7 +260,7 @@ class SPGlobalCampaignCreate(StrictModel):
 
 
 class SPGlobalCampaignMarketplaceScopeFilter(StrictModel):
-    include: list[SPGlobalMarketplaceScope | str] = Field(min_length=1, max_length=1)
+    include: list[SPGlobalMarketplaceScope] = Field(min_length=1, max_length=1)
 
 
 class SPGlobalCampaignMultiStatusResponseWithPartialErrors(LenientModel):
@@ -294,7 +294,7 @@ class SPGlobalCampaignPortfolioIdFilter(StrictModel):
 
 
 class SPGlobalCampaignStateFilter(StrictModel):
-    include: list[SPGlobalState | str] = Field(min_length=1, max_length=3)
+    include: list[SPGlobalState] = Field(min_length=1, max_length=3)
 
 
 class SPGlobalCampaignSuccessResponse(LenientModel):
@@ -310,7 +310,7 @@ class SPGlobalCampaignUpdate(StrictModel):
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
     campaignId: str = Field(description="A unique identifier for a campaign.")
-    countries: list[SPGlobalCountryCode | str] | None = Field(
+    countries: list[SPGlobalCountryCode] | None = Field(
         default=None,
         min_length=0,
         max_length=249,
@@ -323,7 +323,7 @@ class SPGlobalCampaignUpdate(StrictModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global campaign that enables overriding certain attributes at individual marketplace level. For example, if a global campaign is ENABLED and startDate '2024-06-01' but needs to be PAUSED in DE with startDateTime '2024-06-02' marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED, startDate: '2024-06-02'}}]. When a marketplace-specific override is not provided, the campaign's global value is applied to that marketplace.",
     )
-    marketplaces: list[SPGlobalMarketplace | str] | None = Field(
+    marketplaces: list[SPGlobalMarketplace] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
@@ -332,7 +332,7 @@ class SPGlobalCampaignUpdate(StrictModel):
     name: str | None = Field(default=None, description="The name of the campaign.")
     optimizations: SPGlobalUpdateCampaignOptimizations | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
-    siteRestrictions: list[SPGlobalSiteRestriction | str] | None = Field(
+    siteRestrictions: list[SPGlobalSiteRestriction] | None = Field(
         default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site"
     )
     startDateTime: datetime | None = Field(default=None, description="The start date time for the campaign.")

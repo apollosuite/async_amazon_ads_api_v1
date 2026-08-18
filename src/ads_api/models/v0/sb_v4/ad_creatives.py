@@ -308,7 +308,7 @@ If set to true and the headline and/or video are not in the marketplace's defaul
 If Amazon is unable to translate them, the ad will be rejected by moderation. We only support translating headlines and videos from English to German, French, Italian, Spanish, Japanese, and Dutch. See developer notes for more information.
 """,
     )
-    creativePropertiesToOptimize: list[CreativePropertyToOptimize | str] | None = Field(
+    creativePropertiesToOptimize: list[CreativePropertyToOptimize] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -325,7 +325,7 @@ See [the policy](https://advertising.amazon.com/resources/ad-policy/sponsored-ad
 
 
 class ListCreativesRequestContent(StrictModel):
-    creativeTypeFilter: list[CreativeType | str] | None = Field(
+    creativeTypeFilter: list[CreativeType] | None = Field(
         default=None,
         description="""
 Filters creatives by optional creative type.
@@ -352,7 +352,7 @@ Filters creatives by optional creative version.
 This means you can either list all creative versions without specific creative version filter, all just retrieve a single creative version by providing a specific version identifier.
 """,
     )
-    creativeStatusFilter: list[CreativeStatus | str] | None = Field(
+    creativeStatusFilter: list[CreativeStatus] | None = Field(
         default=None,
         description="""
 Filters creatives by optional creative status.
@@ -436,7 +436,7 @@ If set to true and the headline and/or video are not in the marketplace's defaul
 If Amazon is unable to translate them, the ad will be rejected by moderation. We only support translating headlines and videos from English to German, French, Italian, Spanish, Japanese, and Dutch. See developer notes for more information.
 """,
     )
-    creativePropertiesToOptimize: list[CreativePropertyToOptimize | str] | None = Field(
+    creativePropertiesToOptimize: list[CreativePropertyToOptimize] | None = Field(
         default=None,
         min_length=0,
         max_length=1,

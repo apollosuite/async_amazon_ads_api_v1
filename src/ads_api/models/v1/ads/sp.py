@@ -99,7 +99,7 @@ class SPAdAdIdFilter(StrictModel):
 
 
 class SPAdAdProductFilter(StrictModel):
-    include: list[SPAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SPAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SPAdCampaignIdFilter(StrictModel):
@@ -131,7 +131,7 @@ class SPAdMultiStatusSuccess(LenientModel):
 
 
 class SPAdStateFilter(StrictModel):
-    include: list[SPState | str] = Field(min_length=1, max_length=3)
+    include: list[SPState] = Field(min_length=1, max_length=3)
 
 
 class SPAdSuccessResponse(LenientModel):

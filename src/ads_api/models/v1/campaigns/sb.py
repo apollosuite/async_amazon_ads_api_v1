@@ -407,7 +407,7 @@ class SBCampaign(LenientModel):
 
 
 class SBCampaignAdProductFilter(StrictModel):
-    include: list[SBAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SBAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SBCampaignCampaignIdFilter(StrictModel):
@@ -426,7 +426,7 @@ class SBCampaignCreate(StrictModel):
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
     costType: SBCostType
-    countries: list[SBCountryCode | str] | None = Field(
+    countries: list[SBCountryCode] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -434,7 +434,7 @@ class SBCampaignCreate(StrictModel):
     )
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
     marketplaceScope: SBMarketplaceScope
-    marketplaces: list[SBMarketplace | str] | None = Field(
+    marketplaces: list[SBMarketplace] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -444,7 +444,7 @@ class SBCampaignCreate(StrictModel):
     optimizations: SBCreateCampaignOptimizations | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
     salesChannel: SBSalesChannel | None = Field(default=None)
-    siteRestrictions: list[SBSiteRestriction | str] | None = Field(
+    siteRestrictions: list[SBSiteRestriction] | None = Field(
         default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site"
     )
     startDateTime: datetime = Field(description="The start date time for the campaign.")
@@ -459,7 +459,7 @@ class SBCampaignCreate(StrictModel):
 
 
 class SBCampaignGoalFilter(StrictModel):
-    include: list[SBGoal | str] = Field(min_length=1, max_length=3)
+    include: list[SBGoal] = Field(min_length=1, max_length=3)
 
 
 class SBCampaignMultiStatusResponse(LenientModel):
@@ -487,7 +487,7 @@ class SBCampaignPortfolioIdFilter(StrictModel):
 
 
 class SBCampaignStateFilter(StrictModel):
-    include: list[SBState | str] = Field(min_length=1, max_length=3)
+    include: list[SBState] = Field(min_length=1, max_length=3)
 
 
 class SBCampaignSuccessResponse(LenientModel):

@@ -106,11 +106,15 @@ def schema_type(
         if "enum" in items_schema and all(isinstance(v, str) for v in items_schema["enum"]):
             imports.add("Literal")
             items = ", ".join(f'"{v}"' for v in items_schema["enum"])
+            if context_role == SchemaRole.INPUT:
+                return f"list[Literal[{items}]]"
             return f"list[Literal[{items}] | str]"
         if "$ref" in items_schema:
             ref_name = items_schema["$ref"].split("/")[-1]
             if openapi_schemas.get(ref_name, {}).get("enum"):
                 py_name = name_map.resolve(ref_name, context_role)
+                if context_role == SchemaRole.INPUT:
+                    return f"list[{py_name}]"
                 return f"list[{py_name} | str]"
         inner = schema_type(items_schema, openapi_schemas, name_map, context_role, imports)
         return f"list[{inner}]"
@@ -252,7 +256,7 @@ def generate_type_alias(name: str, schema: dict[str, Any], imports: ImportSet) -
 
 
 def _format_default(default_val: Any, typ: str) -> str:
-    if default_val is None:
+    if default_val is None or isinstance(default_val, list):
         return "default=None"
     if "bool" in typ:
         if isinstance(default_val, str) and default_val.lower() in ("true", "false"):

@@ -406,7 +406,7 @@ class OptimizationRulesAPISwaggerRuleCriteriaOut(LenientModel):
 class OptimizationRulesAPISwaggerRuleRecurrence(StrictModel):
     """The recurrence of the optimization rule application."""
 
-    daysOfWeek: list[OptimizationRulesAPISwaggerDayOfTheWeek | str] | None = Field(
+    daysOfWeek: list[OptimizationRulesAPISwaggerDayOfTheWeek] | None = Field(
         default=None, min_length=0, max_length=7, description="A list of days of the week."
     )
     duration: OptimizationRulesAPISwaggerDuration
@@ -430,7 +430,7 @@ class OptimizationRulesAPISwaggerRuleRecurrenceOut(LenientModel):
 
 
 class OptimizationRulesAPISwaggerRuleTargeting(StrictModel):
-    expressionTypes: list[OptimizationRulesAPISwaggerExpressionType | str] = Field(min_length=1, max_length=3)
+    expressionTypes: list[OptimizationRulesAPISwaggerExpressionType] = Field(min_length=1, max_length=3)
     lookbackDays: int = Field(ge=3, le=65, description="The number of days of data to look back on for the rule.")
     targetingType: OptimizationRulesAPISwaggerTargetingType
 
@@ -462,7 +462,7 @@ class OptimizationRulesAPISwaggerSearchOptimizationRulesRequestV2(StrictModel):
         description="To retrieve the next page of results, call the same operation and specify this token in the request. If the field is empty, the first page of results will be returned.",
     )
     optimizationRuleFilter: OptimizationRulesAPISwaggerOptimizationRuleFilterV2 | None = Field(default=None)
-    sortBy: list[OptimizationRulesAPISwaggerSortableField | str] | None = Field(
+    sortBy: list[OptimizationRulesAPISwaggerSortableField] | None = Field(
         default=None, min_length=1, max_length=1, description="Sort conditions applied to the response."
     )
 

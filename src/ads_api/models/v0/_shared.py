@@ -596,7 +596,7 @@ class DisassociateAssociatedBudgetRuleResponse(LenientModel):
 class EntityStateFilter(StrictModel):
     """Filter entities by state."""
 
-    include: list[EntityState | str] | None = Field(default=None, min_length=0, max_length=10)
+    include: list[EntityState] | None = Field(default=None, min_length=0, max_length=10)
 
 
 class ErrorCause(LenientModel):
@@ -833,7 +833,7 @@ class SponsoredProductsEntityStateError(LenientModel):
 class SponsoredProductsEntityStateFilter(StrictModel):
     """Filter entities by state. To filter live entities, only 'ENABLED', 'PAUSED' and 'ARCHIVED' can be used"""
 
-    include: list[SponsoredProductsEntityState | str] = Field(min_length=0, max_length=10)
+    include: list[SponsoredProductsEntityState] = Field(min_length=0, max_length=10)
 
 
 class SponsoredProductsErrorCause(LenientModel):

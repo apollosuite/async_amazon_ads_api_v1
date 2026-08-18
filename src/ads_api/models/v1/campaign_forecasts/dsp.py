@@ -1630,7 +1630,7 @@ class DSPCampaignOptimizations(StrictModel):
     bidSettings: DSPBidSettings | None = Field(default=None)
     budgetSettings: DSPBudgetSettings | None = Field(default=None)
     goalSettings: DSPGoalSettings | None = Field(default=None)
-    primaryInventoryTypes: list[DSPPrimaryInventoryType | str] | None = Field(
+    primaryInventoryTypes: list[DSPPrimaryInventoryType] | None = Field(
         default=None,
         min_length=0,
         max_length=10,
@@ -1931,14 +1931,14 @@ class DSPDoubleVerifyAuthenticBrandSafetyOut(LenientModel):
 
 
 class DSPDoubleVerifyBrandSafety(StrictModel):
-    appAgeRating: list[DSPDVBrandSafetyAppAgeRatingType | str] | None = Field(
+    appAgeRating: list[DSPDVBrandSafetyAppAgeRatingType] | None = Field(
         default=None,
         min_length=0,
         max_length=50,
         description="A list of app age ratings to be used for excluding apps. For example, TEENS_12_PLUS will only exclude apps with content rated for everyone ages 12 and over. UNKNOWN will exclude apps with content unrated or unknown to Double Verify.",
     )
     appStarRating: DSPDVBrandSafetyAppStarRatingType | None = Field(default=None)
-    contentCategories: list[DSPDVBrandSafetyContentCategoryType | str] | None = Field(
+    contentCategories: list[DSPDVBrandSafetyContentCategoryType] | None = Field(
         default=None, min_length=0, max_length=50, description="A list of content categories to exclude from targeting."
     )
     contentCategoriesWithRisk: list[DSPDVBrandSafetyContentCategoriesWithRiskMap] | None = Field(
@@ -2005,7 +2005,7 @@ class DSPDoubleVerifyFraudInvalidTrafficOut(LenientModel):
 
 
 class DSPDoubleVerifyStandardDisplayBrandSafety(StrictModel):
-    contentCategories: list[DSPDVBrandSafetyContentCategoryType | str] | None = Field(
+    contentCategories: list[DSPDVBrandSafetyContentCategoryType] | None = Field(
         default=None, min_length=0, max_length=50, description="A list of content categories to exclude from targeting."
     )
     contentCategoriesWithRisk: list[DSPDVBrandSafetyContentCategoriesWithRiskMap] | None = Field(
@@ -2262,7 +2262,7 @@ class DSPForecastAdGroup(StrictModel):
         description="List of marketplace-specific configurations for a global ad group that enables overriding certain attributes at individual marketplace level. For example, if a global ad group state is ENABLED and needs to be PAUSED only in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, ad group's global value is applied to that marketplace.",
     )
     marketplaceScope: DSPMarketplaceScope | None = Field(default=None)
-    marketplaces: list[DSPMarketplace | str] | None = Field(
+    marketplaces: list[DSPMarketplace] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
@@ -2381,7 +2381,7 @@ class DSPForecastCampaign(StrictModel):
         default=None,
         description="This is the ID of the originally generated campaign preset that the campaign is associated with.",
     )
-    countries: list[DSPCountryCode | str] | None = Field(
+    countries: list[DSPCountryCode] | None = Field(
         default=None,
         min_length=0,
         max_length=249,
@@ -2424,7 +2424,7 @@ class DSPForecastCampaign(StrictModel):
         description="List of marketplace-specific configurations for a global campaign that enables overriding certain attributes at individual marketplace level. For example, if a global campaign is ENABLED and startDate '2024-06-01' but needs to be PAUSED in DE with startDateTime '2024-06-02' marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED, startDate: '2024-06-02'}}]. When a marketplace-specific override is not provided, the campaign's global value is applied to that marketplace.",
     )
     marketplaceScope: DSPMarketplaceScope | None = Field(default=None)
-    marketplaces: list[DSPMarketplace | str] | None = Field(
+    marketplaces: list[DSPMarketplace] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
@@ -2627,7 +2627,7 @@ class DSPForecastMetricsDescription(StrictModel):
     """Describe how user select to see all metrics or selected ones."""
 
     allMetrics: bool = Field(description="If it is true, all the supported metrics would return.")
-    selectedMetrics: list[DSPSelectedForecastMetric | str] | None = Field(
+    selectedMetrics: list[DSPSelectedForecastMetric] | None = Field(
         default=None, min_length=0, max_length=20, description="The list of selected metrics in order."
     )
 
@@ -2664,7 +2664,7 @@ class DSPForecastTarget(StrictModel):
         description="List of marketplace-specific configurations for a global target that enables overriding certain attributes at individual marketplace level. For example, if a global target is ENABLED but needs to be PAUSED in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, the target's global value is applied to that marketplace.",
     )
     marketplaceScope: DSPMarketplaceScope | None = Field(default=None)
-    marketplaces: list[DSPMarketplace | str] | None = Field(
+    marketplaces: list[DSPMarketplace] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
@@ -3002,7 +3002,7 @@ class DSPNativeContentPositionTargetOut(LenientModel):
 
 
 class DSPNewsGuardBrandGuardMisinformationSafety(StrictModel):
-    avoidanceList: list[DSPNewsGuardBrandGuardMisinformationSafetyType | str] | None = Field(
+    avoidanceList: list[DSPNewsGuardBrandGuardMisinformationSafetyType] | None = Field(
         default=None, min_length=0, max_length=20, description="The unique identifiers of misinformation targets"
     )
 
@@ -3016,7 +3016,7 @@ class DSPNewsGuardBrandGuardMisinformationSafetyOut(LenientModel):
 class DSPNewsGuardBrandGuardTrustedNewsTargeting(StrictModel):
     """Only applicable for Web supply."""
 
-    targetingList: list[DSPNewsGuardBrandGuardTrustedNewsTargetingType | str] | None = Field(
+    targetingList: list[DSPNewsGuardBrandGuardTrustedNewsTargetingType] | None = Field(
         default=None, min_length=0, max_length=15, description="The unique identifiers of trusted news targets"
     )
 
@@ -3221,7 +3221,7 @@ class DSPRetrieveCampaignForecastRequest(StrictModel):
 
 
 class DSPStatus(StrictModel):
-    deliveryReasons: list[DSPDeliveryReason | str] | None = Field(
+    deliveryReasons: list[DSPDeliveryReason] | None = Field(
         default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
     )
     deliveryStatus: DSPDeliveryStatus

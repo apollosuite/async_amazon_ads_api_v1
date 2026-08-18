@@ -695,14 +695,14 @@ class DSPAdAdIdFilter(StrictModel):
 
 
 class DSPAdAdProductFilter(StrictModel):
-    include: list[DSPAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[DSPAdProduct] = Field(min_length=1, max_length=1)
 
 
 class DSPAdCreate(StrictModel):
     adProduct: DSPAdProduct
     adType: DSPAdType
     creative: DSPCreateCreative
-    marketplaces: list[DSPMarketplace | str] | None = Field(
+    marketplaces: list[DSPMarketplace] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -736,7 +736,7 @@ class DSPAdSuccessResponse(LenientModel):
 class DSPAdUpdate(StrictModel):
     adId: str = Field(description="The identifier of the ad.")
     creative: DSPUpdateCreative | None = Field(default=None)
-    marketplaces: list[DSPMarketplace | str] | None = Field(
+    marketplaces: list[DSPMarketplace] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -947,7 +947,7 @@ class DSPCreateAssetBasedCreativeCallToAction(StrictModel):
 class DSPCreateAssetBasedCreativeCallToActionSettings(StrictModel):
     """A CTA that directs a customer to a provided url."""
 
-    callToActionType: list[DSPAssetBasedCreativeCallToActionType | str] | None = Field(
+    callToActionType: list[DSPAssetBasedCreativeCallToActionType] | None = Field(
         default=None, min_length=0, max_length=5, description="Type of CallToAction for AssetBasedCreative."
     )
     deepLinkingBehavior: DSPDeepLinkingBehavior | None = Field(default=None)
@@ -988,7 +988,7 @@ class DSPCreateAssetBasedCreativeSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    inventoryTypes: list[DSPComponentInventoryType | str] = Field(
+    inventoryTypes: list[DSPComponentInventoryType] = Field(
         min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
     language: DSPLanguageLocale
@@ -1025,7 +1025,7 @@ class DSPCreateBrandStoreCallToAction(StrictModel):
 class DSPCreateBrandStoreCallToActionSettings(StrictModel):
     """A CTA that directs a customer to a provided url."""
 
-    callToActionType: list[DSPBrandStoreCallToActionType | str] | None = Field(
+    callToActionType: list[DSPBrandStoreCallToActionType] | None = Field(
         default=None, min_length=0, max_length=5, description="Type of CallToAction for BrandStore."
     )
     deepLinkingBehavior: DSPDeepLinkingBehavior | None = Field(default=None)
@@ -1065,7 +1065,7 @@ class DSPCreateBrandStoreSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    inventoryTypes: list[DSPComponentInventoryType | str] = Field(
+    inventoryTypes: list[DSPComponentInventoryType] = Field(
         min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
     language: DSPLanguageLocale
@@ -1198,7 +1198,7 @@ class DSPCreateResponsiveEcommerceSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an click is recorded.",
     )
-    creativePropertiesToOptimize: list[DSPResponsiveEcommerceCreativePropertiesToOptimize | str] | None = Field(
+    creativePropertiesToOptimize: list[DSPResponsiveEcommerceCreativePropertiesToOptimize] | None = Field(
         default=None,
         min_length=0,
         max_length=3,
@@ -1222,7 +1222,7 @@ class DSPCreateResponsiveEcommerceSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    inventoryTypes: list[DSPComponentInventoryType | str] = Field(
+    inventoryTypes: list[DSPComponentInventoryType] = Field(
         min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
     language: DSPLanguageLocale
@@ -1231,7 +1231,7 @@ class DSPCreateResponsiveEcommerceSettings(StrictModel):
     products: list[DSPCreateAdvertisedProducts] = Field(
         min_length=1, max_length=20, description="The products advertised for the Responsive eCommerce experience."
     )
-    recAdVariations: list[DSPResponsiveEcommerceAdVariations | str] | None = Field(
+    recAdVariations: list[DSPResponsiveEcommerceAdVariations] | None = Field(
         default=None,
         min_length=0,
         max_length=5,
@@ -1669,7 +1669,7 @@ class DSPUpdateAssetBasedCreativeCallToAction(StrictModel):
 class DSPUpdateAssetBasedCreativeCallToActionSettings(StrictModel):
     """A CTA that directs a customer to a provided url."""
 
-    callToActionType: list[DSPAssetBasedCreativeCallToActionType | str] | None = Field(
+    callToActionType: list[DSPAssetBasedCreativeCallToActionType] | None = Field(
         default=None, min_length=0, max_length=5, description="Type of CallToAction for AssetBasedCreative."
     )
     deepLinkingBehavior: DSPDeepLinkingBehavior | None = Field(default=None)
@@ -1713,7 +1713,7 @@ class DSPUpdateAssetBasedCreativeSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    inventoryTypes: list[DSPComponentInventoryType | str] | None = Field(
+    inventoryTypes: list[DSPComponentInventoryType] | None = Field(
         default=None, min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
     language: DSPLanguageLocale | None = Field(default=None)
@@ -1758,7 +1758,7 @@ class DSPUpdateBrandStoreCallToAction(StrictModel):
 class DSPUpdateBrandStoreCallToActionSettings(StrictModel):
     """A CTA that directs a customer to a provided url."""
 
-    callToActionType: list[DSPBrandStoreCallToActionType | str] | None = Field(
+    callToActionType: list[DSPBrandStoreCallToActionType] | None = Field(
         default=None, min_length=0, max_length=5, description="Type of CallToAction for BrandStore."
     )
     deepLinkingBehavior: DSPDeepLinkingBehavior | None = Field(default=None)
@@ -1801,7 +1801,7 @@ class DSPUpdateBrandStoreSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    inventoryTypes: list[DSPComponentInventoryType | str] | None = Field(
+    inventoryTypes: list[DSPComponentInventoryType] | None = Field(
         default=None, min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
     language: DSPLanguageLocale | None = Field(default=None)
@@ -1922,7 +1922,7 @@ class DSPUpdateResponsiveEcommerceSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an click is recorded.",
     )
-    creativePropertiesToOptimize: list[DSPResponsiveEcommerceCreativePropertiesToOptimize | str] | None = Field(
+    creativePropertiesToOptimize: list[DSPResponsiveEcommerceCreativePropertiesToOptimize] | None = Field(
         default=None,
         min_length=0,
         max_length=3,
@@ -1946,7 +1946,7 @@ class DSPUpdateResponsiveEcommerceSettings(StrictModel):
         max_length=5,
         description="The third party urls to trigger when an impression is recorded.",
     )
-    inventoryTypes: list[DSPComponentInventoryType | str] | None = Field(
+    inventoryTypes: list[DSPComponentInventoryType] | None = Field(
         default=None, min_length=1, max_length=2, description="The inventory types this creative should serve on."
     )
     language: DSPLanguageLocale | None = Field(default=None)
@@ -1958,7 +1958,7 @@ class DSPUpdateResponsiveEcommerceSettings(StrictModel):
         max_length=20,
         description="The products advertised for the Responsive eCommerce experience.",
     )
-    recAdVariations: list[DSPResponsiveEcommerceAdVariations | str] | None = Field(
+    recAdVariations: list[DSPResponsiveEcommerceAdVariations] | None = Field(
         default=None,
         min_length=0,
         max_length=5,

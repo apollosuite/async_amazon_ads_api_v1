@@ -289,7 +289,7 @@ class CreateExtendedProductCollectionCreative(StrictModel):
         default=None,
         description="If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation. We only support translating headlines and videos from English to German, French, Italian, Spanish, Japanese, and Dutch. See developer notes for more information.",
     )
-    creativePropertiesToOptimize: list[CreativePropertyToOptimize | str] | None = Field(
+    creativePropertiesToOptimize: list[CreativePropertyToOptimize] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -418,7 +418,7 @@ class CreateStoreSpotlightCreative(StrictModel):
         default=None,
         description="If set to true and the headline and/or video are not in the marketplace's default language, Amazon will attempt to translate them to the marketplace's default language. If Amazon is unable to translate them, the ad will be rejected by moderation. We only support translating headlines and videos from English to German, French, Italian, Spanish, Japanese, and Dutch. See developer notes for more information.",
     )
-    creativePropertiesToOptimize: list[CreativePropertyToOptimize | str] | None = Field(
+    creativePropertiesToOptimize: list[CreativePropertyToOptimize] | None = Field(
         default=None,
         min_length=0,
         max_length=1,

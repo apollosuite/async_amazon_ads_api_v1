@@ -525,7 +525,7 @@ class DSPSupplierProposedDealHistoricalVersion(LenientModel):
 
 
 class DSPSupplierProposedDealHistoricalVersionAdProductFilter(StrictModel):
-    include: list[DSPAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[DSPAdProduct] = Field(min_length=1, max_length=1)
 
 
 class DSPSupplierProposedDealHistoricalVersionIdentifier(LenientModel):

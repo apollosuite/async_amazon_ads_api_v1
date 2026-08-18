@@ -59,7 +59,7 @@ class STAdGroupAdGroupIdFilter(StrictModel):
 
 
 class STAdGroupAdProductFilter(StrictModel):
-    include: list[STAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[STAdProduct] = Field(min_length=1, max_length=1)
 
 
 class STAdGroupBid(LenientModel):
@@ -79,7 +79,7 @@ class STAdGroupCreate(StrictModel):
     adProduct: STAdProduct
     bid: STCreateAdGroupBid | None = Field(default=None)
     campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
-    marketplaces: list[STMarketplace | str] | None = Field(
+    marketplaces: list[STMarketplace] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
@@ -105,7 +105,7 @@ class STAdGroupNameFilter(StrictModel):
 
 
 class STAdGroupStateFilter(StrictModel):
-    include: list[STState | str] = Field(min_length=1, max_length=3)
+    include: list[STState] = Field(min_length=1, max_length=3)
 
 
 class STAdGroupSuccessResponse(LenientModel):
@@ -117,7 +117,7 @@ class STAdGroupUpdate(StrictModel):
     adGroupId: str = Field(description="The unique identifier of the ad group.")
     adProduct: STAdProduct | None = Field(default=None)
     bid: STUpdateAdGroupBid | None = Field(default=None)
-    marketplaces: list[STMarketplace | str] | None = Field(
+    marketplaces: list[STMarketplace] | None = Field(
         default=None,
         min_length=0,
         max_length=30,

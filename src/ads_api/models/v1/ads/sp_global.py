@@ -100,7 +100,7 @@ class SPGlobalAdAdIdFilter(StrictModel):
 
 
 class SPGlobalAdAdProductFilter(StrictModel):
-    include: list[SPGlobalAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SPGlobalAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SPGlobalAdCreate(StrictModel):
@@ -115,7 +115,7 @@ class SPGlobalAdCreate(StrictModel):
         description="List of marketplace-specific configurations for a global ad that enables overriding certain attributes at individual marketplace level. For example, if a global ad is ENABLED but needs to be PAUSED in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, the ad's global value is applied to that marketplace.",
     )
     marketplaceScope: SPGlobalMarketplaceScope
-    marketplaces: list[SPGlobalMarketplace | str] = Field(
+    marketplaces: list[SPGlobalMarketplace] = Field(
         min_length=1,
         max_length=30,
         description="The list of country codes representing amazon marketplaces in which the global ad is applicable. For Sponsored Ads, the marketplaces included should either be same as or subset of parent ad group. For ADSP, this represents retail domains such as Amazon.com, Amazon.co.uk, and Amazon.mx, each corresponding to a country where an Amazon customer can shop. The field represents the Amazon marketplaces for the advertised product included in the creative settings.",
@@ -130,7 +130,7 @@ class SPGlobalAdCreate(StrictModel):
 
 
 class SPGlobalAdMarketplaceScopeFilter(StrictModel):
-    include: list[SPGlobalMarketplaceScope | str] = Field(min_length=1, max_length=1)
+    include: list[SPGlobalMarketplaceScope] = Field(min_length=1, max_length=1)
 
 
 class SPGlobalAdMultiStatusResponseWithPartialErrors(LenientModel):
@@ -151,7 +151,7 @@ class SPGlobalAdPartialIndex(LenientModel):
 
 
 class SPGlobalAdStateFilter(StrictModel):
-    include: list[SPGlobalState | str] = Field(min_length=1, max_length=3)
+    include: list[SPGlobalState] = Field(min_length=1, max_length=3)
 
 
 class SPGlobalAdSuccessResponse(LenientModel):
@@ -167,7 +167,7 @@ class SPGlobalAdUpdate(StrictModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global ad that enables overriding certain attributes at individual marketplace level. For example, if a global ad is ENABLED but needs to be PAUSED in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, the ad's global value is applied to that marketplace.",
     )
-    marketplaces: list[SPGlobalMarketplace | str] | None = Field(
+    marketplaces: list[SPGlobalMarketplace] | None = Field(
         default=None,
         min_length=1,
         max_length=30,

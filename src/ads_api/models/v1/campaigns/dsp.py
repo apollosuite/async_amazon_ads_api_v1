@@ -651,7 +651,7 @@ class DSPCampaign(LenientModel):
 
 
 class DSPCampaignAdProductFilter(StrictModel):
-    include: list[DSPAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[DSPAdProduct] = Field(min_length=1, max_length=1)
 
 
 class DSPCampaignCampaignIdFilter(StrictModel):
@@ -673,7 +673,7 @@ class DSPCampaignCreate(StrictModel):
         max_length=2,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
-    countries: list[DSPCountryCode | str] | None = Field(
+    countries: list[DSPCountryCode] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -688,7 +688,7 @@ class DSPCampaignCreate(StrictModel):
     frequencies: list[DSPCreateFrequency] | None = Field(
         default=None, min_length=0, max_length=3, description="Any frequency caps associated with the campaign."
     )
-    marketplaces: list[DSPMarketplace | str] | None = Field(
+    marketplaces: list[DSPMarketplace] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -751,7 +751,7 @@ class DSPCampaignOptimizations(LenientModel):
 
 
 class DSPCampaignStateFilter(StrictModel):
-    include: list[DSPState | str] = Field(min_length=1, max_length=3)
+    include: list[DSPState] = Field(min_length=1, max_length=3)
 
 
 class DSPCampaignSuccessResponse(LenientModel):
@@ -845,7 +845,7 @@ class DSPCreateCampaignOptimizations(StrictModel):
     bidSettings: DSPCreateBidSettings
     budgetSettings: DSPCreateBudgetSettings | None = Field(default=None)
     goalSettings: DSPCreateGoalSettings | None = Field(default=None)
-    primaryInventoryTypes: list[DSPPrimaryInventoryType | str] | None = Field(
+    primaryInventoryTypes: list[DSPPrimaryInventoryType] | None = Field(
         default=None,
         min_length=0,
         max_length=10,
@@ -995,7 +995,7 @@ class DSPUpdateCampaignOptimizations(StrictModel):
     bidSettings: DSPUpdateBidSettings | None = Field(default=None)
     budgetSettings: DSPUpdateBudgetSettings | None = Field(default=None)
     goalSettings: DSPUpdateGoalSettings | None = Field(default=None)
-    primaryInventoryTypes: list[DSPPrimaryInventoryType | str] | None = Field(
+    primaryInventoryTypes: list[DSPPrimaryInventoryType] | None = Field(
         default=None,
         min_length=0,
         max_length=10,

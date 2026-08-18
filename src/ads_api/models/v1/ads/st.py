@@ -91,7 +91,7 @@ class STAdAdIdFilter(StrictModel):
 
 
 class STAdAdProductFilter(StrictModel):
-    include: list[STAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[STAdProduct] = Field(min_length=1, max_length=1)
 
 
 class STAdCampaignIdFilter(StrictModel):
@@ -118,7 +118,7 @@ class STAdMultiStatusSuccess(LenientModel):
 
 
 class STAdStateFilter(StrictModel):
-    include: list[STState | str] = Field(min_length=1, max_length=3)
+    include: list[STState] = Field(min_length=1, max_length=3)
 
 
 class STAdSuccessResponse(LenientModel):

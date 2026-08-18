@@ -372,7 +372,7 @@ class SponsoredProductsCreateCampaign(StrictModel):
     portfolioId: str | None = Field(
         default=None, description="The identifier of an existing portfolio to which the campaign is associated."
     )
-    siteRestrictions: list[SponsoredProductsSiteRestriction | str] | None = Field(
+    siteRestrictions: list[SponsoredProductsSiteRestriction] | None = Field(
         default=None,
         min_length=1,
         max_length=1,
@@ -501,7 +501,7 @@ class SponsoredProductsListSponsoredProductsCampaignsResponseContent(LenientMode
 class SponsoredProductsMarketplaceBudgetAllocationFilter(StrictModel):
     """Filter campaigns by MarketplaceBudgetAllocation setting. By default, only MANUAL campaigns are returned. This filter is not functional yet, will be functional soon."""
 
-    include: list[SponsoredProductsMarketplaceBudgetAllocation | str] = Field(min_length=0, max_length=2)
+    include: list[SponsoredProductsMarketplaceBudgetAllocation] = Field(min_length=0, max_length=2)
 
 
 class SponsoredProductsOffAmazonSettings(LenientModel):
@@ -556,7 +556,7 @@ class SponsoredProductsUpdateCampaign(StrictModel):
     portfolioId: str | None = Field(
         default=None, description="The identifier of an existing portfolio to which the campaign is associated."
     )
-    siteRestrictions: list[SponsoredProductsSiteRestriction | str] | None = Field(
+    siteRestrictions: list[SponsoredProductsSiteRestriction] | None = Field(
         default=None,
         min_length=1,
         max_length=1,

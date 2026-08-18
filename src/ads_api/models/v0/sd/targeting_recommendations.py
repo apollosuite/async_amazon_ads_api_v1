@@ -370,7 +370,7 @@ class SDTargetingRecommendationsRequest(StrictModel):
     products: list[SDGoalProduct] = Field(
         min_length=1, max_length=10000, description="A list of products for which to get targeting recommendations"
     )
-    typeFilter: list[SDRecommendationType | str] = Field(
+    typeFilter: list[SDRecommendationType] = Field(
         min_length=1, max_length=1, description="A filter to indicate which types of recommendations to request."
     )
 

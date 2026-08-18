@@ -93,7 +93,7 @@ class SPGlobalAdGroup(LenientModel):
 
 
 class SPGlobalAdGroupAdProductFilter(StrictModel):
-    include: list[SPGlobalAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SPGlobalAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SPGlobalAdGroupBid(LenientModel):
@@ -130,7 +130,7 @@ class SPGlobalAdGroupCreate(StrictModel):
         description="List of marketplace-specific configurations for a global ad group that enables overriding certain attributes at individual marketplace level. For example, if a global ad group state is ENABLED and needs to be PAUSED only in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, ad group's global value is applied to that marketplace.",
     )
     marketplaceScope: SPGlobalMarketplaceScope
-    marketplaces: list[SPGlobalMarketplace | str] = Field(
+    marketplaces: list[SPGlobalMarketplace] = Field(
         min_length=1,
         max_length=30,
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
@@ -146,7 +146,7 @@ class SPGlobalAdGroupCreate(StrictModel):
 
 
 class SPGlobalAdGroupMarketplaceScopeFilter(StrictModel):
-    include: list[SPGlobalMarketplaceScope | str] = Field(min_length=1, max_length=1)
+    include: list[SPGlobalMarketplaceScope] = Field(min_length=1, max_length=1)
 
 
 class SPGlobalAdGroupMultiStatusResponseWithPartialErrors(LenientModel):
@@ -172,7 +172,7 @@ class SPGlobalAdGroupPartialIndex(LenientModel):
 
 
 class SPGlobalAdGroupStateFilter(StrictModel):
-    include: list[SPGlobalState | str] = Field(min_length=1, max_length=3)
+    include: list[SPGlobalState] = Field(min_length=1, max_length=3)
 
 
 class SPGlobalAdGroupSuccessResponse(LenientModel):
@@ -190,7 +190,7 @@ class SPGlobalAdGroupUpdate(StrictModel):
         max_length=30,
         description="List of marketplace-specific configurations for a global ad group that enables overriding certain attributes at individual marketplace level. For example, if a global ad group state is ENABLED and needs to be PAUSED only in DE marketplace, you can specify: [{marketplace: DE, overrides: {state: PAUSED}}]. When a marketplace-specific override is not provided, ad group's global value is applied to that marketplace.",
     )
-    marketplaces: list[SPGlobalMarketplace | str] | None = Field(
+    marketplaces: list[SPGlobalMarketplace] | None = Field(
         default=None,
         min_length=1,
         max_length=30,

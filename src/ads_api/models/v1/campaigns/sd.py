@@ -120,7 +120,7 @@ class SDCampaign(LenientModel):
 
 
 class SDCampaignAdProductFilter(StrictModel):
-    include: list[SDAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SDAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SDCampaignCampaignIdFilter(StrictModel):
@@ -135,7 +135,7 @@ class SDCampaignCreate(StrictModel):
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
     costType: SDCostType
-    countries: list[SDCountryCode | str] | None = Field(
+    countries: list[SDCountryCode] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -143,7 +143,7 @@ class SDCampaignCreate(StrictModel):
     )
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
     marketplaceScope: SDMarketplaceScope
-    marketplaces: list[SDMarketplace | str] | None = Field(
+    marketplaces: list[SDMarketplace] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -181,7 +181,7 @@ class SDCampaignPortfolioIdFilter(StrictModel):
 
 
 class SDCampaignStateFilter(StrictModel):
-    include: list[SDState | str] = Field(min_length=1, max_length=3)
+    include: list[SDState] = Field(min_length=1, max_length=3)
 
 
 class SDCampaignSuccessResponse(LenientModel):

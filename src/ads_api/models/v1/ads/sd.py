@@ -84,7 +84,7 @@ class SDAd(LenientModel):
 
 
 class SDAdAdProductFilter(StrictModel):
-    include: list[SDAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SDAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SDAdCreate(StrictModel):

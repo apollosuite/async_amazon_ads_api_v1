@@ -380,7 +380,7 @@ class GetDatasetAggregatesRequestContent(StrictModel):
     endDate: datetime | None = Field(
         default=None, description="The end date for the metrics aggregation window, in UTC"
     )
-    metrics: list[DatasetMetric | str] | None = Field(
+    metrics: list[DatasetMetric] | None = Field(
         default=None, description="The list of metrics to retrieve for the dataset"
     )
     startDate: datetime | None = Field(

@@ -102,7 +102,7 @@ class SponsoredProductsListSponsoredProductsNegativeKeywordsRequestContent(Stric
     locale: str | None = Field(
         default=None, description="Restricts results to negativeKeywords that match the specified locale."
     )
-    matchTypeFilter: list[SponsoredProductsNegativeMatchType | str] | None = Field(
+    matchTypeFilter: list[SponsoredProductsNegativeMatchType] | None = Field(
         default=None, description="Only the negativeKeyword with the match type that is in this list will be listed"
     )
     maxResults: int | None = Field(

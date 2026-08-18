@@ -184,7 +184,7 @@ class SponsoredProductsListSponsoredProductsKeywordsRequestContent(StrictModel):
     keywordIdFilter: SponsoredProductsObjectIdFilter | None = Field(default=None)
     keywordTextFilter: SponsoredProductsKeywordTextFilter | None = Field(default=None)
     locale: str | None = Field(default=None, description="Restricts results to keywords associated with locale")
-    matchTypeFilter: list[SponsoredProductsMatchType | str] | None = Field(
+    matchTypeFilter: list[SponsoredProductsMatchType] | None = Field(
         default=None, description="Only the keyword with match type that is in this list will be listed"
     )
     maxResults: int | None = Field(

@@ -297,7 +297,8 @@ def main() -> None:
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text("\n".join(lines))
     print(
-        f"Generated {OUTPUT_PATH} ({len(all_model_names)} models: {len(closure)} schemas + {len(request_models)} requests)"
+        f"Generated {OUTPUT_PATH} ({len(all_model_names)} models: "
+        f"{len(closure)} schemas + {len(request_models)} requests)"
     )
 
 

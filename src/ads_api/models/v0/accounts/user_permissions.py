@@ -48,11 +48,11 @@ type Type = Literal["CUSTOM_PERMISSION_SET", "ROLE"]
 
 
 class AccessScopeFilter(StrictModel):
-    include: list[AccessScope | str] | None = Field(default=None, min_length=1, max_length=1)
+    include: list[AccessScope] | None = Field(default=None, min_length=1, max_length=1)
 
 
 class CountryCodesFilter(StrictModel):
-    include: list[CountryCode | str] | None = Field(default=None, min_length=0, max_length=100)
+    include: list[CountryCode] | None = Field(default=None, min_length=0, max_length=100)
 
 
 class DeleteUserPermissionsError(LenientModel):
@@ -213,7 +213,7 @@ class UserId(StrictModel):
 
 
 class UserPermission(StrictModel):
-    countryCodes: list[CountryCode | str] | None = Field(
+    countryCodes: list[CountryCode] | None = Field(
         default=None,
         min_length=0,
         max_length=100,

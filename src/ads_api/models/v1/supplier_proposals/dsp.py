@@ -217,7 +217,7 @@ class DSPSupplierProposal(LenientModel):
 
 
 class DSPSupplierProposalAdProductFilter(StrictModel):
-    include: list[DSPAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[DSPAdProduct] = Field(min_length=1, max_length=1)
 
 
 class DSPSupplierProposalAdvertiserAccountIdFilter(StrictModel):
@@ -225,7 +225,7 @@ class DSPSupplierProposalAdvertiserAccountIdFilter(StrictModel):
 
 
 class DSPSupplierProposalCountryCodeFilter(StrictModel):
-    include: list[DSPCountryCode | str] = Field(min_length=1, max_length=50)
+    include: list[DSPCountryCode] = Field(min_length=1, max_length=50)
 
 
 class DSPSupplierProposalCreate(StrictModel):
@@ -234,7 +234,7 @@ class DSPSupplierProposalCreate(StrictModel):
         default=None,
         description="The ADSP advertiserId for this proposal. If advertiserId is null, then we treat it as manager account level proposal.",
     )
-    countries: list[DSPCountryCode | str] | None = Field(
+    countries: list[DSPCountryCode] | None = Field(
         default=None, min_length=0, max_length=49, description="The country this proposal is located."
     )
     externalProposalId: str | None = Field(
@@ -305,7 +305,7 @@ class DSPSupplierProposalSupplierProposalIdFilter(StrictModel):
 
 
 class DSPSupplierProposalSupplierProposalStatusFilter(StrictModel):
-    include: list[DSPSupplierProposalStatus | str] = Field(min_length=1, max_length=50)
+    include: list[DSPSupplierProposalStatus] = Field(min_length=1, max_length=50)
 
 
 class DSPSupplierProposalUpdate(StrictModel):

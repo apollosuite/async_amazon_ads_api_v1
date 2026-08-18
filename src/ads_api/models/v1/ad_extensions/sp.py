@@ -109,11 +109,11 @@ class SPAdExtensionAdExtensionIdFilter(StrictModel):
 
 
 class SPAdExtensionAdExtensionStatusFilter(StrictModel):
-    include: list[SPAdExtensionStatus | str] = Field(min_length=1, max_length=1)
+    include: list[SPAdExtensionStatus] = Field(min_length=1, max_length=1)
 
 
 class SPAdExtensionAdExtensionTypeFilter(StrictModel):
-    include: list[SPAdExtensionType | str] = Field(min_length=1, max_length=1)
+    include: list[SPAdExtensionType] = Field(min_length=1, max_length=1)
 
 
 class SPAdExtensionAdGroupIdFilter(StrictModel):
@@ -125,7 +125,7 @@ class SPAdExtensionAdIdFilter(StrictModel):
 
 
 class SPAdExtensionAdProductFilter(StrictModel):
-    include: list[SPAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SPAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SPAdExtensionCreate(StrictModel):
@@ -140,7 +140,7 @@ class SPAdExtensionCreate(StrictModel):
     )
     adProduct: SPAdProduct
     marketplaceScope: SPMarketplaceScope
-    marketplaces: list[SPMarketplace | str] = Field(
+    marketplaces: list[SPMarketplace] = Field(
         min_length=1,
         max_length=1,
         description="The list of marketplace in which the global ad_extension is applicable. The marketplaces included should either be same as or subset of parent campaign/adGroup/ad",
@@ -170,7 +170,7 @@ type SPAdExtensionSettings = SPAdExtensionSettingsPromptExtension | SPAdExtensio
 
 
 class SPAdExtensionStateFilter(StrictModel):
-    include: list[SPState | str] = Field(min_length=1, max_length=3)
+    include: list[SPState] = Field(min_length=1, max_length=3)
 
 
 class SPAdExtensionSuccessResponse(LenientModel):

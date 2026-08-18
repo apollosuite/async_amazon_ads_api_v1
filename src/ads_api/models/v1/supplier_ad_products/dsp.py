@@ -667,11 +667,11 @@ class DSPSupplierAdProduct(LenientModel):
 
 
 class DSPSupplierAdProductAdProductFilter(StrictModel):
-    include: list[DSPAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[DSPAdProduct] = Field(min_length=1, max_length=1)
 
 
 class DSPSupplierAdProductAdvertisingDealTypeFilter(StrictModel):
-    include: list[DSPAdvertisingDealType | str] = Field(min_length=1, max_length=10)
+    include: list[DSPAdvertisingDealType] = Field(min_length=1, max_length=10)
 
 
 class DSPSupplierAdProductBudgetConstraints(LenientModel):
@@ -692,7 +692,7 @@ class DSPSupplierAdProductConstraints(LenientModel):
 
 
 class DSPSupplierAdProductCountryCodeFilter(StrictModel):
-    include: list[DSPCountryCode | str] = Field(min_length=1, max_length=10)
+    include: list[DSPCountryCode] = Field(min_length=1, max_length=10)
 
 
 class DSPSupplierAdProductExtension(LenientModel):
@@ -723,7 +723,7 @@ type DSPSupplierAdProductGoalConstraintsExtension = DSPSupplierAdProductGoalCons
 
 
 class DSPSupplierAdProductInventoryTypeFilter(StrictModel):
-    include: list[DSPInventoryType | str] = Field(min_length=1, max_length=10)
+    include: list[DSPInventoryType] = Field(min_length=1, max_length=10)
 
 
 class DSPSupplierAdProductMaxDateTimeFilter(StrictModel):

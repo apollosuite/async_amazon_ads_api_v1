@@ -404,7 +404,7 @@ class SDTargetAdGroupIdFilter(StrictModel):
 
 
 class SDTargetAdProductFilter(StrictModel):
-    include: list[SDAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SDAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SDTargetBid(LenientModel):
@@ -479,7 +479,7 @@ class SDTargetMultiStatusSuccess(LenientModel):
 
 
 class SDTargetStateFilter(StrictModel):
-    include: list[SDState | str] = Field(min_length=1, max_length=3)
+    include: list[SDState] = Field(min_length=1, max_length=3)
 
 
 class SDTargetSuccessResponse(LenientModel):

@@ -77,7 +77,7 @@ class STCampaign(LenientModel):
 
 
 class STCampaignAdProductFilter(StrictModel):
-    include: list[STAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[STAdProduct] = Field(min_length=1, max_length=1)
 
 
 class STCampaignCreate(StrictModel):
@@ -87,14 +87,14 @@ class STCampaignCreate(StrictModel):
         max_length=1,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
-    countries: list[STCountryCode | str] | None = Field(
+    countries: list[STCountryCode] | None = Field(
         default=None,
         min_length=0,
         max_length=249,
         description="This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.",
     )
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
-    marketplaces: list[STMarketplace | str] | None = Field(
+    marketplaces: list[STMarketplace] | None = Field(
         default=None,
         min_length=0,
         max_length=30,
@@ -116,7 +116,7 @@ class STCampaignMultiStatusSuccess(LenientModel):
 
 
 class STCampaignStateFilter(StrictModel):
-    include: list[STState | str] = Field(min_length=1, max_length=3)
+    include: list[STState] = Field(min_length=1, max_length=3)
 
 
 class STCampaignSuccessResponse(LenientModel):
@@ -133,14 +133,14 @@ class STCampaignUpdate(StrictModel):
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
     campaignId: str = Field(description="A unique identifier for a campaign.")
-    countries: list[STCountryCode | str] | None = Field(
+    countries: list[STCountryCode] | None = Field(
         default=None,
         min_length=0,
         max_length=249,
         description="This field is used in Sponsored Ads and ADSP and impacts targeted supply. For Sponsored Ads, the campaign.countries field determines what Amazon retail supply (Amazon.com, Amazon.co.uk, Amazon.mx, etc) the campaign will serve in. Similarly in ADSP, this has an implicit filter on your inventory targets. If you choose an inventory target of AMAZON with campaign.countries set to US, this will target the retail supply of Amazon.com and non-retail Amazon properties. ADSP options include additional countries - for example, choosing Austria means targeting Austria eligible inventory and Amazon retail supply of Amazon.de.",
     )
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
-    marketplaces: list[STMarketplace | str] | None = Field(
+    marketplaces: list[STMarketplace] | None = Field(
         default=None,
         min_length=0,
         max_length=30,

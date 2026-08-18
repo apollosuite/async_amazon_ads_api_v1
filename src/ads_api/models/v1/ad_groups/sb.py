@@ -188,7 +188,7 @@ class SBAdGroupAdGroupIdFilter(StrictModel):
 
 
 class SBAdGroupAdProductFilter(StrictModel):
-    include: list[SBAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SBAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SBAdGroupCampaignIdFilter(StrictModel):
@@ -224,7 +224,7 @@ class SBAdGroupNameFilter(StrictModel):
 
 
 class SBAdGroupStateFilter(StrictModel):
-    include: list[SBState | str] = Field(min_length=1, max_length=3)
+    include: list[SBState] = Field(min_length=1, max_length=3)
 
 
 class SBAdGroupSuccessResponse(LenientModel):

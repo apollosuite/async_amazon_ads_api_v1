@@ -417,7 +417,7 @@ class SPTargetAdGroupIdFilter(StrictModel):
 
 
 class SPTargetAdProductFilter(StrictModel):
-    include: list[SPAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SPAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SPTargetBid(LenientModel):
@@ -481,7 +481,7 @@ class SPTargetKeywordFilter(StrictModel):
 
 
 class SPTargetMatchTypeFilter(StrictModel):
-    include: list[SPMatchType | str] = Field(min_length=1, max_length=10)
+    include: list[SPMatchType] = Field(min_length=1, max_length=10)
 
 
 class SPTargetMultiStatusResponse(LenientModel):
@@ -504,7 +504,7 @@ class SPTargetProductIdFilter(StrictModel):
 
 
 class SPTargetStateFilter(StrictModel):
-    include: list[SPState | str] = Field(min_length=1, max_length=3)
+    include: list[SPState] = Field(min_length=1, max_length=3)
 
 
 class SPTargetSuccessResponse(LenientModel):
@@ -517,7 +517,7 @@ class SPTargetTargetIdFilter(StrictModel):
 
 
 class SPTargetTargetTypeFilter(StrictModel):
-    include: list[SPTargetType | str] = Field(min_length=1, max_length=4)
+    include: list[SPTargetType] = Field(min_length=1, max_length=4)
 
 
 class SPTargetUpdate(StrictModel):

@@ -109,7 +109,7 @@ class DSPSupplierTargetItem(LenientModel):
 
 
 class DSPSupplierTargetItemAdProductFilter(StrictModel):
-    include: list[DSPAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[DSPAdProduct] = Field(min_length=1, max_length=1)
 
 
 class DSPSupplierTargetItemCategoryFilter(StrictModel):
@@ -117,7 +117,7 @@ class DSPSupplierTargetItemCategoryFilter(StrictModel):
 
 
 class DSPSupplierTargetItemCountryCodeFilter(StrictModel):
-    include: list[DSPCountryCode | str] = Field(min_length=1, max_length=10)
+    include: list[DSPCountryCode] = Field(min_length=1, max_length=10)
 
 
 class DSPSupplierTargetItemIdFilter(StrictModel):
@@ -149,7 +149,7 @@ class DSPSupplierTargetItemSupplierProposalDestinationIdFilter(StrictModel):
 
 
 class DSPSupplierTargetItemSupplierTargetTypeFilter(StrictModel):
-    include: list[DSPSupplierTargetType | str] = Field(min_length=1, max_length=12)
+    include: list[DSPSupplierTargetType] = Field(min_length=1, max_length=12)
 
 
 __all__ = [

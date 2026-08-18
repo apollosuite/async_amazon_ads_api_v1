@@ -130,7 +130,7 @@ class STTargetAdGroupIdFilter(StrictModel):
 
 
 class STTargetAdProductFilter(StrictModel):
-    include: list[STAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[STAdProduct] = Field(min_length=1, max_length=1)
 
 
 class STTargetCampaignIdFilter(StrictModel):
@@ -170,7 +170,7 @@ class STTargetMultiStatusSuccess(LenientModel):
 
 
 class STTargetStateFilter(StrictModel):
-    include: list[STState | str] = Field(min_length=1, max_length=3)
+    include: list[STState] = Field(min_length=1, max_length=3)
 
 
 class STTargetSuccessResponse(LenientModel):

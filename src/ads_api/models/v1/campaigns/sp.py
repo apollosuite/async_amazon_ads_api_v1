@@ -256,7 +256,7 @@ class SPCampaign(LenientModel):
 
 
 class SPCampaignAdProductFilter(StrictModel):
-    include: list[SPAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SPAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SPCampaignCampaignIdFilter(StrictModel):
@@ -271,7 +271,7 @@ class SPCampaignCreate(StrictModel):
         max_length=1,
         description="The object containing budget details for the campaign (for campaigns that support multiple budgets).",
     )
-    countries: list[SPCountryCode | str] | None = Field(
+    countries: list[SPCountryCode] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -279,7 +279,7 @@ class SPCampaignCreate(StrictModel):
     )
     endDateTime: datetime | None = Field(default=None, description="The end date time for the campaign.")
     marketplaceScope: SPMarketplaceScope
-    marketplaces: list[SPMarketplace | str] | None = Field(
+    marketplaces: list[SPMarketplace] | None = Field(
         default=None,
         min_length=0,
         max_length=1,
@@ -288,7 +288,7 @@ class SPCampaignCreate(StrictModel):
     name: str = Field(description="The name of the campaign.")
     optimizations: SPCreateCampaignOptimizations | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
-    siteRestrictions: list[SPSiteRestriction | str] | None = Field(
+    siteRestrictions: list[SPSiteRestriction] | None = Field(
         default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site"
     )
     startDateTime: datetime = Field(description="The start date time for the campaign.")
@@ -326,7 +326,7 @@ class SPCampaignPortfolioIdFilter(StrictModel):
 
 
 class SPCampaignStateFilter(StrictModel):
-    include: list[SPState | str] = Field(min_length=1, max_length=3)
+    include: list[SPState] = Field(min_length=1, max_length=3)
 
 
 class SPCampaignSuccessResponse(LenientModel):
@@ -346,7 +346,7 @@ class SPCampaignUpdate(StrictModel):
     name: str | None = Field(default=None, description="The name of the campaign.")
     optimizations: SPUpdateCampaignOptimizations | None = Field(default=None)
     portfolioId: str | None = Field(default=None, description="The ID of the portfolio associated with the campaign.")
-    siteRestrictions: list[SPSiteRestriction | str] | None = Field(
+    siteRestrictions: list[SPSiteRestriction] | None = Field(
         default=None, min_length=0, max_length=1, description="Restrict the ad to a particular site"
     )
     startDateTime: datetime | None = Field(default=None, description="The start date time for the campaign.")

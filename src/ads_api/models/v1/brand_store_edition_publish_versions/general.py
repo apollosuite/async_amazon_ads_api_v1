@@ -86,7 +86,7 @@ class BrandStoreEditionPublishVersionMultiStatusSuccess(LenientModel):
 
 
 class BrandStoreEditionPublishVersionStorePublishStatusFilter(StrictModel):
-    include: list[StorePublishStatus | str] = Field(min_length=1, max_length=1)
+    include: list[StorePublishStatus] = Field(min_length=1, max_length=1)
 
 
 class BrandStoreEditionPublishVersionSuccessResponse(LenientModel):

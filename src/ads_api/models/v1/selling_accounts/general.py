@@ -66,7 +66,7 @@ class SellingAccountSellingAccountLinkTokenFilter(StrictModel):
 
 
 class SellingAccountSellingProgramFilter(StrictModel):
-    include: list[SellingProgram | str] = Field(min_length=1, max_length=1)
+    include: list[SellingProgram] = Field(min_length=1, max_length=1)
 
 
 class SellingAccountSuccessResponse(LenientModel):

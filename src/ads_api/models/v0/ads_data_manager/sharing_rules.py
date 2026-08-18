@@ -608,7 +608,7 @@ class ListSharingRulesRequestContent(StrictModel):
         description="The maximum number of sharing rule results to return within one response.",
     )
     nextToken: str | None = Field(default=None, description="nextToken is used for pagination.")
-    statuses: list[SharingRuleStatus | str] | None = Field(
+    statuses: list[SharingRuleStatus] | None = Field(
         default=None,
         min_length=1,
         description="""
@@ -660,7 +660,7 @@ class PubTechMetadata(StrictModel):
     """Metadata specific to PubTech, including audience information.
     Data provider metadata is stored on the ADM Sharing Grant, not in the sharing rule request."""
 
-    allowedCountries: list[CountryCode | str] | None = Field(
+    allowedCountries: list[CountryCode] | None = Field(
         default=None,
         min_length=1,
         max_length=10,

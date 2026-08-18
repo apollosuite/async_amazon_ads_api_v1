@@ -96,7 +96,7 @@ class SPAdGroupAdGroupIdFilter(StrictModel):
 
 
 class SPAdGroupAdProductFilter(StrictModel):
-    include: list[SPAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SPAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SPAdGroupBid(LenientModel):
@@ -141,7 +141,7 @@ class SPAdGroupNameFilter(StrictModel):
 
 
 class SPAdGroupStateFilter(StrictModel):
-    include: list[SPState | str] = Field(min_length=1, max_length=3)
+    include: list[SPState] = Field(min_length=1, max_length=3)
 
 
 class SPAdGroupSuccessResponse(LenientModel):

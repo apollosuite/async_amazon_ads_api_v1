@@ -216,7 +216,7 @@ class PerformanceMeasureConditionOut(LenientModel):
 
 
 class Recurrence(StrictModel):
-    daysOfWeek: list[DayOfWeek | str] | None = Field(
+    daysOfWeek: list[DayOfWeek] | None = Field(
         default=None,
         description="Object representing days of the week for weekly type rule. It is not required for daily recurrence type",
     )

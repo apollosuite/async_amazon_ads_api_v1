@@ -1003,7 +1003,7 @@ class DSPSupplierPublisherSupplierNameFilter(StrictModel):
 
 
 class DSPSupplierPublisherSupplierPublisherTypeFilter(StrictModel):
-    include: list[DSPSupplierPublisherType | str] = Field(min_length=1, max_length=1)
+    include: list[DSPSupplierPublisherType] = Field(min_length=1, max_length=1)
 
 
 class DSPSupplierTarget(LenientModel):

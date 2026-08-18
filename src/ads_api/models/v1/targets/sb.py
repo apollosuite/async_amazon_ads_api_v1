@@ -496,7 +496,7 @@ class SBTargetAdGroupIdFilter(StrictModel):
 
 
 class SBTargetAdProductFilter(StrictModel):
-    include: list[SBAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SBAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SBTargetBid(LenientModel):
@@ -549,11 +549,11 @@ class SBTargetKeywordFilter(StrictModel):
 
 
 class SBTargetLanguageLocaleFilter(StrictModel):
-    include: list[SBLanguageLocale | str] = Field(min_length=1, max_length=1)
+    include: list[SBLanguageLocale] = Field(min_length=1, max_length=1)
 
 
 class SBTargetMatchTypeFilter(StrictModel):
-    include: list[SBMatchType | str] = Field(min_length=1, max_length=10)
+    include: list[SBMatchType] = Field(min_length=1, max_length=10)
 
 
 class SBTargetMultiStatusResponse(LenientModel):
@@ -571,7 +571,7 @@ class SBTargetNegativeFilter(StrictModel):
 
 
 class SBTargetStateFilter(StrictModel):
-    include: list[SBState | str] = Field(min_length=1, max_length=3)
+    include: list[SBState] = Field(min_length=1, max_length=3)
 
 
 class SBTargetSuccessResponse(LenientModel):
@@ -584,7 +584,7 @@ class SBTargetTargetIdFilter(StrictModel):
 
 
 class SBTargetTargetTypeFilter(StrictModel):
-    include: list[SBTargetType | str] = Field(min_length=1, max_length=4)
+    include: list[SBTargetType] = Field(min_length=1, max_length=4)
 
 
 class SBTargetUpdate(StrictModel):

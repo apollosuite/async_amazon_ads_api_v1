@@ -98,7 +98,7 @@ class SDAdGroupAdGroupIdFilter(StrictModel):
 
 
 class SDAdGroupAdProductFilter(StrictModel):
-    include: list[SDAdProduct | str] = Field(min_length=1, max_length=1)
+    include: list[SDAdProduct] = Field(min_length=1, max_length=1)
 
 
 class SDAdGroupBid(LenientModel):
@@ -119,7 +119,7 @@ class SDAdGroupCreate(StrictModel):
     campaignId: str = Field(description="The unique identifier of the campaign the ad group belongs to.")
     creativeType: SDCreativeType | None = Field(default=None)
     marketplaceScope: SDMarketplaceScope
-    marketplaces: list[SDMarketplace | str] = Field(
+    marketplaces: list[SDMarketplace] = Field(
         min_length=1,
         max_length=1,
         description="The list of country codes representing amazon marketplaces in which the global ad group is applicable. The marketplaces included should either be same as or subset of parent campaign",
@@ -149,7 +149,7 @@ class SDAdGroupNameFilter(StrictModel):
 
 
 class SDAdGroupStateFilter(StrictModel):
-    include: list[SDState | str] = Field(min_length=1, max_length=3)
+    include: list[SDState] = Field(min_length=1, max_length=3)
 
 
 class SDAdGroupSuccessResponse(LenientModel):
