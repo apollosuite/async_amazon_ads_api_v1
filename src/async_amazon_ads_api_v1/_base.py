@@ -97,7 +97,7 @@ class _ResourceBase:
                 return resp
             except httpx.HTTPStatusError as exc:
                 if exc.response.status_code == 401 and self._ctx.config._token_manager is not None and attempt == 0:
-                    token = await self._ctx.config.refresh_access_token()
+                    token = await self._ctx.config.refresh_access_token(force=True)
                     headers["Authorization"] = f"Bearer {token}"
                     continue
                 if exc.response.status_code in (429, 503, 504):

@@ -93,7 +93,7 @@ class BaseResource:
                 )
                 if resp.is_error:
                     if resp.status_code == 401 and self._ctx.config._token_manager is not None and attempt == 0:
-                        token = await self._ctx.config.refresh_access_token()
+                        token = await self._ctx.config.refresh_access_token(force=True)
                         headers["Authorization"] = f"Bearer {token}"
                         continue
                     if resp.status_code in (429, 503, 504) and attempt < self._ctx.config.max_retries - 1:

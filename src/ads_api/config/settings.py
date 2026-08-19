@@ -86,9 +86,9 @@ class AmazonAdsConfig(BaseModel):
             return self.endpoints[self.region.value]
         return ENDPOINT_MAP[self.region.value]
 
-    async def refresh_access_token(self) -> str:
+    async def refresh_access_token(self, force: bool = False) -> str:
         if self._token_manager is None:
             raise RuntimeError("refresh_token and client_secret must be set to refresh the access token")
-        token = await self._token_manager.get_access_token()
+        token = await self._token_manager.get_access_token(force=force)
         self.access_token = token
         return token

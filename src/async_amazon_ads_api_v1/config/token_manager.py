@@ -55,8 +55,13 @@ class TokenManager:
         """Current access token, or ``None`` if not yet refreshed."""
         return self._access_token
 
-    async def get_access_token(self) -> str:
+    async def get_access_token(self, force: bool = False) -> str:
         """Return a valid access token, refreshing if necessary.
+
+        Parameters
+        ----------
+        force : bool, default False
+            If ``True``, force a refresh even if the current cached token appears valid.
 
         Returns
         -------
@@ -68,10 +73,10 @@ class TokenManager:
         httpx.HTTPError
             If the token endpoint request fails.
         """
-        if await self._is_token_valid():
+        if not force and await self._is_token_valid():
             return self._access_token  # type: ignore[return-value]
         async with self._lock:
-            if await self._is_token_valid():
+            if not force and await self._is_token_valid():
                 return self._access_token  # type: ignore[return-value]
             return await self._refresh()
 

@@ -111,10 +111,15 @@ class AmazonAdsConfig(BaseModel):
 
     # ── Token refresh ─────────────────────────────────────────────────
 
-    async def refresh_access_token(self) -> str:
+    async def refresh_access_token(self, force: bool = False) -> str:
         """Exchange the refresh token for a new access token.
 
         Delegates to :class:`TokenManager` for the actual refresh logic.
+
+        Parameters
+        ----------
+        force : bool, default False
+            If ``True``, force a refresh even if the current cached token appears valid.
 
         Returns
         -------
@@ -130,6 +135,6 @@ class AmazonAdsConfig(BaseModel):
         """
         if self._token_manager is None:
             raise RuntimeError("refresh_token and client_secret must be set to refresh the access token")
-        token = await self._token_manager.get_access_token()
+        token = await self._token_manager.get_access_token(force=force)
         self.access_token = token
         return token

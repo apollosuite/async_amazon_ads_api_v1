@@ -42,11 +42,11 @@ class TokenManager:
     def access_token(self) -> str | None:
         return self._access_token
 
-    async def get_access_token(self) -> str:
-        if await self._is_token_valid():
+    async def get_access_token(self, force: bool = False) -> str:
+        if not force and await self._is_token_valid():
             return self._access_token  # type: ignore[return-value]
         async with self._lock:
-            if await self._is_token_valid():
+            if not force and await self._is_token_valid():
                 return self._access_token  # type: ignore[return-value]
             return await self._refresh()
 

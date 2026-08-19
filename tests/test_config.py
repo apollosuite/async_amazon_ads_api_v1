@@ -123,3 +123,42 @@ class TestAmazonAdsConfig:
             cfg = from_toml(path)
         assert cfg.base_url == "http://localhost:9999"
         Path(path).unlink()
+
+
+class TestTokenManagerForceRefresh:
+    @pytest.mark.asyncio
+    async def test_force_refresh_bypasses_cache(self) -> None:
+        from unittest.mock import AsyncMock
+
+        from async_amazon_ads_api_v1.config.token_manager import TokenCredentials, TokenManager
+
+        creds = TokenCredentials(client_id="cid", client_secret="sec", refresh_token="rt")
+        tm = TokenManager(credentials=creds)
+        tm._access_token = "cached-token"
+        tm._expires_at = 9999999999.0
+
+        assert await tm.get_access_token(force=False) == "cached-token"
+
+        with patch.object(TokenManager, "_refresh", AsyncMock(return_value="fresh-token")) as mock_refresh:
+            token = await tm.get_access_token(force=True)
+            assert token == "fresh-token"
+            mock_refresh.assert_awaited_once()
+
+    @pytest.mark.asyncio
+    async def test_unified_token_manager_force_refresh(self) -> None:
+        from unittest.mock import AsyncMock
+
+        from ads_api.config.token_manager import TokenCredentials
+        from ads_api.config.token_manager import TokenManager as NewTokenManager
+
+        creds = TokenCredentials(client_id="cid", client_secret="sec", refresh_token="rt")
+        tm = NewTokenManager(credentials=creds)
+        tm._access_token = "cached-token"
+        tm._expires_at = 9999999999.0
+
+        assert await tm.get_access_token(force=False) == "cached-token"
+
+        with patch.object(NewTokenManager, "_refresh", AsyncMock(return_value="fresh-token")) as mock_refresh:
+            token = await tm.get_access_token(force=True)
+            assert token == "fresh-token"
+            mock_refresh.assert_awaited_once()

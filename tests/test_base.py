@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock, call, patch
 
 import httpx
 import pytest
@@ -126,6 +126,34 @@ class TestResourceBase:
         call_kwargs = mock_async_client.request.call_args[1]
         assert call_kwargs["headers"]["Amazon-Ads-ClientId"] == "test-client-id"
         assert call_kwargs["headers"]["Amazon-Advertising-API-Scope"] == "1"
+
+    @pytest.mark.asyncio
+    async def test_request_retry_on_401_with_force_refresh(
+        self, resource: _ResourceBase, mock_async_client: MagicMock
+    ) -> None:
+        resource._ctx.config._token_manager = MagicMock()
+        auth_error_resp = MagicMock(spec=httpx.Response)
+        auth_error_resp.status_code = 401
+        auth_error_resp.raise_for_status.side_effect = httpx.HTTPStatusError(
+            "unauthorized", request=MagicMock(), response=auth_error_resp
+        )
+        ok_resp = MagicMock(spec=httpx.Response)
+        ok_resp.status_code = 200
+
+        mock_async_client.request.side_effect = [
+            auth_error_resp.raise_for_status.side_effect,
+            ok_resp,
+        ]
+        with (
+            patch.object(ClientContext, "get_client", AsyncMock(return_value=mock_async_client)),
+            patch.object(
+                AmazonAdsConfig, "refresh_access_token", AsyncMock(return_value="refreshed-token")
+            ) as mock_refresh,
+        ):
+            resp = await resource._request("GET", "/test")
+        assert resp.status_code == 200
+        assert mock_refresh.await_args_list == [call(), call(force=True)]
+        assert mock_async_client.request.call_count == 2
 
     @pytest.mark.asyncio
     async def test_request_retry_on_429(self, resource: _ResourceBase, mock_async_client: MagicMock) -> None:
@@ -309,3 +337,31 @@ class TestUnifiedBaseResource:
         resp = MagicMock(spec=httpx.Response)
         result = unified_resource._response_list(DummyModel, resp, mode="raw")
         assert result is resp
+
+    @pytest.mark.asyncio
+    async def test_request_retry_on_401_with_force_refresh(self, unified_resource: UnifiedBaseResource) -> None:
+        from ads_api.base import ClientContext as UnifiedClientContext
+        from ads_api.config.settings import AmazonAdsConfig as NewConfig
+
+        unified_resource._ctx.config._token_manager = MagicMock()
+        auth_error_resp = MagicMock(spec=httpx.Response)
+        auth_error_resp.status_code = 401
+        auth_error_resp.is_error = True
+        auth_error_resp.text = "Unauthorized"
+
+        ok_resp = MagicMock(spec=httpx.Response)
+        ok_resp.status_code = 200
+        ok_resp.is_error = False
+
+        mock_client = MagicMock(spec=httpx.AsyncClient)
+        mock_client.request = AsyncMock(side_effect=[auth_error_resp, ok_resp])
+
+        with (
+            patch.object(UnifiedClientContext, "get_client", AsyncMock(return_value=mock_client)),
+            patch.object(NewConfig, "refresh_access_token", AsyncMock(return_value="refreshed-token")) as mock_refresh,
+        ):
+            resp = await unified_resource._request("GET", "/test")
+
+        assert resp.status_code == 200
+        assert mock_refresh.await_args_list == [call(), call(force=True)]
+        assert mock_client.request.call_count == 2
