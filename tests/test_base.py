@@ -390,8 +390,41 @@ class TestUnifiedBaseResource:
 
         assert resp.status_code == 200
         assert mock_sleep.await_count == 1
+        assert mock_sleep.await_args is not None
         slept = mock_sleep.await_args.args[0]
         assert 3.0 <= slept <= 3.5
+
+    @pytest.mark.asyncio
+    @pytest.mark.parametrize(
+        "transient_error",
+        [
+            httpx.ConnectError("Connection refused"),
+            httpx.ReadTimeout("The read operation timed out"),
+            httpx.ConnectTimeout("The connection timed out"),
+            httpx.RemoteProtocolError("Server disconnected unexpectedly"),
+        ],
+    )
+    async def test_request_retry_on_transient_network_errors(
+        self, unified_resource: UnifiedBaseResource, transient_error: Exception
+    ) -> None:
+        from ads_api.base import ClientContext as UnifiedClientContext
+
+        ok_resp = MagicMock(spec=httpx.Response)
+        ok_resp.status_code = 200
+        ok_resp.is_error = False
+
+        mock_client = MagicMock(spec=httpx.AsyncClient)
+        mock_client.request = AsyncMock(side_effect=[transient_error, ok_resp])
+
+        with (
+            patch.object(UnifiedClientContext, "get_client", AsyncMock(return_value=mock_client)),
+            patch("asyncio.sleep", AsyncMock()) as mock_sleep,
+        ):
+            resp = await unified_resource._request("GET", "/test")
+
+        assert resp.status_code == 200
+        assert mock_client.request.call_count == 2
+        assert mock_sleep.await_count == 1
 
 
 class TestParseRetryAfter:

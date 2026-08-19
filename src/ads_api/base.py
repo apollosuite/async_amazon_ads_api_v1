@@ -136,7 +136,7 @@ class BaseResource:
                     logger.error("%s %s", resp.status_code, resp.text)
                     raise_for_status(resp)
                 return resp
-            except httpx.ConnectError:
+            except (httpx.ConnectError, httpx.TimeoutException, httpx.RemoteProtocolError):
                 if attempt < self._ctx.config.max_retries - 1:
                     await asyncio.sleep(2**attempt + random.uniform(0, 1))
                     continue
