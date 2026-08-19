@@ -94,3 +94,8 @@ class TokenManager:
                 refresh_token=self._credentials.refresh_token,
             )
         )
+
+    async def close(self) -> None:
+        """Close token manager resources, including token cache."""
+        if self._cache is not None:
+            await self._cache.close()

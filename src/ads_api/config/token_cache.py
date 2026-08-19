@@ -18,26 +18,6 @@ logger = logging.getLogger(__name__)
 if TYPE_CHECKING:
     from redis.asyncio import Redis
 
-_redis_clients: dict[str, Redis] = {}
-
-
-def _get_redis_client(redis_url: str) -> Redis:
-    if redis_url not in _redis_clients:
-        try:
-            from redis.asyncio import Redis
-        except ImportError:
-            raise ImportError(
-                "Redis support requires the 'redis' extra: pip install async-amazon-ads-api-v1[redis]"
-            ) from None
-        _redis_clients[redis_url] = Redis.from_url(redis_url, decode_responses=True)
-    return _redis_clients[redis_url]
-
-
-async def close_all_redis() -> None:
-    for client in _redis_clients.values():
-        await client.aclose()
-    _redis_clients.clear()
-
 
 @dataclass
 class TokenData:
@@ -52,6 +32,9 @@ class BaseTokenCache(ABC):
 
     @abstractmethod
     async def write(self, data: TokenData) -> None: ...
+
+    async def close(self) -> None:
+        """Close cache resources if applicable."""
 
 
 class FileTokenCache(BaseTokenCache):
@@ -99,13 +82,31 @@ class FileTokenCache(BaseTokenCache):
 class RedisTokenCache(BaseTokenCache):
     def __init__(
         self,
-        redis_url: str,
-        client_id: str,
-        refresh_token: str,
+        redis_url: str | None = None,
+        client_id: str = "",
+        refresh_token: str = "",
+        *,
+        redis_client: Redis | None = None,
         key_prefix: str = "amazon_ads:token:",
     ) -> None:
-        self._client = _get_redis_client(redis_url)
+        self._owns_client = False
+        if redis_client is not None:
+            self._client: Redis = redis_client
+        elif redis_url is not None:
+            try:
+                from redis.asyncio import Redis
+            except ImportError:
+                raise ImportError("Redis support requires the 'redis' extra: pip install ads-api[redis]") from None
+            self._client = Redis.from_url(redis_url, decode_responses=True)
+            self._owns_client = True
+        else:
+            raise ValueError("Either redis_url or redis_client must be provided")
+
         self._key = f"{key_prefix}{_cache_key(client_id, refresh_token)}"
+
+    async def close(self) -> None:
+        if self._owns_client:
+            await self._client.aclose()
 
     async def read(self) -> TokenData | None:
         raw = await self._client.get(self._key)

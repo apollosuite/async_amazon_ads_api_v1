@@ -167,3 +167,58 @@ class TestBaseTokenCache:
     def test_cannot_instantiate_abstract(self) -> None:
         with pytest.raises(TypeError):
             BaseTokenCache()  # type: ignore[abstract]
+
+
+@pytest.mark.asyncio
+class TestUnifiedTokenCache:
+    async def test_unified_file_token_cache(self, tmp_path: Path) -> None:
+        from ads_api.config.token_cache import FileTokenCache as NewFileTokenCache
+        from ads_api.config.token_cache import TokenData as NewTokenData
+
+        cache = NewFileTokenCache(cache_dir=tmp_path, client_id="cid", refresh_token="rt")
+        assert await cache.read() is None
+
+        data = NewTokenData(access_token="tok1", expires_at=time.time() + 3600, refresh_token="rt")
+        await cache.write(data)
+        read_data = await cache.read()
+        assert read_data is not None
+        assert read_data.access_token == "tok1"
+        await cache.close()
+
+    async def test_unified_redis_token_cache_injected(self) -> None:
+        from unittest.mock import AsyncMock, MagicMock
+
+        from ads_api.config.token_cache import RedisTokenCache as NewRedisTokenCache
+        from ads_api.config.token_cache import TokenData as NewTokenData
+
+        mock_redis = MagicMock()
+        mock_redis.get = AsyncMock(return_value='{"access_token": "redis-tok", "expires_at": 9999999999.0}')
+        mock_redis.set = AsyncMock()
+        mock_redis.aclose = AsyncMock()
+
+        cache = NewRedisTokenCache(client_id="cid", refresh_token="rt", redis_client=mock_redis)
+        assert cache._owns_client is False
+
+        data = await cache.read()
+        assert data is not None
+        assert data.access_token == "redis-tok"
+
+        await cache.write(NewTokenData(access_token="new-tok", expires_at=time.time() + 3600, refresh_token="rt"))
+        mock_redis.set.assert_awaited_once()
+
+        await cache.close()
+        mock_redis.aclose.assert_not_awaited()  # injected client should not be closed
+
+    async def test_unified_redis_token_cache_owned_close(self) -> None:
+        from unittest.mock import AsyncMock, MagicMock, patch
+
+        from ads_api.config.token_cache import RedisTokenCache as NewRedisTokenCache
+
+        mock_redis = MagicMock()
+        mock_redis.aclose = AsyncMock()
+
+        with patch("redis.asyncio.Redis.from_url", return_value=mock_redis):
+            cache = NewRedisTokenCache(redis_url="redis://localhost:6379/0", client_id="cid", refresh_token="rt")
+            assert cache._owns_client is True
+            await cache.close()
+            mock_redis.aclose.assert_awaited_once()

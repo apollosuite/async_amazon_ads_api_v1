@@ -65,6 +65,8 @@ class ClientContext:
         if self._client is not None:
             await self._client.aclose()
             self._client = None
+        if self.config._token_manager is not None:
+            await self.config._token_manager.close()
 
     async def __aenter__(self) -> ClientContext:
         return self

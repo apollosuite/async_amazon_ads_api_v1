@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from enum import StrEnum
 from pathlib import Path
+from typing import Any
 
 from pydantic import BaseModel, PrivateAttr, model_validator
 
@@ -36,6 +37,8 @@ class AmazonAdsConfig(BaseModel):
     token_cache_dir: str | None = None
     cache_backend: CacheBackend = CacheBackend.FILE
     redis_url: str | None = None
+    redis_client: Any | None = None
+    token_cache: BaseTokenCache | None = None
 
     timeout: float = 600.0
     max_retries: int = 3
@@ -53,22 +56,24 @@ class AmazonAdsConfig(BaseModel):
         if self.max_retries < 0:
             raise ValueError("max_retries cannot be negative")
 
-        token_cache: BaseTokenCache | None = None
-        if self.cache_backend == CacheBackend.REDIS:
-            if not self.redis_url:
-                raise ValueError("redis_url is required when cache_backend is 'redis'")
-            if self.refresh_token is not None:
-                token_cache = RedisTokenCache(
-                    redis_url=self.redis_url,
+        token_cache: BaseTokenCache | None = self.token_cache
+        if token_cache is None:
+            if self.cache_backend == CacheBackend.REDIS:
+                if not self.redis_url and self.redis_client is None:
+                    raise ValueError("redis_url or redis_client is required when cache_backend is 'redis'")
+                if self.refresh_token is not None:
+                    token_cache = RedisTokenCache(
+                        redis_url=self.redis_url,
+                        redis_client=self.redis_client,
+                        client_id=self.client_id,
+                        refresh_token=self.refresh_token,
+                    )
+            elif self.token_cache_dir is not None and self.refresh_token is not None:
+                token_cache = FileTokenCache(
+                    cache_dir=Path(self.token_cache_dir).expanduser(),
                     client_id=self.client_id,
                     refresh_token=self.refresh_token,
                 )
-        elif self.token_cache_dir is not None and self.refresh_token is not None:
-            token_cache = FileTokenCache(
-                cache_dir=Path(self.token_cache_dir).expanduser(),
-                client_id=self.client_id,
-                refresh_token=self.refresh_token,
-            )
 
         if self.refresh_token and self.client_secret:
             credentials = TokenCredentials(
