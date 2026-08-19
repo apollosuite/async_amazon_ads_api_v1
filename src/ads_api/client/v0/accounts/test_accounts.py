@@ -18,6 +18,7 @@ from ads_api.models.v0.accounts.test_accounts import (
 
 
 class TestAccounts(BaseResource):
+    __test__ = False
 
     @overload
     async def create_account(

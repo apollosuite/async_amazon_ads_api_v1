@@ -600,6 +600,8 @@ def render_client_module(
     lines.append("")
     lines.append("")
     lines.append(f"class {resource_name}(BaseResource):")
+    if resource_name.startswith("Test"):
+        lines.append("    __test__ = False")
     lines.append("")
 
     unused = ImportSet()

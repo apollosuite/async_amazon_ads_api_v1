@@ -96,6 +96,7 @@ select = ["E", "F", "I", "N", "UP", "W"]
 
 
 [tool.pytest.ini_options]
+testpaths = ["tests"]
 markers = [
     "e2e: tests that call a live ads_v1_server over HTTP",
 ]
