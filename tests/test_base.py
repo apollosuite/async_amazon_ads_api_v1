@@ -365,3 +365,86 @@ class TestUnifiedBaseResource:
         assert resp.status_code == 200
         assert mock_refresh.await_args_list == [call(), call(force=True)]
         assert mock_client.request.call_count == 2
+
+    @pytest.mark.asyncio
+    async def test_request_retry_on_429_with_retry_after(self, unified_resource: UnifiedBaseResource) -> None:
+        from ads_api.base import ClientContext as UnifiedClientContext
+
+        rate_limit_resp = MagicMock(spec=httpx.Response)
+        rate_limit_resp.status_code = 429
+        rate_limit_resp.is_error = True
+        rate_limit_resp.headers = {"Retry-After": "3"}
+
+        ok_resp = MagicMock(spec=httpx.Response)
+        ok_resp.status_code = 200
+        ok_resp.is_error = False
+
+        mock_client = MagicMock(spec=httpx.AsyncClient)
+        mock_client.request = AsyncMock(side_effect=[rate_limit_resp, ok_resp])
+
+        with (
+            patch.object(UnifiedClientContext, "get_client", AsyncMock(return_value=mock_client)),
+            patch("asyncio.sleep", AsyncMock()) as mock_sleep,
+        ):
+            resp = await unified_resource._request("GET", "/test")
+
+        assert resp.status_code == 200
+        assert mock_sleep.await_count == 1
+        slept = mock_sleep.await_args.args[0]
+        assert 3.0 <= slept <= 3.5
+
+
+class TestParseRetryAfter:
+    def test_delta_seconds(self) -> None:
+        from ads_api.base import _parse_retry_after
+
+        resp = MagicMock(spec=httpx.Response)
+        resp.headers = {"Retry-After": "5"}
+        result = _parse_retry_after(resp, fallback_seconds=1.0)
+        assert 5.0 <= result <= 5.5
+
+    def test_delta_seconds_float(self) -> None:
+        from ads_api.base import _parse_retry_after
+
+        resp = MagicMock(spec=httpx.Response)
+        resp.headers = {"Retry-After": "2.5"}
+        result = _parse_retry_after(resp, fallback_seconds=1.0)
+        assert 2.5 <= result <= 3.0
+
+    def test_missing_header_uses_fallback(self) -> None:
+        from ads_api.base import _parse_retry_after
+
+        resp = MagicMock(spec=httpx.Response)
+        resp.headers = {}
+        result = _parse_retry_after(resp, fallback_seconds=3.0)
+        assert result == 3.0
+
+    def test_invalid_header_uses_fallback(self) -> None:
+        from ads_api.base import _parse_retry_after
+
+        resp = MagicMock(spec=httpx.Response)
+        resp.headers = {"Retry-After": "not-a-valid-value"}
+        result = _parse_retry_after(resp, fallback_seconds=4.0)
+        assert result == 4.0
+
+    def test_max_wait_cap(self) -> None:
+        from ads_api.base import _parse_retry_after
+
+        resp = MagicMock(spec=httpx.Response)
+        resp.headers = {"Retry-After": "1000"}
+        result = _parse_retry_after(resp, fallback_seconds=1.0, max_wait=30.0)
+        assert result == 30.0
+
+    def test_http_date_format(self) -> None:
+        import email.utils
+        from datetime import UTC, datetime, timedelta
+
+        from ads_api.base import _parse_retry_after
+
+        future = datetime.now(UTC) + timedelta(seconds=10)
+        date_str = email.utils.format_datetime(future)
+
+        resp = MagicMock(spec=httpx.Response)
+        resp.headers = {"Retry-After": date_str}
+        result = _parse_retry_after(resp, fallback_seconds=1.0)
+        assert 9.0 <= result <= 11.0

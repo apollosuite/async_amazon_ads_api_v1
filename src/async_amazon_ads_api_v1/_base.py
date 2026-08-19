@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import asyncio
+import email.utils
 import logging
 import random
 from collections.abc import Sequence
 from dataclasses import dataclass
+from datetime import UTC, datetime
 from typing import Any
 
 import httpx
@@ -15,6 +17,33 @@ from pydantic import BaseModel
 from .config.settings import AmazonAdsConfig
 
 logger = logging.getLogger(__name__)
+
+
+def _parse_retry_after(resp: httpx.Response | None, fallback_seconds: float, max_wait: float = 60.0) -> float:
+    """Parse the Retry-After header as seconds or HTTP-Date with fallback."""
+    if resp is None:
+        return fallback_seconds
+    headers = getattr(resp, "headers", None)
+    if headers is None:
+        return fallback_seconds
+    raw = headers.get("Retry-After")
+    if not raw:
+        return fallback_seconds
+    try:
+        seconds = float(raw)
+        if seconds >= 0:
+            return min(seconds + random.uniform(0, 0.5), max_wait)
+    except (ValueError, TypeError):
+        pass
+    try:
+        target_dt = email.utils.parsedate_to_datetime(str(raw))
+        now_dt = datetime.now(UTC)
+        delta = (target_dt - now_dt).total_seconds()
+        if delta > 0:
+            return min(delta + random.uniform(0, 0.5), max_wait)
+    except Exception:
+        pass
+    return fallback_seconds
 
 
 class ClientContext:
@@ -102,7 +131,8 @@ class _ResourceBase:
                     continue
                 if exc.response.status_code in (429, 503, 504):
                     if attempt < self._ctx.config.max_retries - 1:
-                        wait_time = 2**attempt + random.uniform(0, 1)
+                        fallback = 2**attempt + random.uniform(0, 1)
+                        wait_time = _parse_retry_after(exc.response, fallback_seconds=fallback)
                         logger.warning("Rate limit exceeded, retrying in %.2f seconds %s", wait_time, exc)
                         await asyncio.sleep(wait_time)
                         continue
