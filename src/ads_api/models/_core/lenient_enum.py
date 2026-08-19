@@ -7,7 +7,7 @@ from typing import Any
 from pydantic import ValidationInfo, WrapValidator
 
 
-def lenient_enum(enum_cls: type[StrEnum]) -> WrapValidator:
+def lenient_enum[E: StrEnum](enum_cls: type[E]) -> WrapValidator:
     """JSON 模式接受未知枚举值并保留为 str；Python 构造模式仍校验合法值。"""
 
     def validator(v: Any, handler: Callable[[Any], Any], info: ValidationInfo) -> Any:

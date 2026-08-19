@@ -7,6 +7,7 @@ import httpx
 import pytest
 from pydantic import BaseModel
 
+from ads_api.base import BaseResource as UnifiedBaseResource
 from async_amazon_ads_api_v1._base import ClientContext, _ResourceBase, _ResourceSpec
 from async_amazon_ads_api_v1.config.settings import AmazonAdsConfig
 
@@ -257,3 +258,54 @@ class TestResourceBase:
         assert call_kwargs["method"] == "POST"
         assert call_kwargs["url"] == "/test/query"
         assert call_kwargs["json"] == {"name": "test", "value": 1}
+
+
+class TestUnifiedBaseResource:
+    @pytest.fixture
+    def unified_resource(self) -> UnifiedBaseResource:
+        from ads_api.base import BaseResource, ClientContext
+        from ads_api.config.settings import AmazonAdsConfig as NewConfig
+
+        return BaseResource(ClientContext(NewConfig(access_token="test-token", client_id="test-client")))
+
+    def test_response_pydantic_mode(self, unified_resource: UnifiedBaseResource) -> None:
+        resp = MagicMock(spec=httpx.Response)
+        resp.text = '{"name": "test", "value": 123}'
+        result = unified_resource._response(DummyModel, resp, mode="pydantic")
+        assert isinstance(result, DummyModel)
+        assert result.name == "test"
+        assert result.value == 123
+
+    def test_response_dict_mode(self, unified_resource: UnifiedBaseResource) -> None:
+        resp = MagicMock(spec=httpx.Response)
+        resp.json.return_value = {"name": "test", "value": 123}
+        result = unified_resource._response(DummyModel, resp, mode="dict")
+        assert isinstance(result, dict)
+        assert result == {"name": "test", "value": 123}
+
+    def test_response_raw_mode(self, unified_resource: UnifiedBaseResource) -> None:
+        resp = MagicMock(spec=httpx.Response)
+        result = unified_resource._response(DummyModel, resp, mode="raw")
+        assert result is resp
+
+    def test_response_list_pydantic_mode(self, unified_resource: UnifiedBaseResource) -> None:
+        resp = MagicMock(spec=httpx.Response)
+        resp.text = '[{"name": "item1", "value": 1}, {"name": "item2", "value": 2}]'
+        result = unified_resource._response_list(DummyModel, resp, mode="pydantic")
+        assert isinstance(result, list)
+        assert len(result) == 2
+        assert isinstance(result[0], DummyModel)
+        assert result[0].name == "item1"
+        assert result[1].value == 2
+
+    def test_response_list_dict_mode(self, unified_resource: UnifiedBaseResource) -> None:
+        resp = MagicMock(spec=httpx.Response)
+        resp.json.return_value = [{"name": "item1", "value": 1}]
+        result = unified_resource._response_list(DummyModel, resp, mode="dict")
+        assert isinstance(result, list)
+        assert result == [{"name": "item1", "value": 1}]
+
+    def test_response_list_raw_mode(self, unified_resource: UnifiedBaseResource) -> None:
+        resp = MagicMock(spec=httpx.Response)
+        result = unified_resource._response_list(DummyModel, resp, mode="raw")
+        assert result is resp

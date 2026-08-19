@@ -7,7 +7,7 @@ import logging
 import random
 from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Any, TypeVar
+from typing import Any
 
 import httpx
 from pydantic import BaseModel
@@ -15,8 +15,6 @@ from pydantic import BaseModel
 from .config.settings import AmazonAdsConfig
 
 logger = logging.getLogger(__name__)
-
-_T = TypeVar("_T", bound=BaseModel)
 
 
 class ClientContext:
@@ -39,7 +37,7 @@ class ClientContext:
             )
         return self._client
 
-    def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
+    def _response[T: BaseModel](self, model_cls: type[T], resp: httpx.Response) -> T:
         return model_cls.model_construct(**resp.json())
 
 
@@ -117,13 +115,13 @@ class _ResourceBase:
                 raise
         raise RuntimeError("Retry loop exited unexpectedly")
 
-    def _response(self, model_cls: type[_T], resp: httpx.Response) -> _T:
+    def _response[T: BaseModel](self, model_cls: type[T], resp: httpx.Response) -> T:
         return self._ctx._response(model_cls, resp)
 
     def _validate(self, items: Sequence[BaseModel]) -> list[dict[str, Any]]:
         return [item.model_dump(mode="json", exclude_none=True) for item in items]
 
-    async def _create(self, items: Sequence[BaseModel], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
+    async def _create[T: BaseModel](self, items: Sequence[BaseModel], spec: _ResourceSpec, response_cls: type[T]) -> T:
         validated = self._validate(items)
         resp = await self._request(
             "POST",
@@ -133,7 +131,7 @@ class _ResourceBase:
         )
         return self._response(response_cls, resp)
 
-    async def _update(self, items: Sequence[BaseModel], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
+    async def _update[T: BaseModel](self, items: Sequence[BaseModel], spec: _ResourceSpec, response_cls: type[T]) -> T:
         assert spec.update_model is not None, f"{spec.name} has no update model"
         validated = self._validate(items)
         resp = await self._request(
@@ -144,7 +142,7 @@ class _ResourceBase:
         )
         return self._response(response_cls, resp)
 
-    async def _delete(self, ids: list[str], spec: _ResourceSpec, response_cls: type[_T]) -> _T:
+    async def _delete[T: BaseModel](self, ids: list[str], spec: _ResourceSpec, response_cls: type[T]) -> T:
         assert spec.delete_key is not None, f"{spec.name} has no delete operation"
         resp = await self._request(
             "POST",
@@ -154,6 +152,6 @@ class _ResourceBase:
         )
         return self._response(response_cls, resp)
 
-    async def _query(self, body: BaseModel, path: str, response_cls: type[_T]) -> _T:
+    async def _query[T: BaseModel](self, body: BaseModel, path: str, response_cls: type[T]) -> T:
         resp = await self._request("POST", path, json=body.model_dump(exclude_none=True))
         return self._response(response_cls, resp)

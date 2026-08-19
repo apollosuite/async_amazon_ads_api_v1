@@ -5,7 +5,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import random
-from typing import Any, Literal, TypeVar, cast, overload
+from typing import Any, Literal, cast, overload
 
 import httpx
 from pydantic import BaseModel, TypeAdapter, ValidationError
@@ -15,8 +15,7 @@ from ads_api.errors import raise_for_status
 
 logger = logging.getLogger(__name__)
 
-_T = TypeVar("_T", bound=BaseModel)
-ResponseMode = Literal["pydantic", "dict", "raw"]
+type ResponseMode = Literal["pydantic", "dict", "raw"]
 
 
 class ClientContext:
@@ -113,14 +112,20 @@ class BaseResource:
         raise RuntimeError("Retry loop exited unexpectedly")
 
     @overload
-    def _response(self, model_cls: type[_T], resp: httpx.Response, *, mode: Literal["pydantic"] = "pydantic") -> _T: ...
+    def _response[T: BaseModel](
+        self, model_cls: type[T], resp: httpx.Response, *, mode: Literal["pydantic"] = "pydantic"
+    ) -> T: ...
     @overload
-    def _response(self, model_cls: type[_T], resp: httpx.Response, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    def _response[T: BaseModel](
+        self, model_cls: type[T], resp: httpx.Response, *, mode: Literal["dict"]
+    ) -> dict[str, Any]: ...
     @overload
-    def _response(self, model_cls: type[_T], resp: httpx.Response, *, mode: Literal["raw"]) -> httpx.Response: ...
-    def _response(
-        self, model_cls: type[_T], resp: httpx.Response, *, mode: ResponseMode = "pydantic"
-    ) -> _T | dict[str, Any] | httpx.Response:
+    def _response[T: BaseModel](
+        self, model_cls: type[T], resp: httpx.Response, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    def _response[T: BaseModel](
+        self, model_cls: type[T], resp: httpx.Response, *, mode: ResponseMode = "pydantic"
+    ) -> T | dict[str, Any] | httpx.Response:
         if mode == "raw":
             return resp
         if mode == "dict":
@@ -132,25 +137,27 @@ class BaseResource:
             raise
 
     @overload
-    def _response_list(
-        self, model_cls: type[_T], resp: httpx.Response, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> list[_T]: ...
+    def _response_list[T: BaseModel](
+        self, model_cls: type[T], resp: httpx.Response, *, mode: Literal["pydantic"] = "pydantic"
+    ) -> list[T]: ...
     @overload
-    def _response_list(
-        self, model_cls: type[_T], resp: httpx.Response, *, mode: Literal["dict"]
+    def _response_list[T: BaseModel](
+        self, model_cls: type[T], resp: httpx.Response, *, mode: Literal["dict"]
     ) -> list[dict[str, Any]]: ...
     @overload
-    def _response_list(self, model_cls: type[_T], resp: httpx.Response, *, mode: Literal["raw"]) -> httpx.Response: ...
-    def _response_list(
-        self, model_cls: type[_T], resp: httpx.Response, *, mode: ResponseMode = "pydantic"
-    ) -> list[_T] | list[dict[str, Any]] | httpx.Response:
+    def _response_list[T: BaseModel](
+        self, model_cls: type[T], resp: httpx.Response, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    def _response_list[T: BaseModel](
+        self, model_cls: type[T], resp: httpx.Response, *, mode: ResponseMode = "pydantic"
+    ) -> list[T] | list[dict[str, Any]] | httpx.Response:
         if mode == "raw":
             return resp
         if mode == "dict":
             return cast(list[dict[str, Any]], resp.json())
         try:
             list_type: Any = list[model_cls]  # type: ignore[valid-type]
-            return TypeAdapter[list[_T]](list_type).validate_json(resp.text)
+            return TypeAdapter[list[T]](list_type).validate_json(resp.text)
         except ValidationError:
             logger.error("Failed to parse response list as %s: %s", model_cls.__name__, resp.text)
             raise
