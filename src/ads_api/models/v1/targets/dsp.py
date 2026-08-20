@@ -3,850 +3,72 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models.v1._shared.dsp import (
+    DSPAcrossGroupOperator,
+    DSPAdPlayerSize,
+    DSPAdProduct,
+    DSPAppType,
+    DSPAverageCompletionAndFullyViewableRateTargetingType,
+    DSPBrandExposureViewabilityTargetingType,
+    DSPBrandSafetyCategory,
+    DSPBrandSafetyTier,
+    DSPBrandSuitabilityRiskLevelType,
+    DSPContentGenre,
+    DSPContentInstreamPosition,
+    DSPContentOutstreamPosition,
+    DSPContentRatingTypes,
+    DSPCreateState,
     DSPCreateTimeOfDay,
+    DSPDayOfWeek,
+    DSPDeliveryReason,
+    DSPDeliveryStatus,
+    DSPDeviceOrientation,
+    DSPDeviceType,
+    DSPDomainTargetTypes,
+    DSPDspContentRatingEnum,
     DSPDVBrandSafetyAppAgeRatingType,
+    DSPDVBrandSafetyAppStarRatingType,
     DSPDVBrandSafetyContentCategoryType,
+    DSPError,
+    DSPErrorCode,
+    DSPErrorsIndex,
     DSPExcludeAppsAndSitesType,
+    DSPFoldPosition,
+    DSPIASBrandSafetyLevelType,
+    DSPIASFraudInvalidTrafficType,
+    DSPIASViewabilityStandardType,
+    DSPInGroupOperator,
+    DSPInventorySourceType,
+    DSPKeywordMatchType,
+    DSPMarketplace,
     DSPMarketplaceStringValue,
     DSPMarketplaceStringValueOut,
+    DSPMobileDevice,
+    DSPMobileEnvironment,
+    DSPMobileOs,
+    DSPMrcViewabilityTargetingType,
+    DSPNativeContentPosition,
     DSPNewsGuardBrandGuardMisinformationSafetyType,
     DSPNewsGuardBrandGuardTrustedNewsTargetingType,
+    DSPPlacementType,
+    DSPProductCategoryMatchType,
+    DSPProductIdType,
+    DSPProductMatchType,
+    DSPState,
+    DSPTargetLevel,
+    DSPTargetType,
+    DSPThemeMatchType,
+    DSPThirdPartyTargetType,
+    DSPTwitchContentRatingEnum,
+    DSPVideoAdFormat,
+    DSPVideoContentDuration,
+    DSPVideoInitiationType,
+    DSPViewabilityTierType,
 )
-
-type DSPAcrossGroupOperator = Literal["ALL", "ANY"]
-"""
-Supported values:
-- `ALL`: Matches only if every single condition is true. AcrossGroupOperator is used among audiences between audience groups. This is a read-only field.
-- `ANY`: Matches if at least one condition is true. AcrossGroupOperator is used among audiences between audience groups. This is a read-only field.
-"""
-
-
-type DSPAdPlayerSize = Literal["LARGE", "MEDIUM", "SMALL", "UNKNOWN"]
-"""
-Supported values:
-- `LARGE`: Large video player.
-- `MEDIUM`: Medium video player.
-- `SMALL`: Small video player.
-- `UNKNOWN`: Unknown player size.
-"""
-
-
-type DSPAdProduct = Literal["AMAZON_DSP"]
-"""
-Supported values:
-- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
-"""
-
-
-type DSPAppType = Literal["MOBILE", "STREAMING_TV"]
-"""
-Supported values:
-- `MOBILE`: Mobile application.
-- `STREAMING_TV`: Streaming TV application.
-"""
-
-
-type DSPAverageCompletionAndFullyViewableRateTargetingType = Literal[
-    "ALLOW_ALL",
-    "AVG_COMPLETION_FULLY_VIEWABLE_GTE_10",
-    "AVG_COMPLETION_FULLY_VIEWABLE_GTE_20",
-    "AVG_COMPLETION_FULLY_VIEWABLE_GTE_25",
-    "AVG_COMPLETION_FULLY_VIEWABLE_GTE_30",
-    "AVG_COMPLETION_FULLY_VIEWABLE_GTE_35",
-    "AVG_COMPLETION_FULLY_VIEWABLE_GTE_40",
-]
-"""
-The type of average completion and fully viewable rate targeting.
-"""
-
-
-type DSPBrandExposureViewabilityTargetingType = Literal[
-    "ALLOW_ALL",
-    "BRAND_EXPOSURE_VIEWABILITY_GTE_10_SEC_AVG_DURATION",
-    "BRAND_EXPOSURE_VIEWABILITY_GTE_15_SEC_AVG_DURATION",
-    "BRAND_EXPOSURE_VIEWABILITY_GTE_5_SEC_AVG_DURATION",
-]
-"""
-The type of brand exposure viewability targeting.
-"""
-
-
-type DSPBrandSafetyCategory = Literal[
-    "ACCIDENTS_DISASTERS_AND_TRAGEDIES",
-    "ALCOHOL_AND_RELATED_PRODUCTS",
-    "BLOOD_GORE_VIOLENCE",
-    "CRIME",
-    "DRUG_REFERENCES_OR_USE",
-    "GAMBLING",
-    "HIGHLY_DEBATED_SOCIAL_ISSUES",
-    "POLITICS",
-    "PROFANITY",
-    "RELIGIOUS_CONTENT",
-    "SEXUAL_REFERENCES_AND_SUGGESTIVE",
-    "SHOCK_AND_HORROR",
-    "TOBACCO_AND_RELATED_PRODUCTS",
-    "UNRATED_MEDIA_CONTENT",
-    "WEAPONS",
-]
-"""
-Supported values:
-- `ACCIDENTS_DISASTERS_AND_TRAGEDIES`: Content related to sensitive tragedies, man-made or natural disasters and calamities, including content that graphically depicts such events.
-- `ALCOHOL_AND_RELATED_PRODUCTS`: Content related to the general consumption of alcohol.
-- `BLOOD_GORE_VIOLENCE`: Content in a fictional entertainment context that contains blood, gore or acts of violence.
-- `CRIME`: Content related to crime, such as law enforcement efforts, criminal behavior, crime prevention, and justice systems.
-- `DRUG_REFERENCES_OR_USE`: Content related to substance use, drugs, and other mind-altering substances.
-- `GAMBLING`: Content related to gambling, such as instructions on how to play, accessories like home poker sets, and industry news. It does not include online gambling services where money or items of value can be wagered in exchange for the opportunity to win prizes with real-world value.
-- `HIGHLY_DEBATED_SOCIAL_ISSUES`: Content related to highly debated and politically or socially divisive topics, which is reasonably likely to cause offense to the average person with opposing views.
-- `POLITICS`: Content related to politics, governments, political science, political parties, elections, and political issues of public debate.
-- `PROFANITY`: Content containing excessive use of strong language, explicit, offensive, or sensitive words and expressions.
-- `RELIGIOUS_CONTENT`: Content related to religious and spiritual beliefs.
-- `SEXUAL_REFERENCES_AND_SUGGESTIVE`: Content that contains references or depictions that are mildly provocative, or mature in nature, whether real, simulated or animated. It does not contain sexually explicit content.
-- `SHOCK_AND_HORROR`: Content that may cause shock, fear, or unease. It includes supernatural, disturbing elements, and horror themes.
-- `TOBACCO_AND_RELATED_PRODUCTS`: Content related to the smoking of cigarettes, cigars, pipe tobacco, smokeless tobacco, and other tobacco or nicotine products.
-- `UNRATED_MEDIA_CONTENT`: Content that has not been classified. This covers games on Twitch not rated by ESRB.
-- `WEAPONS`: Content related to realistic weapons, such as firearms, bladed weapons, bows and arrows, and military equipment and vehicles.
-"""
-
-
-type DSPBrandSafetyTier = Literal["EXPANDED", "RESTRICTIVE", "STANDARD"]
-"""
-Supported values:
-- `EXPANDED`: Tier that maximizes reach across all ad-eligible inventory. This tier is suitable for brands with a greater risk tolerance for advertising alongside a wide variety of content.
-- `RESTRICTIVE`: Tier that prioritizes brand suitability over reach. This tier is suitable for brands with the lowest risk tolerance for advertising alongside a wide variety of content.
-- `STANDARD`: Tier that offers broad reach and is the default for all campaigns. This tier is suitable for brands with a moderate risk tolerance for advertising alongside a wide variety of content.
-"""
-
-
-type DSPBrandSuitabilityRiskLevelType = Literal["ALLOW_ALL", "HIGH", "HIGH_MEDIUM", "HIGH_MEDIUM_LOW"]
-"""
-The Double Verify brand suitability risk level.
-"""
-
-
-type DSPContentGenre = Literal[
-    "ACTION",
-    "ADVENTURE",
-    "ALTERNATIVE_ROCK",
-    "ANIMATION",
-    "ARTS",
-    "BIOGRAPHY",
-    "BLUES",
-    "BUSINESS",
-    "CHILDRENS_MUSIC",
-    "CHRISTIAN_GOSPEL",
-    "CHRISTMAS_HOLIDAY",
-    "CLASSICAL",
-    "CLASSIC_ROCK",
-    "COLLEGE_RADIO",
-    "COMEDY",
-    "COUNTRY",
-    "CRIME",
-    "DANCE_DJ",
-    "DOCUMENTARY",
-    "DRAMA",
-    "EASY_LISTENING",
-    "EDUCATION",
-    "EUROPEAN_POP_FOLK",
-    "FAMILY",
-    "FANTASY",
-    "FICTION",
-    "FILM_NOIR",
-    "FOLK",
-    "FRENCH_VARIETY",
-    "GAME_SHOW",
-    "GENRE_NOT_AVAILABLE",
-    "GERMAN_ROCK_POP",
-    "GOVERNMENT",
-    "HARD_ROCK_METAL",
-    "HEALTH_AND_FITNESS",
-    "HISTORY",
-    "HORROR",
-    "INTERNATIONAL",
-    "JAPANESE",
-    "JAZZ",
-    "KIDS_AND_FAMILY",
-    "LATIN_MUSIC",
-    "LEISURE",
-    "MISCELLANEOUS",
-    "MUSIC",
-    "MUSICAL",
-    "MUSICALS_CABARET",
-    "MYSTERY",
-    "NEWS",
-    "NEW_AGE",
-    "OLDIES_ADULT_STANDARDS",
-    "POP",
-    "RAP_HIP_HOP",
-    "RB",
-    "REALITY_TV",
-    "REGGAE_ISLAND",
-    "RELIGION_AND_SPIRITUALITY",
-    "ROCK",
-    "ROMANCE",
-    "SCIENCE",
-    "SCIENCE_FICTION",
-    "SHORT",
-    "SOCIETY_AND_CULTURE",
-    "SOUNDTRACKS",
-    "SPORT",
-    "SUPER_HERO",
-    "TALK_SHOW",
-    "TECHNOLOGY",
-    "THRILLER",
-    "TRUE_CRIME",
-    "TV_AND_FILM",
-    "WAR",
-    "WESTERN",
-]
-"""
-Content genre for targeting. Supported values depend on the ad group's inventoryType. Using a value not supported for the given inventoryType will result in an error.
-
-Supported values per inventoryType:
-
-- `ONLINE_VIDEO`, `STREAMING_TV`, `STREAMING_TV_AMAZON_DEAL`, `VIDEO`, `LIVE_EVENTS`: ACTION, ADVENTURE, ANIMATION, BIOGRAPHY, COMEDY, CRIME, DOCUMENTARY, DRAMA, FAMILY, FANTASY, FILM_NOIR, GAME_SHOW, HISTORY, HORROR, MUSICAL, MYSTERY, NEWS, REALITY_TV, ROMANCE, SCIENCE_FICTION, SHORT, SPORT, SUPER_HERO, TALK_SHOW, THRILLER, WAR, WESTERN, GENRE_NOT_AVAILABLE
-- `AUDIO`, `AUDIO_AMAZON_DEAL`: ALTERNATIVE_ROCK, BLUES, CHILDRENS_MUSIC, CHRISTIAN_GOSPEL, CHRISTMAS_HOLIDAY, CLASSIC_ROCK, CLASSICAL, COUNTRY, DANCE_DJ, EASY_LISTENING, FOLK, HARD_ROCK_METAL, INTERNATIONAL, JAPANESE, JAZZ, LATIN_MUSIC, MISCELLANEOUS, MUSICALS_CABARET, NEW_AGE, NEWS, POP, RAP_HIP_HOP, RB, ROCK, GERMAN_ROCK_POP, EUROPEAN_POP_FOLK, SOUNDTRACKS, FRENCH_VARIETY, SPORT, COMEDY, COLLEGE_RADIO, OLDIES_ADULT_STANDARDS, REGGAE_ISLAND
-- `PODCAST`: ARTS, BUSINESS, COMEDY, EDUCATION, FICTION, GOVERNMENT, HEALTH_AND_FITNESS, HISTORY, KIDS_AND_FAMILY, LEISURE, MUSIC, NEWS, RELIGION_AND_SPIRITUALITY, SCIENCE, SOCIETY_AND_CULTURE, SPORT, TECHNOLOGY, TRUE_CRIME, TV_AND_FILM
-
-Supported values:
-- `ACTION`: Action genre content.
-- `ADVENTURE`: Adventure genre content.
-- `ALTERNATIVE_ROCK`: Alternative rock music content.
-- `ANIMATION`: Animation genre content.
-- `ARTS`: Arts content.
-- `BIOGRAPHY`: Biography genre content.
-- `BLUES`: Blues music content.
-- `BUSINESS`: Business content.
-- `CHILDRENS_MUSIC`: Children's music content.
-- `CHRISTIAN_GOSPEL`: Christian and gospel music content.
-- `CHRISTMAS_HOLIDAY`: Christmas and holiday content.
-- `CLASSICAL`: Classical music content.
-- `CLASSIC_ROCK`: Classic rock music content.
-- `COLLEGE_RADIO`: College radio content.
-- `COMEDY`: Comedy genre content.
-- `COUNTRY`: Country music content.
-- `CRIME`: Crime genre content.
-- `DANCE_DJ`: Dance and DJ music content.
-- `DOCUMENTARY`: Documentary genre content.
-- `DRAMA`: Drama genre content.
-- `EASY_LISTENING`: Easy listening music content.
-- `EDUCATION`: Education content.
-- `EUROPEAN_POP_FOLK`: European pop and folk music content.
-- `FAMILY`: Family genre content.
-- `FANTASY`: Fantasy genre content.
-- `FICTION`: Fiction genre content.
-- `FILM_NOIR`: Film noir genre content.
-- `FOLK`: Folk music content.
-- `FRENCH_VARIETY`: French variety music content.
-- `GAME_SHOW`: Game show content.
-- `GENRE_NOT_AVAILABLE`: Content where genre is not available.
-- `GERMAN_ROCK_POP`: German rock and pop music content.
-- `GOVERNMENT`: Government content.
-- `HARD_ROCK_METAL`: Hard rock and metal music content.
-- `HEALTH_AND_FITNESS`: Health and fitness content.
-- `HISTORY`: History genre content.
-- `HORROR`: Horror genre content.
-- `INTERNATIONAL`: International content.
-- `JAPANESE`: Japanese content.
-- `JAZZ`: Jazz music content.
-- `KIDS_AND_FAMILY`: Kids and family content.
-- `LATIN_MUSIC`: Latin music content.
-- `LEISURE`: Leisure content.
-- `MISCELLANEOUS`: Miscellaneous content.
-- `MUSICALS_CABARET`: Musicals and cabaret content.
-- `MUSICAL`: Musical genre content.
-- `MUSIC`: General music content.
-- `MYSTERY`: Mystery genre content.
-- `NEWS`: News content.
-- `NEW_AGE`: New age music content.
-- `OLDIES_ADULT_STANDARDS`: Oldies and adult standards music content.
-- `POP`: Pop music content.
-- `RAP_HIP_HOP`: Rap and hip-hop music content.
-- `RB`: R&B music content.
-- `REALITY_TV`: Reality TV content.
-- `REGGAE_ISLAND`: Reggae and island music content.
-- `RELIGION_AND_SPIRITUALITY`: Religion and spirituality content.
-- `ROCK`: Rock music content.
-- `ROMANCE`: Romance genre content.
-- `SCIENCE_FICTION`: Science fiction genre content.
-- `SCIENCE`: Science content.
-- `SHORT`: Short-form content.
-- `SOCIETY_AND_CULTURE`: Society and culture content.
-- `SOUNDTRACKS`: Soundtrack music content.
-- `SPORT`: Sports content.
-- `SUPER_HERO`: Super hero genre content.
-- `TALK_SHOW`: Talk show content.
-- `TECHNOLOGY`: Technology content.
-- `THRILLER`: Thriller genre content.
-- `TRUE_CRIME`: True crime content.
-- `TV_AND_FILM`: TV and film content.
-- `WAR`: War genre content.
-- `WESTERN`: Western genre content.
-"""
-
-
-type DSPContentInstreamPosition = Literal["MID_ROLL", "POST_ROLL", "PRE_ROLL", "UNKNOWN"]
-"""
-Supported values:
-- `MID_ROLL`: Ad plays during the main video content.
-- `POST_ROLL`: Ad plays after the main video content.
-- `PRE_ROLL`: Ad plays before the main video content.
-- `UNKNOWN`: Unknown instream position.
-"""
-
-
-type DSPContentOutstreamPosition = Literal["ACCOMPANYING_CONTENT", "INTERSTITIAL", "STANDALONE", "UNKNOWN"]
-"""
-Supported values:
-- `ACCOMPANYING_CONTENT`: Ad plays alongside editorial content.
-- `INTERSTITIAL`: Ad plays between content transitions.
-- `STANDALONE`: Ad plays as a standalone unit outside video content.
-- `UNKNOWN`: Unknown outstream position.
-"""
-
-
-type DSPContentRatingTypes = Literal["DSP_CONTENT_RATING", "TWITCH_CONTENT_RATING"]
-"""
-Supported values:
-- `DSP_CONTENT_RATING`: Content rating based on DSP content classification.
-- `TWITCH_CONTENT_RATING`: Content rating based on Twitch content classification labels.
-"""
-
-
-type DSPCreateState = Literal["ENABLED", "PAUSED"]
-"""
-The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-"""
-
-
-type DSPDVBrandSafetyAppStarRatingType = Literal[
-    "ALLOW_ALL",
-    "APP_STAR_RATING_LT_1_POINT_5_STARS",
-    "APP_STAR_RATING_LT_2_POINT_5_STARS",
-    "APP_STAR_RATING_LT_2_STARS",
-    "APP_STAR_RATING_LT_3_POINT_5_STARS",
-    "APP_STAR_RATING_LT_3_STARS",
-    "APP_STAR_RATING_LT_4_POINT_5_STARS",
-    "APP_STAR_RATING_LT_4_STARS",
-]
-"""
-App star rating to be used for excluding apps.
-"""
-
-
-type DSPDayOfWeek = Literal["FRIDAY", "MONDAY", "SATURDAY", "SUNDAY", "THURSDAY", "TUESDAY", "WEDNESDAY"]
-"""
-Supported values:
-- `FRIDAY`: Friday.
-- `MONDAY`: Monday.
-- `SATURDAY`: Saturday.
-- `SUNDAY`: Sunday.
-- `THURSDAY`: Thursday.
-- `TUESDAY`: Tuesday.
-- `WEDNESDAY`: Wednesday.
-"""
-
-
-type DSPDeliveryReason = Literal[
-    "AD_CREATIVES_NOT_RUNNING",
-    "AD_GROUPS_NOT_RUNNING",
-    "AD_GROUP_ARCHIVED",
-    "AD_GROUP_ENDED",
-    "AD_GROUP_INELIGIBLE_GOAL_KPI",
-    "AD_GROUP_MISSING_CONVERSION_TRACKING_SELECTIONS",
-    "AD_GROUP_PAUSED",
-    "AD_GROUP_PENDING_START_DATE",
-    "AD_GROUP_POLICING_SUSPENDED",
-    "AD_GROUP_TOO_FEW_CONVERSION_TRACKING_SELECTIONS",
-    "AD_GROUP_TOO_MANY_CONVERSION_TRACKING_SELECTIONS",
-    "AD_NOT_APPROVED_FOR_ALL_AD_GROUPS",
-    "AD_NOT_ASSOCIATED_WITH_AD_GROUP",
-    "AD_POLICING_PENDING_REVIEW",
-    "AD_POLICING_SUSPENDED",
-    "CAMPAIGN_ARCHIVED",
-    "CAMPAIGN_END_DATE_REACHED",
-    "CAMPAIGN_PAUSED",
-    "CAMPAIGN_PENDING_START_DATE",
-    "CAMPAIGN_POLICING_SUSPENDED",
-    "OTHER",
-]
-"""
-Supported values:
-- `AD_GROUP_INELIGIBLE_GOAL_KPI`: Indicates that the ad group is suspended because the campaign's goal KPI is not supported.
-- `AD_GROUP_MISSING_CONVERSION_TRACKING_SELECTIONS`: Indicates that the ad group is suspended because the campaign is missing conversion tracking selections.
-- `AD_GROUP_TOO_FEW_CONVERSION_TRACKING_SELECTIONS`: Indicates that the ad group is suspended because the campaign has an insufficient number of conversion tracking selections.
-- `AD_GROUP_TOO_MANY_CONVERSION_TRACKING_SELECTIONS`: Indicates that the ad group is suspended because the campaign exceeded the maximum number of conversion tracking selections.
-"""
-
-
-type DSPDeliveryStatus = Literal["DELIVERING", "LIMITED", "NOT_DELIVERING", "UNAVAILABLE"]
-"""
-Supported values:
-- `DELIVERING`: Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces
-- `LIMITED`: Represents partial delivery status, applicable to global resources that have different delivery status across marketplaces
-- `NOT_DELIVERING`: Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces
-- `UNAVAILABLE`: Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces
-"""
-
-
-type DSPDeviceOrientation = Literal["LANDSCAPE", "PORTRAIT"]
-"""
-Supported values:
-- `LANDSCAPE`: Device held horizontally.
-- `PORTRAIT`: Device held vertically.
-"""
-
-
-type DSPDeviceType = Literal["CONNECTED_DEVICE", "CONNECTED_TV", "DESKTOP", "MOBILE"]
-"""
-Supported values:
-- `CONNECTED_DEVICE`: Connected TV, smart speakers. Used for audio AdGroup type.
-- `CONNECTED_TV`: Connected TV devices.
-- `DESKTOP`: Desktop computers and laptops.
-- `MOBILE`: Mobile phones and tablets.
-"""
-
-
-type DSPDomainTargetTypes = Literal["ADVERTISER_DOMAIN_LIST", "DOMAIN_FILE", "DOMAIN_LIST", "DOMAIN_NAME"]
-"""
-Supported values:
-- `ADVERTISER_DOMAIN_LIST`: Target domains inherited from the advertiser.
-- `DOMAIN_FILE`: Target domains from an uploaded file.
-- `DOMAIN_LIST`: Target domains from an existing domain list.
-- `DOMAIN_NAME`: Target a specific domain by URL.
-"""
-
-
-type DSPDspContentRatingEnum = Literal[
-    "RATING_NOT_AVAILABLE",
-    "SUITABLE_FOR_ADULTS",
-    "SUITABLE_FOR_ALL_AUDIENCES",
-    "SUITABLE_FOR_MATURE_AUDIENCES",
-    "SUITABLE_FOR_MOST_AUDIENCES_WITH_PARENTAL_GUIDANCE",
-    "SUITABLE_FOR_TEEN_AND_OLDER_AUDIENCES",
-]
-"""
-Supported values:
-- `RATING_NOT_AVAILABLE`: Content where rating isn't available from the publisher.
-- `SUITABLE_FOR_ADULTS`: Ages 18+. Equivalent to content that is rated NC-17 (film).
-- `SUITABLE_FOR_ALL_AUDIENCES`: Equivalent to content that is rated G (film), TV-Y (TV), TV-Y7 (TV), TV-G (TV), EC (game), or E (game).
-- `SUITABLE_FOR_MATURE_AUDIENCES`: Ages 17+. Equivalent to content that is rated R (film), TV-MA (TV), or M (game).
-- `SUITABLE_FOR_MOST_AUDIENCES_WITH_PARENTAL_GUIDANCE`: Equivalent to content that is rated PG (film), TV-PG (TV), or E-10+ (game).
-- `SUITABLE_FOR_TEEN_AND_OLDER_AUDIENCES`: Equivalent to content that is rated PG-13 (film), TV-14 (TV), or T (game).
-"""
-
-
-type DSPErrorCode = Literal[
-    "ACTION_NOT_SUPPORTED",
-    "ACTIVE_RESOURCE_LIMIT_EXCEEDED",
-    "ARCHIVED_PARENT_CANNOT_CREATE",
-    "ARCHIVED_PARENT_CANNOT_EDIT",
-    "ARCHIVED_RESOURCE_CANNOT_EDIT",
-    "ASSET_NOT_READY",
-    "AUTOCREATED_ENTITY_CANNOT_EDIT",
-    "BAD_REQUEST",
-    "CONFLICT",
-    "CONTENT_TOO_LARGE",
-    "DATE_CANNOT_BE_IN_PAST",
-    "DATE_CANNOT_BE_NULL",
-    "DATE_TOO_SOON",
-    "DUPLICATE_FIELD_VALUE_FOUND",
-    "DUPLICATE_RESOURCE_ID_FOUND",
-    "DURATION_TOO_SHORT",
-    "FEATURE_DISCONTINUED",
-    "FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT",
-    "FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT",
-    "FIELD_SIZE_IS_OUT_OF_RANGE",
-    "FIELD_VALUE_CANNOT_EDIT",
-    "FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS",
-    "FIELD_VALUE_CONTAINS_INVALID_CHARACTERS",
-    "FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT",
-    "FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT",
-    "FIELD_VALUE_IS_EMPTY",
-    "FIELD_VALUE_IS_INVALID",
-    "FIELD_VALUE_IS_NULL",
-    "FIELD_VALUE_IS_OUT_OF_RANGE",
-    "FIELD_VALUE_MISMATCH",
-    "FIELD_VALUE_MUST_BE_EMPTY_OR_NULL",
-    "FIELD_VALUE_NOT_FOUND",
-    "FIELD_VALUE_NOT_UNIQUE",
-    "FORBIDDEN",
-    "INTERNAL_ERROR",
-    "NOT_FOUND",
-    "PAYMENT_ISSUE",
-    "PRODUCT_INELIGIBLE",
-    "RESOURCE_DOES_NOT_BELONG_TO_PARENT",
-    "RESOURCE_ID_NOT_FOUND",
-    "RESOURCE_IS_EMPTY",
-    "RESOURCE_IS_IN_TERMINAL_STATE",
-    "RESOURCE_IS_NULL",
-    "TOO_MANY_REQUESTS",
-    "TOTAL_RESOURCE_LIMIT_EXCEEDED",
-    "UNAUTHORIZED",
-    "UNSUPPORTED_MARKETPLACE",
-]
-"""
-Supported values:
-- `ACTION_NOT_SUPPORTED`: The request is not supported.
-- `ACTIVE_RESOURCE_LIMIT_EXCEEDED`: Too many live resources. Remove resources and try again.
-- `ARCHIVED_PARENT_CANNOT_CREATE`: New resources cannot be created within an archived parent.
-- `ARCHIVED_PARENT_CANNOT_EDIT`: Resources within an archived parent cannot be edited.
-- `ARCHIVED_RESOURCE_CANNOT_EDIT`: Archived resources cannot be edited.
-- `ASSET_NOT_READY`: The provided asset is still being processed.
-- `AUTOCREATED_ENTITY_CANNOT_EDIT`: Autocreated entities cannot be edited. To complete this action, create the resource manually.
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-- `CONFLICT`: Operation could not be completed due to a conflict. Please retry your request.
-- `CONTENT_TOO_LARGE`: The request is too large. Consider splitting it into multiple requests.
-- `DATE_CANNOT_BE_IN_PAST`: Update the date to be in the future.
-- `DATE_CANNOT_BE_NULL`: Update the date.
-- `DATE_TOO_SOON`: Update the date to be further in the future.
-- `DUPLICATE_FIELD_VALUE_FOUND`: Multiple resources share the non-unique field values. Remove the non-unique field value.
-- `DUPLICATE_RESOURCE_ID_FOUND`: Multiple resources share the same ID. Remove the duplicate ID.
-- `DURATION_TOO_SHORT`: Update the length to be within the required range.
-- `FEATURE_DISCONTINUED`: Feature has been discontinued.
-- `FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
-- `FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
-- `FIELD_SIZE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
-- `FIELD_VALUE_CANNOT_EDIT`: Field value cannot be edited.
-- `FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS`: Update the request with the required information for this resource.
-- `FIELD_VALUE_CONTAINS_INVALID_CHARACTERS`: Remove the invalid characters and try again.
-- `FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
-- `FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
-- `FIELD_VALUE_IS_EMPTY`: Update the request with the required information for this resource.
-- `FIELD_VALUE_IS_INVALID`: Update the request with the required information for this resource.
-- `FIELD_VALUE_IS_NULL`: Update the request with the required information for this resource.
-- `FIELD_VALUE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
-- `FIELD_VALUE_MISMATCH`: Mismatch among resource field values.
-- `FIELD_VALUE_MUST_BE_EMPTY_OR_NULL`: Update the request with the required information for this resource.
-- `FIELD_VALUE_NOT_FOUND`: Resource specified in the field value not found. Try again with valid value.
-- `FIELD_VALUE_NOT_UNIQUE`: Resource field value conflicts with existing resource. Try again with an unique field value.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `NOT_FOUND`: The requested resource does not exist.
-- `PAYMENT_ISSUE`: Payment failed.
-- `PRODUCT_INELIGIBLE`: Product is not eligible for advertising. Try again with a valid product.
-- `RESOURCE_DOES_NOT_BELONG_TO_PARENT`: Resource does not belong to the specified parent. Try again with a valid parent ID.
-- `RESOURCE_ID_NOT_FOUND`: Resource ID not found. Try again with valid ID.
-- `RESOURCE_IS_EMPTY`: Update the request with the required information for this resource.
-- `RESOURCE_IS_IN_TERMINAL_STATE`: Resource is in terminal state.
-- `RESOURCE_IS_NULL`: Update the request with the required information for this resource.
-- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
-- `TOTAL_RESOURCE_LIMIT_EXCEEDED`: Too many resources. Remove resources and try again.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
-- `UNSUPPORTED_MARKETPLACE`: Marketplace not supported. Try again with a supported marketplace.
-"""
-
-
-type DSPFoldPosition = Literal["ABOVE_THE_FOLD", "BELOW_THE_FOLD", "UNKNOWN"]
-"""
-Supported values:
-- `ABOVE_THE_FOLD`: Ad placement visible without scrolling.
-- `BELOW_THE_FOLD`: Ad placement visible only after scrolling.
-- `UNKNOWN`: Unknown fold position.
-"""
-
-
-type DSPIASBrandSafetyLevelType = Literal[
-    "ALLOW_ALL", "BRAND_SAFETY_EXCLUDE_HIGH_AND_MODERATE_RISK", "BRAND_SAFETY_EXCLUDE_HIGH_RISK"
-]
-"""
-The IAS brand safety risk level.
-"""
-
-
-type DSPIASFraudInvalidTrafficType = Literal[
-    "ALLOW_ALL", "FRAUD_INVALID_TRAFFIC_EXCLUDE_HIGH_MODERATE_RISK", "FRAUD_INVALID_TRAFFIC_EXCLUDE_HIGH_RISK"
-]
-"""
-The type of fraud invalid traffic.
-"""
-
-
-type DSPIASViewabilityStandardType = Literal["GROUPM", "MRC", "NONE", "PUBLICIS"]
-"""
-The viewability standard.
-"""
-
-
-type DSPInGroupOperator = Literal["ALL", "ANY"]
-"""
-Supported values:
-- `ALL`: Matches only if every single condition is true. InGroupOperator is used among audiences within the same audience group. This is a read-only field.
-- `ANY`: Matches if at least one condition is true. InGroupOperator is used among audiences within the same audience group. This is a read-only field.
-"""
-
-
-type DSPInventorySourceType = Literal["AMAZON", "APD", "DEAL", "INVENTORY_GROUP", "THIRD_PARTY_EXCHANGE"]
-"""
-Supported values:
-- `AMAZON`: Amazon-owned inventory.
-- `APD`: Amazon Publisher Direct inventory.
-- `DEAL`: Deal-based inventory.
-- `INVENTORY_GROUP`: A group representing a set of inventories.
-- `THIRD_PARTY_EXCHANGE`: Third-party exchange inventory.
-"""
-
-
-type DSPKeywordMatchType = Literal["BROAD"]
-"""
-Supported values:
-- `BROAD`: Broad match search terms. This expands matching on user intent beyond PHRASE.
-"""
-
-
-type DSPMobileDevice = Literal["ANDROID", "IPAD", "IPHONE", "KINDLE_FIRE", "KINDLE_FIRE_HD"]
-"""
-Supported values:
-- `ANDROID`: Android device.
-- `IPAD`: Apple iPad.
-- `IPHONE`: Apple iPhone.
-- `KINDLE_FIRE_HD`: Amazon Kindle Fire HD.
-- `KINDLE_FIRE`: Amazon Kindle Fire.
-"""
-
-
-type DSPMobileEnvironment = Literal["APP", "WEB"]
-"""
-Supported values:
-- `APP`: Mobile application.
-- `WEB`: Mobile web browser.
-"""
-
-
-type DSPMobileOs = Literal["ANDROID", "IOS"]
-"""
-Supported values:
-- `ANDROID`: Google Android operating system.
-- `IOS`: Apple iOS operating system.
-"""
-
-
-type DSPMrcViewabilityTargetingType = Literal[
-    "ALLOW_ALL",
-    "MRC_VIEWABILITY_GTE_30",
-    "MRC_VIEWABILITY_GTE_40",
-    "MRC_VIEWABILITY_GTE_50",
-    "MRC_VIEWABILITY_GTE_55",
-    "MRC_VIEWABILITY_GTE_60",
-    "MRC_VIEWABILITY_GTE_65",
-    "MRC_VIEWABILITY_GTE_70",
-    "MRC_VIEWABILITY_GTE_75",
-    "MRC_VIEWABILITY_GTE_80",
-]
-"""
-The type of MRC viewability targeting.
-"""
-
-
-type DSPNativeContentPosition = Literal["IN_ARTICLE", "IN_FEED", "PERIPHERAL", "RECOMMENDATION", "UNKNOWN"]
-"""
-Supported values:
-- `IN_ARTICLE`: Positioned in the atomic unit of the content (e.g., in the article page or single image page).
-- `IN_FEED`: Positioned in the feed of content (e.g., as an item inside the organic feed, grid, listing, carousel, etc.).
-- `PERIPHERAL`: Positioned utside the core content (e.g., in the ads section on the right rail, as a banner-style placement near the content, etc.).
-- `RECOMMENDATION`: Positioned in recommendation widget; most commonly presented below article content.
-- `UNKNOWN`: Unknown position.
-"""
-
-
-type DSPPlacementType = Literal["REWARDED"]
-"""
-Supported values:
-- `REWARDED`: Rewarded video type where users receive rewards from the publisher for watching ads.
-"""
-
-
-type DSPProductCategoryMatchType = Literal["MULTISIGNAL_BROAD"]
-"""
-Supported values:
-- `MULTISIGNAL_BROAD`: This expands matching on user intent beyond BROAD by taking multiple behavioral and contextual signals.
-"""
-
-
-type DSPProductIdType = Literal["ASIN"]
-"""
-Supported values:
-- `ASIN`: ASIN identifier type.
-"""
-
-
-type DSPProductMatchType = Literal["PRODUCT_COMPLEMENTS", "PRODUCT_EXACT", "PRODUCT_REMARKETING", "PRODUCT_SIMILAR"]
-"""
-Supported values:
-- `PRODUCT_COMPLEMENTS`: Products that are frequently purchased together with the specified product.
-- `PRODUCT_EXACT`: Products exactly matching the specified product.
-- `PRODUCT_REMARKETING`: Products to target users who have previously interacted with the specified product.
-- `PRODUCT_SIMILAR`: Products similar to the specified product.
-"""
-
-
-type DSPState = Literal["ARCHIVED", "ENABLED", "PAUSED"]
-"""
-The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-"""
-
-
-type DSPTargetLevel = Literal["AD_GROUP"]
-"""
-Supported values:
-- `AD_GROUP`: Target applied at the ad group level.
-"""
-
-
-type DSPTargetType = Literal[
-    "AD_INITIATION",
-    "AD_PLAYER_SIZE",
-    "APP",
-    "AUDIENCE",
-    "BRAND_SAFETY_CATEGORY",
-    "BRAND_SAFETY_TIER",
-    "CONTENT_CATEGORY",
-    "CONTENT_GENRE",
-    "CONTENT_INSTREAM_POSITION",
-    "CONTENT_OUTSTREAM_POSITION",
-    "CONTENT_RATING",
-    "DAYPART",
-    "DEVICE",
-    "DOMAIN",
-    "FOLD_POSITION",
-    "INVENTORY_SOURCE",
-    "KEYWORD",
-    "LOCATION",
-    "NATIVE_CONTENT_POSITION",
-    "PLACEMENT_TYPE",
-    "PRODUCT",
-    "PRODUCT_CATEGORY",
-    "THEME",
-    "THIRD_PARTY",
-    "VIDEO_AD_FORMAT",
-    "VIDEO_CONTENT_DURATION",
-]
-"""
-Supported values:
-- `AD_INITIATION`: Target based on how the video ad is initiated.
-- `AD_PLAYER_SIZE`: Target based on video player size.
-- `APP`: Target based on an application.
-- `AUDIENCE`: Target based on an audience segment.
-- `BRAND_SAFETY_CATEGORY`: Target based on brand safety category.
-- `BRAND_SAFETY_TIER`: Target based on brand suitability tier.
-- `CONTENT_CATEGORY`: Target based on content category.
-- `CONTENT_GENRE`: Target based on content genre.
-- `CONTENT_INSTREAM_POSITION`: Target based on instream ad position.
-- `CONTENT_OUTSTREAM_POSITION`: Target based on outstream ad position.
-- `CONTENT_RATING`: Target based on content rating.
-- `DAYPART`: Target based on time of day and day of week.
-- `DEVICE`: Target based on device type.
-- `DOMAIN`: Target based on a domain.
-- `FOLD_POSITION`: Target based on above or below the fold placement.
-- `INVENTORY_SOURCE`: Target based on inventory source.
-- `KEYWORD`: Target based on customer search terms.
-- `LOCATION`: Target based on geographic location.
-- `NATIVE_CONTENT_POSITION`: Target based on native content position.
-- `PLACEMENT_TYPE`: Target based on placement type.
-- `PRODUCT_CATEGORY`: Target based on a product category.
-- `PRODUCT`: Target based on a specific product.
-- `THEME`: Target based on a keyword theme. These were formerly known as Auto Targets for Sponsored Products.
-- `THIRD_PARTY`: Target based on third-party data.
-- `VIDEO_AD_FORMAT`: Target based on video ad format. This is an older function being replaced by newer targets for instream and outstream targets.
-- `VIDEO_CONTENT_DURATION`: Target based on video content duration.
-"""
-
-
-type DSPThemeMatchType = Literal["PRODUCTS_SIMILAR_TO_ADVERTISED_PRODUCTS"]
-"""
-Supported values:
-- `PRODUCTS_SIMILAR_TO_ADVERTISED_PRODUCTS`: Products similar to products advertised as part of the ad group.
-"""
-
-
-type DSPThirdPartyTargetType = Literal[
-    "DOUBLE_VERIFY_AUTHENTIC_ATTENTION",
-    "DOUBLE_VERIFY_AUTHENTIC_BRAND_SAFETY",
-    "DOUBLE_VERIFY_BRAND_SAFETY",
-    "DOUBLE_VERIFY_CUSTOM_CONTEXTUAL_SEGMENT_ID",
-    "DOUBLE_VERIFY_FRAUD_INVALID_TRAFFIC",
-    "DOUBLE_VERIFY_STANDARD_DISPLAY_BRAND_SAFETY",
-    "DOUBLE_VERIFY_VIEWABILITY",
-    "INTEGRAL_AD_SCIENCE_BRAND_SAFETY",
-    "INTEGRAL_AD_SCIENCE_CONTEXTUAL_AVOIDANCE",
-    "INTEGRAL_AD_SCIENCE_CONTEXTUAL_TARGETING",
-    "INTEGRAL_AD_SCIENCE_FRAUD_INVALID_TRAFFIC",
-    "INTEGRAL_AD_SCIENCE_QUALITY_SYNC",
-    "INTEGRAL_AD_SCIENCE_VIEWABILITY",
-    "NEWS_GUARD_BRAND_GUARD_MISINFORMATION_SAFETY",
-    "NEWS_GUARD_BRAND_GUARD_TRUSTED_NEWS_TARGETING",
-    "PIXALATE_FRAUD_INVALID_TRAFFIC",
-]
-"""
-Supported values:
-- `INTEGRAL_AD_SCIENCE_QUALITY_SYNC`: Integral Ad Science (IAS) Quality
-- `NEWS_GUARD_BRAND_GUARD_MISINFORMATION_SAFETY`: NewsGuard Misinformation Safety. NewsGuard is a rating system for news and information websites.
-- `NEWS_GUARD_BRAND_GUARD_TRUSTED_NEWS_TARGETING`: NewsGuard Trusted News Targeting. NewsGuard is a rating system for news and information websites.
-"""
-
-
-type DSPTwitchContentRatingEnum = Literal["TWITCH_MODERATE", "TWITCH_RESTRICTIVE"]
-"""
-Supported values:
-- `TWITCH_MODERATE`: Twitch Content with moderate content exclusions based on content classification labels received from Twitch.
-- `TWITCH_RESTRICTIVE`: Twitch Content with restrictive content exlcusions based on content classification labels received from Twitch.
-"""
-
-
-type DSPVideoAdFormat = Literal["FULL_EPISODE_PLAYER", "INSTREAM", "OUTSTREAM"]
-"""
-Supported values:
-- `FULL_EPISODE_PLAYER`: Video ad plays within a full episode player.
-- `INSTREAM`: Video ad plays within streaming video content.
-- `OUTSTREAM`: Video ad plays outside of streaming video content.
-"""
-
-
-type DSPVideoContentDuration = Literal["EXTENDED", "LONG", "MEDIUM", "SHORT", "UNKNOWN"]
-"""
-Supported values:
-- `EXTENDED`: Video content duration of 60+ minutes
-- `LONG`: Video content duration of 30 to 60 minutes
-- `MEDIUM`: Video content duration of 10 to 30 minutes
-- `SHORT`: Video content duration of 0 to 10 minutes
-- `UNKNOWN`: Unknown video content duration
-"""
-
-
-type DSPVideoInitiationType = Literal["AUTOPLAY", "UNKNOWN", "USER_INITIATED"]
-"""
-Supported values:
-- `AUTOPLAY`: Video ad starts automatically without user action.
-- `UNKNOWN`: Unknown video initiation type.
-- `USER_INITIATED`: Video ad started by user action such as a click.
-"""
-
-
-type DSPViewabilityTierType = Literal[
-    "ALLOW_ALL",
-    "VIEWABILITY_TIER_GT_40",
-    "VIEWABILITY_TIER_GT_50",
-    "VIEWABILITY_TIER_GT_60",
-    "VIEWABILITY_TIER_GT_70",
-    "VIEWABILITY_TIER_LT_40",
-]
-"""
-The type of viewability tier.
-"""
 
 
 class DSPAdInitiationTarget(LenientModel):
@@ -1700,17 +922,6 @@ class DSPDspContentRating(LenientModel):
     dspContentRating: DSPDspContentRatingEnum | str
 
 
-class DSPError(LenientModel):
-    code: DSPErrorCode | str
-    fieldLocation: str | None = Field(default=None)
-    message: str
-
-
-class DSPErrorsIndex(LenientModel):
-    errors: list[DSPError] = Field(min_length=1, max_length=20)
-    index: int = Field(ge=0, le=4999)
-
-
 class DSPFoldPositionTarget(LenientModel):
     """Targets ads in the specified fold position"""
 
@@ -1852,6 +1063,11 @@ class DSPProductCategoryTarget(LenientModel):
     productCategoryRefinement: DSPProductCategoryRefinementValue
 
 
+class DSPProductMarketplaceSetting(LenientModel):
+    marketplace: DSPMarketplace | str
+    productId: str = Field(description="The product id applicable at the specified marketplace.")
+
+
 class DSPProductTarget(LenientModel):
     """Targets a specific product."""
 
@@ -1861,6 +1077,12 @@ class DSPProductTarget(LenientModel):
 
 
 class DSPProductValue(LenientModel):
+    marketplaceSettings: list[DSPProductMarketplaceSetting] | None = Field(
+        default=None,
+        min_length=0,
+        max_length=30,
+        description="The product ids at specific marketplace level. Either the product id or the marketplace settings should always be specified",
+    )
     productId: str | None = Field(
         default=None,
         description="The product identifier. Either the product id or the marketplace settings should always be specified",
@@ -2292,6 +1514,7 @@ __all__ = [
     "DSPKeywordMatchType",
     "DSPKeywordTarget",
     "DSPLocationTarget",
+    "DSPMarketplace",
     "DSPMarketplaceStringValue",
     "DSPMarketplaceStringValueOut",
     "DSPMobileDevice",
@@ -2312,6 +1535,7 @@ __all__ = [
     "DSPProductCategoryRefinementValue",
     "DSPProductCategoryTarget",
     "DSPProductIdType",
+    "DSPProductMarketplaceSetting",
     "DSPProductMatchType",
     "DSPProductTarget",
     "DSPProductValue",

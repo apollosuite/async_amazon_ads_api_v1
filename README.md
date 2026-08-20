@@ -36,7 +36,7 @@ async with AdsClient(config) as ads:
     await ads.v0.sp_v3.campaigns.create_sponsored_products_campaigns(body)
 ```
 
-详细代码生成与说明请参见 [script2/README.md](script2/README.md) (v1) 与 [script3/README.md](script3/README.md) (v0)。
+详细代码生成与说明请参见 [script4/README.md](script4/README.md) (v1) 与 [script3/README.md](script3/README.md) (v0)。
 
 ---
 

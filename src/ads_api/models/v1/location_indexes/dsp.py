@@ -8,36 +8,12 @@ from typing import Literal
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-
-type DSPCountryCode = Literal[
-    "AU", "BE", "BR", "CA", "DE", "ES", "FR", "GB", "IE", "IN", "IT", "JP", "MX", "NL", "SE", "TR", "US"
-]
-
-
-type DSPErrorCode = Literal[
-    "BAD_REQUEST",
-    "FEATURE_NOT_AVAILABLE",
-    "FIELD_VALUE_IS_EMPTY",
-    "FIELD_VALUE_IS_NULL",
-    "FIELD_VALUE_IS_OUT_OF_RANGE",
-    "FORBIDDEN",
-    "INTERNAL_ERROR",
-    "NOT_FOUND",
-    "UNAUTHORIZED",
-]
-"""
-Supported values:
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-- `FEATURE_NOT_AVAILABLE`: The requested feature is not available.
-- `FIELD_VALUE_IS_EMPTY`: Update the request with the required information for this resource.
-- `FIELD_VALUE_IS_NULL`: Update the request with the required information for this resource.
-- `FIELD_VALUE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `NOT_FOUND`: The requested resource does not exist.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
-"""
-
+from ads_api.models.v1._shared.dsp import (
+    DSPCountryCode,
+    DSPError,
+    DSPErrorCode,
+    DSPErrorsIndex,
+)
 
 type DSPIndexStatus = Literal["ENABLED", "FAILED", "PENDING", "UPDATE_FAILED"]
 """
@@ -124,17 +100,6 @@ class DSPDirectIndexValues(LenientModel):
     values: list[DSPDirectIndexValue] = Field(
         min_length=1, max_length=1000000, description="List of direct index values."
     )
-
-
-class DSPError(LenientModel):
-    code: DSPErrorCode | str
-    fieldLocation: str | None = Field(default=None)
-    message: str
-
-
-class DSPErrorsIndex(LenientModel):
-    errors: list[DSPError] = Field(min_length=1, max_length=20)
-    index: int = Field(ge=0, le=99)
 
 
 class DSPIndexValuesConstituentIndexValues(LenientModel):

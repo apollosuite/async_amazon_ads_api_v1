@@ -58,7 +58,7 @@ class AlternateId(LenientModel):
 
     countryCode: str | None = Field(default=None, description="The country code of the advertising account")
     entityId: str | None = Field(default=None, description="The entity id of the advertising account")
-    profileId: float | None = Field(default=None, description="The Profile Id of the advertising account")
+    profileId: int | None = Field(default=None, description="The Profile Id of the advertising account")
 
 
 class AmazonAuthor(StrictModel):
@@ -114,7 +114,7 @@ class Error(LenientModel):
     error id, error code, and a readable error message"""
 
     errorCode: str | None = Field(default=None, min_length=1)
-    errorId: float | None = Field(default=None)
+    errorId: int | None = Field(default=None)
     errorMessage: str | None = Field(default=None, min_length=1)
 
 

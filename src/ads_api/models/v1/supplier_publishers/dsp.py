@@ -9,469 +9,47 @@ from pydantic import Field
 from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models.v1._shared.dsp import (
     DSPAdvertisingDealType,
+    DSPAmazonPublisherCloudGoalConstraints,
+    DSPAmazonPublisherDirectGoalConstraints,
+    DSPAmazonPublisherServicesGoalTypes,
     DSPAudioCreativeRequirements,
+    DSPCountryCode,
+    DSPCurrencyCode,
+    DSPDayOfWeek,
     DSPDisplayCreativeRequirements,
     DSPEventType,
+    DSPExtraFrequencyCapImpressionType,
+    DSPFrequencyTargetingSetting,
+    DSPInventoryType,
+    DSPLanguageIso,
     DSPSize,
     DSPSortDirection,
     DSPSupplierAdProductBookingConstraints,
     DSPSupplierAdProductFlightConstraints,
+    DSPSupplierAdProductGoalConstraints,
+    DSPSupplierAdProductGoalConstraintsExtension,
     DSPSupplierAdProductShareOfVoiceConstraints,
     DSPSupplierBookingRangeConstraint,
     DSPSupplierFlightFixedConstraint,
     DSPSupplierFlightRangeConstraint,
     DSPSupplierFrequencyRangeConstraint,
     DSPSupplierGroupType,
+    DSPSupplierProposedDealCreativeRequirement,
+    DSPSupplierProposedDealCreativeRequirements,
     DSPSupplierShareOfVoiceFixedConstraint,
     DSPSupplierShareOfVoiceRangeConstraint,
+    DSPSupplierTargetConstraint,
     DSPSupplierTargetConstraintLocationDetails,
+    DSPSupplierTargetGroupConstraint,
     DSPSupplierTargetGroupConstraintDetails,
     DSPSupplierTargetGroupConstraintType,
+    DSPSupplierTargetingDaypartTimezoneType,
+    DSPSupplierTargetType,
     DSPSupplierTargetValueConstraint,
     DSPTimeUnit,
     DSPTimeZone,
     DSPVideoCreativeRequirements,
 )
-
-type DSPAmazonPublisherServicesGoalTypes = Literal[
-    "CLICK_THROUGH_RATE", "ON_TARGET_REACH", "VIDEO_COMPLETION_RATE", "VIEW_THROUGH_RATE"
-]
-"""
-AmazonPublisherServicesGoalTypes is an enum representing the goal types that are supported in AmazonPublisherService. ON_TARGET_REACH: On-target reach, the absolute number of people in your target audience that is being reached by a campaign. CLICK_THROUGH_RATE: Clickthrough rate, a ratio showing how often people who see your ad or free product listing end up clicking it. VIDEO_COMPLETION_RATE: Video Completion Rate, measures the percentage of viewers who watch a video ad all the way to the end. VIEW_THROUGH_RATE: View-Through Rate, measures how many viewers watch a video ad to completion.
-"""
-
-
-type DSPCountryCode = Literal[
-    "AD", "AE", "AF", "AG", "AI", "AU", "BR", "CA", "DE", "ES", "FR", "GB", "IT", "JP", "KR", "MX", "US"
-]
-
-
-type DSPCurrencyCode = Literal["AUD", "BRL", "CAD", "EUR", "GBP", "JPY", "KRW", "MXN", "USD"]
-"""
-Supported values:
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `JPY`: Japanese Yen
-- `KRW`: South Korean Won
-- `MXN`: Mexican Peso
-- `USD`: United States Dollar
-"""
-
-
-type DSPDayOfWeek = Literal["FRIDAY", "MONDAY", "SATURDAY", "SUNDAY", "THURSDAY", "TUESDAY", "WEDNESDAY"]
-"""
-Supported values:
-- `MONDAY`: Monday.
-- `TUESDAY`: Tuesday.
-- `WEDNESDAY`: Wednesday.
-- `THURSDAY`: Thursday.
-- `FRIDAY`: Friday.
-- `SATURDAY`: Saturday.
-- `SUNDAY`: Sunday.
-"""
-
-
-type DSPExtraFrequencyCapImpressionType = Literal["LinearTVImpression"]
-"""
-Supported values:
-- `LinearTVImpression`: Indicates include LinearTV impressions for CompleteTV Order Incremental Reach goal KPI.
-"""
-
-
-type DSPFrequencyTargetingSetting = Literal["HOUSEHOLD", "USER"]
-"""
-Supported values:
-- `USER`: Control frequency an ad will be selected to a person.
-- `HOUSEHOLD`: Control frequency an ad will be selected across people within the same household.
-"""
-
-
-type DSPInventoryType = Literal["AUDIO", "DISPLAY", "ONLINE_VIDEO", "STANDARD_DISPLAY", "STREAMING_TV", "VIDEO"]
-"""
-Supported values:
-- `AUDIO`: Audio ads that serve on streaming audio inventory.
-"""
-
-
-type DSPLanguageIso = Literal[
-    "aa",
-    "ab",
-    "ae",
-    "af",
-    "ak",
-    "am",
-    "an",
-    "ar",
-    "as",
-    "av",
-    "ay",
-    "az",
-    "ba",
-    "be",
-    "bg",
-    "bh",
-    "bi",
-    "bm",
-    "bn",
-    "bo",
-    "br",
-    "bs",
-    "ca",
-    "ce",
-    "ch",
-    "co",
-    "cr",
-    "cs",
-    "cu",
-    "cv",
-    "cy",
-    "da",
-    "de",
-    "dv",
-    "dz",
-    "ee",
-    "el",
-    "en",
-    "eo",
-    "es",
-    "et",
-    "eu",
-    "fa",
-    "ff",
-    "fi",
-    "fj",
-    "fo",
-    "fr",
-    "fy",
-    "ga",
-    "gd",
-    "gl",
-    "gn",
-    "gu",
-    "gv",
-    "ha",
-    "he",
-    "hi",
-    "ho",
-    "hr",
-    "ht",
-    "hu",
-    "hy",
-    "hz",
-    "ia",
-    "id",
-    "ie",
-    "ig",
-    "ii",
-    "ik",
-    "io",
-    "is",
-    "it",
-    "iu",
-    "ja",
-    "jv",
-    "ka",
-    "kg",
-    "ki",
-    "kj",
-    "kk",
-    "kl",
-    "km",
-    "kn",
-    "ko",
-    "kr",
-    "ks",
-    "ku",
-    "kv",
-    "kw",
-    "ky",
-    "la",
-    "lb",
-    "lg",
-    "li",
-    "ln",
-    "lo",
-    "lt",
-    "lu",
-    "lv",
-    "mg",
-    "mh",
-    "mi",
-    "mk",
-    "ml",
-    "mn",
-    "mr",
-    "ms",
-    "mt",
-    "my",
-    "na",
-    "nb",
-    "nd",
-    "ne",
-    "ng",
-    "nl",
-    "nn",
-    "no",
-    "nr",
-    "nv",
-    "ny",
-    "oc",
-    "oj",
-    "om",
-    "or",
-    "os",
-    "pa",
-    "pi",
-    "pl",
-    "ps",
-    "pt",
-    "qu",
-    "rm",
-    "rn",
-    "ro",
-    "ru",
-    "rw",
-    "sa",
-    "sc",
-    "sd",
-    "se",
-    "sg",
-    "si",
-    "sk",
-    "sl",
-    "sm",
-    "sn",
-    "so",
-    "sq",
-    "sr",
-    "ss",
-    "st",
-    "su",
-    "sv",
-    "sw",
-    "ta",
-    "te",
-    "tg",
-    "th",
-    "ti",
-    "tk",
-    "tl",
-    "tn",
-    "to",
-    "tr",
-    "ts",
-    "tt",
-    "tw",
-    "ty",
-    "ug",
-    "uk",
-    "ur",
-    "uz",
-    "ve",
-    "vi",
-    "vo",
-    "wa",
-    "wo",
-    "xh",
-    "yi",
-    "yo",
-    "za",
-    "zh",
-    "zu",
-]
-"""
-ISO-639-1 two-letter language codes.
-
-Supported values:
-- `aa`: Afar.
-- `ab`: Abkhazian.
-- `ae`: Avestan.
-- `af`: Afrikaans.
-- `ak`: Akan.
-- `am`: Amharic.
-- `an`: Aragonese.
-- `ar`: Arabic.
-- `as`: Assamese.
-- `av`: Avaric.
-- `ay`: Aymara.
-- `az`: Azerbaijani.
-- `ba`: Bashkir.
-- `be`: Belarusian.
-- `bg`: Bulgarian.
-- `bh`: Bihari.
-- `bi`: Bislama.
-- `bm`: Bambara.
-- `bn`: Bengali.
-- `bo`: Tibetan.
-- `br`: Breton.
-- `bs`: Bosnian.
-- `ca`: Catalan.
-- `ce`: Chechen.
-- `ch`: Chamorro.
-- `co`: Corsican.
-- `cr`: Cree.
-- `cs`: Czech.
-- `cu`: Church Slavonic.
-- `cv`: Chuvash.
-- `cy`: Welsh.
-- `da`: Danish.
-- `de`: German.
-- `dv`: Divehi.
-- `dz`: Dzongkha.
-- `ee`: Ewe.
-- `el`: Greek.
-- `en`: English.
-- `eo`: Esperanto.
-- `es`: Spanish.
-- `et`: Estonian.
-- `eu`: Basque.
-- `fa`: Persian.
-- `ff`: Fulah.
-- `fi`: Finnish.
-- `fj`: Fijian.
-- `fo`: Faroese.
-- `fr`: French.
-- `fy`: Western Frisian.
-- `ga`: Irish.
-- `gd`: Scottish Gaelic.
-- `gl`: Galician.
-- `gn`: Guarani.
-- `gu`: Gujarati.
-- `gv`: Manx.
-- `ha`: Hausa.
-- `he`: Hebrew.
-- `hi`: Hindi.
-- `ho`: Hiri Motu.
-- `hr`: Croatian.
-- `ht`: Haitian Creole.
-- `hu`: Hungarian.
-- `hy`: Armenian.
-- `hz`: Herero.
-- `ia`: Interlingua.
-- `id`: Indonesian.
-- `ie`: Interlingue.
-- `ig`: Igbo.
-- `ii`: Sichuan Yi.
-- `ik`: Inupiaq.
-- `io`: Ido.
-- `is`: Icelandic.
-- `it`: Italian.
-- `iu`: Inuktitut.
-- `ja`: Japanese.
-- `jv`: Javanese.
-- `ka`: Georgian.
-- `kg`: Kongo.
-- `ki`: Kikuyu.
-- `kj`: Kwanyama.
-- `kk`: Kazakh.
-- `kl`: Kalaallisut.
-- `km`: Khmer.
-- `kn`: Kannada.
-- `ko`: Korean.
-- `kr`: Kanuri.
-- `ks`: Kashmiri.
-- `ku`: Kurdish.
-- `kv`: Komi.
-- `kw`: Cornish.
-- `ky`: Kyrgyz.
-- `la`: Latin.
-- `lb`: Luxembourgish.
-- `lg`: Ganda.
-- `li`: Limburgish.
-- `ln`: Lingala.
-- `lo`: Lao.
-- `lt`: Lithuanian.
-- `lu`: Luba-Katanga.
-- `lv`: Latvian.
-- `mg`: Malagasy.
-- `mh`: Marshallese.
-- `mi`: Māori.
-- `mk`: Macedonian.
-- `ml`: Malayalam.
-- `mn`: Mongolian.
-- `mr`: Marathi.
-- `ms`: Malay.
-- `mt`: Maltese.
-- `my`: Burmese.
-- `na`: Nauru.
-- `nb`: Norwegian Bokmål.
-- `nd`: North Ndebele.
-- `ne`: Nepali.
-- `ng`: Ndonga.
-- `nl`: Dutch.
-- `nn`: Norwegian Nynorsk.
-- `no`: Norwegian.
-- `nr`: South Ndebele.
-- `nv`: Navajo.
-- `ny`: Chichewa.
-- `oc`: Occitan.
-- `oj`: Ojibwa.
-- `om`: Oromo.
-- `or`: Oriya.
-- `os`: Ossetian.
-- `pa`: Punjabi.
-- `pi`: Pali.
-- `pl`: Polish.
-- `ps`: Pashto.
-- `pt`: Portuguese.
-- `qu`: Quechua.
-- `rm`: Romansh.
-- `rn`: Kirundi.
-- `ro`: Romanian.
-- `ru`: Russian.
-- `rw`: Kinyarwanda.
-- `sa`: Sanskrit.
-- `sc`: Sardinian.
-- `sd`: Sindhi.
-- `se`: Northern Sami.
-- `sg`: Sango.
-- `si`: Sinhala.
-- `sk`: Slovak.
-- `sl`: Slovenian.
-- `sm`: Samoan.
-- `sn`: Shona.
-- `so`: Somali.
-- `sq`: Albanian.
-- `sr`: Serbian.
-- `ss`: Swati.
-- `st`: Southern Sotho.
-- `su`: Sundanese.
-- `sv`: Swedish.
-- `sw`: Swahili.
-- `ta`: Tamil.
-- `te`: Telugu.
-- `tg`: Tajik.
-- `th`: Thai.
-- `ti`: Tigrinya.
-- `tk`: Turkmen.
-- `tl`: Tagalog.
-- `tn`: Tswana.
-- `to`: Tonga.
-- `tr`: Turkish.
-- `ts`: Tsonga.
-- `tt`: Tatar.
-- `tw`: Twi.
-- `ty`: Tahitian.
-- `ug`: Uyghur.
-- `uk`: Ukrainian.
-- `ur`: Urdu.
-- `uz`: Uzbek.
-- `ve`: Venda.
-- `vi`: Vietnamese.
-- `vo`: Volapük.
-- `wa`: Walloon.
-- `wo`: Wolof.
-- `xh`: Xhosa.
-- `yi`: Yiddish.
-- `yo`: Yoruba.
-- `za`: Zhuang.
-- `zh`: Chinese.
-- `zu`: Zulu.
-"""
-
 
 type DSPSupplierPublisherSortOptionsFields = Literal["name", "supplierPublisherId"]
 """
@@ -486,67 +64,10 @@ Specify which field to order by.
 type DSPSupplierPublisherType = Literal["AMAZON_PUBLISHER_CLOUD", "AMAZON_PUBLISHER_DIRECT"]
 
 
-type DSPSupplierTargetType = Literal[
-    "APP",
-    "AUDIENCE",
-    "AUDIENCE_AGE",
-    "AUDIENCE_EDUCATION",
-    "AUDIENCE_GENDER",
-    "AUDIENCE_HOMEOWNERSHIP",
-    "AUDIENCE_HOUSEHOLD_COMPOSITION",
-    "AUDIENCE_HOUSEHOLD_INCOME",
-    "AUDIENCE_INTERESTS",
-    "AUDIENCE_IN_MARKET",
-    "AUDIENCE_MARITAL_STATUS",
-    "AUDIENCE_MOOD",
-    "AUDIENCE_SOCIOECONOMIC_GROUP",
-    "CONTENT_CATEGORY",
-    "CONTENT_GENRE",
-    "CONTENT_RATING",
-    "CONTENT_SENSITIVE_CATEGORY",
-    "DAYPART",
-    "DAYPART_DAY",
-    "DAYPART_TIME",
-    "DEVICE_OPERATING_SYSTEM",
-    "DEVICE_TYPE",
-    "LOCATION_CITY",
-    "LOCATION_COUNTRY",
-    "LOCATION_DESIGNATED_MARKET_AREA",
-    "LOCATION_METRO",
-    "LOCATION_POSTAL_CODE",
-    "LOCATION_REGION",
-    "POSITION_VIDEO",
-]
-
-
-type DSPSupplierTargetingDaypartTimezoneType = Literal["DEAL", "VIEWER"]
-"""
-Supported values:
-- `DEAL`: Set the daypart targeting to the timezone of the deal by the supplier
-- `VIEWER`: Set the daypart targeting to the timezone of the viewer of the advertisement.
-"""
-
-
-class DSPAmazonPublisherCloudGoalConstraints(LenientModel):
-    """Amazon Publisher Cloud specific goal constraints."""
-
-    supportedGoals: list[DSPAmazonPublisherServicesGoalTypes | str] | None = Field(
-        default=None, min_length=0, max_length=49, description="List of supported goal types for APC."
-    )
-
-
 class DSPAmazonPublisherCloudPublisherFields(LenientModel):
     """Amazon Publisher Cloud specific publisher fields."""
 
     description: str | None = Field(default=None, description="Publisher description.")
-
-
-class DSPAmazonPublisherDirectGoalConstraints(LenientModel):
-    """Amazon Publisher Direct specific goal constraints."""
-
-    supportedGoals: list[DSPAmazonPublisherServicesGoalTypes | str] | None = Field(
-        default=None, min_length=0, max_length=49, description="List of supported goal types for APD."
-    )
 
 
 class DSPAmazonPublisherDirectPublisherFields(LenientModel):
@@ -587,13 +108,10 @@ class DSPFrequency(LenientModel):
         description="Add the additional types of impression to frequency cap. Default to empty list when not selected",
     )
     frequencyTargetingSetting: DSPFrequencyTargetingSetting | str
-    timeCount: int | None = Field(
-        default=None,
-        ge=1,
-        le=60,
-        description="The value associated with the time and unit of time for this frequency cap.",
+    timeCount: int = Field(
+        ge=1, le=60, description="The value associated with the time and unit of time for this frequency cap."
     )
-    timeUnit: DSPTimeUnit | str | None = Field(default=None)
+    timeUnit: DSPTimeUnit | str
 
 
 class DSPLogo(LenientModel):
@@ -643,21 +161,6 @@ class DSPSupplierAdProductFrequencyConstraints(LenientModel):
     supportsFrequencyIntent: bool | None = Field(
         default=None, description="Indicates whether publisher product supports frequency intents."
     )
-
-
-class DSPSupplierAdProductGoalConstraints(LenientModel):
-    goalConstraintsExtension: DSPSupplierAdProductGoalConstraintsExtension
-
-
-class DSPSupplierAdProductGoalConstraintsExtensionAmazonPublisherCloudGoalConstraints(LenientModel):
-    amazonPublisherCloudGoalConstraints: DSPAmazonPublisherCloudGoalConstraints
-
-
-class DSPSupplierAdProductGoalConstraintsExtensionAmazonPublisherDirectGoalConstraints(LenientModel):
-    amazonPublisherDirectGoalConstraints: DSPAmazonPublisherDirectGoalConstraints
-
-
-type DSPSupplierAdProductGoalConstraintsExtension = DSPSupplierAdProductGoalConstraintsExtensionAmazonPublisherCloudGoalConstraints | DSPSupplierAdProductGoalConstraintsExtensionAmazonPublisherDirectGoalConstraints
 
 
 class DSPSupplierAdProductTargetingConstraints(LenientModel):
@@ -930,31 +433,6 @@ class DSPSupplierPositionVideoTarget(LenientModel):
     supplierTargetItemId: str = Field(description="The video position to target.")
 
 
-class DSPSupplierProposedDealCreativeRequirement(LenientModel):
-    """Creative requirement with inventory type."""
-
-    creativeRequirement: DSPSupplierProposedDealCreativeRequirements
-    inventoryType: DSPInventoryType | str
-    languages: list[DSPLanguageIso | str] | None = Field(
-        default=None, min_length=0, max_length=100, description="Languages available for this creative requirement."
-    )
-
-
-class DSPSupplierProposedDealCreativeRequirementsAudioCreativeRequirements(LenientModel):
-    audioCreativeRequirements: DSPAudioCreativeRequirements
-
-
-class DSPSupplierProposedDealCreativeRequirementsVideoCreativeRequirements(LenientModel):
-    videoCreativeRequirements: DSPVideoCreativeRequirements
-
-
-class DSPSupplierProposedDealCreativeRequirementsDisplayCreativeRequirements(LenientModel):
-    displayCreativeRequirements: DSPDisplayCreativeRequirements
-
-
-type DSPSupplierProposedDealCreativeRequirements = DSPSupplierProposedDealCreativeRequirementsAudioCreativeRequirements | DSPSupplierProposedDealCreativeRequirementsVideoCreativeRequirements | DSPSupplierProposedDealCreativeRequirementsDisplayCreativeRequirements
-
-
 class DSPSupplierPublisher(LenientModel):
     constraints: DSPSupplierAdProductConstraints | None = Field(default=None)
     countryConfigurations: list[DSPCountryConfiguration] | None = Field(
@@ -1017,44 +495,20 @@ class DSPSupplierTarget(LenientModel):
     supplierTargetType: DSPSupplierTargetType | str
 
 
-class DSPSupplierTargetConstraint(LenientModel):
-    """Supplier targeting constraint configuration for a particular SupplierTargetType on a SupplierAdProduct. The supplier target contraints within targetingConstraints define what SupplierTargets may be used for a SupplierProposedDeal using this SupplierAdProduct. If a SupplierTargetConstraint is present in targetingConstraints for a SupplierAdProduct, that indicates that the SupplierTargetType, such as AUDIENCE, is supported for this SupplierAdProduct."""
-
-    negative: DSPSupplierTargetValueConstraint | None = Field(default=None)
-    positive: DSPSupplierTargetValueConstraint
-    supplierTargetType: DSPSupplierTargetType | str
-
-
-class DSPSupplierTargetDetailsSupplierAudienceTarget(LenientModel):
-    supplierAudienceTarget: DSPSupplierAudienceTarget
+class DSPSupplierTargetDetailsSupplierAppTarget(LenientModel):
+    supplierAppTarget: DSPSupplierAppTarget
 
 
 class DSPSupplierTargetDetailsSupplierAudienceAgeTarget(LenientModel):
     supplierAudienceAgeTarget: DSPSupplierAudienceAgeTarget
 
 
-class DSPSupplierTargetDetailsSupplierAudienceGenderTarget(LenientModel):
-    supplierAudienceGenderTarget: DSPSupplierAudienceGenderTarget
-
-
-class DSPSupplierTargetDetailsSupplierAudienceInterestsTarget(LenientModel):
-    supplierAudienceInterestsTarget: DSPSupplierAudienceInterestsTarget
-
-
-class DSPSupplierTargetDetailsSupplierAudienceMoodTarget(LenientModel):
-    supplierAudienceMoodTarget: DSPSupplierAudienceMoodTarget
-
-
-class DSPSupplierTargetDetailsSupplierAudienceInMarketTarget(LenientModel):
-    supplierAudienceInMarketTarget: DSPSupplierAudienceInMarketTarget
-
-
-class DSPSupplierTargetDetailsSupplierAudienceHouseholdIncomeTarget(LenientModel):
-    supplierAudienceHouseholdIncomeTarget: DSPSupplierAudienceHouseholdIncomeTarget
-
-
 class DSPSupplierTargetDetailsSupplierAudienceEducationTarget(LenientModel):
     supplierAudienceEducationTarget: DSPSupplierAudienceEducationTarget
+
+
+class DSPSupplierTargetDetailsSupplierAudienceGenderTarget(LenientModel):
+    supplierAudienceGenderTarget: DSPSupplierAudienceGenderTarget
 
 
 class DSPSupplierTargetDetailsSupplierAudienceHomeownershipTarget(LenientModel):
@@ -1065,28 +519,32 @@ class DSPSupplierTargetDetailsSupplierAudienceHouseholdCompositionTarget(Lenient
     supplierAudienceHouseholdCompositionTarget: DSPSupplierAudienceHouseholdCompositionTarget
 
 
+class DSPSupplierTargetDetailsSupplierAudienceHouseholdIncomeTarget(LenientModel):
+    supplierAudienceHouseholdIncomeTarget: DSPSupplierAudienceHouseholdIncomeTarget
+
+
+class DSPSupplierTargetDetailsSupplierAudienceInMarketTarget(LenientModel):
+    supplierAudienceInMarketTarget: DSPSupplierAudienceInMarketTarget
+
+
+class DSPSupplierTargetDetailsSupplierAudienceInterestsTarget(LenientModel):
+    supplierAudienceInterestsTarget: DSPSupplierAudienceInterestsTarget
+
+
 class DSPSupplierTargetDetailsSupplierAudienceMaritalStatusTarget(LenientModel):
     supplierAudienceMaritalStatusTarget: DSPSupplierAudienceMaritalStatusTarget
+
+
+class DSPSupplierTargetDetailsSupplierAudienceMoodTarget(LenientModel):
+    supplierAudienceMoodTarget: DSPSupplierAudienceMoodTarget
 
 
 class DSPSupplierTargetDetailsSupplierAudienceSocioeconomicGroupTarget(LenientModel):
     supplierAudienceSocioeconomicGroupTarget: DSPSupplierAudienceSocioeconomicGroupTarget
 
 
-class DSPSupplierTargetDetailsSupplierLocationTarget(LenientModel):
-    supplierLocationTarget: DSPSupplierLocationTarget
-
-
-class DSPSupplierTargetDetailsSupplierDayPartTarget(LenientModel):
-    supplierDayPartTarget: DSPSupplierDayPartTarget
-
-
-class DSPSupplierTargetDetailsSupplierDayPartDayTarget(LenientModel):
-    supplierDayPartDayTarget: DSPSupplierDayPartDayTarget
-
-
-class DSPSupplierTargetDetailsSupplierDayPartTimeTarget(LenientModel):
-    supplierDayPartTimeTarget: DSPSupplierDayPartTimeTarget
+class DSPSupplierTargetDetailsSupplierAudienceTarget(LenientModel):
+    supplierAudienceTarget: DSPSupplierAudienceTarget
 
 
 class DSPSupplierTargetDetailsSupplierContentCategoryTarget(LenientModel):
@@ -1105,23 +563,35 @@ class DSPSupplierTargetDetailsSupplierContentSensitiveCategoryTarget(LenientMode
     supplierContentSensitiveCategoryTarget: DSPSupplierContentSensitiveCategoryTarget
 
 
-class DSPSupplierTargetDetailsSupplierDeviceTypeTarget(LenientModel):
-    supplierDeviceTypeTarget: DSPSupplierDeviceTypeTarget
+class DSPSupplierTargetDetailsSupplierDayPartDayTarget(LenientModel):
+    supplierDayPartDayTarget: DSPSupplierDayPartDayTarget
+
+
+class DSPSupplierTargetDetailsSupplierDayPartTarget(LenientModel):
+    supplierDayPartTarget: DSPSupplierDayPartTarget
+
+
+class DSPSupplierTargetDetailsSupplierDayPartTimeTarget(LenientModel):
+    supplierDayPartTimeTarget: DSPSupplierDayPartTimeTarget
 
 
 class DSPSupplierTargetDetailsSupplierDeviceOperatingSystemTarget(LenientModel):
     supplierDeviceOperatingSystemTarget: DSPSupplierDeviceOperatingSystemTarget
 
 
+class DSPSupplierTargetDetailsSupplierDeviceTypeTarget(LenientModel):
+    supplierDeviceTypeTarget: DSPSupplierDeviceTypeTarget
+
+
+class DSPSupplierTargetDetailsSupplierLocationTarget(LenientModel):
+    supplierLocationTarget: DSPSupplierLocationTarget
+
+
 class DSPSupplierTargetDetailsSupplierPositionVideoTarget(LenientModel):
     supplierPositionVideoTarget: DSPSupplierPositionVideoTarget
 
 
-class DSPSupplierTargetDetailsSupplierAppTarget(LenientModel):
-    supplierAppTarget: DSPSupplierAppTarget
-
-
-type DSPSupplierTargetDetails = DSPSupplierTargetDetailsSupplierAudienceTarget | DSPSupplierTargetDetailsSupplierAudienceAgeTarget | DSPSupplierTargetDetailsSupplierAudienceGenderTarget | DSPSupplierTargetDetailsSupplierAudienceInterestsTarget | DSPSupplierTargetDetailsSupplierAudienceMoodTarget | DSPSupplierTargetDetailsSupplierAudienceInMarketTarget | DSPSupplierTargetDetailsSupplierAudienceHouseholdIncomeTarget | DSPSupplierTargetDetailsSupplierAudienceEducationTarget | DSPSupplierTargetDetailsSupplierAudienceHomeownershipTarget | DSPSupplierTargetDetailsSupplierAudienceHouseholdCompositionTarget | DSPSupplierTargetDetailsSupplierAudienceMaritalStatusTarget | DSPSupplierTargetDetailsSupplierAudienceSocioeconomicGroupTarget | DSPSupplierTargetDetailsSupplierLocationTarget | DSPSupplierTargetDetailsSupplierDayPartTarget | DSPSupplierTargetDetailsSupplierDayPartDayTarget | DSPSupplierTargetDetailsSupplierDayPartTimeTarget | DSPSupplierTargetDetailsSupplierContentCategoryTarget | DSPSupplierTargetDetailsSupplierContentGenreTarget | DSPSupplierTargetDetailsSupplierContentRatingTarget | DSPSupplierTargetDetailsSupplierContentSensitiveCategoryTarget | DSPSupplierTargetDetailsSupplierDeviceTypeTarget | DSPSupplierTargetDetailsSupplierDeviceOperatingSystemTarget | DSPSupplierTargetDetailsSupplierPositionVideoTarget | DSPSupplierTargetDetailsSupplierAppTarget
+type DSPSupplierTargetDetails = DSPSupplierTargetDetailsSupplierAppTarget | DSPSupplierTargetDetailsSupplierAudienceAgeTarget | DSPSupplierTargetDetailsSupplierAudienceEducationTarget | DSPSupplierTargetDetailsSupplierAudienceGenderTarget | DSPSupplierTargetDetailsSupplierAudienceHomeownershipTarget | DSPSupplierTargetDetailsSupplierAudienceHouseholdCompositionTarget | DSPSupplierTargetDetailsSupplierAudienceHouseholdIncomeTarget | DSPSupplierTargetDetailsSupplierAudienceInMarketTarget | DSPSupplierTargetDetailsSupplierAudienceInterestsTarget | DSPSupplierTargetDetailsSupplierAudienceMaritalStatusTarget | DSPSupplierTargetDetailsSupplierAudienceMoodTarget | DSPSupplierTargetDetailsSupplierAudienceSocioeconomicGroupTarget | DSPSupplierTargetDetailsSupplierAudienceTarget | DSPSupplierTargetDetailsSupplierContentCategoryTarget | DSPSupplierTargetDetailsSupplierContentGenreTarget | DSPSupplierTargetDetailsSupplierContentRatingTarget | DSPSupplierTargetDetailsSupplierContentSensitiveCategoryTarget | DSPSupplierTargetDetailsSupplierDayPartDayTarget | DSPSupplierTargetDetailsSupplierDayPartTarget | DSPSupplierTargetDetailsSupplierDayPartTimeTarget | DSPSupplierTargetDetailsSupplierDeviceOperatingSystemTarget | DSPSupplierTargetDetailsSupplierDeviceTypeTarget | DSPSupplierTargetDetailsSupplierLocationTarget | DSPSupplierTargetDetailsSupplierPositionVideoTarget
 
 
 class DSPSupplierTargetGroup(LenientModel):
@@ -1129,15 +599,6 @@ class DSPSupplierTargetGroup(LenientModel):
     groupName: str
     groupTargets: list[DSPSupplierTarget] = Field(min_length=1, max_length=49)
     groupType: DSPSupplierGroupType | str | None = Field(default=None)
-
-
-class DSPSupplierTargetGroupConstraint(LenientModel):
-    """A SupplierTargetGroupConstraint provides a group of SupplierTargetConstraint elements where the collection share a common theme such as location, contextual targeting, etc. If a set of SupplierTargetConstraint are contained in a group, then when a proposed deal is created, the supplier target types of those within the group may share a groupId to create a set. Please refer to the documentation of groupId within a SupplierTarget for more information."""
-
-    groupConstraints: list[DSPSupplierTargetConstraint] = Field(min_length=1, max_length=49)
-    groupName: str
-    supplierTargetGroupConstraintDetails: DSPSupplierTargetGroupConstraintDetails | None = Field(default=None)
-    supplierTargetGroupConstraintType: DSPSupplierTargetGroupConstraintType | str | None = Field(default=None)
 
 
 class DSPTimeOfDay(LenientModel):

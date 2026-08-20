@@ -8,20 +8,11 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models.v1._shared.dsp import (
+    DSPAdProduct,
+    DSPCountryCode,
     DSPSortDirection,
+    DSPSupplierTargetType,
 )
-
-type DSPAdProduct = Literal["AMAZON_DSP"]
-"""
-Supported values:
-- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
-"""
-
-
-type DSPCountryCode = Literal[
-    "AD", "AE", "AF", "AG", "AI", "AU", "BR", "CA", "DE", "ES", "FR", "GB", "IT", "JP", "KR", "MX", "US"
-]
-
 
 type DSPSupplierTargetItemNameFilterType = Literal["BROAD_MATCH"]
 """
@@ -37,39 +28,6 @@ Specify which field to order by.
 | --- | --- |
 | name | ASCENDING,DESCENDING |
 """
-
-
-type DSPSupplierTargetType = Literal[
-    "APP",
-    "AUDIENCE",
-    "AUDIENCE_AGE",
-    "AUDIENCE_EDUCATION",
-    "AUDIENCE_GENDER",
-    "AUDIENCE_HOMEOWNERSHIP",
-    "AUDIENCE_HOUSEHOLD_COMPOSITION",
-    "AUDIENCE_HOUSEHOLD_INCOME",
-    "AUDIENCE_INTERESTS",
-    "AUDIENCE_IN_MARKET",
-    "AUDIENCE_MARITAL_STATUS",
-    "AUDIENCE_MOOD",
-    "AUDIENCE_SOCIOECONOMIC_GROUP",
-    "CONTENT_CATEGORY",
-    "CONTENT_GENRE",
-    "CONTENT_RATING",
-    "CONTENT_SENSITIVE_CATEGORY",
-    "DAYPART",
-    "DAYPART_DAY",
-    "DAYPART_TIME",
-    "DEVICE_OPERATING_SYSTEM",
-    "DEVICE_TYPE",
-    "LOCATION_CITY",
-    "LOCATION_COUNTRY",
-    "LOCATION_DESIGNATED_MARKET_AREA",
-    "LOCATION_METRO",
-    "LOCATION_POSTAL_CODE",
-    "LOCATION_REGION",
-    "POSITION_VIDEO",
-]
 
 
 class DSPQuerySupplierTargetItemRequest(StrictModel):

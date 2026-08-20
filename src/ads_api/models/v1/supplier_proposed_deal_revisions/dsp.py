@@ -3,13 +3,16 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models.v1._shared.dsp import (
+    DSPAdvertisingDealPriceType,
+    DSPCreateAdvertisingDealPrice,
+    DSPCreateAdvertisingDealTerms,
     DSPCreateAmazonMediaProposedDealExtension,
+    DSPCreateMonetaryBudget,
     DSPCreateNotes,
     DSPCreateSupplierAppTarget,
     DSPCreateSupplierAudienceAgeTarget,
@@ -29,6 +32,7 @@ from ads_api.models.v1._shared.dsp import (
     DSPCreateSupplierContentRatingTarget,
     DSPCreateSupplierContentSensitiveCategoryTarget,
     DSPCreateSupplierDayPartDayTarget,
+    DSPCreateSupplierDayPartTarget,
     DSPCreateSupplierDayPartTimeTarget,
     DSPCreateSupplierDeviceOperatingSystemTarget,
     DSPCreateSupplierDeviceTypeTarget,
@@ -38,161 +42,26 @@ from ads_api.models.v1._shared.dsp import (
     DSPCreateSupplierPositionVideoTarget,
     DSPCreateSupplierProposedDealExtension,
     DSPCreateSupplierStateReason,
+    DSPCreateSupplierTarget,
+    DSPCreateSupplierTargetDetails,
+    DSPCreateSupplierTargetGroup,
     DSPCreateTimeOfDay,
+    DSPCurrencyCode,
+    DSPDayOfWeek,
+    DSPError,
+    DSPErrorCode,
+    DSPErrorsIndex,
+    DSPMonetaryBudgetOut,
     DSPNoteOrigin,
+    DSPState,
     DSPSupplierArchiveReason,
     DSPSupplierGroupType,
+    DSPSupplierProposedDealStatus,
     DSPSupplierProposedDealType,
+    DSPSupplierTargetingDaypartTimezoneType,
+    DSPSupplierTargetType,
     DSPTimeOfDayOut,
 )
-
-type DSPAdvertisingDealPriceType = Literal["FIXED_CPM", "FIXED_PRICE", "FLAT_FEE", "FLOOR_RATE"]
-"""
-Supported values:
-- `FIXED_CPM`: Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
-- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
-- `FLAT_FEE`: This value is deprecated. Please use FIXED_PRICE.
-- `FLOOR_RATE`: Minimum bid price for auction. Buyer must bid at or above this floor to compete. Used for PRIVATE_AUCTION deals.
-"""
-
-
-type DSPCurrencyCode = Literal["AUD", "BRL", "CAD", "EUR", "GBP", "JPY", "KRW", "MXN", "USD"]
-"""
-Supported values:
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `JPY`: Japanese Yen
-- `KRW`: South Korean Won
-- `MXN`: Mexican Peso
-- `USD`: United States Dollar
-"""
-
-
-type DSPDayOfWeek = Literal["FRIDAY", "MONDAY", "SATURDAY", "SUNDAY", "THURSDAY", "TUESDAY", "WEDNESDAY"]
-"""
-Supported values:
-- `FRIDAY`: Friday.
-- `MONDAY`: Monday.
-- `SATURDAY`: Saturday.
-- `SUNDAY`: Sunday.
-- `THURSDAY`: Thursday.
-- `TUESDAY`: Tuesday.
-- `WEDNESDAY`: Wednesday.
-"""
-
-
-type DSPErrorCode = Literal[
-    "BAD_REQUEST", "FORBIDDEN", "INTERNAL_ERROR", "NOT_FOUND", "TOO_MANY_REQUESTS", "UNAUTHORIZED"
-]
-"""
-Supported values:
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `NOT_FOUND`: The requested resource does not exist.
-- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
-"""
-
-
-type DSPState = Literal["ARCHIVED", "DRAFT", "PROPOSED"]
-"""
-The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
-- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
-"""
-
-
-type DSPSupplierProposedDealStatus = Literal[
-    "APPROVED",
-    "APPROVED_CURRENT",
-    "APPROVED_PENDING_REGISTRATION",
-    "CANCELLED",
-    "COUNTER_DRAFT",
-    "DRAFT",
-    "DRAFT_REVISION",
-    "ERROR",
-    "PENDING",
-    "REJECTED",
-    "REJECTED_REVISED",
-    "REVISED",
-    "REVISION_APPROVED_PENDING_REGISTRATION",
-    "SELLER_RESPONDED",
-    "SUBMITTED",
-    "SUBMITTED_REVISION",
-    "SUBMITTED_TERMINATE",
-    "TERMINATED",
-    "TERMINATED_PENDING_REGISTRATION",
-]
-"""
-Supported values:
-- `APPROVED_CURRENT`: The deal is the current approved version after a revision was approved.
-- `APPROVED_PENDING_REGISTRATION`: The deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
-- `APPROVED`: The deal has been submitted and approved by the supplier and added to the ADSP for use.
-- `CANCELLED`: The deal has been canceled in both ADSPs and the supplier's systems.
-- `COUNTER_DRAFT`: The deal is a counter draft.
-- `DRAFT_REVISION`: The deal is a draft revision of an approved deal and may be edited.
-- `DRAFT`: The deal has not yet been submitted to the supplier and may be edited.
-- `ERROR`: Something has gone wrong during the submission of the deal and requires intervention to recover.
-- `PENDING`: [To Be Deprecated] The deal is waiting to be updated asynchronously and is not ready to be targeted.
-- `REJECTED_REVISED`: A previously rejected deal that has since been modified by the customer and is ready to be resubmitted for approval.
-- `REJECTED`: The deal was rejected for approval by the supplier, and may be edited before being resubmitted for approval.
-- `REVISED`: The deal is a previous version that has been superseded by a newer approved revision.
-- `REVISION_APPROVED_PENDING_REGISTRATION`: The revision of the deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
-- `SELLER_RESPONDED`: The seller responded with a new deal. Waiting for buyer's decision.
-- `SUBMITTED_REVISION`: The deal revision is currently being evaluated for approval by the supplier.
-- `SUBMITTED_TERMINATE`: The deal is currently being evaluated for termination by the supplier.
-- `SUBMITTED`: The deal is currently being evaluated for approval by the supplier.
-- `TERMINATED_PENDING_REGISTRATION`: A deal has been submitted and terminated by the supplier, but is in the process of being made reflected in the ADSP.
-- `TERMINATED`: A deal has been submitted and terminated by the supplier and ingested into the ADSP to reflect the change.
-"""
-
-
-type DSPSupplierTargetType = Literal[
-    "APP",
-    "AUDIENCE",
-    "AUDIENCE_AGE",
-    "AUDIENCE_EDUCATION",
-    "AUDIENCE_GENDER",
-    "AUDIENCE_HOMEOWNERSHIP",
-    "AUDIENCE_HOUSEHOLD_COMPOSITION",
-    "AUDIENCE_HOUSEHOLD_INCOME",
-    "AUDIENCE_INTERESTS",
-    "AUDIENCE_IN_MARKET",
-    "AUDIENCE_MARITAL_STATUS",
-    "AUDIENCE_MOOD",
-    "AUDIENCE_SOCIOECONOMIC_GROUP",
-    "CONTENT_CATEGORY",
-    "CONTENT_GENRE",
-    "CONTENT_RATING",
-    "CONTENT_SENSITIVE_CATEGORY",
-    "DAYPART",
-    "DAYPART_DAY",
-    "DAYPART_TIME",
-    "DEVICE_OPERATING_SYSTEM",
-    "DEVICE_TYPE",
-    "LOCATION_CITY",
-    "LOCATION_COUNTRY",
-    "LOCATION_DESIGNATED_MARKET_AREA",
-    "LOCATION_METRO",
-    "LOCATION_POSTAL_CODE",
-    "LOCATION_REGION",
-    "POSITION_VIDEO",
-]
-
-
-type DSPSupplierTargetingDaypartTimezoneType = Literal["DEAL", "VIEWER"]
-"""
-Supported values:
-- `DEAL`: Set the daypart targeting to the timezone of the deal by the supplier
-- `VIEWER`: Set the daypart targeting to the timezone of the viewer of the advertisement.
-"""
 
 
 class DSPAdvertisingDealPrice(StrictModel):
@@ -273,47 +142,6 @@ class DSPAmazonMediaProposedDealExtensionOut(LenientModel):
     )
 
 
-class DSPCreateAdvertisingDealPrice(StrictModel):
-    currencyCode: DSPCurrencyCode
-    priceType: DSPAdvertisingDealPriceType
-    value: float = Field(description="The monetary amount of the price in the given currency.")
-
-
-class DSPCreateAdvertisingDealTerms(StrictModel):
-    """Terms for a deal. Supports PA & PD deals along with both spend-based guarantees (standard PG) and share-of-voice based guarantees (PG-SOV)."""
-
-    budget: DSPCreateMonetaryBudget | None = Field(default=None)
-    guaranteed: bool = Field(description="If true, deal is PG Deal.")
-    impressions: int | None = Field(
-        default=None,
-        description="Representing the number of impressions for the deal. If the deal is guaranteed, this number should be provided. If the deal is non-guaranteed, this can be used to indicate how many impressions can be expected for the deal (as guidance).",
-    )
-    marketplaceDeal: bool = Field(
-        description="If true, deal is available to all Amazon DSP entities globally. Marketplace deals cannot be edited by individual buyers."
-    )
-    price: DSPCreateAdvertisingDealPrice
-    shareOfVoicePercentage: float | None = Field(
-        default=None,
-        description="Guaranteed Share-of-voice Percentage of the advertising deal. Used for SOV-based PG deals. Value must be > 0 and <= 100. Mutually exclusive with budget.",
-    )
-
-
-class DSPCreateMonetaryBudget(StrictModel):
-    currencyCode: DSPCurrencyCode
-    ruleValue: float | None = Field(
-        default=None, description="The monetary amount of the budget when a budget rule is applied."
-    )
-    value: float = Field(description="The monetary amount of the budget cap in the given currency.")
-
-
-class DSPCreateSupplierDayPartTarget(StrictModel):
-    """Supplier target based on time of day."""
-
-    dayOfWeek: DSPDayOfWeek
-    timeOfDay: DSPCreateTimeOfDay
-    timeZoneType: DSPSupplierTargetingDaypartTimezoneType | None = Field(default=None)
-
-
 class DSPCreateSupplierProposedDealRevisionDescription(StrictModel):
     """Modifiable fields for a proposed deal revision. A revision can only be created for an approved SupplierProposedDeal."""
 
@@ -342,144 +170,8 @@ class DSPCreateSupplierProposedDealRevisionRequest(StrictModel):
     supplierProposedDealRevisions: list[DSPSupplierProposedDealRevisionCreate] = Field(min_length=1, max_length=15)
 
 
-class DSPCreateSupplierTarget(StrictModel):
-    """Marketplace targeting configuration."""
-
-    negative: bool | None = Field(
-        default=None,
-        description="Indicates whether the target is negative or not. Negative targeting allows advertisers to provide intent where they do not want to show ads. Please ensure that the supplier for this target supports negative targeting before setting to true. If this field is not present, then negative is assumed to be false (meaning that a target is inclusive by default).",
-    )
-    supplierTargetDetails: DSPCreateSupplierTargetDetails
-    supplierTargetType: DSPSupplierTargetType
-
-
-class DSPCreateSupplierTargetDetailsSupplierAudienceTarget(StrictModel):
-    supplierAudienceTarget: DSPCreateSupplierAudienceTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierAudienceAgeTarget(StrictModel):
-    supplierAudienceAgeTarget: DSPCreateSupplierAudienceAgeTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierAudienceGenderTarget(StrictModel):
-    supplierAudienceGenderTarget: DSPCreateSupplierAudienceGenderTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierAudienceInterestsTarget(StrictModel):
-    supplierAudienceInterestsTarget: DSPCreateSupplierAudienceInterestsTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierAudienceMoodTarget(StrictModel):
-    supplierAudienceMoodTarget: DSPCreateSupplierAudienceMoodTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierAudienceInMarketTarget(StrictModel):
-    supplierAudienceInMarketTarget: DSPCreateSupplierAudienceInMarketTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierAudienceHouseholdIncomeTarget(StrictModel):
-    supplierAudienceHouseholdIncomeTarget: DSPCreateSupplierAudienceHouseholdIncomeTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierAudienceEducationTarget(StrictModel):
-    supplierAudienceEducationTarget: DSPCreateSupplierAudienceEducationTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierAudienceHomeownershipTarget(StrictModel):
-    supplierAudienceHomeownershipTarget: DSPCreateSupplierAudienceHomeownershipTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierAudienceHouseholdCompositionTarget(StrictModel):
-    supplierAudienceHouseholdCompositionTarget: DSPCreateSupplierAudienceHouseholdCompositionTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierAudienceMaritalStatusTarget(StrictModel):
-    supplierAudienceMaritalStatusTarget: DSPCreateSupplierAudienceMaritalStatusTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierAudienceSocioeconomicGroupTarget(StrictModel):
-    supplierAudienceSocioeconomicGroupTarget: DSPCreateSupplierAudienceSocioeconomicGroupTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierLocationTarget(StrictModel):
-    supplierLocationTarget: DSPCreateSupplierLocationTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierDayPartTarget(StrictModel):
-    supplierDayPartTarget: DSPCreateSupplierDayPartTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierDayPartDayTarget(StrictModel):
-    supplierDayPartDayTarget: DSPCreateSupplierDayPartDayTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierDayPartTimeTarget(StrictModel):
-    supplierDayPartTimeTarget: DSPCreateSupplierDayPartTimeTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierContentCategoryTarget(StrictModel):
-    supplierContentCategoryTarget: DSPCreateSupplierContentCategoryTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierContentGenreTarget(StrictModel):
-    supplierContentGenreTarget: DSPCreateSupplierContentGenreTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierContentRatingTarget(StrictModel):
-    supplierContentRatingTarget: DSPCreateSupplierContentRatingTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierContentSensitiveCategoryTarget(StrictModel):
-    supplierContentSensitiveCategoryTarget: DSPCreateSupplierContentSensitiveCategoryTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierDeviceTypeTarget(StrictModel):
-    supplierDeviceTypeTarget: DSPCreateSupplierDeviceTypeTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierDeviceOperatingSystemTarget(StrictModel):
-    supplierDeviceOperatingSystemTarget: DSPCreateSupplierDeviceOperatingSystemTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierPositionVideoTarget(StrictModel):
-    supplierPositionVideoTarget: DSPCreateSupplierPositionVideoTarget
-
-
-class DSPCreateSupplierTargetDetailsSupplierAppTarget(StrictModel):
-    supplierAppTarget: DSPCreateSupplierAppTarget
-
-
-type DSPCreateSupplierTargetDetails = DSPCreateSupplierTargetDetailsSupplierAudienceTarget | DSPCreateSupplierTargetDetailsSupplierAudienceAgeTarget | DSPCreateSupplierTargetDetailsSupplierAudienceGenderTarget | DSPCreateSupplierTargetDetailsSupplierAudienceInterestsTarget | DSPCreateSupplierTargetDetailsSupplierAudienceMoodTarget | DSPCreateSupplierTargetDetailsSupplierAudienceInMarketTarget | DSPCreateSupplierTargetDetailsSupplierAudienceHouseholdIncomeTarget | DSPCreateSupplierTargetDetailsSupplierAudienceEducationTarget | DSPCreateSupplierTargetDetailsSupplierAudienceHomeownershipTarget | DSPCreateSupplierTargetDetailsSupplierAudienceHouseholdCompositionTarget | DSPCreateSupplierTargetDetailsSupplierAudienceMaritalStatusTarget | DSPCreateSupplierTargetDetailsSupplierAudienceSocioeconomicGroupTarget | DSPCreateSupplierTargetDetailsSupplierLocationTarget | DSPCreateSupplierTargetDetailsSupplierDayPartTarget | DSPCreateSupplierTargetDetailsSupplierDayPartDayTarget | DSPCreateSupplierTargetDetailsSupplierDayPartTimeTarget | DSPCreateSupplierTargetDetailsSupplierContentCategoryTarget | DSPCreateSupplierTargetDetailsSupplierContentGenreTarget | DSPCreateSupplierTargetDetailsSupplierContentRatingTarget | DSPCreateSupplierTargetDetailsSupplierContentSensitiveCategoryTarget | DSPCreateSupplierTargetDetailsSupplierDeviceTypeTarget | DSPCreateSupplierTargetDetailsSupplierDeviceOperatingSystemTarget | DSPCreateSupplierTargetDetailsSupplierPositionVideoTarget | DSPCreateSupplierTargetDetailsSupplierAppTarget
-
-
-class DSPCreateSupplierTargetGroup(StrictModel):
-    groupDetails: DSPCreateSupplierGroupDetails | None = Field(default=None)
-    groupName: str
-    groupTargets: list[DSPCreateSupplierTarget] = Field(min_length=1, max_length=49)
-    groupType: DSPSupplierGroupType | None = Field(default=None)
-
-
-class DSPError(LenientModel):
-    code: DSPErrorCode | str
-    fieldLocation: str | None = Field(default=None)
-    message: str
-
-
-class DSPErrorsIndex(LenientModel):
-    errors: list[DSPError] = Field(min_length=1, max_length=20)
-    index: int = Field(ge=0, le=14)
-
-
 class DSPMonetaryBudget(StrictModel):
     currencyCode: DSPCurrencyCode
-    ruleValue: float | None = Field(
-        default=None, description="The monetary amount of the budget when a budget rule is applied."
-    )
-    value: float = Field(description="The monetary amount of the budget cap in the given currency.")
-
-
-class DSPMonetaryBudgetOut(LenientModel):
-    currencyCode: DSPCurrencyCode | str
     ruleValue: float | None = Field(
         default=None, description="The monetary amount of the budget when a budget rule is applied."
     )

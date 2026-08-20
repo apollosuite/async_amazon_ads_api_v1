@@ -8,68 +8,18 @@ from typing import Literal
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
+from ads_api.models.v1._shared.dsp import (
+    DSPCurrencyCode,
+    DSPError,
+    DSPErrorCode,
+    DSPErrorsIndex,
+)
 
 type DSPCommitmentCommitmentNameFilterType = Literal["BROAD_MATCH", "EXACT_MATCH"]
 """
 Supported values:
 - `EXACT_MATCH`: Filter by exact match.
 - `BROAD_MATCH`: Filter by broad match.
-"""
-
-
-type DSPCurrencyCode = Literal[
-    "AED",
-    "AUD",
-    "BRL",
-    "CAD",
-    "DKK",
-    "EUR",
-    "GBP",
-    "INR",
-    "JPY",
-    "MXN",
-    "NOK",
-    "NZD",
-    "SAR",
-    "SEK",
-    "SGD",
-    "TRY",
-    "USD",
-]
-"""
-Supported values:
-- `AED`: United Arab Emirates Dirham
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `DKK`: Danish Krone
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `INR`: Indian Rupee
-- `JPY`: Japanese Yen
-- `MXN`: Mexican Peso
-- `NOK`: Norwegian Krone
-- `NZD`: New Zealand Dollar
-- `SAR`: Saudi Riyal
-- `SEK`: Swedish Krona
-- `SGD`: Singapore Dollar
-- `TRY`: Turkish Lira
-- `USD`: United States Dollar
-"""
-
-
-type DSPErrorCode = Literal[
-    "BAD_REQUEST", "CONTENT_TOO_LARGE", "FORBIDDEN", "INTERNAL_ERROR", "NOT_FOUND", "TOO_MANY_REQUESTS", "UNAUTHORIZED"
-]
-"""
-Supported values:
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-- `CONTENT_TOO_LARGE`: The request is too large. Consider splitting it into multiple requests.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `NOT_FOUND`: The requested resource does not exist.
-- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
 """
 
 
@@ -191,17 +141,6 @@ class DSPCommitmentUpdate(StrictModel):
 
 class DSPCreateCommitmentRequest(StrictModel):
     commitments: list[DSPCommitmentCreate] = Field(min_length=1, max_length=1000)
-
-
-class DSPError(LenientModel):
-    code: DSPErrorCode | str
-    fieldLocation: str | None = Field(default=None)
-    message: str
-
-
-class DSPErrorsIndex(LenientModel):
-    errors: list[DSPError] = Field(min_length=1, max_length=20)
-    index: int = Field(ge=0, le=999)
 
 
 class DSPQueryCommitmentRequest(StrictModel):

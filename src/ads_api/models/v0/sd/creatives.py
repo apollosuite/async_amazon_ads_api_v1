@@ -94,7 +94,7 @@ class BackgroundOut(LenientModel):
 class CreateCreative(StrictModel):
     """Creative create model."""
 
-    adGroupId: float = Field(description="Unqiue identifier for the ad group associated with the creative.")
+    adGroupId: int = Field(description="Unqiue identifier for the ad group associated with the creative.")
     creativeType: CreativeTypeInCreativeRequest | None = Field(default=None)
     properties: CreativeProperties
     consentToTranslate: bool | None = Field(
@@ -106,7 +106,7 @@ class CreateCreative(StrictModel):
 class Creative(LenientModel):
     """Creative model."""
 
-    creativeId: float = Field(description="Unique identifier of the creative.")
+    creativeId: int = Field(description="Unique identifier of the creative.")
     adGroupId: AdGroupId
     creativeType: CreativeTypeInCreativeResponse | str
     properties: CreativePropertiesOut
@@ -118,7 +118,7 @@ class Creative(LenientModel):
 class CreativeModeration(LenientModel):
     """System generated Creative moderation."""
 
-    creativeId: float = Field(description="Unique identifier of the creative.")
+    creativeId: int = Field(description="Unique identifier of the creative.")
     creativeType: CreativeTypeInCreativeResponse | str
     moderationStatus: Literal["APPROVED", "PENDING_REVIEW", "REJECTED"] | str = Field(description="""
 The moderation status of the creative.
@@ -172,13 +172,13 @@ class CreativePreviewResponse(LenientModel):
 class CreativeResponse(LenientModel):
     code: str | None = Field(default=None, description="The HTTP status code of the response.")
     description: str | None = Field(default=None, description="A human-readable description of the response.")
-    creativeId: float | None = Field(default=None, description="The identifier of the creative.")
+    creativeId: int | None = Field(default=None, description="The identifier of the creative.")
 
 
 class CreativeUpdate(StrictModel):
     """Creative update model."""
 
-    creativeId: float = Field(description="Unique identifier of the creative.")
+    creativeId: int = Field(description="Unique identifier of the creative.")
     creativeType: CreativeTypeInCreativeRequest | None = Field(default=None)
     properties: CreativeProperties
 

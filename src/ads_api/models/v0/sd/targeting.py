@@ -154,9 +154,9 @@ class TargetingClause(LenientModel):
 
 
 class TargetingClauseEx(LenientModel):
-    targetId: float | None = Field(default=None)
-    adGroupId: float | None = Field(default=None)
-    campaignId: float | None = Field(default=None)
+    targetId: int | None = Field(default=None)
+    adGroupId: int | None = Field(default=None)
+    campaignId: int | None = Field(default=None)
     state: Literal["enabled", "paused", "archived"] | str | None = Field(default=None)
     expressionType: Literal["auto", "manual"] | str | None = Field(default=None)
     bid: float | None = Field(

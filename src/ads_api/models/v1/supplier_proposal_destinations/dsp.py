@@ -8,13 +8,9 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models.v1._shared.dsp import (
+    DSPCountryCode,
     DSPSortDirection,
 )
-
-type DSPCountryCode = Literal[
-    "AD", "AE", "AF", "AG", "AI", "AU", "BR", "CA", "DE", "ES", "FR", "GB", "IT", "JP", "KR", "MX", "US"
-]
-
 
 type DSPSupplierProposalDestinationSortOptionsFields = Literal["supplierProposalDestinationName"]
 """

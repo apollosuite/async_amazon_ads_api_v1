@@ -479,6 +479,7 @@
         "description": "Unique identifier for applications integrating with Ads Data Manager.",
         "enum": [
           "AMAZON_MARKETING_CLOUD",
+          "AUDIENCE_HUB",
           "DSP_AUDIENCES",
           "EVENTS_MANAGER",
           "GEO_LOCATIONS",
@@ -4564,7 +4565,7 @@
     },
     "/adm/sharingRules": {
       "post": {
-        "description": "Create a new Sharing Rule in ADM.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_edit\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]",
+        "description": "Create a new Sharing Rule in ADM.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_edit\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\"]",
         "operationId": "CreateSharingRule",
         "parameters": [
           {
@@ -4739,7 +4740,7 @@
     },
     "/adm/sharingRules/list": {
       "post": {
-        "description": "List a set of sharing rules belonging to an account.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_view\",\"ads_data_manager_edit\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]",
+        "description": "List a set of sharing rules belonging to an account.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_view\",\"ads_data_manager_edit\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\",\"event_manager_view\"]",
         "operationId": "ListSharingRules",
         "parameters": [
           {
@@ -4913,7 +4914,7 @@
     },
     "/adm/sharingRules/{sharingRuleId}/revoke": {
       "patch": {
-        "description": "Revoke an existing Sharing Rule in ADM.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_edit\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]",
+        "description": "Revoke an existing Sharing Rule in ADM.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_edit\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\"]",
         "operationId": "RevokeSharingRule",
         "parameters": [
           {

@@ -18,6 +18,7 @@ from ads_api.models.v1._shared.sp import (
     SPError,
     SPErrorCode,
     SPErrorsIndex,
+    SPMarketplace,
     SPMarketplaceScope,
     SPState,
     SPStatus,
@@ -30,36 +31,6 @@ type SPAdGroupNameFilterType = Literal["BROAD_MATCH", "EXACT_MATCH"]
 Supported values:
 - `EXACT_MATCH`: Filter by exact match.
 - `BROAD_MATCH`: Filter by broad match.
-"""
-
-
-type SPMarketplace = Literal[
-    "AE",
-    "AU",
-    "BE",
-    "BR",
-    "CA",
-    "DE",
-    "EG",
-    "ES",
-    "FR",
-    "GB",
-    "IE",
-    "IN",
-    "IT",
-    "JP",
-    "MX",
-    "NL",
-    "PL",
-    "SA",
-    "SE",
-    "SG",
-    "TR",
-    "US",
-    "ZA",
-]
-"""
-A list of country codes representing Amazon marketplaces
 """
 
 

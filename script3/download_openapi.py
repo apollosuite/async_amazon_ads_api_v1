@@ -23,10 +23,7 @@ _PRODUCT_GROUP_KEYS = frozenset(GROUP_KEY_OVERRIDES.values())
 
 HERE = Path(__file__).resolve().parent
 PROJECT = HERE.parent
-TOC_CANDIDATES = (
-    HERE / "data" / "toc2.json",
-    PROJECT / "script2" / "data" / "toc2.json",
-)
+TOC_PATH = HERE / "data" / "toc2.json"
 SPEC_ROOT = HERE / "data" / "api-spec-v0"
 YAML_BASE = "https://d3a0d0y2hgofx6.cloudfront.net/openapi/en-us/"
 TOC_URL = "https://d3a0d0y2hgofx6.cloudfront.net/en-us/toc2.json"
@@ -103,18 +100,16 @@ def collect_group_specs(toc2: dict[str, Any], group: TocGroup) -> list[dict[str,
 
 
 def load_toc() -> dict[str, Any]:
-    for path in TOC_CANDIDATES:
-        if path.is_file():
-            print(f"toc: {path}")
-            return read_json(path)
-    dest = HERE / "data" / "toc2.json"
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    print(f"下载 toc2.json → {dest}")
+    if TOC_PATH.is_file():
+        print(f"toc: {TOC_PATH}")
+        return read_json(TOC_PATH)
+    TOC_PATH.parent.mkdir(parents=True, exist_ok=True)
+    print(f"下载 toc2.json → {TOC_PATH}")
     with httpx.Client(timeout=60.0, follow_redirects=True) as client:
         resp = client.get(TOC_URL)
         resp.raise_for_status()
-        write_json(dest, resp.json())
-    return read_json(dest)
+        write_json(TOC_PATH, resp.json())
+    return read_json(TOC_PATH)
 
 
 def download_spec(

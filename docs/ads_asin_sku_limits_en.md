@@ -1,6 +1,6 @@
 # Amazon Ads API (v1) - ASIN / SKU Capacity and Constraints by Ad Product
 
-This document provides a comprehensive breakdown of the allowable number of ASINs/SKUs and identifier constraints per Ad and per Campaign across different Amazon Ads products (SP, SB, SD, DSP, ST, SP Global), based on the OpenAPI specifications located in `script2/data/api-spec-v1/ads/`.
+This document provides a comprehensive breakdown of the allowable number of ASINs/SKUs and identifier constraints per Ad and per Campaign across different Amazon Ads products (SP, SB, SD, DSP, ST, SP Global), based on the Merged OpenAPI specifications located in `script4/data/openapi/`.
 
 ---
 

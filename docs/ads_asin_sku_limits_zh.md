@@ -1,6 +1,6 @@
 # Amazon Ads API (v1) - 各广告类型下的 ASIN / SKU 配置数量与规则限制
 
-本文档基于 `script2/data/api-spec-v1/ads/` 中的 OpenAPI 规范，详细梳理在不同广告类型（SP、SB、SD、DSP、ST、SP Global）及其各自创意（Creative）设置下，单个广告（Ad）以及单个广告活动（Campaign）可关联的 ASIN / SKU 数量与规则限制。
+本文档基于 `script4/data/openapi/` 中的 Merged OpenAPI 规范，详细梳理在不同广告类型（SP、SB、SD、DSP、ST、SP Global）及其各自创意（Creative）设置下，单个广告（Ad）以及单个广告活动（Campaign）可关联的 ASIN / SKU 数量与规则限制。
 
 ---
 

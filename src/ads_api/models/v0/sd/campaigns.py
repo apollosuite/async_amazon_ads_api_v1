@@ -89,7 +89,7 @@ class CampaignResponse(LenientModel):
 
 
 class CampaignResponseEx(LenientModel):
-    campaignId: float | None = Field(default=None, description="The identifier of the campaign.")
+    campaignId: int | None = Field(default=None, description="The identifier of the campaign.")
     name: str | None = Field(default=None, description="The name of the campaign.")
     tactic: Tactic | str | None = Field(default=None)
     budgetType: Literal["daily"] | str | None = Field(

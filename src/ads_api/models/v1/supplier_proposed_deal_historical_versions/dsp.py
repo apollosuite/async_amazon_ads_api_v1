@@ -3,166 +3,28 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models.v1._shared.dsp import (
+    DSPAdProduct,
+    DSPAdvertisingDealPriceType,
     DSPAdvertisingDealType,
+    DSPCountryCode,
+    DSPCurrencyCode,
+    DSPDayOfWeek,
     DSPNoteOrigin,
+    DSPState,
     DSPSubmissionFailure,
     DSPSubmissionFailureField,
     DSPSupplierArchiveReason,
     DSPSupplierGroupType,
+    DSPSupplierProposedDealStatus,
     DSPSupplierProposedDealType,
+    DSPSupplierTargetingDaypartTimezoneType,
+    DSPSupplierTargetType,
 )
-
-type DSPAdProduct = Literal["AMAZON_DSP"]
-"""
-Supported values:
-- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
-"""
-
-
-type DSPAdvertisingDealPriceType = Literal["FIXED_CPM", "FIXED_PRICE", "FLAT_FEE", "FLOOR_RATE"]
-"""
-Supported values:
-- `FLAT_FEE`: This value is deprecated. Please use FIXED_PRICE.
-- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
-- `FIXED_CPM`: Fixed cost per thousand impressions. Buyer pays this exact CPM for every impression won. Used for PREFERRED and PROGRAMMATIC_GUARANTEED deals.
-- `FLOOR_RATE`: Minimum bid price for auction. Buyer must bid at or above this floor to compete. Used for PRIVATE_AUCTION deals.
-"""
-
-
-type DSPCountryCode = Literal[
-    "AD", "AE", "AF", "AG", "AI", "AU", "BR", "CA", "DE", "ES", "FR", "GB", "IT", "JP", "KR", "MX", "US"
-]
-
-
-type DSPCurrencyCode = Literal["AUD", "BRL", "CAD", "EUR", "GBP", "JPY", "KRW", "MXN", "USD"]
-"""
-Supported values:
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `JPY`: Japanese Yen
-- `KRW`: South Korean Won
-- `MXN`: Mexican Peso
-- `USD`: United States Dollar
-"""
-
-
-type DSPDayOfWeek = Literal["FRIDAY", "MONDAY", "SATURDAY", "SUNDAY", "THURSDAY", "TUESDAY", "WEDNESDAY"]
-"""
-Supported values:
-- `MONDAY`: Monday.
-- `TUESDAY`: Tuesday.
-- `WEDNESDAY`: Wednesday.
-- `THURSDAY`: Thursday.
-- `FRIDAY`: Friday.
-- `SATURDAY`: Saturday.
-- `SUNDAY`: Sunday.
-"""
-
-
-type DSPState = Literal["ARCHIVED", "DRAFT", "PROPOSED"]
-"""
-The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-
-Supported values:
-- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
-- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-"""
-
-
-type DSPSupplierProposedDealStatus = Literal[
-    "APPROVED",
-    "APPROVED_CURRENT",
-    "APPROVED_PENDING_REGISTRATION",
-    "CANCELLED",
-    "COUNTER_DRAFT",
-    "DRAFT",
-    "DRAFT_REVISION",
-    "ERROR",
-    "PENDING",
-    "REJECTED",
-    "REJECTED_REVISED",
-    "REVISED",
-    "REVISION_APPROVED_PENDING_REGISTRATION",
-    "SELLER_RESPONDED",
-    "SUBMITTED",
-    "SUBMITTED_REVISION",
-    "SUBMITTED_TERMINATE",
-    "TERMINATED",
-    "TERMINATED_PENDING_REGISTRATION",
-]
-"""
-Supported values:
-- `APPROVED`: The deal has been submitted and approved by the supplier and added to the ADSP for use.
-- `APPROVED_CURRENT`: The deal is the current approved version after a revision was approved.
-- `APPROVED_PENDING_REGISTRATION`: The deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
-- `CANCELLED`: The deal has been canceled in both ADSPs and the supplier's systems.
-- `COUNTER_DRAFT`: The deal is a counter draft.
-- `DRAFT`: The deal has not yet been submitted to the supplier and may be edited.
-- `DRAFT_REVISION`: The deal is a draft revision of an approved deal and may be edited.
-- `ERROR`: Something has gone wrong during the submission of the deal and requires intervention to recover.
-- `PENDING`: [To Be Deprecated] The deal is waiting to be updated asynchronously and is not ready to be targeted.
-- `REJECTED`: The deal was rejected for approval by the supplier, and may be edited before being resubmitted for approval.
-- `REJECTED_REVISED`: A previously rejected deal that has since been modified by the customer and is ready to be resubmitted for approval.
-- `REVISED`: The deal is a previous version that has been superseded by a newer approved revision.
-- `REVISION_APPROVED_PENDING_REGISTRATION`: The revision of the deal has been submitted and approved by the supplier, but is in the process of being made targetable in the ADSP.
-- `SELLER_RESPONDED`: The seller responded with a new deal. Waiting for buyer's decision.
-- `SUBMITTED`: The deal is currently being evaluated for approval by the supplier.
-- `SUBMITTED_REVISION`: The deal revision is currently being evaluated for approval by the supplier.
-- `SUBMITTED_TERMINATE`: The deal is currently being evaluated for termination by the supplier.
-- `TERMINATED`: A deal has been submitted and terminated by the supplier and ingested into the ADSP to reflect the change.
-- `TERMINATED_PENDING_REGISTRATION`: A deal has been submitted and terminated by the supplier, but is in the process of being made reflected in the ADSP.
-"""
-
-
-type DSPSupplierTargetType = Literal[
-    "APP",
-    "AUDIENCE",
-    "AUDIENCE_AGE",
-    "AUDIENCE_EDUCATION",
-    "AUDIENCE_GENDER",
-    "AUDIENCE_HOMEOWNERSHIP",
-    "AUDIENCE_HOUSEHOLD_COMPOSITION",
-    "AUDIENCE_HOUSEHOLD_INCOME",
-    "AUDIENCE_INTERESTS",
-    "AUDIENCE_IN_MARKET",
-    "AUDIENCE_MARITAL_STATUS",
-    "AUDIENCE_MOOD",
-    "AUDIENCE_SOCIOECONOMIC_GROUP",
-    "CONTENT_CATEGORY",
-    "CONTENT_GENRE",
-    "CONTENT_RATING",
-    "CONTENT_SENSITIVE_CATEGORY",
-    "DAYPART",
-    "DAYPART_DAY",
-    "DAYPART_TIME",
-    "DEVICE_OPERATING_SYSTEM",
-    "DEVICE_TYPE",
-    "LOCATION_CITY",
-    "LOCATION_COUNTRY",
-    "LOCATION_DESIGNATED_MARKET_AREA",
-    "LOCATION_METRO",
-    "LOCATION_POSTAL_CODE",
-    "LOCATION_REGION",
-    "POSITION_VIDEO",
-]
-
-
-type DSPSupplierTargetingDaypartTimezoneType = Literal["DEAL", "VIEWER"]
-"""
-Supported values:
-- `DEAL`: Set the daypart targeting to the timezone of the deal by the supplier
-- `VIEWER`: Set the daypart targeting to the timezone of the viewer of the advertisement.
-"""
 
 
 class DSPAdvertisingDealPrice(LenientModel):
@@ -571,36 +433,20 @@ class DSPSupplierTarget(LenientModel):
     supplierTargetType: DSPSupplierTargetType | str
 
 
-class DSPSupplierTargetDetailsSupplierAudienceTarget(LenientModel):
-    supplierAudienceTarget: DSPSupplierAudienceTarget
+class DSPSupplierTargetDetailsSupplierAppTarget(LenientModel):
+    supplierAppTarget: DSPSupplierAppTarget
 
 
 class DSPSupplierTargetDetailsSupplierAudienceAgeTarget(LenientModel):
     supplierAudienceAgeTarget: DSPSupplierAudienceAgeTarget
 
 
-class DSPSupplierTargetDetailsSupplierAudienceGenderTarget(LenientModel):
-    supplierAudienceGenderTarget: DSPSupplierAudienceGenderTarget
-
-
-class DSPSupplierTargetDetailsSupplierAudienceInterestsTarget(LenientModel):
-    supplierAudienceInterestsTarget: DSPSupplierAudienceInterestsTarget
-
-
-class DSPSupplierTargetDetailsSupplierAudienceMoodTarget(LenientModel):
-    supplierAudienceMoodTarget: DSPSupplierAudienceMoodTarget
-
-
-class DSPSupplierTargetDetailsSupplierAudienceInMarketTarget(LenientModel):
-    supplierAudienceInMarketTarget: DSPSupplierAudienceInMarketTarget
-
-
-class DSPSupplierTargetDetailsSupplierAudienceHouseholdIncomeTarget(LenientModel):
-    supplierAudienceHouseholdIncomeTarget: DSPSupplierAudienceHouseholdIncomeTarget
-
-
 class DSPSupplierTargetDetailsSupplierAudienceEducationTarget(LenientModel):
     supplierAudienceEducationTarget: DSPSupplierAudienceEducationTarget
+
+
+class DSPSupplierTargetDetailsSupplierAudienceGenderTarget(LenientModel):
+    supplierAudienceGenderTarget: DSPSupplierAudienceGenderTarget
 
 
 class DSPSupplierTargetDetailsSupplierAudienceHomeownershipTarget(LenientModel):
@@ -611,28 +457,32 @@ class DSPSupplierTargetDetailsSupplierAudienceHouseholdCompositionTarget(Lenient
     supplierAudienceHouseholdCompositionTarget: DSPSupplierAudienceHouseholdCompositionTarget
 
 
+class DSPSupplierTargetDetailsSupplierAudienceHouseholdIncomeTarget(LenientModel):
+    supplierAudienceHouseholdIncomeTarget: DSPSupplierAudienceHouseholdIncomeTarget
+
+
+class DSPSupplierTargetDetailsSupplierAudienceInMarketTarget(LenientModel):
+    supplierAudienceInMarketTarget: DSPSupplierAudienceInMarketTarget
+
+
+class DSPSupplierTargetDetailsSupplierAudienceInterestsTarget(LenientModel):
+    supplierAudienceInterestsTarget: DSPSupplierAudienceInterestsTarget
+
+
 class DSPSupplierTargetDetailsSupplierAudienceMaritalStatusTarget(LenientModel):
     supplierAudienceMaritalStatusTarget: DSPSupplierAudienceMaritalStatusTarget
+
+
+class DSPSupplierTargetDetailsSupplierAudienceMoodTarget(LenientModel):
+    supplierAudienceMoodTarget: DSPSupplierAudienceMoodTarget
 
 
 class DSPSupplierTargetDetailsSupplierAudienceSocioeconomicGroupTarget(LenientModel):
     supplierAudienceSocioeconomicGroupTarget: DSPSupplierAudienceSocioeconomicGroupTarget
 
 
-class DSPSupplierTargetDetailsSupplierLocationTarget(LenientModel):
-    supplierLocationTarget: DSPSupplierLocationTarget
-
-
-class DSPSupplierTargetDetailsSupplierDayPartTarget(LenientModel):
-    supplierDayPartTarget: DSPSupplierDayPartTarget
-
-
-class DSPSupplierTargetDetailsSupplierDayPartDayTarget(LenientModel):
-    supplierDayPartDayTarget: DSPSupplierDayPartDayTarget
-
-
-class DSPSupplierTargetDetailsSupplierDayPartTimeTarget(LenientModel):
-    supplierDayPartTimeTarget: DSPSupplierDayPartTimeTarget
+class DSPSupplierTargetDetailsSupplierAudienceTarget(LenientModel):
+    supplierAudienceTarget: DSPSupplierAudienceTarget
 
 
 class DSPSupplierTargetDetailsSupplierContentCategoryTarget(LenientModel):
@@ -651,23 +501,35 @@ class DSPSupplierTargetDetailsSupplierContentSensitiveCategoryTarget(LenientMode
     supplierContentSensitiveCategoryTarget: DSPSupplierContentSensitiveCategoryTarget
 
 
-class DSPSupplierTargetDetailsSupplierDeviceTypeTarget(LenientModel):
-    supplierDeviceTypeTarget: DSPSupplierDeviceTypeTarget
+class DSPSupplierTargetDetailsSupplierDayPartDayTarget(LenientModel):
+    supplierDayPartDayTarget: DSPSupplierDayPartDayTarget
+
+
+class DSPSupplierTargetDetailsSupplierDayPartTarget(LenientModel):
+    supplierDayPartTarget: DSPSupplierDayPartTarget
+
+
+class DSPSupplierTargetDetailsSupplierDayPartTimeTarget(LenientModel):
+    supplierDayPartTimeTarget: DSPSupplierDayPartTimeTarget
 
 
 class DSPSupplierTargetDetailsSupplierDeviceOperatingSystemTarget(LenientModel):
     supplierDeviceOperatingSystemTarget: DSPSupplierDeviceOperatingSystemTarget
 
 
+class DSPSupplierTargetDetailsSupplierDeviceTypeTarget(LenientModel):
+    supplierDeviceTypeTarget: DSPSupplierDeviceTypeTarget
+
+
+class DSPSupplierTargetDetailsSupplierLocationTarget(LenientModel):
+    supplierLocationTarget: DSPSupplierLocationTarget
+
+
 class DSPSupplierTargetDetailsSupplierPositionVideoTarget(LenientModel):
     supplierPositionVideoTarget: DSPSupplierPositionVideoTarget
 
 
-class DSPSupplierTargetDetailsSupplierAppTarget(LenientModel):
-    supplierAppTarget: DSPSupplierAppTarget
-
-
-type DSPSupplierTargetDetails = DSPSupplierTargetDetailsSupplierAudienceTarget | DSPSupplierTargetDetailsSupplierAudienceAgeTarget | DSPSupplierTargetDetailsSupplierAudienceGenderTarget | DSPSupplierTargetDetailsSupplierAudienceInterestsTarget | DSPSupplierTargetDetailsSupplierAudienceMoodTarget | DSPSupplierTargetDetailsSupplierAudienceInMarketTarget | DSPSupplierTargetDetailsSupplierAudienceHouseholdIncomeTarget | DSPSupplierTargetDetailsSupplierAudienceEducationTarget | DSPSupplierTargetDetailsSupplierAudienceHomeownershipTarget | DSPSupplierTargetDetailsSupplierAudienceHouseholdCompositionTarget | DSPSupplierTargetDetailsSupplierAudienceMaritalStatusTarget | DSPSupplierTargetDetailsSupplierAudienceSocioeconomicGroupTarget | DSPSupplierTargetDetailsSupplierLocationTarget | DSPSupplierTargetDetailsSupplierDayPartTarget | DSPSupplierTargetDetailsSupplierDayPartDayTarget | DSPSupplierTargetDetailsSupplierDayPartTimeTarget | DSPSupplierTargetDetailsSupplierContentCategoryTarget | DSPSupplierTargetDetailsSupplierContentGenreTarget | DSPSupplierTargetDetailsSupplierContentRatingTarget | DSPSupplierTargetDetailsSupplierContentSensitiveCategoryTarget | DSPSupplierTargetDetailsSupplierDeviceTypeTarget | DSPSupplierTargetDetailsSupplierDeviceOperatingSystemTarget | DSPSupplierTargetDetailsSupplierPositionVideoTarget | DSPSupplierTargetDetailsSupplierAppTarget
+type DSPSupplierTargetDetails = DSPSupplierTargetDetailsSupplierAppTarget | DSPSupplierTargetDetailsSupplierAudienceAgeTarget | DSPSupplierTargetDetailsSupplierAudienceEducationTarget | DSPSupplierTargetDetailsSupplierAudienceGenderTarget | DSPSupplierTargetDetailsSupplierAudienceHomeownershipTarget | DSPSupplierTargetDetailsSupplierAudienceHouseholdCompositionTarget | DSPSupplierTargetDetailsSupplierAudienceHouseholdIncomeTarget | DSPSupplierTargetDetailsSupplierAudienceInMarketTarget | DSPSupplierTargetDetailsSupplierAudienceInterestsTarget | DSPSupplierTargetDetailsSupplierAudienceMaritalStatusTarget | DSPSupplierTargetDetailsSupplierAudienceMoodTarget | DSPSupplierTargetDetailsSupplierAudienceSocioeconomicGroupTarget | DSPSupplierTargetDetailsSupplierAudienceTarget | DSPSupplierTargetDetailsSupplierContentCategoryTarget | DSPSupplierTargetDetailsSupplierContentGenreTarget | DSPSupplierTargetDetailsSupplierContentRatingTarget | DSPSupplierTargetDetailsSupplierContentSensitiveCategoryTarget | DSPSupplierTargetDetailsSupplierDayPartDayTarget | DSPSupplierTargetDetailsSupplierDayPartTarget | DSPSupplierTargetDetailsSupplierDayPartTimeTarget | DSPSupplierTargetDetailsSupplierDeviceOperatingSystemTarget | DSPSupplierTargetDetailsSupplierDeviceTypeTarget | DSPSupplierTargetDetailsSupplierLocationTarget | DSPSupplierTargetDetailsSupplierPositionVideoTarget
 
 
 class DSPSupplierTargetGroup(LenientModel):

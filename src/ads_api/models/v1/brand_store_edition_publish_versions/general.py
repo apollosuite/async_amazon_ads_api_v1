@@ -7,29 +7,11 @@ from typing import Literal
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-
-type ErrorCode = Literal[
-    "BAD_REQUEST",
-    "CONFLICT",
-    "DUPLICATE_RESOURCE_ID_FOUND",
-    "FORBIDDEN",
-    "INTERNAL_ERROR",
-    "NOT_FOUND",
-    "TOO_MANY_REQUESTS",
-    "UNAUTHORIZED",
-]
-"""
-Supported values:
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-- `CONFLICT`: Operation could not be completed due to a conflict. Please retry your request.
-- `DUPLICATE_RESOURCE_ID_FOUND`: Multiple resources share the same ID. Remove the duplicate ID.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `NOT_FOUND`: The requested resource does not exist.
-- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
-"""
-
+from ads_api.models.v1._shared.general import (
+    Error,
+    ErrorCode,
+    ErrorsIndex,
+)
 
 type StorePublishState = Literal["DRAFT", "PUBLISH"]
 """
@@ -101,17 +83,6 @@ class BrandStoreEditionPublishVersionUpdate(StrictModel):
     publishState: StorePublishState | None = Field(default=None)
     storeEditionPublishId: str = Field(description="Unique identifier for the publish version")
     storeId: str | None = Field(default=None, description="Identifier of the associated store")
-
-
-class Error(LenientModel):
-    code: ErrorCode | str
-    fieldLocation: str | None = Field(default=None)
-    message: str
-
-
-class ErrorsIndex(LenientModel):
-    errors: list[Error] = Field(min_length=1, max_length=20)
-    index: int = Field(ge=0, le=0)
 
 
 class QueryBrandStoreEditionPublishVersionRequest(StrictModel):

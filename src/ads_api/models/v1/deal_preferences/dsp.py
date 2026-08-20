@@ -3,27 +3,16 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-
-type DSPErrorCode = Literal[
-    "BAD_REQUEST", "FORBIDDEN", "INTERNAL_ERROR", "NOT_FOUND", "TOO_MANY_REQUESTS", "UNAUTHORIZED"
-]
-"""
-Supported values:
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `NOT_FOUND`: The requested resource does not exist.
-- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
-"""
-
-
-type DSPSupplierTargetType = Literal["CONTENT_CATEGORY"]
+from ads_api.models.v1._shared.dsp import (
+    DSPError,
+    DSPErrorCode,
+    DSPErrorsIndex,
+    DSPSupplierTargetType,
+)
 
 
 class DSPCreateDealPreferenceRequest(StrictModel):
@@ -99,17 +88,6 @@ class DSPDealPreferenceTarget(LenientModel):
     )
     supplierTargetItemId: str = Field(description="The specific target item to include or exclude.")
     supplierTargetType: DSPSupplierTargetType | str
-
-
-class DSPError(LenientModel):
-    code: DSPErrorCode | str
-    fieldLocation: str | None = Field(default=None)
-    message: str
-
-
-class DSPErrorsIndex(LenientModel):
-    errors: list[DSPError] = Field(min_length=1, max_length=20)
-    index: int = Field(ge=0, le=19)
 
 
 __all__ = [

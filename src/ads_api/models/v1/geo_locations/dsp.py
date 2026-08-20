@@ -7,37 +7,17 @@ from typing import Literal
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
+from ads_api.models.v1._shared.dsp import (
+    DSPError,
+    DSPErrorCode,
+    DSPErrorsIndex,
+)
 
 type DSPDistanceUnit = Literal["KILOMETERS", "MILES"]
 """
 Supported values:
 - `KILOMETERS`: Distance in kilometers
 - `MILES`: Distance in miles
-"""
-
-
-type DSPErrorCode = Literal[
-    "BAD_REQUEST",
-    "FEATURE_NOT_AVAILABLE",
-    "FIELD_VALUE_IS_EMPTY",
-    "FIELD_VALUE_IS_NULL",
-    "FIELD_VALUE_IS_OUT_OF_RANGE",
-    "FORBIDDEN",
-    "INTERNAL_ERROR",
-    "NOT_FOUND",
-    "UNAUTHORIZED",
-]
-"""
-Supported values:
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `NOT_FOUND`: The requested resource does not exist.
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-- `FEATURE_NOT_AVAILABLE`: The requested feature is not available.
-- `FIELD_VALUE_IS_NULL`: Update the request with the required information for this resource.
-- `FIELD_VALUE_IS_EMPTY`: Update the request with the required information for this resource.
-- `FIELD_VALUE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
 """
 
 
@@ -92,17 +72,6 @@ class DSPCreateSmartLocation(StrictModel):
         description="Minimum percentile value (0-100). Must be less than maxIndexValuePercentile. Null will be treated as 0.",
     )
     name: str = Field(description="Name for the smart location.")
-
-
-class DSPError(LenientModel):
-    code: DSPErrorCode | str
-    fieldLocation: str | None = Field(default=None)
-    message: str
-
-
-class DSPErrorsIndex(LenientModel):
-    errors: list[DSPError] = Field(min_length=1, max_length=20)
-    index: int = Field(ge=0, le=99)
 
 
 class DSPGeoLocation(LenientModel):

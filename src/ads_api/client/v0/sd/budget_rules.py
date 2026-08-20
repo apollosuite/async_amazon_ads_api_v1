@@ -29,19 +29,19 @@ class BudgetRules(BaseResource):
 
     @overload
     async def create_associated_budget_rules_for_sd_campaigns(
-        self, campaign_id: float, body: CreateAssociatedBudgetRulesRequest, *, mode: Literal["pydantic"] = "pydantic"
+        self, campaign_id: int, body: CreateAssociatedBudgetRulesRequest, *, mode: Literal["pydantic"] = "pydantic"
     ) -> CreateAssociatedBudgetRulesResponse: ...
     @overload
     async def create_associated_budget_rules_for_sd_campaigns(
-        self, campaign_id: float, body: CreateAssociatedBudgetRulesRequest, *, mode: Literal["dict"]
+        self, campaign_id: int, body: CreateAssociatedBudgetRulesRequest, *, mode: Literal["dict"]
     ) -> dict[str, Any]: ...
     @overload
     async def create_associated_budget_rules_for_sd_campaigns(
-        self, campaign_id: float, body: CreateAssociatedBudgetRulesRequest, *, mode: Literal["raw"]
+        self, campaign_id: int, body: CreateAssociatedBudgetRulesRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_associated_budget_rules_for_sd_campaigns(
         self,
-        campaign_id: float,
+        campaign_id: int,
         body: CreateAssociatedBudgetRulesRequest,
         *,
         mode: Literal["pydantic", "dict", "raw"] = "pydantic",
@@ -73,18 +73,18 @@ class BudgetRules(BaseResource):
 
     @overload
     async def disassociate_associated_budget_rule_for_sd_campaigns(
-        self, campaign_id: float, budget_rule_id: str, *, mode: Literal["pydantic"] = "pydantic"
+        self, campaign_id: int, budget_rule_id: str, *, mode: Literal["pydantic"] = "pydantic"
     ) -> DisassociateAssociatedBudgetRuleResponse: ...
     @overload
     async def disassociate_associated_budget_rule_for_sd_campaigns(
-        self, campaign_id: float, budget_rule_id: str, *, mode: Literal["dict"]
+        self, campaign_id: int, budget_rule_id: str, *, mode: Literal["dict"]
     ) -> dict[str, Any]: ...
     @overload
     async def disassociate_associated_budget_rule_for_sd_campaigns(
-        self, campaign_id: float, budget_rule_id: str, *, mode: Literal["raw"]
+        self, campaign_id: int, budget_rule_id: str, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def disassociate_associated_budget_rule_for_sd_campaigns(
-        self, campaign_id: float, budget_rule_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, campaign_id: int, budget_rule_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
     ) -> DisassociateAssociatedBudgetRuleResponse | dict[str, Any] | httpx.Response:
         """"""
 
@@ -173,18 +173,18 @@ class BudgetRules(BaseResource):
 
     @overload
     async def list_associated_budget_rules_for_sd_campaigns(
-        self, campaign_id: float, *, mode: Literal["pydantic"] = "pydantic"
+        self, campaign_id: int, *, mode: Literal["pydantic"] = "pydantic"
     ) -> SDListAssociatedBudgetRulesResponse: ...
     @overload
     async def list_associated_budget_rules_for_sd_campaigns(
-        self, campaign_id: float, *, mode: Literal["dict"]
+        self, campaign_id: int, *, mode: Literal["dict"]
     ) -> dict[str, Any]: ...
     @overload
     async def list_associated_budget_rules_for_sd_campaigns(
-        self, campaign_id: float, *, mode: Literal["raw"]
+        self, campaign_id: int, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def list_associated_budget_rules_for_sd_campaigns(
-        self, campaign_id: float, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, campaign_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
     ) -> SDListAssociatedBudgetRulesResponse | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 

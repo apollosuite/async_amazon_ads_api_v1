@@ -8,62 +8,12 @@ from typing import Literal
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
-
-type DSPCurrencyCode = Literal[
-    "AED",
-    "AUD",
-    "BRL",
-    "CAD",
-    "DKK",
-    "EUR",
-    "GBP",
-    "INR",
-    "JPY",
-    "MXN",
-    "NOK",
-    "NZD",
-    "SAR",
-    "SEK",
-    "SGD",
-    "TRY",
-    "USD",
-]
-"""
-Supported values:
-- `AED`: United Arab Emirates Dirham
-- `AUD`: Australian Dollar
-- `BRL`: Brazilian Real
-- `CAD`: Canadian Dollar
-- `DKK`: Danish Krone
-- `EUR`: Euro
-- `GBP`: British Pound Sterling
-- `INR`: Indian Rupee
-- `JPY`: Japanese Yen
-- `MXN`: Mexican Peso
-- `NOK`: Norwegian Krone
-- `NZD`: New Zealand Dollar
-- `SAR`: Saudi Riyal
-- `SEK`: Swedish Krona
-- `SGD`: Singapore Dollar
-- `TRY`: Turkish Lira
-- `USD`: United States Dollar
-"""
-
-
-type DSPErrorCode = Literal[
-    "BAD_REQUEST", "CONTENT_TOO_LARGE", "FORBIDDEN", "INTERNAL_ERROR", "NOT_FOUND", "TOO_MANY_REQUESTS", "UNAUTHORIZED"
-]
-"""
-Supported values:
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
-- `CONTENT_TOO_LARGE`: The request is too large. Consider splitting it into multiple requests.
-- `NOT_FOUND`: The requested resource does not exist.
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-"""
-
+from ads_api.models.v1._shared.dsp import (
+    DSPCurrencyCode,
+    DSPError,
+    DSPErrorCode,
+    DSPErrorsIndex,
+)
 
 type DSPSpendDimensionType = Literal["ADVERTISER", "CAMPAIGN", "COMMITMENT", "DEAL"]
 """
@@ -107,17 +57,6 @@ class DSPCommitmentSpendMultiStatusResponse(LenientModel):
 class DSPCommitmentSpendMultiStatusSuccess(LenientModel):
     commitmentSpend: DSPCommitmentSpend
     index: int = Field(ge=0, le=0)
-
-
-class DSPError(LenientModel):
-    code: DSPErrorCode | str
-    fieldLocation: str | None = Field(default=None)
-    message: str
-
-
-class DSPErrorsIndex(LenientModel):
-    errors: list[DSPError] = Field(min_length=1, max_length=20)
-    index: int = Field(ge=0, le=999)
 
 
 class DSPRetrieveCommitmentSpendRequest(StrictModel):

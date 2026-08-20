@@ -10,14 +10,15 @@
 
 ```
 .
-├── script2/                                # Ads API v1 自动代码生成器
-│   ├── download_*.py                       # 下载 v1 OpenAPI spec
+├── script4/                                # Ads API v1 自动代码生成器 (基于 Merged OpenAPI)
+│   ├── download_openapi.py                 # 下载 v1 Merged OpenAPI spec
 │   ├── generate.py                         # 生成 src/ads_api/client/v1 与 models/v1
 │   └── codegen/                            # v1 代码生成实现
 ├── script3/                                # Ads API v0 自动代码生成器
 │   ├── download_openapi.py                 # 下载 v0 OpenAPI spec
 │   ├── generate.py                         # 生成 src/ads_api/client/v0 与 models/v0
 │   └── codegen/                            # v0 代码生成实现
+├── script2/                                # [已废弃] 旧版 v1 分散式 OpenAPI 代码生成 (已由 script4 替代)
 ├── scripts/                                # [已废弃] 旧版 async_amazon_ads_api_v1 代码生成
 │   ├── specs/                              # 旧版 OpenAPI 规范文件
 │   └── generate_all.py                     # 旧版生成脚本
@@ -66,18 +67,18 @@
 - 添加依赖: `uv add <package>`
 - 执行脚本: `uv run python <script>` — **禁止**直接使用 `python3` / `python`
 - 测试: `uv run pytest`
-- Lint: `uv run ruff check --fix src/ scripts/`
-- 格式化: `uv run black src/ scripts/`
+- Lint: `uv run ruff check --fix src/ scripts/ script4/ script3/`
+- 格式化: `uv run black src/ scripts/ script4/ script3/`
 - 类型检查: `uv run mypy src/`
 
 ## 代码生成
 
 ### 1. `ads_api` 代码生成（推荐）
 
-- **v1 代码生成**（`script2/`）：
+- **v1 代码生成**（`script4/`）：
   ```bash
-  uv run python script2/download_openapi.py
-  uv run python script2/generate.py
+  uv run python script4/download_openapi.py
+  uv run python script4/generate.py
   ```
   生成 `src/ads_api/client/v1` 与 `src/ads_api/models/v1`。
 

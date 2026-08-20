@@ -9,59 +9,20 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models.v1._shared.dsp import (
+    DSPAdProduct,
+    DSPCountryCode,
     DSPCreateNotes,
+    DSPCreateState,
     DSPCreateSupplierStateReason,
+    DSPError,
+    DSPErrorCode,
+    DSPErrorsIndex,
     DSPNoteOrigin,
+    DSPState,
     DSPSupplierArchiveReason,
+    DSPUpdateState,
     DSPUpdateSupplierStateReason,
 )
-
-type DSPAdProduct = Literal["AMAZON_DSP"]
-"""
-Supported values:
-- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
-"""
-
-
-type DSPCountryCode = Literal[
-    "AD", "AE", "AF", "AG", "AI", "AU", "BR", "CA", "DE", "ES", "FR", "GB", "IT", "JP", "KR", "MX", "US"
-]
-
-
-type DSPCreateState = Literal["DRAFT", "PROPOSED"]
-"""
-The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-
-Supported values:
-- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
-- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
-"""
-
-
-type DSPErrorCode = Literal[
-    "BAD_REQUEST", "FORBIDDEN", "INTERNAL_ERROR", "NOT_FOUND", "TOO_MANY_REQUESTS", "UNAUTHORIZED"
-]
-"""
-Supported values:
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `NOT_FOUND`: The requested resource does not exist.
-- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
-"""
-
-
-type DSPState = Literal["ARCHIVED", "DRAFT", "PROPOSED"]
-"""
-The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
-- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
-"""
-
 
 type DSPSupplierProposalStatus = Literal[
     "CANCELLED", "COUNTER_DRAFT", "DRAFT", "PENDING", "REJECTED", "REVIEWED", "REVIEWED_PARTIAL", "SUPPLIER_REVIEWED"
@@ -80,16 +41,6 @@ Supported values:
 
 
 type DSPSupplierProposalType = Literal["AMAZON_MEDIA", "AMAZON_PUBLISHER_CLOUD", "AMAZON_PUBLISHER_DIRECT"]
-
-
-type DSPUpdateState = Literal["DRAFT", "PROPOSED"]
-"""
-The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-
-Supported values:
-- `DRAFT`: The resource is in draft status and has not yet been proposed or enabled.
-- `PROPOSED`: Indicates an entity staged for review and adoption by advertisers.
-"""
 
 
 class DSPAmazonMediaExtension(LenientModel):
@@ -145,17 +96,6 @@ type DSPCreateSupplierProposalExtension = DSPCreateSupplierProposalExtensionAmaz
 
 class DSPCreateSupplierProposalRequest(StrictModel):
     supplierProposals: list[DSPSupplierProposalCreate] = Field(min_length=1, max_length=10)
-
-
-class DSPError(LenientModel):
-    code: DSPErrorCode | str
-    fieldLocation: str | None = Field(default=None)
-    message: str
-
-
-class DSPErrorsIndex(LenientModel):
-    errors: list[DSPError] = Field(min_length=1, max_length=20)
-    index: int = Field(ge=0, le=14)
 
 
 class DSPNotes(LenientModel):
