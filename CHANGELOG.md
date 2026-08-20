@@ -2,6 +2,32 @@
 
 > [!WARNING]
 > **废弃与迁移说明**: `async_amazon_ads_api_v1` 包即将废弃，项目正在逐步迁移至全新的统一包 **`ads_api`**（支持 v0 与 v1 全实体）。
+
+## v0.6.11 (2026-08-20)
+
+### feat — 新功能
+- **基于 Merged OpenAPI 重构 v1 代码生成器 (`script4`)**:
+  - 接入官方 7 个 Merged OpenAPI 规范文件替代原先分散碎片文件。
+  - 修正产品归属，将原本挂在顶层的 24 个实体正确归入 SB (12 个) 与 DSP (21 个) 命名空间。
+  - 彻底废弃旧版 `script2`。
+- **同步最新 OpenAPI 规范**:
+  - 同步 2026-08-20 官方 OpenAPI v1 规范，重新生成全量 v1 Client 与 Models。
+  - 同步 Amazon Ads API v0 (Ads Data Manager) 最新规范并更新数据模型。
+- **Token 与重试机制增强**:
+  - `TokenCache`: 优化生命周期管理与 Redis 客户端注入支持。
+  - `RequestRunner`: 支持解析 HTTP `Retry-After` 响应头实现智能退避重试。
+  - `TokenManager`: 支持 401 响应下强制刷新 Token (`force=True`)，避免缓存失效陷阱。
+
+### fix — 修复
+- **代码生成器 ID 类型修复**: 修复生成器将 ID 字段错误映射为 `float` 的问题，统一修正为 `int`。
+- **瞬态网络异常重试**: 扩大网络瞬态抖动异常捕获范围，支持超时与连接重置自动重试。
+
+### refactor — 重构
+- **Python 3.13 语法升级**: 升级为 Python 3.13 PEP 695 泛型与类型别名语法。
+
+### docs — 文档
+- 新增各广告类型 ASIN/SKU 数量与规则限制中英文文档。
+
 ## v0.6.10 (2026-08-18)
 
 ### refactor — 重构
