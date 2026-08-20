@@ -9,7 +9,9 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 
-type ApplicationId = Literal["AMAZON_MARKETING_CLOUD", "DSP_AUDIENCES", "EVENTS_MANAGER", "GEO_LOCATIONS", "PG_DEALS"]
+type ApplicationId = Literal[
+    "AMAZON_MARKETING_CLOUD", "AUDIENCE_HUB", "DSP_AUDIENCES", "EVENTS_MANAGER", "GEO_LOCATIONS", "PG_DEALS"
+]
 """
 Unique identifier for applications integrating with Ads Data Manager.
 """

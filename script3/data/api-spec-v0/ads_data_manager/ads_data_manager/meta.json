@@ -8,9 +8,9 @@
       "name": "Ads data manager",
       "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AdsDataManager_prod_3p.json",
       "file": "AdsDataManager_prod_3p.json",
-      "etag": "\"dc5db979e7cc2a812fbbdb79c7737e81\"",
-      "last_modified": "Mon, 17 Aug 2026 20:10:14 GMT",
-      "size": 175982
+      "etag": "\"11dfd4fce803c79028931cf46f74cd5c\"",
+      "last_modified": "Thu, 20 Aug 2026 04:18:20 GMT",
+      "size": 176622
     }
   ]
 }
