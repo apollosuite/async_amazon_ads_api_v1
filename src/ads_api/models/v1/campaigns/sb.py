@@ -18,6 +18,7 @@ from ads_api.models.v1._shared.sb import (
     SBError,
     SBErrorCode,
     SBErrorsIndex,
+    SBMarketplace,
     SBMarketplaceScope,
     SBState,
     SBStatus,
@@ -95,36 +96,6 @@ type SBKPI = Literal["CLICKS", "TOP_OF_SEARCH_IMPRESSION_SHARE"]
 Supported values:
 - `CLICKS`: Indicates a goal of driving clicks.
 - `TOP_OF_SEARCH_IMPRESSION_SHARE`: Indicates a goal of maximizing impression for top search placement.
-"""
-
-
-type SBMarketplace = Literal[
-    "AE",
-    "AU",
-    "BE",
-    "BR",
-    "CA",
-    "DE",
-    "EG",
-    "ES",
-    "FR",
-    "GB",
-    "IE",
-    "IN",
-    "IT",
-    "JP",
-    "MX",
-    "NL",
-    "PL",
-    "SA",
-    "SE",
-    "SG",
-    "TR",
-    "US",
-    "ZA",
-]
-"""
-A list of country codes representing Amazon marketplaces
 """
 
 

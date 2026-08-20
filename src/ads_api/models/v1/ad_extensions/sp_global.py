@@ -15,6 +15,7 @@ from ads_api.models.v1._shared.sp_global import (
     SPGlobalErrorCode,
     SPGlobalErrorMarketplace,
     SPGlobalErrorsIndex,
+    SPGlobalMarketplace,
     SPGlobalMarketplaceScope,
     SPGlobalState,
     SPGlobalUpdateState,
@@ -35,34 +36,6 @@ Ad Extension Type.
 
 Supported values:
 - `PROMPTS`: Enables Prompt based Ad Extension.
-"""
-
-
-type SPGlobalMarketplace = Literal[
-    "AE",
-    "AU",
-    "BE",
-    "BR",
-    "CA",
-    "DE",
-    "EG",
-    "ES",
-    "FR",
-    "GB",
-    "IN",
-    "IT",
-    "JP",
-    "MX",
-    "NL",
-    "PL",
-    "SA",
-    "SE",
-    "SG",
-    "TR",
-    "US",
-]
-"""
-A list of country codes representing Amazon marketplaces
 """
 
 

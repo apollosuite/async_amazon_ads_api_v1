@@ -17,6 +17,7 @@ from ads_api.models.v1._shared.st import (
     STError,
     STErrorCode,
     STErrorsIndex,
+    STMarketplace,
     STState,
     STStatus,
     STUpdateState,
@@ -26,12 +27,6 @@ type STBudgetType = Literal["MONETARY"]
 
 
 type STCountryCode = Literal["AU", "BR", "CA", "DE", "ES", "FR", "GB", "IN", "IT", "JP", "MX", "SG", "US"]
-
-
-type STMarketplace = Literal["AU", "BR", "CA", "DE", "ES", "FR", "GB", "IN", "IT", "JP", "MX", "SG", "US"]
-"""
-A list of country codes representing Amazon marketplaces
-"""
 
 
 type STRecurrence = Literal["DAILY"]

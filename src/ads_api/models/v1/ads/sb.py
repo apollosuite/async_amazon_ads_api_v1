@@ -17,6 +17,7 @@ from ads_api.models.v1._shared.sb import (
     SBError,
     SBErrorCode,
     SBErrorsIndex,
+    SBMarketplace,
     SBMarketplaceScope,
     SBProductIdType,
     SBState,
@@ -52,36 +53,6 @@ type SBCollectionLandingPageType = Literal["ASIN_LIST", "STORE"]
 Supported values:
 - `ASIN_LIST`: A list of products based on the products promoted in the ad creative.
 - `STORE`: A brand Store landing page.
-"""
-
-
-type SBMarketplace = Literal[
-    "AE",
-    "AU",
-    "BE",
-    "BR",
-    "CA",
-    "DE",
-    "EG",
-    "ES",
-    "FR",
-    "GB",
-    "IE",
-    "IN",
-    "IT",
-    "JP",
-    "MX",
-    "NL",
-    "PL",
-    "SA",
-    "SE",
-    "SG",
-    "TR",
-    "US",
-    "ZA",
-]
-"""
-A list of country codes representing Amazon marketplaces
 """
 
 

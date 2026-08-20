@@ -3,19 +3,20 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models.v1._shared.dsp import (
+    DSPKPI,
     DSPAdProduct,
     DSPAutomatedTargetingTactic,
     DSPBidStrategy,
-    DSPBudget,
     DSPBudgetAllocation,
     DSPBudgetType,
-    DSPBudgetValue,
+    DSPCampaignFeeType,
+    DSPCampaignFeeValueType,
+    DSPCountryCode,
     DSPCreateBudget,
     DSPCreateBudgetValue,
     DSPCreateFrequency,
@@ -29,205 +30,19 @@ from ads_api.models.v1._shared.dsp import (
     DSPError,
     DSPErrorCode,
     DSPErrorsIndex,
-    DSPFrequency,
+    DSPEventType,
+    DSPExtraFrequencyCapImpressionType,
     DSPFrequencyTargetingSetting,
+    DSPGoal,
+    DSPIneligibleAutomatedTargetingTacticReasonCode,
     DSPMarketplace,
-    DSPMonetaryBudget,
-    DSPMonetaryBudgetValue,
+    DSPPrimaryInventoryType,
     DSPRecurrence,
+    DSPRolloverStrategy,
     DSPState,
-    DSPStatus,
-    DSPTag,
     DSPTimeUnit,
     DSPUpdateState,
 )
-
-type DSPCampaignFeeType = Literal["AGENCY"]
-"""
-Supported values:
-- `AGENCY`: A service fee that is subtracted from the campaign budget as a percent of budget.
-"""
-
-
-type DSPCampaignFeeValueType = Literal["PERCENTAGE_OF_BUDGET"]
-"""
-Supported values:
-- `PERCENTAGE_OF_BUDGET`: Subtracted from the campaign budget as a percent of budget
-"""
-
-
-type DSPCountryCode = Literal[
-    "AE",
-    "AR",
-    "AT",
-    "AU",
-    "BE",
-    "BG",
-    "BH",
-    "BR",
-    "CA",
-    "CH",
-    "CL",
-    "CO",
-    "CR",
-    "CY",
-    "CZ",
-    "DE",
-    "DK",
-    "DO",
-    "DZ",
-    "EC",
-    "EE",
-    "EG",
-    "ES",
-    "FI",
-    "FR",
-    "GB",
-    "GR",
-    "GT",
-    "HK",
-    "HN",
-    "HR",
-    "HU",
-    "ID",
-    "IE",
-    "IL",
-    "IN",
-    "IT",
-    "JM",
-    "JO",
-    "JP",
-    "KW",
-    "LT",
-    "LU",
-    "LV",
-    "MA",
-    "MX",
-    "MY",
-    "NL",
-    "NO",
-    "NZ",
-    "OM",
-    "PA",
-    "PE",
-    "PH",
-    "PK",
-    "PL",
-    "PR",
-    "PT",
-    "PY",
-    "QA",
-    "RO",
-    "SA",
-    "SE",
-    "SG",
-    "SK",
-    "SV",
-    "TH",
-    "TN",
-    "TR",
-    "TW",
-    "US",
-    "UY",
-    "VN",
-    "ZA",
-]
-
-
-type DSPGoal = Literal["AWARENESS", "CONSIDERATION", "CONVERSIONS"]
-"""
-Supported values:
-- `AWARENESS`: Indicates a goal of driving awareness.
-- `CONSIDERATION`: Indicates a goal of driving consideration.
-- `CONVERSIONS`: Indicates a goal of driving conversions.
-"""
-
-
-type DSPIneligibleAutomatedTargetingTacticReasonCode = Literal[
-    "CONVERSION_SELECTIONS_EMPTY",
-    "CONVERSION_SELECTIONS_EXCEEDED",
-    "CONVERSION_SELECTIONS_MINIMUM_NOT_MET",
-    "NOT_ELIGIBLE_ADVERTISER",
-    "NOT_ELIGIBLE_GOAL",
-    "NOT_ELIGIBLE_INVENTORY_TYPE",
-    "UNSUPPORTED_COUNTRY",
-]
-"""
-Reason codes for why a tactic type is ineligible
-
-Supported values:
-- `CONVERSION_SELECTIONS_EMPTY`: Campaign has no product or conversion event associations.
-- `CONVERSION_SELECTIONS_EXCEEDED`: Campaign is associated with too many products or conversion events.
-- `CONVERSION_SELECTIONS_MINIMUM_NOT_MET`: Minimum product or conversion event constraints not met.
-- `NOT_ELIGIBLE_ADVERTISER`: The advertiser is not eligible for this tactic.
-- `NOT_ELIGIBLE_GOAL`: The current campaign goal is not compatible with this tactic type.
-- `NOT_ELIGIBLE_INVENTORY_TYPE`: This campaign's primary inventory types are not supported with this tactic type.
-- `UNSUPPORTED_COUNTRY`: Selected tactic type is not available for the given country.
-"""
-
-
-type DSPKPI = Literal[
-    "CLICK_THROUGH_RATE",
-    "COMBINED_RETURN_ON_AD_SPEND",
-    "COST_PER_ACTION",
-    "COST_PER_CLICK",
-    "COST_PER_CONVERSION_OFF_AMAZON",
-    "COST_PER_DETAIL_PAGE_VIEW",
-    "COST_PER_FIRST_APP_OPEN",
-    "COST_PER_INSTALL",
-    "COST_PER_SIGN_UP",
-    "COST_PER_VIDEO_COMPLETION",
-    "DETAIL_PAGE_VIEW_RATE",
-    "FREQUENCY_AVERAGE",
-    "REACH",
-    "RETURN_ON_AD_SPEND",
-    "ROAS",
-    "ROAS_COMBINED",
-    "ROAS_PROMOTED",
-    "TOTAL_RETURN_ON_AD_SPEND",
-    "VIDEO_COMPLETION_RATE",
-]
-"""
-Supported values:
-- `CLICK_THROUGH_RATE`: Indicates a goal of driving clickthrough rate.
-- `COMBINED_RETURN_ON_AD_SPEND`: Deprecated. Please use ROAS_COMBINED.
-- `COST_PER_ACTION`: Deprecated. Please use COST_PER_CONVERSION_OFF_AMAZON.
-- `COST_PER_CLICK`: Indicates a goal of driving improved cost per click.
-- `COST_PER_CONVERSION_OFF_AMAZON`: Indicates a goal of driving improved cost per conversion off Amazon.
-- `COST_PER_DETAIL_PAGE_VIEW`: Indicates a goal of driving improved cost per detail page view.
-- `COST_PER_FIRST_APP_OPEN`: Indicates a goal of improved cost per first app open.
-- `COST_PER_INSTALL`: Indicates a goal of driving improved cost per app install.
-- `COST_PER_SIGN_UP`: Indicates a goal of driving improved cost per sign up.
-- `COST_PER_VIDEO_COMPLETION`: Indicates a goal of driving improved cost per video completion.
-- `DETAIL_PAGE_VIEW_RATE`: Indicates a goal of driving improved detail page view rate.
-- `FREQUENCY_AVERAGE`: Indicates a goal of driving to a target frequency.
-- `REACH`: Indicates a goal of driving improved reach.
-- `RETURN_ON_AD_SPEND`: Deprecated. Please use ROAS_PROMOTED.
-- `ROAS_COMBINED`: Indicates a goal of driving improved return of ad spend (combined).
-- `ROAS_PROMOTED`: Indicates a goal of driving improved return of ad spend (promoted).
-- `ROAS`: Indicates a goal of driving improved return of ad spend.
-- `TOTAL_RETURN_ON_AD_SPEND`: Deprecated. Please use ROAS.
-- `VIDEO_COMPLETION_RATE`: Indicates a goal of driving improved video completion rate.
-"""
-
-
-type DSPPrimaryInventoryType = Literal["AUDIO", "DISPLAY", "VIDEO_OLV", "VIDEO_STV"]
-"""
-Supported values:
-- `AUDIO`: Audio ads that serve on streaming audio and podcast inventory.
-- `DISPLAY`: Image ads that serve across Amazon and third-party inventory.
-- `VIDEO_OLV`: Video ads that serve on online video inventory.
-- `VIDEO_STV`: Video ads that serve on streaming TV inventory.
-"""
-
-
-type DSPRolloverStrategy = Literal["CUMULATIVE_BUDGET_ROLLOVER", "NO_ROLLOVER", "PRIOR_BUDGET_ROLLOVER"]
-"""
-Supported values:
-- `CUMULATIVE_BUDGET_ROLLOVER`: Rollover cumulative unused budget.
-- `NO_ROLLOVER`: Do not rollover flight budgets.
-- `PRIOR_BUDGET_ROLLOVER`: Rollover prior flight unused budget.
-"""
 
 
 class DSPAutoCreationSettings(LenientModel):
@@ -240,9 +55,19 @@ class DSPBidSettings(LenientModel):
     bidStrategy: DSPBidStrategy | str
 
 
+class DSPBudget(LenientModel):
+    budgetType: DSPBudgetType | str
+    budgetValue: DSPBudgetValue
+    recurrenceTimePeriod: DSPRecurrence | str
+
+
 class DSPBudgetSettings(LenientModel):
     budgetAllocation: DSPBudgetAllocation | str | None = Field(default=None)
     flightBudgetRolloverStrategy: DSPRolloverStrategy | str | None = Field(default=None)
+
+
+class DSPBudgetValue(LenientModel):
+    monetaryBudgetValue: DSPMonetaryBudgetValue
 
 
 class DSPCampaign(LenientModel):
@@ -535,6 +360,29 @@ class DSPFlightBudget(LenientModel):
     budgetValue: DSPBudgetValue
 
 
+class DSPFrequency(LenientModel):
+    eventCount: int | None = Field(
+        default=None, ge=1, le=500, description="The number of events in a given frequency cap."
+    )
+    eventMaxCount: int = Field(
+        ge=1,
+        le=99000,
+        description="The maximum number of times an EventType is served per user. For ADSP ad group, maximum supported value is 500.",
+    )
+    eventType: DSPEventType | str | None = Field(default=None)
+    extraFrequencyCapImpressionTypes: list[DSPExtraFrequencyCapImpressionType | str] | None = Field(
+        default=None,
+        min_length=0,
+        max_length=10,
+        description="Add the additional types of impression to frequency cap. Default to empty list when not selected",
+    )
+    frequencyTargetingSetting: DSPFrequencyTargetingSetting | str
+    timeCount: int = Field(
+        ge=1, le=60, description="The value associated with the time and unit of time for this frequency cap."
+    )
+    timeUnit: DSPTimeUnit | str
+
+
 class DSPGoalSettings(LenientModel):
     currencyCode: DSPCurrencyCode | str | None = Field(default=None)
     goal: DSPGoal | str
@@ -560,6 +408,18 @@ class DSPIneligibleAutomatedTargetingTacticReason(LenientModel):
     reasonMessage: str = Field(description="Human readable explanation of why this tactic type is ineligible")
 
 
+class DSPMonetaryBudget(LenientModel):
+    currencyCode: DSPCurrencyCode | str
+    ruleValue: float | None = Field(
+        default=None, description="The monetary amount of the budget when a budget rule is applied."
+    )
+    value: float = Field(description="The monetary amount of the budget cap in the given currency.")
+
+
+class DSPMonetaryBudgetValue(LenientModel):
+    monetaryBudget: DSPMonetaryBudget | None = Field(default=None)
+
+
 class DSPQueryCampaignRequest(StrictModel):
     adProductFilter: DSPCampaignAdProductFilter
     campaignIdFilter: DSPCampaignCampaignIdFilter | None = Field(default=None)
@@ -568,11 +428,25 @@ class DSPQueryCampaignRequest(StrictModel):
     stateFilter: DSPCampaignStateFilter | None = Field(default=None)
 
 
+class DSPStatus(LenientModel):
+    deliveryReasons: list[DSPDeliveryReason | str] | None = Field(
+        default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
+    )
+    deliveryStatus: DSPDeliveryStatus | str
+
+
 class DSPTacticKey(LenientModel):
     """A tactic type paired with its compatible inventory type"""
 
     primaryInventoryType: DSPPrimaryInventoryType | str
     tacticType: DSPAutomatedTargetingTactic | str
+
+
+class DSPTag(LenientModel):
+    key: str = Field(
+        description="A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI."
+    )
+    value: str = Field(description="A custom key value pair entered by the advertiser.")
 
 
 class DSPUpdateBidSettings(StrictModel):
@@ -655,6 +529,8 @@ __all__ = [
     "DSPError",
     "DSPErrorCode",
     "DSPErrorsIndex",
+    "DSPEventType",
+    "DSPExtraFrequencyCapImpressionType",
     "DSPFlightBudget",
     "DSPFrequency",
     "DSPFrequencyTargetingSetting",

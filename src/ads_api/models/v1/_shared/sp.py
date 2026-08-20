@@ -285,6 +285,36 @@ Supported values:
 """
 
 
+type SPMarketplace = Literal[
+    "AE",
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "DE",
+    "EG",
+    "ES",
+    "FR",
+    "GB",
+    "IE",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "PL",
+    "SA",
+    "SE",
+    "SG",
+    "TR",
+    "US",
+    "ZA",
+]
+"""
+A list of country codes representing Amazon marketplaces
+"""
+
+
 type SPMarketplaceScope = Literal["SINGLE_MARKETPLACE"]
 
 
@@ -359,6 +389,7 @@ __all__ = [
     "SPError",
     "SPErrorCode",
     "SPErrorsIndex",
+    "SPMarketplace",
     "SPMarketplaceScope",
     "SPProductIdType",
     "SPState",

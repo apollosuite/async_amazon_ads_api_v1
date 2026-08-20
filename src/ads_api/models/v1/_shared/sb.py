@@ -15,6 +15,13 @@ Supported values:
 """
 
 
+type SBAdvertisingDealPriceType = Literal["FIXED_PRICE"]
+"""
+Supported values:
+- `FIXED_PRICE`: Sale price for a specific ad placement regardless of auction performance.
+"""
+
+
 type SBCreateState = Literal["ENABLED", "PAUSED"]
 """
 The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
@@ -253,6 +260,36 @@ Supported values:
 """
 
 
+type SBMarketplace = Literal[
+    "AE",
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "DE",
+    "EG",
+    "ES",
+    "FR",
+    "GB",
+    "IE",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "PL",
+    "SA",
+    "SE",
+    "SG",
+    "TR",
+    "US",
+    "ZA",
+]
+"""
+A list of country codes representing Amazon marketplaces
+"""
+
+
 type SBMarketplaceScope = Literal["SINGLE_MARKETPLACE"]
 
 
@@ -282,6 +319,12 @@ Supported values:
 - `ENABLED`: The object is set active by user and eligible for delivery.
 - `PAUSED`: The object is stopped by user and not eligible for delivery.
 """
+
+
+class SBAdvertisingDealPrice(LenientModel):
+    currencyCode: SBCurrencyCode | str
+    priceType: SBAdvertisingDealPriceType | str
+    value: float = Field(description="The monetary amount of the price in the given currency.")
 
 
 class SBCreateTag(StrictModel):
@@ -318,6 +361,8 @@ class SBTag(LenientModel):
 
 __all__ = [
     "SBAdProduct",
+    "SBAdvertisingDealPrice",
+    "SBAdvertisingDealPriceType",
     "SBCreateState",
     "SBCreateTag",
     "SBCurrencyCode",
@@ -326,6 +371,7 @@ __all__ = [
     "SBError",
     "SBErrorCode",
     "SBErrorsIndex",
+    "SBMarketplace",
     "SBMarketplaceScope",
     "SBProductIdType",
     "SBState",

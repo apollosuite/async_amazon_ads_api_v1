@@ -17,6 +17,7 @@ from ads_api.models.v1._shared.sb import (
     SBError,
     SBErrorCode,
     SBErrorsIndex,
+    SBMarketplace,
     SBMarketplaceScope,
     SBState,
     SBStatus,
@@ -29,36 +30,6 @@ type SBAdGroupNameFilterType = Literal["BROAD_MATCH", "EXACT_MATCH"]
 Supported values:
 - `EXACT_MATCH`: Filter by exact match.
 - `BROAD_MATCH`: Filter by broad match.
-"""
-
-
-type SBMarketplace = Literal[
-    "AE",
-    "AU",
-    "BE",
-    "BR",
-    "CA",
-    "DE",
-    "EG",
-    "ES",
-    "FR",
-    "GB",
-    "IE",
-    "IN",
-    "IT",
-    "JP",
-    "MX",
-    "NL",
-    "PL",
-    "SA",
-    "SE",
-    "SG",
-    "TR",
-    "US",
-    "ZA",
-]
-"""
-A list of country codes representing Amazon marketplaces
 """
 
 

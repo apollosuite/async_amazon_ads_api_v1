@@ -14,6 +14,7 @@ from ads_api.models.v1._shared.sb import (
     SBError,
     SBErrorCode,
     SBErrorsIndex,
+    SBMarketplace,
     SBMarketplaceScope,
     SBState,
     SBUpdateState,
@@ -34,36 +35,6 @@ Ad Extension Type.
 
 Supported values:
 - `PROMPTS`: Enables Prompt based Ad Extension.
-"""
-
-
-type SBMarketplace = Literal[
-    "AE",
-    "AU",
-    "BE",
-    "BR",
-    "CA",
-    "DE",
-    "EG",
-    "ES",
-    "FR",
-    "GB",
-    "IE",
-    "IN",
-    "IT",
-    "JP",
-    "MX",
-    "NL",
-    "PL",
-    "SA",
-    "SE",
-    "SG",
-    "TR",
-    "US",
-    "ZA",
-]
-"""
-A list of country codes representing Amazon marketplaces
 """
 
 

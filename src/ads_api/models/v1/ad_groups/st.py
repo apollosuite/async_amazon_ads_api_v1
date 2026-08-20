@@ -17,6 +17,7 @@ from ads_api.models.v1._shared.st import (
     STError,
     STErrorCode,
     STErrorsIndex,
+    STMarketplace,
     STState,
     STStatus,
     STUpdateState,
@@ -27,12 +28,6 @@ type STAdGroupNameFilterType = Literal["BROAD_MATCH", "EXACT_MATCH"]
 Supported values:
 - `EXACT_MATCH`: Filter by exact match.
 - `BROAD_MATCH`: Filter by broad match.
-"""
-
-
-type STMarketplace = Literal["AU", "BR", "CA", "DE", "ES", "FR", "GB", "IN", "IT", "JP", "MX", "SG", "US"]
-"""
-A list of country codes representing Amazon marketplaces
 """
 
 

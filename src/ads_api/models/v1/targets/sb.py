@@ -17,6 +17,7 @@ from ads_api.models.v1._shared.sb import (
     SBError,
     SBErrorCode,
     SBErrorsIndex,
+    SBMarketplace,
     SBMarketplaceScope,
     SBProductIdType,
     SBState,
@@ -39,36 +40,6 @@ A combination of ISO-639 standard for language code and ISO-3166 for country cod
 
 Supported values:
 - `zh_CN`: Chinese (China).
-"""
-
-
-type SBMarketplace = Literal[
-    "AE",
-    "AU",
-    "BE",
-    "BR",
-    "CA",
-    "DE",
-    "EG",
-    "ES",
-    "FR",
-    "GB",
-    "IE",
-    "IN",
-    "IT",
-    "JP",
-    "MX",
-    "NL",
-    "PL",
-    "SA",
-    "SE",
-    "SG",
-    "TR",
-    "US",
-    "ZA",
-]
-"""
-A list of country codes representing Amazon marketplaces
 """
 
 

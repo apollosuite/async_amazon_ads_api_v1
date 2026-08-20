@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Literal
 
 from pydantic import Field
 
@@ -12,10 +11,8 @@ from ads_api.models.v1._shared.dsp import (
     DSPAdProduct,
     DSPAutomatedTargetingTactic,
     DSPBidStrategy,
-    DSPBudget,
     DSPBudgetAllocation,
     DSPBudgetType,
-    DSPBudgetValue,
     DSPCreateBudget,
     DSPCreateBudgetValue,
     DSPCreateFrequency,
@@ -23,237 +20,33 @@ from ads_api.models.v1._shared.dsp import (
     DSPCreateMonetaryBudgetValue,
     DSPCreateState,
     DSPCreateTag,
+    DSPCreativeRotationType,
     DSPCurrencyCode,
+    DSPDefaultAudienceTargetingMatchType,
+    DSPDeliveryProfile,
     DSPDeliveryReason,
     DSPDeliveryStatus,
     DSPError,
     DSPErrorCode,
     DSPErrorsIndex,
-    DSPFrequency,
+    DSPEventType,
+    DSPExtraFrequencyCapImpressionType,
+    DSPFeesThirdPartyProvider,
+    DSPFeeType,
+    DSPFeeValueType,
     DSPFrequencyTargetingSetting,
-    DSPMonetaryBudget,
-    DSPMonetaryBudgetValue,
+    DSPInventoryType,
     DSPRecurrence,
+    DSPSiteLanguage,
     DSPState,
-    DSPStatus,
-    DSPTag,
+    DSPTacticsConvertersExclusionType,
     DSPTimeUnit,
+    DSPTimeZoneType,
     DSPUpdateState,
+    DSPUserLocationSignal,
+    DSPVideoCompletionTier,
+    DSPViewabilityTier,
 )
-
-type DSPCreativeRotationType = Literal["RANDOM", "WEIGHTED"]
-"""
-Supported values:
-- `RANDOM`: Creatives are rotated randomly with equal weight.
-- `WEIGHTED`: Creatives are rotated based on assigned weights.
-"""
-
-
-type DSPDefaultAudienceTargetingMatchType = Literal["EXACT", "SIMILAR"]
-"""
-Match type for audience targeting inclusion groups, if any. You can enhance your ad group’s reach to consumers with similar shopping, streaming, and browsing behaviors or interests as your selected audiences across all inventory sources, regardless of the presence of ad identifiers. Only applicable at the adGroup level, rather than at individual audience level. (Default: SIMILAR). Note, SIMILAR is not applicable to certain advertised product categories, [see here](https://advertising.amazon.com/help/GX8G7HNDS5RBX3EF) for more information.
-
-Supported values:
-- `EXACT`: Target the exact audiences specified in the ad group audience targeting.
-- `SIMILAR`: Reach more audiences who are similar to your included audiences.
-"""
-
-
-type DSPDeliveryProfile = Literal["ASAP", "EVEN", "PACE_AHEAD"]
-"""
-Supported values:
-- `ASAP`: Makes your entire budget available to spend immediately. This is ideal for ad groups with limited inventory or when there's no requirement to spend throughout the length of the campaign.Warning: Selecting ASAP may result in your entire budget being spent immediately.
-- `EVEN`: Even pacing spends your budget consistently across the length of the campaign.
-- `PACE_AHEAD`: Pace Ahead can deliver up to 25% more than the daily Even pace targets.
-"""
-
-
-type DSPFeeType = Literal[
-    "AMAZON_AUDIENCE",
-    "AMAZON_DSP",
-    "MANAGED_SERVICE_FEE",
-    "OMNICHANNEL_METRICS",
-    "THIRD_PARTY_APPLIED",
-    "THIRD_PARTY_AUDIENCE",
-    "THIRD_PARTY_TARGETING",
-]
-"""
-Supported values:
-- `AMAZON_AUDIENCE`: CPM fee for using Amazon audiences.
-- `AMAZON_DSP`: A service fee for using Amazon DSP and subtracted from the budget. This fee is applied as a percent of supply cost.
-- `MANAGED_SERVICE_FEE`: The percentage-based fee applied to the Supply Cost for Amazon programmatic managed service.
-- `OMNICHANNEL_METRICS`: Fee for using Amazon Omnichannel Metrics.
-- `THIRD_PARTY_APPLIED`: User added CPM fee for using third-party data to track CPM costs. This fee is applied as a percent of supply cost.
-- `THIRD_PARTY_AUDIENCE`: CPM fee for using a third party audience.
-- `THIRD_PARTY_TARGETING`: CPM fee for using targeting provided by a third-party data provider.
-"""
-
-
-type DSPFeeValueType = Literal["FIXED_CPM", "PERCENTAGE_OF_BUDGET", "PERCENTAGE_OF_SUPPLY_COST"]
-"""
-Supported values:
-- `FIXED_CPM`: Charged based on a fixed CPM. The currency depends on the feeType.
-- `PERCENTAGE_OF_BUDGET`: Subtracted from the campaign budget as a percent of budget
-- `PERCENTAGE_OF_SUPPLY_COST`: Charged as a percent of supply (media) cost. Ranges from 0 to 1 where 0.15 represents 15%.
-"""
-
-
-type DSPFeesThirdPartyProvider = Literal[
-    "COM_SCORE", "CPM_1", "CPM_2", "CPM_3", "DOUBLE_CLICK_CAMPAIGN_MANAGER", "DOUBLE_VERIFY", "INTEGRAL_AD_SCIENCE"
-]
-
-
-type DSPInventoryType = Literal[
-    "AAP_MOBILE_APP",
-    "AMAZON_MOBILE_DISPLAY",
-    "AUDIO",
-    "AUDIO_AMAZON_DEAL",
-    "DISPLAY",
-    "LIVE_EVENTS",
-    "ONLINE_VIDEO",
-    "PODCAST",
-    "STANDARD_DISPLAY",
-    "STREAMING_TV",
-    "STREAMING_TV_AMAZON_DEAL",
-    "VIDEO",
-]
-"""
-Supported values:
-- `AUDIO`: Audio ads that serve on streaming audio inventory.
-- `LIVE_EVENTS`: Real-time broadcast inventory (sports, concerts, award shows) with audience volatility and concentrated traffic patterns requiring specialized pacing algorithms and event-specific metadata handling.
-- `PODCAST`: Podcast ads that serve on streaming podcast inventory.
-"""
-
-
-type DSPSiteLanguage = Literal[
-    "AR",
-    "BN",
-    "CS",
-    "DA",
-    "DE",
-    "EN",
-    "ES",
-    "FI",
-    "FR",
-    "GU",
-    "HI",
-    "IT",
-    "JA",
-    "KN",
-    "ML",
-    "MR",
-    "NL",
-    "NO",
-    "OTHER",
-    "PA",
-    "PL",
-    "PT",
-    "SV",
-    "TA",
-    "TE",
-    "TR",
-    "ZH",
-]
-"""
-Supported values:
-- `AR`: Arabic.
-- `BN`: Bengali.
-- `CS`: Czech.
-- `DA`: Danish.
-- `DE`: German.
-- `EN`: English.
-- `ES`: Spanish.
-- `FI`: Finnish.
-- `FR`: French.
-- `GU`: Gujarati.
-- `HI`: Hindi.
-- `IT`: Italian.
-- `JA`: Japanese.
-- `KN`: Kannada.
-- `ML`: Malayalam.
-- `MR`: Marathi.
-- `NL`: Dutch.
-- `NO`: Norwegian.
-- `OTHER`: Other language.
-- `PA`: Punjabi.
-- `PL`: Polish.
-- `PT`: Portuguese.
-- `SV`: Swedish.
-- `TA`: Tamil.
-- `TE`: Telugu.
-- `TR`: Turkish.
-- `ZH`: Chinese.
-"""
-
-
-type DSPTacticsConvertersExclusionType = Literal["NO_EXCLUSION", "RECENT_CONVERTERS"]
-"""
-Supported values:
-- `NO_EXCLUSION`: Do not exclude any converters from targeting.
-- `RECENT_CONVERTERS`: Exclude recent converters from targeting to focus on new customers.
-"""
-
-
-type DSPTimeZoneType = Literal["ADVERTISER_REGION", "VIEWER"]
-"""
-Supported values:
-- `ADVERTISER_REGION`: Use the advertiser's regional time zone for daypart targeting.
-- `VIEWER`: Use the viewer's local time zone for daypart targeting.
-"""
-
-
-type DSPUserLocationSignal = Literal["CURRENT", "MULTIPLE_SIGNALS"]
-"""
-Supported values:
-- `CURRENT`: Target users based on their current geographic location.
-- `MULTIPLE_SIGNALS`: Target users based on multiple location signals.
-"""
-
-
-type DSPVideoCompletionTier = Literal[
-    "ALL_TIERS",
-    "GREATER_THAN_10_PERCENT",
-    "GREATER_THAN_20_PERCENT",
-    "GREATER_THAN_30_PERCENT",
-    "GREATER_THAN_40_PERCENT",
-    "GREATER_THAN_50_PERCENT",
-    "GREATER_THAN_60_PERCENT",
-    "GREATER_THAN_70_PERCENT",
-    "GREATER_THAN_80_PERCENT",
-    "GREATER_THAN_90_PERCENT",
-]
-"""
-Supported values:
-- `ALL_TIERS`: Target all video completion tiers.
-- `GREATER_THAN_10_PERCENT`: Target videos with greater than 10% predicted completion rate.
-- `GREATER_THAN_20_PERCENT`: Target videos with greater than 20% predicted completion rate.
-- `GREATER_THAN_30_PERCENT`: Target videos with greater than 30% predicted completion rate.
-- `GREATER_THAN_40_PERCENT`: Target videos with greater than 40% predicted completion rate.
-- `GREATER_THAN_50_PERCENT`: Target videos with greater than 50% predicted completion rate.
-- `GREATER_THAN_60_PERCENT`: Target videos with greater than 60% predicted completion rate.
-- `GREATER_THAN_70_PERCENT`: Target videos with greater than 70% predicted completion rate.
-- `GREATER_THAN_80_PERCENT`: Target videos with greater than 80% predicted completion rate.
-- `GREATER_THAN_90_PERCENT`: Target videos with greater than 90% predicted completion rate.
-"""
-
-
-type DSPViewabilityTier = Literal[
-    "ALL_TIERS",
-    "GREATER_THAN_40_PERCENT",
-    "GREATER_THAN_50_PERCENT",
-    "GREATER_THAN_60_PERCENT",
-    "GREATER_THAN_70_PERCENT",
-    "LESS_THAN_40_PERCENT",
-]
-"""
-Supported values:
-- `ALL_TIERS`: Target all viewability tiers with no filtering.
-- `GREATER_THAN_40_PERCENT`: Target impressions with greater than 40% predicted viewability.
-- `GREATER_THAN_50_PERCENT`: Target impressions with greater than 50% predicted viewability.
-- `GREATER_THAN_60_PERCENT`: Target impressions with greater than 60% predicted viewability.
-- `GREATER_THAN_70_PERCENT`: Target impressions with greater than 70% predicted viewability.
-- `LESS_THAN_40_PERCENT`: Target impressions with less than 40% predicted viewability.
-"""
 
 
 class DSPAdGroup(LenientModel):
@@ -427,6 +220,16 @@ class DSPAmazonViewability(LenientModel):
     viewabilityTier: DSPViewabilityTier | str
 
 
+class DSPBudget(LenientModel):
+    budgetType: DSPBudgetType | str
+    budgetValue: DSPBudgetValue
+    recurrenceTimePeriod: DSPRecurrence | str
+
+
+class DSPBudgetValue(LenientModel):
+    monetaryBudgetValue: DSPMonetaryBudgetValue
+
+
 class DSPCreateAdGroupBid(StrictModel):
     baseBid: float | None = Field(default=None, description="The lower bound bid used for the ads in the ad group.")
     maxAverageBid: float | None = Field(
@@ -504,6 +307,41 @@ class DSPFee(LenientModel):
     thirdPartyProvider: DSPFeesThirdPartyProvider | str
 
 
+class DSPFrequency(LenientModel):
+    eventCount: int | None = Field(
+        default=None, ge=1, le=500, description="The number of events in a given frequency cap."
+    )
+    eventMaxCount: int = Field(
+        ge=1,
+        le=99000,
+        description="The maximum number of times an EventType is served per user. For ADSP ad group, maximum supported value is 500.",
+    )
+    eventType: DSPEventType | str | None = Field(default=None)
+    extraFrequencyCapImpressionTypes: list[DSPExtraFrequencyCapImpressionType | str] | None = Field(
+        default=None,
+        min_length=0,
+        max_length=10,
+        description="Add the additional types of impression to frequency cap. Default to empty list when not selected",
+    )
+    frequencyTargetingSetting: DSPFrequencyTargetingSetting | str
+    timeCount: int = Field(
+        ge=1, le=60, description="The value associated with the time and unit of time for this frequency cap."
+    )
+    timeUnit: DSPTimeUnit | str
+
+
+class DSPMonetaryBudget(LenientModel):
+    currencyCode: DSPCurrencyCode | str
+    ruleValue: float | None = Field(
+        default=None, description="The monetary amount of the budget when a budget rule is applied."
+    )
+    value: float = Field(description="The monetary amount of the budget cap in the given currency.")
+
+
+class DSPMonetaryBudgetValue(LenientModel):
+    monetaryBudget: DSPMonetaryBudget | None = Field(default=None)
+
+
 class DSPOptimization(LenientModel):
     bidStrategy: DSPBidStrategy | str
     budgetSettings: DSPAdGroupBudgetSettings | None = Field(default=None)
@@ -520,6 +358,20 @@ class DSPQueryAdGroupRequest(StrictModel):
     maxResults: int | None = Field(default=100, ge=1, le=100)
     nextToken: str | None = Field(default=None)
     stateFilter: DSPAdGroupStateFilter | None = Field(default=None)
+
+
+class DSPStatus(LenientModel):
+    deliveryReasons: list[DSPDeliveryReason | str] | None = Field(
+        default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
+    )
+    deliveryStatus: DSPDeliveryStatus | str
+
+
+class DSPTag(LenientModel):
+    key: str = Field(
+        description="A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI."
+    )
+    value: str = Field(description="A custom key value pair entered by the advertiser.")
 
 
 class DSPTargetingSettings(LenientModel):
@@ -639,6 +491,8 @@ __all__ = [
     "DSPError",
     "DSPErrorCode",
     "DSPErrorsIndex",
+    "DSPEventType",
+    "DSPExtraFrequencyCapImpressionType",
     "DSPFee",
     "DSPFeeType",
     "DSPFeeValueType",

@@ -10,6 +10,7 @@ from pydantic import Field
 from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models.v1._shared.dsp import (
     DSPAdProduct,
+    DSPCreateSize,
     DSPCreateState,
     DSPCreateTag,
     DSPDeliveryReason,
@@ -18,10 +19,10 @@ from ads_api.models.v1._shared.dsp import (
     DSPErrorCode,
     DSPErrorsIndex,
     DSPMarketplace,
+    DSPMarketplaceScope,
     DSPProductIdType,
+    DSPSize,
     DSPState,
-    DSPStatus,
-    DSPTag,
     DSPUpdateState,
 )
 
@@ -449,9 +450,6 @@ Supported values:
 - `zh_CN`: Chinese (China).
 - `zu_ZA`: Zulu (South Africa).
 """
-
-
-type DSPMarketplaceScope = Literal["SINGLE_MARKETPLACE"]
 
 
 type DSPPublisherHostedCreativeSource = Literal["GOOGLE_AD_MANAGER"]
@@ -1058,11 +1056,6 @@ class DSPCreateResponsiveEcommerceSettings(StrictModel):
     supportedThirdPartySellers: DSPSupportedThirdPartySellers
 
 
-class DSPCreateSize(StrictModel):
-    height: int = Field(description="The height of the creative placement.")
-    width: int = Field(description="The width of the creative placement.")
-
-
 class DSPCreateStandardAudioExperienceSettings(StrictModel):
     audio: DSPCreateAudio
     callToActions: DSPCreateAudioCallToAction | None = Field(default=None)
@@ -1339,11 +1332,6 @@ class DSPResponsiveEcommerceSettings(LenientModel):
     supportedThirdPartySellers: DSPSupportedThirdPartySellers | str
 
 
-class DSPSize(LenientModel):
-    height: int = Field(description="The height of the creative placement.")
-    width: int = Field(description="The width of the creative placement.")
-
-
 class DSPStandardAudioExperienceSettings(LenientModel):
     audio: DSPAudio
     callToActions: DSPAudioCallToAction | None = Field(default=None)
@@ -1387,6 +1375,13 @@ class DSPStandardDisplaySettings(LenientModel):
     language: DSPLanguageLocale | str
 
 
+class DSPStatus(LenientModel):
+    deliveryReasons: list[DSPDeliveryReason | str] | None = Field(
+        default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
+    )
+    deliveryStatus: DSPDeliveryStatus | str
+
+
 class DSPStreamingTvSettings(LenientModel):
     callToActions: list[DSPVideoCallToAction] | None = Field(
         default=None, min_length=0, max_length=10, description="The call to actions for this video."
@@ -1402,6 +1397,13 @@ class DSPStreamingTvSettings(LenientModel):
         default=None, min_length=0, max_length=20, description="The product advertised on this video creative."
     )
     videos: DSPVideo
+
+
+class DSPTag(LenientModel):
+    key: str = Field(
+        description="A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI."
+    )
+    value: str = Field(description="A custom key value pair entered by the advertiser.")
 
 
 class DSPThirdPartyCreative(LenientModel):

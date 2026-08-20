@@ -196,6 +196,12 @@ Supported values:
 """
 
 
+type STMarketplace = Literal["AU", "BR", "CA", "DE", "ES", "FR", "GB", "IN", "IT", "JP", "MX", "SG", "US"]
+"""
+A list of country codes representing Amazon marketplaces
+"""
+
+
 type STState = Literal["ARCHIVED", "ENABLED", "PAUSED"]
 """
 The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
@@ -244,6 +250,7 @@ __all__ = [
     "STError",
     "STErrorCode",
     "STErrorsIndex",
+    "STMarketplace",
     "STState",
     "STStatus",
     "STUpdateState",

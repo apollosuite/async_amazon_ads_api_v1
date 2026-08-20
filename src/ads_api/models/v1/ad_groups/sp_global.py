@@ -19,8 +19,11 @@ from ads_api.models.v1._shared.sp_global import (
     SPGlobalErrorCode,
     SPGlobalErrorMarketplace,
     SPGlobalErrorsIndex,
+    SPGlobalMarketplace,
     SPGlobalMarketplaceScope,
     SPGlobalState,
+    SPGlobalStatus,
+    SPGlobalStatusMarketplaceSetting,
     SPGlobalTag,
     SPGlobalUpdateState,
 )
@@ -30,34 +33,6 @@ type SPGlobalAdGroupNameFilterType = Literal["BROAD_MATCH", "EXACT_MATCH"]
 Supported values:
 - `EXACT_MATCH`: Filter by exact match.
 - `BROAD_MATCH`: Filter by broad match.
-"""
-
-
-type SPGlobalMarketplace = Literal[
-    "AE",
-    "AU",
-    "BE",
-    "BR",
-    "CA",
-    "DE",
-    "EG",
-    "ES",
-    "FR",
-    "GB",
-    "IN",
-    "IT",
-    "JP",
-    "MX",
-    "NL",
-    "PL",
-    "SA",
-    "SE",
-    "SG",
-    "TR",
-    "US",
-]
-"""
-A list of country codes representing Amazon marketplaces
 """
 
 
@@ -285,26 +260,6 @@ class SPGlobalQueryAdGroupRequest(StrictModel):
     nameFilter: SPGlobalAdGroupNameFilter | None = Field(default=None)
     nextToken: str | None = Field(default=None)
     stateFilter: SPGlobalAdGroupStateFilter | None = Field(default=None)
-
-
-class SPGlobalStatus(LenientModel):
-    deliveryReasons: list[SPGlobalDeliveryReason | str] | None = Field(
-        default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
-    )
-    deliveryStatus: SPGlobalDeliveryStatus | str
-    marketplaceSettings: list[SPGlobalStatusMarketplaceSetting] = Field(
-        min_length=1,
-        max_length=30,
-        description="The list of marketplace level delivery status and reasons of global resources, for all the marketplaces the global resource is applicable in.",
-    )
-
-
-class SPGlobalStatusMarketplaceSetting(LenientModel):
-    deliveryReasons: list[SPGlobalDeliveryReason | str] | None = Field(
-        default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
-    )
-    deliveryStatus: SPGlobalDeliveryStatus | str
-    marketplace: SPGlobalMarketplace | str
 
 
 class SPGlobalUpdateAdGroupBid(StrictModel):

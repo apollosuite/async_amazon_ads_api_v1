@@ -301,6 +301,34 @@ type SPGlobalErrorMarketplace = Literal[
 ]
 
 
+type SPGlobalMarketplace = Literal[
+    "AE",
+    "AU",
+    "BE",
+    "BR",
+    "CA",
+    "DE",
+    "EG",
+    "ES",
+    "FR",
+    "GB",
+    "IN",
+    "IT",
+    "JP",
+    "MX",
+    "NL",
+    "PL",
+    "SA",
+    "SE",
+    "SG",
+    "TR",
+    "US",
+]
+"""
+A list of country codes representing Amazon marketplaces
+"""
+
+
 type SPGlobalMarketplaceScope = Literal["GLOBAL"]
 
 
@@ -352,6 +380,26 @@ class SPGlobalErrorsIndex(LenientModel):
     index: int = Field(ge=0, le=4999)
 
 
+class SPGlobalStatus(LenientModel):
+    deliveryReasons: list[SPGlobalDeliveryReason | str] | None = Field(
+        default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
+    )
+    deliveryStatus: SPGlobalDeliveryStatus | str
+    marketplaceSettings: list[SPGlobalStatusMarketplaceSetting] = Field(
+        min_length=1,
+        max_length=30,
+        description="The list of marketplace level delivery status and reasons of global resources, for all the marketplaces the global resource is applicable in.",
+    )
+
+
+class SPGlobalStatusMarketplaceSetting(LenientModel):
+    deliveryReasons: list[SPGlobalDeliveryReason | str] | None = Field(
+        default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
+    )
+    deliveryStatus: SPGlobalDeliveryStatus | str
+    marketplace: SPGlobalMarketplace | str
+
+
 class SPGlobalTag(LenientModel):
     key: str = Field(
         description="A custom key value pair entered by the advertiser. For ADSP Campaigns and Ad Groups, Amazon creates a COMMENTS key when the Comments field is populated in UI."
@@ -370,9 +418,12 @@ __all__ = [
     "SPGlobalErrorCode",
     "SPGlobalErrorMarketplace",
     "SPGlobalErrorsIndex",
+    "SPGlobalMarketplace",
     "SPGlobalMarketplaceScope",
     "SPGlobalProductIdType",
     "SPGlobalState",
+    "SPGlobalStatus",
+    "SPGlobalStatusMarketplaceSetting",
     "SPGlobalTag",
     "SPGlobalUpdateState",
 ]

@@ -62,8 +62,8 @@ exclude = [
     ".dist",
     "dist",
     "scripts",
-    "script2",
     "script3",
+    "script4",
     "tests",
     "AGENTS.md",
     "uv.lock",
@@ -91,8 +91,8 @@ select = ["E", "F", "I", "N", "UP", "W"]
 "src/async_amazon_ads_api_v1/client/*" = ["E501"]
 "src/ads_api/models/**" = ["E501", "F403", "N815"]
 "src/ads_api/client/**" = ["E501"]
-"script2/codegen/*" = ["E501"]
 "script3/codegen/*" = ["E501"]
+"script4/codegen/*" = ["E501"]
 
 
 [tool.pytest.ini_options]

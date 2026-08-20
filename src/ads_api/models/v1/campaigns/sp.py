@@ -18,6 +18,7 @@ from ads_api.models.v1._shared.sp import (
     SPError,
     SPErrorCode,
     SPErrorsIndex,
+    SPMarketplace,
     SPMarketplaceScope,
     SPState,
     SPStatus,
@@ -85,36 +86,6 @@ type SPCreativeBidAdjustmentType = Literal["SPOTLIGHT"]
 """
 Supported values:
 - `SPOTLIGHT`: SPOTLIGHT Video Asset.
-"""
-
-
-type SPMarketplace = Literal[
-    "AE",
-    "AU",
-    "BE",
-    "BR",
-    "CA",
-    "DE",
-    "EG",
-    "ES",
-    "FR",
-    "GB",
-    "IE",
-    "IN",
-    "IT",
-    "JP",
-    "MX",
-    "NL",
-    "PL",
-    "SA",
-    "SE",
-    "SG",
-    "TR",
-    "US",
-    "ZA",
-]
-"""
-A list of country codes representing Amazon marketplaces
 """
 
 
