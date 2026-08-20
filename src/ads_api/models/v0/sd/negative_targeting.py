@@ -52,8 +52,8 @@ The expression to negatively match against.
 
 
 class NegativeTargetingClauseEx(LenientModel):
-    targetId: float | None = Field(default=None)
-    adGroupId: float | None = Field(default=None)
+    targetId: int | None = Field(default=None)
+    adGroupId: int | None = Field(default=None)
     state: Literal["enabled", "paused", "archived"] | str | None = Field(default=None)
     expressionType: Literal["manual", "auto"] | str | None = Field(default=None)
     expression: list[dict[str, Any]] | None = Field(

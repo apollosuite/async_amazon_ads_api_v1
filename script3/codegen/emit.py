@@ -76,12 +76,27 @@ def safe_ident(name: str, used: set[str] | None = None) -> str:
     return safe
 
 
+def _is_id_field(name: str | None) -> bool:
+    """Check if a field/parameter name represents an ID that should be integer rather than float."""
+    if not name:
+        return False
+    lower = name.lower()
+    if lower in ("id", "ids"):
+        return True
+    if name.endswith(("Id", "Ids", "_id", "_ids")):
+        if lower.endswith(("bid", "bids")):
+            return False
+        return True
+    return False
+
+
 def schema_type(
     schema: dict[str, Any],
     openapi_schemas: dict[str, Any],
     name_map: NameMap,
     context_role: SchemaRole,
     imports: ImportSet,
+    field_name: str | None = None,
 ) -> str:
     if "$ref" in schema:
         openapi_name = schema["$ref"].split("/")[-1]
@@ -116,7 +131,7 @@ def schema_type(
                 if context_role == SchemaRole.INPUT:
                     return f"list[{py_name}]"
                 return f"list[{py_name} | str]"
-        inner = schema_type(items_schema, openapi_schemas, name_map, context_role, imports)
+        inner = schema_type(items_schema, openapi_schemas, name_map, context_role, imports, field_name=field_name)
         return f"list[{inner}]"
     if t == "object":
         additional = schema.get("additionalProperties")
@@ -136,6 +151,8 @@ def schema_type(
     if t == "integer":
         return "int"
     if t == "number":
+        if field_name and _is_id_field(field_name) and fmt not in ("float", "double"):
+            return "int"
         return "float"
     if t == "boolean":
         return "bool"
@@ -244,7 +261,11 @@ def generate_enum(name: str, schema: dict[str, Any], imports: ImportSet) -> str:
 def generate_type_alias(name: str, schema: dict[str, Any], imports: ImportSet) -> str:
     t = schema["type"]
     if t == "number":
-        py_type = "float"
+        fmt = schema.get("format", "")
+        if _is_id_field(name) and fmt not in ("float", "double"):
+            py_type = "int"
+        else:
+            py_type = "float"
     else:
         py_type = {"string": "str", "integer": "int", "boolean": "bool"}.get(t, "Any")
         if py_type == "Any":
@@ -332,7 +353,7 @@ def _field_lines(
     fields: list[str] = []
     used: set[str] = set()
     for fname, fschema in props.items():
-        typ = schema_type(fschema, openapi_schemas, name_map, context_role, imports)
+        typ = schema_type(fschema, openapi_schemas, name_map, context_role, imports, field_name=fname)
         is_required = fname in required
         if not is_required and typ != "Any":
             typ = f"{typ} | None"
@@ -733,8 +754,8 @@ def _append_method(
     path_params = [p for p in resolved_params if p.get("in") == "path"]
     query_params = [p for p in resolved_params if p.get("in") == "query"]
 
-    def type_fn(s: dict[str, Any]) -> str:
-        t = schema_type(s, openapi_schemas, name_map, SchemaRole.OUTPUT, imports)
+    def type_fn(s: dict[str, Any], field_name: str | None = None) -> str:
+        t = schema_type(s, openapi_schemas, name_map, SchemaRole.OUTPUT, imports, field_name=field_name)
         match = _LENIENT_ENUM_RE.match(t)
         if match:
             return match.group(1)
@@ -745,7 +766,7 @@ def _append_method(
 
     pos_args = ["self"]
     for p in path_params:
-        pos_args.append(f"{camel_to_snake(p['name'])}: {type_fn(p.get('schema', {}))}")
+        pos_args.append(f"{camel_to_snake(p['name'])}: {type_fn(p.get('schema', {}), field_name=p.get('name'))}")
     if req_model:
         req_type = f"list[{req_model}]" if is_array_req else req_model
         pos_args.append(f"body: {req_type}")
@@ -753,7 +774,7 @@ def _append_method(
     opt_query: list[str] = []
     for p in query_params:
         py_name = camel_to_snake(p["name"])
-        ptype = type_fn(p.get("schema", {}))
+        ptype = type_fn(p.get("schema", {}), field_name=p.get("name"))
         if p.get("required", False):
             pos_args.append(f"{py_name}: {ptype}")
         else:

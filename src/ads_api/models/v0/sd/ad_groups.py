@@ -60,9 +60,9 @@ class AdGroupResponse(LenientModel):
 class AdGroupResponseEx(LenientModel):
     """Object containing an extended set of data fields for an Ad Group."""
 
-    adGroupId: float | None = Field(default=None, description="The identifier of the ad group.")
+    adGroupId: int | None = Field(default=None, description="The identifier of the ad group.")
     name: str | None = Field(default=None, description="The name of the ad group.")
-    campaignId: float | None = Field(
+    campaignId: int | None = Field(
         default=None, description="The identifier of the campaign that this ad group is associated with."
     )
     defaultBid: float | None = Field(

@@ -69,13 +69,13 @@ class ProductAd(LenientModel):
 class ProductAdResponse(LenientModel):
     code: str | None = Field(default=None, description="The HTTP status code of the response.")
     description: str | None = Field(default=None, description="A human-readable description of the response.")
-    adId: float | None = Field(default=None, description="The identifier of the ad.")
+    adId: int | None = Field(default=None, description="The identifier of the ad.")
 
 
 class ProductAdResponseEx(LenientModel):
-    adId: float | None = Field(default=None, description="The identifier of the ad.")
-    adGroupId: float | None = Field(default=None, description="The identifier of the ad group associated with the ad.")
-    campaignId: float | None = Field(default=None, description="The identifier of the campaign associated with the ad.")
+    adId: int | None = Field(default=None, description="The identifier of the ad.")
+    adGroupId: int | None = Field(default=None, description="The identifier of the ad group associated with the ad.")
+    campaignId: int | None = Field(default=None, description="The identifier of the campaign associated with the ad.")
     landingPageURL: LandingPageURL | None = Field(default=None)
     landingPageType: LandingPageType | str | None = Field(default=None)
     adName: AdName | None = Field(default=None)
