@@ -9,14 +9,16 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models.v1._shared.dsp import (
-    DSPCreateTimeOfDay,
-    DSPDVBrandSafetyAppAgeRatingType,
-    DSPDVBrandSafetyContentCategoryType,
-    DSPExcludeAppsAndSitesType,
-    DSPMarketplaceStringValue,
-    DSPMarketplaceStringValueOut,
-    DSPNewsGuardBrandGuardMisinformationSafetyType,
-    DSPNewsGuardBrandGuardTrustedNewsTargetingType,
+    DSPAdProduct,
+    DSPCreateState,
+    DSPDeliveryReason,
+    DSPDeliveryStatus,
+    DSPError,
+    DSPErrorCode,
+    DSPErrorsIndex,
+    DSPProductIdType,
+    DSPState,
+    DSPStatus,
 )
 
 type DSPAcrossGroupOperator = Literal["ALL", "ANY"]
@@ -34,13 +36,6 @@ Supported values:
 - `MEDIUM`: Medium video player.
 - `SMALL`: Small video player.
 - `UNKNOWN`: Unknown player size.
-"""
-
-
-type DSPAdProduct = Literal["AMAZON_DSP"]
-"""
-Supported values:
-- `AMAZON_DSP`: Amazon Demand-Side Platform ad product.
 """
 
 
@@ -318,14 +313,9 @@ Supported values:
 """
 
 
-type DSPCreateState = Literal["ENABLED", "PAUSED"]
-"""
-The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-
-Supported values:
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
-"""
+type DSPDVBrandSafetyAppAgeRatingType = Literal[
+    "ADULTS_ONLY_18_PLUS", "EVERYONE_4_PLUS", "MATURE_17_PLUS", "TEENS_12_PLUS", "TWEENS_9_PLUS", "UNKNOWN"
+]
 
 
 type DSPDVBrandSafetyAppStarRatingType = Literal[
@@ -343,6 +333,24 @@ App star rating to be used for excluding apps.
 """
 
 
+type DSPDVBrandSafetyContentCategoryType = Literal[
+    "AD_SERVER",
+    "CELEBRITY_GOSSIP",
+    "CULTS_SURVIVALISM",
+    "EXTREME_GRAPHIC",
+    "GAMBLING",
+    "INCENTIVIZED_MALWARE_CLUTTER",
+    "INFLAMMATORY_POLITICS_NEWS",
+    "NEGATIVE_NEWS_FINANCIAL",
+    "NEGATIVE_NEWS_PHARMACEUTICAL",
+    "NON_STANDARD_CONTENT_NON_ENGLISH",
+    "NON_STANDARD_CONTENT_PARKING_PAGE",
+    "OCCULT",
+    "PIRACY_COPYRIGHT_INFRINGEMENT",
+    "UNMODERATED_UGC_FORUMS_IMAGES_VIDEO",
+]
+
+
 type DSPDayOfWeek = Literal["FRIDAY", "MONDAY", "SATURDAY", "SUNDAY", "THURSDAY", "TUESDAY", "WEDNESDAY"]
 """
 Supported values:
@@ -353,48 +361,6 @@ Supported values:
 - `THURSDAY`: Thursday.
 - `TUESDAY`: Tuesday.
 - `WEDNESDAY`: Wednesday.
-"""
-
-
-type DSPDeliveryReason = Literal[
-    "AD_CREATIVES_NOT_RUNNING",
-    "AD_GROUPS_NOT_RUNNING",
-    "AD_GROUP_ARCHIVED",
-    "AD_GROUP_ENDED",
-    "AD_GROUP_INELIGIBLE_GOAL_KPI",
-    "AD_GROUP_MISSING_CONVERSION_TRACKING_SELECTIONS",
-    "AD_GROUP_PAUSED",
-    "AD_GROUP_PENDING_START_DATE",
-    "AD_GROUP_POLICING_SUSPENDED",
-    "AD_GROUP_TOO_FEW_CONVERSION_TRACKING_SELECTIONS",
-    "AD_GROUP_TOO_MANY_CONVERSION_TRACKING_SELECTIONS",
-    "AD_NOT_APPROVED_FOR_ALL_AD_GROUPS",
-    "AD_NOT_ASSOCIATED_WITH_AD_GROUP",
-    "AD_POLICING_PENDING_REVIEW",
-    "AD_POLICING_SUSPENDED",
-    "CAMPAIGN_ARCHIVED",
-    "CAMPAIGN_END_DATE_REACHED",
-    "CAMPAIGN_PAUSED",
-    "CAMPAIGN_PENDING_START_DATE",
-    "CAMPAIGN_POLICING_SUSPENDED",
-    "OTHER",
-]
-"""
-Supported values:
-- `AD_GROUP_INELIGIBLE_GOAL_KPI`: Indicates that the ad group is suspended because the campaign's goal KPI is not supported.
-- `AD_GROUP_MISSING_CONVERSION_TRACKING_SELECTIONS`: Indicates that the ad group is suspended because the campaign is missing conversion tracking selections.
-- `AD_GROUP_TOO_FEW_CONVERSION_TRACKING_SELECTIONS`: Indicates that the ad group is suspended because the campaign has an insufficient number of conversion tracking selections.
-- `AD_GROUP_TOO_MANY_CONVERSION_TRACKING_SELECTIONS`: Indicates that the ad group is suspended because the campaign exceeded the maximum number of conversion tracking selections.
-"""
-
-
-type DSPDeliveryStatus = Literal["DELIVERING", "LIMITED", "NOT_DELIVERING", "UNAVAILABLE"]
-"""
-Supported values:
-- `DELIVERING`: Represents the resource is delivering. For global, DELIVERING status indicates that the resource is delivering in all marketplaces
-- `LIMITED`: Represents partial delivery status, applicable to global resources that have different delivery status across marketplaces
-- `NOT_DELIVERING`: Represents the resource is not delivering. For global, NOT_DELIVERING status indicates that the resource is NOT delivering in all marketplaces
-- `UNAVAILABLE`: Represents unavailable resource status. For global, UNAVAILABLE status indicates that the status is unavailable in all marketplaces
 """
 
 
@@ -445,105 +411,17 @@ Supported values:
 """
 
 
-type DSPErrorCode = Literal[
-    "ACTION_NOT_SUPPORTED",
-    "ACTIVE_RESOURCE_LIMIT_EXCEEDED",
-    "ARCHIVED_PARENT_CANNOT_CREATE",
-    "ARCHIVED_PARENT_CANNOT_EDIT",
-    "ARCHIVED_RESOURCE_CANNOT_EDIT",
-    "ASSET_NOT_READY",
-    "AUTOCREATED_ENTITY_CANNOT_EDIT",
-    "BAD_REQUEST",
-    "CONFLICT",
-    "CONTENT_TOO_LARGE",
-    "DATE_CANNOT_BE_IN_PAST",
-    "DATE_CANNOT_BE_NULL",
-    "DATE_TOO_SOON",
-    "DUPLICATE_FIELD_VALUE_FOUND",
-    "DUPLICATE_RESOURCE_ID_FOUND",
-    "DURATION_TOO_SHORT",
-    "FEATURE_DISCONTINUED",
-    "FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT",
-    "FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT",
-    "FIELD_SIZE_IS_OUT_OF_RANGE",
-    "FIELD_VALUE_CANNOT_EDIT",
-    "FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS",
-    "FIELD_VALUE_CONTAINS_INVALID_CHARACTERS",
-    "FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT",
-    "FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT",
-    "FIELD_VALUE_IS_EMPTY",
-    "FIELD_VALUE_IS_INVALID",
-    "FIELD_VALUE_IS_NULL",
-    "FIELD_VALUE_IS_OUT_OF_RANGE",
-    "FIELD_VALUE_MISMATCH",
-    "FIELD_VALUE_MUST_BE_EMPTY_OR_NULL",
-    "FIELD_VALUE_NOT_FOUND",
-    "FIELD_VALUE_NOT_UNIQUE",
-    "FORBIDDEN",
-    "INTERNAL_ERROR",
-    "NOT_FOUND",
-    "PAYMENT_ISSUE",
-    "PRODUCT_INELIGIBLE",
-    "RESOURCE_DOES_NOT_BELONG_TO_PARENT",
-    "RESOURCE_ID_NOT_FOUND",
-    "RESOURCE_IS_EMPTY",
-    "RESOURCE_IS_IN_TERMINAL_STATE",
-    "RESOURCE_IS_NULL",
-    "TOO_MANY_REQUESTS",
-    "TOTAL_RESOURCE_LIMIT_EXCEEDED",
-    "UNAUTHORIZED",
-    "UNSUPPORTED_MARKETPLACE",
+type DSPExcludeAppsAndSitesType = Literal[
+    "ALLOW_ALL",
+    "FRAUD_TRAFFIC_LEVEL_GTE_02",
+    "FRAUD_TRAFFIC_LEVEL_GTE_04",
+    "FRAUD_TRAFFIC_LEVEL_GTE_06",
+    "FRAUD_TRAFFIC_LEVEL_GTE_08",
+    "FRAUD_TRAFFIC_LEVEL_GTE_10",
+    "FRAUD_TRAFFIC_LEVEL_GTE_100",
+    "FRAUD_TRAFFIC_LEVEL_GTE_25",
+    "FRAUD_TRAFFIC_LEVEL_GTE_50",
 ]
-"""
-Supported values:
-- `ACTION_NOT_SUPPORTED`: The request is not supported.
-- `ACTIVE_RESOURCE_LIMIT_EXCEEDED`: Too many live resources. Remove resources and try again.
-- `ARCHIVED_PARENT_CANNOT_CREATE`: New resources cannot be created within an archived parent.
-- `ARCHIVED_PARENT_CANNOT_EDIT`: Resources within an archived parent cannot be edited.
-- `ARCHIVED_RESOURCE_CANNOT_EDIT`: Archived resources cannot be edited.
-- `ASSET_NOT_READY`: The provided asset is still being processed.
-- `AUTOCREATED_ENTITY_CANNOT_EDIT`: Autocreated entities cannot be edited. To complete this action, create the resource manually.
-- `BAD_REQUEST`: The request is not valid considering the documented schema.
-- `CONFLICT`: Operation could not be completed due to a conflict. Please retry your request.
-- `CONTENT_TOO_LARGE`: The request is too large. Consider splitting it into multiple requests.
-- `DATE_CANNOT_BE_IN_PAST`: Update the date to be in the future.
-- `DATE_CANNOT_BE_NULL`: Update the date.
-- `DATE_TOO_SOON`: Update the date to be further in the future.
-- `DUPLICATE_FIELD_VALUE_FOUND`: Multiple resources share the non-unique field values. Remove the non-unique field value.
-- `DUPLICATE_RESOURCE_ID_FOUND`: Multiple resources share the same ID. Remove the duplicate ID.
-- `DURATION_TOO_SHORT`: Update the length to be within the required range.
-- `FEATURE_DISCONTINUED`: Feature has been discontinued.
-- `FIELD_SIZE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
-- `FIELD_SIZE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
-- `FIELD_SIZE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
-- `FIELD_VALUE_CANNOT_EDIT`: Field value cannot be edited.
-- `FIELD_VALUE_CONTAINS_BLOCKLISTED_WORDS`: Update the request with the required information for this resource.
-- `FIELD_VALUE_CONTAINS_INVALID_CHARACTERS`: Remove the invalid characters and try again.
-- `FIELD_VALUE_IS_ABOVE_MAXIMUM_LIMIT`: Update the value to be within the required range.
-- `FIELD_VALUE_IS_BELOW_MINIMUM_LIMIT`: Update the value to be within the required range.
-- `FIELD_VALUE_IS_EMPTY`: Update the request with the required information for this resource.
-- `FIELD_VALUE_IS_INVALID`: Update the request with the required information for this resource.
-- `FIELD_VALUE_IS_NULL`: Update the request with the required information for this resource.
-- `FIELD_VALUE_IS_OUT_OF_RANGE`: Update the value to be within the required range.
-- `FIELD_VALUE_MISMATCH`: Mismatch among resource field values.
-- `FIELD_VALUE_MUST_BE_EMPTY_OR_NULL`: Update the request with the required information for this resource.
-- `FIELD_VALUE_NOT_FOUND`: Resource specified in the field value not found. Try again with valid value.
-- `FIELD_VALUE_NOT_UNIQUE`: Resource field value conflicts with existing resource. Try again with an unique field value.
-- `FORBIDDEN`: The caller is not authorized to make the given request.
-- `INTERNAL_ERROR`: The server encountered an unexpected condition that prevented it from fulfilling the request.
-- `NOT_FOUND`: The requested resource does not exist.
-- `PAYMENT_ISSUE`: Payment failed.
-- `PRODUCT_INELIGIBLE`: Product is not eligible for advertising. Try again with a valid product.
-- `RESOURCE_DOES_NOT_BELONG_TO_PARENT`: Resource does not belong to the specified parent. Try again with a valid parent ID.
-- `RESOURCE_ID_NOT_FOUND`: Resource ID not found. Try again with valid ID.
-- `RESOURCE_IS_EMPTY`: Update the request with the required information for this resource.
-- `RESOURCE_IS_IN_TERMINAL_STATE`: Resource is in terminal state.
-- `RESOURCE_IS_NULL`: Update the request with the required information for this resource.
-- `TOO_MANY_REQUESTS`: There have been too many requests, please slow down your call rate.
-- `TOTAL_RESOURCE_LIMIT_EXCEEDED`: Too many resources. Remove resources and try again.
-- `UNAUTHORIZED`: The request lacks the necessary credentials.
-- `UNSUPPORTED_MARKETPLACE`: Marketplace not supported. Try again with a supported marketplace.
-"""
 
 
 type DSPFoldPosition = Literal["ABOVE_THE_FOLD", "BELOW_THE_FOLD", "UNKNOWN"]
@@ -658,6 +536,38 @@ Supported values:
 """
 
 
+type DSPNewsGuardBrandGuardMisinformationSafetyType = Literal[
+    "AI_GENERATED_MFA",
+    "BASIC_EXCLUDE",
+    "CLIMATE_MISINFORMATION",
+    "COVID_MISINFORMATION",
+    "ELECTION_MISINFORMATION",
+    "HEALTH_MISINFORMATION",
+    "HIGH_EXCLUDE",
+    "ISRAEL_HAMAS_MISINFORMATION",
+    "MAX_EXCLUDE",
+    "MISINFORMATION_SITES",
+    "OPINIONATED_NEWS",
+    "QANON_MISINFORMATION",
+    "UKRAINE_MISINFORMATION",
+    "VACCINE_MISINFORMATION",
+]
+
+
+type DSPNewsGuardBrandGuardTrustedNewsTargetingType = Literal[
+    "BASIC_INCLUDE",
+    "BUSINESS_INCLUDE",
+    "COMMUNITY_INCLUDE",
+    "HEALTH_INCLUDE",
+    "HIGH_INCLUDE",
+    "LIFESTYLE_INCLUDE",
+    "LOCAL_INCLUDE",
+    "MAX_INCLUDE",
+    "POLITICS_INCLUDE",
+    "TECH_INCLUDE",
+]
+
+
 type DSPPlacementType = Literal["REWARDED"]
 """
 Supported values:
@@ -672,13 +582,6 @@ Supported values:
 """
 
 
-type DSPProductIdType = Literal["ASIN"]
-"""
-Supported values:
-- `ASIN`: ASIN identifier type.
-"""
-
-
 type DSPProductMatchType = Literal["PRODUCT_COMPLEMENTS", "PRODUCT_EXACT", "PRODUCT_REMARKETING", "PRODUCT_SIMILAR"]
 """
 Supported values:
@@ -686,17 +589,6 @@ Supported values:
 - `PRODUCT_EXACT`: Products exactly matching the specified product.
 - `PRODUCT_REMARKETING`: Products to target users who have previously interacted with the specified product.
 - `PRODUCT_SIMILAR`: Products similar to the specified product.
-"""
-
-
-type DSPState = Literal["ARCHIVED", "ENABLED", "PAUSED"]
-"""
-The user defined state for the resource. For ADSP, campaign and ad group resources can only be created in the PAUSED state and must be updated to ENABLED to activate for delivery
-
-Supported values:
-- `ARCHIVED`: The object is permanently stopped and cannot be reactivated. Terminal end state.
-- `ENABLED`: The object is set active by user and eligible for delivery.
-- `PAUSED`: The object is stopped by user and not eligible for delivery.
 """
 
 
@@ -1528,6 +1420,11 @@ class DSPCreateThirdPartyTargetDetailsNewsGuardBrandGuardMisinformationSafety(St
 type DSPCreateThirdPartyTargetDetails = DSPCreateThirdPartyTargetDetailsDoubleVerifyFraudInvalidTraffic | DSPCreateThirdPartyTargetDetailsDoubleVerifyStandardDisplayBrandSafety | DSPCreateThirdPartyTargetDetailsDoubleVerifyBrandSafety | DSPCreateThirdPartyTargetDetailsDoubleVerifyViewability | DSPCreateThirdPartyTargetDetailsDoubleVerifyAuthenticBrandSafety | DSPCreateThirdPartyTargetDetailsDoubleVerifyCustomContextualSegmentId | DSPCreateThirdPartyTargetDetailsDoubleVerifyAuthenticAttention | DSPCreateThirdPartyTargetDetailsIntegralAdScienceFraudInvalidTraffic | DSPCreateThirdPartyTargetDetailsIntegralAdScienceBrandSafety | DSPCreateThirdPartyTargetDetailsIntegralAdScienceViewability | DSPCreateThirdPartyTargetDetailsIntegralAdScienceContextualTargeting | DSPCreateThirdPartyTargetDetailsIntegralAdScienceContextualAvoidance | DSPCreateThirdPartyTargetDetailsPixalateFraudInvalidTraffic | DSPCreateThirdPartyTargetDetailsIntegralAdScienceQualitySync | DSPCreateThirdPartyTargetDetailsNewsGuardBrandGuardTrustedNewsTargeting | DSPCreateThirdPartyTargetDetailsNewsGuardBrandGuardMisinformationSafety
 
 
+class DSPCreateTimeOfDay(StrictModel):
+    endTime: str = Field(pattern="^([01][0-9]|2[0-3]):[0-5][0-9]Z$", description="Selected end time")
+    startTime: str = Field(pattern="^([01][0-9]|2[0-3]):[0-5][0-9]Z$", description="Selected start time")
+
+
 class DSPCreateTwitchContentRating(StrictModel):
     twitchContentRating: DSPTwitchContentRatingEnum
 
@@ -1700,17 +1597,6 @@ class DSPDspContentRating(LenientModel):
     dspContentRating: DSPDspContentRatingEnum | str
 
 
-class DSPError(LenientModel):
-    code: DSPErrorCode | str
-    fieldLocation: str | None = Field(default=None)
-    message: str
-
-
-class DSPErrorsIndex(LenientModel):
-    errors: list[DSPError] = Field(min_length=1, max_length=20)
-    index: int = Field(ge=0, le=4999)
-
-
 class DSPFoldPositionTarget(LenientModel):
     """Targets ads in the specified fold position"""
 
@@ -1790,6 +1676,20 @@ class DSPLocationTarget(LenientModel):
     """Target based on geographic location."""
 
     locationId: str = Field(description="The ID of the geographic location to target.")
+
+
+class DSPMarketplaceStringValue(StrictModel):
+    defaultValue: str | None = Field(
+        default=None,
+        description="The default value. Either the default value or the marketplace settings should always be specified",
+    )
+
+
+class DSPMarketplaceStringValueOut(LenientModel):
+    defaultValue: str | None = Field(
+        default=None,
+        description="The default value. Either the default value or the marketplace settings should always be specified",
+    )
 
 
 class DSPNativeContentPositionTarget(LenientModel):
@@ -1876,13 +1776,6 @@ class DSPQueryTargetRequest(StrictModel):
     nextToken: str | None = Field(default=None)
     stateFilter: DSPTargetStateFilter | None = Field(default=None)
     targetTypeFilter: DSPTargetTargetTypeFilter | None = Field(default=None)
-
-
-class DSPStatus(LenientModel):
-    deliveryReasons: list[DSPDeliveryReason | str] | None = Field(
-        default=None, min_length=0, max_length=50, description="This is the list of reasons behind the delivery status."
-    )
-    deliveryStatus: DSPDeliveryStatus | str
 
 
 class DSPTarget(LenientModel):

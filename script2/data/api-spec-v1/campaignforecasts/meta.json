@@ -3,12 +3,12 @@
   "entity": "campaignforecasts",
   "items": [
     {
-      "name": "Amazon DSP",
-      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPDspCampaignForecastsContract_prod_3p.json",
-      "file": "AmazonAdsAPIDSPDspCampaignForecastsContract_prod_3p.json",
-      "etag": "\"30b10ac5c6d8d950bd1ab84bff9818ca\"",
-      "last_modified": "Fri, 14 Aug 2026 01:10:28 GMT",
-      "size": 172878
+      "name": "All Ad Products",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLCampaignForecastsContract_prod_3p.json",
+      "file": "AmazonAdsAPIALLCampaignForecastsContract_prod_3p.json",
+      "etag": "\"35a08bf4ffe4aa757e64f0451fd9812e\"",
+      "last_modified": "Thu, 20 Aug 2026 04:18:21 GMT",
+      "size": 173494
     }
   ]
 }

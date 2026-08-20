@@ -3,12 +3,12 @@
   "entity": "keywordreservationvalidations",
   "items": [
     {
-      "name": "Sponsored Brands",
-      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBSBKeywordReservationValidationsContract_prod_3p.json",
-      "file": "AmazonAdsAPISBSBKeywordReservationValidationsContract_prod_3p.json",
-      "etag": "\"1d3edbac80d83b6e46841dcc3f23ba86\"",
-      "last_modified": "Fri, 14 Aug 2026 01:10:28 GMT",
-      "size": 19400
+      "name": "All Ad Products",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLKeywordReservationValidationsContract_prod_3p.json",
+      "file": "AmazonAdsAPIALLKeywordReservationValidationsContract_prod_3p.json",
+      "etag": "\"87dc3f7ee3f91d86f55effcb68451dd6\"",
+      "last_modified": "Thu, 20 Aug 2026 04:18:10 GMT",
+      "size": 20019
     }
   ]
 }

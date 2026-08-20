@@ -3,12 +3,12 @@
   "entity": "supplierpublishers",
   "items": [
     {
-      "name": "Amazon DSP",
-      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPSupplierPublishersContract_prod_3p.json",
-      "file": "AmazonAdsAPIDSPSupplierPublishersContract_prod_3p.json",
-      "etag": "\"16cd99d834b68474d3e9d620d1be8ade\"",
-      "last_modified": "Fri, 14 Aug 2026 01:10:22 GMT",
-      "size": 95171
+      "name": "All Ad Products",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLSupplierPublishersContract_prod_3p.json",
+      "file": "AmazonAdsAPIALLSupplierPublishersContract_prod_3p.json",
+      "etag": "\"e2d1bd1e0f09aec927ff310b90017553\"",
+      "last_modified": "Thu, 20 Aug 2026 04:18:10 GMT",
+      "size": 95203
     }
   ]
 }

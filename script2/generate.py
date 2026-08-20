@@ -380,7 +380,19 @@ def write_client_namespaces(works: list[EntityWork]) -> None:
     _remove_empty_product_dirs(products)
     for product in products:
         product_dir = CLIENT_ROOT / product.module
+        expected_files = {f"{mod}.py" for mod, _ in product_entities[product]} | {"__init__.py"}
+        for path in sorted(product_dir.glob("*.py")):
+            if path.name not in expected_files:
+                path.unlink()
+                print(f"  removed {path.relative_to(PROJECT)}")
         _write(product_dir / "__init__.py", render_product_namespace(product, product_entities[product]))
+
+    expected_top_level = {f"{mod}.py" for mod, _ in top_level_entities} | {"__init__.py"}
+    for path in sorted(CLIENT_ROOT.glob("*.py")):
+        if path.name not in expected_top_level:
+            path.unlink()
+            print(f"  removed {path.relative_to(PROJECT)}")
+
     _write(
         CLIENT_ROOT / "__init__.py",
         render_v1_client(products, top_level_entities),

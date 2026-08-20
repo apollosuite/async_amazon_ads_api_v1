@@ -3,12 +3,12 @@
   "entity": "commitmentspends",
   "items": [
     {
-      "name": "Amazon DSP",
-      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPDspCommitmentSpendsContract_prod_3p.json",
-      "file": "AmazonAdsAPIDSPDspCommitmentSpendsContract_prod_3p.json",
-      "etag": "\"81cbbdb3b124ebc2d88c10213ac5faf5\"",
-      "last_modified": "Fri, 14 Aug 2026 01:10:44 GMT",
-      "size": 17365
+      "name": "All Ad Products",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLCommitmentSpendsContract_prod_3p.json",
+      "file": "AmazonAdsAPIALLCommitmentSpendsContract_prod_3p.json",
+      "etag": "\"3bc72e6fce49850c19075b84676c7e7c\"",
+      "last_modified": "Thu, 20 Aug 2026 04:18:03 GMT",
+      "size": 17981
     }
   ]
 }

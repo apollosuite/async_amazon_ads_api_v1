@@ -3,12 +3,12 @@
   "entity": "supplierproposaldestinations",
   "items": [
     {
-      "name": "Amazon DSP",
-      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPSupplierProposalDestinationsContract_prod_3p.json",
-      "file": "AmazonAdsAPIDSPSupplierProposalDestinationsContract_prod_3p.json",
-      "etag": "\"cf3ff8b787425ce8edf54de0f74614a1\"",
-      "last_modified": "Fri, 14 Aug 2026 01:10:41 GMT",
-      "size": 16133
+      "name": "All Ad Products",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLSupplierProposalDestinationsContract_prod_3p.json",
+      "file": "AmazonAdsAPIALLSupplierProposalDestinationsContract_prod_3p.json",
+      "etag": "\"2e1ef27ece2d8a00a16a2395e9ec10ce\"",
+      "last_modified": "Thu, 20 Aug 2026 04:18:20 GMT",
+      "size": 16693
     }
   ]
 }

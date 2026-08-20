@@ -12,12 +12,86 @@ from ads_api.models.v1._shared.general import (
     BusinessDetail,
     CreateAddress,
     CreateBusinessDetail,
-    CurrencyCode,
     IndustryVertical,
     TimeZoneIana,
 )
 
 type AccountUsageType = Literal["PRODUCTION", "TEST"]
+
+
+type CurrencyCode = Literal[
+    "AED",
+    "AUD",
+    "BHD",
+    "BRL",
+    "CAD",
+    "CHF",
+    "CNY",
+    "CZK",
+    "DKK",
+    "EGP",
+    "EUR",
+    "GBP",
+    "HKD",
+    "HUF",
+    "ILS",
+    "INR",
+    "JOD",
+    "JPY",
+    "KWD",
+    "MXN",
+    "MXP",
+    "NGN",
+    "NOK",
+    "NZD",
+    "PLN",
+    "QAR",
+    "RON",
+    "SAR",
+    "SEK",
+    "SGD",
+    "THB",
+    "TRY",
+    "USD",
+    "ZAR",
+]
+"""
+Supported values:
+- `AED`: United Arab Emirates Dirham
+- `AUD`: Australian Dollar
+- `BHD`: Bahraini Dinar
+- `BRL`: Brazilian Real
+- `CAD`: Canadian Dollar
+- `CHF`: Swiss Franc
+- `CNY`: Chinese Yuan
+- `CZK`: Czech Koruna
+- `DKK`: Danish Krone
+- `EGP`: Egyptian Pound
+- `EUR`: Euro
+- `GBP`: British Pound Sterling
+- `HKD`: Hong Kong Dollar
+- `HUF`: Hungarian Forint
+- `ILS`: Israeli New Shekel
+- `INR`: Indian Rupee
+- `JOD`: Jordanian Dinar
+- `JPY`: Japanese Yen
+- `KWD`: Kuwaiti Dinar
+- `MXN`: Mexican Peso
+- `MXP`: Mexican Peso
+- `NGN`: Nigerian Naira
+- `NOK`: Norwegian Krone
+- `NZD`: New Zealand Dollar
+- `PLN`: Polish Złoty
+- `QAR`: Qatari Riyal
+- `RON`: Romanian Leu
+- `SAR`: Saudi Riyal
+- `SEK`: Swedish Krona
+- `SGD`: Singapore Dollar
+- `THB`: Thai Baht
+- `TRY`: Turkish Lira
+- `USD`: United States Dollar
+- `ZAR`: South African Rand
+"""
 
 
 type ErrorCode = Literal[

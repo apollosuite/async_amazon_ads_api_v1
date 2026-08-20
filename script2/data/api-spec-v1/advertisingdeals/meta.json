@@ -3,12 +3,12 @@
   "entity": "advertisingdeals",
   "items": [
     {
-      "name": "Sponsored Brands",
-      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBSBAdvertisingDealsContract_prod_3p.json",
-      "file": "AmazonAdsAPISBSBAdvertisingDealsContract_prod_3p.json",
-      "etag": "\"fd0a842d8f63be8448e3222e0c57d00e\"",
-      "last_modified": "Fri, 14 Aug 2026 01:10:46 GMT",
-      "size": 41693
+      "name": "All Ad Products",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLAdvertisingDealsContract_prod_3p.json",
+      "file": "AmazonAdsAPIALLAdvertisingDealsContract_prod_3p.json",
+      "etag": "\"ef626adf7d622d64b1bb4b118086e57d\"",
+      "last_modified": "Thu, 20 Aug 2026 04:18:25 GMT",
+      "size": 42312
     }
   ]
 }

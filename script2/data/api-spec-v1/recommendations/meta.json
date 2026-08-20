@@ -3,12 +3,12 @@
   "entity": "recommendations",
   "items": [
     {
-      "name": "Sponsored Brands",
-      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBSBRecommendationsContract_prod_3p.json",
-      "file": "AmazonAdsAPISBSBRecommendationsContract_prod_3p.json",
-      "etag": "\"88ee01b8b35f4f5094cf9a16a95d3a78\"",
-      "last_modified": "Fri, 14 Aug 2026 01:10:40 GMT",
-      "size": 25813
+      "name": "All Ad Products",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLRecommendationsContract_prod_3p.json",
+      "file": "AmazonAdsAPIALLRecommendationsContract_prod_3p.json",
+      "etag": "\"f8a747a17444752c8e92f740e2c6bfec\"",
+      "last_modified": "Thu, 20 Aug 2026 04:18:17 GMT",
+      "size": 26432
     }
   ]
 }

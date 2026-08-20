@@ -6,57 +6,57 @@
       "name": "All Ad Products",
       "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLCampaignsContract_prod_3p.json",
       "file": "AmazonAdsAPIALLCampaignsContract_prod_3p.json",
-      "etag": "\"004dce265f2e3c3286e11867270ef834\"",
-      "last_modified": "Fri, 14 Aug 2026 01:10:26 GMT",
-      "size": 127655
+      "etag": "\"5aa38f6bea8246f153bf8ed5fc4e2912\"",
+      "last_modified": "Thu, 20 Aug 2026 04:18:09 GMT",
+      "size": 128279
     },
     {
       "name": "Sponsored Products",
       "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISPCampaignsContract_prod_3p.json",
       "file": "AmazonAdsAPISPCampaignsContract_prod_3p.json",
-      "etag": "\"9967961385ec452e647c2490f5a57f96\"",
-      "last_modified": "Fri, 14 Aug 2026 01:10:49 GMT",
-      "size": 80616
+      "etag": "\"5639eabc4481fb7fdfc774127cb9d5d1\"",
+      "last_modified": "Thu, 20 Aug 2026 04:18:32 GMT",
+      "size": 81241
     },
     {
       "name": "SP Global",
       "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISPGLOBALCampaignsContract_prod_3p.json",
       "file": "AmazonAdsAPISPGLOBALCampaignsContract_prod_3p.json",
-      "etag": "\"a955ff98eb0ff7cecfb7a54be2426595\"",
-      "last_modified": "Fri, 14 Aug 2026 01:10:47 GMT",
-      "size": 84472
+      "etag": "\"ef13ad970840514029ad876cb97a8534\"",
+      "last_modified": "Thu, 20 Aug 2026 04:18:31 GMT",
+      "size": 85091
     },
     {
       "name": "Sponsored Brands",
       "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBCampaignsContract_prod_3p.json",
       "file": "AmazonAdsAPISBCampaignsContract_prod_3p.json",
-      "etag": "\"5af5e91bb9e2874101555ef2cb696bf7\"",
-      "last_modified": "Fri, 14 Aug 2026 01:10:46 GMT",
-      "size": 77350
+      "etag": "\"3b6a54896220cf95c11d51b2b8ecd50e\"",
+      "last_modified": "Thu, 20 Aug 2026 04:18:29 GMT",
+      "size": 77975
     },
     {
       "name": "Amazon DSP",
       "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIDSPCampaignsContract_prod_3p.json",
       "file": "AmazonAdsAPIDSPCampaignsContract_prod_3p.json",
-      "etag": "\"2a7446523fda60747c916829724833f6\"",
-      "last_modified": "Fri, 14 Aug 2026 01:10:40 GMT",
-      "size": 82418
+      "etag": "\"7b4160f4b956b1cadd6cd9729e8eb210\"",
+      "last_modified": "Thu, 20 Aug 2026 04:18:23 GMT",
+      "size": 83042
     },
     {
       "name": "Sponsored Television",
       "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISTCampaignsContract_prod_3p.json",
       "file": "AmazonAdsAPISTCampaignsContract_prod_3p.json",
-      "etag": "\"d91593c7da820156047aabe2bb2377e0\"",
-      "last_modified": "Fri, 14 Aug 2026 01:10:47 GMT",
-      "size": 48830
+      "etag": "\"d4883b0a5c8b7c6617086c9f7002bf9e\"",
+      "last_modified": "Thu, 20 Aug 2026 04:18:30 GMT",
+      "size": 49455
     },
     {
       "name": "Sponsored Display",
       "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISDCampaignsContract_prod_3p.json",
       "file": "AmazonAdsAPISDCampaignsContract_prod_3p.json",
-      "etag": "\"ef62e8c6315801944ba4262b2c903528\"",
-      "last_modified": "Fri, 14 Aug 2026 01:10:43 GMT",
-      "size": 59743
+      "etag": "\"d77e1227a7c77dd36d4d5af7b501a563\"",
+      "last_modified": "Thu, 20 Aug 2026 04:18:26 GMT",
+      "size": 60368
     }
   ]
 }

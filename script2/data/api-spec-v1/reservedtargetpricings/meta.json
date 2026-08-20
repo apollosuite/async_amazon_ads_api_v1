@@ -3,12 +3,12 @@
   "entity": "reservedtargetpricings",
   "items": [
     {
-      "name": "Sponsored Brands",
-      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPISBSBReservedTargetPricingsContract_prod_3p.json",
-      "file": "AmazonAdsAPISBSBReservedTargetPricingsContract_prod_3p.json",
-      "etag": "\"325c1abb12bc81b72d3ea5f1b8becc0b\"",
-      "last_modified": "Fri, 14 Aug 2026 01:10:21 GMT",
-      "size": 18617
+      "name": "All Ad Products",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/AmazonAdsAPIALLReservedTargetPricingsContract_prod_3p.json",
+      "file": "AmazonAdsAPIALLReservedTargetPricingsContract_prod_3p.json",
+      "etag": "\"3b9ec6ca1e970c4755b01f2cced30a4c\"",
+      "last_modified": "Thu, 20 Aug 2026 04:18:06 GMT",
+      "size": 19236
     }
   ]
 }
