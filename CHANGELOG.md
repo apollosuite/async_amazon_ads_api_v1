@@ -3,6 +3,16 @@
 > [!WARNING]
 > **废弃与迁移说明**: `async_amazon_ads_api_v1` 包即将废弃，项目正在逐步迁移至全新的统一包 **`ads_api`**（支持 v0 与 v1 全实体）。
 
+## v0.6.12 (2026-08-31)
+
+### feat — 新功能
+- **同步最新 OpenAPI 规范**:
+  - 同步官方 v1 Merged OpenAPI（ALL / DSP / SB / SP / ST）并重新生成 Client 与 Models。
+  - 同步 Amazon Ads API v0（Ads Data Manager、Sponsored Products v3）规范。
+- **v1 生成器跳过 deprecated 操作**: `script4` 忽略 OpenAPI 中 `deprecated: true` 的 operation（当前为 Commitments / CommitmentSpends 的 legacy `/dsp` 路径别名），避免把废弃接口挂到顶层客户端。
+- **DSP Commitments / CommitmentSpends 正式路径**: 客户端改为调用产品无关 URL（如 `POST /adsApi/v1/retrieve/commitmentSpends`），不再使用 `/dsp` 后缀别名。
+- **模型更新**: Commitment 增加 `adProduct`；DSP Ad Group query 增加 `inventoryTypeFilter`；若干字段描述与枚举说明同步官方 spec。
+
 ## v0.6.11 (2026-08-20)
 
 ### feat — 新功能
