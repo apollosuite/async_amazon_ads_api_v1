@@ -2592,7 +2592,7 @@
   "paths": {
     "/adm/audiences": {
       "get": {
-        "description": "Lists all Audience DataSets.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_view\",\"ads_data_manager_edit\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]",
+        "description": "Lists all Audience DataSets.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_view\",\"ads_data_manager_edit\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\",\"event_manager_view\"]",
         "operationId": "ListAudienceDatasets",
         "parameters": [
           {
@@ -2773,7 +2773,7 @@
         ]
       },
       "post": {
-        "description": "Creates an Audience DataSet.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_edit\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]",
+        "description": "Creates an Audience DataSet.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_edit\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\"]",
         "operationId": "CreateAudienceDataset",
         "parameters": [
           {
@@ -2948,7 +2948,7 @@
     },
     "/adm/audiences/{dataSetId}": {
       "get": {
-        "description": "Gets an Audience DataSet.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_view\",\"ads_data_manager_edit\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]",
+        "description": "Gets an Audience DataSet.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_view\",\"ads_data_manager_edit\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\",\"event_manager_view\"]",
         "operationId": "GetAudienceDataset",
         "parameters": [
           {
@@ -3123,7 +3123,7 @@
     },
     "/adm/audiences/{dataSetId}/members": {
       "post": {
-        "description": "Posts audience members to an audience dataset.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"ads_data_manager_edit\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"account_edit\",\"advertiser_campaign_edit\",\"audiences_edit\"]",
+        "description": "Posts audience members to an audience dataset.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"ads_data_manager_edit\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"account_edit\",\"advertiser_campaign_edit\",\"audiences_edit\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\"]",
         "operationId": "IngestAudiences",
         "parameters": [
           {
@@ -3317,7 +3317,7 @@
     },
     "/adm/datarooms": {
       "get": {
-        "description": "Get a data room\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_view\",\"ads_data_manager_edit\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]",
+        "description": "Get a data room\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_view\",\"ads_data_manager_edit\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\",\"event_manager_view\"]",
         "operationId": "GetDataroom",
         "parameters": [
           {
@@ -3489,7 +3489,7 @@
         ]
       },
       "post": {
-        "description": "Create a dataroom\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"ads_data_manager_view\",\"ads_data_manager_edit\",\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]",
+        "description": "Create a dataroom\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"ads_data_manager_view\",\"ads_data_manager_edit\",\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\"]",
         "operationId": "CreateDataroom",
         "parameters": [
           {
@@ -3654,7 +3654,7 @@
     },
     "/adm/datarooms/metadata": {
       "get": {
-        "description": "Gets dataset metadata including linked datasets, active dest., etc\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"ads_data_manager_edit\",\"ads_data_manager_view\",\"MasterAccount_Manager\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\",\"audiences_view\"]",
+        "description": "Gets dataset metadata including linked datasets, active dest., etc\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"ads_data_manager_edit\",\"ads_data_manager_view\",\"MasterAccount_Manager\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\",\"audiences_view\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\",\"event_manager_view\"]",
         "operationId": "GetDataroomMetadata",
         "parameters": [
           {
@@ -3781,7 +3781,7 @@
     },
     "/adm/datasets/list": {
       "post": {
-        "description": "Lists details of datasets in a given account.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"ads_data_manager_edit\",\"ads_data_manager_view\",\"MasterAccount_Manager\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\",\"audiences_view\"]",
+        "description": "Lists details of datasets in a given account.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"ads_data_manager_edit\",\"ads_data_manager_view\",\"MasterAccount_Manager\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\",\"audiences_view\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\",\"event_manager_view\"]",
         "operationId": "ListDatasetDetails",
         "parameters": [
           {
@@ -3955,7 +3955,7 @@
     },
     "/adm/datasets/{dataSetId}": {
       "delete": {
-        "description": "Delete a Dataset.\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"account_edit\"]\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_edit\"]",
+        "description": "Delete a Dataset.\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"account_edit\"]\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_edit\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\"]",
         "operationId": "DeleteDataset",
         "parameters": [
           {
@@ -4114,7 +4114,7 @@
     },
     "/adm/datasets/{dataSetId}/metrics": {
       "get": {
-        "description": "Gets the metrics associated to dataset across all uploads\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"ads_data_manager_edit\",\"ads_data_manager_view\",\"MasterAccount_Manager\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\",\"audiences_view\"]",
+        "description": "Gets the metrics associated to dataset across all uploads\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"ads_data_manager_edit\",\"ads_data_manager_view\",\"MasterAccount_Manager\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\",\"audiences_view\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\",\"event_manager_view\"]",
         "operationId": "GetDataSetMetrics",
         "parameters": [
           {
@@ -4251,7 +4251,7 @@
     },
     "/adm/datasets/{dataSetId}/metrics/aggregates": {
       "post": {
-        "description": "Gets aggregated metrics for a dataset within a specified time range\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"ads_data_manager_edit\",\"ads_data_manager_view\",\"MasterAccount_Manager\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\",\"audiences_view\"]",
+        "description": "Gets aggregated metrics for a dataset within a specified time range\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"ads_data_manager_edit\",\"ads_data_manager_view\",\"MasterAccount_Manager\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\",\"audiences_view\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\",\"event_manager_view\"]",
         "operationId": "GetDatasetAggregates",
         "parameters": [
           {
@@ -4397,7 +4397,7 @@
     },
     "/adm/identities/delete": {
       "post": {
-        "description": "Deletes matched list of users from your data room within 30 days.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"ads_data_manager_edit\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"account_edit\",\"advertiser_campaign_edit\",\"audiences_edit\"]",
+        "description": "Deletes matched list of users from your data room within 30 days.\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"ads_data_manager_edit\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"account_edit\",\"advertiser_campaign_edit\",\"audiences_edit\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\"]",
         "operationId": "DeleteIdentity",
         "parameters": [
           {
@@ -5082,7 +5082,7 @@
     },
     "/adm/terms": {
       "get": {
-        "description": "Get the Customer's Ads Data Manager Terms and Conditions\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_edit\",\"ads_data_manager_view\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]",
+        "description": "Get the Customer's Ads Data Manager Terms and Conditions\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"ads_data_manager_edit\",\"ads_data_manager_view\",\"MasterAccount_Viewer\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\",\"event_manager_view\"]",
         "operationId": "GetTerms",
         "parameters": [
           {
@@ -5254,7 +5254,7 @@
         ]
       },
       "patch": {
-        "description": "Set the Customer's Ads Data Manager Terms and Conditions acceptance\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"MasterAccount_Viewer\",\"ads_data_manager_view\",\"ads_data_manager_edit\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]",
+        "description": "Set the Customer's Ads Data Manager Terms and Conditions acceptance\n\n**Authorized resource type**:\nGlobal Manager Account ID\n\n**Parameter name**:\nAmazon-Ads-Manager-Account-ID\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"MasterAccount_Manager\",\"ManagerAccount_Dev\",\"MasterAccount_Viewer\",\"ads_data_manager_view\",\"ads_data_manager_edit\"]\n\n**Authorized resource type**:\nDSP Rodeo Entity ID, DSP Advertiser Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"audiences_edit\"]\n\n**Authorized resource type**:\nGlobal Ad Account ID\n\n**Parameter name**:\nAmazon-Ads-AccountId\n\n**Parameter in**:\nheader\n\n**Requires one of these permissions**:\n[\"event_manager_edit\",\"event_manager_view\"]",
         "operationId": "SetTermsAcceptance",
         "parameters": [
           {

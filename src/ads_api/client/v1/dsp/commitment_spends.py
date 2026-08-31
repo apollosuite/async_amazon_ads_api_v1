@@ -35,5 +35,5 @@ class DSPCommitmentSpends(BaseResource):
     ) -> DSPCommitmentSpendMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Retrieve commitment spend"""
 
-        resp = await self._request("POST", "/adsApi/v1/retrieve/commitmentSpends/dsp", json=self.dump_json(body))
+        resp = await self._request("POST", "/adsApi/v1/retrieve/commitmentSpends", json=self.dump_json(body))
         return self._response(DSPCommitmentSpendMultiStatusResponse, resp, mode=mode)

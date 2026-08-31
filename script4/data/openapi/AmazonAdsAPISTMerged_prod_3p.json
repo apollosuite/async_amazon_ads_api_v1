@@ -503,7 +503,7 @@
       "STAdGroupBid": {
         "properties": {
           "baseBid": {
-            "description": "The lower bound bid used for the ads in the ad group.",
+            "description": "The lower bound bid used for the ads in the ad group. This field is optional for ad groups that use automated bid optimization; when omitted, the system manages bidding on your behalf. It remains required when automated bid optimization is false, or if automated bid optimization is not available (e.g. programmatic guaranteed deal).",
             "format": "double",
             "type": "number"
           },
@@ -1203,7 +1203,7 @@
       "STCreateAdGroupBid": {
         "properties": {
           "baseBid": {
-            "description": "The lower bound bid used for the ads in the ad group.",
+            "description": "The lower bound bid used for the ads in the ad group. This field is optional for ad groups that use automated bid optimization; when omitted, the system manages bidding on your behalf. It remains required when automated bid optimization is false, or if automated bid optimization is not available (e.g. programmatic guaranteed deal).",
             "format": "double",
             "type": "number"
           },
@@ -2181,7 +2181,7 @@
       "STUpdateAdGroupBid": {
         "properties": {
           "baseBid": {
-            "description": "The lower bound bid used for the ads in the ad group.",
+            "description": "The lower bound bid used for the ads in the ad group. This field is optional for ad groups that use automated bid optimization; when omitted, the system manages bidding on your behalf. It remains required when automated bid optimization is false, or if automated bid optimization is not available (e.g. programmatic guaranteed deal).",
             "format": "double",
             "type": "number"
           },

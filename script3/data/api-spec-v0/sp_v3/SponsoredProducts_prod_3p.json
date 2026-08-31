@@ -5200,7 +5200,7 @@
         "type": "string"
       },
       "RuleType": {
-        "description": "The type of the campaign optimization rule. Only Support BID as of now",
+        "description": "The type of the campaign optimization rule. Only BID is supported as of now.",
         "enum": [
           "BID",
           "KEYWORD",

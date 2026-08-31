@@ -58,7 +58,10 @@ class STAdGroupAdProductFilter(StrictModel):
 
 
 class STAdGroupBid(LenientModel):
-    baseBid: float | None = Field(default=None, description="The lower bound bid used for the ads in the ad group.")
+    baseBid: float | None = Field(
+        default=None,
+        description="The lower bound bid used for the ads in the ad group. This field is optional for ad groups that use automated bid optimization; when omitted, the system manages bidding on your behalf. It remains required when automated bid optimization is false, or if automated bid optimization is not available (e.g. programmatic guaranteed deal).",
+    )
     currencyCode: STCurrencyCode | str
     defaultBid: float | None = Field(
         default=None,
@@ -123,7 +126,10 @@ class STAdGroupUpdate(StrictModel):
 
 
 class STCreateAdGroupBid(StrictModel):
-    baseBid: float | None = Field(default=None, description="The lower bound bid used for the ads in the ad group.")
+    baseBid: float | None = Field(
+        default=None,
+        description="The lower bound bid used for the ads in the ad group. This field is optional for ad groups that use automated bid optimization; when omitted, the system manages bidding on your behalf. It remains required when automated bid optimization is false, or if automated bid optimization is not available (e.g. programmatic guaranteed deal).",
+    )
     defaultBid: float | None = Field(
         default=None,
         description="The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.",
@@ -145,7 +151,10 @@ class STQueryAdGroupRequest(StrictModel):
 
 
 class STUpdateAdGroupBid(StrictModel):
-    baseBid: float | None = Field(default=None, description="The lower bound bid used for the ads in the ad group.")
+    baseBid: float | None = Field(
+        default=None,
+        description="The lower bound bid used for the ads in the ad group. This field is optional for ad groups that use automated bid optimization; when omitted, the system manages bidding on your behalf. It remains required when automated bid optimization is false, or if automated bid optimization is not available (e.g. programmatic guaranteed deal).",
+    )
     defaultBid: float | None = Field(
         default=None,
         description="The default maximum bid for ads and targets in the ad group. This is used in sponsored ads as the maximum bid during the auction.",

@@ -9,6 +9,7 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models.v1._shared.dsp import (
+    DSPAdProduct,
     DSPCurrencyCode,
     DSPError,
     DSPErrorCode,
@@ -41,6 +42,7 @@ Supported values:
 
 
 class DSPCommitment(LenientModel):
+    adProduct: DSPAdProduct | str | None = Field(default=None)
     advertiserIds: list[str] | None = Field(
         default=None, min_length=0, max_length=1000, description="Advertiser IDs associated with the commitment."
     )
@@ -82,6 +84,7 @@ class DSPCommitmentCommitmentNameFilter(StrictModel):
 
 
 class DSPCommitmentCreate(StrictModel):
+    adProduct: DSPAdProduct | None = Field(default=None)
     advertiserIds: list[str] | None = Field(
         default=None, min_length=0, max_length=1000, description="Advertiser IDs associated with the commitment."
     )
@@ -120,6 +123,7 @@ class DSPCommitmentSuccessResponse(LenientModel):
 
 
 class DSPCommitmentUpdate(StrictModel):
+    adProduct: DSPAdProduct | None = Field(default=None)
     advertiserIds: list[str] | None = Field(
         default=None, min_length=0, max_length=1000, description="Advertiser IDs associated with the commitment."
     )
@@ -163,6 +167,7 @@ class DSPUpdateCommitmentRequest(StrictModel):
 
 
 __all__ = [
+    "DSPAdProduct",
     "DSPCommitment",
     "DSPCommitmentAdvertiserAccountIdFilter",
     "DSPCommitmentAdvertisingDealIdFilter",

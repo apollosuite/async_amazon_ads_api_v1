@@ -155,7 +155,7 @@ class SPBidAdjustments(LenientModel):
     placementBidAdjustments: list[SPPlacementBidAdjustment] | None = Field(
         default=None,
         min_length=0,
-        max_length=4,
+        max_length=5,
         description="Bid adjustments based on ad placements. Not supported for Sponsored Brands campaigns using the SALES_UP_AND_DOWN bid strategy.",
     )
 
@@ -359,7 +359,7 @@ class SPCreateBidAdjustments(StrictModel):
     placementBidAdjustments: list[SPCreatePlacementBidAdjustment] | None = Field(
         default=None,
         min_length=0,
-        max_length=4,
+        max_length=5,
         description="Bid adjustments based on ad placements. Not supported for Sponsored Brands campaigns using the SALES_UP_AND_DOWN bid strategy.",
     )
 
@@ -467,7 +467,7 @@ class SPUpdateBidAdjustments(StrictModel):
     placementBidAdjustments: list[SPCreatePlacementBidAdjustment] | None = Field(
         default=None,
         min_length=0,
-        max_length=4,
+        max_length=5,
         description="Bid adjustments based on ad placements. Not supported for Sponsored Brands campaigns using the SALES_UP_AND_DOWN bid strategy.",
     )
 

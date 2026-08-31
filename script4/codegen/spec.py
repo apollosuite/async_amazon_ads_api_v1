@@ -77,13 +77,19 @@ def load_json(path: Path) -> dict[str, Any]:
 
 
 def iter_operations(spec: dict[str, Any]) -> list[tuple[str, str, dict[str, Any]]]:
-    """Return operations in a stable order for reproducible client modules."""
+    """Return operations in a stable order for reproducible client modules.
+
+    Operations marked ``deprecated: true`` are skipped (legacy ad-product path
+    aliases, etc.) so they are not emitted as client methods.
+    """
     result: list[tuple[str, str, dict[str, Any]]] = []
     for path, methods in spec.get("paths", {}).items():
         if not isinstance(methods, dict):
             continue
         for method, operation in methods.items():
             if method.lower() not in HTTP_METHODS or not isinstance(operation, dict):
+                continue
+            if operation.get("deprecated") is True:
                 continue
             result.append((method.upper(), path, operation))
     return sorted(

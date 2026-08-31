@@ -48,7 +48,7 @@ The campaign optimization rule status. Read-Only
 
 type RuleType = Literal["BID", "KEYWORD", "PRODUCT"]
 """
-The type of the campaign optimization rule. Only Support BID as of now
+The type of the campaign optimization rule. Only BID is supported as of now.
 """
 
 

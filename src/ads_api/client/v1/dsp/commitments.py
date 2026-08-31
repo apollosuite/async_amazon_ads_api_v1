@@ -35,7 +35,7 @@ class DSPCommitments(BaseResource):
     ) -> DSPCommitmentMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create commitments"""
 
-        resp = await self._request("POST", "/adsApi/v1/create/commitments/dsp", json=self.dump_json(body))
+        resp = await self._request("POST", "/adsApi/v1/create/commitments", json=self.dump_json(body))
         return self._response(DSPCommitmentMultiStatusResponse, resp, mode=mode)
 
     @overload
@@ -64,7 +64,7 @@ class DSPCommitments(BaseResource):
             "maxResults": max_results,
         }
         params = {k: v for k, v in params.items() if v is not None}
-        resp = await self._request("GET", "/adsApi/v1/commitments/dsp", params=params)
+        resp = await self._request("GET", "/adsApi/v1/commitments", params=params)
         return self._response(DSPCommitmentSuccessResponse, resp, mode=mode)
 
     @overload
@@ -80,7 +80,7 @@ class DSPCommitments(BaseResource):
     ) -> DSPCommitmentSuccessResponse | dict[str, Any] | httpx.Response:
         """Query commitments with filters"""
 
-        resp = await self._request("POST", "/adsApi/v1/query/commitments/dsp", json=self.dump_json(body))
+        resp = await self._request("POST", "/adsApi/v1/query/commitments", json=self.dump_json(body))
         return self._response(DSPCommitmentSuccessResponse, resp, mode=mode)
 
     @overload
@@ -100,7 +100,7 @@ class DSPCommitments(BaseResource):
     ) -> DSPCommitmentMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Get Commitments"""
 
-        resp = await self._request("POST", "/adsApi/v1/retrieve/commitments/dsp", json=self.dump_json(body))
+        resp = await self._request("POST", "/adsApi/v1/retrieve/commitments", json=self.dump_json(body))
         return self._response(DSPCommitmentMultiStatusResponse, resp, mode=mode)
 
     @overload
@@ -116,5 +116,5 @@ class DSPCommitments(BaseResource):
     ) -> DSPCommitmentMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update commitments"""
 
-        resp = await self._request("POST", "/adsApi/v1/update/commitments/dsp", json=self.dump_json(body))
+        resp = await self._request("POST", "/adsApi/v1/update/commitments", json=self.dump_json(body))
         return self._response(DSPCommitmentMultiStatusResponse, resp, mode=mode)

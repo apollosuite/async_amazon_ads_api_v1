@@ -212,7 +212,10 @@ Supported values:
 
 
 class DSPAdGroupBid(StrictModel):
-    baseBid: float | None = Field(default=None, description="The lower bound bid used for the ads in the ad group.")
+    baseBid: float | None = Field(
+        default=None,
+        description="The lower bound bid used for the ads in the ad group. This field is optional for ad groups that use automated bid optimization; when omitted, the system manages bidding on your behalf. It remains required when automated bid optimization is false, or if automated bid optimization is not available (e.g. programmatic guaranteed deal).",
+    )
     currencyCode: DSPCurrencyCode
     maxAverageBid: float | None = Field(
         default=None,
@@ -221,7 +224,10 @@ class DSPAdGroupBid(StrictModel):
 
 
 class DSPAdGroupBidOut(LenientModel):
-    baseBid: float | None = Field(default=None, description="The lower bound bid used for the ads in the ad group.")
+    baseBid: float | None = Field(
+        default=None,
+        description="The lower bound bid used for the ads in the ad group. This field is optional for ad groups that use automated bid optimization; when omitted, the system manages bidding on your behalf. It remains required when automated bid optimization is false, or if automated bid optimization is not available (e.g. programmatic guaranteed deal).",
+    )
     currencyCode: DSPCurrencyCode | str
     maxAverageBid: float | None = Field(
         default=None,
@@ -451,7 +457,7 @@ class DSPCampaignForecast(LenientModel):
     flightForecasts: list[DSPFlightForecast] | None = Field(
         default=None,
         min_length=0,
-        max_length=5,
+        max_length=150,
         description="The forecast results of multiple flights of the campaign.",
     )
     hasExistingGuidance: bool | None = Field(
@@ -466,7 +472,7 @@ class DSPCampaignForecastDescription(StrictModel):
     campaignId: str = Field(description="The unique identifier of the campaign.")
     enabledFeatures: DSPEnabledFeaturesInCampaignForecast | None = Field(default=None)
     flightIds: list[str] | None = Field(
-        default=None, min_length=0, max_length=5, description="The unique identifier of the flight."
+        default=None, min_length=0, max_length=150, description="The unique identifier of the flight."
     )
     replanningSettings: DSPReplanningSettings | None = Field(default=None)
 
@@ -477,7 +483,7 @@ class DSPCampaignForecastDescriptionOut(LenientModel):
     campaignId: str = Field(description="The unique identifier of the campaign.")
     enabledFeatures: DSPEnabledFeaturesInCampaignForecastOut | None = Field(default=None)
     flightIds: list[str] | None = Field(
-        default=None, min_length=0, max_length=5, description="The unique identifier of the flight."
+        default=None, min_length=0, max_length=150, description="The unique identifier of the flight."
     )
     replanningSettings: DSPReplanningSettingsOut | None = Field(default=None)
 
@@ -1251,7 +1257,7 @@ class DSPForecastCampaign(StrictModel):
         default=None, min_length=0, max_length=2, description="Any fees associated with the campaign."
     )
     flights: list[DSPCampaignFlight] | None = Field(
-        default=None, min_length=0, max_length=10, description="Flight details associated with the campaign."
+        default=None, min_length=0, max_length=150, description="Flight details associated with the campaign."
     )
     frequencies: list[DSPFrequency] | None = Field(
         default=None, min_length=0, max_length=10, description="Any frequency caps associated with the campaign."
@@ -1355,7 +1361,7 @@ class DSPForecastCampaignOut(LenientModel):
         default=None, min_length=0, max_length=2, description="Any fees associated with the campaign."
     )
     flights: list[DSPCampaignFlightOut] | None = Field(
-        default=None, min_length=0, max_length=10, description="Flight details associated with the campaign."
+        default=None, min_length=0, max_length=150, description="Flight details associated with the campaign."
     )
     frequencies: list[DSPFrequencyOut] | None = Field(
         default=None, min_length=0, max_length=10, description="Any frequency caps associated with the campaign."
@@ -2086,9 +2092,9 @@ class DSPReplanningSettings(StrictModel):
 
     adGroups: list[DSPForecastAdGroup] | None = Field(default=None, min_length=0, max_length=50)
     campaign: DSPForecastCampaign | None = Field(default=None)
-    flights: list[DSPForecastFlight] | None = Field(default=None, min_length=0, max_length=5)
+    flights: list[DSPForecastFlight] | None = Field(default=None, min_length=0, max_length=150)
     tags: list[DSPTag] | None = Field(default=None, min_length=0, max_length=49)
-    targets: list[DSPForecastTarget] | None = Field(default=None, min_length=0, max_length=1000)
+    targets: list[DSPForecastTarget] | None = Field(default=None, min_length=0, max_length=2000)
 
 
 class DSPReplanningSettingsOut(LenientModel):
@@ -2096,9 +2102,9 @@ class DSPReplanningSettingsOut(LenientModel):
 
     adGroups: list[DSPForecastAdGroupOut] | None = Field(default=None, min_length=0, max_length=50)
     campaign: DSPForecastCampaignOut | None = Field(default=None)
-    flights: list[DSPForecastFlightOut] | None = Field(default=None, min_length=0, max_length=5)
+    flights: list[DSPForecastFlightOut] | None = Field(default=None, min_length=0, max_length=150)
     tags: list[DSPTagOut] | None = Field(default=None, min_length=0, max_length=49)
-    targets: list[DSPForecastTargetOut] | None = Field(default=None, min_length=0, max_length=1000)
+    targets: list[DSPForecastTargetOut] | None = Field(default=None, min_length=0, max_length=2000)
 
 
 class DSPRetrieveCampaignForecastRequest(StrictModel):

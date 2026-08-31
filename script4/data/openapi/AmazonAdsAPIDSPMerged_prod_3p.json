@@ -649,7 +649,7 @@
       "DSPAdGroupBid": {
         "properties": {
           "baseBid": {
-            "description": "The lower bound bid used for the ads in the ad group.",
+            "description": "The lower bound bid used for the ads in the ad group. This field is optional for ad groups that use automated bid optimization; when omitted, the system manages bidding on your behalf. It remains required when automated bid optimization is false, or if automated bid optimization is not available (e.g. programmatic guaranteed deal).",
             "format": "double",
             "type": "number"
           },
@@ -807,6 +807,23 @@
         ],
         "type": "object"
       },
+      "DSPAdGroupInventoryTypeFilter": {
+        "properties": {
+          "include": {
+            "description": "**InventoryType Enum:**\n| InventoryType | Description |\n| --- | --- |\n| `STANDARD_DISPLAY` |  |\n| `AMAZON_MOBILE_DISPLAY` |  |\n| `AAP_MOBILE_APP` |  |\n| `DISPLAY` |  |\n| `VIDEO` |  |\n| `STREAMING_TV` |  |\n| `ONLINE_VIDEO` |  |\n| `AUDIO` | Audio ads that serve on streaming audio inventory. |\n| `PODCAST` | Podcast ads that serve on streaming podcast inventory. |\n| `AUDIO_AMAZON_DEAL` |  |\n| `STREAMING_TV_AMAZON_DEAL` |  |\n| `LIVE_EVENTS` | Real-time broadcast inventory (sports, concerts, award shows) with audience volatility and concentrated traffic patterns requiring specialized pacing algorithms and event-specific metadata handling.  |",
+            "items": {
+              "$ref": "#/components/schemas/DSPInventoryType"
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+          }
+        },
+        "required": [
+          "include"
+        ],
+        "type": "object"
+      },
       "DSPAdGroupMultiStatusResponse": {
         "properties": {
           "error": {
@@ -849,7 +866,7 @@
       "DSPAdGroupStateFilter": {
         "properties": {
           "include": {
-            "description": "**State Enum:**\n| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
+            "description": "**State Enum:**\n| State | Description |\n| --- | --- |\n| `DRAFT` | The resource is in draft status and has not yet been proposed or enabled. |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
             "items": {
               "$ref": "#/components/schemas/DSPState"
             },
@@ -2474,7 +2491,7 @@
             "items": {
               "$ref": "#/components/schemas/DSPFlightForecast"
             },
-            "maxItems": 5,
+            "maxItems": 150,
             "minItems": 0,
             "type": "array"
           },
@@ -2505,7 +2522,7 @@
             "items": {
               "type": "string"
             },
-            "maxItems": 5,
+            "maxItems": 150,
             "minItems": 0,
             "type": "array"
           },
@@ -2625,7 +2642,7 @@
       "DSPCampaignStateFilter": {
         "properties": {
           "include": {
-            "description": "**State Enum:**\n| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
+            "description": "**State Enum:**\n| State | Description |\n| --- | --- |\n| `DRAFT` | The resource is in draft status and has not yet been proposed or enabled. |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
             "items": {
               "$ref": "#/components/schemas/DSPState"
             },
@@ -2804,6 +2821,9 @@
       },
       "DSPCommitment": {
         "properties": {
+          "adProduct": {
+            "$ref": "#/components/schemas/DSPAdProduct"
+          },
           "advertiserIds": {
             "description": "Advertiser IDs associated with the commitment.",
             "items": {
@@ -2970,6 +2990,9 @@
       },
       "DSPCommitmentCreate": {
         "properties": {
+          "adProduct": {
+            "$ref": "#/components/schemas/DSPAdProduct"
+          },
           "advertiserIds": {
             "description": "Advertiser IDs associated with the commitment.",
             "items": {
@@ -3205,6 +3228,9 @@
       },
       "DSPCommitmentUpdate": {
         "properties": {
+          "adProduct": {
+            "$ref": "#/components/schemas/DSPAdProduct"
+          },
           "advertiserIds": {
             "description": "Advertiser IDs associated with the commitment.",
             "items": {
@@ -3666,7 +3692,7 @@
       "DSPCreateAdGroupBid": {
         "properties": {
           "baseBid": {
-            "description": "The lower bound bid used for the ads in the ad group.",
+            "description": "The lower bound bid used for the ads in the ad group. This field is optional for ad groups that use automated bid optimization; when omitted, the system manages bidding on your behalf. It remains required when automated bid optimization is false, or if automated bid optimization is not available (e.g. programmatic guaranteed deal).",
             "format": "double",
             "type": "number"
           },
@@ -4931,6 +4957,7 @@
           },
           "supplierPublisherId": {
             "description": "The publisher that owns the target item.",
+            "nullable": true,
             "type": "string"
           },
           "supplierTargetDestinationId": {
@@ -9957,7 +9984,7 @@
             "items": {
               "$ref": "#/components/schemas/DSPCampaignFlight"
             },
-            "maxItems": 10,
+            "maxItems": 150,
             "minItems": 0,
             "type": "array"
           },
@@ -11139,193 +11166,7 @@
           "zh",
           "zu"
         ],
-        "type": "string",
-        "x-enum-varnames": [
-          "aa",
-          "ab",
-          "ae",
-          "af",
-          "ak",
-          "am",
-          "an",
-          "ar",
-          "as",
-          "av",
-          "ay",
-          "az",
-          "ba",
-          "be",
-          "bg",
-          "bh",
-          "bi",
-          "bm",
-          "bn",
-          "bo",
-          "br",
-          "bs",
-          "ca",
-          "ce",
-          "ch",
-          "co",
-          "cr",
-          "cs",
-          "cu",
-          "cv",
-          "cy",
-          "da",
-          "de",
-          "dv",
-          "dz",
-          "ee",
-          "el",
-          "en",
-          "eo",
-          "es",
-          "et",
-          "eu",
-          "fa",
-          "ff",
-          "fi",
-          "fj",
-          "fo",
-          "fr",
-          "fy",
-          "ga",
-          "gd",
-          "gl",
-          "gn",
-          "gu",
-          "gv",
-          "ha",
-          "he",
-          "hi",
-          "ho",
-          "hr",
-          "ht",
-          "hu",
-          "hy",
-          "hz",
-          "ia",
-          "id",
-          "ie",
-          "ig",
-          "ii",
-          "ik",
-          "io",
-          "is",
-          "it",
-          "iu",
-          "ja",
-          "jv",
-          "ka",
-          "kg",
-          "ki",
-          "kj",
-          "kk",
-          "kl",
-          "km",
-          "kn",
-          "ko",
-          "kr",
-          "ks",
-          "ku",
-          "kv",
-          "kw",
-          "ky",
-          "la",
-          "lb",
-          "lg",
-          "li",
-          "ln",
-          "lo",
-          "lt",
-          "lu",
-          "lv",
-          "mg",
-          "mh",
-          "mi",
-          "mk",
-          "ml",
-          "mn",
-          "mr",
-          "ms",
-          "mt",
-          "my",
-          "na",
-          "nb",
-          "nd",
-          "ne",
-          "ng",
-          "nl",
-          "nn",
-          "no",
-          "nr",
-          "nv",
-          "ny",
-          "oc",
-          "oj",
-          "om",
-          "or",
-          "os",
-          "pa",
-          "pi",
-          "pl",
-          "ps",
-          "pt",
-          "qu",
-          "rm",
-          "rn",
-          "ro",
-          "ru",
-          "rw",
-          "sa",
-          "sc",
-          "sd",
-          "se",
-          "sg",
-          "si",
-          "sk",
-          "sl",
-          "sm",
-          "sn",
-          "so",
-          "sq",
-          "sr",
-          "ss",
-          "st",
-          "su",
-          "sv",
-          "sw",
-          "ta",
-          "te",
-          "tg",
-          "th",
-          "ti",
-          "tk",
-          "tl",
-          "tn",
-          "to",
-          "tr",
-          "ts",
-          "tt",
-          "tw",
-          "ty",
-          "ug",
-          "uk",
-          "ur",
-          "uz",
-          "ve",
-          "vi",
-          "vo",
-          "wa",
-          "wo",
-          "xh",
-          "yi",
-          "yo",
-          "za",
-          "zh",
-          "zu"
-        ]
+        "type": "string"
       },
       "DSPLanguageLocale": {
         "description": "A combination of ISO-639 standard for language code and ISO-3166 for country code.\n**LanguageLocale Enum:**\n\n| LanguageLocale | Description |\n|------|------|\n| `aa_ET` | Afar (Ethiopia). |\n| `ab_GE` | Abkhazian (Georgia). |\n| `ae_INT` | Avestan (International). |\n| `af_ZA` | Afrikaans (South Africa). |\n| `ak_GH` | Akan (Ghana). |\n| `am_ET` | Amharic (Ethiopia). |\n| `an_ES` | Aragonese (Spain). |\n| `ar_AE` | Arabic (UAE). |\n| `as_IN` | Assamese (India). |\n| `av_RU` | Avaric (Russia). |\n| `ay_BO` | Aymara (Bolivia). |\n| `az_AZ` | Azerbaijani (Azerbaijan). |\n| `ba_RU` | Bashkir (Russia). |\n| `be_BY` | Belarusian (Belarus). |\n| `bg_BG` | Bulgarian (Bulgaria). |\n| `bh_IN` | Bihari (India). |\n| `bi_VU` | Bislama (Vanuatu). |\n| `bm_ML` | Bambara (Mali). |\n| `bn_BD` | Bengali (Bangladesh). |\n| `bo_CN` | Tibetan (China). |\n| `br_FR` | Breton (France). |\n| `bs_BA` | Bosnian (Bosnia and Herzegovina). |\n| `ca_ES` | Catalan (Spain). |\n| `ce_RU` | Chechen (Russia). |\n| `ch_GU` | Chamorro (Guam). |\n| `co_FR` | Corsican (France). |\n| `cr_CA` | Cree (Canada). |\n| `cs_CZ` | Czech (Czech Republic). |\n| `cu_INT` | Church Slavonic (International). |\n| `cv_RU` | Chuvash (Russia). |\n| `cy_GB` | Welsh (United Kingdom). |\n| `da_DK` | Danish (Denmark). |\n| `de_DE` | German (Germany). |\n| `dv_MV` | Divehi (Maldives). |\n| `dz_BT` | Dzongkha (Bhutan). |\n| `ee_GH` | Ewe (Ghana). |\n| `el_GR` | Greek (Greece). |\n| `en_US` | English (United States). |\n| `eo_INT` | Esperanto (International). |\n| `es_ES` | Spanish (Spain). |\n| `et_EE` | Estonian (Estonia). |\n| `eu_ES` | Basque (Spain). |\n| `fa_IR` | Persian (Iran). |\n| `ff_SN` | Fulah (Senegal). |\n| `fi_FI` | Finnish (Finland). |\n| `fj_FJ` | Fijian (Fiji). |\n| `fo_FO` | Faroese (Faroe Islands). |\n| `fr_FR` | French (France). |\n| `fy_NL` | Western Frisian (Netherlands). |\n| `ga_IE` | Irish (Ireland). |\n| `gd_GB` | Scottish Gaelic (United Kingdom). |\n| `gl_ES` | Galician (Spain). |\n| `gn_PY` | Guarani (Paraguay). |\n| `gu_IN` | Gujarati (India). |\n| `gv_IM` | Manx (Isle of Man). |\n| `ha_NG` | Hausa (Nigeria). |\n| `he_IL` | Hebrew (Israel). |\n| `hi_IN` | Hindi (India). |\n| `ho_PG` | Hiri Motu (Papua New Guinea). |\n| `hr_HR` | Croatian (Croatia). |\n| `ht_HT` | Haitian Creole (Haiti). |\n| `hu_HU` | Hungarian (Hungary). |\n| `hy_AM` | Armenian (Armenia). |\n| `hz_NA` | Herero (Namibia). |\n| `ia_INT` | Interlingua (International). |\n| `id_ID` | Indonesian (Indonesia). |\n| `ie_INT` | Interlingue (International). |\n| `ig_NG` | Igbo (Nigeria). |\n| `ii_CN` | Sichuan Yi (China). |\n| `ik_US` | Inupiaq (United States). |\n| `io_INT` | Ido (International). |\n| `is_IS` | Icelandic (Iceland). |\n| `it_IT` | Italian (Italy). |\n| `iu_CA` | Inuktitut (Canada). |\n| `iw_IL` | Hebrew (Israel). |\n| `ja_JP` | Japanese (Japan). |\n| `ji_IL` | Yiddish (Israel). |\n| `jv_ID` | Javanese (Indonesia). |\n| `ka_GE` | Georgian (Georgia). |\n| `kg_CD` | Kongo (Democratic Republic of the Congo). |\n| `ki_KE` | Kikuyu (Kenya). |\n| `kj_NA` | Kwanyama (Namibia). |\n| `kk_KZ` | Kazakh (Kazakhstan). |\n| `kl_GL` | Kalaallisut (Greenland). |\n| `km_KH` | Khmer (Cambodia). |\n| `kn_IN` | Kannada (India). |\n| `ko_KR` | Korean (South Korea). |\n| `kr_NG` | Kanuri (Nigeria). |\n| `ks_IN` | Kashmiri (India). |\n| `ku_TR` | Kurdish (Turkey). |\n| `kv_RU` | Komi (Russia). |\n| `kw_GB` | Cornish (United Kingdom). |\n| `ky_KG` | Kyrgyz (Kyrgyzstan). |\n| `la_VA` | Latin (Vatican City). |\n| `lb_LU` | Luxembourgish (Luxembourg). |\n| `lg_UG` | Ganda (Uganda). |\n| `li_NL` | Limburgish (Netherlands). |\n| `ln_CD` | Lingala (Democratic Republic of the Congo). |\n| `lo_LA` | Lao (Laos). |\n| `lt_LT` | Lithuanian (Lithuania). |\n| `lu_CD` | Luba-Katanga (Democratic Republic of the Congo). |\n| `lv_LV` | Latvian (Latvia). |\n| `mg_MG` | Malagasy (Madagascar). |\n| `mh_MH` | Marshallese (Marshall Islands). |\n| `mi_NZ` | Māori (New Zealand). |\n| `mk_MK` | Macedonian (North Macedonia). |\n| `ml_IN` | Malayalam (India). |\n| `mn_MN` | Mongolian (Mongolia). |\n| `mo_MD` | Moldavian (Moldova). |\n| `mr_IN` | Marathi (India). |\n| `ms_MY` | Malay (Malaysia). |\n| `mt_MT` | Maltese (Malta). |\n| `my_MM` | Burmese (Myanmar). |\n| `na_NR` | Nauru (Nauru). |\n| `nb_NO` | Norwegian Bokmål (Norway). |\n| `nd_ZW` | North Ndebele (Zimbabwe). |\n| `ne_NP` | Nepali (Nepal). |\n| `ng_NA` | Ndonga (Namibia). |\n| `nl_NL` | Dutch (Netherlands). |\n| `nn_NO` | Norwegian Nynorsk (Norway). |\n| `no_NO` | Norwegian (Norway). |\n| `nr_ZA` | South Ndebele (South Africa). |\n| `nv_US` | Navajo (United States). |\n| `ny_MW` | Chichewa (Malawi). |\n| `oc_FR` | Occitan (France). |\n| `oj_CA` | Ojibwa (Canada). |\n| `om_ET` | Oromo (Ethiopia). |\n| `or_IN` | Oriya (India). |\n| `os_RU` | Ossetian (Russia). |\n| `pa_IN` | Punjabi (India). |\n| `pi_IN` | Pali (India). |\n| `pl_PL` | Polish (Poland). |\n| `ps_AF` | Pashto (Afghanistan). |\n| `pt_PT` | Portuguese (Portugal). |\n| `qu_PE` | Quechua (Peru). |\n| `rm_CH` | Romansh (Switzerland). |\n| `rn_BI` | Kirundi (Burundi). |\n| `ro_RO` | Romanian (Romania). |\n| `ru_RU` | Russian (Russia). |\n| `rw_RW` | Kinyarwanda (Rwanda). |\n| `sa_IN` | Sanskrit (India). |\n| `sc_IT` | Sardinian (Italy). |\n| `sd_PK` | Sindhi (Pakistan). |\n| `se_NO` | Northern Sami (Norway). |\n| `sg_CF` | Sango (Central African Republic). |\n| `si_LK` | Sinhala (Sri Lanka). |\n| `sk_SK` | Slovak (Slovakia). |\n| `sl_SI` | Slovenian (Slovenia). |\n| `sm_WS` | Samoan (Samoa). |\n| `sn_ZW` | Shona (Zimbabwe). |\n| `so_SO` | Somali (Somalia). |\n| `sq_AL` | Albanian (Albania). |\n| `sr_RS` | Serbian (Serbia). |\n| `ss_SZ` | Swati (Eswatini). |\n| `st_LS` | Southern Sotho (Lesotho). |\n| `su_ID` | Sundanese (Indonesia). |\n| `sv_SE` | Swedish (Sweden). |\n| `sw_TZ` | Swahili (Tanzania). |\n| `ta_IN` | Tamil (India). |\n| `te_IN` | Telugu (India). |\n| `tg_TJ` | Tajik (Tajikistan). |\n| `th_TH` | Thai (Thailand). |\n| `ti_ET` | Tigrinya (Ethiopia). |\n| `tk_TM` | Turkmen (Turkmenistan). |\n| `tl_PH` | Tagalog (Philippines). |\n| `tn_BW` | Tswana (Botswana). |\n| `to_TO` | Tonga (Tonga). |\n| `tr_TR` | Turkish (Turkey). |\n| `ts_ZA` | Tsonga (South Africa). |\n| `tt_RU` | Tatar (Russia). |\n| `tw_GH` | Twi (Ghana). |\n| `ty_PF` | Tahitian (French Polynesia). |\n| `ug_CN` | Uyghur (China). |\n| `uk_UA` | Ukrainian (Ukraine). |\n| `ur_PK` | Urdu (Pakistan). |\n| `uz_UZ` | Uzbek (Uzbekistan). |\n| `ve_ZA` | Venda (South Africa). |\n| `vi_VN` | Vietnamese (Vietnam). |\n| `vo_INT` | Volapük (International). |\n| `wa_BE` | Walloon (Belgium). |\n| `wo_SN` | Wolof (Senegal). |\n| `xh_ZA` | Xhosa (South Africa). |\n| `yi_IL` | Yiddish (Israel). |\n| `yo_NG` | Yoruba (Nigeria). |\n| `za_CN` | Zhuang (China). |\n| `zh_CN` | Chinese (China). |\n| `zu_ZA` | Zulu (South Africa). |\n",
@@ -12260,6 +12101,9 @@
           "campaignIdFilter": {
             "$ref": "#/components/schemas/DSPAdGroupCampaignIdFilter"
           },
+          "inventoryTypeFilter": {
+            "$ref": "#/components/schemas/DSPAdGroupInventoryTypeFilter"
+          },
           "maxResults": {
             "default": 100,
             "format": "int32",
@@ -12810,7 +12654,7 @@
             "items": {
               "$ref": "#/components/schemas/DSPForecastFlight"
             },
-            "maxItems": 5,
+            "maxItems": 150,
             "minItems": 0,
             "type": "array"
           },
@@ -12826,7 +12670,7 @@
             "items": {
               "$ref": "#/components/schemas/DSPForecastTarget"
             },
-            "maxItems": 1000,
+            "maxItems": 2000,
             "minItems": 0,
             "type": "array"
           }
@@ -17953,7 +17797,7 @@
       "DSPTargetStateFilter": {
         "properties": {
           "include": {
-            "description": "**State Enum:**\n| State | Description |\n| --- | --- |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
+            "description": "**State Enum:**\n| State | Description |\n| --- | --- |\n| `DRAFT` | The resource is in draft status and has not yet been proposed or enabled. |\n| `ENABLED` | The object is set active by user and eligible for delivery. |\n| `PAUSED` | The object is stopped by user and not eligible for delivery. |\n| `ARCHIVED` | The object is permanently stopped and cannot be reactivated. Terminal end state. |",
             "items": {
               "$ref": "#/components/schemas/DSPState"
             },
@@ -18540,7 +18384,7 @@
       "DSPUpdateAdGroupBid": {
         "properties": {
           "baseBid": {
-            "description": "The lower bound bid used for the ads in the ad group.",
+            "description": "The lower bound bid used for the ads in the ad group. This field is optional for ad groups that use automated bid optimization; when omitted, the system manages bidding on your behalf. It remains required when automated bid optimization is false, or if automated bid optimization is not available (e.g. programmatic guaranteed deal).",
             "format": "double",
             "type": "number"
           },
@@ -20539,7 +20383,7 @@
   },
   "openapi": "3.0.1",
   "paths": {
-    "/adsApi/v1/commitments/dsp": {
+    "/adsApi/v1/commitments": {
       "get": {
         "description": "List commitments\n\n**Requires one of these permissions**:\n[]",
         "operationId": "DSPListCommitment",
@@ -21262,7 +21106,7 @@
         ]
       }
     },
-    "/adsApi/v1/create/commitments/dsp": {
+    "/adsApi/v1/create/commitments": {
       "post": {
         "description": "Create commitments\n\n**Requires one of these permissions**:\n[]",
         "operationId": "DSPCreateCommitment",
@@ -24100,7 +23944,7 @@
         ]
       }
     },
-    "/adsApi/v1/query/commitments/dsp": {
+    "/adsApi/v1/query/commitments": {
       "post": {
         "description": "Query commitments with filters\n\n**Requires one of these permissions**:\n[]",
         "operationId": "DSPQueryCommitment",
@@ -25573,7 +25417,7 @@
         ]
       }
     },
-    "/adsApi/v1/retrieve/commitmentSpends/dsp": {
+    "/adsApi/v1/retrieve/commitmentSpends": {
       "post": {
         "description": "Retrieve commitment spend\n\n**Requires one of these permissions**:\n[]",
         "operationId": "DSPRetrieveCommitmentSpend",
@@ -25716,7 +25560,7 @@
         ]
       }
     },
-    "/adsApi/v1/retrieve/commitments/dsp": {
+    "/adsApi/v1/retrieve/commitments": {
       "post": {
         "description": "Get Commitments\n\n**Requires one of these permissions**:\n[]",
         "operationId": "DSPRetrieveCommitment",
@@ -26623,7 +26467,7 @@
         ]
       }
     },
-    "/adsApi/v1/update/commitments/dsp": {
+    "/adsApi/v1/update/commitments": {
       "post": {
         "description": "Update commitments\n\n**Requires one of these permissions**:\n[]",
         "operationId": "DSPUpdateCommitment",

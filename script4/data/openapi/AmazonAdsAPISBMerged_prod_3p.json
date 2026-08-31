@@ -1684,7 +1684,7 @@
             "items": {
               "$ref": "#/components/schemas/SBPlacementBidAdjustment"
             },
-            "maxItems": 4,
+            "maxItems": 5,
             "minItems": 0,
             "type": "array"
           },
@@ -2863,7 +2863,7 @@
             "items": {
               "$ref": "#/components/schemas/SBCreatePlacementBidAdjustment"
             },
-            "maxItems": 4,
+            "maxItems": 5,
             "minItems": 0,
             "type": "array"
           },
@@ -6064,7 +6064,7 @@
             "items": {
               "$ref": "#/components/schemas/SBCreatePlacementBidAdjustment"
             },
-            "maxItems": 4,
+            "maxItems": 5,
             "minItems": 0,
             "type": "array"
           },

@@ -1298,7 +1298,7 @@
             "items": {
               "$ref": "#/components/schemas/SPPlacementBidAdjustment"
             },
-            "maxItems": 4,
+            "maxItems": 5,
             "minItems": 0,
             "type": "array"
           }
@@ -2019,7 +2019,7 @@
             "items": {
               "$ref": "#/components/schemas/SPCreatePlacementBidAdjustment"
             },
-            "maxItems": 4,
+            "maxItems": 5,
             "minItems": 0,
             "type": "array"
           }
@@ -4035,7 +4035,7 @@
             "items": {
               "$ref": "#/components/schemas/SPCreatePlacementBidAdjustment"
             },
-            "maxItems": 4,
+            "maxItems": 5,
             "minItems": 0,
             "type": "array"
           }

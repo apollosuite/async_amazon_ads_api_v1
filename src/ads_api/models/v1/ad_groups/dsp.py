@@ -100,7 +100,10 @@ class DSPAdGroupAdProductFilter(StrictModel):
 
 
 class DSPAdGroupBid(LenientModel):
-    baseBid: float | None = Field(default=None, description="The lower bound bid used for the ads in the ad group.")
+    baseBid: float | None = Field(
+        default=None,
+        description="The lower bound bid used for the ads in the ad group. This field is optional for ad groups that use automated bid optimization; when omitted, the system manages bidding on your behalf. It remains required when automated bid optimization is false, or if automated bid optimization is not available (e.g. programmatic guaranteed deal).",
+    )
     currencyCode: DSPCurrencyCode | str
     maxAverageBid: float | None = Field(
         default=None,
@@ -155,6 +158,10 @@ class DSPAdGroupCreate(StrictModel):
         description="Open ended labels with a key value pair applied to the ad group",
     )
     targetingSettings: DSPCreateTargetingSettings
+
+
+class DSPAdGroupInventoryTypeFilter(StrictModel):
+    include: list[DSPInventoryType] = Field(min_length=1, max_length=1)
 
 
 class DSPAdGroupMultiStatusResponse(LenientModel):
@@ -231,7 +238,10 @@ class DSPBudgetValue(LenientModel):
 
 
 class DSPCreateAdGroupBid(StrictModel):
-    baseBid: float | None = Field(default=None, description="The lower bound bid used for the ads in the ad group.")
+    baseBid: float | None = Field(
+        default=None,
+        description="The lower bound bid used for the ads in the ad group. This field is optional for ad groups that use automated bid optimization; when omitted, the system manages bidding on your behalf. It remains required when automated bid optimization is false, or if automated bid optimization is not available (e.g. programmatic guaranteed deal).",
+    )
     maxAverageBid: float | None = Field(
         default=None,
         description="The max average bid that will be targeted on the ad group across all of the bids (a single bid could be lower or higher that this number).",
@@ -355,6 +365,7 @@ class DSPQueryAdGroupRequest(StrictModel):
     adGroupIdFilter: DSPAdGroupAdGroupIdFilter | None = Field(default=None)
     adProductFilter: DSPAdGroupAdProductFilter
     campaignIdFilter: DSPAdGroupCampaignIdFilter | None = Field(default=None)
+    inventoryTypeFilter: DSPAdGroupInventoryTypeFilter | None = Field(default=None)
     maxResults: int | None = Field(default=100, ge=1, le=100)
     nextToken: str | None = Field(default=None)
     stateFilter: DSPAdGroupStateFilter | None = Field(default=None)
@@ -394,7 +405,10 @@ class DSPTargetingSettings(LenientModel):
 
 
 class DSPUpdateAdGroupBid(StrictModel):
-    baseBid: float | None = Field(default=None, description="The lower bound bid used for the ads in the ad group.")
+    baseBid: float | None = Field(
+        default=None,
+        description="The lower bound bid used for the ads in the ad group. This field is optional for ad groups that use automated bid optimization; when omitted, the system manages bidding on your behalf. It remains required when automated bid optimization is false, or if automated bid optimization is not available (e.g. programmatic guaranteed deal).",
+    )
     maxAverageBid: float | None = Field(
         default=None,
         description="The max average bid that will be targeted on the ad group across all of the bids (a single bid could be lower or higher that this number).",
@@ -454,6 +468,7 @@ __all__ = [
     "DSPAdGroupBudgetSettings",
     "DSPAdGroupCampaignIdFilter",
     "DSPAdGroupCreate",
+    "DSPAdGroupInventoryTypeFilter",
     "DSPAdGroupMultiStatusResponse",
     "DSPAdGroupMultiStatusSuccess",
     "DSPAdGroupStateFilter",
