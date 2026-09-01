@@ -10,6 +10,7 @@ from dataclasses import dataclass
 import httpx
 
 from ads_api.config.token_cache import BaseTokenCache, TokenData
+from ads_api.errors import InvalidGrantError, TokenRefreshError
 
 logger = logging.getLogger(__name__)
 
@@ -78,7 +79,38 @@ class TokenManager:
                 data = resp.json()
         except httpx.HTTPStatusError as e:
             logger.error("Token refresh failed: %s %s", e.response.status_code, e.response.text)
-            raise
+            try:
+                err_data = e.response.json()
+            except Exception:
+                err_data = {}
+
+            error_code = ""
+            error_desc = ""
+            if isinstance(err_data, dict):
+                error_code = str(err_data.get("error", ""))
+                error_desc = str(err_data.get("error_description", ""))
+
+            if e.response.status_code == 400 and (
+                error_code == "invalid_grant"
+                or "invalid_grant" in e.response.text
+                or "revoked" in error_desc.lower()
+                or "didn't grant" in error_desc.lower()
+            ):
+                raise InvalidGrantError(
+                    f"OAuth refresh token 已失效 (invalid_grant): {error_desc or e.response.text}",
+                    status_code=400,
+                    error_code=error_code or "invalid_grant",
+                    error_description=error_desc,
+                    response=e.response,
+                ) from e
+
+            raise TokenRefreshError(
+                f"Token refresh failed ({e.response.status_code}): {error_desc or e.response.text}",
+                status_code=e.response.status_code,
+                error_code=error_code,
+                error_description=error_desc,
+                response=e.response,
+            ) from e
         except httpx.HTTPError:
             logger.exception("Token refresh request failed")
             raise

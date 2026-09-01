@@ -22,6 +22,44 @@ class MissingConfigError(ConfigurationError):
         super().__init__(message)
 
 
+class TokenRefreshError(AmazonAdsError):
+    """Raised when OAuth token refresh fails."""
+
+    def __init__(
+        self,
+        message: str = "",
+        status_code: int = 400,
+        error_code: str = "",
+        error_description: str = "",
+        response: httpx.Response | None = None,
+    ) -> None:
+        self.status_code = status_code
+        self.error_code = error_code
+        self.error_description = error_description
+        self.response = response
+        super().__init__(message or f"Token refresh failed ({status_code}): {error_description or error_code}")
+
+
+class InvalidGrantError(TokenRefreshError):
+    """Raised when refresh token is invalid, revoked, or expired (OAuth2 invalid_grant)."""
+
+    def __init__(
+        self,
+        message: str = "",
+        status_code: int = 400,
+        error_code: str = "invalid_grant",
+        error_description: str = "",
+        response: httpx.Response | None = None,
+    ) -> None:
+        super().__init__(
+            message=message or f"OAuth refresh token 已失效 (invalid_grant): {error_description}",
+            status_code=status_code,
+            error_code=error_code,
+            error_description=error_description,
+            response=response,
+        )
+
+
 class AmazonAdsAPIError(AmazonAdsError):
     """Raised when an API request returns an HTTP error status (4xx or 5xx)."""
 
@@ -110,10 +148,12 @@ __all__ = [
     "ConfigurationError",
     "ForbiddenError",
     "InternalServerError",
+    "InvalidGrantError",
     "MissingConfigError",
     "NotFoundError",
     "RateLimitError",
     "STATUS_CODE_ERROR_MAP",
+    "TokenRefreshError",
     "UnauthorizedError",
     "UnprocessableEntityError",
     "raise_for_status",

@@ -3,6 +3,12 @@
 > [!WARNING]
 > **废弃与迁移说明**: `async_amazon_ads_api_v1` 包即将废弃，项目正在逐步迁移至全新的统一包 **`ads_api`**（支持 v0 与 v1 全实体）。
 
+## v0.9.3 (2026-09-01)
+
+### feat — 新功能
+- **OAuth Token 刷新异常分类**: 新增 `TokenRefreshError` 与 `InvalidGrantError` 异常类。当 Refresh Token 已被撤销或失效（HTTP 400 `invalid_grant`）时精准抛出 `InvalidGrantError`，便于上层工作流立即终止无效重试。
+- **导出错误类至 `ads_api.errors`**: 提供完整 SDK 异常层次结构。
+
 ## v0.9.2 (2026-09-01)
 
 ### feat — 新功能
