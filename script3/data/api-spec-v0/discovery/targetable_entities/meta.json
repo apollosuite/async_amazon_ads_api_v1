@@ -1,0 +1,16 @@
+{
+  "group": "discovery",
+  "route": "targetable-entities",
+  "entity": "targetable_entities",
+  "toc_name": "Targetable entities",
+  "items": [
+    {
+      "name": "Targetable entities",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/TargetableEntities_prod_3p.json",
+      "file": "TargetableEntities_prod_3p.json",
+      "etag": "\"1160a1f20c7171cd8dde47fdc84fda30\"",
+      "last_modified": "Tue, 01 Sep 2026 07:22:16 GMT",
+      "size": 21521
+    }
+  ]
+}

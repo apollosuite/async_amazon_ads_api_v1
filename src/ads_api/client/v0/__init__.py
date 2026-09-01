@@ -7,6 +7,7 @@ from typing import Any, overload
 from ads_api.base import ClientContext
 from ads_api.client.v0.accounts import Accounts
 from ads_api.client.v0.ads_data_manager import AdsDataManager
+from ads_api.client.v0.discovery import Discovery
 from ads_api.client.v0.exports import Exports
 from ads_api.client.v0.portfolios import Portfolios
 from ads_api.client.v0.products import Products
@@ -53,6 +54,7 @@ class AdsClientV0:
         self.__reporting: Reporting | None = None
         self.__ads_data_manager: AdsDataManager | None = None
         self.__exports: Exports | None = None
+        self.__discovery: Discovery | None = None
         self.__portfolios: Portfolios | None = None
         self.__products: Products | None = None
         self.__sp_v3: SPV3 | None = None
@@ -92,6 +94,12 @@ class AdsClientV0:
         if self.__exports is None:
             self.__exports = Exports(self._ctx)
         return self.__exports
+
+    @property
+    def discovery(self) -> Discovery:
+        if self.__discovery is None:
+            self.__discovery = Discovery(self._ctx)
+        return self.__discovery
 
     @property
     def portfolios(self) -> Portfolios:

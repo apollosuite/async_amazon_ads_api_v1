@@ -1,0 +1,16 @@
+{
+  "group": "discovery",
+  "route": "locations",
+  "entity": "locations",
+  "toc_name": "Locations",
+  "items": [
+    {
+      "name": "Locations",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/Locations_prod_3p.json",
+      "file": "Locations_prod_3p.json",
+      "etag": "\"94ffafc9251fdbe1e791461c814d58b2\"",
+      "last_modified": "Tue, 01 Sep 2026 07:22:17 GMT",
+      "size": 9255
+    }
+  ]
+}
