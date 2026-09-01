@@ -5,7 +5,7 @@ from ads_api.client import AdsClient
 from ads_api.client.v0 import AdsClientV0
 from ads_api.client.v1 import AdsClientV1
 from ads_api.config.region import Region
-from ads_api.config.settings import AmazonAdsConfig, CacheBackend
+from ads_api.config.settings import AmazonAdsConfig
 from ads_api.config.token_cache import BaseTokenCache, FileTokenCache, RedisTokenCache
 from ads_api.config.token_manager import TokenCredentials, TokenManager
 
@@ -15,7 +15,6 @@ __all__ = [
     "AdsClientV1",
     "AmazonAdsConfig",
     "BaseTokenCache",
-    "CacheBackend",
     "ClientContext",
     "FileTokenCache",
     "RedisTokenCache",

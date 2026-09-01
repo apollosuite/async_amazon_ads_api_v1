@@ -162,3 +162,58 @@ class TestTokenManagerForceRefresh:
             token = await tm.get_access_token(force=True)
             assert token == "fresh-token"
             mock_refresh.assert_awaited_once()
+
+
+_CREDS = {"client_id": "cid", "client_secret": "sec", "refresh_token": "rt"}
+
+
+class TestAdsApiCacheInference:
+    def test_no_cache_by_default(self) -> None:
+        from ads_api.config.settings import AmazonAdsConfig
+
+        cfg = AmazonAdsConfig(**_CREDS)
+        assert cfg._token_manager is not None
+        assert cfg._token_manager._cache is None
+
+    def test_file_cache_from_dir(self, tmp_path: Path) -> None:
+        from ads_api.config.settings import AmazonAdsConfig
+        from ads_api.config.token_cache import FileTokenCache
+
+        cfg = AmazonAdsConfig(**_CREDS, token_cache_dir=str(tmp_path))
+        assert isinstance(cfg._token_manager._cache, FileTokenCache)
+
+    def test_redis_from_client(self) -> None:
+        from unittest.mock import MagicMock
+
+        from ads_api.config.settings import AmazonAdsConfig
+        from ads_api.config.token_cache import RedisTokenCache
+
+        cfg = AmazonAdsConfig(**_CREDS, redis_client=MagicMock())
+        assert isinstance(cfg._token_manager._cache, RedisTokenCache)
+
+    def test_custom_cache_wins(self, tmp_path: Path) -> None:
+        from ads_api.config.settings import AmazonAdsConfig
+        from ads_api.config.token_cache import FileTokenCache
+
+        custom = FileTokenCache(cache_dir=tmp_path, client_id="cid", refresh_token="rt")
+        cfg = AmazonAdsConfig(
+            **_CREDS,
+            token_cache=custom,
+            redis_url="redis://localhost:6379/0",
+            token_cache_dir=str(tmp_path),
+        )
+        assert cfg._token_manager._cache is custom
+
+    def test_redis_wins_over_file(self, tmp_path: Path) -> None:
+        from unittest.mock import MagicMock, patch
+
+        from ads_api.config.settings import AmazonAdsConfig
+        from ads_api.config.token_cache import RedisTokenCache
+
+        with patch("redis.asyncio.Redis.from_url", return_value=MagicMock()):
+            cfg = AmazonAdsConfig(
+                **_CREDS,
+                redis_url="redis://localhost:6379/0",
+                token_cache_dir=str(tmp_path),
+            )
+        assert isinstance(cfg._token_manager._cache, RedisTokenCache)

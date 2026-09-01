@@ -58,7 +58,6 @@ class TestAdsApiExports:
             "AdsClientV1",
             "AmazonAdsConfig",
             "BaseTokenCache",
-            "CacheBackend",
             "ClientContext",
             "FileTokenCache",
             "RedisTokenCache",

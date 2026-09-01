@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -11,11 +10,6 @@ from pydantic import BaseModel, PrivateAttr, model_validator
 from ads_api.config.region import ENDPOINT_MAP, Region
 from ads_api.config.token_cache import BaseTokenCache, FileTokenCache, RedisTokenCache
 from ads_api.config.token_manager import TokenCredentials, TokenManager
-
-
-class CacheBackend(StrEnum):
-    FILE = "file"
-    REDIS = "redis"
 
 
 class AmazonAdsConfig(BaseModel):
@@ -35,7 +29,6 @@ class AmazonAdsConfig(BaseModel):
 
     token_url: str = "https://api.amazon.com/auth/o2/token"
     token_cache_dir: str | None = None
-    cache_backend: CacheBackend = CacheBackend.FILE
     redis_url: str | None = None
     redis_client: Any | None = None
     token_cache: BaseTokenCache | None = None
@@ -56,25 +49,6 @@ class AmazonAdsConfig(BaseModel):
         if self.max_retries < 0:
             raise ValueError("max_retries cannot be negative")
 
-        token_cache: BaseTokenCache | None = self.token_cache
-        if token_cache is None:
-            if self.cache_backend == CacheBackend.REDIS:
-                if not self.redis_url and self.redis_client is None:
-                    raise ValueError("redis_url or redis_client is required when cache_backend is 'redis'")
-                if self.refresh_token is not None:
-                    token_cache = RedisTokenCache(
-                        redis_url=self.redis_url,
-                        redis_client=self.redis_client,
-                        client_id=self.client_id,
-                        refresh_token=self.refresh_token,
-                    )
-            elif self.token_cache_dir is not None and self.refresh_token is not None:
-                token_cache = FileTokenCache(
-                    cache_dir=Path(self.token_cache_dir).expanduser(),
-                    client_id=self.client_id,
-                    refresh_token=self.refresh_token,
-                )
-
         if self.refresh_token and self.client_secret:
             credentials = TokenCredentials(
                 client_id=self.client_id,
@@ -82,8 +56,30 @@ class AmazonAdsConfig(BaseModel):
                 refresh_token=self.refresh_token,
                 token_url=self.token_url,
             )
-            self._token_manager = TokenManager(credentials=credentials, cache=token_cache, timeout=self.timeout)
+            self._token_manager = TokenManager(
+                credentials=credentials, cache=self._resolve_token_cache(), timeout=self.timeout
+            )
         return self
+
+    def _resolve_token_cache(self) -> BaseTokenCache | None:
+        if self.token_cache is not None:
+            return self.token_cache
+        if self.refresh_token is None:
+            return None
+        if self.redis_client is not None or self.redis_url:
+            return RedisTokenCache(
+                redis_url=self.redis_url,
+                redis_client=self.redis_client,
+                client_id=self.client_id,
+                refresh_token=self.refresh_token,
+            )
+        if self.token_cache_dir:
+            return FileTokenCache(
+                cache_dir=Path(self.token_cache_dir).expanduser(),
+                client_id=self.client_id,
+                refresh_token=self.refresh_token,
+            )
+        return None
 
     @property
     def base_url(self) -> str:

@@ -79,7 +79,7 @@ class TokenManager:
                 data = resp.json()
                 self._access_token = data["access_token"]
                 expires_in = data["expires_in"] if "expires_in" in data else 3600
-                self._expires_at = time.time() + expires_in - 60
+                self._expires_at = time.time() + expires_in - 600
                 logger.info("Token refreshed, expires in %d seconds", expires_in)
         except httpx.HTTPStatusError as e:
             logger.error("Token refresh failed: %s %s", e.response.status_code, e.response.text)
