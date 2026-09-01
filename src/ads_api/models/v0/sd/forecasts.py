@@ -14,6 +14,7 @@ from ads_api.models.v0._shared import (
     BaseAdGroup,
     BaseCampaign,
     BaseNegativeTargetingClause,
+    BaseOptimizationRule,
     BaseProductAd,
     BaseTargetingClause,
     CampaignId,
@@ -22,6 +23,7 @@ from ads_api.models.v0._shared import (
     LocationExpression,
     LocationPredicate,
     NegativeTargetingExpression,
+    RuleCondition,
     RuleId,
     Tactic,
     TargetId,
@@ -76,19 +78,6 @@ Bid Optimization for the Adgroup. Default behavior is to optimize for clicks.
     adGroupId: AdGroupId | None = Field(default=None)
     tactic: Tactic | None = Field(default=None)
     creativeType: CreativeType | None = Field(default=None)
-
-
-class BaseOptimizationRule(StrictModel):
-    state: Literal["enabled", "paused [COMING LATER]"] | None = Field(
-        default=None, description="The state of the optimization rule."
-    )
-    ruleName: str | None = Field(default=None, description="The name of the optimization rule.")
-    ruleConditions: list[RuleCondition] | None = Field(
-        default=None,
-        min_length=1,
-        max_length=1,
-        description="A list of rule conditions that define the advertiser's intent for the outcome of the rule. The rule uses 'AND' logic to combine every condition in this list, and will validate the combination when the rule is created or updated.",
-    )
 
 
 class Campaign(StrictModel):
@@ -249,32 +238,6 @@ class RuleBasedBudget(StrictModel):
     applicableRuleName: str | None = Field(default=None)
     value: float | None = Field(default=None)
     applicableRuleId: str | None = Field(default=None)
-
-
-class RuleCondition(StrictModel):
-    """A rule condition that defines the advertiser's intent for the outcome of the rule.
-    Certain actions are performed by the product to achieve and maintain the rule condition."""
-
-    metricName: Literal["COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS", "COST_PER_CLICK", "COST_PER_ORDER"] = Field(
-        description="""
-The name of the metric.
-Supported rule metrics and corresponding supported comparisonOperators:
-|      MetricName      |ComparisonOperator  |Description|
-|------------------|--------------------|-------------------|
-|COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS     |              LESS_THAN_OR_EQUAL_TO             |Maximize viewable impressions while cost per 1000 views less than or equal to `threshold`|
-|COST_PER_CLICK    |              LESS_THAN_OR_EQUAL_TO            |Maximize page visits while cost per click less than or equal to `threshold`|
-|COST_PER_ORDER    |              LESS_THAN_OR_EQUAL_TO            |Maximize viewable impressions/page visits/conversion while cost per order less than or equal to `threshold`|
-"""
-    )
-    comparisonOperator: Literal["LESS_THAN_OR_EQUAL_TO"] = Field(description="The comparison operator.")
-    threshold: float = Field(description="""
-The value of the threshold associated with the metric. The threshold values has defined minimums depending on the metric names in the following table:
-|                  MetricName            | Minimum of `threshold` Value  |
-|----------------------------------------|-----------------------------------|
-|COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS  | 1                                 |
-|COST_PER_CLICK                          | 0.5                               |
-|COST_PER_ORDER                          | 5                                 |
-""")
 
 
 class SDForecastRequest(StrictModel):

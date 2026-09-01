@@ -16,7 +16,13 @@ from pathlib import Path
 from typing import Any
 
 from codegen.emit import render_client_module, render_models_module, render_shared_module
-from codegen.schema import EmittedModel, NameMap, discover_emissions, select_shared_models
+from codegen.schema import (
+    EmittedModel,
+    NameMap,
+    discover_emissions,
+    select_shared_models,
+    shared_names_for,
+)
 from codegen.spec import (
     GROUPS,
     TocGroup,
@@ -85,25 +91,28 @@ def _prepare_spec(group: str, entity_dir: Path, reserved: set[str]) -> list[Enti
     if should_split_by_tag(spec):
         tags = unique_tags(spec)
         tag_entities = entities_from_tags(tags, fallback_entity, reserved)
-        print(f"\n=== {group}/{fallback_entity} split tags={tags} ===")
-        for tag in tags:
-            endpoints = filter_operations_by_tag(all_endpoints, tag)
-            entity = tag_entities[tag]
-            emitted, name_map = discover_emissions(spec, endpoints)
-            print(f"  {entity}: {len(endpoints)} operations")
-            works.append(
-                EntityWork(
-                    group=group,
-                    entity=entity,
-                    tag=tag,
-                    resource_name=resource_class_name(entity),
-                    spec=spec,
-                    endpoints=endpoints,
-                    emitted=emitted,
-                    name_map=name_map,
+        # 叶子 TOC（如 Portfolios）主 tag 会映射成与分组同名的实体，
+        # 再拆会变成 ads.v0.portfolios.portfolios，改为整份挂在分组上。
+        if group not in tag_entities.values():
+            print(f"\n=== {group}/{fallback_entity} split tags={tags} ===")
+            for tag in tags:
+                endpoints = filter_operations_by_tag(all_endpoints, tag)
+                entity = tag_entities[tag]
+                emitted, name_map = discover_emissions(spec, endpoints)
+                print(f"  {entity}: {len(endpoints)} operations")
+                works.append(
+                    EntityWork(
+                        group=group,
+                        entity=entity,
+                        tag=tag,
+                        resource_name=resource_class_name(entity),
+                        spec=spec,
+                        endpoints=endpoints,
+                        emitted=emitted,
+                        name_map=name_map,
+                    )
                 )
-            )
-        return works
+            return works
     tags = unique_tags(spec)
     tag = tags[0] if len(tags) == 1 else fallback_entity
     emitted, name_map = discover_emissions(spec, all_endpoints)
@@ -231,6 +240,7 @@ def render_v0_client(groups: list[TocGroup]) -> str:
     lines.append("        async with AdsClientV0(config) as ads:")
     lines.append("            await ads.accounts.profiles.list_profiles()")
     lines.append("            await ads.reporting.reports.create_async_report(body)")
+    lines.append("            await ads.portfolios.list_portfolios(body)")
     lines.append("            await ads.sp_v3.campaigns.create_sponsored_products_campaigns(body)")
     lines.append("            await ads.sd.campaigns.list_campaigns()")
     lines.append('    """')
@@ -280,7 +290,7 @@ def render_v0_client(groups: list[TocGroup]) -> str:
     return "\n".join(lines)
 
 
-def write_shared(works: list[EntityWork]) -> set[str]:
+def write_shared(works: list[EntityWork]) -> list[EmittedModel]:
     shared_items = select_shared_models([work.emitted for work in works])
     shared_dir = MODELS_ROOT
     _ensure_pkg(shared_dir)
@@ -289,11 +299,11 @@ def write_shared(works: list[EntityWork]) -> set[str]:
         names = ", ".join(item.python_name for item in shared_items)
         print(f"  shared: {names}")
         _write(path, render_shared_module("v0", shared_items, NameMap(shared_items)))
-        return {item.python_name for item in shared_items}
+        return shared_items
     if path.exists():
         path.unlink()
         print(f"  removed {path.relative_to(PROJECT)}")
-    return set()
+    return []
 
 
 def _clean_entity_py(path: Path, generated: set[str]) -> None:
@@ -323,7 +333,7 @@ def _clean_group_packages(root: Path, by_group: dict[str, list[tuple[str, str]]]
             print(f"  removed {child.relative_to(PROJECT)}")
 
 
-def write_entities(works: list[EntityWork], shared_names: set[str]) -> dict[str, list[tuple[str, str]]]:
+def write_entities(works: list[EntityWork], shared_items: list[EmittedModel]) -> dict[str, list[tuple[str, str]]]:
     models_root = MODELS_ROOT
     _ensure_pkg(models_root)
     _ensure_pkg(CLIENT_ROOT)
@@ -335,14 +345,15 @@ def write_entities(works: list[EntityWork], shared_names: set[str]) -> dict[str,
         client_dir = CLIENT_ROOT / work.group
         _ensure_pkg(models_dir)
         _ensure_pkg(client_dir)
+        names = shared_names_for(work.emitted, shared_items)
         _write(
             models_dir / f"{work.entity}.py",
             render_models_module(
                 work.tag,
                 work.emitted,
                 work.name_map,
-                shared_names=shared_names,
-                shared_module="shared" if shared_names else None,
+                shared_names=names,
+                shared_module="shared" if names else None,
             ),
         )
         _write(
@@ -372,8 +383,8 @@ def write_entities(works: list[EntityWork], shared_names: set[str]) -> dict[str,
 
 def generate_all() -> None:
     works = prepare_entities()
-    shared_names = write_shared(works)
-    by_group = write_entities(works, shared_names)
+    shared_items = write_shared(works)
+    by_group = write_entities(works, shared_items)
     active_groups = [group for group in GROUPS if group.key in by_group]
     for group in active_groups:
         entities = by_group[group.key]

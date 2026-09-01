@@ -2,11 +2,278 @@
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Literal
 
 from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
+
+type BudgetChangeType = Literal["PERCENT"]
+"""
+The value by which to update the budget of the budget rule.
+"""
+
+
+type CountryCode = Literal[
+    "AD",
+    "AE",
+    "AF",
+    "AG",
+    "AI",
+    "AL",
+    "AM",
+    "AN",
+    "AO",
+    "AQ",
+    "AR",
+    "AS",
+    "AT",
+    "AU",
+    "AW",
+    "AX",
+    "AZ",
+    "BA",
+    "BB",
+    "BD",
+    "BE",
+    "BF",
+    "BG",
+    "BH",
+    "BI",
+    "BJ",
+    "BL",
+    "BM",
+    "BN",
+    "BO",
+    "BQ",
+    "BR",
+    "BS",
+    "BT",
+    "BV",
+    "BW",
+    "BY",
+    "BZ",
+    "CA",
+    "CC",
+    "CD",
+    "CF",
+    "CG",
+    "CH",
+    "CI",
+    "CK",
+    "CL",
+    "CM",
+    "CN",
+    "CO",
+    "CR",
+    "CU",
+    "CV",
+    "CW",
+    "CX",
+    "CY",
+    "CZ",
+    "DE",
+    "DJ",
+    "DK",
+    "DM",
+    "DO",
+    "DZ",
+    "EC",
+    "EE",
+    "EG",
+    "EH",
+    "ER",
+    "ES",
+    "ET",
+    "FI",
+    "FJ",
+    "FK",
+    "FM",
+    "FO",
+    "FR",
+    "GA",
+    "GB",
+    "GD",
+    "GE",
+    "GF",
+    "GG",
+    "GH",
+    "GI",
+    "GL",
+    "GM",
+    "GN",
+    "GP",
+    "GQ",
+    "GR",
+    "GS",
+    "GT",
+    "GU",
+    "GW",
+    "GY",
+    "HK",
+    "HM",
+    "HN",
+    "HR",
+    "HT",
+    "HU",
+    "ID",
+    "IE",
+    "IL",
+    "IM",
+    "IN",
+    "IO",
+    "IQ",
+    "IR",
+    "IS",
+    "IT",
+    "JE",
+    "JM",
+    "JO",
+    "JP",
+    "KE",
+    "KG",
+    "KH",
+    "KI",
+    "KM",
+    "KN",
+    "KP",
+    "KR",
+    "KW",
+    "KY",
+    "KZ",
+    "LA",
+    "LB",
+    "LC",
+    "LI",
+    "LK",
+    "LR",
+    "LS",
+    "LT",
+    "LU",
+    "LV",
+    "LY",
+    "MA",
+    "MC",
+    "MD",
+    "ME",
+    "MF",
+    "MG",
+    "MH",
+    "MK",
+    "ML",
+    "MM",
+    "MN",
+    "MO",
+    "MP",
+    "MQ",
+    "MR",
+    "MS",
+    "MT",
+    "MU",
+    "MV",
+    "MW",
+    "MX",
+    "MY",
+    "MZ",
+    "NA",
+    "NC",
+    "NE",
+    "NF",
+    "NG",
+    "NI",
+    "NL",
+    "NO",
+    "NP",
+    "NR",
+    "NU",
+    "NZ",
+    "OM",
+    "PA",
+    "PE",
+    "PF",
+    "PG",
+    "PH",
+    "PK",
+    "PL",
+    "PM",
+    "PN",
+    "PR",
+    "PS",
+    "PT",
+    "PW",
+    "PY",
+    "QA",
+    "RE",
+    "RO",
+    "RS",
+    "RU",
+    "RW",
+    "SA",
+    "SB",
+    "SC",
+    "SD",
+    "SE",
+    "SG",
+    "SH",
+    "SI",
+    "SJ",
+    "SK",
+    "SL",
+    "SM",
+    "SN",
+    "SO",
+    "SR",
+    "SS",
+    "ST",
+    "SV",
+    "SX",
+    "SY",
+    "SZ",
+    "TC",
+    "TD",
+    "TF",
+    "TG",
+    "TH",
+    "TJ",
+    "TK",
+    "TL",
+    "TM",
+    "TN",
+    "TO",
+    "TR",
+    "TT",
+    "TV",
+    "TW",
+    "TZ",
+    "UA",
+    "UG",
+    "UM",
+    "UNKNOWN",
+    "US",
+    "UY",
+    "UZ",
+    "VA",
+    "VC",
+    "VE",
+    "VG",
+    "VI",
+    "VN",
+    "VU",
+    "WF",
+    "WS",
+    "XK",
+    "YE",
+    "YT",
+    "ZA",
+    "ZM",
+    "ZW",
+    "ZZ",
+]
+"""
+Country Code. Two letter ISO 3166-1 alpha-2
+"""
+
 
 type CreateOrUpdateEntityState = Literal["ENABLED", "PAUSED"]
 """
@@ -42,6 +309,12 @@ The type of the creative.
 |----|-----------|
 |IMAGE |The creative will display static assets (e.g. headline, brandLogo or custom image).|
 |VIDEO |The creative will display video assets. This type of creative must have video assets provided.|
+"""
+
+
+type DayOfWeek = Literal["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+"""
+The day of the week.
 """
 
 
@@ -345,6 +618,12 @@ type SponsoredProductsThrottledErrorReason = Literal["THROTTLED"]
 type SponsoredProductsValueLimitErrorReason = Literal["INVALID_ENUM_VALUE", "NOT_IN_LIST", "TOO_HIGH", "TOO_LOW"]
 
 
+type State = Literal["ACTIVE", "PAUSED"]
+"""
+The budget rule state.
+"""
+
+
 type Tactic = Literal["T00020", "T00030"]
 """
 The advertising tactic associated with the campaign. The following table lists available tactic names:
@@ -366,6 +645,18 @@ type AdGroupId = int  # The identifier of the ad group.
 type AdId = int  # The identifier of the product ad.
 
 type AdName = str  # The name of the ad. Note that this field is not supported when using ASIN or SKU fields.
+
+
+class AssociatedBudgetRuleResult(LenientModel):
+    code: str | None = Field(default=None, description="An enumerated success or error code for machine use.")
+    details: str | None = Field(default=None, description="A human-readable description of the error, if unsuccessful")
+    ruleId: str | None = Field(default=None, description="The budget rule identifier.")
+
+
+class AssociatedCampaign(LenientModel):
+    campaignId: str = Field(description="The campaign identifier.")
+    ruleStatus: str = Field(description="The budget rule evaluation status for this campaign. Read-only.")
+    campaignName: str = Field(description="The campaign name.")
 
 
 class BaseAdGroup(StrictModel):
@@ -427,6 +718,19 @@ class BaseNegativeTargetingClause(StrictModel):
     state: Literal["enabled", "paused", "archived"] | None = Field(default=None)
 
 
+class BaseOptimizationRule(StrictModel):
+    state: Literal["enabled", "paused [COMING LATER]"] | None = Field(
+        default=None, description="The state of the optimization rule."
+    )
+    ruleName: str | None = Field(default=None, description="The name of the optimization rule.")
+    ruleConditions: list[RuleCondition] | None = Field(
+        default=None,
+        min_length=1,
+        max_length=1,
+        description="A list of rule conditions that define the advertiser's intent for the outcome of the rule. The rule uses 'AND' logic to combine every condition in this list, and will validate the combination when the rule is created or updated.",
+    )
+
+
 class BaseProductAd(StrictModel):
     state: Literal["enabled", "paused", "archived"] | None = Field(
         default=None, description="The state of the campaign associated with the product ad."
@@ -475,6 +779,55 @@ class BiddingError(LenientModel):
     upperLimit: str | None = Field(default=None)
     lowerLimit: str | None = Field(default=None)
     message: str = Field(description="Human readable error message.")
+
+
+class BudgetIncreaseBy(StrictModel):
+    type: BudgetChangeType
+    value: float = Field(description="The budget value.")
+
+
+class BudgetIncreaseByOut(LenientModel):
+    type: BudgetChangeType | str
+    value: float = Field(description="The budget value.")
+
+
+class BudgetRuleResult(LenientModel):
+    code: str | None = Field(default=None, description="An enumerated success or error code for machine use.")
+    details: str | None = Field(default=None, description="A human-readable description of the error, if unsuccessful")
+    ruleId: str | None = Field(default=None, description="The rule identifier.")
+    associatedCampaignIds: list[str] | None = Field(default=None)
+
+
+class BudgetUsageCampaign(LenientModel):
+    budgetUsagePercent: float | None = Field(
+        default=None, description="Budget usage percentage (spend / available budget) for the given budget policy."
+    )
+    campaignId: str | None = Field(default=None, description="ID of requested resource")
+    usageUpdatedTimestamp: datetime | None = Field(default=None, description="Last evaluation time for budget usage")
+    index: float | None = Field(default=None, description="An index to maintain order of the campaignIds")
+    budget: float | None = Field(default=None, description="Budget amount of resource requested")
+
+
+class BudgetUsageCampaignBatchErrorResult(LenientModel):
+    code: str | None = Field(default=None, description="An enumerated error code for machine use.")
+    campaignId: str | None = Field(default=None, description="ID of requested resource")
+    index: float | None = Field(default=None, description="An index to maintain order of the campaignIds")
+    details: str | None = Field(default=None, description="A human-readable description of the response.")
+
+
+class BudgetUsageCampaignRequest(StrictModel):
+    campaignIds: list[str] | None = Field(
+        default=None, min_length=1, max_length=100, description="A list of campaign IDs"
+    )
+
+
+class BudgetUsageCampaignResponse(LenientModel):
+    success: list[BudgetUsageCampaign] | None = Field(
+        default=None, description="List of budget usage percentages that were successfully pulled"
+    )
+    error: list[BudgetUsageCampaignBatchErrorResult] | None = Field(
+        default=None, description="List of budget usage percentages that failed to pull"
+    )
 
 
 type CampaignId = int  # The identifier of the campaign.
@@ -551,6 +904,20 @@ The following table shows all possible values of the `contentCategorySameAs` pre
     )
 
 
+class CreateAssociatedBudgetRulesRequest(StrictModel):
+    budgetRuleIds: list[str] | None = Field(
+        default=None, max_length=25, description="A list of budget rule identifiers."
+    )
+
+
+class CreateAssociatedBudgetRulesResponse(LenientModel):
+    responses: list[AssociatedBudgetRuleResult] | None = Field(default=None)
+
+
+class CreateBudgetRulesResponse(LenientModel):
+    responses: list[BudgetRuleResult] | None = Field(default=None)
+
+
 class CustomImage(StrictModel):
     assetId: str | None = Field(default=None)
     crop: CustomImageCrop | None = Field(default=None)
@@ -589,6 +956,30 @@ class DateError(LenientModel):
     message: str = Field(description="Human readable error message.")
 
 
+class DateRangeTypeRuleDuration(StrictModel):
+    """Object representing date range type rule duration."""
+
+    endDate: str | None = Field(
+        default=None,
+        description="The end date of the budget rule in YYYYMMDD format. The end date is inclusive. Required to be equal or greater than `startDate`.",
+    )
+    startDate: str = Field(
+        description="The start date of the budget rule in YYYYMMDD format. The start date is inclusive. Required to be greater than or equal to current date."
+    )
+
+
+class DateRangeTypeRuleDurationOut(LenientModel):
+    """Object representing date range type rule duration."""
+
+    endDate: str | None = Field(
+        default=None,
+        description="The end date of the budget rule in YYYYMMDD format. The end date is inclusive. Required to be equal or greater than `startDate`.",
+    )
+    startDate: str = Field(
+        description="The start date of the budget rule in YYYYMMDD format. The start date is inclusive. Required to be greater than or equal to current date."
+    )
+
+
 class DisassociateAssociatedBudgetRuleResponse(LenientModel):
     pass
 
@@ -606,6 +997,34 @@ class ErrorCause(LenientModel):
         description="Error location, JSON Path expression specifying element of API payload causing error."
     )
     trigger: str | None = Field(default=None, description="Optional value causing error.")
+
+
+class EventTypeRuleDuration(StrictModel):
+    """Object representing event type rule duration."""
+
+    eventId: str = Field(
+        description="The event identifier. This value is available from the budget rules recommendation API."
+    )
+    endDate: str | None = Field(default=None, description="The event end date in YYYYMMDD format. Read-only.")
+    eventName: str | None = Field(default=None, description="The event name. Read-only.")
+    startDate: str | None = Field(
+        default=None,
+        description="The event start date in YYYYMMDD format. Read-only. Note that this field is present only for announced events.",
+    )
+
+
+class EventTypeRuleDurationOut(LenientModel):
+    """Object representing event type rule duration."""
+
+    eventId: str = Field(
+        description="The event identifier. This value is available from the budget rules recommendation API."
+    )
+    endDate: str | None = Field(default=None, description="The event end date in YYYYMMDD format. Read-only.")
+    eventName: str | None = Field(default=None, description="The event name. Read-only.")
+    startDate: str | None = Field(
+        default=None,
+        description="The event start date in YYYYMMDD format. Read-only. Note that this field is present only for announced events.",
+    )
 
 
 class ExternalIdentity(StrictModel):
@@ -744,6 +1163,49 @@ class RangeMetricValue(LenientModel):
 
     lower: int | None = Field(default=None)
     upper: int | None = Field(default=None)
+
+
+class RuleBasedBudget(LenientModel):
+    isProcessing: bool | None = Field(default=None)
+    applicableRuleName: str | None = Field(default=None)
+    value: float | None = Field(default=None)
+    applicableRuleId: str | None = Field(default=None)
+
+
+class RuleCondition(StrictModel):
+    """A rule condition that defines the advertiser's intent for the outcome of the rule.
+    Certain actions are performed by the product to achieve and maintain the rule condition."""
+
+    metricName: Literal["COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS", "COST_PER_CLICK", "COST_PER_ORDER"] = Field(
+        description="""
+The name of the metric.
+Supported rule metrics and corresponding supported comparisonOperators:
+|      MetricName      |ComparisonOperator  |Description|
+|------------------|--------------------|-------------------|
+|COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS     |              LESS_THAN_OR_EQUAL_TO             |Maximize viewable impressions while cost per 1000 views less than or equal to `threshold`|
+|COST_PER_CLICK    |              LESS_THAN_OR_EQUAL_TO            |Maximize page visits while cost per click less than or equal to `threshold`|
+|COST_PER_ORDER    |              LESS_THAN_OR_EQUAL_TO            |Maximize viewable impressions/page visits/conversion while cost per order less than or equal to `threshold`|
+"""
+    )
+    comparisonOperator: Literal["LESS_THAN_OR_EQUAL_TO"] = Field(description="The comparison operator.")
+    threshold: float = Field(description="""
+The value of the threshold associated with the metric. The threshold values has defined minimums depending on the metric names in the following table:
+|                  MetricName            | Minimum of `threshold` Value  |
+|----------------------------------------|-----------------------------------|
+|COST_PER_THOUSAND_VIEWABLE_IMPRESSIONS  | 1                                 |
+|COST_PER_CLICK                          | 0.5                               |
+|COST_PER_ORDER                          | 5                                 |
+""")
+
+
+class RuleDuration(StrictModel):
+    eventTypeRuleDuration: EventTypeRuleDuration | None = Field(default=None)
+    dateRangeTypeRuleDuration: DateRangeTypeRuleDuration | None = Field(default=None)
+
+
+class RuleDurationOut(LenientModel):
+    eventTypeRuleDuration: EventTypeRuleDurationOut | None = Field(default=None)
+    dateRangeTypeRuleDuration: DateRangeTypeRuleDurationOut | None = Field(default=None)
 
 
 type RuleId = str  # The identifier of the optimization rule.
@@ -1078,13 +1540,20 @@ class TargetingPredicateNested(StrictModel):
     value: list[TargetingPredicateBase] | None = Field(default=None)
 
 
+class UpdateBudgetRulesResponse(LenientModel):
+    responses: list[BudgetRuleResult] | None = Field(default=None)
+
+
 __all__ = [
     "AdGroupId",
     "AdId",
     "AdName",
+    "AssociatedBudgetRuleResult",
+    "AssociatedCampaign",
     "BaseAdGroup",
     "BaseCampaign",
     "BaseNegativeTargetingClause",
+    "BaseOptimizationRule",
     "BaseProductAd",
     "BaseTargetingClause",
     "BidAnalyses",
@@ -1092,8 +1561,20 @@ __all__ = [
     "BidAnalysis",
     "BidAnalysisImpactMetrics",
     "BiddingError",
+    "BudgetChangeType",
+    "BudgetIncreaseBy",
+    "BudgetIncreaseByOut",
+    "BudgetRuleResult",
+    "BudgetUsageCampaign",
+    "BudgetUsageCampaignBatchErrorResult",
+    "BudgetUsageCampaignRequest",
+    "BudgetUsageCampaignResponse",
     "CampaignId",
     "ContentTargetingPredicate",
+    "CountryCode",
+    "CreateAssociatedBudgetRulesRequest",
+    "CreateAssociatedBudgetRulesResponse",
+    "CreateBudgetRulesResponse",
     "CreateOrUpdateEntityState",
     "CreativePropertyToOptimize",
     "CreativeStatus",
@@ -1103,10 +1584,15 @@ __all__ = [
     "CustomImageCropOut",
     "CustomImageOut",
     "DateError",
+    "DateRangeTypeRuleDuration",
+    "DateRangeTypeRuleDurationOut",
+    "DayOfWeek",
     "DisassociateAssociatedBudgetRuleResponse",
     "EntityState",
     "EntityStateFilter",
     "ErrorCause",
+    "EventTypeRuleDuration",
+    "EventTypeRuleDurationOut",
     "ExternalIdentity",
     "HashedPii",
     "Identity",
@@ -1126,6 +1612,10 @@ __all__ = [
     "QueryTermMatchType",
     "RangeError",
     "RangeMetricValue",
+    "RuleBasedBudget",
+    "RuleCondition",
+    "RuleDuration",
+    "RuleDurationOut",
     "RuleId",
     "SBTargetingBrand",
     "SDASIN",
@@ -1186,6 +1676,7 @@ __all__ = [
     "SponsoredProductsThrottledError",
     "SponsoredProductsThrottledErrorReason",
     "SponsoredProductsValueLimitErrorReason",
+    "State",
     "Subpage",
     "SubpageOut",
     "Tactic",
@@ -1195,4 +1686,5 @@ __all__ = [
     "TargetingPredicateBase",
     "TargetingPredicateNested",
     "Theme",
+    "UpdateBudgetRulesResponse",
 ]

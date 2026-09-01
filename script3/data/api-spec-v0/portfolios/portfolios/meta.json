@@ -1,0 +1,16 @@
+{
+  "group": "portfolios",
+  "route": "reference/portfolios",
+  "entity": "portfolios",
+  "toc_name": "Portfolios",
+  "items": [
+    {
+      "name": "Portfolios",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/Portfolios_prod_3p.json",
+      "file": "Portfolios_prod_3p.json",
+      "etag": "\"365a569e8e2d088f6fd96d097262c80f\"",
+      "last_modified": "Tue, 01 Sep 2026 02:36:23 GMT",
+      "size": 56427
+    }
+  ]
+}

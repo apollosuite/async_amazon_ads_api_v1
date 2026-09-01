@@ -10,6 +10,7 @@ from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models.v0._shared import (
     BaseCampaign,
     CampaignId,
+    RuleBasedBudget,
     Tactic,
 )
 
@@ -180,13 +181,6 @@ To view minimum and maximum bids based on the costType, see [Limits](https://adv
         description="Identifier of the portfolio that will be associated with the campaign. If null then the campaign will be disassociated from existing portfolio. Campaigns with CPC and vCPM costType are supported.",
     )
     tactic: Tactic | None = Field(default=None)
-
-
-class RuleBasedBudget(LenientModel):
-    isProcessing: bool | None = Field(default=None)
-    applicableRuleName: str | None = Field(default=None)
-    value: float | None = Field(default=None)
-    applicableRuleId: str | None = Field(default=None)
 
 
 class UpdateCampaign(StrictModel):

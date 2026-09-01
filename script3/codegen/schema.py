@@ -307,7 +307,11 @@ def _item_fingerprint(item: EmittedModel) -> str:
 
 
 def select_shared_models(entity_emissions: list[list[EmittedModel]]) -> list[EmittedModel]:
-    """Return models identical across 2+ entities whose $ref deps are also shared."""
+    """Return models identical across 2+ entities whose $ref deps are also shared.
+
+    同名但 schema 不同时（如 Portfolios 的 ``EntityState`` 只有 ENABLED，SB 还有
+    PAUSED/ARCHIVED），只共享出现 ≥2 次且 fingerprint 唯一的那一版；其余实体保留本地定义。
+    """
     if len(entity_emissions) < 2:
         return []
 
@@ -324,13 +328,13 @@ def select_shared_models(entity_emissions: list[list[EmittedModel]]) -> list[Emi
 
     candidates: dict[str, EmittedModel] = {}
     for name, occ in by_name.items():
-        entities_hit = len(occ)
-        if entities_hit < 2:
+        by_fp: dict[str, list[EmittedModel]] = {}
+        for item, fp in occ:
+            by_fp.setdefault(fp, []).append(item)
+        viable = [group for group in by_fp.values() if len(group) >= 2]
+        if len(viable) != 1:
             continue
-        fingerprints = {fp for _, fp in occ}
-        if len(fingerprints) != 1:
-            continue
-        candidates[name] = occ[0][0]
+        candidates[name] = viable[0][0]
 
     emitted_names = set(by_name)
     changed = True
@@ -348,3 +352,13 @@ def select_shared_models(entity_emissions: list[list[EmittedModel]]) -> list[Emi
                     break
 
     return sorted(candidates.values(), key=lambda x: x.python_name)
+
+
+def shared_names_for(emitted: list[EmittedModel], shared_items: list[EmittedModel]) -> set[str]:
+    """本实体可从 ``_shared`` 引用的名字：同名且 fingerprint 与共享版一致。"""
+    shared_fp = {item.python_name: _item_fingerprint(item) for item in shared_items}
+    return {
+        item.python_name
+        for item in emitted
+        if item.python_name in shared_fp and _item_fingerprint(item) == shared_fp[item.python_name]
+    }

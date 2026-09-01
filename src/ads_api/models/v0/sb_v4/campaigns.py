@@ -19,6 +19,7 @@ from ads_api.models.v0._shared import (
     OtherError,
     QueryTermMatchType,
     RangeError,
+    RuleBasedBudget,
 )
 
 type AudienceSegmentType = Literal["SPONSORED_ADS_AMC", "BEHAVIOR_DYNAMIC"]
@@ -454,13 +455,6 @@ class ListSponsoredBrandsCampaignsResponseContent(LenientModel):
         default=None, description="Token value allowing to navigate to the next response page."
     )
     totalCount: float | None = Field(default=None, description="The total number of entities.")
-
-
-class RuleBasedBudget(LenientModel):
-    isProcessing: bool | None = Field(default=None)
-    applicableRuleName: str | None = Field(default=None)
-    value: float | None = Field(default=None)
-    applicableRuleId: str | None = Field(default=None)
 
 
 class ShopperCohortBidAdjustment(StrictModel):

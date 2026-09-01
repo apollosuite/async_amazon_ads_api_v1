@@ -3,6 +3,7 @@ from __future__ import annotations
 import pytest
 
 from ads_api import AdsClient, AdsClientV0, AmazonAdsConfig, Region
+from ads_api.client.v0.portfolios import Portfolios
 from ads_api.client.v0.sb_v4 import SBV4
 from ads_api.client.v0.sb_v4.ad_creatives import AdCreatives
 from ads_api.client.v0.sb_v4.ad_groups import AdGroups
@@ -112,3 +113,15 @@ class TestAdsClientV0SD:
         sd = client.v0.sd
         assert isinstance(sd, SD)
         assert isinstance(sd.campaigns, SDCampaigns)
+
+
+class TestAdsClientV0Portfolios:
+    def test_portfolios_on_v0(self, config: AmazonAdsConfig) -> None:
+        client = AdsClientV0(config)
+        portfolios = client.portfolios
+        assert isinstance(portfolios, Portfolios)
+        assert client.portfolios is portfolios
+
+    def test_portfolios_via_unified_ads_client(self, config: AmazonAdsConfig) -> None:
+        client = AdsClient(config)
+        assert isinstance(client.v0.portfolios, Portfolios)

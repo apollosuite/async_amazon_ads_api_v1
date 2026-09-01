@@ -8,24 +8,30 @@ from pydantic import Field
 
 from ads_api.models._core.base import LenientModel, StrictModel
 from ads_api.models.v0._shared import (
+    AssociatedBudgetRuleResult,
+    AssociatedCampaign,
+    BudgetChangeType,
+    BudgetIncreaseBy,
+    BudgetIncreaseByOut,
+    BudgetRuleResult,
+    CreateAssociatedBudgetRulesRequest,
+    CreateAssociatedBudgetRulesResponse,
+    CreateBudgetRulesResponse,
+    DateRangeTypeRuleDuration,
+    DateRangeTypeRuleDurationOut,
+    DayOfWeek,
     DisassociateAssociatedBudgetRuleResponse,
+    EventTypeRuleDuration,
+    EventTypeRuleDurationOut,
+    RuleDuration,
+    RuleDurationOut,
+    State,
+    UpdateBudgetRulesResponse,
 )
-
-type BudgetChangeType = Literal["PERCENT"]
-"""
-The value by which to update the budget of the budget rule.
-"""
-
 
 type ComparisonOperator = Literal["GREATER_THAN", "LESS_THAN", "LESS_THAN_OR_EQUAL_TO", "GREATER_THAN_OR_EQUAL_TO"]
 """
 The comparison operator.
-"""
-
-
-type DayOfWeek = Literal["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
-"""
-The day of the week.
 """
 
 
@@ -47,110 +53,9 @@ The type of budget rule. SCHEDULE: A budget rule based on a start and end date. 
 """
 
 
-type State = Literal["ACTIVE", "PAUSED"]
-"""
-The budget rule state.
-"""
-
-
-class AssociatedBudgetRuleResult(LenientModel):
-    code: str | None = Field(default=None, description="An enumerated success or error code for machine use.")
-    details: str | None = Field(default=None, description="A human-readable description of the error, if unsuccessful")
-    ruleId: str | None = Field(default=None, description="The budget rule identifier.")
-
-
-class AssociatedCampaign(LenientModel):
-    campaignId: str = Field(description="The campaign identifier.")
-    ruleStatus: str = Field(description="The budget rule evaluation status for this campaign. Read-only.")
-    campaignName: str = Field(description="The campaign name.")
-
-
-class BudgetIncreaseBy(StrictModel):
-    type: BudgetChangeType
-    value: float = Field(description="The budget value.")
-
-
-class BudgetIncreaseByOut(LenientModel):
-    type: BudgetChangeType | str
-    value: float = Field(description="The budget value.")
-
-
-class BudgetRuleResult(LenientModel):
-    code: str | None = Field(default=None, description="An enumerated success or error code for machine use.")
-    details: str | None = Field(default=None, description="A human-readable description of the error, if unsuccessful")
-    ruleId: str | None = Field(default=None, description="The rule identifier.")
-    associatedCampaignIds: list[str] | None = Field(default=None)
-
-
-class CreateAssociatedBudgetRulesRequest(StrictModel):
-    budgetRuleIds: list[str] | None = Field(
-        default=None, max_length=25, description="A list of budget rule identifiers."
-    )
-
-
-class CreateAssociatedBudgetRulesResponse(LenientModel):
-    responses: list[AssociatedBudgetRuleResult] | None = Field(default=None)
-
-
-class CreateBudgetRulesResponse(LenientModel):
-    responses: list[BudgetRuleResult] | None = Field(default=None)
-
-
 class CreateSBBudgetRulesRequest(StrictModel):
     budgetRulesDetails: list[SBBudgetRuleDetails] | None = Field(
         default=None, max_length=25, description="A list of budget rule details."
-    )
-
-
-class DateRangeTypeRuleDuration(StrictModel):
-    """Object representing date range type rule duration."""
-
-    endDate: str | None = Field(
-        default=None,
-        description="The end date of the budget rule in YYYYMMDD format. The end date is inclusive. Required to be equal or greater than `startDate`.",
-    )
-    startDate: str = Field(
-        description="The start date of the budget rule in YYYYMMDD format. The start date is inclusive. Required to be greater than or equal to current date."
-    )
-
-
-class DateRangeTypeRuleDurationOut(LenientModel):
-    """Object representing date range type rule duration."""
-
-    endDate: str | None = Field(
-        default=None,
-        description="The end date of the budget rule in YYYYMMDD format. The end date is inclusive. Required to be equal or greater than `startDate`.",
-    )
-    startDate: str = Field(
-        description="The start date of the budget rule in YYYYMMDD format. The start date is inclusive. Required to be greater than or equal to current date."
-    )
-
-
-class EventTypeRuleDuration(StrictModel):
-    """Object representing event type rule duration."""
-
-    eventId: str = Field(
-        description="The event identifier. This value is available from the budget rules recommendation API."
-    )
-    endDate: str | None = Field(default=None, description="The event end date in YYYYMMDD format. Read-only.")
-    eventName: str | None = Field(default=None, description="The event name. Read-only.")
-    startDate: str | None = Field(
-        default=None,
-        description="The event start date in YYYYMMDD format. Read-only. Note that this field is present only for announced events.",
-    )
-
-
-class EventTypeRuleDurationOut(LenientModel):
-    """Object representing event type rule duration."""
-
-    eventId: str = Field(
-        description="The event identifier. This value is available from the budget rules recommendation API."
-    )
-    endDate: str | None = Field(default=None, description="The event end date in YYYYMMDD format. Read-only.")
-    eventName: str | None = Field(default=None, description="The event name. Read-only.")
-    startDate: str | None = Field(
-        default=None,
-        description="The event start date in YYYYMMDD format. Read-only. Note that this field is present only for announced events.",
     )
 
 
@@ -204,16 +109,6 @@ class RecurrenceOut(LenientModel):
         max_length=1,
         description="List of objects representing start and end time of desired intra-day budget rule window",
     )
-
-
-class RuleDuration(StrictModel):
-    eventTypeRuleDuration: EventTypeRuleDuration | None = Field(default=None)
-    dateRangeTypeRuleDuration: DateRangeTypeRuleDuration | None = Field(default=None)
-
-
-class RuleDurationOut(LenientModel):
-    eventTypeRuleDuration: EventTypeRuleDurationOut | None = Field(default=None)
-    dateRangeTypeRuleDuration: DateRangeTypeRuleDurationOut | None = Field(default=None)
 
 
 class SBBudgetRule(StrictModel):
@@ -302,10 +197,6 @@ class TimeOfDayOut(LenientModel):
         default=None,
         description="The end time of intra-day budget rule window in the format 'hh:mm:ss'. Required to be greater than start-time.",
     )
-
-
-class UpdateBudgetRulesResponse(LenientModel):
-    responses: list[BudgetRuleResult] | None = Field(default=None)
 
 
 class UpdateSBBudgetRulesRequest(StrictModel):

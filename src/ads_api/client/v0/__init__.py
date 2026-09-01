@@ -8,6 +8,7 @@ from ads_api.base import ClientContext
 from ads_api.client.v0.accounts import Accounts
 from ads_api.client.v0.ads_data_manager import AdsDataManager
 from ads_api.client.v0.exports import Exports
+from ads_api.client.v0.portfolios import Portfolios
 from ads_api.client.v0.reporting import Reporting
 from ads_api.client.v0.sb_v4 import SBV4
 from ads_api.client.v0.sd import SD
@@ -22,6 +23,7 @@ class AdsClientV0:
     async with AdsClientV0(config) as ads:
         await ads.accounts.profiles.list_profiles()
         await ads.reporting.reports.create_async_report(body)
+        await ads.portfolios.list_portfolios(body)
         await ads.sp_v3.campaigns.create_sponsored_products_campaigns(body)
         await ads.sd.campaigns.list_campaigns()
     """
@@ -50,6 +52,7 @@ class AdsClientV0:
         self.__reporting: Reporting | None = None
         self.__ads_data_manager: AdsDataManager | None = None
         self.__exports: Exports | None = None
+        self.__portfolios: Portfolios | None = None
         self.__sp_v3: SPV3 | None = None
         self.__sb_v4: SBV4 | None = None
         self.__sd: SD | None = None
@@ -87,6 +90,12 @@ class AdsClientV0:
         if self.__exports is None:
             self.__exports = Exports(self._ctx)
         return self.__exports
+
+    @property
+    def portfolios(self) -> Portfolios:
+        if self.__portfolios is None:
+            self.__portfolios = Portfolios(self._ctx)
+        return self.__portfolios
 
     @property
     def sp_v3(self) -> SPV3:
