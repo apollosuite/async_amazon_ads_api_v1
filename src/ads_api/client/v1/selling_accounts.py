@@ -20,18 +20,18 @@ class SellingAccounts(BaseResource):
 
     @overload
     async def query_selling_account(
-        self, body: QuerySellingAccountRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SellingAccountSuccessResponse: ...
-    @overload
-    async def query_selling_account(
-        self, body: QuerySellingAccountRequest, *, mode: Literal["dict"]
+        self, body: QuerySellingAccountRequest | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def query_selling_account(
-        self, body: QuerySellingAccountRequest, *, mode: Literal["raw"]
+        self, body: QuerySellingAccountRequest | None = None, *, mode: Literal["pydantic"]
+    ) -> SellingAccountSuccessResponse: ...
+    @overload
+    async def query_selling_account(
+        self, body: QuerySellingAccountRequest | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def query_selling_account(
-        self, body: QuerySellingAccountRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: QuerySellingAccountRequest | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SellingAccountSuccessResponse | dict[str, Any] | httpx.Response:
         """List selling accounts"""
 

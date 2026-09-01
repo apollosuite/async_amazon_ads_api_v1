@@ -26,18 +26,18 @@ class V3CampaignMigration(BaseResource):
 
     @overload
     async def migration_job_results(
-        self, body: MigrationJobResultsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> MigrationJobResultsResponseContent: ...
+        self, body: MigrationJobResultsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def migration_job_results(
-        self, body: MigrationJobResultsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: MigrationJobResultsRequestContent, *, mode: Literal["pydantic"]
+    ) -> MigrationJobResultsResponseContent: ...
     @overload
     async def migration_job_results(
         self, body: MigrationJobResultsRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def migration_job_results(
-        self, body: MigrationJobResultsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: MigrationJobResultsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> MigrationJobResultsResponseContent | dict[str, Any] | httpx.Response:
         """List Migration Results of all Campaign."""
 
@@ -54,18 +54,18 @@ class V3CampaignMigration(BaseResource):
 
     @overload
     async def migration_job_status(
-        self, body: MigrationJobStatusRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> MigrationJobStatusResponseContent: ...
+        self, body: MigrationJobStatusRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def migration_job_status(
-        self, body: MigrationJobStatusRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: MigrationJobStatusRequestContent, *, mode: Literal["pydantic"]
+    ) -> MigrationJobStatusResponseContent: ...
     @overload
     async def migration_job_status(
         self, body: MigrationJobStatusRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def migration_job_status(
-        self, body: MigrationJobStatusRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: MigrationJobStatusRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> MigrationJobStatusResponseContent | dict[str, Any] | httpx.Response:
         """List Migration Job Status."""
 
@@ -82,18 +82,18 @@ class V3CampaignMigration(BaseResource):
 
     @overload
     async def migration_results(
-        self, body: MigrationResultsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> MigrationResultsResponseContent: ...
-    @overload
-    async def migration_results(
-        self, body: MigrationResultsRequestContent, *, mode: Literal["dict"]
+        self, body: MigrationResultsRequestContent | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def migration_results(
-        self, body: MigrationResultsRequestContent, *, mode: Literal["raw"]
+        self, body: MigrationResultsRequestContent | None = None, *, mode: Literal["pydantic"]
+    ) -> MigrationResultsResponseContent: ...
+    @overload
+    async def migration_results(
+        self, body: MigrationResultsRequestContent | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def migration_results(
-        self, body: MigrationResultsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: MigrationResultsRequestContent | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> MigrationResultsResponseContent | dict[str, Any] | httpx.Response:
         """Lists all Campaign Migration results for an advertiser"""
 
@@ -110,18 +110,18 @@ class V3CampaignMigration(BaseResource):
 
     @overload
     async def start_migration_job(
-        self, body: StartMigrationJobRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> StartMigrationJobResponseContent: ...
+        self, body: StartMigrationJobRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def start_migration_job(
-        self, body: StartMigrationJobRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: StartMigrationJobRequestContent, *, mode: Literal["pydantic"]
+    ) -> StartMigrationJobResponseContent: ...
     @overload
     async def start_migration_job(
         self, body: StartMigrationJobRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def start_migration_job(
-        self, body: StartMigrationJobRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: StartMigrationJobRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> StartMigrationJobResponseContent | dict[str, Any] | httpx.Response:
         """Creates Migration Job for V3 campaigns."""
 

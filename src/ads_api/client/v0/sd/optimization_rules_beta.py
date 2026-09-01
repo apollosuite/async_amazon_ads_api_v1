@@ -26,24 +26,28 @@ class OptimizationRulesBeta(BaseResource):
     async def associate_optimization_rules_with_ad_group(
         self,
         ad_group_id: int,
-        body: CreateAssociatedOptimizationRulesRequest,
+        body: CreateAssociatedOptimizationRulesRequest | None = None,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> list[OptimizationRuleResponse]: ...
-    @overload
-    async def associate_optimization_rules_with_ad_group(
-        self, ad_group_id: int, body: CreateAssociatedOptimizationRulesRequest, *, mode: Literal["dict"]
+        mode: Literal["dict"] = "dict",
     ) -> list[dict[str, Any]]: ...
     @overload
     async def associate_optimization_rules_with_ad_group(
-        self, ad_group_id: int, body: CreateAssociatedOptimizationRulesRequest, *, mode: Literal["raw"]
+        self,
+        ad_group_id: int,
+        body: CreateAssociatedOptimizationRulesRequest | None = None,
+        *,
+        mode: Literal["pydantic"],
+    ) -> list[OptimizationRuleResponse]: ...
+    @overload
+    async def associate_optimization_rules_with_ad_group(
+        self, ad_group_id: int, body: CreateAssociatedOptimizationRulesRequest | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def associate_optimization_rules_with_ad_group(
         self,
         ad_group_id: int,
-        body: CreateAssociatedOptimizationRulesRequest,
+        body: CreateAssociatedOptimizationRulesRequest | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> list[OptimizationRuleResponse] | list[dict[str, Any]] | httpx.Response:
         """* When an optimization rule is associated to an ad group, manual bids for individual targets will be overridden."""
 
@@ -52,46 +56,50 @@ class OptimizationRulesBeta(BaseResource):
 
     @overload
     async def create_optimization_rules(
-        self, body: list[CreateOptimizationRule], *, mode: Literal["pydantic"] = "pydantic"
-    ) -> list[OptimizationRuleResponse]: ...
-    @overload
-    async def create_optimization_rules(
-        self, body: list[CreateOptimizationRule], *, mode: Literal["dict"]
+        self, body: list[CreateOptimizationRule] | None = None, *, mode: Literal["dict"] = "dict"
     ) -> list[dict[str, Any]]: ...
     @overload
     async def create_optimization_rules(
-        self, body: list[CreateOptimizationRule], *, mode: Literal["raw"]
+        self, body: list[CreateOptimizationRule] | None = None, *, mode: Literal["pydantic"]
+    ) -> list[OptimizationRuleResponse]: ...
+    @overload
+    async def create_optimization_rules(
+        self, body: list[CreateOptimizationRule] | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_optimization_rules(
-        self, body: list[CreateOptimizationRule], *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: list[CreateOptimizationRule] | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> list[OptimizationRuleResponse] | list[dict[str, Any]] | httpx.Response:
         """* When an optimization rule is associated to an ad group, manual bids for individual targets will be overridden."""
 
-        resp = await self._request("POST", "/sd/optimizationRules", json=[self.dump_json(x) for x in body])
+        resp = await self._request("POST", "/sd/optimizationRules", json=self.dump_json(body))
         return self._response_list(OptimizationRuleResponse, resp, mode=mode)
 
     @overload
     async def disassociate_optimization_rules_from_ad_group(
         self,
         ad_group_id: int,
-        body: CreateAssociatedOptimizationRulesRequest,
+        body: CreateAssociatedOptimizationRulesRequest | None = None,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> OptimizationRuleAssociationResponse: ...
-    @overload
-    async def disassociate_optimization_rules_from_ad_group(
-        self, ad_group_id: int, body: CreateAssociatedOptimizationRulesRequest, *, mode: Literal["dict"]
+        mode: Literal["dict"] = "dict",
     ) -> dict[str, Any]: ...
     @overload
     async def disassociate_optimization_rules_from_ad_group(
-        self, ad_group_id: int, body: CreateAssociatedOptimizationRulesRequest, *, mode: Literal["raw"]
+        self,
+        ad_group_id: int,
+        body: CreateAssociatedOptimizationRulesRequest | None = None,
+        *,
+        mode: Literal["pydantic"],
+    ) -> OptimizationRuleAssociationResponse: ...
+    @overload
+    async def disassociate_optimization_rules_from_ad_group(
+        self, ad_group_id: int, body: CreateAssociatedOptimizationRulesRequest | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def disassociate_optimization_rules_from_ad_group(
         self,
         ad_group_id: int,
-        body: CreateAssociatedOptimizationRulesRequest,
+        body: CreateAssociatedOptimizationRulesRequest | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> OptimizationRuleAssociationResponse | dict[str, Any] | httpx.Response:
         """* Only one optimization rule can be disassociated per adGroup. This note will be removed when multiple rules are supported per adGroup."""
 
@@ -102,16 +110,16 @@ class OptimizationRulesBeta(BaseResource):
 
     @overload
     async def get_ad_groups_optimization_rule(
-        self, ad_group_id: int, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> list[OptimizationRule]: ...
+        self, ad_group_id: int, *, mode: Literal["dict"] = "dict"
+    ) -> list[dict[str, Any]]: ...
     @overload
     async def get_ad_groups_optimization_rule(
-        self, ad_group_id: int, *, mode: Literal["dict"]
-    ) -> list[dict[str, Any]]: ...
+        self, ad_group_id: int, *, mode: Literal["pydantic"]
+    ) -> list[OptimizationRule]: ...
     @overload
     async def get_ad_groups_optimization_rule(self, ad_group_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_ad_groups_optimization_rule(
-        self, ad_group_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, ad_group_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> list[OptimizationRule] | list[dict[str, Any]] | httpx.Response:
         """Gets an OptimizationRule object for a requested Sponsored Display optimization rule."""
 
@@ -120,14 +128,16 @@ class OptimizationRulesBeta(BaseResource):
 
     @overload
     async def get_optimization_rule(
-        self, optimization_rule_id: str, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> OptimizationRule: ...
+        self, optimization_rule_id: str, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def get_optimization_rule(self, optimization_rule_id: str, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_optimization_rule(
+        self, optimization_rule_id: str, *, mode: Literal["pydantic"]
+    ) -> OptimizationRule: ...
     @overload
     async def get_optimization_rule(self, optimization_rule_id: str, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_optimization_rule(
-        self, optimization_rule_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, optimization_rule_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> OptimizationRule | dict[str, Any] | httpx.Response:
         """Gets an OptimizationRule object for a requested Sponsored Display optimization rule."""
 
@@ -138,19 +148,7 @@ class OptimizationRulesBeta(BaseResource):
     async def list_optimization_rules(
         self,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-        start_index: int | None = None,
-        count: int | None = None,
-        state_filter: str | None = None,
-        name: str | None = None,
-        optimization_rule_id_filter: str | None = None,
-        ad_group_id_filter: str | None = None,
-    ) -> list[OptimizationRule]: ...
-    @overload
-    async def list_optimization_rules(
-        self,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: str | None = None,
@@ -158,6 +156,18 @@ class OptimizationRulesBeta(BaseResource):
         optimization_rule_id_filter: str | None = None,
         ad_group_id_filter: str | None = None,
     ) -> list[dict[str, Any]]: ...
+    @overload
+    async def list_optimization_rules(
+        self,
+        *,
+        mode: Literal["pydantic"],
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: str | None = None,
+        name: str | None = None,
+        optimization_rule_id_filter: str | None = None,
+        ad_group_id_filter: str | None = None,
+    ) -> list[OptimizationRule]: ...
     @overload
     async def list_optimization_rules(
         self,
@@ -173,7 +183,7 @@ class OptimizationRulesBeta(BaseResource):
     async def list_optimization_rules(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: str | None = None,
@@ -197,20 +207,20 @@ class OptimizationRulesBeta(BaseResource):
 
     @overload
     async def update_optimization_rules(
-        self, body: list[UpdateOptimizationRule], *, mode: Literal["pydantic"] = "pydantic"
-    ) -> list[OptimizationRuleResponse]: ...
-    @overload
-    async def update_optimization_rules(
-        self, body: list[UpdateOptimizationRule], *, mode: Literal["dict"]
+        self, body: list[UpdateOptimizationRule] | None = None, *, mode: Literal["dict"] = "dict"
     ) -> list[dict[str, Any]]: ...
     @overload
     async def update_optimization_rules(
-        self, body: list[UpdateOptimizationRule], *, mode: Literal["raw"]
+        self, body: list[UpdateOptimizationRule] | None = None, *, mode: Literal["pydantic"]
+    ) -> list[OptimizationRuleResponse]: ...
+    @overload
+    async def update_optimization_rules(
+        self, body: list[UpdateOptimizationRule] | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_optimization_rules(
-        self, body: list[UpdateOptimizationRule], *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: list[UpdateOptimizationRule] | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> list[OptimizationRuleResponse] | list[dict[str, Any]] | httpx.Response:
         """"""
 
-        resp = await self._request("PUT", "/sd/optimizationRules", json=[self.dump_json(x) for x in body])
+        resp = await self._request("PUT", "/sd/optimizationRules", json=self.dump_json(body))
         return self._response_list(OptimizationRuleResponse, resp, mode=mode)

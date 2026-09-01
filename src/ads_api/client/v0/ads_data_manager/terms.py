@@ -19,13 +19,13 @@ from ads_api.models.v0.ads_data_manager.terms import (
 class Terms(BaseResource):
 
     @overload
-    async def get_terms(self, *, mode: Literal["pydantic"] = "pydantic") -> AdsCdxSolGetTermsResponseContent: ...
+    async def get_terms(self, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_terms(self, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_terms(self, *, mode: Literal["pydantic"]) -> AdsCdxSolGetTermsResponseContent: ...
     @overload
     async def get_terms(self, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_terms(
-        self, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> AdsCdxSolGetTermsResponseContent | dict[str, Any] | httpx.Response:
         """Get the Customer's Ads Data Manager Terms and Conditions"""
 
@@ -34,18 +34,18 @@ class Terms(BaseResource):
 
     @overload
     async def set_terms_acceptance(
-        self, body: AdsCdxSolSetTermsAcceptanceRequestContent, *, mode: Literal["pydantic"] = "pydantic"
+        self, body: AdsCdxSolSetTermsAcceptanceRequestContent, *, mode: Literal["dict"] = "dict"
     ) -> Any: ...
     @overload
     async def set_terms_acceptance(
-        self, body: AdsCdxSolSetTermsAcceptanceRequestContent, *, mode: Literal["dict"]
+        self, body: AdsCdxSolSetTermsAcceptanceRequestContent, *, mode: Literal["pydantic"]
     ) -> Any: ...
     @overload
     async def set_terms_acceptance(
         self, body: AdsCdxSolSetTermsAcceptanceRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def set_terms_acceptance(
-        self, body: AdsCdxSolSetTermsAcceptanceRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: AdsCdxSolSetTermsAcceptanceRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> Any:
         """Set the Customer's Ads Data Manager Terms and Conditions acceptance"""
 

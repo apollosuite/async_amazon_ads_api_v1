@@ -20,12 +20,12 @@ class DSPSupplierProposedDealHistoricalVersions(BaseResource):
 
     @overload
     async def query_supplier_proposed_deal_historical_version(
-        self, body: DSPQuerySupplierProposedDealHistoricalVersionRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPSupplierProposedDealHistoricalVersionSuccessResponse: ...
+        self, body: DSPQuerySupplierProposedDealHistoricalVersionRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def query_supplier_proposed_deal_historical_version(
-        self, body: DSPQuerySupplierProposedDealHistoricalVersionRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPQuerySupplierProposedDealHistoricalVersionRequest, *, mode: Literal["pydantic"]
+    ) -> DSPSupplierProposedDealHistoricalVersionSuccessResponse: ...
     @overload
     async def query_supplier_proposed_deal_historical_version(
         self, body: DSPQuerySupplierProposedDealHistoricalVersionRequest, *, mode: Literal["raw"]
@@ -34,7 +34,7 @@ class DSPSupplierProposedDealHistoricalVersions(BaseResource):
         self,
         body: DSPQuerySupplierProposedDealHistoricalVersionRequest,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> DSPSupplierProposedDealHistoricalVersionSuccessResponse | dict[str, Any] | httpx.Response:
         """Query supplier proposed deal historical versions"""
 

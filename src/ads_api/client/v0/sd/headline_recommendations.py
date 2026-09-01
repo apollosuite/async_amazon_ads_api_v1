@@ -20,18 +20,18 @@ class HeadlineRecommendations(BaseResource):
 
     @overload
     async def get_headline_recommendations_for_sd(
-        self, body: SDHeadlineRecommendationRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SDHeadlineRecommendationResponse: ...
+        self, body: SDHeadlineRecommendationRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def get_headline_recommendations_for_sd(
-        self, body: SDHeadlineRecommendationRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SDHeadlineRecommendationRequest, *, mode: Literal["pydantic"]
+    ) -> SDHeadlineRecommendationResponse: ...
     @overload
     async def get_headline_recommendations_for_sd(
         self, body: SDHeadlineRecommendationRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def get_headline_recommendations_for_sd(
-        self, body: SDHeadlineRecommendationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SDHeadlineRecommendationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SDHeadlineRecommendationResponse | dict[str, Any] | httpx.Response:
         """You can use this Sponsored Display API to retrieve creative headline recommendations from an array of ASINs."""
 

@@ -20,18 +20,18 @@ class DSPCampaignForecasts(BaseResource):
 
     @overload
     async def retrieve_campaign_forecast(
-        self, body: DSPRetrieveCampaignForecastRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPCampaignForecastMultiStatusResponse: ...
+        self, body: DSPRetrieveCampaignForecastRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def retrieve_campaign_forecast(
-        self, body: DSPRetrieveCampaignForecastRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPRetrieveCampaignForecastRequest, *, mode: Literal["pydantic"]
+    ) -> DSPCampaignForecastMultiStatusResponse: ...
     @overload
     async def retrieve_campaign_forecast(
         self, body: DSPRetrieveCampaignForecastRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def retrieve_campaign_forecast(
-        self, body: DSPRetrieveCampaignForecastRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPRetrieveCampaignForecastRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPCampaignForecastMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Retrieve campaign forecast"""
 

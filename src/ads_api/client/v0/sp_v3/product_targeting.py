@@ -27,48 +27,9 @@ class ProductTargeting(BaseResource):
     @overload
     async def get_category_recommendations_for_asi_ns(
         self,
-        body: GetCategoryRecommendationsForAsinsRequest,
+        body: GetCategoryRecommendationsForAsinsRequest | None = None,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-        locale: (
-            Literal[
-                "ar_AE",
-                "de_DE",
-                "en_AE",
-                "en_AU",
-                "en_CA",
-                "en_GB",
-                "en_IN",
-                "en_SG",
-                "en_US",
-                "es_ES",
-                "es_MX",
-                "fr_CA",
-                "fr_FR",
-                "hi_IN",
-                "it_IT",
-                "ja_JP",
-                "ko_KR",
-                "nl_NL",
-                "pl_PL",
-                "pt_BR",
-                "sv_SE",
-                "ta_IN",
-                "th_TH",
-                "tr_TR",
-                "vi_VN",
-                "zh_CN",
-            ]
-            | str
-            | None
-        ) = None,
-    ) -> CategoryRecommendations: ...
-    @overload
-    async def get_category_recommendations_for_asi_ns(
-        self,
-        body: GetCategoryRecommendationsForAsinsRequest,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
         locale: (
             Literal[
                 "ar_AE",
@@ -105,7 +66,46 @@ class ProductTargeting(BaseResource):
     @overload
     async def get_category_recommendations_for_asi_ns(
         self,
-        body: GetCategoryRecommendationsForAsinsRequest,
+        body: GetCategoryRecommendationsForAsinsRequest | None = None,
+        *,
+        mode: Literal["pydantic"],
+        locale: (
+            Literal[
+                "ar_AE",
+                "de_DE",
+                "en_AE",
+                "en_AU",
+                "en_CA",
+                "en_GB",
+                "en_IN",
+                "en_SG",
+                "en_US",
+                "es_ES",
+                "es_MX",
+                "fr_CA",
+                "fr_FR",
+                "hi_IN",
+                "it_IT",
+                "ja_JP",
+                "ko_KR",
+                "nl_NL",
+                "pl_PL",
+                "pt_BR",
+                "sv_SE",
+                "ta_IN",
+                "th_TH",
+                "tr_TR",
+                "vi_VN",
+                "zh_CN",
+            ]
+            | str
+            | None
+        ) = None,
+    ) -> CategoryRecommendations: ...
+    @overload
+    async def get_category_recommendations_for_asi_ns(
+        self,
+        body: GetCategoryRecommendationsForAsinsRequest | None = None,
         *,
         mode: Literal["raw"],
         locale: (
@@ -143,9 +143,9 @@ class ProductTargeting(BaseResource):
     ) -> httpx.Response: ...
     async def get_category_recommendations_for_asi_ns(
         self,
-        body: GetCategoryRecommendationsForAsinsRequest,
+        body: GetCategoryRecommendationsForAsinsRequest | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         locale: (
             Literal[
                 "ar_AE",
@@ -198,13 +198,13 @@ class ProductTargeting(BaseResource):
         return self._response(CategoryRecommendations, resp, mode=mode)
 
     @overload
-    async def get_negative_brands(self, *, mode: Literal["pydantic"] = "pydantic") -> BrandsOut: ...
+    async def get_negative_brands(self, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_negative_brands(self, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_negative_brands(self, *, mode: Literal["pydantic"]) -> BrandsOut: ...
     @overload
     async def get_negative_brands(self, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_negative_brands(
-        self, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> BrandsOut | dict[str, Any] | httpx.Response:
         """Returns brands recommended for negative targeting. Only available for Sellers and Vendors. These recommendations include your own brands because targeting your own brands usually results in lower performance than targeting competitors' brands."""
 
@@ -223,49 +223,7 @@ class ProductTargeting(BaseResource):
         accept: Literal[
             "application/vnd.spproducttargetingresponse.v3+json", "application/vnd.spproducttargetingresponse.v4+json"
         ] = "application/vnd.spproducttargetingresponse.v3+json",
-        mode: Literal["pydantic"] = "pydantic",
-        locale: (
-            Literal[
-                "ar_AE",
-                "de_DE",
-                "en_AE",
-                "en_AU",
-                "en_CA",
-                "en_GB",
-                "en_IN",
-                "en_SG",
-                "en_US",
-                "es_ES",
-                "es_MX",
-                "fr_CA",
-                "fr_FR",
-                "hi_IN",
-                "it_IT",
-                "ja_JP",
-                "ko_KR",
-                "nl_NL",
-                "pl_PL",
-                "pt_BR",
-                "sv_SE",
-                "ta_IN",
-                "th_TH",
-                "tr_TR",
-                "vi_VN",
-                "zh_CN",
-            ]
-            | str
-            | None
-        ) = None,
-    ) -> Refinements: ...
-    @overload
-    async def get_refinements_for_category(
-        self,
-        category_id: str,
-        *,
-        accept: Literal[
-            "application/vnd.spproducttargetingresponse.v3+json", "application/vnd.spproducttargetingresponse.v4+json"
-        ] = "application/vnd.spproducttargetingresponse.v3+json",
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
         locale: (
             Literal[
                 "ar_AE",
@@ -299,6 +257,48 @@ class ProductTargeting(BaseResource):
             | None
         ) = None,
     ) -> dict[str, Any]: ...
+    @overload
+    async def get_refinements_for_category(
+        self,
+        category_id: str,
+        *,
+        accept: Literal[
+            "application/vnd.spproducttargetingresponse.v3+json", "application/vnd.spproducttargetingresponse.v4+json"
+        ] = "application/vnd.spproducttargetingresponse.v3+json",
+        mode: Literal["pydantic"],
+        locale: (
+            Literal[
+                "ar_AE",
+                "de_DE",
+                "en_AE",
+                "en_AU",
+                "en_CA",
+                "en_GB",
+                "en_IN",
+                "en_SG",
+                "en_US",
+                "es_ES",
+                "es_MX",
+                "fr_CA",
+                "fr_FR",
+                "hi_IN",
+                "it_IT",
+                "ja_JP",
+                "ko_KR",
+                "nl_NL",
+                "pl_PL",
+                "pt_BR",
+                "sv_SE",
+                "ta_IN",
+                "th_TH",
+                "tr_TR",
+                "vi_VN",
+                "zh_CN",
+            ]
+            | str
+            | None
+        ) = None,
+    ) -> Refinements: ...
     @overload
     async def get_refinements_for_category(
         self,
@@ -348,7 +348,7 @@ class ProductTargeting(BaseResource):
         accept: Literal[
             "application/vnd.spproducttargetingresponse.v3+json", "application/vnd.spproducttargetingresponse.v4+json"
         ] = "application/vnd.spproducttargetingresponse.v3+json",
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         locale: (
             Literal[
                 "ar_AE",
@@ -397,18 +397,18 @@ class ProductTargeting(BaseResource):
 
     @overload
     async def get_targetable_asin_counts(
-        self, body: GetTargetableAsinCountsRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> TargetableAsinCounts: ...
-    @overload
-    async def get_targetable_asin_counts(
-        self, body: GetTargetableAsinCountsRequest, *, mode: Literal["dict"]
+        self, body: GetTargetableAsinCountsRequest | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def get_targetable_asin_counts(
-        self, body: GetTargetableAsinCountsRequest, *, mode: Literal["raw"]
+        self, body: GetTargetableAsinCountsRequest | None = None, *, mode: Literal["pydantic"]
+    ) -> TargetableAsinCounts: ...
+    @overload
+    async def get_targetable_asin_counts(
+        self, body: GetTargetableAsinCountsRequest | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def get_targetable_asin_counts(
-        self, body: GetTargetableAsinCountsRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: GetTargetableAsinCountsRequest | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> TargetableAsinCounts | dict[str, Any] | httpx.Response:
         """Get number of targetable asins based on refinements provided by the user. Please use the GetTargetableCategories API or the GetCategoryRecommendationsForASINs API to retrieve the category ID. Please use the GetRefinementsByCategory API to retrieve refinements data for a category."""
 
@@ -432,7 +432,50 @@ class ProductTargeting(BaseResource):
             "application/vnd.spproducttargetingresponse.v4+json",
             "application/vnd.spproducttargetingresponse.v5+json",
         ] = "application/vnd.spproducttargetingresponse.v3+json",
-        mode: Literal["pydantic"] = "pydantic",
+        mode: Literal["dict"] = "dict",
+        locale: (
+            Literal[
+                "ar_AE",
+                "de_DE",
+                "en_AE",
+                "en_AU",
+                "en_CA",
+                "en_GB",
+                "en_IN",
+                "en_SG",
+                "en_US",
+                "es_ES",
+                "es_MX",
+                "fr_CA",
+                "fr_FR",
+                "hi_IN",
+                "it_IT",
+                "ja_JP",
+                "ko_KR",
+                "nl_NL",
+                "pl_PL",
+                "pt_BR",
+                "sv_SE",
+                "ta_IN",
+                "th_TH",
+                "tr_TR",
+                "vi_VN",
+                "zh_CN",
+            ]
+            | str
+            | None
+        ) = None,
+    ) -> dict[str, Any]: ...
+    @overload
+    async def get_targetable_categories(
+        self,
+        *,
+        accept: Literal[
+            "application/vnd.spproducttargetingresponse.v3+json",
+            "application/vnd.spproducttargetingresponse.v4+json",
+            "application/vnd.spproducttargetingresponse.v5+json",
+        ] = "application/vnd.spproducttargetingresponse.v3+json",
+        mode: Literal["pydantic"],
         locale: (
             Literal[
                 "ar_AE",
@@ -466,49 +509,6 @@ class ProductTargeting(BaseResource):
             | None
         ) = None,
     ) -> TargetableCategories: ...
-    @overload
-    async def get_targetable_categories(
-        self,
-        *,
-        accept: Literal[
-            "application/vnd.spproducttargetingresponse.v3+json",
-            "application/vnd.spproducttargetingresponse.v4+json",
-            "application/vnd.spproducttargetingresponse.v5+json",
-        ] = "application/vnd.spproducttargetingresponse.v3+json",
-        mode: Literal["dict"],
-        locale: (
-            Literal[
-                "ar_AE",
-                "de_DE",
-                "en_AE",
-                "en_AU",
-                "en_CA",
-                "en_GB",
-                "en_IN",
-                "en_SG",
-                "en_US",
-                "es_ES",
-                "es_MX",
-                "fr_CA",
-                "fr_FR",
-                "hi_IN",
-                "it_IT",
-                "ja_JP",
-                "ko_KR",
-                "nl_NL",
-                "pl_PL",
-                "pt_BR",
-                "sv_SE",
-                "ta_IN",
-                "th_TH",
-                "tr_TR",
-                "vi_VN",
-                "zh_CN",
-            ]
-            | str
-            | None
-        ) = None,
-    ) -> dict[str, Any]: ...
     @overload
     async def get_targetable_categories(
         self,
@@ -560,7 +560,7 @@ class ProductTargeting(BaseResource):
             "application/vnd.spproducttargetingresponse.v4+json",
             "application/vnd.spproducttargetingresponse.v5+json",
         ] = "application/vnd.spproducttargetingresponse.v3+json",
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         locale: (
             Literal[
                 "ar_AE",
@@ -607,14 +607,18 @@ class ProductTargeting(BaseResource):
 
     @overload
     async def search_brands(
-        self, body: SearchBrandsRequest, *, mode: Literal["pydantic"] = "pydantic"
+        self, body: SearchBrandsRequest | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    async def search_brands(
+        self, body: SearchBrandsRequest | None = None, *, mode: Literal["pydantic"]
     ) -> BrandsOut: ...
     @overload
-    async def search_brands(self, body: SearchBrandsRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
-    @overload
-    async def search_brands(self, body: SearchBrandsRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def search_brands(
-        self, body: SearchBrandsRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SearchBrandsRequest | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def search_brands(
+        self, body: SearchBrandsRequest | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> BrandsOut | dict[str, Any] | httpx.Response:
         """Returns up to 100 brands related to keyword input for negative targeting."""
 

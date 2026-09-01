@@ -24,14 +24,16 @@ class SPAdGroups(BaseResource):
 
     @overload
     async def create_ad_group(
-        self, body: SPCreateAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPAdGroupMultiStatusResponse: ...
+        self, body: SPCreateAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def create_ad_group(self, body: SPCreateAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def create_ad_group(
+        self, body: SPCreateAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> SPAdGroupMultiStatusResponse: ...
     @overload
     async def create_ad_group(self, body: SPCreateAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_ad_group(
-        self, body: SPCreateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPCreateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPAdGroupMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create ad groups"""
 
@@ -40,14 +42,16 @@ class SPAdGroups(BaseResource):
 
     @overload
     async def delete_ad_group(
-        self, body: SPDeleteAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPAdGroupMultiStatusResponse: ...
+        self, body: SPDeleteAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def delete_ad_group(self, body: SPDeleteAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def delete_ad_group(
+        self, body: SPDeleteAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> SPAdGroupMultiStatusResponse: ...
     @overload
     async def delete_ad_group(self, body: SPDeleteAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def delete_ad_group(
-        self, body: SPDeleteAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPDeleteAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPAdGroupMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Delete ad groups"""
 
@@ -56,14 +60,16 @@ class SPAdGroups(BaseResource):
 
     @overload
     async def query_ad_group(
-        self, body: SPQueryAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPAdGroupSuccessResponse: ...
+        self, body: SPQueryAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def query_ad_group(self, body: SPQueryAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def query_ad_group(
+        self, body: SPQueryAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> SPAdGroupSuccessResponse: ...
     @overload
     async def query_ad_group(self, body: SPQueryAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_ad_group(
-        self, body: SPQueryAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPQueryAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPAdGroupSuccessResponse | dict[str, Any] | httpx.Response:
         """List ad groups"""
 
@@ -72,14 +78,16 @@ class SPAdGroups(BaseResource):
 
     @overload
     async def update_ad_group(
-        self, body: SPUpdateAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPAdGroupMultiStatusResponse: ...
+        self, body: SPUpdateAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def update_ad_group(self, body: SPUpdateAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def update_ad_group(
+        self, body: SPUpdateAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> SPAdGroupMultiStatusResponse: ...
     @overload
     async def update_ad_group(self, body: SPUpdateAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def update_ad_group(
-        self, body: SPUpdateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPUpdateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPAdGroupMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update ad groups"""
 

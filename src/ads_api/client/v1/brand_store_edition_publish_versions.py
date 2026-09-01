@@ -22,21 +22,18 @@ class BrandStoreEditionPublishVersions(BaseResource):
 
     @overload
     async def query_brand_store_edition_publish_version(
-        self, body: QueryBrandStoreEditionPublishVersionRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> BrandStoreEditionPublishVersionSuccessResponse: ...
+        self, body: QueryBrandStoreEditionPublishVersionRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def query_brand_store_edition_publish_version(
-        self, body: QueryBrandStoreEditionPublishVersionRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: QueryBrandStoreEditionPublishVersionRequest, *, mode: Literal["pydantic"]
+    ) -> BrandStoreEditionPublishVersionSuccessResponse: ...
     @overload
     async def query_brand_store_edition_publish_version(
         self, body: QueryBrandStoreEditionPublishVersionRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def query_brand_store_edition_publish_version(
-        self,
-        body: QueryBrandStoreEditionPublishVersionRequest,
-        *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        self, body: QueryBrandStoreEditionPublishVersionRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> BrandStoreEditionPublishVersionSuccessResponse | dict[str, Any] | httpx.Response:
         """Query store edition publish versions"""
 
@@ -47,21 +44,18 @@ class BrandStoreEditionPublishVersions(BaseResource):
 
     @overload
     async def update_brand_store_edition_publish_version(
-        self, body: UpdateBrandStoreEditionPublishVersionRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> BrandStoreEditionPublishVersionMultiStatusResponse: ...
+        self, body: UpdateBrandStoreEditionPublishVersionRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_brand_store_edition_publish_version(
-        self, body: UpdateBrandStoreEditionPublishVersionRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: UpdateBrandStoreEditionPublishVersionRequest, *, mode: Literal["pydantic"]
+    ) -> BrandStoreEditionPublishVersionMultiStatusResponse: ...
     @overload
     async def update_brand_store_edition_publish_version(
         self, body: UpdateBrandStoreEditionPublishVersionRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_brand_store_edition_publish_version(
-        self,
-        body: UpdateBrandStoreEditionPublishVersionRequest,
-        *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        self, body: UpdateBrandStoreEditionPublishVersionRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> BrandStoreEditionPublishVersionMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update store edition publish versions"""
 

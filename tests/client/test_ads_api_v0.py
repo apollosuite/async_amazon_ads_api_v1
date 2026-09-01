@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import inspect
+
 import pytest
 
 from ads_api import AdsClient, AdsClientV0, AmazonAdsConfig, Region
@@ -125,3 +127,15 @@ class TestAdsClientV0Portfolios:
     def test_portfolios_via_unified_ads_client(self, config: AmazonAdsConfig) -> None:
         client = AdsClient(config)
         assert isinstance(client.v0.portfolios, Portfolios)
+
+    def test_list_portfolios_body_optional(self) -> None:
+        param = inspect.signature(Portfolios.list_portfolios).parameters["body"]
+        assert param.default is None
+
+    def test_create_portfolios_body_required(self) -> None:
+        param = inspect.signature(Portfolios.create_portfolios).parameters["body"]
+        assert param.default is inspect.Parameter.empty
+
+    def test_list_portfolios_mode_defaults_to_dict(self) -> None:
+        param = inspect.signature(Portfolios.list_portfolios).parameters["mode"]
+        assert param.default == "dict"

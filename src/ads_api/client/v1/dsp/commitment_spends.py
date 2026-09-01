@@ -20,18 +20,18 @@ class DSPCommitmentSpends(BaseResource):
 
     @overload
     async def retrieve_commitment_spend(
-        self, body: DSPRetrieveCommitmentSpendRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPCommitmentSpendMultiStatusResponse: ...
+        self, body: DSPRetrieveCommitmentSpendRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def retrieve_commitment_spend(
-        self, body: DSPRetrieveCommitmentSpendRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPRetrieveCommitmentSpendRequest, *, mode: Literal["pydantic"]
+    ) -> DSPCommitmentSpendMultiStatusResponse: ...
     @overload
     async def retrieve_commitment_spend(
         self, body: DSPRetrieveCommitmentSpendRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def retrieve_commitment_spend(
-        self, body: DSPRetrieveCommitmentSpendRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPRetrieveCommitmentSpendRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPCommitmentSpendMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Retrieve commitment spend"""
 

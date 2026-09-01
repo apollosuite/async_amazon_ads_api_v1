@@ -6,6 +6,7 @@ import asyncio
 import email.utils
 import logging
 import random
+from collections.abc import Sequence
 from datetime import UTC, datetime
 from typing import Any, Literal, cast, overload
 
@@ -17,7 +18,7 @@ from ads_api.errors import raise_for_status
 
 logger = logging.getLogger(__name__)
 
-type ResponseMode = Literal["pydantic", "dict", "raw"]
+type ResponseMode = Literal["dict", "pydantic", "raw"]
 
 
 def _parse_retry_after(resp: httpx.Response | None, fallback_seconds: float, max_wait: float = 60.0) -> float:
@@ -85,8 +86,22 @@ class BaseResource:
         self.exclude_unset = exclude_unset
         self.exclude_none = exclude_none
 
-    def dump_json(self, body: BaseModel) -> dict[str, Any]:
-        return body.model_dump(mode="json", exclude_unset=self.exclude_unset, exclude_none=self.exclude_none)
+    @overload
+    def dump_json(self, body: None) -> dict[str, Any]: ...
+    @overload
+    def dump_json(self, body: BaseModel) -> dict[str, Any]: ...
+    @overload
+    def dump_json(self, body: Sequence[BaseModel]) -> list[Any]: ...
+    def dump_json(self, body: BaseModel | Sequence[BaseModel] | None) -> dict[str, Any] | list[Any]:
+        """Serialize a request body. ``None`` becomes ``{}`` so optional OpenAPI bodies omit fields."""
+        if isinstance(body, BaseModel):
+            return body.model_dump(mode="json", exclude_unset=self.exclude_unset, exclude_none=self.exclude_none)
+        if body is None:
+            return {}
+        return [
+            item.model_dump(mode="json", exclude_unset=self.exclude_unset, exclude_none=self.exclude_none)
+            for item in body
+        ]
 
     async def _request(
         self,
@@ -145,18 +160,16 @@ class BaseResource:
 
     @overload
     def _response[T: BaseModel](
-        self, model_cls: type[T], resp: httpx.Response, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> T: ...
-    @overload
-    def _response[T: BaseModel](
-        self, model_cls: type[T], resp: httpx.Response, *, mode: Literal["dict"]
+        self, model_cls: type[T], resp: httpx.Response, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
+    @overload
+    def _response[T: BaseModel](self, model_cls: type[T], resp: httpx.Response, *, mode: Literal["pydantic"]) -> T: ...
     @overload
     def _response[T: BaseModel](
         self, model_cls: type[T], resp: httpx.Response, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     def _response[T: BaseModel](
-        self, model_cls: type[T], resp: httpx.Response, *, mode: ResponseMode = "pydantic"
+        self, model_cls: type[T], resp: httpx.Response, *, mode: ResponseMode = "dict"
     ) -> T | dict[str, Any] | httpx.Response:
         if mode == "raw":
             return resp
@@ -170,18 +183,18 @@ class BaseResource:
 
     @overload
     def _response_list[T: BaseModel](
-        self, model_cls: type[T], resp: httpx.Response, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> list[T]: ...
+        self, model_cls: type[T], resp: httpx.Response, *, mode: Literal["dict"] = "dict"
+    ) -> list[dict[str, Any]]: ...
     @overload
     def _response_list[T: BaseModel](
-        self, model_cls: type[T], resp: httpx.Response, *, mode: Literal["dict"]
-    ) -> list[dict[str, Any]]: ...
+        self, model_cls: type[T], resp: httpx.Response, *, mode: Literal["pydantic"]
+    ) -> list[T]: ...
     @overload
     def _response_list[T: BaseModel](
         self, model_cls: type[T], resp: httpx.Response, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     def _response_list[T: BaseModel](
-        self, model_cls: type[T], resp: httpx.Response, *, mode: ResponseMode = "pydantic"
+        self, model_cls: type[T], resp: httpx.Response, *, mode: ResponseMode = "dict"
     ) -> list[T] | list[dict[str, Any]] | httpx.Response:
         if mode == "raw":
             return resp

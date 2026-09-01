@@ -22,12 +22,12 @@ from ads_api.models.v0.ads_data_manager.datasets import (
 class Datasets(BaseResource):
 
     @overload
-    async def delete_dataset(self, data_set_id: str, *, mode: Literal["pydantic"] = "pydantic") -> Any: ...
+    async def delete_dataset(self, data_set_id: str, *, mode: Literal["dict"] = "dict") -> Any: ...
     @overload
-    async def delete_dataset(self, data_set_id: str, *, mode: Literal["dict"]) -> Any: ...
+    async def delete_dataset(self, data_set_id: str, *, mode: Literal["pydantic"]) -> Any: ...
     @overload
     async def delete_dataset(self, data_set_id: str, *, mode: Literal["raw"]) -> httpx.Response: ...
-    async def delete_dataset(self, data_set_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic") -> Any:
+    async def delete_dataset(self, data_set_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "dict") -> Any:
         """Delete a Dataset."""
 
         resp = await self._request("DELETE", f"/adm/datasets/{data_set_id}")
@@ -36,15 +36,15 @@ class Datasets(BaseResource):
         return resp.json()
 
     @overload
-    async def get_data_set_metrics(
-        self, data_set_id: str, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> GetDataSetMetricsResponseContent: ...
+    async def get_data_set_metrics(self, data_set_id: str, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_data_set_metrics(self, data_set_id: str, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_data_set_metrics(
+        self, data_set_id: str, *, mode: Literal["pydantic"]
+    ) -> GetDataSetMetricsResponseContent: ...
     @overload
     async def get_data_set_metrics(self, data_set_id: str, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_data_set_metrics(
-        self, data_set_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, data_set_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> GetDataSetMetricsResponseContent | dict[str, Any] | httpx.Response:
         """Gets the metrics associated to dataset across all uploads"""
 
@@ -55,22 +55,26 @@ class Datasets(BaseResource):
 
     @overload
     async def get_dataset_aggregates(
-        self, data_set_id: str, body: GetDatasetAggregatesRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> GetDatasetAggregatesResponseContent: ...
-    @overload
-    async def get_dataset_aggregates(
-        self, data_set_id: str, body: GetDatasetAggregatesRequestContent, *, mode: Literal["dict"]
+        self,
+        data_set_id: str,
+        body: GetDatasetAggregatesRequestContent | None = None,
+        *,
+        mode: Literal["dict"] = "dict",
     ) -> dict[str, Any]: ...
     @overload
     async def get_dataset_aggregates(
-        self, data_set_id: str, body: GetDatasetAggregatesRequestContent, *, mode: Literal["raw"]
+        self, data_set_id: str, body: GetDatasetAggregatesRequestContent | None = None, *, mode: Literal["pydantic"]
+    ) -> GetDatasetAggregatesResponseContent: ...
+    @overload
+    async def get_dataset_aggregates(
+        self, data_set_id: str, body: GetDatasetAggregatesRequestContent | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def get_dataset_aggregates(
         self,
         data_set_id: str,
-        body: GetDatasetAggregatesRequestContent,
+        body: GetDatasetAggregatesRequestContent | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> GetDatasetAggregatesResponseContent | dict[str, Any] | httpx.Response:
         """Gets aggregated metrics for a dataset within a specified time range"""
 
@@ -88,20 +92,9 @@ class Datasets(BaseResource):
     @overload
     async def list_dataset_details(
         self,
-        body: ListDatasetDetailsRequestContent,
+        body: ListDatasetDetailsRequestContent | None = None,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-        search: str | None = None,
-        order: str | None = None,
-        next_token: str | None = None,
-        max_results: float | None = None,
-    ) -> ListDatasetDetailsResponseContent: ...
-    @overload
-    async def list_dataset_details(
-        self,
-        body: ListDatasetDetailsRequestContent,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
         search: str | None = None,
         order: str | None = None,
         next_token: str | None = None,
@@ -110,7 +103,18 @@ class Datasets(BaseResource):
     @overload
     async def list_dataset_details(
         self,
-        body: ListDatasetDetailsRequestContent,
+        body: ListDatasetDetailsRequestContent | None = None,
+        *,
+        mode: Literal["pydantic"],
+        search: str | None = None,
+        order: str | None = None,
+        next_token: str | None = None,
+        max_results: float | None = None,
+    ) -> ListDatasetDetailsResponseContent: ...
+    @overload
+    async def list_dataset_details(
+        self,
+        body: ListDatasetDetailsRequestContent | None = None,
         *,
         mode: Literal["raw"],
         search: str | None = None,
@@ -120,9 +124,9 @@ class Datasets(BaseResource):
     ) -> httpx.Response: ...
     async def list_dataset_details(
         self,
-        body: ListDatasetDetailsRequestContent,
+        body: ListDatasetDetailsRequestContent | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         search: str | None = None,
         order: str | None = None,
         next_token: str | None = None,

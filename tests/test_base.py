@@ -296,6 +296,23 @@ class TestUnifiedBaseResource:
 
         return BaseResource(ClientContext(NewConfig(access_token="test-token", client_id="test-client")))
 
+    def test_dump_json_none_is_empty_object(self, unified_resource: UnifiedBaseResource) -> None:
+        assert unified_resource.dump_json(None) == {}
+
+    def test_dump_json_model(self, unified_resource: UnifiedBaseResource) -> None:
+        assert unified_resource.dump_json(DummyModel(name="a", value=1)) == {"name": "a", "value": 1}
+
+    def test_dump_json_sequence(self, unified_resource: UnifiedBaseResource) -> None:
+        dumped = unified_resource.dump_json([DummyModel(name="a", value=1), DummyModel(name="b", value=2)])
+        assert dumped == [{"name": "a", "value": 1}, {"name": "b", "value": 2}]
+
+    def test_response_default_is_dict(self, unified_resource: UnifiedBaseResource) -> None:
+        resp = MagicMock(spec=httpx.Response)
+        resp.json.return_value = {"name": "test", "value": 123}
+        result = unified_resource._response(DummyModel, resp)
+        assert isinstance(result, dict)
+        assert result == {"name": "test", "value": 123}
+
     def test_response_pydantic_mode(self, unified_resource: UnifiedBaseResource) -> None:
         resp = MagicMock(spec=httpx.Response)
         resp.text = '{"name": "test", "value": 123}'
@@ -315,6 +332,13 @@ class TestUnifiedBaseResource:
         resp = MagicMock(spec=httpx.Response)
         result = unified_resource._response(DummyModel, resp, mode="raw")
         assert result is resp
+
+    def test_response_list_default_is_dict(self, unified_resource: UnifiedBaseResource) -> None:
+        resp = MagicMock(spec=httpx.Response)
+        resp.json.return_value = [{"name": "item1", "value": 1}]
+        result = unified_resource._response_list(DummyModel, resp)
+        assert isinstance(result, list)
+        assert result == [{"name": "item1", "value": 1}]
 
     def test_response_list_pydantic_mode(self, unified_resource: UnifiedBaseResource) -> None:
         resp = MagicMock(spec=httpx.Response)

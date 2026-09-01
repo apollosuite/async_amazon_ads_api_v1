@@ -23,14 +23,16 @@ class DSPAdGroups(BaseResource):
 
     @overload
     async def create_ad_group(
-        self, body: DSPCreateAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPAdGroupMultiStatusResponse: ...
+        self, body: DSPCreateAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def create_ad_group(self, body: DSPCreateAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def create_ad_group(
+        self, body: DSPCreateAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> DSPAdGroupMultiStatusResponse: ...
     @overload
     async def create_ad_group(self, body: DSPCreateAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_ad_group(
-        self, body: DSPCreateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPCreateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPAdGroupMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create ad groups"""
 
@@ -39,14 +41,16 @@ class DSPAdGroups(BaseResource):
 
     @overload
     async def query_ad_group(
-        self, body: DSPQueryAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPAdGroupSuccessResponse: ...
+        self, body: DSPQueryAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def query_ad_group(self, body: DSPQueryAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def query_ad_group(
+        self, body: DSPQueryAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> DSPAdGroupSuccessResponse: ...
     @overload
     async def query_ad_group(self, body: DSPQueryAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_ad_group(
-        self, body: DSPQueryAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPQueryAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPAdGroupSuccessResponse | dict[str, Any] | httpx.Response:
         """List ad groups"""
 
@@ -55,14 +59,16 @@ class DSPAdGroups(BaseResource):
 
     @overload
     async def update_ad_group(
-        self, body: DSPUpdateAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPAdGroupMultiStatusResponse: ...
+        self, body: DSPUpdateAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def update_ad_group(self, body: DSPUpdateAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def update_ad_group(
+        self, body: DSPUpdateAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> DSPAdGroupMultiStatusResponse: ...
     @overload
     async def update_ad_group(self, body: DSPUpdateAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def update_ad_group(
-        self, body: DSPUpdateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPUpdateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPAdGroupMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update ad groups"""
 

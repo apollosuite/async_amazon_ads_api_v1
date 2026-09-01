@@ -20,14 +20,16 @@ class BrandStores(BaseResource):
 
     @overload
     async def query_brand_store(
-        self, body: QueryBrandStoreRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> BrandStoreSuccessResponse: ...
+        self, body: QueryBrandStoreRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def query_brand_store(self, body: QueryBrandStoreRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def query_brand_store(
+        self, body: QueryBrandStoreRequest, *, mode: Literal["pydantic"]
+    ) -> BrandStoreSuccessResponse: ...
     @overload
     async def query_brand_store(self, body: QueryBrandStoreRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_brand_store(
-        self, body: QueryBrandStoreRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: QueryBrandStoreRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> BrandStoreSuccessResponse | dict[str, Any] | httpx.Response:
         """Query brand store content"""
 

@@ -29,12 +29,12 @@ class NegativeKeywords(BaseResource):
         self,
         body: SponsoredProductsCreateSponsoredProductsNegativeKeywordsRequestContent,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsCreateSponsoredProductsNegativeKeywordsResponseContent: ...
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
     @overload
     async def create_sponsored_products_negative_keywords(
-        self, body: SponsoredProductsCreateSponsoredProductsNegativeKeywordsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SponsoredProductsCreateSponsoredProductsNegativeKeywordsRequestContent, *, mode: Literal["pydantic"]
+    ) -> SponsoredProductsCreateSponsoredProductsNegativeKeywordsResponseContent: ...
     @overload
     async def create_sponsored_products_negative_keywords(
         self, body: SponsoredProductsCreateSponsoredProductsNegativeKeywordsRequestContent, *, mode: Literal["raw"]
@@ -43,7 +43,7 @@ class NegativeKeywords(BaseResource):
         self,
         body: SponsoredProductsCreateSponsoredProductsNegativeKeywordsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsCreateSponsoredProductsNegativeKeywordsResponseContent | dict[str, Any] | httpx.Response:
         """Create negative keywords"""
 
@@ -63,12 +63,12 @@ class NegativeKeywords(BaseResource):
         self,
         body: SponsoredProductsDeleteSponsoredProductsNegativeKeywordsRequestContent,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsDeleteSponsoredProductsNegativeKeywordsResponseContent: ...
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
     @overload
     async def delete_sponsored_products_negative_keywords(
-        self, body: SponsoredProductsDeleteSponsoredProductsNegativeKeywordsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SponsoredProductsDeleteSponsoredProductsNegativeKeywordsRequestContent, *, mode: Literal["pydantic"]
+    ) -> SponsoredProductsDeleteSponsoredProductsNegativeKeywordsResponseContent: ...
     @overload
     async def delete_sponsored_products_negative_keywords(
         self, body: SponsoredProductsDeleteSponsoredProductsNegativeKeywordsRequestContent, *, mode: Literal["raw"]
@@ -77,7 +77,7 @@ class NegativeKeywords(BaseResource):
         self,
         body: SponsoredProductsDeleteSponsoredProductsNegativeKeywordsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsDeleteSponsoredProductsNegativeKeywordsResponseContent | dict[str, Any] | httpx.Response:
         """Delete negative keywords"""
 
@@ -95,23 +95,29 @@ class NegativeKeywords(BaseResource):
     @overload
     async def list_sponsored_products_negative_keywords(
         self,
-        body: SponsoredProductsListSponsoredProductsNegativeKeywordsRequestContent,
+        body: SponsoredProductsListSponsoredProductsNegativeKeywordsRequestContent | None = None,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsListSponsoredProductsNegativeKeywordsResponseContent: ...
-    @overload
-    async def list_sponsored_products_negative_keywords(
-        self, body: SponsoredProductsListSponsoredProductsNegativeKeywordsRequestContent, *, mode: Literal["dict"]
+        mode: Literal["dict"] = "dict",
     ) -> dict[str, Any]: ...
     @overload
     async def list_sponsored_products_negative_keywords(
-        self, body: SponsoredProductsListSponsoredProductsNegativeKeywordsRequestContent, *, mode: Literal["raw"]
+        self,
+        body: SponsoredProductsListSponsoredProductsNegativeKeywordsRequestContent | None = None,
+        *,
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsListSponsoredProductsNegativeKeywordsResponseContent: ...
+    @overload
+    async def list_sponsored_products_negative_keywords(
+        self,
+        body: SponsoredProductsListSponsoredProductsNegativeKeywordsRequestContent | None = None,
+        *,
+        mode: Literal["raw"],
     ) -> httpx.Response: ...
     async def list_sponsored_products_negative_keywords(
         self,
-        body: SponsoredProductsListSponsoredProductsNegativeKeywordsRequestContent,
+        body: SponsoredProductsListSponsoredProductsNegativeKeywordsRequestContent | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsListSponsoredProductsNegativeKeywordsResponseContent | dict[str, Any] | httpx.Response:
         """List negative keywords"""
 
@@ -131,12 +137,12 @@ class NegativeKeywords(BaseResource):
         self,
         body: SponsoredProductsUpdateSponsoredProductsNegativeKeywordsRequestContent,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsUpdateSponsoredProductsNegativeKeywordsResponseContent: ...
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
     @overload
     async def update_sponsored_products_negative_keywords(
-        self, body: SponsoredProductsUpdateSponsoredProductsNegativeKeywordsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SponsoredProductsUpdateSponsoredProductsNegativeKeywordsRequestContent, *, mode: Literal["pydantic"]
+    ) -> SponsoredProductsUpdateSponsoredProductsNegativeKeywordsResponseContent: ...
     @overload
     async def update_sponsored_products_negative_keywords(
         self, body: SponsoredProductsUpdateSponsoredProductsNegativeKeywordsRequestContent, *, mode: Literal["raw"]
@@ -145,7 +151,7 @@ class NegativeKeywords(BaseResource):
         self,
         body: SponsoredProductsUpdateSponsoredProductsNegativeKeywordsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsUpdateSponsoredProductsNegativeKeywordsResponseContent | dict[str, Any] | httpx.Response:
         """Update negative keywords"""
 

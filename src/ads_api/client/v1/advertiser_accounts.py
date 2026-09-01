@@ -23,18 +23,18 @@ class AdvertiserAccounts(BaseResource):
 
     @overload
     async def create_advertiser_account(
-        self, body: CreateAdvertiserAccountRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> AdvertiserAccountMultiStatusResponse: ...
+        self, body: CreateAdvertiserAccountRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_advertiser_account(
-        self, body: CreateAdvertiserAccountRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateAdvertiserAccountRequest, *, mode: Literal["pydantic"]
+    ) -> AdvertiserAccountMultiStatusResponse: ...
     @overload
     async def create_advertiser_account(
         self, body: CreateAdvertiserAccountRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_advertiser_account(
-        self, body: CreateAdvertiserAccountRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: CreateAdvertiserAccountRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> AdvertiserAccountMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create advertiser accounts"""
 
@@ -43,18 +43,18 @@ class AdvertiserAccounts(BaseResource):
 
     @overload
     async def query_advertiser_account(
-        self, body: QueryAdvertiserAccountRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> AdvertiserAccountSuccessResponse: ...
-    @overload
-    async def query_advertiser_account(
-        self, body: QueryAdvertiserAccountRequest, *, mode: Literal["dict"]
+        self, body: QueryAdvertiserAccountRequest | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def query_advertiser_account(
-        self, body: QueryAdvertiserAccountRequest, *, mode: Literal["raw"]
+        self, body: QueryAdvertiserAccountRequest | None = None, *, mode: Literal["pydantic"]
+    ) -> AdvertiserAccountSuccessResponse: ...
+    @overload
+    async def query_advertiser_account(
+        self, body: QueryAdvertiserAccountRequest | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def query_advertiser_account(
-        self, body: QueryAdvertiserAccountRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: QueryAdvertiserAccountRequest | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> AdvertiserAccountSuccessResponse | dict[str, Any] | httpx.Response:
         """List advertiser accounts"""
 
@@ -63,18 +63,18 @@ class AdvertiserAccounts(BaseResource):
 
     @overload
     async def update_advertiser_account(
-        self, body: UpdateAdvertiserAccountRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> AdvertiserAccountMultiStatusResponse: ...
+        self, body: UpdateAdvertiserAccountRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_advertiser_account(
-        self, body: UpdateAdvertiserAccountRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: UpdateAdvertiserAccountRequest, *, mode: Literal["pydantic"]
+    ) -> AdvertiserAccountMultiStatusResponse: ...
     @overload
     async def update_advertiser_account(
         self, body: UpdateAdvertiserAccountRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_advertiser_account(
-        self, body: UpdateAdvertiserAccountRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: UpdateAdvertiserAccountRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> AdvertiserAccountMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update advertiser accounts"""
 

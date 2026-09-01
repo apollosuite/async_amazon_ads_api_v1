@@ -20,14 +20,18 @@ class Forecasts(BaseResource):
 
     @overload
     async def create_sd_forecast(
-        self, body: SDForecastRequest, *, mode: Literal["pydantic"] = "pydantic"
+        self, body: SDForecastRequest | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    async def create_sd_forecast(
+        self, body: SDForecastRequest | None = None, *, mode: Literal["pydantic"]
     ) -> SDForecastResponse: ...
     @overload
-    async def create_sd_forecast(self, body: SDForecastRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
-    @overload
-    async def create_sd_forecast(self, body: SDForecastRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_sd_forecast(
-        self, body: SDForecastRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SDForecastRequest | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def create_sd_forecast(
+        self, body: SDForecastRequest | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SDForecastResponse | dict[str, Any] | httpx.Response:
         """Returns forecasts for a given ad group specified in SD forecast request."""
 

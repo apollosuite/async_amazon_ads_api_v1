@@ -21,18 +21,21 @@ class BrandMetrics(BaseResource):
 
     @overload
     async def generate_brand_metrics_report(
-        self, body: BrandMetricsGenerateReportRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> BrandMetricsGenerateReportResponse: ...
-    @overload
-    async def generate_brand_metrics_report(
-        self, body: BrandMetricsGenerateReportRequest, *, mode: Literal["dict"]
+        self, body: BrandMetricsGenerateReportRequest | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def generate_brand_metrics_report(
-        self, body: BrandMetricsGenerateReportRequest, *, mode: Literal["raw"]
+        self, body: BrandMetricsGenerateReportRequest | None = None, *, mode: Literal["pydantic"]
+    ) -> BrandMetricsGenerateReportResponse: ...
+    @overload
+    async def generate_brand_metrics_report(
+        self, body: BrandMetricsGenerateReportRequest | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def generate_brand_metrics_report(
-        self, body: BrandMetricsGenerateReportRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self,
+        body: BrandMetricsGenerateReportRequest | None = None,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> BrandMetricsGenerateReportResponse | dict[str, Any] | httpx.Response:
         """Generates the Brand Metrics report in CSV or JSON format. Customize the report by passing a specific categoryTreeName, categoryPath, brandName, reportStartDate, reportEndDate, lookbackPeriod, format or a list of metrics from the available metrics in the metrics field. If an empty request body is passed, report for the latest available report date in JSON format will get generated with all the available brands and metrics for an advertiser. The report may or may not contain the Brand Metrics data for one or more brands depending on data availability."""
 
@@ -55,8 +58,8 @@ class BrandMetrics(BaseResource):
         accept: Literal[
             "application/vnd.insightsbrandmetrics.v1+json", "application/vnd.insightsbrandmetrics.v1.1+json"
         ] = "application/vnd.insightsbrandmetrics.v1+json",
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> BrandMetricsGetReportByIdResponse: ...
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
     @overload
     async def get_brand_metrics_report(
         self,
@@ -65,8 +68,8 @@ class BrandMetrics(BaseResource):
         accept: Literal[
             "application/vnd.insightsbrandmetrics.v1+json", "application/vnd.insightsbrandmetrics.v1.1+json"
         ] = "application/vnd.insightsbrandmetrics.v1+json",
-        mode: Literal["dict"],
-    ) -> dict[str, Any]: ...
+        mode: Literal["pydantic"],
+    ) -> BrandMetricsGetReportByIdResponse: ...
     @overload
     async def get_brand_metrics_report(
         self,
@@ -84,7 +87,7 @@ class BrandMetrics(BaseResource):
         accept: Literal[
             "application/vnd.insightsbrandmetrics.v1+json", "application/vnd.insightsbrandmetrics.v1.1+json"
         ] = "application/vnd.insightsbrandmetrics.v1+json",
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> BrandMetricsGetReportByIdResponse | dict[str, Any] | httpx.Response:
         """Fetch the location and status of the report for the brands for which the metrics are available. The URL to the report is only available when the status of the report is SUCCESSFUL."""
 

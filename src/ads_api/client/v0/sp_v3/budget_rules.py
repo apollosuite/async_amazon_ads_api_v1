@@ -33,18 +33,18 @@ class BudgetRules(BaseResource):
 
     @overload
     async def bulk_budget_rules_association_for_sp(
-        self, body: BulkBudgetRulesAssociationRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> BulkBudgetRulesAssociationResponse: ...
+        self, body: BulkBudgetRulesAssociationRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def bulk_budget_rules_association_for_sp(
-        self, body: BulkBudgetRulesAssociationRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: BulkBudgetRulesAssociationRequest, *, mode: Literal["pydantic"]
+    ) -> BulkBudgetRulesAssociationResponse: ...
     @overload
     async def bulk_budget_rules_association_for_sp(
         self, body: BulkBudgetRulesAssociationRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def bulk_budget_rules_association_for_sp(
-        self, body: BulkBudgetRulesAssociationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: BulkBudgetRulesAssociationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> BulkBudgetRulesAssociationResponse | dict[str, Any] | httpx.Response:
         """A maximum of 250 rules can be associated to a campaign. Note that the name of each rule associated to a campaign is required to be unique."""
 
@@ -53,18 +53,18 @@ class BudgetRules(BaseResource):
 
     @overload
     async def bulk_budget_rules_dis_association_for_sp(
-        self, body: BulkBudgetRulesDisAssociationRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> BulkBudgetRulesDisAssociationResponse: ...
+        self, body: BulkBudgetRulesDisAssociationRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def bulk_budget_rules_dis_association_for_sp(
-        self, body: BulkBudgetRulesDisAssociationRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: BulkBudgetRulesDisAssociationRequest, *, mode: Literal["pydantic"]
+    ) -> BulkBudgetRulesDisAssociationResponse: ...
     @overload
     async def bulk_budget_rules_dis_association_for_sp(
         self, body: BulkBudgetRulesDisAssociationRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def bulk_budget_rules_dis_association_for_sp(
-        self, body: BulkBudgetRulesDisAssociationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: BulkBudgetRulesDisAssociationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> BulkBudgetRulesDisAssociationResponse | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 
@@ -73,12 +73,12 @@ class BudgetRules(BaseResource):
 
     @overload
     async def create_associated_budget_rules_for_sp_campaigns(
-        self, campaign_id: int, body: CreateAssociatedBudgetRulesRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateAssociatedBudgetRulesResponse: ...
+        self, campaign_id: int, body: CreateAssociatedBudgetRulesRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_associated_budget_rules_for_sp_campaigns(
-        self, campaign_id: int, body: CreateAssociatedBudgetRulesRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, campaign_id: int, body: CreateAssociatedBudgetRulesRequest, *, mode: Literal["pydantic"]
+    ) -> CreateAssociatedBudgetRulesResponse: ...
     @overload
     async def create_associated_budget_rules_for_sp_campaigns(
         self, campaign_id: int, body: CreateAssociatedBudgetRulesRequest, *, mode: Literal["raw"]
@@ -88,7 +88,7 @@ class BudgetRules(BaseResource):
         campaign_id: int,
         body: CreateAssociatedBudgetRulesRequest,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> CreateAssociatedBudgetRulesResponse | dict[str, Any] | httpx.Response:
         """A maximum of 250 rules can be associated to a campaign. Note that the name of each rule associated to a campaign is required to be unique."""
 
@@ -97,18 +97,18 @@ class BudgetRules(BaseResource):
 
     @overload
     async def create_budget_rules_for_sp_campaigns(
-        self, body: CreateSPBudgetRulesRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateBudgetRulesResponse: ...
+        self, body: CreateSPBudgetRulesRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_budget_rules_for_sp_campaigns(
-        self, body: CreateSPBudgetRulesRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateSPBudgetRulesRequest, *, mode: Literal["pydantic"]
+    ) -> CreateBudgetRulesResponse: ...
     @overload
     async def create_budget_rules_for_sp_campaigns(
         self, body: CreateSPBudgetRulesRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_budget_rules_for_sp_campaigns(
-        self, body: CreateSPBudgetRulesRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: CreateSPBudgetRulesRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> CreateBudgetRulesResponse | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 
@@ -117,18 +117,18 @@ class BudgetRules(BaseResource):
 
     @overload
     async def disassociate_associated_budget_rule_for_sp_campaigns(
-        self, campaign_id: int, budget_rule_id: str, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DisassociateAssociatedBudgetRuleResponse: ...
+        self, campaign_id: int, budget_rule_id: str, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def disassociate_associated_budget_rule_for_sp_campaigns(
-        self, campaign_id: int, budget_rule_id: str, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, campaign_id: int, budget_rule_id: str, *, mode: Literal["pydantic"]
+    ) -> DisassociateAssociatedBudgetRuleResponse: ...
     @overload
     async def disassociate_associated_budget_rule_for_sp_campaigns(
         self, campaign_id: int, budget_rule_id: str, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def disassociate_associated_budget_rule_for_sp_campaigns(
-        self, campaign_id: int, budget_rule_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, campaign_id: int, budget_rule_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DisassociateAssociatedBudgetRuleResponse | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 
@@ -137,18 +137,18 @@ class BudgetRules(BaseResource):
 
     @overload
     async def get_budget_rule_by_rule_id_for_sp_campaigns(
-        self, budget_rule_id: str, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> GetSPBudgetRuleResponse: ...
+        self, budget_rule_id: str, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def get_budget_rule_by_rule_id_for_sp_campaigns(
-        self, budget_rule_id: str, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, budget_rule_id: str, *, mode: Literal["pydantic"]
+    ) -> GetSPBudgetRuleResponse: ...
     @overload
     async def get_budget_rule_by_rule_id_for_sp_campaigns(
         self, budget_rule_id: str, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def get_budget_rule_by_rule_id_for_sp_campaigns(
-        self, budget_rule_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, budget_rule_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> GetSPBudgetRuleResponse | dict[str, Any] | httpx.Response:
         """**Authorized resource type**:"""
 
@@ -157,17 +157,12 @@ class BudgetRules(BaseResource):
 
     @overload
     async def get_campaigns_associated_with_sp_budget_rule(
-        self,
-        budget_rule_id: str,
-        page_size: float,
-        *,
-        mode: Literal["pydantic"] = "pydantic",
-        next_token: str | None = None,
-    ) -> SPGetAssociatedCampaignsResponse: ...
+        self, budget_rule_id: str, page_size: float, *, mode: Literal["dict"] = "dict", next_token: str | None = None
+    ) -> dict[str, Any]: ...
     @overload
     async def get_campaigns_associated_with_sp_budget_rule(
-        self, budget_rule_id: str, page_size: float, *, mode: Literal["dict"], next_token: str | None = None
-    ) -> dict[str, Any]: ...
+        self, budget_rule_id: str, page_size: float, *, mode: Literal["pydantic"], next_token: str | None = None
+    ) -> SPGetAssociatedCampaignsResponse: ...
     @overload
     async def get_campaigns_associated_with_sp_budget_rule(
         self, budget_rule_id: str, page_size: float, *, mode: Literal["raw"], next_token: str | None = None
@@ -177,7 +172,7 @@ class BudgetRules(BaseResource):
         budget_rule_id: str,
         page_size: float,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         next_token: str | None = None,
     ) -> SPGetAssociatedCampaignsResponse | dict[str, Any] | httpx.Response:
         """"""
@@ -192,18 +187,18 @@ class BudgetRules(BaseResource):
 
     @overload
     async def get_sp_budget_rules_for_advertiser(
-        self, page_size: float, *, mode: Literal["pydantic"] = "pydantic", next_token: str | None = None
-    ) -> GetSPBudgetRulesForAdvertiserResponse: ...
+        self, page_size: float, *, mode: Literal["dict"] = "dict", next_token: str | None = None
+    ) -> dict[str, Any]: ...
     @overload
     async def get_sp_budget_rules_for_advertiser(
-        self, page_size: float, *, mode: Literal["dict"], next_token: str | None = None
-    ) -> dict[str, Any]: ...
+        self, page_size: float, *, mode: Literal["pydantic"], next_token: str | None = None
+    ) -> GetSPBudgetRulesForAdvertiserResponse: ...
     @overload
     async def get_sp_budget_rules_for_advertiser(
         self, page_size: float, *, mode: Literal["raw"], next_token: str | None = None
     ) -> httpx.Response: ...
     async def get_sp_budget_rules_for_advertiser(
-        self, page_size: float, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic", next_token: str | None = None
+        self, page_size: float, *, mode: Literal["pydantic", "dict", "raw"] = "dict", next_token: str | None = None
     ) -> GetSPBudgetRulesForAdvertiserResponse | dict[str, Any] | httpx.Response:
         """"""
 
@@ -217,18 +212,18 @@ class BudgetRules(BaseResource):
 
     @overload
     async def list_associated_budget_rules_for_sp_campaigns(
-        self, campaign_id: int, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPListAssociatedBudgetRulesResponse: ...
+        self, campaign_id: int, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def list_associated_budget_rules_for_sp_campaigns(
-        self, campaign_id: int, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, campaign_id: int, *, mode: Literal["pydantic"]
+    ) -> SPListAssociatedBudgetRulesResponse: ...
     @overload
     async def list_associated_budget_rules_for_sp_campaigns(
         self, campaign_id: int, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def list_associated_budget_rules_for_sp_campaigns(
-        self, campaign_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, campaign_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPListAssociatedBudgetRulesResponse | dict[str, Any] | httpx.Response:
         """**Authorized resource type**:"""
 
@@ -237,18 +232,18 @@ class BudgetRules(BaseResource):
 
     @overload
     async def update_budget_rules_for_sp_campaigns(
-        self, body: UpdateSPBudgetRulesRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> UpdateBudgetRulesResponse: ...
+        self, body: UpdateSPBudgetRulesRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_budget_rules_for_sp_campaigns(
-        self, body: UpdateSPBudgetRulesRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: UpdateSPBudgetRulesRequest, *, mode: Literal["pydantic"]
+    ) -> UpdateBudgetRulesResponse: ...
     @overload
     async def update_budget_rules_for_sp_campaigns(
         self, body: UpdateSPBudgetRulesRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_budget_rules_for_sp_campaigns(
-        self, body: UpdateSPBudgetRulesRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: UpdateSPBudgetRulesRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> UpdateBudgetRulesResponse | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 

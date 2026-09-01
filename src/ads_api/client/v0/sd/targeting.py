@@ -22,15 +22,13 @@ from ads_api.models.v0.sd.targeting import (
 class Targeting(BaseResource):
 
     @overload
-    async def archive_targeting_clause(
-        self, target_id: int, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> TargetResponse: ...
+    async def archive_targeting_clause(self, target_id: int, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def archive_targeting_clause(self, target_id: int, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def archive_targeting_clause(self, target_id: int, *, mode: Literal["pydantic"]) -> TargetResponse: ...
     @overload
     async def archive_targeting_clause(self, target_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def archive_targeting_clause(
-        self, target_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, target_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> TargetResponse | dict[str, Any] | httpx.Response:
         """Equivalent to using the `updateTargetingClauses` operation to set the `state` property of a targeting clause to `archived`. See [Developer"""
 
@@ -39,32 +37,32 @@ class Targeting(BaseResource):
 
     @overload
     async def create_targeting_clauses(
-        self, body: list[CreateTargetingClause], *, mode: Literal["pydantic"] = "pydantic"
-    ) -> list[TargetResponse]: ...
-    @overload
-    async def create_targeting_clauses(
-        self, body: list[CreateTargetingClause], *, mode: Literal["dict"]
+        self, body: list[CreateTargetingClause] | None = None, *, mode: Literal["dict"] = "dict"
     ) -> list[dict[str, Any]]: ...
     @overload
     async def create_targeting_clauses(
-        self, body: list[CreateTargetingClause], *, mode: Literal["raw"]
+        self, body: list[CreateTargetingClause] | None = None, *, mode: Literal["pydantic"]
+    ) -> list[TargetResponse]: ...
+    @overload
+    async def create_targeting_clauses(
+        self, body: list[CreateTargetingClause] | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_targeting_clauses(
-        self, body: list[CreateTargetingClause], *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: list[CreateTargetingClause] | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> list[TargetResponse] | list[dict[str, Any]] | httpx.Response:
         """Successfully created targeting clauses are assigned a unique `targetId` value."""
 
-        resp = await self._request("POST", "/sd/targets", json=[self.dump_json(x) for x in body])
+        resp = await self._request("POST", "/sd/targets", json=self.dump_json(body))
         return self._response_list(TargetResponse, resp, mode=mode)
 
     @overload
-    async def get_targets(self, target_id: int, *, mode: Literal["pydantic"] = "pydantic") -> TargetingClause: ...
+    async def get_targets(self, target_id: int, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_targets(self, target_id: int, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_targets(self, target_id: int, *, mode: Literal["pydantic"]) -> TargetingClause: ...
     @overload
     async def get_targets(self, target_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_targets(
-        self, target_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, target_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> TargetingClause | dict[str, Any] | httpx.Response:
         """This call returns the minimal set of targeting clause fields."""
 
@@ -72,13 +70,13 @@ class Targeting(BaseResource):
         return self._response(TargetingClause, resp, mode=mode)
 
     @overload
-    async def get_targets_ex(self, target_id: int, *, mode: Literal["pydantic"] = "pydantic") -> TargetingClauseEx: ...
+    async def get_targets_ex(self, target_id: int, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_targets_ex(self, target_id: int, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_targets_ex(self, target_id: int, *, mode: Literal["pydantic"]) -> TargetingClauseEx: ...
     @overload
     async def get_targets_ex(self, target_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_targets_ex(
-        self, target_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, target_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> TargetingClauseEx | dict[str, Any] | httpx.Response:
         """Gets a targeting clause object with extended fields. Note that this call returns the full set of targeting clause extended fields, but is less efficient than getTarget."""
 
@@ -89,7 +87,31 @@ class Targeting(BaseResource):
     async def list_targeting_clauses(
         self,
         *,
-        mode: Literal["pydantic"] = "pydantic",
+        mode: Literal["dict"] = "dict",
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        target_id_filter: str | None = None,
+        ad_group_id_filter: str | None = None,
+        campaign_id_filter: str | None = None,
+    ) -> list[dict[str, Any]]: ...
+    @overload
+    async def list_targeting_clauses(
+        self,
+        *,
+        mode: Literal["pydantic"],
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -109,30 +131,6 @@ class Targeting(BaseResource):
         ad_group_id_filter: str | None = None,
         campaign_id_filter: str | None = None,
     ) -> list[TargetingClause]: ...
-    @overload
-    async def list_targeting_clauses(
-        self,
-        *,
-        mode: Literal["dict"],
-        start_index: int | None = None,
-        count: int | None = None,
-        state_filter: (
-            Literal[
-                "enabled",
-                "paused",
-                "archived",
-                "enabled, paused",
-                "enabled, archived",
-                "paused, archived",
-                "enabled, paused, archived",
-            ]
-            | str
-            | None
-        ) = None,
-        target_id_filter: str | None = None,
-        ad_group_id_filter: str | None = None,
-        campaign_id_filter: str | None = None,
-    ) -> list[dict[str, Any]]: ...
     @overload
     async def list_targeting_clauses(
         self,
@@ -160,7 +158,7 @@ class Targeting(BaseResource):
     async def list_targeting_clauses(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -198,31 +196,7 @@ class Targeting(BaseResource):
     async def list_targeting_clauses_ex(
         self,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-        start_index: int | None = None,
-        count: int | None = None,
-        state_filter: (
-            Literal[
-                "enabled",
-                "paused",
-                "archived",
-                "enabled, paused",
-                "enabled, archived",
-                "paused, archived",
-                "enabled, paused, archived",
-            ]
-            | str
-            | None
-        ) = None,
-        target_id_filter: str | None = None,
-        ad_group_id_filter: str | None = None,
-        campaign_id_filter: str | None = None,
-    ) -> list[TargetingClauseEx]: ...
-    @overload
-    async def list_targeting_clauses_ex(
-        self,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -242,6 +216,30 @@ class Targeting(BaseResource):
         ad_group_id_filter: str | None = None,
         campaign_id_filter: str | None = None,
     ) -> list[dict[str, Any]]: ...
+    @overload
+    async def list_targeting_clauses_ex(
+        self,
+        *,
+        mode: Literal["pydantic"],
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        target_id_filter: str | None = None,
+        ad_group_id_filter: str | None = None,
+        campaign_id_filter: str | None = None,
+    ) -> list[TargetingClauseEx]: ...
     @overload
     async def list_targeting_clauses_ex(
         self,
@@ -269,7 +267,7 @@ class Targeting(BaseResource):
     async def list_targeting_clauses_ex(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -305,20 +303,20 @@ class Targeting(BaseResource):
 
     @overload
     async def update_targeting_clauses(
-        self, body: list[UpdateTargetingClause], *, mode: Literal["pydantic"] = "pydantic"
-    ) -> list[TargetResponse]: ...
-    @overload
-    async def update_targeting_clauses(
-        self, body: list[UpdateTargetingClause], *, mode: Literal["dict"]
+        self, body: list[UpdateTargetingClause] | None = None, *, mode: Literal["dict"] = "dict"
     ) -> list[dict[str, Any]]: ...
     @overload
     async def update_targeting_clauses(
-        self, body: list[UpdateTargetingClause], *, mode: Literal["raw"]
+        self, body: list[UpdateTargetingClause] | None = None, *, mode: Literal["pydantic"]
+    ) -> list[TargetResponse]: ...
+    @overload
+    async def update_targeting_clauses(
+        self, body: list[UpdateTargetingClause] | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_targeting_clauses(
-        self, body: list[UpdateTargetingClause], *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: list[UpdateTargetingClause] | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> list[TargetResponse] | list[dict[str, Any]] | httpx.Response:
         """Updates one or more targeting clauses. Targeting clauses are identified using their targetId. The mutable fields are `bid` and `state`. Maximum length of the array is 100 objects."""
 
-        resp = await self._request("PUT", "/sd/targets", json=[self.dump_json(x) for x in body])
+        resp = await self._request("PUT", "/sd/targets", json=self.dump_json(body))
         return self._response_list(TargetResponse, resp, mode=mode)

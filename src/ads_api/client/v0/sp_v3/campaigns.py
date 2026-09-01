@@ -26,15 +26,12 @@ class Campaigns(BaseResource):
 
     @overload
     async def create_sponsored_products_campaigns(
-        self,
-        body: SponsoredProductsCreateSponsoredProductsCampaignsRequestContent,
-        *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsCreateSponsoredProductsCampaignsResponseContent: ...
+        self, body: SponsoredProductsCreateSponsoredProductsCampaignsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_sponsored_products_campaigns(
-        self, body: SponsoredProductsCreateSponsoredProductsCampaignsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SponsoredProductsCreateSponsoredProductsCampaignsRequestContent, *, mode: Literal["pydantic"]
+    ) -> SponsoredProductsCreateSponsoredProductsCampaignsResponseContent: ...
     @overload
     async def create_sponsored_products_campaigns(
         self, body: SponsoredProductsCreateSponsoredProductsCampaignsRequestContent, *, mode: Literal["raw"]
@@ -43,7 +40,7 @@ class Campaigns(BaseResource):
         self,
         body: SponsoredProductsCreateSponsoredProductsCampaignsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsCreateSponsoredProductsCampaignsResponseContent | dict[str, Any] | httpx.Response:
         """Create campaigns"""
 
@@ -60,15 +57,12 @@ class Campaigns(BaseResource):
 
     @overload
     async def delete_sponsored_products_campaigns(
-        self,
-        body: SponsoredProductsDeleteSponsoredProductsCampaignsRequestContent,
-        *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsDeleteSponsoredProductsCampaignsResponseContent: ...
+        self, body: SponsoredProductsDeleteSponsoredProductsCampaignsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def delete_sponsored_products_campaigns(
-        self, body: SponsoredProductsDeleteSponsoredProductsCampaignsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SponsoredProductsDeleteSponsoredProductsCampaignsRequestContent, *, mode: Literal["pydantic"]
+    ) -> SponsoredProductsDeleteSponsoredProductsCampaignsResponseContent: ...
     @overload
     async def delete_sponsored_products_campaigns(
         self, body: SponsoredProductsDeleteSponsoredProductsCampaignsRequestContent, *, mode: Literal["raw"]
@@ -77,7 +71,7 @@ class Campaigns(BaseResource):
         self,
         body: SponsoredProductsDeleteSponsoredProductsCampaignsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsDeleteSponsoredProductsCampaignsResponseContent | dict[str, Any] | httpx.Response:
         """Delete campaigns"""
 
@@ -95,23 +89,26 @@ class Campaigns(BaseResource):
     @overload
     async def list_sponsored_products_campaigns(
         self,
-        body: SponsoredProductsListSponsoredProductsCampaignsRequestContent,
+        body: SponsoredProductsListSponsoredProductsCampaignsRequestContent | None = None,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsListSponsoredProductsCampaignsResponseContent: ...
-    @overload
-    async def list_sponsored_products_campaigns(
-        self, body: SponsoredProductsListSponsoredProductsCampaignsRequestContent, *, mode: Literal["dict"]
+        mode: Literal["dict"] = "dict",
     ) -> dict[str, Any]: ...
     @overload
     async def list_sponsored_products_campaigns(
-        self, body: SponsoredProductsListSponsoredProductsCampaignsRequestContent, *, mode: Literal["raw"]
+        self,
+        body: SponsoredProductsListSponsoredProductsCampaignsRequestContent | None = None,
+        *,
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsListSponsoredProductsCampaignsResponseContent: ...
+    @overload
+    async def list_sponsored_products_campaigns(
+        self, body: SponsoredProductsListSponsoredProductsCampaignsRequestContent | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def list_sponsored_products_campaigns(
         self,
-        body: SponsoredProductsListSponsoredProductsCampaignsRequestContent,
+        body: SponsoredProductsListSponsoredProductsCampaignsRequestContent | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsListSponsoredProductsCampaignsResponseContent | dict[str, Any] | httpx.Response:
         """List campaigns"""
 
@@ -128,15 +125,12 @@ class Campaigns(BaseResource):
 
     @overload
     async def update_sponsored_products_campaigns(
-        self,
-        body: SponsoredProductsUpdateSponsoredProductsCampaignsRequestContent,
-        *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsUpdateSponsoredProductsCampaignsResponseContent: ...
+        self, body: SponsoredProductsUpdateSponsoredProductsCampaignsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_sponsored_products_campaigns(
-        self, body: SponsoredProductsUpdateSponsoredProductsCampaignsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SponsoredProductsUpdateSponsoredProductsCampaignsRequestContent, *, mode: Literal["pydantic"]
+    ) -> SponsoredProductsUpdateSponsoredProductsCampaignsResponseContent: ...
     @overload
     async def update_sponsored_products_campaigns(
         self, body: SponsoredProductsUpdateSponsoredProductsCampaignsRequestContent, *, mode: Literal["raw"]
@@ -145,7 +139,7 @@ class Campaigns(BaseResource):
         self,
         body: SponsoredProductsUpdateSponsoredProductsCampaignsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsUpdateSponsoredProductsCampaignsResponseContent | dict[str, Any] | httpx.Response:
         """Update campaigns"""
 

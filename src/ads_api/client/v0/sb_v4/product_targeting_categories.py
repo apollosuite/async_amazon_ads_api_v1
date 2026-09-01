@@ -27,19 +27,19 @@ class ProductTargetingCategories(BaseResource):
         self,
         category_refinement_id: str,
         *,
-        mode: Literal["pydantic"] = "pydantic",
+        mode: Literal["dict"] = "dict",
         locale: SBTargetingLocale | str | None = None,
         next_token: str | None = None,
-    ) -> SBTargetingGetRefinementsForCategoryResponseContent: ...
+    ) -> dict[str, Any]: ...
     @overload
     async def targeting_get_refinements_for_category(
         self,
         category_refinement_id: str,
         *,
-        mode: Literal["dict"],
+        mode: Literal["pydantic"],
         locale: SBTargetingLocale | str | None = None,
         next_token: str | None = None,
-    ) -> dict[str, Any]: ...
+    ) -> SBTargetingGetRefinementsForCategoryResponseContent: ...
     @overload
     async def targeting_get_refinements_for_category(
         self,
@@ -53,7 +53,7 @@ class ProductTargetingCategories(BaseResource):
         self,
         category_refinement_id: str,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         locale: SBTargetingLocale | str | None = None,
         next_token: str | None = None,
     ) -> SBTargetingGetRefinementsForCategoryResponseContent | dict[str, Any] | httpx.Response:
@@ -74,12 +74,12 @@ class ProductTargetingCategories(BaseResource):
 
     @overload
     async def targeting_get_targetable_asin_counts(
-        self, body: SBTargetingGetTargetableASINCountsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBTargetingGetTargetableASINCountsResponseContent: ...
+        self, body: SBTargetingGetTargetableASINCountsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def targeting_get_targetable_asin_counts(
-        self, body: SBTargetingGetTargetableASINCountsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SBTargetingGetTargetableASINCountsRequestContent, *, mode: Literal["pydantic"]
+    ) -> SBTargetingGetTargetableASINCountsResponseContent: ...
     @overload
     async def targeting_get_targetable_asin_counts(
         self, body: SBTargetingGetTargetableASINCountsRequestContent, *, mode: Literal["raw"]
@@ -88,7 +88,7 @@ class ProductTargetingCategories(BaseResource):
         self,
         body: SBTargetingGetTargetableASINCountsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SBTargetingGetTargetableASINCountsResponseContent | dict[str, Any] | httpx.Response:
         """Get number of targetable asins based on refinements provided by the user."""
 
@@ -108,23 +108,23 @@ class ProductTargetingCategories(BaseResource):
         self,
         supply_source: SBTargetingSupplySource | str,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-        locale: SBTargetingLocale | str | None = None,
-        include_only_root_categories: bool | None = None,
-        parent_category_refinement_id: str | None = None,
-        next_token: str | None = None,
-    ) -> SBTargetingGetTargetableCategoriesResponseContent: ...
-    @overload
-    async def targeting_get_targetable_categories(
-        self,
-        supply_source: SBTargetingSupplySource | str,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
         locale: SBTargetingLocale | str | None = None,
         include_only_root_categories: bool | None = None,
         parent_category_refinement_id: str | None = None,
         next_token: str | None = None,
     ) -> dict[str, Any]: ...
+    @overload
+    async def targeting_get_targetable_categories(
+        self,
+        supply_source: SBTargetingSupplySource | str,
+        *,
+        mode: Literal["pydantic"],
+        locale: SBTargetingLocale | str | None = None,
+        include_only_root_categories: bool | None = None,
+        parent_category_refinement_id: str | None = None,
+        next_token: str | None = None,
+    ) -> SBTargetingGetTargetableCategoriesResponseContent: ...
     @overload
     async def targeting_get_targetable_categories(
         self,
@@ -140,7 +140,7 @@ class ProductTargetingCategories(BaseResource):
         self,
         supply_source: SBTargetingSupplySource | str,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         locale: SBTargetingLocale | str | None = None,
         include_only_root_categories: bool | None = None,
         parent_category_refinement_id: str | None = None,

@@ -20,18 +20,18 @@ class BrandStorePages(BaseResource):
 
     @overload
     async def query_brand_store_page(
-        self, body: QueryBrandStorePageRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> BrandStorePageSuccessResponse: ...
+        self, body: QueryBrandStorePageRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def query_brand_store_page(
-        self, body: QueryBrandStorePageRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: QueryBrandStorePageRequest, *, mode: Literal["pydantic"]
+    ) -> BrandStorePageSuccessResponse: ...
     @overload
     async def query_brand_store_page(
         self, body: QueryBrandStorePageRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def query_brand_store_page(
-        self, body: QueryBrandStorePageRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: QueryBrandStorePageRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> BrandStorePageSuccessResponse | dict[str, Any] | httpx.Response:
         """Retrieve brand store page content"""
 

@@ -21,18 +21,18 @@ class TermsToken(BaseResource):
 
     @overload
     async def create_terms_token(
-        self, body: CreateTermsTokenRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateTermsTokenResponseContent: ...
-    @overload
-    async def create_terms_token(
-        self, body: CreateTermsTokenRequestContent, *, mode: Literal["dict"]
+        self, body: CreateTermsTokenRequestContent | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def create_terms_token(
-        self, body: CreateTermsTokenRequestContent, *, mode: Literal["raw"]
+        self, body: CreateTermsTokenRequestContent | None = None, *, mode: Literal["pydantic"]
+    ) -> CreateTermsTokenResponseContent: ...
+    @overload
+    async def create_terms_token(
+        self, body: CreateTermsTokenRequestContent | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_terms_token(
-        self, body: CreateTermsTokenRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: CreateTermsTokenRequestContent | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> CreateTermsTokenResponseContent | dict[str, Any] | httpx.Response:
         """Create a new UUID terms token for the customer to accept advertising terms"""
 
@@ -48,15 +48,13 @@ class TermsToken(BaseResource):
         return self._response(CreateTermsTokenResponseContent, resp, mode=mode)
 
     @overload
-    async def get_terms_token(
-        self, terms_token: str, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> GetTermsTokenResponseContent: ...
+    async def get_terms_token(self, terms_token: str, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_terms_token(self, terms_token: str, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_terms_token(self, terms_token: str, *, mode: Literal["pydantic"]) -> GetTermsTokenResponseContent: ...
     @overload
     async def get_terms_token(self, terms_token: str, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_terms_token(
-        self, terms_token: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, terms_token: str, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> GetTermsTokenResponseContent | dict[str, Any] | httpx.Response:
         """Get the terms token status for the customer"""
 

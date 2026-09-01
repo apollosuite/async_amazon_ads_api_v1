@@ -20,18 +20,21 @@ class BidRecommendations(BaseResource):
 
     @overload
     async def get_target_bid_recommendations(
-        self, body: SDTargetingBidRecommendationsRequestV34, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SDTargetingBidRecommendationsResponseV32: ...
-    @overload
-    async def get_target_bid_recommendations(
-        self, body: SDTargetingBidRecommendationsRequestV34, *, mode: Literal["dict"]
+        self, body: SDTargetingBidRecommendationsRequestV34 | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def get_target_bid_recommendations(
-        self, body: SDTargetingBidRecommendationsRequestV34, *, mode: Literal["raw"]
+        self, body: SDTargetingBidRecommendationsRequestV34 | None = None, *, mode: Literal["pydantic"]
+    ) -> SDTargetingBidRecommendationsResponseV32: ...
+    @overload
+    async def get_target_bid_recommendations(
+        self, body: SDTargetingBidRecommendationsRequestV34 | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def get_target_bid_recommendations(
-        self, body: SDTargetingBidRecommendationsRequestV34, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self,
+        body: SDTargetingBidRecommendationsRequestV34 | None = None,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SDTargetingBidRecommendationsResponseV32 | dict[str, Any] | httpx.Response:
         """Provides a list of bid recommendations based on the list of input advertised ASINs and targeting clauses in the same format as the targeting API. For each targeting clause in the request a corresponding bid recommendation will be returned in the response. Currently the API will accept up to 100 targeting clauses. Note - these recommendations are only available when productAds have ASIN or SKU fields."""
 

@@ -24,14 +24,16 @@ class SPGlobalTargets(BaseResource):
 
     @overload
     async def create_target(
-        self, body: SPGlobalCreateTargetRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPGlobalTargetMultiStatusResponseWithPartialErrors: ...
+        self, body: SPGlobalCreateTargetRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def create_target(self, body: SPGlobalCreateTargetRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def create_target(
+        self, body: SPGlobalCreateTargetRequest, *, mode: Literal["pydantic"]
+    ) -> SPGlobalTargetMultiStatusResponseWithPartialErrors: ...
     @overload
     async def create_target(self, body: SPGlobalCreateTargetRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_target(
-        self, body: SPGlobalCreateTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGlobalCreateTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGlobalTargetMultiStatusResponseWithPartialErrors | dict[str, Any] | httpx.Response:
         """Create target"""
 
@@ -40,14 +42,16 @@ class SPGlobalTargets(BaseResource):
 
     @overload
     async def delete_target(
-        self, body: SPGlobalDeleteTargetRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPGlobalTargetMultiStatusResponseWithPartialErrors: ...
+        self, body: SPGlobalDeleteTargetRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def delete_target(self, body: SPGlobalDeleteTargetRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def delete_target(
+        self, body: SPGlobalDeleteTargetRequest, *, mode: Literal["pydantic"]
+    ) -> SPGlobalTargetMultiStatusResponseWithPartialErrors: ...
     @overload
     async def delete_target(self, body: SPGlobalDeleteTargetRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def delete_target(
-        self, body: SPGlobalDeleteTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGlobalDeleteTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGlobalTargetMultiStatusResponseWithPartialErrors | dict[str, Any] | httpx.Response:
         """Delete target"""
 
@@ -56,14 +60,16 @@ class SPGlobalTargets(BaseResource):
 
     @overload
     async def query_target(
-        self, body: SPGlobalQueryTargetRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPGlobalTargetSuccessResponse: ...
+        self, body: SPGlobalQueryTargetRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def query_target(self, body: SPGlobalQueryTargetRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def query_target(
+        self, body: SPGlobalQueryTargetRequest, *, mode: Literal["pydantic"]
+    ) -> SPGlobalTargetSuccessResponse: ...
     @overload
     async def query_target(self, body: SPGlobalQueryTargetRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_target(
-        self, body: SPGlobalQueryTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGlobalQueryTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGlobalTargetSuccessResponse | dict[str, Any] | httpx.Response:
         """List target"""
 
@@ -72,14 +78,16 @@ class SPGlobalTargets(BaseResource):
 
     @overload
     async def update_target(
-        self, body: SPGlobalUpdateTargetRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPGlobalTargetMultiStatusResponseWithPartialErrors: ...
+        self, body: SPGlobalUpdateTargetRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def update_target(self, body: SPGlobalUpdateTargetRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def update_target(
+        self, body: SPGlobalUpdateTargetRequest, *, mode: Literal["pydantic"]
+    ) -> SPGlobalTargetMultiStatusResponseWithPartialErrors: ...
     @overload
     async def update_target(self, body: SPGlobalUpdateTargetRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def update_target(
-        self, body: SPGlobalUpdateTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGlobalUpdateTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGlobalTargetMultiStatusResponseWithPartialErrors | dict[str, Any] | httpx.Response:
         """Update target"""
 

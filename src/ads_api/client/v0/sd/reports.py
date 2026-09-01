@@ -19,12 +19,12 @@ from ads_api.models.v0.sd.reports import (
 class Reports(BaseResource):
 
     @overload
-    async def download_report(self, report_id: str, *, mode: Literal["pydantic"] = "pydantic") -> Any: ...
+    async def download_report(self, report_id: str, *, mode: Literal["dict"] = "dict") -> Any: ...
     @overload
-    async def download_report(self, report_id: str, *, mode: Literal["dict"]) -> Any: ...
+    async def download_report(self, report_id: str, *, mode: Literal["pydantic"]) -> Any: ...
     @overload
     async def download_report(self, report_id: str, *, mode: Literal["raw"]) -> httpx.Response: ...
-    async def download_report(self, report_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic") -> Any:
+    async def download_report(self, report_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "dict") -> Any:
         """Gets a `307 Temporary Redirect` response that includes a `location` header with the value set to an AWS S3 path where the report is located. The path expires after 30 seconds. If the path expires before the report is downloaded, a new report request must be created."""
 
         resp = await self._request("GET", f"/v2/reports/{report_id}/download")
@@ -33,13 +33,13 @@ class Reports(BaseResource):
         return resp.json()
 
     @overload
-    async def get_report_status(self, report_id: str, *, mode: Literal["pydantic"] = "pydantic") -> ReportResponse: ...
+    async def get_report_status(self, report_id: str, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_report_status(self, report_id: str, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_report_status(self, report_id: str, *, mode: Literal["pydantic"]) -> ReportResponse: ...
     @overload
     async def get_report_status(self, report_id: str, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_report_status(
-        self, report_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, report_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> ReportResponse | dict[str, Any] | httpx.Response:
         """Uses the `reportId` value from the response of a report previously requested via `POST` method of the `/sd/{recordType}/report` operation."""
 
@@ -50,32 +50,32 @@ class Reports(BaseResource):
     async def request_report(
         self,
         record_type: Literal["campaigns", "adGroups", "productAds", "targets", "asins"] | str,
-        body: ReportRequest,
+        body: ReportRequest | None = None,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> ReportResponse: ...
-    @overload
-    async def request_report(
-        self,
-        record_type: Literal["campaigns", "adGroups", "productAds", "targets", "asins"] | str,
-        body: ReportRequest,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
     ) -> dict[str, Any]: ...
     @overload
     async def request_report(
         self,
         record_type: Literal["campaigns", "adGroups", "productAds", "targets", "asins"] | str,
-        body: ReportRequest,
+        body: ReportRequest | None = None,
+        *,
+        mode: Literal["pydantic"],
+    ) -> ReportResponse: ...
+    @overload
+    async def request_report(
+        self,
+        record_type: Literal["campaigns", "adGroups", "productAds", "targets", "asins"] | str,
+        body: ReportRequest | None = None,
         *,
         mode: Literal["raw"],
     ) -> httpx.Response: ...
     async def request_report(
         self,
         record_type: Literal["campaigns", "adGroups", "productAds", "targets", "asins"] | str,
-        body: ReportRequest,
+        body: ReportRequest | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> ReportResponse | dict[str, Any] | httpx.Response:
         """**To understand the call flow for asynchronous reports, see [Getting started with sponsored ads reports](/API/docs/en-us/guides/reporting/v2/sponsored-ads-reports).**"""
 

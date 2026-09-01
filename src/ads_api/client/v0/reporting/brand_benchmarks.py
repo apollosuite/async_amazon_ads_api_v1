@@ -20,12 +20,12 @@ class BrandBenchmarks(BaseResource):
 
     @overload
     async def get_advertiser_report(
-        self, advertiser_id: str, index_date: str, report_type: str, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> GetAdvertiserReportResponseContent: ...
+        self, advertiser_id: str, index_date: str, report_type: str, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def get_advertiser_report(
-        self, advertiser_id: str, index_date: str, report_type: str, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, advertiser_id: str, index_date: str, report_type: str, *, mode: Literal["pydantic"]
+    ) -> GetAdvertiserReportResponseContent: ...
     @overload
     async def get_advertiser_report(
         self, advertiser_id: str, index_date: str, report_type: str, *, mode: Literal["raw"]
@@ -36,7 +36,7 @@ class BrandBenchmarks(BaseResource):
         index_date: str,
         report_type: str,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> GetAdvertiserReportResponseContent | dict[str, Any] | httpx.Response:
         """Gets the download link for an advertiser's metric report in the specified marketplace."""
 
@@ -52,21 +52,21 @@ class BrandBenchmarks(BaseResource):
         self,
         advertiser_id: str,
         *,
-        mode: Literal["pydantic"] = "pydantic",
+        mode: Literal["dict"] = "dict",
         next_token: str | None = None,
         max_results: float | None = None,
         latest_only: bool | None = None,
-    ) -> ListAdvertiserReportMetadataResponseContent: ...
+    ) -> dict[str, Any]: ...
     @overload
     async def list_advertiser_report_metadata(
         self,
         advertiser_id: str,
         *,
-        mode: Literal["dict"],
+        mode: Literal["pydantic"],
         next_token: str | None = None,
         max_results: float | None = None,
         latest_only: bool | None = None,
-    ) -> dict[str, Any]: ...
+    ) -> ListAdvertiserReportMetadataResponseContent: ...
     @overload
     async def list_advertiser_report_metadata(
         self,
@@ -81,7 +81,7 @@ class BrandBenchmarks(BaseResource):
         self,
         advertiser_id: str,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         next_token: str | None = None,
         max_results: float | None = None,
         latest_only: bool | None = None,

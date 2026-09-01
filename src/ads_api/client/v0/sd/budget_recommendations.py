@@ -20,18 +20,18 @@ class BudgetRecommendations(BaseResource):
 
     @overload
     async def get_sd_budget_recommendations(
-        self, body: SDBudgetRecommendationsRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SDBudgetRecommendationsResponse: ...
-    @overload
-    async def get_sd_budget_recommendations(
-        self, body: SDBudgetRecommendationsRequest, *, mode: Literal["dict"]
+        self, body: SDBudgetRecommendationsRequest | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def get_sd_budget_recommendations(
-        self, body: SDBudgetRecommendationsRequest, *, mode: Literal["raw"]
+        self, body: SDBudgetRecommendationsRequest | None = None, *, mode: Literal["pydantic"]
+    ) -> SDBudgetRecommendationsResponse: ...
+    @overload
+    async def get_sd_budget_recommendations(
+        self, body: SDBudgetRecommendationsRequest | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def get_sd_budget_recommendations(
-        self, body: SDBudgetRecommendationsRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SDBudgetRecommendationsRequest | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SDBudgetRecommendationsResponse | dict[str, Any] | httpx.Response:
         """Given a list of campaigns as input, this API provides the following metrics:"""
 

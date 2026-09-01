@@ -24,14 +24,16 @@ class SBCampaigns(BaseResource):
 
     @overload
     async def create_campaign(
-        self, body: SBCreateCampaignRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBCampaignMultiStatusResponse: ...
+        self, body: SBCreateCampaignRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def create_campaign(self, body: SBCreateCampaignRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def create_campaign(
+        self, body: SBCreateCampaignRequest, *, mode: Literal["pydantic"]
+    ) -> SBCampaignMultiStatusResponse: ...
     @overload
     async def create_campaign(self, body: SBCreateCampaignRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_campaign(
-        self, body: SBCreateCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SBCreateCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBCampaignMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create campaigns"""
 
@@ -40,14 +42,16 @@ class SBCampaigns(BaseResource):
 
     @overload
     async def delete_campaign(
-        self, body: SBDeleteCampaignRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBCampaignMultiStatusResponse: ...
+        self, body: SBDeleteCampaignRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def delete_campaign(self, body: SBDeleteCampaignRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def delete_campaign(
+        self, body: SBDeleteCampaignRequest, *, mode: Literal["pydantic"]
+    ) -> SBCampaignMultiStatusResponse: ...
     @overload
     async def delete_campaign(self, body: SBDeleteCampaignRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def delete_campaign(
-        self, body: SBDeleteCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SBDeleteCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBCampaignMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Delete campaigns"""
 
@@ -56,14 +60,16 @@ class SBCampaigns(BaseResource):
 
     @overload
     async def query_campaign(
-        self, body: SBQueryCampaignRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBCampaignSuccessResponse: ...
+        self, body: SBQueryCampaignRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def query_campaign(self, body: SBQueryCampaignRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def query_campaign(
+        self, body: SBQueryCampaignRequest, *, mode: Literal["pydantic"]
+    ) -> SBCampaignSuccessResponse: ...
     @overload
     async def query_campaign(self, body: SBQueryCampaignRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_campaign(
-        self, body: SBQueryCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SBQueryCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBCampaignSuccessResponse | dict[str, Any] | httpx.Response:
         """Query campaign"""
 
@@ -72,14 +78,16 @@ class SBCampaigns(BaseResource):
 
     @overload
     async def update_campaign(
-        self, body: SBUpdateCampaignRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBCampaignMultiStatusResponse: ...
+        self, body: SBUpdateCampaignRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def update_campaign(self, body: SBUpdateCampaignRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def update_campaign(
+        self, body: SBUpdateCampaignRequest, *, mode: Literal["pydantic"]
+    ) -> SBCampaignMultiStatusResponse: ...
     @overload
     async def update_campaign(self, body: SBUpdateCampaignRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def update_campaign(
-        self, body: SBUpdateCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SBUpdateCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBCampaignMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update campaign"""
 

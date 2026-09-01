@@ -30,18 +30,18 @@ class AdCreatives(BaseResource):
 
     @overload
     async def create_brand_video_creative(
-        self, body: CreateBrandVideoCreativeRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateBrandVideoCreativeResponseContent: ...
+        self, body: CreateBrandVideoCreativeRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_brand_video_creative(
-        self, body: CreateBrandVideoCreativeRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateBrandVideoCreativeRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreateBrandVideoCreativeResponseContent: ...
     @overload
     async def create_brand_video_creative(
         self, body: CreateBrandVideoCreativeRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_brand_video_creative(
-        self, body: CreateBrandVideoCreativeRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: CreateBrandVideoCreativeRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> CreateBrandVideoCreativeResponseContent | dict[str, Any] | httpx.Response:
         """This API creates a new version of an existing creative for given Sponsored Brands Ad by supplying brand video creative content"""
 
@@ -58,12 +58,12 @@ class AdCreatives(BaseResource):
 
     @overload
     async def create_extended_product_collection_creative(
-        self, body: CreateExtendedProductCollectionCreativeRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateExtendedProductCollectionCreativeResponseContent: ...
+        self, body: CreateExtendedProductCollectionCreativeRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_extended_product_collection_creative(
-        self, body: CreateExtendedProductCollectionCreativeRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateExtendedProductCollectionCreativeRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreateExtendedProductCollectionCreativeResponseContent: ...
     @overload
     async def create_extended_product_collection_creative(
         self, body: CreateExtendedProductCollectionCreativeRequestContent, *, mode: Literal["raw"]
@@ -72,7 +72,7 @@ class AdCreatives(BaseResource):
         self,
         body: CreateExtendedProductCollectionCreativeRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> CreateExtendedProductCollectionCreativeResponseContent | dict[str, Any] | httpx.Response:
         """[DEPRECATED - Do not use] Refer to the [Product Collection Deprecation Notice](https://advertising.amazon.com/API/docs/en-us/release-notes/deprecations#deprecation-of-sponsored-brands-product-collection-ad-type) for more details. Use [/sb/ads/creatives/manualCollection](https://advertising.amazon.com/API/docs/en-us/sponsored-brands/3-0/openapi/prod#tag/Ad-creatives/operation/UpdateSponsoredBrandsManualCollectionAds) instead."""
 
@@ -89,21 +89,18 @@ class AdCreatives(BaseResource):
 
     @overload
     async def create_product_collection_creative(
-        self, body: CreateProductCollectionCreativeRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateProductCollectionCreativeResponseContent: ...
+        self, body: CreateProductCollectionCreativeRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_product_collection_creative(
-        self, body: CreateProductCollectionCreativeRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateProductCollectionCreativeRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreateProductCollectionCreativeResponseContent: ...
     @overload
     async def create_product_collection_creative(
         self, body: CreateProductCollectionCreativeRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_product_collection_creative(
-        self,
-        body: CreateProductCollectionCreativeRequestContent,
-        *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        self, body: CreateProductCollectionCreativeRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> CreateProductCollectionCreativeResponseContent | dict[str, Any] | httpx.Response:
         """[DEPRECATED - Do not use] Refer to the [Product Collection Deprecation Notice](https://advertising.amazon.com/API/docs/en-us/release-notes/deprecations#deprecation-of-sponsored-brands-product-collection-ad-type) for more details. Use [/sb/ads/creatives/manualCollection](https://advertising.amazon.com/API/docs/en-us/sponsored-brands/3-0/openapi/prod#tag/Ad-creatives/operation/UpdateSponsoredBrandsManualCollectionAds) instead."""
 
@@ -120,18 +117,18 @@ class AdCreatives(BaseResource):
 
     @overload
     async def create_store_spotlight_creative(
-        self, body: CreateStoreSpotlightCreativeRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateStoreSpotlightCreativeResponseContent: ...
+        self, body: CreateStoreSpotlightCreativeRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_store_spotlight_creative(
-        self, body: CreateStoreSpotlightCreativeRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateStoreSpotlightCreativeRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreateStoreSpotlightCreativeResponseContent: ...
     @overload
     async def create_store_spotlight_creative(
         self, body: CreateStoreSpotlightCreativeRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_store_spotlight_creative(
-        self, body: CreateStoreSpotlightCreativeRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: CreateStoreSpotlightCreativeRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> CreateStoreSpotlightCreativeResponseContent | dict[str, Any] | httpx.Response:
         """This API creates a new version of creative for given Sponsored Brands ad by supplying store spotlight creative content"""
 
@@ -148,18 +145,18 @@ class AdCreatives(BaseResource):
 
     @overload
     async def create_video_creative(
-        self, body: CreateVideoCreativeRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateVideoCreativeResponseContent: ...
+        self, body: CreateVideoCreativeRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_video_creative(
-        self, body: CreateVideoCreativeRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateVideoCreativeRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreateVideoCreativeResponseContent: ...
     @overload
     async def create_video_creative(
         self, body: CreateVideoCreativeRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_video_creative(
-        self, body: CreateVideoCreativeRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: CreateVideoCreativeRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> CreateVideoCreativeResponseContent | dict[str, Any] | httpx.Response:
         """This API creates a new version of an existing creative for given Sponsored Brands ad by supplying video creative content"""
 
@@ -176,14 +173,16 @@ class AdCreatives(BaseResource):
 
     @overload
     async def list_creatives(
-        self, body: ListCreativesRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> ListCreativesResponseContent: ...
+        self, body: ListCreativesRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def list_creatives(self, body: ListCreativesRequestContent, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def list_creatives(
+        self, body: ListCreativesRequestContent, *, mode: Literal["pydantic"]
+    ) -> ListCreativesResponseContent: ...
     @overload
     async def list_creatives(self, body: ListCreativesRequestContent, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def list_creatives(
-        self, body: ListCreativesRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: ListCreativesRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> ListCreativesResponseContent | dict[str, Any] | httpx.Response:
         """This API gets an array of all Sponsored Brands creatives that qualify the given resource identifiers and filters"""
 

@@ -91,3 +91,37 @@ class TestAdsClientV1Init:
     def test_init_missing_args(self) -> None:
         with pytest.raises(MissingConfigError, match="Either 'config' or 'ctx' must be provided"):
             AdsClientV1()
+
+
+class TestAdsClientV1RequestBodyRequired:
+    def test_query_advertiser_account_body_optional(self) -> None:
+        import inspect
+
+        from ads_api.client.v1.advertiser_accounts import AdvertiserAccounts
+
+        param = inspect.signature(AdvertiserAccounts.query_advertiser_account).parameters["body"]
+        assert param.default is None
+
+    def test_create_advertiser_account_body_required(self) -> None:
+        import inspect
+
+        from ads_api.client.v1.advertiser_accounts import AdvertiserAccounts
+
+        param = inspect.signature(AdvertiserAccounts.create_advertiser_account).parameters["body"]
+        assert param.default is inspect.Parameter.empty
+
+    def test_sp_query_campaign_body_required_when_spec_says_so(self) -> None:
+        import inspect
+
+        from ads_api.client.v1.sp.campaigns import SPCampaigns
+
+        param = inspect.signature(SPCampaigns.query_campaign).parameters["body"]
+        assert param.default is inspect.Parameter.empty
+
+    def test_query_campaign_mode_defaults_to_dict(self) -> None:
+        import inspect
+
+        from ads_api.client.v1.sp.campaigns import SPCampaigns
+
+        param = inspect.signature(SPCampaigns.query_campaign).parameters["mode"]
+        assert param.default == "dict"

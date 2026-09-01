@@ -20,18 +20,18 @@ class DSPSupplierAdProductPrices(BaseResource):
 
     @overload
     async def create_supplier_ad_product_price(
-        self, body: DSPCreateSupplierAdProductPriceRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPSupplierAdProductPriceMultiStatusResponse: ...
+        self, body: DSPCreateSupplierAdProductPriceRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_supplier_ad_product_price(
-        self, body: DSPCreateSupplierAdProductPriceRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPCreateSupplierAdProductPriceRequest, *, mode: Literal["pydantic"]
+    ) -> DSPSupplierAdProductPriceMultiStatusResponse: ...
     @overload
     async def create_supplier_ad_product_price(
         self, body: DSPCreateSupplierAdProductPriceRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_supplier_ad_product_price(
-        self, body: DSPCreateSupplierAdProductPriceRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPCreateSupplierAdProductPriceRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPSupplierAdProductPriceMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create supplier ad product price"""
 

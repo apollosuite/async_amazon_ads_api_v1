@@ -23,18 +23,18 @@ class SPAdExtensions(BaseResource):
 
     @overload
     async def create_ad_extension(
-        self, body: SPCreateAdExtensionRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPAdExtensionMultiStatusResponse: ...
+        self, body: SPCreateAdExtensionRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_ad_extension(
-        self, body: SPCreateAdExtensionRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SPCreateAdExtensionRequest, *, mode: Literal["pydantic"]
+    ) -> SPAdExtensionMultiStatusResponse: ...
     @overload
     async def create_ad_extension(
         self, body: SPCreateAdExtensionRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_ad_extension(
-        self, body: SPCreateAdExtensionRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPCreateAdExtensionRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPAdExtensionMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create ad extensions - API is in open beta"""
 
@@ -43,14 +43,18 @@ class SPAdExtensions(BaseResource):
 
     @overload
     async def query_ad_extension(
-        self, body: SPQueryAdExtensionRequest, *, mode: Literal["pydantic"] = "pydantic"
+        self, body: SPQueryAdExtensionRequest | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    async def query_ad_extension(
+        self, body: SPQueryAdExtensionRequest | None = None, *, mode: Literal["pydantic"]
     ) -> SPAdExtensionSuccessResponse: ...
     @overload
-    async def query_ad_extension(self, body: SPQueryAdExtensionRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
-    @overload
-    async def query_ad_extension(self, body: SPQueryAdExtensionRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_ad_extension(
-        self, body: SPQueryAdExtensionRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPQueryAdExtensionRequest | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def query_ad_extension(
+        self, body: SPQueryAdExtensionRequest | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPAdExtensionSuccessResponse | dict[str, Any] | httpx.Response:
         """Query ad_extension - API is in open beta"""
 
@@ -59,18 +63,18 @@ class SPAdExtensions(BaseResource):
 
     @overload
     async def update_ad_extension(
-        self, body: SPUpdateAdExtensionRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPAdExtensionMultiStatusResponse: ...
+        self, body: SPUpdateAdExtensionRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_ad_extension(
-        self, body: SPUpdateAdExtensionRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SPUpdateAdExtensionRequest, *, mode: Literal["pydantic"]
+    ) -> SPAdExtensionMultiStatusResponse: ...
     @overload
     async def update_ad_extension(
         self, body: SPUpdateAdExtensionRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_ad_extension(
-        self, body: SPUpdateAdExtensionRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPUpdateAdExtensionRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPAdExtensionMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update ad_extension - API is in open beta"""
 

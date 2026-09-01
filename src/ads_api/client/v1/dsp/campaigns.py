@@ -23,14 +23,16 @@ class DSPCampaigns(BaseResource):
 
     @overload
     async def create_campaign(
-        self, body: DSPCreateCampaignRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPCampaignMultiStatusResponse: ...
+        self, body: DSPCreateCampaignRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def create_campaign(self, body: DSPCreateCampaignRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def create_campaign(
+        self, body: DSPCreateCampaignRequest, *, mode: Literal["pydantic"]
+    ) -> DSPCampaignMultiStatusResponse: ...
     @overload
     async def create_campaign(self, body: DSPCreateCampaignRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_campaign(
-        self, body: DSPCreateCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPCreateCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPCampaignMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create campaigns"""
 
@@ -39,14 +41,16 @@ class DSPCampaigns(BaseResource):
 
     @overload
     async def query_campaign(
-        self, body: DSPQueryCampaignRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPCampaignSuccessResponse: ...
+        self, body: DSPQueryCampaignRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def query_campaign(self, body: DSPQueryCampaignRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def query_campaign(
+        self, body: DSPQueryCampaignRequest, *, mode: Literal["pydantic"]
+    ) -> DSPCampaignSuccessResponse: ...
     @overload
     async def query_campaign(self, body: DSPQueryCampaignRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_campaign(
-        self, body: DSPQueryCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPQueryCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPCampaignSuccessResponse | dict[str, Any] | httpx.Response:
         """Query campaign"""
 
@@ -55,14 +59,16 @@ class DSPCampaigns(BaseResource):
 
     @overload
     async def update_campaign(
-        self, body: DSPUpdateCampaignRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPCampaignMultiStatusResponse: ...
+        self, body: DSPUpdateCampaignRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def update_campaign(self, body: DSPUpdateCampaignRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def update_campaign(
+        self, body: DSPUpdateCampaignRequest, *, mode: Literal["pydantic"]
+    ) -> DSPCampaignMultiStatusResponse: ...
     @overload
     async def update_campaign(self, body: DSPUpdateCampaignRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def update_campaign(
-        self, body: DSPUpdateCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPUpdateCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPCampaignMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update campaign"""
 

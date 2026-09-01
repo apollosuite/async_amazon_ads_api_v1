@@ -20,13 +20,13 @@ from ads_api.models.v0.ads_data_manager.data_rooms import (
 class DataRooms(BaseResource):
 
     @overload
-    async def create_dataroom(self, *, mode: Literal["pydantic"] = "pydantic") -> CreateDataroomResponseContent: ...
+    async def create_dataroom(self, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def create_dataroom(self, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def create_dataroom(self, *, mode: Literal["pydantic"]) -> CreateDataroomResponseContent: ...
     @overload
     async def create_dataroom(self, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_dataroom(
-        self, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> CreateDataroomResponseContent | dict[str, Any] | httpx.Response:
         """Create a dataroom"""
 
@@ -34,13 +34,13 @@ class DataRooms(BaseResource):
         return self._response(CreateDataroomResponseContent, resp, mode=mode)
 
     @overload
-    async def get_dataroom(self, *, mode: Literal["pydantic"] = "pydantic") -> GetDataroomResponseContent: ...
+    async def get_dataroom(self, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_dataroom(self, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_dataroom(self, *, mode: Literal["pydantic"]) -> GetDataroomResponseContent: ...
     @overload
     async def get_dataroom(self, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_dataroom(
-        self, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> GetDataroomResponseContent | dict[str, Any] | httpx.Response:
         """Get a data room"""
 
@@ -48,15 +48,13 @@ class DataRooms(BaseResource):
         return self._response(GetDataroomResponseContent, resp, mode=mode)
 
     @overload
-    async def get_dataroom_metadata(
-        self, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> GetDataroomMetadataResponseContent: ...
+    async def get_dataroom_metadata(self, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_dataroom_metadata(self, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_dataroom_metadata(self, *, mode: Literal["pydantic"]) -> GetDataroomMetadataResponseContent: ...
     @overload
     async def get_dataroom_metadata(self, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_dataroom_metadata(
-        self, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> GetDataroomMetadataResponseContent | dict[str, Any] | httpx.Response:
         """Gets dataset metadata including linked datasets, active dest., etc"""
 

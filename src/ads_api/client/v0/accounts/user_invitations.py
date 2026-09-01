@@ -26,18 +26,18 @@ class UserInvitations(BaseResource):
 
     @overload
     async def create_user_invitations(
-        self, body: CreateUserInvitationsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateUserInvitationsResponseContent: ...
+        self, body: CreateUserInvitationsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_user_invitations(
-        self, body: CreateUserInvitationsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateUserInvitationsRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreateUserInvitationsResponseContent: ...
     @overload
     async def create_user_invitations(
         self, body: CreateUserInvitationsRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_user_invitations(
-        self, body: CreateUserInvitationsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: CreateUserInvitationsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> CreateUserInvitationsResponseContent | dict[str, Any] | httpx.Response:
         """**Authorized resource type**:"""
 
@@ -53,15 +53,15 @@ class UserInvitations(BaseResource):
         return self._response(CreateUserInvitationsResponseContent, resp, mode=mode)
 
     @overload
-    async def get_user_invitation(
-        self, invitation_id: str, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> GetUserInvitationResponseContent: ...
+    async def get_user_invitation(self, invitation_id: str, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_user_invitation(self, invitation_id: str, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_user_invitation(
+        self, invitation_id: str, *, mode: Literal["pydantic"]
+    ) -> GetUserInvitationResponseContent: ...
     @overload
     async def get_user_invitation(self, invitation_id: str, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_user_invitation(
-        self, invitation_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, invitation_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> GetUserInvitationResponseContent | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 
@@ -72,18 +72,21 @@ class UserInvitations(BaseResource):
 
     @overload
     async def list_user_invitations(
-        self, body: ListUserInvitationsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> ListUserInvitationsResponseContent: ...
-    @overload
-    async def list_user_invitations(
-        self, body: ListUserInvitationsRequestContent, *, mode: Literal["dict"]
+        self, body: ListUserInvitationsRequestContent | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def list_user_invitations(
-        self, body: ListUserInvitationsRequestContent, *, mode: Literal["raw"]
+        self, body: ListUserInvitationsRequestContent | None = None, *, mode: Literal["pydantic"]
+    ) -> ListUserInvitationsResponseContent: ...
+    @overload
+    async def list_user_invitations(
+        self, body: ListUserInvitationsRequestContent | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def list_user_invitations(
-        self, body: ListUserInvitationsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self,
+        body: ListUserInvitationsRequestContent | None = None,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> ListUserInvitationsResponseContent | dict[str, Any] | httpx.Response:
         """**Authorized resource type**:"""
 
@@ -100,18 +103,18 @@ class UserInvitations(BaseResource):
 
     @overload
     async def redeem_user_invitation(
-        self, body: RedeemUserInvitationRequestContent, *, mode: Literal["pydantic"] = "pydantic"
+        self, body: RedeemUserInvitationRequestContent, *, mode: Literal["dict"] = "dict"
     ) -> Any: ...
     @overload
     async def redeem_user_invitation(
-        self, body: RedeemUserInvitationRequestContent, *, mode: Literal["dict"]
+        self, body: RedeemUserInvitationRequestContent, *, mode: Literal["pydantic"]
     ) -> Any: ...
     @overload
     async def redeem_user_invitation(
         self, body: RedeemUserInvitationRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def redeem_user_invitation(
-        self, body: RedeemUserInvitationRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: RedeemUserInvitationRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> Any:
         """**Requires one of these permissions**:"""
 
@@ -130,18 +133,18 @@ class UserInvitations(BaseResource):
 
     @overload
     async def update_user_invitations(
-        self, body: UpdateUserInvitationsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> UpdateUserInvitationsResponseContent: ...
+        self, body: UpdateUserInvitationsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_user_invitations(
-        self, body: UpdateUserInvitationsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: UpdateUserInvitationsRequestContent, *, mode: Literal["pydantic"]
+    ) -> UpdateUserInvitationsResponseContent: ...
     @overload
     async def update_user_invitations(
         self, body: UpdateUserInvitationsRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_user_invitations(
-        self, body: UpdateUserInvitationsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: UpdateUserInvitationsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> UpdateUserInvitationsResponseContent | dict[str, Any] | httpx.Response:
         """**Authorized resource type**:"""
 

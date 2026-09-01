@@ -19,15 +19,13 @@ from ads_api.models.v0.accounts.dsp_advertisers import (
 class DSPAdvertisers(BaseResource):
 
     @overload
-    async def get_dsp_advertiser(
-        self, advertiser_id: str, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DspAdvertiserV1: ...
+    async def get_dsp_advertiser(self, advertiser_id: str, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_dsp_advertiser(self, advertiser_id: str, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_dsp_advertiser(self, advertiser_id: str, *, mode: Literal["pydantic"]) -> DspAdvertiserV1: ...
     @overload
     async def get_dsp_advertiser(self, advertiser_id: str, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_dsp_advertiser(
-        self, advertiser_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, advertiser_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DspAdvertiserV1 | dict[str, Any] | httpx.Response:
         """Returns advertiser information based on given advertiser id."""
 
@@ -38,20 +36,20 @@ class DSPAdvertisers(BaseResource):
     async def list_advertisers(
         self,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-        start_index: int | None = None,
-        count: int | None = None,
-        advertiser_id_filter: str | None = None,
-    ) -> DspAdvertisersV1: ...
-    @overload
-    async def list_advertisers(
-        self,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         advertiser_id_filter: str | None = None,
     ) -> dict[str, Any]: ...
+    @overload
+    async def list_advertisers(
+        self,
+        *,
+        mode: Literal["pydantic"],
+        start_index: int | None = None,
+        count: int | None = None,
+        advertiser_id_filter: str | None = None,
+    ) -> DspAdvertisersV1: ...
     @overload
     async def list_advertisers(
         self,
@@ -64,7 +62,7 @@ class DSPAdvertisers(BaseResource):
     async def list_advertisers(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         advertiser_id_filter: str | None = None,

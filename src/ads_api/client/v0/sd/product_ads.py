@@ -22,13 +22,13 @@ from ads_api.models.v0.sd.product_ads import (
 class ProductAds(BaseResource):
 
     @overload
-    async def archive_product_ad(self, ad_id: int, *, mode: Literal["pydantic"] = "pydantic") -> ProductAdResponse: ...
+    async def archive_product_ad(self, ad_id: int, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def archive_product_ad(self, ad_id: int, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def archive_product_ad(self, ad_id: int, *, mode: Literal["pydantic"]) -> ProductAdResponse: ...
     @overload
     async def archive_product_ad(self, ad_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def archive_product_ad(
-        self, ad_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, ad_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> ProductAdResponse | dict[str, Any] | httpx.Response:
         """This operation is equivalent to an update operation that sets the status field to 'archived'. Note that setting the status field to 'archived' is permanent and can't be undone. See [Developer Notes](https://advertising.amazon.com/API/docs/en-us/info/developer-notes#archiving) for more information."""
 
@@ -37,30 +37,32 @@ class ProductAds(BaseResource):
 
     @overload
     async def create_product_ads(
-        self, body: list[CreateProductAd], *, mode: Literal["pydantic"] = "pydantic"
+        self, body: list[CreateProductAd] | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> list[dict[str, Any]]: ...
+    @overload
+    async def create_product_ads(
+        self, body: list[CreateProductAd] | None = None, *, mode: Literal["pydantic"]
     ) -> list[ProductAdResponse]: ...
     @overload
     async def create_product_ads(
-        self, body: list[CreateProductAd], *, mode: Literal["dict"]
-    ) -> list[dict[str, Any]]: ...
-    @overload
-    async def create_product_ads(self, body: list[CreateProductAd], *, mode: Literal["raw"]) -> httpx.Response: ...
+        self, body: list[CreateProductAd] | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
     async def create_product_ads(
-        self, body: list[CreateProductAd], *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: list[CreateProductAd] | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> list[ProductAdResponse] | list[dict[str, Any]] | httpx.Response:
         """"""
 
-        resp = await self._request("POST", "/sd/productAds", json=[self.dump_json(x) for x in body])
+        resp = await self._request("POST", "/sd/productAds", json=self.dump_json(body))
         return self._response_list(ProductAdResponse, resp, mode=mode)
 
     @overload
-    async def get_product_ad(self, ad_id: int, *, mode: Literal["pydantic"] = "pydantic") -> ProductAd: ...
+    async def get_product_ad(self, ad_id: int, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_product_ad(self, ad_id: int, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_product_ad(self, ad_id: int, *, mode: Literal["pydantic"]) -> ProductAd: ...
     @overload
     async def get_product_ad(self, ad_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_product_ad(
-        self, ad_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, ad_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> ProductAd | dict[str, Any] | httpx.Response:
         """Note that the ProductAd object is designed for performance, and includes a small set of commonly used fields to reduce size. If the extended set of fields is required, use a product ad operations that returns the ProductAdResponseEx object."""
 
@@ -68,15 +70,13 @@ class ProductAds(BaseResource):
         return self._response(ProductAd, resp, mode=mode)
 
     @overload
-    async def get_product_ad_response_ex(
-        self, ad_id: int, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> ProductAdResponseEx: ...
+    async def get_product_ad_response_ex(self, ad_id: int, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_product_ad_response_ex(self, ad_id: int, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_product_ad_response_ex(self, ad_id: int, *, mode: Literal["pydantic"]) -> ProductAdResponseEx: ...
     @overload
     async def get_product_ad_response_ex(self, ad_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_product_ad_response_ex(
-        self, ad_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, ad_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> ProductAdResponseEx | dict[str, Any] | httpx.Response:
         """"""
 
@@ -87,7 +87,31 @@ class ProductAds(BaseResource):
     async def list_product_ads(
         self,
         *,
-        mode: Literal["pydantic"] = "pydantic",
+        mode: Literal["dict"] = "dict",
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        ad_id_filter: str | None = None,
+        ad_group_id_filter: str | None = None,
+        campaign_id_filter: str | None = None,
+    ) -> list[dict[str, Any]]: ...
+    @overload
+    async def list_product_ads(
+        self,
+        *,
+        mode: Literal["pydantic"],
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -107,30 +131,6 @@ class ProductAds(BaseResource):
         ad_group_id_filter: str | None = None,
         campaign_id_filter: str | None = None,
     ) -> list[ProductAd]: ...
-    @overload
-    async def list_product_ads(
-        self,
-        *,
-        mode: Literal["dict"],
-        start_index: int | None = None,
-        count: int | None = None,
-        state_filter: (
-            Literal[
-                "enabled",
-                "paused",
-                "archived",
-                "enabled, paused",
-                "enabled, archived",
-                "paused, archived",
-                "enabled, paused, archived",
-            ]
-            | str
-            | None
-        ) = None,
-        ad_id_filter: str | None = None,
-        ad_group_id_filter: str | None = None,
-        campaign_id_filter: str | None = None,
-    ) -> list[dict[str, Any]]: ...
     @overload
     async def list_product_ads(
         self,
@@ -158,7 +158,7 @@ class ProductAds(BaseResource):
     async def list_product_ads(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -196,31 +196,7 @@ class ProductAds(BaseResource):
     async def list_product_ads_ex(
         self,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-        start_index: int | None = None,
-        count: int | None = None,
-        state_filter: (
-            Literal[
-                "enabled",
-                "paused",
-                "archived",
-                "enabled, paused",
-                "enabled, archived",
-                "paused, archived",
-                "enabled, paused, archived",
-            ]
-            | str
-            | None
-        ) = None,
-        ad_id_filter: str | None = None,
-        ad_group_id_filter: str | None = None,
-        campaign_id_filter: str | None = None,
-    ) -> list[ProductAdResponseEx]: ...
-    @overload
-    async def list_product_ads_ex(
-        self,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -240,6 +216,30 @@ class ProductAds(BaseResource):
         ad_group_id_filter: str | None = None,
         campaign_id_filter: str | None = None,
     ) -> list[dict[str, Any]]: ...
+    @overload
+    async def list_product_ads_ex(
+        self,
+        *,
+        mode: Literal["pydantic"],
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        ad_id_filter: str | None = None,
+        ad_group_id_filter: str | None = None,
+        campaign_id_filter: str | None = None,
+    ) -> list[ProductAdResponseEx]: ...
     @overload
     async def list_product_ads_ex(
         self,
@@ -267,7 +267,7 @@ class ProductAds(BaseResource):
     async def list_product_ads_ex(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -303,18 +303,20 @@ class ProductAds(BaseResource):
 
     @overload
     async def update_product_ads(
-        self, body: list[UpdateProductAd], *, mode: Literal["pydantic"] = "pydantic"
+        self, body: list[UpdateProductAd] | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> list[dict[str, Any]]: ...
+    @overload
+    async def update_product_ads(
+        self, body: list[UpdateProductAd] | None = None, *, mode: Literal["pydantic"]
     ) -> list[ProductAdResponse]: ...
     @overload
     async def update_product_ads(
-        self, body: list[UpdateProductAd], *, mode: Literal["dict"]
-    ) -> list[dict[str, Any]]: ...
-    @overload
-    async def update_product_ads(self, body: list[UpdateProductAd], *, mode: Literal["raw"]) -> httpx.Response: ...
+        self, body: list[UpdateProductAd] | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
     async def update_product_ads(
-        self, body: list[UpdateProductAd], *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: list[UpdateProductAd] | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> list[ProductAdResponse] | list[dict[str, Any]] | httpx.Response:
         """"""
 
-        resp = await self._request("PUT", "/sd/productAds", json=[self.dump_json(x) for x in body])
+        resp = await self._request("PUT", "/sd/productAds", json=self.dump_json(body))
         return self._response_list(ProductAdResponse, resp, mode=mode)

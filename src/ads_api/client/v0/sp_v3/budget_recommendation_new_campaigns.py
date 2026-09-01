@@ -20,18 +20,21 @@ class BudgetRecommendationNewCampaigns(BaseResource):
 
     @overload
     async def get_budget_recommendation(
-        self, body: InitialBudgetRecommendationRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> InitialBudgetRecommendationResponse: ...
-    @overload
-    async def get_budget_recommendation(
-        self, body: InitialBudgetRecommendationRequest, *, mode: Literal["dict"]
+        self, body: InitialBudgetRecommendationRequest | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def get_budget_recommendation(
-        self, body: InitialBudgetRecommendationRequest, *, mode: Literal["raw"]
+        self, body: InitialBudgetRecommendationRequest | None = None, *, mode: Literal["pydantic"]
+    ) -> InitialBudgetRecommendationResponse: ...
+    @overload
+    async def get_budget_recommendation(
+        self, body: InitialBudgetRecommendationRequest | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def get_budget_recommendation(
-        self, body: InitialBudgetRecommendationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self,
+        body: InitialBudgetRecommendationRequest | None = None,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> InitialBudgetRecommendationResponse | dict[str, Any] | httpx.Response:
         """Creates daily budget recommendation along with benchmark metrics when creating a new campaign."""
 

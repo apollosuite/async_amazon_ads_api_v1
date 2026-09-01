@@ -24,18 +24,18 @@ class Audiences(BaseResource):
 
     @overload
     async def create_audience_dataset(
-        self, body: AdsCdxSolCreateAudienceRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> AdsCdxSolCreateAudienceResponseContent: ...
+        self, body: AdsCdxSolCreateAudienceRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_audience_dataset(
-        self, body: AdsCdxSolCreateAudienceRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: AdsCdxSolCreateAudienceRequestContent, *, mode: Literal["pydantic"]
+    ) -> AdsCdxSolCreateAudienceResponseContent: ...
     @overload
     async def create_audience_dataset(
         self, body: AdsCdxSolCreateAudienceRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_audience_dataset(
-        self, body: AdsCdxSolCreateAudienceRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: AdsCdxSolCreateAudienceRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> AdsCdxSolCreateAudienceResponseContent | dict[str, Any] | httpx.Response:
         """Creates an Audience DataSet."""
 
@@ -43,15 +43,15 @@ class Audiences(BaseResource):
         return self._response(AdsCdxSolCreateAudienceResponseContent, resp, mode=mode)
 
     @overload
-    async def get_audience_dataset(
-        self, data_set_id: str, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> AdsCdxSolGetAudienceResponseContent: ...
+    async def get_audience_dataset(self, data_set_id: str, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_audience_dataset(self, data_set_id: str, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_audience_dataset(
+        self, data_set_id: str, *, mode: Literal["pydantic"]
+    ) -> AdsCdxSolGetAudienceResponseContent: ...
     @overload
     async def get_audience_dataset(self, data_set_id: str, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_audience_dataset(
-        self, data_set_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, data_set_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> AdsCdxSolGetAudienceResponseContent | dict[str, Any] | httpx.Response:
         """Gets an Audience DataSet."""
 
@@ -60,12 +60,12 @@ class Audiences(BaseResource):
 
     @overload
     async def ingest_audiences(
-        self, data_set_id: str, body: IngestAudiencesRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> IngestAudiencesResponseContent: ...
+        self, data_set_id: str, body: IngestAudiencesRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def ingest_audiences(
-        self, data_set_id: str, body: IngestAudiencesRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, data_set_id: str, body: IngestAudiencesRequestContent, *, mode: Literal["pydantic"]
+    ) -> IngestAudiencesResponseContent: ...
     @overload
     async def ingest_audiences(
         self, data_set_id: str, body: IngestAudiencesRequestContent, *, mode: Literal["raw"]
@@ -75,7 +75,7 @@ class Audiences(BaseResource):
         data_set_id: str,
         body: IngestAudiencesRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> IngestAudiencesResponseContent | dict[str, Any] | httpx.Response:
         """Posts audience members to an audience dataset."""
 
@@ -92,12 +92,12 @@ class Audiences(BaseResource):
 
     @overload
     async def list_audience_datasets(
-        self, *, mode: Literal["pydantic"] = "pydantic", next_token: str | None = None, limit: float | None = None
-    ) -> AdsCdxSolListAudienceResponseContent: ...
+        self, *, mode: Literal["dict"] = "dict", next_token: str | None = None, limit: float | None = None
+    ) -> dict[str, Any]: ...
     @overload
     async def list_audience_datasets(
-        self, *, mode: Literal["dict"], next_token: str | None = None, limit: float | None = None
-    ) -> dict[str, Any]: ...
+        self, *, mode: Literal["pydantic"], next_token: str | None = None, limit: float | None = None
+    ) -> AdsCdxSolListAudienceResponseContent: ...
     @overload
     async def list_audience_datasets(
         self, *, mode: Literal["raw"], next_token: str | None = None, limit: float | None = None
@@ -105,7 +105,7 @@ class Audiences(BaseResource):
     async def list_audience_datasets(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         next_token: str | None = None,
         limit: float | None = None,
     ) -> AdsCdxSolListAudienceResponseContent | dict[str, Any] | httpx.Response:

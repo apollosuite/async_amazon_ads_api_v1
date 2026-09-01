@@ -28,12 +28,12 @@ class OptimizationRules(BaseResource):
 
     @overload
     async def associate_sponsored_brands_optimization_rules(
-        self, body: AssociateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> AssociateSponsoredBrandsOptimizationRulesResponseContent: ...
+        self, body: AssociateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def associate_sponsored_brands_optimization_rules(
-        self, body: AssociateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: AssociateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["pydantic"]
+    ) -> AssociateSponsoredBrandsOptimizationRulesResponseContent: ...
     @overload
     async def associate_sponsored_brands_optimization_rules(
         self, body: AssociateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["raw"]
@@ -42,7 +42,7 @@ class OptimizationRules(BaseResource):
         self,
         body: AssociateSponsoredBrandsOptimizationRulesRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> AssociateSponsoredBrandsOptimizationRulesResponseContent | dict[str, Any] | httpx.Response:
         """Currently available in beta. Associate one or more optimization rules by providing combinations of entityId-ruleId that require association."""
 
@@ -59,12 +59,12 @@ class OptimizationRules(BaseResource):
 
     @overload
     async def create_sponsored_brands_optimization_rules(
-        self, body: CreateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateSponsoredBrandsOptimizationRulesResponseContent: ...
+        self, body: CreateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_sponsored_brands_optimization_rules(
-        self, body: CreateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreateSponsoredBrandsOptimizationRulesResponseContent: ...
     @overload
     async def create_sponsored_brands_optimization_rules(
         self, body: CreateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["raw"]
@@ -73,7 +73,7 @@ class OptimizationRules(BaseResource):
         self,
         body: CreateSponsoredBrandsOptimizationRulesRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> CreateSponsoredBrandsOptimizationRulesResponseContent | dict[str, Any] | httpx.Response:
         """Currently available in beta."""
 
@@ -90,15 +90,12 @@ class OptimizationRules(BaseResource):
 
     @overload
     async def disassociate_sponsored_brands_optimization_rules(
-        self,
-        body: DisassociateSponsoredBrandsOptimizationRulesRequestContent,
-        *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> DisassociateSponsoredBrandsOptimizationRulesResponseContent: ...
+        self, body: DisassociateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def disassociate_sponsored_brands_optimization_rules(
-        self, body: DisassociateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DisassociateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["pydantic"]
+    ) -> DisassociateSponsoredBrandsOptimizationRulesResponseContent: ...
     @overload
     async def disassociate_sponsored_brands_optimization_rules(
         self, body: DisassociateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["raw"]
@@ -107,7 +104,7 @@ class OptimizationRules(BaseResource):
         self,
         body: DisassociateSponsoredBrandsOptimizationRulesRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> DisassociateSponsoredBrandsOptimizationRulesResponseContent | dict[str, Any] | httpx.Response:
         """Currently available in beta. Disassociate one or more optimization rules by providing combinations of entityId-ruleId that require disassociation"""
 
@@ -124,21 +121,21 @@ class OptimizationRules(BaseResource):
 
     @overload
     async def list_sponsored_brands_optimization_rules(
-        self, body: ListSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> ListSponsoredBrandsOptimizationRulesResponseContent: ...
-    @overload
-    async def list_sponsored_brands_optimization_rules(
-        self, body: ListSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["dict"]
+        self, body: ListSponsoredBrandsOptimizationRulesRequestContent | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def list_sponsored_brands_optimization_rules(
-        self, body: ListSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["raw"]
+        self, body: ListSponsoredBrandsOptimizationRulesRequestContent | None = None, *, mode: Literal["pydantic"]
+    ) -> ListSponsoredBrandsOptimizationRulesResponseContent: ...
+    @overload
+    async def list_sponsored_brands_optimization_rules(
+        self, body: ListSponsoredBrandsOptimizationRulesRequestContent | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def list_sponsored_brands_optimization_rules(
         self,
-        body: ListSponsoredBrandsOptimizationRulesRequestContent,
+        body: ListSponsoredBrandsOptimizationRulesRequestContent | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> ListSponsoredBrandsOptimizationRulesResponseContent | dict[str, Any] | httpx.Response:
         """Currently available in beta."""
 
@@ -155,12 +152,12 @@ class OptimizationRules(BaseResource):
 
     @overload
     async def update_sponsored_brands_optimization_rules(
-        self, body: UpdateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> UpdateSponsoredBrandsOptimizationRulesResponseContent: ...
+        self, body: UpdateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_sponsored_brands_optimization_rules(
-        self, body: UpdateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: UpdateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["pydantic"]
+    ) -> UpdateSponsoredBrandsOptimizationRulesResponseContent: ...
     @overload
     async def update_sponsored_brands_optimization_rules(
         self, body: UpdateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["raw"]
@@ -169,7 +166,7 @@ class OptimizationRules(BaseResource):
         self,
         body: UpdateSponsoredBrandsOptimizationRulesRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> UpdateSponsoredBrandsOptimizationRulesResponseContent | dict[str, Any] | httpx.Response:
         """Currently available in beta."""
 

@@ -26,18 +26,18 @@ class Portfolios(BaseResource):
 
     @overload
     async def create_portfolios(
-        self, body: CreatePortfoliosRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreatePortfoliosResponseContent: ...
+        self, body: CreatePortfoliosRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_portfolios(
-        self, body: CreatePortfoliosRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreatePortfoliosRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreatePortfoliosResponseContent: ...
     @overload
     async def create_portfolios(
         self, body: CreatePortfoliosRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_portfolios(
-        self, body: CreatePortfoliosRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: CreatePortfoliosRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> CreatePortfoliosResponseContent | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 
@@ -54,14 +54,18 @@ class Portfolios(BaseResource):
 
     @overload
     async def list_portfolios(
-        self, body: ListPortfoliosRequestContent, *, mode: Literal["pydantic"] = "pydantic"
+        self, body: ListPortfoliosRequestContent | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    async def list_portfolios(
+        self, body: ListPortfoliosRequestContent | None = None, *, mode: Literal["pydantic"]
     ) -> ListPortfoliosResponseContent: ...
     @overload
-    async def list_portfolios(self, body: ListPortfoliosRequestContent, *, mode: Literal["dict"]) -> dict[str, Any]: ...
-    @overload
-    async def list_portfolios(self, body: ListPortfoliosRequestContent, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def list_portfolios(
-        self, body: ListPortfoliosRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: ListPortfoliosRequestContent | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def list_portfolios(
+        self, body: ListPortfoliosRequestContent | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> ListPortfoliosResponseContent | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 
@@ -78,18 +82,18 @@ class Portfolios(BaseResource):
 
     @overload
     async def portfolio_budget_usage(
-        self, body: BudgetUsagePortfolioRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> BudgetUsagePortfolioResponse: ...
+        self, body: BudgetUsagePortfolioRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def portfolio_budget_usage(
-        self, body: BudgetUsagePortfolioRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: BudgetUsagePortfolioRequest, *, mode: Literal["pydantic"]
+    ) -> BudgetUsagePortfolioResponse: ...
     @overload
     async def portfolio_budget_usage(
         self, body: BudgetUsagePortfolioRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def portfolio_budget_usage(
-        self, body: BudgetUsagePortfolioRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: BudgetUsagePortfolioRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> BudgetUsagePortfolioResponse | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 
@@ -106,18 +110,18 @@ class Portfolios(BaseResource):
 
     @overload
     async def update_portfolios(
-        self, body: UpdatePortfoliosRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> UpdatePortfoliosResponseContent: ...
+        self, body: UpdatePortfoliosRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_portfolios(
-        self, body: UpdatePortfoliosRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: UpdatePortfoliosRequestContent, *, mode: Literal["pydantic"]
+    ) -> UpdatePortfoliosResponseContent: ...
     @overload
     async def update_portfolios(
         self, body: UpdatePortfoliosRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_portfolios(
-        self, body: UpdatePortfoliosRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: UpdatePortfoliosRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> UpdatePortfoliosResponseContent | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 

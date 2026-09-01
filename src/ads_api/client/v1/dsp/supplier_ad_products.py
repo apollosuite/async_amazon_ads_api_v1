@@ -20,18 +20,18 @@ class DSPSupplierAdProducts(BaseResource):
 
     @overload
     async def query_supplier_ad_product(
-        self, body: DSPQuerySupplierAdProductRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPSupplierAdProductSuccessResponse: ...
+        self, body: DSPQuerySupplierAdProductRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def query_supplier_ad_product(
-        self, body: DSPQuerySupplierAdProductRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPQuerySupplierAdProductRequest, *, mode: Literal["pydantic"]
+    ) -> DSPSupplierAdProductSuccessResponse: ...
     @overload
     async def query_supplier_ad_product(
         self, body: DSPQuerySupplierAdProductRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def query_supplier_ad_product(
-        self, body: DSPQuerySupplierAdProductRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPQuerySupplierAdProductRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPSupplierAdProductSuccessResponse | dict[str, Any] | httpx.Response:
         """Query supplier ad products"""
 

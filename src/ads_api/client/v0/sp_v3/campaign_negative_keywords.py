@@ -29,15 +29,15 @@ class CampaignNegativeKeywords(BaseResource):
         self,
         body: SponsoredProductsCreateSponsoredProductsCampaignNegativeKeywordsRequestContent,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsCreateSponsoredProductsCampaignNegativeKeywordsResponseContent: ...
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
     @overload
     async def create_sponsored_products_campaign_negative_keywords(
         self,
         body: SponsoredProductsCreateSponsoredProductsCampaignNegativeKeywordsRequestContent,
         *,
-        mode: Literal["dict"],
-    ) -> dict[str, Any]: ...
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsCreateSponsoredProductsCampaignNegativeKeywordsResponseContent: ...
     @overload
     async def create_sponsored_products_campaign_negative_keywords(
         self,
@@ -49,7 +49,7 @@ class CampaignNegativeKeywords(BaseResource):
         self,
         body: SponsoredProductsCreateSponsoredProductsCampaignNegativeKeywordsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> (
         SponsoredProductsCreateSponsoredProductsCampaignNegativeKeywordsResponseContent
         | dict[str, Any]
@@ -75,15 +75,15 @@ class CampaignNegativeKeywords(BaseResource):
         self,
         body: SponsoredProductsDeleteSponsoredProductsCampaignNegativeKeywordsRequestContent,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsDeleteSponsoredProductsCampaignNegativeKeywordsResponseContent: ...
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
     @overload
     async def delete_sponsored_products_campaign_negative_keywords(
         self,
         body: SponsoredProductsDeleteSponsoredProductsCampaignNegativeKeywordsRequestContent,
         *,
-        mode: Literal["dict"],
-    ) -> dict[str, Any]: ...
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsDeleteSponsoredProductsCampaignNegativeKeywordsResponseContent: ...
     @overload
     async def delete_sponsored_products_campaign_negative_keywords(
         self,
@@ -95,7 +95,7 @@ class CampaignNegativeKeywords(BaseResource):
         self,
         body: SponsoredProductsDeleteSponsoredProductsCampaignNegativeKeywordsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> (
         SponsoredProductsDeleteSponsoredProductsCampaignNegativeKeywordsResponseContent
         | dict[str, Any]
@@ -119,29 +119,29 @@ class CampaignNegativeKeywords(BaseResource):
     @overload
     async def list_sponsored_products_campaign_negative_keywords(
         self,
-        body: SponsoredProductsListSponsoredProductsCampaignNegativeKeywordsRequestContent,
+        body: SponsoredProductsListSponsoredProductsCampaignNegativeKeywordsRequestContent | None = None,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsListSponsoredProductsCampaignNegativeKeywordsResponseContent: ...
-    @overload
-    async def list_sponsored_products_campaign_negative_keywords(
-        self,
-        body: SponsoredProductsListSponsoredProductsCampaignNegativeKeywordsRequestContent,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
     ) -> dict[str, Any]: ...
     @overload
     async def list_sponsored_products_campaign_negative_keywords(
         self,
-        body: SponsoredProductsListSponsoredProductsCampaignNegativeKeywordsRequestContent,
+        body: SponsoredProductsListSponsoredProductsCampaignNegativeKeywordsRequestContent | None = None,
+        *,
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsListSponsoredProductsCampaignNegativeKeywordsResponseContent: ...
+    @overload
+    async def list_sponsored_products_campaign_negative_keywords(
+        self,
+        body: SponsoredProductsListSponsoredProductsCampaignNegativeKeywordsRequestContent | None = None,
         *,
         mode: Literal["raw"],
     ) -> httpx.Response: ...
     async def list_sponsored_products_campaign_negative_keywords(
         self,
-        body: SponsoredProductsListSponsoredProductsCampaignNegativeKeywordsRequestContent,
+        body: SponsoredProductsListSponsoredProductsCampaignNegativeKeywordsRequestContent | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> (
         SponsoredProductsListSponsoredProductsCampaignNegativeKeywordsResponseContent | dict[str, Any] | httpx.Response
     ):
@@ -165,15 +165,15 @@ class CampaignNegativeKeywords(BaseResource):
         self,
         body: SponsoredProductsUpdateSponsoredProductsCampaignNegativeKeywordsRequestContent,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsUpdateSponsoredProductsCampaignNegativeKeywordsResponseContent: ...
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
     @overload
     async def update_sponsored_products_campaign_negative_keywords(
         self,
         body: SponsoredProductsUpdateSponsoredProductsCampaignNegativeKeywordsRequestContent,
         *,
-        mode: Literal["dict"],
-    ) -> dict[str, Any]: ...
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsUpdateSponsoredProductsCampaignNegativeKeywordsResponseContent: ...
     @overload
     async def update_sponsored_products_campaign_negative_keywords(
         self,
@@ -185,7 +185,7 @@ class CampaignNegativeKeywords(BaseResource):
         self,
         body: SponsoredProductsUpdateSponsoredProductsCampaignNegativeKeywordsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> (
         SponsoredProductsUpdateSponsoredProductsCampaignNegativeKeywordsResponseContent
         | dict[str, Any]

@@ -20,21 +20,18 @@ class Forecasts(BaseResource):
 
     @overload
     async def campaign_performance_forecasts(
-        self, body: SBCampaignPerformanceForecastsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBCampaignPerformanceForecastsResponseContent: ...
+        self, body: SBCampaignPerformanceForecastsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def campaign_performance_forecasts(
-        self, body: SBCampaignPerformanceForecastsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SBCampaignPerformanceForecastsRequestContent, *, mode: Literal["pydantic"]
+    ) -> SBCampaignPerformanceForecastsResponseContent: ...
     @overload
     async def campaign_performance_forecasts(
         self, body: SBCampaignPerformanceForecastsRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def campaign_performance_forecasts(
-        self,
-        body: SBCampaignPerformanceForecastsRequestContent,
-        *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        self, body: SBCampaignPerformanceForecastsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBCampaignPerformanceForecastsResponseContent | dict[str, Any] | httpx.Response:
         """Returns forecasts for a list of new campaigns specified in SB forecast request. Currently only one new campaign is supported."""
 

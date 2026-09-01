@@ -22,18 +22,18 @@ class SharingRules(BaseResource):
 
     @overload
     async def create_sharing_rule(
-        self, body: CreateSharingRuleRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateSharingRuleResponseContent: ...
+        self, body: CreateSharingRuleRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_sharing_rule(
-        self, body: CreateSharingRuleRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateSharingRuleRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreateSharingRuleResponseContent: ...
     @overload
     async def create_sharing_rule(
         self, body: CreateSharingRuleRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_sharing_rule(
-        self, body: CreateSharingRuleRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: CreateSharingRuleRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> CreateSharingRuleResponseContent | dict[str, Any] | httpx.Response:
         """Create a new Sharing Rule in ADM."""
 
@@ -42,18 +42,18 @@ class SharingRules(BaseResource):
 
     @overload
     async def list_sharing_rules(
-        self, body: ListSharingRulesRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> ListSharingRulesResponseContent: ...
-    @overload
-    async def list_sharing_rules(
-        self, body: ListSharingRulesRequestContent, *, mode: Literal["dict"]
+        self, body: ListSharingRulesRequestContent | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def list_sharing_rules(
-        self, body: ListSharingRulesRequestContent, *, mode: Literal["raw"]
+        self, body: ListSharingRulesRequestContent | None = None, *, mode: Literal["pydantic"]
+    ) -> ListSharingRulesResponseContent: ...
+    @overload
+    async def list_sharing_rules(
+        self, body: ListSharingRulesRequestContent | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def list_sharing_rules(
-        self, body: ListSharingRulesRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: ListSharingRulesRequestContent | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> ListSharingRulesResponseContent | dict[str, Any] | httpx.Response:
         """List a set of sharing rules belonging to an account."""
 
@@ -61,13 +61,13 @@ class SharingRules(BaseResource):
         return self._response(ListSharingRulesResponseContent, resp, mode=mode)
 
     @overload
-    async def revoke_sharing_rule(self, sharing_rule_id: str, *, mode: Literal["pydantic"] = "pydantic") -> Any: ...
+    async def revoke_sharing_rule(self, sharing_rule_id: str, *, mode: Literal["dict"] = "dict") -> Any: ...
     @overload
-    async def revoke_sharing_rule(self, sharing_rule_id: str, *, mode: Literal["dict"]) -> Any: ...
+    async def revoke_sharing_rule(self, sharing_rule_id: str, *, mode: Literal["pydantic"]) -> Any: ...
     @overload
     async def revoke_sharing_rule(self, sharing_rule_id: str, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def revoke_sharing_rule(
-        self, sharing_rule_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, sharing_rule_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> Any:
         """Revoke an existing Sharing Rule in ADM."""
 

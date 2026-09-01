@@ -23,18 +23,18 @@ class NegativeTargeting(BaseResource):
 
     @overload
     async def archive_negative_targeting_clause(
-        self, negative_target_id: int, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> TargetResponse: ...
+        self, negative_target_id: int, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def archive_negative_targeting_clause(
-        self, negative_target_id: int, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, negative_target_id: int, *, mode: Literal["pydantic"]
+    ) -> TargetResponse: ...
     @overload
     async def archive_negative_targeting_clause(
         self, negative_target_id: int, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def archive_negative_targeting_clause(
-        self, negative_target_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, negative_target_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> TargetResponse | dict[str, Any] | httpx.Response:
         """Equivalent to using the updateNegativeTargetingClauses operation to set the `state` property of a targeting clause to `archived`. See [Developer Notes](http://advertising.amazon.com/API/docs/guides/developer_notes#Archiving) for more information."""
 
@@ -43,34 +43,39 @@ class NegativeTargeting(BaseResource):
 
     @overload
     async def create_negative_targeting_clauses(
-        self, body: list[CreateNegativeTargetingClause], *, mode: Literal["pydantic"] = "pydantic"
-    ) -> list[TargetResponse]: ...
-    @overload
-    async def create_negative_targeting_clauses(
-        self, body: list[CreateNegativeTargetingClause], *, mode: Literal["dict"]
+        self, body: list[CreateNegativeTargetingClause] | None = None, *, mode: Literal["dict"] = "dict"
     ) -> list[dict[str, Any]]: ...
     @overload
     async def create_negative_targeting_clauses(
-        self, body: list[CreateNegativeTargetingClause], *, mode: Literal["raw"]
+        self, body: list[CreateNegativeTargetingClause] | None = None, *, mode: Literal["pydantic"]
+    ) -> list[TargetResponse]: ...
+    @overload
+    async def create_negative_targeting_clauses(
+        self, body: list[CreateNegativeTargetingClause] | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_negative_targeting_clauses(
-        self, body: list[CreateNegativeTargetingClause], *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self,
+        body: list[CreateNegativeTargetingClause] | None = None,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> list[TargetResponse] | list[dict[str, Any]] | httpx.Response:
         """Successfully created negative targeting clauses associated with an ad group are assigned a unique target identifier."""
 
-        resp = await self._request("POST", "/sd/negativeTargets", json=[self.dump_json(x) for x in body])
+        resp = await self._request("POST", "/sd/negativeTargets", json=self.dump_json(body))
         return self._response_list(TargetResponse, resp, mode=mode)
 
     @overload
     async def get_negative_targets(
-        self, negative_target_id: int, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> NegativeTargetingClause: ...
+        self, negative_target_id: int, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def get_negative_targets(self, negative_target_id: int, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_negative_targets(
+        self, negative_target_id: int, *, mode: Literal["pydantic"]
+    ) -> NegativeTargetingClause: ...
     @overload
     async def get_negative_targets(self, negative_target_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_negative_targets(
-        self, negative_target_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, negative_target_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> NegativeTargetingClause | dict[str, Any] | httpx.Response:
         """This call returns the minimal set of negative targeting clause fields, but is more efficient than getNegativeTargetsEx."""
 
@@ -79,14 +84,16 @@ class NegativeTargeting(BaseResource):
 
     @overload
     async def get_negative_targets_ex(
-        self, negative_target_id: int, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> NegativeTargetingClauseEx: ...
+        self, negative_target_id: int, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def get_negative_targets_ex(self, negative_target_id: int, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_negative_targets_ex(
+        self, negative_target_id: int, *, mode: Literal["pydantic"]
+    ) -> NegativeTargetingClauseEx: ...
     @overload
     async def get_negative_targets_ex(self, negative_target_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_negative_targets_ex(
-        self, negative_target_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, negative_target_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> NegativeTargetingClauseEx | dict[str, Any] | httpx.Response:
         """Gets a negative targeting clause with extended fields. Note that this call returns the full set of negative targeting clause extended fields, but is less efficient than getNegativeTarget."""
 
@@ -97,7 +104,30 @@ class NegativeTargeting(BaseResource):
     async def list_negative_targeting_clauses(
         self,
         *,
-        mode: Literal["pydantic"] = "pydantic",
+        mode: Literal["dict"] = "dict",
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        ad_group_id_filter: str | None = None,
+        campaign_id_filter: str | None = None,
+    ) -> list[dict[str, Any]]: ...
+    @overload
+    async def list_negative_targeting_clauses(
+        self,
+        *,
+        mode: Literal["pydantic"],
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -116,29 +146,6 @@ class NegativeTargeting(BaseResource):
         ad_group_id_filter: str | None = None,
         campaign_id_filter: str | None = None,
     ) -> list[NegativeTargetingClause]: ...
-    @overload
-    async def list_negative_targeting_clauses(
-        self,
-        *,
-        mode: Literal["dict"],
-        start_index: int | None = None,
-        count: int | None = None,
-        state_filter: (
-            Literal[
-                "enabled",
-                "paused",
-                "archived",
-                "enabled, paused",
-                "enabled, archived",
-                "paused, archived",
-                "enabled, paused, archived",
-            ]
-            | str
-            | None
-        ) = None,
-        ad_group_id_filter: str | None = None,
-        campaign_id_filter: str | None = None,
-    ) -> list[dict[str, Any]]: ...
     @overload
     async def list_negative_targeting_clauses(
         self,
@@ -165,7 +172,7 @@ class NegativeTargeting(BaseResource):
     async def list_negative_targeting_clauses(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -201,31 +208,7 @@ class NegativeTargeting(BaseResource):
     async def list_negative_targeting_clauses_ex(
         self,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-        start_index: int | None = None,
-        count: int | None = None,
-        state_filter: (
-            Literal[
-                "enabled",
-                "paused",
-                "archived",
-                "enabled, paused",
-                "enabled, archived",
-                "paused, archived",
-                "enabled, paused, archived",
-            ]
-            | str
-            | None
-        ) = None,
-        target_id_filter: str | None = None,
-        ad_group_id_filter: str | None = None,
-        campaign_id_filter: str | None = None,
-    ) -> list[NegativeTargetingClauseEx]: ...
-    @overload
-    async def list_negative_targeting_clauses_ex(
-        self,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -245,6 +228,30 @@ class NegativeTargeting(BaseResource):
         ad_group_id_filter: str | None = None,
         campaign_id_filter: str | None = None,
     ) -> list[dict[str, Any]]: ...
+    @overload
+    async def list_negative_targeting_clauses_ex(
+        self,
+        *,
+        mode: Literal["pydantic"],
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        target_id_filter: str | None = None,
+        ad_group_id_filter: str | None = None,
+        campaign_id_filter: str | None = None,
+    ) -> list[NegativeTargetingClauseEx]: ...
     @overload
     async def list_negative_targeting_clauses_ex(
         self,
@@ -272,7 +279,7 @@ class NegativeTargeting(BaseResource):
     async def list_negative_targeting_clauses_ex(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -308,20 +315,23 @@ class NegativeTargeting(BaseResource):
 
     @overload
     async def update_negative_targeting_clauses(
-        self, body: list[UpdateNegativeTargetingClause], *, mode: Literal["pydantic"] = "pydantic"
-    ) -> list[TargetResponse]: ...
-    @overload
-    async def update_negative_targeting_clauses(
-        self, body: list[UpdateNegativeTargetingClause], *, mode: Literal["dict"]
+        self, body: list[UpdateNegativeTargetingClause] | None = None, *, mode: Literal["dict"] = "dict"
     ) -> list[dict[str, Any]]: ...
     @overload
     async def update_negative_targeting_clauses(
-        self, body: list[UpdateNegativeTargetingClause], *, mode: Literal["raw"]
+        self, body: list[UpdateNegativeTargetingClause] | None = None, *, mode: Literal["pydantic"]
+    ) -> list[TargetResponse]: ...
+    @overload
+    async def update_negative_targeting_clauses(
+        self, body: list[UpdateNegativeTargetingClause] | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_negative_targeting_clauses(
-        self, body: list[UpdateNegativeTargetingClause], *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self,
+        body: list[UpdateNegativeTargetingClause] | None = None,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> list[TargetResponse] | list[dict[str, Any]] | httpx.Response:
         """Updates one or more negative targeting clauses. Negative targeting clauses are identified using their targetId. The mutable field is `state`. Maximum length of the array is 100 objects."""
 
-        resp = await self._request("PUT", "/sd/negativeTargets", json=[self.dump_json(x) for x in body])
+        resp = await self._request("PUT", "/sd/negativeTargets", json=self.dump_json(body))
         return self._response_list(TargetResponse, resp, mode=mode)

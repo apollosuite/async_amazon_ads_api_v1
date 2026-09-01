@@ -767,9 +767,6 @@ def _append_method(
     pos_args = ["self"]
     for p in path_params:
         pos_args.append(f"{camel_to_snake(p['name'])}: {type_fn(p.get('schema', {}), field_name=p.get('name'))}")
-    if req_model:
-        req_type = f"list[{req_model}]" if is_array_req else req_model
-        pos_args.append(f"body: {req_type}")
 
     opt_query: list[str] = []
     for p in query_params:
@@ -779,6 +776,15 @@ def _append_method(
             pos_args.append(f"{py_name}: {ptype}")
         else:
             opt_query.append(f"{py_name}: {ptype} | None = None")
+
+    # OpenAPI requestBody.required 默认 false；未标 true 的 list 类接口允许省略 body。
+    body_required = bool(operation.get("requestBody", {}).get("required", False))
+    if req_model:
+        req_type = f"list[{req_model}]" if is_array_req else req_model
+        if body_required:
+            pos_args.append(f"body: {req_type}")
+        else:
+            pos_args.append(f"body: {req_type} | None = None")
 
     url_expr = path
     for p in path_params:
@@ -802,18 +808,18 @@ def _append_method(
 
     def make_sig(mode_type: str, ret_type: str, default_mode: bool = False) -> str:
         kw = list(extra_kw)
-        kw.append('mode: Literal["pydantic"] = "pydantic"' if default_mode else f"mode: {mode_type}")
+        kw.append('mode: Literal["dict"] = "dict"' if default_mode else f"mode: {mode_type}")
         kw.extend(opt_query)
         return f"    async def {mname}({', '.join(pos_args + ['*'] + kw)}) -> {ret_type}: ..."
 
     lines.append("    @overload")
-    lines.append(make_sig('Literal["pydantic"]', model_ret, default_mode=True))
+    lines.append(make_sig('Literal["dict"]', dict_ret, default_mode=True))
     lines.append("    @overload")
-    lines.append(make_sig('Literal["dict"]', dict_ret))
+    lines.append(make_sig('Literal["pydantic"]', model_ret))
     lines.append("    @overload")
     lines.append(make_sig('Literal["raw"]', "httpx.Response"))
 
-    impl_kw = extra_kw + ['mode: Literal["pydantic", "dict", "raw"] = "pydantic"'] + opt_query
+    impl_kw = extra_kw + ['mode: Literal["pydantic", "dict", "raw"] = "dict"'] + opt_query
     impl_ret = f"{model_ret} | {dict_ret} | httpx.Response" if resp_model else "Any"
     lines.append(f"    async def {mname}({', '.join(pos_args + ['*'] + impl_kw)}) -> {impl_ret}:")
     lines.append(f'        """{desc}"""' if desc else '        """"""')
@@ -830,11 +836,9 @@ def _append_method(
                 lines.append("        params = {k: v for k, v in params.items() if v is not None}")
             extra_parts.append("params=params")
         if req_model:
-            body_expr = "[self.dump_json(x) for x in body]" if is_array_req else "self.dump_json(body)"
-            extra_parts.append(f"json={body_expr}")
+            extra_parts.append("json=self.dump_json(body)")
     elif req_model:
-        body_expr = "[self.dump_json(x) for x in body]" if is_array_req else "self.dump_json(body)"
-        extra_parts.append(f"json={body_expr}")
+        extra_parts.append("json=self.dump_json(body)")
     if accept_choices:
         static = dict(extra_headers)
         lines.append(f"        headers = {static!r}")

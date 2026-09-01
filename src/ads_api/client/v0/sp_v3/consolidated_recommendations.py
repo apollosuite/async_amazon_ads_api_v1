@@ -21,18 +21,21 @@ class ConsolidatedRecommendations(BaseResource):
 
     @overload
     async def fetch_campaign_recommendations(
-        self, body: GetCampaignRecommendationsRequestV2, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> GetCampaignRecommendationsResponseV2: ...
-    @overload
-    async def fetch_campaign_recommendations(
-        self, body: GetCampaignRecommendationsRequestV2, *, mode: Literal["dict"]
+        self, body: GetCampaignRecommendationsRequestV2 | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def fetch_campaign_recommendations(
-        self, body: GetCampaignRecommendationsRequestV2, *, mode: Literal["raw"]
+        self, body: GetCampaignRecommendationsRequestV2 | None = None, *, mode: Literal["pydantic"]
+    ) -> GetCampaignRecommendationsResponseV2: ...
+    @overload
+    async def fetch_campaign_recommendations(
+        self, body: GetCampaignRecommendationsRequestV2 | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def fetch_campaign_recommendations(
-        self, body: GetCampaignRecommendationsRequestV2, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self,
+        body: GetCampaignRecommendationsRequestV2 | None = None,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> GetCampaignRecommendationsResponseV2 | dict[str, Any] | httpx.Response:
         """Gets the top consolidated recommendations across bid, budget, targeting for SP campaigns given an advertiser profile id. The recommendations are refreshed everyday."""
 
@@ -51,20 +54,20 @@ class ConsolidatedRecommendations(BaseResource):
     async def get_campaign_recommendations(
         self,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-        campaign_ids: list[str] | None = None,
-        next_token: str | None = None,
-        max_results: str | None = None,
-    ) -> GetCampaignRecommendationsResponse: ...
-    @overload
-    async def get_campaign_recommendations(
-        self,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
         campaign_ids: list[str] | None = None,
         next_token: str | None = None,
         max_results: str | None = None,
     ) -> dict[str, Any]: ...
+    @overload
+    async def get_campaign_recommendations(
+        self,
+        *,
+        mode: Literal["pydantic"],
+        campaign_ids: list[str] | None = None,
+        next_token: str | None = None,
+        max_results: str | None = None,
+    ) -> GetCampaignRecommendationsResponse: ...
     @overload
     async def get_campaign_recommendations(
         self,
@@ -77,7 +80,7 @@ class ConsolidatedRecommendations(BaseResource):
     async def get_campaign_recommendations(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         campaign_ids: list[str] | None = None,
         next_token: str | None = None,
         max_results: str | None = None,

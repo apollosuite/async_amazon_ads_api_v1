@@ -26,15 +26,12 @@ class Keywords(BaseResource):
 
     @overload
     async def create_sponsored_products_keywords(
-        self,
-        body: SponsoredProductsCreateSponsoredProductsKeywordsRequestContent,
-        *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsCreateSponsoredProductsKeywordsResponseContent: ...
+        self, body: SponsoredProductsCreateSponsoredProductsKeywordsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_sponsored_products_keywords(
-        self, body: SponsoredProductsCreateSponsoredProductsKeywordsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SponsoredProductsCreateSponsoredProductsKeywordsRequestContent, *, mode: Literal["pydantic"]
+    ) -> SponsoredProductsCreateSponsoredProductsKeywordsResponseContent: ...
     @overload
     async def create_sponsored_products_keywords(
         self, body: SponsoredProductsCreateSponsoredProductsKeywordsRequestContent, *, mode: Literal["raw"]
@@ -43,7 +40,7 @@ class Keywords(BaseResource):
         self,
         body: SponsoredProductsCreateSponsoredProductsKeywordsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsCreateSponsoredProductsKeywordsResponseContent | dict[str, Any] | httpx.Response:
         """Create keywords"""
 
@@ -60,15 +57,12 @@ class Keywords(BaseResource):
 
     @overload
     async def delete_sponsored_products_keywords(
-        self,
-        body: SponsoredProductsDeleteSponsoredProductsKeywordsRequestContent,
-        *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsDeleteSponsoredProductsKeywordsResponseContent: ...
+        self, body: SponsoredProductsDeleteSponsoredProductsKeywordsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def delete_sponsored_products_keywords(
-        self, body: SponsoredProductsDeleteSponsoredProductsKeywordsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SponsoredProductsDeleteSponsoredProductsKeywordsRequestContent, *, mode: Literal["pydantic"]
+    ) -> SponsoredProductsDeleteSponsoredProductsKeywordsResponseContent: ...
     @overload
     async def delete_sponsored_products_keywords(
         self, body: SponsoredProductsDeleteSponsoredProductsKeywordsRequestContent, *, mode: Literal["raw"]
@@ -77,7 +71,7 @@ class Keywords(BaseResource):
         self,
         body: SponsoredProductsDeleteSponsoredProductsKeywordsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsDeleteSponsoredProductsKeywordsResponseContent | dict[str, Any] | httpx.Response:
         """Delete keywords"""
 
@@ -95,23 +89,26 @@ class Keywords(BaseResource):
     @overload
     async def list_sponsored_products_keywords(
         self,
-        body: SponsoredProductsListSponsoredProductsKeywordsRequestContent,
+        body: SponsoredProductsListSponsoredProductsKeywordsRequestContent | None = None,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsListSponsoredProductsKeywordsResponseContent: ...
-    @overload
-    async def list_sponsored_products_keywords(
-        self, body: SponsoredProductsListSponsoredProductsKeywordsRequestContent, *, mode: Literal["dict"]
+        mode: Literal["dict"] = "dict",
     ) -> dict[str, Any]: ...
     @overload
     async def list_sponsored_products_keywords(
-        self, body: SponsoredProductsListSponsoredProductsKeywordsRequestContent, *, mode: Literal["raw"]
+        self,
+        body: SponsoredProductsListSponsoredProductsKeywordsRequestContent | None = None,
+        *,
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsListSponsoredProductsKeywordsResponseContent: ...
+    @overload
+    async def list_sponsored_products_keywords(
+        self, body: SponsoredProductsListSponsoredProductsKeywordsRequestContent | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def list_sponsored_products_keywords(
         self,
-        body: SponsoredProductsListSponsoredProductsKeywordsRequestContent,
+        body: SponsoredProductsListSponsoredProductsKeywordsRequestContent | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsListSponsoredProductsKeywordsResponseContent | dict[str, Any] | httpx.Response:
         """List keywords"""
 
@@ -128,15 +125,12 @@ class Keywords(BaseResource):
 
     @overload
     async def update_sponsored_products_keywords(
-        self,
-        body: SponsoredProductsUpdateSponsoredProductsKeywordsRequestContent,
-        *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsUpdateSponsoredProductsKeywordsResponseContent: ...
+        self, body: SponsoredProductsUpdateSponsoredProductsKeywordsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_sponsored_products_keywords(
-        self, body: SponsoredProductsUpdateSponsoredProductsKeywordsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SponsoredProductsUpdateSponsoredProductsKeywordsRequestContent, *, mode: Literal["pydantic"]
+    ) -> SponsoredProductsUpdateSponsoredProductsKeywordsResponseContent: ...
     @overload
     async def update_sponsored_products_keywords(
         self, body: SponsoredProductsUpdateSponsoredProductsKeywordsRequestContent, *, mode: Literal["raw"]
@@ -145,7 +139,7 @@ class Keywords(BaseResource):
         self,
         body: SponsoredProductsUpdateSponsoredProductsKeywordsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsUpdateSponsoredProductsKeywordsResponseContent | dict[str, Any] | httpx.Response:
         """Update keywords"""
 

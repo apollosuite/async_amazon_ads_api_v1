@@ -23,18 +23,18 @@ class DSPSupplierProposals(BaseResource):
 
     @overload
     async def create_supplier_proposal(
-        self, body: DSPCreateSupplierProposalRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPSupplierProposalMultiStatusResponse: ...
+        self, body: DSPCreateSupplierProposalRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_supplier_proposal(
-        self, body: DSPCreateSupplierProposalRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPCreateSupplierProposalRequest, *, mode: Literal["pydantic"]
+    ) -> DSPSupplierProposalMultiStatusResponse: ...
     @overload
     async def create_supplier_proposal(
         self, body: DSPCreateSupplierProposalRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_supplier_proposal(
-        self, body: DSPCreateSupplierProposalRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPCreateSupplierProposalRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPSupplierProposalMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create supplier proposal"""
 
@@ -43,18 +43,18 @@ class DSPSupplierProposals(BaseResource):
 
     @overload
     async def query_supplier_proposal(
-        self, body: DSPQuerySupplierProposalRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPSupplierProposalSuccessResponse: ...
+        self, body: DSPQuerySupplierProposalRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def query_supplier_proposal(
-        self, body: DSPQuerySupplierProposalRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPQuerySupplierProposalRequest, *, mode: Literal["pydantic"]
+    ) -> DSPSupplierProposalSuccessResponse: ...
     @overload
     async def query_supplier_proposal(
         self, body: DSPQuerySupplierProposalRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def query_supplier_proposal(
-        self, body: DSPQuerySupplierProposalRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPQuerySupplierProposalRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPSupplierProposalSuccessResponse | dict[str, Any] | httpx.Response:
         """Query supplier proposal"""
 
@@ -63,18 +63,18 @@ class DSPSupplierProposals(BaseResource):
 
     @overload
     async def update_supplier_proposal(
-        self, body: DSPUpdateSupplierProposalRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPSupplierProposalMultiStatusResponse: ...
+        self, body: DSPUpdateSupplierProposalRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_supplier_proposal(
-        self, body: DSPUpdateSupplierProposalRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPUpdateSupplierProposalRequest, *, mode: Literal["pydantic"]
+    ) -> DSPSupplierProposalMultiStatusResponse: ...
     @overload
     async def update_supplier_proposal(
         self, body: DSPUpdateSupplierProposalRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_supplier_proposal(
-        self, body: DSPUpdateSupplierProposalRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPUpdateSupplierProposalRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPSupplierProposalMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update supplier proposal"""
 

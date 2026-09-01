@@ -163,7 +163,10 @@ async def main() -> None:
     async with AdsClient(config) as ads:
         # v1 接口
         resp = await ads.v1.sp.campaigns.query_campaigns(body)
-        print(resp.model_dump_json(indent=2))
+        print(resp)  # 默认 mode="dict"
+
+        # 需要 Pydantic 模型时：
+        # resp = await ads.v1.sp.campaigns.query_campaigns(body, mode="pydantic")
 
         # v0 接口
         profiles = await ads.v0.accounts.profiles.list_profiles()

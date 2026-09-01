@@ -22,12 +22,12 @@ class StoreInsights(BaseResource):
 
     @overload
     async def get_asin_engagement_for_store(
-        self, brand_entity_id: str, body: GetAsinEngagementForStoreRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> GetAsinEngagementForStoreResponse: ...
+        self, brand_entity_id: str, body: GetAsinEngagementForStoreRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def get_asin_engagement_for_store(
-        self, brand_entity_id: str, body: GetAsinEngagementForStoreRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, brand_entity_id: str, body: GetAsinEngagementForStoreRequest, *, mode: Literal["pydantic"]
+    ) -> GetAsinEngagementForStoreResponse: ...
     @overload
     async def get_asin_engagement_for_store(
         self, brand_entity_id: str, body: GetAsinEngagementForStoreRequest, *, mode: Literal["raw"]
@@ -37,7 +37,7 @@ class StoreInsights(BaseResource):
         brand_entity_id: str,
         body: GetAsinEngagementForStoreRequest,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> GetAsinEngagementForStoreResponse | dict[str, Any] | httpx.Response:
         """Store asin metrics provides information about your store asin performance, including rendered impressions, viewed impressions, clicks and sales. You can access Stores insights through this API."""
 
@@ -54,12 +54,12 @@ class StoreInsights(BaseResource):
 
     @overload
     async def get_insights_for_store_api(
-        self, brand_entity_id: str, body: GetInsightsForStoreRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> GetInsightsForStoreResponse: ...
+        self, brand_entity_id: str, body: GetInsightsForStoreRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def get_insights_for_store_api(
-        self, brand_entity_id: str, body: GetInsightsForStoreRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, brand_entity_id: str, body: GetInsightsForStoreRequest, *, mode: Literal["pydantic"]
+    ) -> GetInsightsForStoreResponse: ...
     @overload
     async def get_insights_for_store_api(
         self, brand_entity_id: str, body: GetInsightsForStoreRequest, *, mode: Literal["raw"]
@@ -69,7 +69,7 @@ class StoreInsights(BaseResource):
         brand_entity_id: str,
         body: GetInsightsForStoreRequest,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> GetInsightsForStoreResponse | dict[str, Any] | httpx.Response:
         """Stores insights provides information about your store's performance, including traffic and sales. You can access Stores insights through this API."""
 

@@ -21,14 +21,18 @@ class BudgetRulesRecommendation(BaseResource):
 
     @overload
     async def get_all_rule_events(
-        self, body: SPGetAllRuleEventRequest, *, mode: Literal["pydantic"] = "pydantic"
+        self, body: SPGetAllRuleEventRequest | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    async def get_all_rule_events(
+        self, body: SPGetAllRuleEventRequest | None = None, *, mode: Literal["pydantic"]
     ) -> SPGetAllRuleEventResponse: ...
     @overload
-    async def get_all_rule_events(self, body: SPGetAllRuleEventRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
-    @overload
-    async def get_all_rule_events(self, body: SPGetAllRuleEventRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_all_rule_events(
-        self, body: SPGetAllRuleEventRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGetAllRuleEventRequest | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def get_all_rule_events(
+        self, body: SPGetAllRuleEventRequest | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGetAllRuleEventResponse | dict[str, Any] | httpx.Response:
         """A rule enables an automatic budget increase for a specified date range or for a special event. The response includes the suggested date range for each special event."""
 
@@ -36,15 +40,15 @@ class BudgetRulesRecommendation(BaseResource):
         return self._response(SPGetAllRuleEventResponse, resp, mode=mode)
 
     @overload
-    async def get_budget_rules_recommendation(
-        self, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPBudgetRulesRecommendationEventResponse: ...
+    async def get_budget_rules_recommendation(self, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_budget_rules_recommendation(self, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_budget_rules_recommendation(
+        self, *, mode: Literal["pydantic"]
+    ) -> SPBudgetRulesRecommendationEventResponse: ...
     @overload
     async def get_budget_rules_recommendation(self, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_budget_rules_recommendation(
-        self, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPBudgetRulesRecommendationEventResponse | dict[str, Any] | httpx.Response:
         """A rule enables an automatic budget increase for a specified date range or for a special event. The response also includes a suggested budget increase for each special event."""
 

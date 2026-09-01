@@ -24,14 +24,16 @@ class SPGlobalAdGroups(BaseResource):
 
     @overload
     async def create_ad_group(
-        self, body: SPGlobalCreateAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPGlobalAdGroupMultiStatusResponseWithPartialErrors: ...
+        self, body: SPGlobalCreateAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def create_ad_group(self, body: SPGlobalCreateAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def create_ad_group(
+        self, body: SPGlobalCreateAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> SPGlobalAdGroupMultiStatusResponseWithPartialErrors: ...
     @overload
     async def create_ad_group(self, body: SPGlobalCreateAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_ad_group(
-        self, body: SPGlobalCreateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGlobalCreateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGlobalAdGroupMultiStatusResponseWithPartialErrors | dict[str, Any] | httpx.Response:
         """Create ad groups"""
 
@@ -40,14 +42,16 @@ class SPGlobalAdGroups(BaseResource):
 
     @overload
     async def delete_ad_group(
-        self, body: SPGlobalDeleteAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPGlobalAdGroupMultiStatusResponseWithPartialErrors: ...
+        self, body: SPGlobalDeleteAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def delete_ad_group(self, body: SPGlobalDeleteAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def delete_ad_group(
+        self, body: SPGlobalDeleteAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> SPGlobalAdGroupMultiStatusResponseWithPartialErrors: ...
     @overload
     async def delete_ad_group(self, body: SPGlobalDeleteAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def delete_ad_group(
-        self, body: SPGlobalDeleteAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGlobalDeleteAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGlobalAdGroupMultiStatusResponseWithPartialErrors | dict[str, Any] | httpx.Response:
         """Delete ad groups"""
 
@@ -56,14 +60,16 @@ class SPGlobalAdGroups(BaseResource):
 
     @overload
     async def query_ad_group(
-        self, body: SPGlobalQueryAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPGlobalAdGroupSuccessResponse: ...
+        self, body: SPGlobalQueryAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def query_ad_group(self, body: SPGlobalQueryAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def query_ad_group(
+        self, body: SPGlobalQueryAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> SPGlobalAdGroupSuccessResponse: ...
     @overload
     async def query_ad_group(self, body: SPGlobalQueryAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_ad_group(
-        self, body: SPGlobalQueryAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGlobalQueryAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGlobalAdGroupSuccessResponse | dict[str, Any] | httpx.Response:
         """List ad groups"""
 
@@ -72,14 +78,16 @@ class SPGlobalAdGroups(BaseResource):
 
     @overload
     async def update_ad_group(
-        self, body: SPGlobalUpdateAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPGlobalAdGroupMultiStatusResponseWithPartialErrors: ...
+        self, body: SPGlobalUpdateAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def update_ad_group(self, body: SPGlobalUpdateAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def update_ad_group(
+        self, body: SPGlobalUpdateAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> SPGlobalAdGroupMultiStatusResponseWithPartialErrors: ...
     @overload
     async def update_ad_group(self, body: SPGlobalUpdateAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def update_ad_group(
-        self, body: SPGlobalUpdateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGlobalUpdateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGlobalAdGroupMultiStatusResponseWithPartialErrors | dict[str, Any] | httpx.Response:
         """Update ad groups"""
 

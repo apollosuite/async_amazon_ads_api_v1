@@ -23,15 +23,15 @@ from ads_api.models.v1.targets.sp import (
 class SPTargets(BaseResource):
 
     @overload
-    async def create_target(
-        self, body: SPCreateTargetRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPTargetMultiStatusResponse: ...
+    async def create_target(self, body: SPCreateTargetRequest, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def create_target(self, body: SPCreateTargetRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def create_target(
+        self, body: SPCreateTargetRequest, *, mode: Literal["pydantic"]
+    ) -> SPTargetMultiStatusResponse: ...
     @overload
     async def create_target(self, body: SPCreateTargetRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_target(
-        self, body: SPCreateTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPCreateTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPTargetMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create target"""
 
@@ -39,15 +39,15 @@ class SPTargets(BaseResource):
         return self._response(SPTargetMultiStatusResponse, resp, mode=mode)
 
     @overload
-    async def delete_target(
-        self, body: SPDeleteTargetRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPTargetMultiStatusResponse: ...
+    async def delete_target(self, body: SPDeleteTargetRequest, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def delete_target(self, body: SPDeleteTargetRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def delete_target(
+        self, body: SPDeleteTargetRequest, *, mode: Literal["pydantic"]
+    ) -> SPTargetMultiStatusResponse: ...
     @overload
     async def delete_target(self, body: SPDeleteTargetRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def delete_target(
-        self, body: SPDeleteTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPDeleteTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPTargetMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Delete target"""
 
@@ -55,15 +55,15 @@ class SPTargets(BaseResource):
         return self._response(SPTargetMultiStatusResponse, resp, mode=mode)
 
     @overload
-    async def query_target(
-        self, body: SPQueryTargetRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPTargetSuccessResponse: ...
+    async def query_target(self, body: SPQueryTargetRequest, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def query_target(self, body: SPQueryTargetRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def query_target(
+        self, body: SPQueryTargetRequest, *, mode: Literal["pydantic"]
+    ) -> SPTargetSuccessResponse: ...
     @overload
     async def query_target(self, body: SPQueryTargetRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_target(
-        self, body: SPQueryTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPQueryTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPTargetSuccessResponse | dict[str, Any] | httpx.Response:
         """List target"""
 
@@ -71,15 +71,15 @@ class SPTargets(BaseResource):
         return self._response(SPTargetSuccessResponse, resp, mode=mode)
 
     @overload
-    async def update_target(
-        self, body: SPUpdateTargetRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPTargetMultiStatusResponse: ...
+    async def update_target(self, body: SPUpdateTargetRequest, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def update_target(self, body: SPUpdateTargetRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def update_target(
+        self, body: SPUpdateTargetRequest, *, mode: Literal["pydantic"]
+    ) -> SPTargetMultiStatusResponse: ...
     @overload
     async def update_target(self, body: SPUpdateTargetRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def update_target(
-        self, body: SPUpdateTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPUpdateTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPTargetMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update target"""
 

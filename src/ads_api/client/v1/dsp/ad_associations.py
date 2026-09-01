@@ -24,18 +24,18 @@ class DSPAdAssociations(BaseResource):
 
     @overload
     async def create_ad_association(
-        self, body: DSPCreateAdAssociationRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPAdAssociationMultiStatusResponse: ...
+        self, body: DSPCreateAdAssociationRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_ad_association(
-        self, body: DSPCreateAdAssociationRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPCreateAdAssociationRequest, *, mode: Literal["pydantic"]
+    ) -> DSPAdAssociationMultiStatusResponse: ...
     @overload
     async def create_ad_association(
         self, body: DSPCreateAdAssociationRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_ad_association(
-        self, body: DSPCreateAdAssociationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPCreateAdAssociationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPAdAssociationMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create Ad Association"""
 
@@ -44,18 +44,18 @@ class DSPAdAssociations(BaseResource):
 
     @overload
     async def delete_ad_association(
-        self, body: DSPDeleteAdAssociationRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPAdAssociationMultiStatusResponse: ...
+        self, body: DSPDeleteAdAssociationRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def delete_ad_association(
-        self, body: DSPDeleteAdAssociationRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPDeleteAdAssociationRequest, *, mode: Literal["pydantic"]
+    ) -> DSPAdAssociationMultiStatusResponse: ...
     @overload
     async def delete_ad_association(
         self, body: DSPDeleteAdAssociationRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def delete_ad_association(
-        self, body: DSPDeleteAdAssociationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPDeleteAdAssociationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPAdAssociationMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Delete Ad Association"""
 
@@ -64,18 +64,18 @@ class DSPAdAssociations(BaseResource):
 
     @overload
     async def query_ad_association(
-        self, body: DSPQueryAdAssociationRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPAdAssociationSuccessResponse: ...
-    @overload
-    async def query_ad_association(
-        self, body: DSPQueryAdAssociationRequest, *, mode: Literal["dict"]
+        self, body: DSPQueryAdAssociationRequest | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def query_ad_association(
-        self, body: DSPQueryAdAssociationRequest, *, mode: Literal["raw"]
+        self, body: DSPQueryAdAssociationRequest | None = None, *, mode: Literal["pydantic"]
+    ) -> DSPAdAssociationSuccessResponse: ...
+    @overload
+    async def query_ad_association(
+        self, body: DSPQueryAdAssociationRequest | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def query_ad_association(
-        self, body: DSPQueryAdAssociationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPQueryAdAssociationRequest | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPAdAssociationSuccessResponse | dict[str, Any] | httpx.Response:
         """Query Ad Association"""
 
@@ -84,18 +84,18 @@ class DSPAdAssociations(BaseResource):
 
     @overload
     async def update_ad_association(
-        self, body: DSPUpdateAdAssociationRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPAdAssociationMultiStatusResponse: ...
+        self, body: DSPUpdateAdAssociationRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_ad_association(
-        self, body: DSPUpdateAdAssociationRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPUpdateAdAssociationRequest, *, mode: Literal["pydantic"]
+    ) -> DSPAdAssociationMultiStatusResponse: ...
     @overload
     async def update_ad_association(
         self, body: DSPUpdateAdAssociationRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_ad_association(
-        self, body: DSPUpdateAdAssociationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPUpdateAdAssociationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPAdAssociationMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update Ad Association"""
 

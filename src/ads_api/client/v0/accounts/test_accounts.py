@@ -21,15 +21,15 @@ class TestAccounts(BaseResource):
     __test__ = False
 
     @overload
-    async def create_account(
-        self, body: CreateAccountRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateAccountResponse: ...
+    async def create_account(self, body: CreateAccountRequest, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def create_account(self, body: CreateAccountRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def create_account(
+        self, body: CreateAccountRequest, *, mode: Literal["pydantic"]
+    ) -> CreateAccountResponse: ...
     @overload
     async def create_account(self, body: CreateAccountRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_account(
-        self, body: CreateAccountRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: CreateAccountRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> CreateAccountResponse | dict[str, Any] | httpx.Response:
         """Submit a account creation request. You can create up to 1 test account type per marketplace."""
 
@@ -38,18 +38,18 @@ class TestAccounts(BaseResource):
 
     @overload
     async def get_account_information(
-        self, *, mode: Literal["pydantic"] = "pydantic", request_id: str | None = None
-    ) -> GetAccountInformationResponse: ...
+        self, *, mode: Literal["dict"] = "dict", request_id: str | None = None
+    ) -> dict[str, Any]: ...
     @overload
     async def get_account_information(
-        self, *, mode: Literal["dict"], request_id: str | None = None
-    ) -> dict[str, Any]: ...
+        self, *, mode: Literal["pydantic"], request_id: str | None = None
+    ) -> GetAccountInformationResponse: ...
     @overload
     async def get_account_information(
         self, *, mode: Literal["raw"], request_id: str | None = None
     ) -> httpx.Response: ...
     async def get_account_information(
-        self, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic", request_id: str | None = None
+        self, *, mode: Literal["pydantic", "dict", "raw"] = "dict", request_id: str | None = None
     ) -> GetAccountInformationResponse | dict[str, Any] | httpx.Response:
         """API to get Account information."""
 

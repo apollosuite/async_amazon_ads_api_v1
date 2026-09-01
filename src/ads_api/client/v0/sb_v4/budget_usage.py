@@ -20,18 +20,18 @@ class BudgetUsage(BaseResource):
 
     @overload
     async def sb_campaigns_budget_usage(
-        self, body: BudgetUsageCampaignRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> BudgetUsageCampaignResponse: ...
+        self, body: BudgetUsageCampaignRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def sb_campaigns_budget_usage(
-        self, body: BudgetUsageCampaignRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: BudgetUsageCampaignRequest, *, mode: Literal["pydantic"]
+    ) -> BudgetUsageCampaignResponse: ...
     @overload
     async def sb_campaigns_budget_usage(
         self, body: BudgetUsageCampaignRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def sb_campaigns_budget_usage(
-        self, body: BudgetUsageCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: BudgetUsageCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> BudgetUsageCampaignResponse | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 

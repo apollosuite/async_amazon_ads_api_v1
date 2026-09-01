@@ -28,15 +28,12 @@ class TargetPromotionGroups(BaseResource):
 
     @overload
     async def create_target_promotion_group_targets(
-        self,
-        body: SponsoredProductsCreateTargetPromotionGroupTargetsRequestContent,
-        *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsCreateTargetPromotionGroupTargetsResponseContent: ...
+        self, body: SponsoredProductsCreateTargetPromotionGroupTargetsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_target_promotion_group_targets(
-        self, body: SponsoredProductsCreateTargetPromotionGroupTargetsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SponsoredProductsCreateTargetPromotionGroupTargetsRequestContent, *, mode: Literal["pydantic"]
+    ) -> SponsoredProductsCreateTargetPromotionGroupTargetsResponseContent: ...
     @overload
     async def create_target_promotion_group_targets(
         self, body: SponsoredProductsCreateTargetPromotionGroupTargetsRequestContent, *, mode: Literal["raw"]
@@ -45,7 +42,7 @@ class TargetPromotionGroups(BaseResource):
         self,
         body: SponsoredProductsCreateTargetPromotionGroupTargetsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsCreateTargetPromotionGroupTargetsResponseContent | dict[str, Any] | httpx.Response:
         """Creates keyword and/or product targets in the manual adGroup that are part of the target promotion group"""
 
@@ -62,15 +59,12 @@ class TargetPromotionGroups(BaseResource):
 
     @overload
     async def create_target_promotion_groups(
-        self,
-        body: SponsoredProductsCreateTargetPromotionGroupsRequestContent,
-        *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsCreateTargetPromotionGroupsResponseContent: ...
+        self, body: SponsoredProductsCreateTargetPromotionGroupsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_target_promotion_groups(
-        self, body: SponsoredProductsCreateTargetPromotionGroupsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SponsoredProductsCreateTargetPromotionGroupsRequestContent, *, mode: Literal["pydantic"]
+    ) -> SponsoredProductsCreateTargetPromotionGroupsResponseContent: ...
     @overload
     async def create_target_promotion_groups(
         self, body: SponsoredProductsCreateTargetPromotionGroupsRequestContent, *, mode: Literal["raw"]
@@ -79,7 +73,7 @@ class TargetPromotionGroups(BaseResource):
         self,
         body: SponsoredProductsCreateTargetPromotionGroupsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsCreateTargetPromotionGroupsResponseContent | dict[str, Any] | httpx.Response:
         """Creates a target promotion group, by grouping the auto-targeting adGroupId"""
 
@@ -97,23 +91,29 @@ class TargetPromotionGroups(BaseResource):
     @overload
     async def get_target_promotion_groups_recommendations(
         self,
-        body: SponsoredProductsGetTargetPromotionGroupsRecommendationsRequestContent,
+        body: SponsoredProductsGetTargetPromotionGroupsRecommendationsRequestContent | None = None,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsGetTargetPromotionGroupsRecommendationsResponseContent: ...
-    @overload
-    async def get_target_promotion_groups_recommendations(
-        self, body: SponsoredProductsGetTargetPromotionGroupsRecommendationsRequestContent, *, mode: Literal["dict"]
+        mode: Literal["dict"] = "dict",
     ) -> dict[str, Any]: ...
     @overload
     async def get_target_promotion_groups_recommendations(
-        self, body: SponsoredProductsGetTargetPromotionGroupsRecommendationsRequestContent, *, mode: Literal["raw"]
+        self,
+        body: SponsoredProductsGetTargetPromotionGroupsRecommendationsRequestContent | None = None,
+        *,
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsGetTargetPromotionGroupsRecommendationsResponseContent: ...
+    @overload
+    async def get_target_promotion_groups_recommendations(
+        self,
+        body: SponsoredProductsGetTargetPromotionGroupsRecommendationsRequestContent | None = None,
+        *,
+        mode: Literal["raw"],
     ) -> httpx.Response: ...
     async def get_target_promotion_groups_recommendations(
         self,
-        body: SponsoredProductsGetTargetPromotionGroupsRecommendationsRequestContent,
+        body: SponsoredProductsGetTargetPromotionGroupsRecommendationsRequestContent | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsGetTargetPromotionGroupsRecommendationsResponseContent | dict[str, Any] | httpx.Response:
         """Retrieves keyword and product targets of an auto-targeting campaign as recommendations for promoting to a manual-targeting campaign. The recommendations are based on performance heuristics of the targets."""
 
@@ -131,23 +131,29 @@ class TargetPromotionGroups(BaseResource):
     @overload
     async def list_target_promotion_group_targets(
         self,
-        body: SponsoredProductsListTargetPromotionGroupTargetsRequestContent,
+        body: SponsoredProductsListTargetPromotionGroupTargetsRequestContent | None = None,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsListTargetPromotionGroupTargetsResponseContent: ...
-    @overload
-    async def list_target_promotion_group_targets(
-        self, body: SponsoredProductsListTargetPromotionGroupTargetsRequestContent, *, mode: Literal["dict"]
+        mode: Literal["dict"] = "dict",
     ) -> dict[str, Any]: ...
     @overload
     async def list_target_promotion_group_targets(
-        self, body: SponsoredProductsListTargetPromotionGroupTargetsRequestContent, *, mode: Literal["raw"]
+        self,
+        body: SponsoredProductsListTargetPromotionGroupTargetsRequestContent | None = None,
+        *,
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsListTargetPromotionGroupTargetsResponseContent: ...
+    @overload
+    async def list_target_promotion_group_targets(
+        self,
+        body: SponsoredProductsListTargetPromotionGroupTargetsRequestContent | None = None,
+        *,
+        mode: Literal["raw"],
     ) -> httpx.Response: ...
     async def list_target_promotion_group_targets(
         self,
-        body: SponsoredProductsListTargetPromotionGroupTargetsRequestContent,
+        body: SponsoredProductsListTargetPromotionGroupTargetsRequestContent | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsListTargetPromotionGroupTargetsResponseContent | dict[str, Any] | httpx.Response:
         """Returns the targets created through target promotion groups for an advertiser and / or given target promotion group."""
 
@@ -164,21 +170,24 @@ class TargetPromotionGroups(BaseResource):
 
     @overload
     async def list_target_promotion_groups(
-        self, body: SponsoredProductsListTargetPromotionGroupsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SponsoredProductsListTargetPromotionGroupsResponseContent: ...
-    @overload
-    async def list_target_promotion_groups(
-        self, body: SponsoredProductsListTargetPromotionGroupsRequestContent, *, mode: Literal["dict"]
+        self,
+        body: SponsoredProductsListTargetPromotionGroupsRequestContent | None = None,
+        *,
+        mode: Literal["dict"] = "dict",
     ) -> dict[str, Any]: ...
     @overload
     async def list_target_promotion_groups(
-        self, body: SponsoredProductsListTargetPromotionGroupsRequestContent, *, mode: Literal["raw"]
+        self, body: SponsoredProductsListTargetPromotionGroupsRequestContent | None = None, *, mode: Literal["pydantic"]
+    ) -> SponsoredProductsListTargetPromotionGroupsResponseContent: ...
+    @overload
+    async def list_target_promotion_groups(
+        self, body: SponsoredProductsListTargetPromotionGroupsRequestContent | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def list_target_promotion_groups(
         self,
-        body: SponsoredProductsListTargetPromotionGroupsRequestContent,
+        body: SponsoredProductsListTargetPromotionGroupsRequestContent | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsListTargetPromotionGroupsResponseContent | dict[str, Any] | httpx.Response:
         """Returns the target promotion groups for an advertiser and / or adGroupId, and / or target"""
 

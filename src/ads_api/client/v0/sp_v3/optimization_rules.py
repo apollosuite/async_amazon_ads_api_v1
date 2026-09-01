@@ -27,32 +27,32 @@ class OptimizationRules(BaseResource):
     async def associate_optimization_rules_to_campaign(
         self,
         campaign_id: str,
-        body: OptimizationRulesAPISwaggerAssociateOptimizationRulesToCampaignRequest,
+        body: OptimizationRulesAPISwaggerAssociateOptimizationRulesToCampaignRequest | None = None,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> OptimizationRulesAPISwaggerAssociateOptimizationRulesToCampaignResponse: ...
-    @overload
-    async def associate_optimization_rules_to_campaign(
-        self,
-        campaign_id: str,
-        body: OptimizationRulesAPISwaggerAssociateOptimizationRulesToCampaignRequest,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
     ) -> dict[str, Any]: ...
     @overload
     async def associate_optimization_rules_to_campaign(
         self,
         campaign_id: str,
-        body: OptimizationRulesAPISwaggerAssociateOptimizationRulesToCampaignRequest,
+        body: OptimizationRulesAPISwaggerAssociateOptimizationRulesToCampaignRequest | None = None,
+        *,
+        mode: Literal["pydantic"],
+    ) -> OptimizationRulesAPISwaggerAssociateOptimizationRulesToCampaignResponse: ...
+    @overload
+    async def associate_optimization_rules_to_campaign(
+        self,
+        campaign_id: str,
+        body: OptimizationRulesAPISwaggerAssociateOptimizationRulesToCampaignRequest | None = None,
         *,
         mode: Literal["raw"],
     ) -> httpx.Response: ...
     async def associate_optimization_rules_to_campaign(
         self,
         campaign_id: str,
-        body: OptimizationRulesAPISwaggerAssociateOptimizationRulesToCampaignRequest,
+        body: OptimizationRulesAPISwaggerAssociateOptimizationRulesToCampaignRequest | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> OptimizationRulesAPISwaggerAssociateOptimizationRulesToCampaignResponse | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 
@@ -69,21 +69,27 @@ class OptimizationRules(BaseResource):
 
     @overload
     async def create_optimization_rules(
-        self, body: OptimizationRulesAPISwaggerCreateOptimizationRulesRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> OptimizationRulesAPISwaggerOptimizationRulesResponse: ...
-    @overload
-    async def create_optimization_rules(
-        self, body: OptimizationRulesAPISwaggerCreateOptimizationRulesRequest, *, mode: Literal["dict"]
+        self,
+        body: OptimizationRulesAPISwaggerCreateOptimizationRulesRequest | None = None,
+        *,
+        mode: Literal["dict"] = "dict",
     ) -> dict[str, Any]: ...
     @overload
     async def create_optimization_rules(
-        self, body: OptimizationRulesAPISwaggerCreateOptimizationRulesRequest, *, mode: Literal["raw"]
+        self,
+        body: OptimizationRulesAPISwaggerCreateOptimizationRulesRequest | None = None,
+        *,
+        mode: Literal["pydantic"],
+    ) -> OptimizationRulesAPISwaggerOptimizationRulesResponse: ...
+    @overload
+    async def create_optimization_rules(
+        self, body: OptimizationRulesAPISwaggerCreateOptimizationRulesRequest | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_optimization_rules(
         self,
-        body: OptimizationRulesAPISwaggerCreateOptimizationRulesRequest,
+        body: OptimizationRulesAPISwaggerCreateOptimizationRulesRequest | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> OptimizationRulesAPISwaggerOptimizationRulesResponse | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 
@@ -100,21 +106,27 @@ class OptimizationRules(BaseResource):
 
     @overload
     async def search_optimization_rules(
-        self, body: OptimizationRulesAPISwaggerSearchOptimizationRulesRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> OptimizationRulesAPISwaggerSearchOptimizationRulesResponse: ...
-    @overload
-    async def search_optimization_rules(
-        self, body: OptimizationRulesAPISwaggerSearchOptimizationRulesRequest, *, mode: Literal["dict"]
+        self,
+        body: OptimizationRulesAPISwaggerSearchOptimizationRulesRequest | None = None,
+        *,
+        mode: Literal["dict"] = "dict",
     ) -> dict[str, Any]: ...
     @overload
     async def search_optimization_rules(
-        self, body: OptimizationRulesAPISwaggerSearchOptimizationRulesRequest, *, mode: Literal["raw"]
+        self,
+        body: OptimizationRulesAPISwaggerSearchOptimizationRulesRequest | None = None,
+        *,
+        mode: Literal["pydantic"],
+    ) -> OptimizationRulesAPISwaggerSearchOptimizationRulesResponse: ...
+    @overload
+    async def search_optimization_rules(
+        self, body: OptimizationRulesAPISwaggerSearchOptimizationRulesRequest | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def search_optimization_rules(
         self,
-        body: OptimizationRulesAPISwaggerSearchOptimizationRulesRequest,
+        body: OptimizationRulesAPISwaggerSearchOptimizationRulesRequest | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> OptimizationRulesAPISwaggerSearchOptimizationRulesResponse | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 
@@ -131,21 +143,27 @@ class OptimizationRules(BaseResource):
 
     @overload
     async def update_optimization_rules(
-        self, body: OptimizationRulesAPISwaggerUpdateOptimizationRulesRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> OptimizationRulesAPISwaggerOptimizationRulesResponse: ...
-    @overload
-    async def update_optimization_rules(
-        self, body: OptimizationRulesAPISwaggerUpdateOptimizationRulesRequest, *, mode: Literal["dict"]
+        self,
+        body: OptimizationRulesAPISwaggerUpdateOptimizationRulesRequest | None = None,
+        *,
+        mode: Literal["dict"] = "dict",
     ) -> dict[str, Any]: ...
     @overload
     async def update_optimization_rules(
-        self, body: OptimizationRulesAPISwaggerUpdateOptimizationRulesRequest, *, mode: Literal["raw"]
+        self,
+        body: OptimizationRulesAPISwaggerUpdateOptimizationRulesRequest | None = None,
+        *,
+        mode: Literal["pydantic"],
+    ) -> OptimizationRulesAPISwaggerOptimizationRulesResponse: ...
+    @overload
+    async def update_optimization_rules(
+        self, body: OptimizationRulesAPISwaggerUpdateOptimizationRulesRequest | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_optimization_rules(
         self,
-        body: OptimizationRulesAPISwaggerUpdateOptimizationRulesRequest,
+        body: OptimizationRulesAPISwaggerUpdateOptimizationRulesRequest | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> OptimizationRulesAPISwaggerOptimizationRulesResponse | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 

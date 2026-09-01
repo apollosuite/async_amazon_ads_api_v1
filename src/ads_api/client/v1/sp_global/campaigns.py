@@ -24,16 +24,16 @@ class SPGlobalCampaigns(BaseResource):
 
     @overload
     async def create_campaign(
-        self, body: SPGlobalCreateCampaignRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPGlobalCampaignMultiStatusResponseWithPartialErrors: ...
+        self, body: SPGlobalCreateCampaignRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_campaign(
-        self, body: SPGlobalCreateCampaignRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SPGlobalCreateCampaignRequest, *, mode: Literal["pydantic"]
+    ) -> SPGlobalCampaignMultiStatusResponseWithPartialErrors: ...
     @overload
     async def create_campaign(self, body: SPGlobalCreateCampaignRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_campaign(
-        self, body: SPGlobalCreateCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGlobalCreateCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGlobalCampaignMultiStatusResponseWithPartialErrors | dict[str, Any] | httpx.Response:
         """Create campaigns"""
 
@@ -42,16 +42,16 @@ class SPGlobalCampaigns(BaseResource):
 
     @overload
     async def delete_campaign(
-        self, body: SPGlobalDeleteCampaignRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPGlobalCampaignMultiStatusResponseWithPartialErrors: ...
+        self, body: SPGlobalDeleteCampaignRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def delete_campaign(
-        self, body: SPGlobalDeleteCampaignRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SPGlobalDeleteCampaignRequest, *, mode: Literal["pydantic"]
+    ) -> SPGlobalCampaignMultiStatusResponseWithPartialErrors: ...
     @overload
     async def delete_campaign(self, body: SPGlobalDeleteCampaignRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def delete_campaign(
-        self, body: SPGlobalDeleteCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGlobalDeleteCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGlobalCampaignMultiStatusResponseWithPartialErrors | dict[str, Any] | httpx.Response:
         """Delete campaigns"""
 
@@ -60,14 +60,16 @@ class SPGlobalCampaigns(BaseResource):
 
     @overload
     async def query_campaign(
-        self, body: SPGlobalQueryCampaignRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPGlobalCampaignSuccessResponse: ...
+        self, body: SPGlobalQueryCampaignRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def query_campaign(self, body: SPGlobalQueryCampaignRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def query_campaign(
+        self, body: SPGlobalQueryCampaignRequest, *, mode: Literal["pydantic"]
+    ) -> SPGlobalCampaignSuccessResponse: ...
     @overload
     async def query_campaign(self, body: SPGlobalQueryCampaignRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_campaign(
-        self, body: SPGlobalQueryCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGlobalQueryCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGlobalCampaignSuccessResponse | dict[str, Any] | httpx.Response:
         """Query campaign"""
 
@@ -76,16 +78,16 @@ class SPGlobalCampaigns(BaseResource):
 
     @overload
     async def update_campaign(
-        self, body: SPGlobalUpdateCampaignRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPGlobalCampaignMultiStatusResponseWithPartialErrors: ...
+        self, body: SPGlobalUpdateCampaignRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_campaign(
-        self, body: SPGlobalUpdateCampaignRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SPGlobalUpdateCampaignRequest, *, mode: Literal["pydantic"]
+    ) -> SPGlobalCampaignMultiStatusResponseWithPartialErrors: ...
     @overload
     async def update_campaign(self, body: SPGlobalUpdateCampaignRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def update_campaign(
-        self, body: SPGlobalUpdateCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGlobalUpdateCampaignRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGlobalCampaignMultiStatusResponseWithPartialErrors | dict[str, Any] | httpx.Response:
         """Update campaign"""
 

@@ -20,21 +20,18 @@ class DSPSupplierProposedDealForecasts(BaseResource):
 
     @overload
     async def create_supplier_proposed_deal_forecast(
-        self, body: DSPCreateSupplierProposedDealForecastRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPSupplierProposedDealForecastMultiStatusResponse: ...
+        self, body: DSPCreateSupplierProposedDealForecastRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_supplier_proposed_deal_forecast(
-        self, body: DSPCreateSupplierProposedDealForecastRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPCreateSupplierProposedDealForecastRequest, *, mode: Literal["pydantic"]
+    ) -> DSPSupplierProposedDealForecastMultiStatusResponse: ...
     @overload
     async def create_supplier_proposed_deal_forecast(
         self, body: DSPCreateSupplierProposedDealForecastRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_supplier_proposed_deal_forecast(
-        self,
-        body: DSPCreateSupplierProposedDealForecastRequest,
-        *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        self, body: DSPCreateSupplierProposedDealForecastRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPSupplierProposedDealForecastMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create supplier proposed deal forecast"""
 

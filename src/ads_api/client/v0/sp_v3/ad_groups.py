@@ -26,15 +26,12 @@ class AdGroups(BaseResource):
 
     @overload
     async def create_sponsored_products_ad_groups(
-        self,
-        body: SponsoredProductsCreateSponsoredProductsAdGroupsRequestContent,
-        *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsCreateSponsoredProductsAdGroupsResponseContent: ...
+        self, body: SponsoredProductsCreateSponsoredProductsAdGroupsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_sponsored_products_ad_groups(
-        self, body: SponsoredProductsCreateSponsoredProductsAdGroupsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SponsoredProductsCreateSponsoredProductsAdGroupsRequestContent, *, mode: Literal["pydantic"]
+    ) -> SponsoredProductsCreateSponsoredProductsAdGroupsResponseContent: ...
     @overload
     async def create_sponsored_products_ad_groups(
         self, body: SponsoredProductsCreateSponsoredProductsAdGroupsRequestContent, *, mode: Literal["raw"]
@@ -43,7 +40,7 @@ class AdGroups(BaseResource):
         self,
         body: SponsoredProductsCreateSponsoredProductsAdGroupsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsCreateSponsoredProductsAdGroupsResponseContent | dict[str, Any] | httpx.Response:
         """Create ad groups"""
 
@@ -60,15 +57,12 @@ class AdGroups(BaseResource):
 
     @overload
     async def delete_sponsored_products_ad_groups(
-        self,
-        body: SponsoredProductsDeleteSponsoredProductsAdGroupsRequestContent,
-        *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsDeleteSponsoredProductsAdGroupsResponseContent: ...
+        self, body: SponsoredProductsDeleteSponsoredProductsAdGroupsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def delete_sponsored_products_ad_groups(
-        self, body: SponsoredProductsDeleteSponsoredProductsAdGroupsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SponsoredProductsDeleteSponsoredProductsAdGroupsRequestContent, *, mode: Literal["pydantic"]
+    ) -> SponsoredProductsDeleteSponsoredProductsAdGroupsResponseContent: ...
     @overload
     async def delete_sponsored_products_ad_groups(
         self, body: SponsoredProductsDeleteSponsoredProductsAdGroupsRequestContent, *, mode: Literal["raw"]
@@ -77,7 +71,7 @@ class AdGroups(BaseResource):
         self,
         body: SponsoredProductsDeleteSponsoredProductsAdGroupsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsDeleteSponsoredProductsAdGroupsResponseContent | dict[str, Any] | httpx.Response:
         """Delete ad groups"""
 
@@ -95,23 +89,26 @@ class AdGroups(BaseResource):
     @overload
     async def list_sponsored_products_ad_groups(
         self,
-        body: SponsoredProductsListSponsoredProductsAdGroupsRequestContent,
+        body: SponsoredProductsListSponsoredProductsAdGroupsRequestContent | None = None,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsListSponsoredProductsAdGroupsResponseContent: ...
-    @overload
-    async def list_sponsored_products_ad_groups(
-        self, body: SponsoredProductsListSponsoredProductsAdGroupsRequestContent, *, mode: Literal["dict"]
+        mode: Literal["dict"] = "dict",
     ) -> dict[str, Any]: ...
     @overload
     async def list_sponsored_products_ad_groups(
-        self, body: SponsoredProductsListSponsoredProductsAdGroupsRequestContent, *, mode: Literal["raw"]
+        self,
+        body: SponsoredProductsListSponsoredProductsAdGroupsRequestContent | None = None,
+        *,
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsListSponsoredProductsAdGroupsResponseContent: ...
+    @overload
+    async def list_sponsored_products_ad_groups(
+        self, body: SponsoredProductsListSponsoredProductsAdGroupsRequestContent | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def list_sponsored_products_ad_groups(
         self,
-        body: SponsoredProductsListSponsoredProductsAdGroupsRequestContent,
+        body: SponsoredProductsListSponsoredProductsAdGroupsRequestContent | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsListSponsoredProductsAdGroupsResponseContent | dict[str, Any] | httpx.Response:
         """List ad groups"""
 
@@ -128,15 +125,12 @@ class AdGroups(BaseResource):
 
     @overload
     async def update_sponsored_products_ad_groups(
-        self,
-        body: SponsoredProductsUpdateSponsoredProductsAdGroupsRequestContent,
-        *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsUpdateSponsoredProductsAdGroupsResponseContent: ...
+        self, body: SponsoredProductsUpdateSponsoredProductsAdGroupsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_sponsored_products_ad_groups(
-        self, body: SponsoredProductsUpdateSponsoredProductsAdGroupsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SponsoredProductsUpdateSponsoredProductsAdGroupsRequestContent, *, mode: Literal["pydantic"]
+    ) -> SponsoredProductsUpdateSponsoredProductsAdGroupsResponseContent: ...
     @overload
     async def update_sponsored_products_ad_groups(
         self, body: SponsoredProductsUpdateSponsoredProductsAdGroupsRequestContent, *, mode: Literal["raw"]
@@ -145,7 +139,7 @@ class AdGroups(BaseResource):
         self,
         body: SponsoredProductsUpdateSponsoredProductsAdGroupsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SponsoredProductsUpdateSponsoredProductsAdGroupsResponseContent | dict[str, Any] | httpx.Response:
         """Update ad groups"""
 

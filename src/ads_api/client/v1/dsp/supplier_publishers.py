@@ -20,18 +20,18 @@ class DSPSupplierPublishers(BaseResource):
 
     @overload
     async def query_supplier_publisher(
-        self, body: DSPQuerySupplierPublisherRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPSupplierPublisherSuccessResponse: ...
+        self, body: DSPQuerySupplierPublisherRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def query_supplier_publisher(
-        self, body: DSPQuerySupplierPublisherRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPQuerySupplierPublisherRequest, *, mode: Literal["pydantic"]
+    ) -> DSPSupplierPublisherSuccessResponse: ...
     @overload
     async def query_supplier_publisher(
         self, body: DSPQuerySupplierPublisherRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def query_supplier_publisher(
-        self, body: DSPQuerySupplierPublisherRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPQuerySupplierPublisherRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPSupplierPublisherSuccessResponse | dict[str, Any] | httpx.Response:
         """Query supplier publishers"""
 

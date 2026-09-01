@@ -16,11 +16,11 @@ class MmmBrandGroups(BaseResource):
 
     @overload
     async def get_mmm_brand_group_campaigns(
-        self, *, mode: Literal["pydantic"] = "pydantic", next_token: str | None = None, max_results: int | None = None
+        self, *, mode: Literal["dict"] = "dict", next_token: str | None = None, max_results: int | None = None
     ) -> Any: ...
     @overload
     async def get_mmm_brand_group_campaigns(
-        self, *, mode: Literal["dict"], next_token: str | None = None, max_results: int | None = None
+        self, *, mode: Literal["pydantic"], next_token: str | None = None, max_results: int | None = None
     ) -> Any: ...
     @overload
     async def get_mmm_brand_group_campaigns(
@@ -29,7 +29,7 @@ class MmmBrandGroups(BaseResource):
     async def get_mmm_brand_group_campaigns(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         next_token: str | None = None,
         max_results: int | None = None,
     ) -> Any:
@@ -47,11 +47,11 @@ class MmmBrandGroups(BaseResource):
 
     @overload
     async def get_mmm_brand_group_products(
-        self, *, mode: Literal["pydantic"] = "pydantic", next_token: str | None = None, max_results: int | None = None
+        self, *, mode: Literal["dict"] = "dict", next_token: str | None = None, max_results: int | None = None
     ) -> Any: ...
     @overload
     async def get_mmm_brand_group_products(
-        self, *, mode: Literal["dict"], next_token: str | None = None, max_results: int | None = None
+        self, *, mode: Literal["pydantic"], next_token: str | None = None, max_results: int | None = None
     ) -> Any: ...
     @overload
     async def get_mmm_brand_group_products(
@@ -60,7 +60,7 @@ class MmmBrandGroups(BaseResource):
     async def get_mmm_brand_group_products(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         next_token: str | None = None,
         max_results: int | None = None,
     ) -> Any:
@@ -77,12 +77,12 @@ class MmmBrandGroups(BaseResource):
         return resp.json()
 
     @overload
-    async def list_mmm_brand_groups(self, *, mode: Literal["pydantic"] = "pydantic") -> Any: ...
+    async def list_mmm_brand_groups(self, *, mode: Literal["dict"] = "dict") -> Any: ...
     @overload
-    async def list_mmm_brand_groups(self, *, mode: Literal["dict"]) -> Any: ...
+    async def list_mmm_brand_groups(self, *, mode: Literal["pydantic"]) -> Any: ...
     @overload
     async def list_mmm_brand_groups(self, *, mode: Literal["raw"]) -> httpx.Response: ...
-    async def list_mmm_brand_groups(self, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic") -> Any:
+    async def list_mmm_brand_groups(self, *, mode: Literal["pydantic", "dict", "raw"] = "dict") -> Any:
         """Lists the predefined brand groups for which reports may be requested. A `brandGroupId` must be provided in each request to create a report using `POST /mmm/v1/reports`. Brand groups are configured by an MMM program manager as part of the onboarding process. Contact <mmm-support@amazon.com> with any questions about the brand groups defined for your manager account."""
 
         resp = await self._request("POST", "/mmm/v1/brandGroups/list")

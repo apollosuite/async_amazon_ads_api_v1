@@ -18,15 +18,13 @@ from ads_api.models.v0.ads_data_manager.identity_deletion import (
 class IdentityDeletion(BaseResource):
 
     @overload
-    async def delete_identity(
-        self, body: DeleteIdentityRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> Any: ...
+    async def delete_identity(self, body: DeleteIdentityRequestContent, *, mode: Literal["dict"] = "dict") -> Any: ...
     @overload
-    async def delete_identity(self, body: DeleteIdentityRequestContent, *, mode: Literal["dict"]) -> Any: ...
+    async def delete_identity(self, body: DeleteIdentityRequestContent, *, mode: Literal["pydantic"]) -> Any: ...
     @overload
     async def delete_identity(self, body: DeleteIdentityRequestContent, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def delete_identity(
-        self, body: DeleteIdentityRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DeleteIdentityRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> Any:
         """Deletes matched list of users from your data room within 30 days."""
 

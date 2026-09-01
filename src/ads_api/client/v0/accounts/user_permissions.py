@@ -28,18 +28,21 @@ class UserPermissions(BaseResource):
 
     @overload
     async def delete_user_permissions(
-        self, body: DeleteUserPermissionsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DeleteUserPermissionsResponseContent: ...
-    @overload
-    async def delete_user_permissions(
-        self, body: DeleteUserPermissionsRequestContent, *, mode: Literal["dict"]
+        self, body: DeleteUserPermissionsRequestContent | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def delete_user_permissions(
-        self, body: DeleteUserPermissionsRequestContent, *, mode: Literal["raw"]
+        self, body: DeleteUserPermissionsRequestContent | None = None, *, mode: Literal["pydantic"]
+    ) -> DeleteUserPermissionsResponseContent: ...
+    @overload
+    async def delete_user_permissions(
+        self, body: DeleteUserPermissionsRequestContent | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def delete_user_permissions(
-        self, body: DeleteUserPermissionsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self,
+        body: DeleteUserPermissionsRequestContent | None = None,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> DeleteUserPermissionsResponseContent | dict[str, Any] | httpx.Response:
         """**Authorized resource type**:"""
 
@@ -56,14 +59,18 @@ class UserPermissions(BaseResource):
 
     @overload
     async def list_users(
-        self, body: ListUsersRequestContent, *, mode: Literal["pydantic"] = "pydantic"
+        self, body: ListUsersRequestContent | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    async def list_users(
+        self, body: ListUsersRequestContent | None = None, *, mode: Literal["pydantic"]
     ) -> ListUsersResponseContent: ...
     @overload
-    async def list_users(self, body: ListUsersRequestContent, *, mode: Literal["dict"]) -> dict[str, Any]: ...
-    @overload
-    async def list_users(self, body: ListUsersRequestContent, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def list_users(
-        self, body: ListUsersRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: ListUsersRequestContent | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def list_users(
+        self, body: ListUsersRequestContent | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> ListUsersResponseContent | dict[str, Any] | httpx.Response:
         """**Authorized resource type**:"""
 
@@ -80,18 +87,18 @@ class UserPermissions(BaseResource):
 
     @overload
     async def query_user_permissions(
-        self, body: QueryUserPermissionsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> QueryUserPermissionsResponseContent: ...
+        self, body: QueryUserPermissionsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def query_user_permissions(
-        self, body: QueryUserPermissionsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: QueryUserPermissionsRequestContent, *, mode: Literal["pydantic"]
+    ) -> QueryUserPermissionsResponseContent: ...
     @overload
     async def query_user_permissions(
         self, body: QueryUserPermissionsRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def query_user_permissions(
-        self, body: QueryUserPermissionsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: QueryUserPermissionsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> QueryUserPermissionsResponseContent | dict[str, Any] | httpx.Response:
         """**Authorized resource type**:"""
 
@@ -108,16 +115,16 @@ class UserPermissions(BaseResource):
 
     @overload
     async def query_user_roles(
-        self, body: QueryUserRolesRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> QueryUserRolesResponseContent: ...
+        self, body: QueryUserRolesRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def query_user_roles(
-        self, body: QueryUserRolesRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: QueryUserRolesRequestContent, *, mode: Literal["pydantic"]
+    ) -> QueryUserRolesResponseContent: ...
     @overload
     async def query_user_roles(self, body: QueryUserRolesRequestContent, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_user_roles(
-        self, body: QueryUserRolesRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: QueryUserRolesRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> QueryUserRolesResponseContent | dict[str, Any] | httpx.Response:
         """**Authorized resource type**:"""
 
@@ -134,18 +141,21 @@ class UserPermissions(BaseResource):
 
     @overload
     async def update_user_permissions(
-        self, body: UpdateUserPermissionsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> UpdateUserPermissionsResponseContent: ...
-    @overload
-    async def update_user_permissions(
-        self, body: UpdateUserPermissionsRequestContent, *, mode: Literal["dict"]
+        self, body: UpdateUserPermissionsRequestContent | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def update_user_permissions(
-        self, body: UpdateUserPermissionsRequestContent, *, mode: Literal["raw"]
+        self, body: UpdateUserPermissionsRequestContent | None = None, *, mode: Literal["pydantic"]
+    ) -> UpdateUserPermissionsResponseContent: ...
+    @overload
+    async def update_user_permissions(
+        self, body: UpdateUserPermissionsRequestContent | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_user_permissions(
-        self, body: UpdateUserPermissionsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self,
+        body: UpdateUserPermissionsRequestContent | None = None,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> UpdateUserPermissionsResponseContent | dict[str, Any] | httpx.Response:
         """**Authorized resource type**:"""
 

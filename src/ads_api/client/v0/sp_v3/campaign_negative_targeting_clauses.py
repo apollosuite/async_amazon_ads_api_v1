@@ -29,15 +29,15 @@ class CampaignNegativeTargetingClauses(BaseResource):
         self,
         body: SponsoredProductsCreateSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsCreateSponsoredProductsCampaignNegativeTargetingClausesResponseContent: ...
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
     @overload
     async def create_sponsored_products_campaign_negative_targeting_clauses(
         self,
         body: SponsoredProductsCreateSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
         *,
-        mode: Literal["dict"],
-    ) -> dict[str, Any]: ...
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsCreateSponsoredProductsCampaignNegativeTargetingClausesResponseContent: ...
     @overload
     async def create_sponsored_products_campaign_negative_targeting_clauses(
         self,
@@ -49,7 +49,7 @@ class CampaignNegativeTargetingClauses(BaseResource):
         self,
         body: SponsoredProductsCreateSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> (
         SponsoredProductsCreateSponsoredProductsCampaignNegativeTargetingClausesResponseContent
         | dict[str, Any]
@@ -75,15 +75,15 @@ class CampaignNegativeTargetingClauses(BaseResource):
         self,
         body: SponsoredProductsDeleteSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsDeleteSponsoredProductsCampaignNegativeTargetingClausesResponseContent: ...
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
     @overload
     async def delete_sponsored_products_campaign_negative_targeting_clauses(
         self,
         body: SponsoredProductsDeleteSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
         *,
-        mode: Literal["dict"],
-    ) -> dict[str, Any]: ...
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsDeleteSponsoredProductsCampaignNegativeTargetingClausesResponseContent: ...
     @overload
     async def delete_sponsored_products_campaign_negative_targeting_clauses(
         self,
@@ -95,7 +95,7 @@ class CampaignNegativeTargetingClauses(BaseResource):
         self,
         body: SponsoredProductsDeleteSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> (
         SponsoredProductsDeleteSponsoredProductsCampaignNegativeTargetingClausesResponseContent
         | dict[str, Any]
@@ -119,29 +119,29 @@ class CampaignNegativeTargetingClauses(BaseResource):
     @overload
     async def list_sponsored_products_campaign_negative_targeting_clauses(
         self,
-        body: SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+        body: SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesRequestContent | None = None,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesResponseContent: ...
-    @overload
-    async def list_sponsored_products_campaign_negative_targeting_clauses(
-        self,
-        body: SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
     ) -> dict[str, Any]: ...
     @overload
     async def list_sponsored_products_campaign_negative_targeting_clauses(
         self,
-        body: SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+        body: SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesRequestContent | None = None,
+        *,
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesResponseContent: ...
+    @overload
+    async def list_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesRequestContent | None = None,
         *,
         mode: Literal["raw"],
     ) -> httpx.Response: ...
     async def list_sponsored_products_campaign_negative_targeting_clauses(
         self,
-        body: SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+        body: SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesRequestContent | None = None,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> (
         SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesResponseContent
         | dict[str, Any]
@@ -167,15 +167,15 @@ class CampaignNegativeTargetingClauses(BaseResource):
         self,
         body: SponsoredProductsUpdateSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> SponsoredProductsUpdateSponsoredProductsCampaignNegativeTargetingClausesResponseContent: ...
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
     @overload
     async def update_sponsored_products_campaign_negative_targeting_clauses(
         self,
         body: SponsoredProductsUpdateSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
         *,
-        mode: Literal["dict"],
-    ) -> dict[str, Any]: ...
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsUpdateSponsoredProductsCampaignNegativeTargetingClausesResponseContent: ...
     @overload
     async def update_sponsored_products_campaign_negative_targeting_clauses(
         self,
@@ -187,7 +187,7 @@ class CampaignNegativeTargetingClauses(BaseResource):
         self,
         body: SponsoredProductsUpdateSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> (
         SponsoredProductsUpdateSponsoredProductsCampaignNegativeTargetingClausesResponseContent
         | dict[str, Any]

@@ -23,18 +23,18 @@ class ManagerAccounts(BaseResource):
 
     @overload
     async def create_manager_account(
-        self, body: CreateManagerAccountRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> ManagerAccountMultiStatusResponse: ...
+        self, body: CreateManagerAccountRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_manager_account(
-        self, body: CreateManagerAccountRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateManagerAccountRequest, *, mode: Literal["pydantic"]
+    ) -> ManagerAccountMultiStatusResponse: ...
     @overload
     async def create_manager_account(
         self, body: CreateManagerAccountRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_manager_account(
-        self, body: CreateManagerAccountRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: CreateManagerAccountRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> ManagerAccountMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create manager accounts"""
 
@@ -43,18 +43,18 @@ class ManagerAccounts(BaseResource):
 
     @overload
     async def query_manager_account(
-        self, body: QueryManagerAccountRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> ManagerAccountSuccessResponse: ...
-    @overload
-    async def query_manager_account(
-        self, body: QueryManagerAccountRequest, *, mode: Literal["dict"]
+        self, body: QueryManagerAccountRequest | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def query_manager_account(
-        self, body: QueryManagerAccountRequest, *, mode: Literal["raw"]
+        self, body: QueryManagerAccountRequest | None = None, *, mode: Literal["pydantic"]
+    ) -> ManagerAccountSuccessResponse: ...
+    @overload
+    async def query_manager_account(
+        self, body: QueryManagerAccountRequest | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def query_manager_account(
-        self, body: QueryManagerAccountRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: QueryManagerAccountRequest | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> ManagerAccountSuccessResponse | dict[str, Any] | httpx.Response:
         """List manager accounts"""
 
@@ -63,18 +63,18 @@ class ManagerAccounts(BaseResource):
 
     @overload
     async def update_manager_account(
-        self, body: UpdateManagerAccountRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> ManagerAccountMultiStatusResponse: ...
+        self, body: UpdateManagerAccountRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_manager_account(
-        self, body: UpdateManagerAccountRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: UpdateManagerAccountRequest, *, mode: Literal["pydantic"]
+    ) -> ManagerAccountMultiStatusResponse: ...
     @overload
     async def update_manager_account(
         self, body: UpdateManagerAccountRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_manager_account(
-        self, body: UpdateManagerAccountRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: UpdateManagerAccountRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> ManagerAccountMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update manager accounts"""
 

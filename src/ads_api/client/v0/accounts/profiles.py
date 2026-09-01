@@ -20,13 +20,13 @@ from ads_api.models.v0.accounts.profiles import (
 class Profiles(BaseResource):
 
     @overload
-    async def get_profile_by_id(self, profile_id: int, *, mode: Literal["pydantic"] = "pydantic") -> ProfileOut: ...
+    async def get_profile_by_id(self, profile_id: int, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_profile_by_id(self, profile_id: int, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_profile_by_id(self, profile_id: int, *, mode: Literal["pydantic"]) -> ProfileOut: ...
     @overload
     async def get_profile_by_id(self, profile_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_profile_by_id(
-        self, profile_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, profile_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> ProfileOut | dict[str, Any] | httpx.Response:
         """This operation does not return a response unless the current account has created at least one campaign using the advertising console."""
 
@@ -37,19 +37,7 @@ class Profiles(BaseResource):
     async def list_profiles(
         self,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-        api_program: (
-            Literal["billing", "campaign", "paymentMethod", "store", "report", "account", "posts"] | str | None
-        ) = None,
-        access_level: Literal["edit", "view"] | str | None = None,
-        profile_type_filter: Literal["seller", "vendor", "agency"] | str | None = None,
-        valid_payment_method_filter: Literal["true", "false"] | str | None = None,
-    ) -> list[ProfileOut]: ...
-    @overload
-    async def list_profiles(
-        self,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
         api_program: (
             Literal["billing", "campaign", "paymentMethod", "store", "report", "account", "posts"] | str | None
         ) = None,
@@ -57,6 +45,18 @@ class Profiles(BaseResource):
         profile_type_filter: Literal["seller", "vendor", "agency"] | str | None = None,
         valid_payment_method_filter: Literal["true", "false"] | str | None = None,
     ) -> list[dict[str, Any]]: ...
+    @overload
+    async def list_profiles(
+        self,
+        *,
+        mode: Literal["pydantic"],
+        api_program: (
+            Literal["billing", "campaign", "paymentMethod", "store", "report", "account", "posts"] | str | None
+        ) = None,
+        access_level: Literal["edit", "view"] | str | None = None,
+        profile_type_filter: Literal["seller", "vendor", "agency"] | str | None = None,
+        valid_payment_method_filter: Literal["true", "false"] | str | None = None,
+    ) -> list[ProfileOut]: ...
     @overload
     async def list_profiles(
         self,
@@ -72,7 +72,7 @@ class Profiles(BaseResource):
     async def list_profiles(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         api_program: (
             Literal["billing", "campaign", "paymentMethod", "store", "report", "account", "posts"] | str | None
         ) = None,
@@ -94,16 +94,18 @@ class Profiles(BaseResource):
 
     @overload
     async def update_profiles(
-        self, body: list[Profile], *, mode: Literal["pydantic"] = "pydantic"
+        self, body: list[Profile] | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> list[dict[str, Any]]: ...
+    @overload
+    async def update_profiles(
+        self, body: list[Profile] | None = None, *, mode: Literal["pydantic"]
     ) -> list[ProfileResult]: ...
     @overload
-    async def update_profiles(self, body: list[Profile], *, mode: Literal["dict"]) -> list[dict[str, Any]]: ...
-    @overload
-    async def update_profiles(self, body: list[Profile], *, mode: Literal["raw"]) -> httpx.Response: ...
+    async def update_profiles(self, body: list[Profile] | None = None, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def update_profiles(
-        self, body: list[Profile], *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: list[Profile] | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> list[ProfileResult] | list[dict[str, Any]] | httpx.Response:
         """Note that this operation is only used for Sellers using Sponsored Products. This operation is not enabled for vendor type accounts."""
 
-        resp = await self._request("PUT", "/v2/profiles", json=[self.dump_json(x) for x in body])
+        resp = await self._request("PUT", "/v2/profiles", json=self.dump_json(body))
         return self._response_list(ProfileResult, resp, mode=mode)

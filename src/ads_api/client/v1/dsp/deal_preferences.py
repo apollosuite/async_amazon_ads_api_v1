@@ -21,18 +21,18 @@ class DSPDealPreferences(BaseResource):
 
     @overload
     async def create_deal_preference(
-        self, body: DSPCreateDealPreferenceRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPDealPreferenceMultiStatusResponse: ...
+        self, body: DSPCreateDealPreferenceRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_deal_preference(
-        self, body: DSPCreateDealPreferenceRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPCreateDealPreferenceRequest, *, mode: Literal["pydantic"]
+    ) -> DSPDealPreferenceMultiStatusResponse: ...
     @overload
     async def create_deal_preference(
         self, body: DSPCreateDealPreferenceRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_deal_preference(
-        self, body: DSPCreateDealPreferenceRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPCreateDealPreferenceRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPDealPreferenceMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Creates one or more deal preferences for a DSP advertiser account."""
 
@@ -41,12 +41,12 @@ class DSPDealPreferences(BaseResource):
 
     @overload
     async def list_deal_preference(
-        self, *, mode: Literal["pydantic"] = "pydantic", next_token: str | None = None, max_results: int | None = None
-    ) -> DSPDealPreferenceSuccessResponse: ...
+        self, *, mode: Literal["dict"] = "dict", next_token: str | None = None, max_results: int | None = None
+    ) -> dict[str, Any]: ...
     @overload
     async def list_deal_preference(
-        self, *, mode: Literal["dict"], next_token: str | None = None, max_results: int | None = None
-    ) -> dict[str, Any]: ...
+        self, *, mode: Literal["pydantic"], next_token: str | None = None, max_results: int | None = None
+    ) -> DSPDealPreferenceSuccessResponse: ...
     @overload
     async def list_deal_preference(
         self, *, mode: Literal["raw"], next_token: str | None = None, max_results: int | None = None
@@ -54,7 +54,7 @@ class DSPDealPreferences(BaseResource):
     async def list_deal_preference(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         next_token: str | None = None,
         max_results: int | None = None,
     ) -> DSPDealPreferenceSuccessResponse | dict[str, Any] | httpx.Response:

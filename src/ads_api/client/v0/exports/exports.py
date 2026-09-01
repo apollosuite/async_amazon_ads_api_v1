@@ -21,14 +21,16 @@ class Exports(BaseResource):
 
     @overload
     async def ad_export(
-        self, body: BaseUniversalApiExportRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> UniversalApiExportResponse: ...
+        self, body: BaseUniversalApiExportRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def ad_export(self, body: BaseUniversalApiExportRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def ad_export(
+        self, body: BaseUniversalApiExportRequest, *, mode: Literal["pydantic"]
+    ) -> UniversalApiExportResponse: ...
     @overload
     async def ad_export(self, body: BaseUniversalApiExportRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def ad_export(
-        self, body: BaseUniversalApiExportRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: BaseUniversalApiExportRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> UniversalApiExportResponse | dict[str, Any] | httpx.Response:
         """Creates a file-based export of Ads in the account satisfying the filtering criteria."""
 
@@ -45,16 +47,16 @@ class Exports(BaseResource):
 
     @overload
     async def ad_group_export(
-        self, body: BaseUniversalApiExportRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> UniversalApiExportResponse: ...
+        self, body: BaseUniversalApiExportRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def ad_group_export(
-        self, body: BaseUniversalApiExportRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: BaseUniversalApiExportRequest, *, mode: Literal["pydantic"]
+    ) -> UniversalApiExportResponse: ...
     @overload
     async def ad_group_export(self, body: BaseUniversalApiExportRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def ad_group_export(
-        self, body: BaseUniversalApiExportRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: BaseUniversalApiExportRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> UniversalApiExportResponse | dict[str, Any] | httpx.Response:
         """Creates a file-based export of Ad Groups in the account satisfying the filtering criteria."""
 
@@ -71,16 +73,16 @@ class Exports(BaseResource):
 
     @overload
     async def campaign_export(
-        self, body: BaseUniversalApiExportRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> UniversalApiExportResponse: ...
+        self, body: BaseUniversalApiExportRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def campaign_export(
-        self, body: BaseUniversalApiExportRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: BaseUniversalApiExportRequest, *, mode: Literal["pydantic"]
+    ) -> UniversalApiExportResponse: ...
     @overload
     async def campaign_export(self, body: BaseUniversalApiExportRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def campaign_export(
-        self, body: BaseUniversalApiExportRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: BaseUniversalApiExportRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> UniversalApiExportResponse | dict[str, Any] | httpx.Response:
         """Creates a file-based export of Campaigns in the account satisfying the filtering criteria."""
 
@@ -106,8 +108,8 @@ class Exports(BaseResource):
             "application/vnd.campaignsexport.v1+json",
             "application/vnd.targetsexport.v1+json",
         ],
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> UniversalApiExportResponse: ...
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
     @overload
     async def get_export(
         self,
@@ -119,8 +121,8 @@ class Exports(BaseResource):
             "application/vnd.campaignsexport.v1+json",
             "application/vnd.targetsexport.v1+json",
         ],
-        mode: Literal["dict"],
-    ) -> dict[str, Any]: ...
+        mode: Literal["pydantic"],
+    ) -> UniversalApiExportResponse: ...
     @overload
     async def get_export(
         self,
@@ -144,7 +146,7 @@ class Exports(BaseResource):
             "application/vnd.campaignsexport.v1+json",
             "application/vnd.targetsexport.v1+json",
         ],
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> UniversalApiExportResponse | dict[str, Any] | httpx.Response:
         """This API will return a status of the specified export."""
 
@@ -155,18 +157,18 @@ class Exports(BaseResource):
 
     @overload
     async def target_export(
-        self, body: TargetsUniversalApiExportRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> UniversalApiExportResponse: ...
+        self, body: TargetsUniversalApiExportRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def target_export(
-        self, body: TargetsUniversalApiExportRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: TargetsUniversalApiExportRequest, *, mode: Literal["pydantic"]
+    ) -> UniversalApiExportResponse: ...
     @overload
     async def target_export(
         self, body: TargetsUniversalApiExportRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def target_export(
-        self, body: TargetsUniversalApiExportRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: TargetsUniversalApiExportRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> UniversalApiExportResponse | dict[str, Any] | httpx.Response:
         """Creates a file-based export of Targets in the account satisfying the filtering criteria."""
 

@@ -42,12 +42,12 @@ class Ads(BaseResource):
 
     @overload
     async def create_sponsored_brand_store_spotlight_ads(
-        self, body: CreateSponsoredBrandStoreSpotlightAdsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateSponsoredBrandStoreSpotlightAdsResponseContent: ...
+        self, body: CreateSponsoredBrandStoreSpotlightAdsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_sponsored_brand_store_spotlight_ads(
-        self, body: CreateSponsoredBrandStoreSpotlightAdsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateSponsoredBrandStoreSpotlightAdsRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreateSponsoredBrandStoreSpotlightAdsResponseContent: ...
     @overload
     async def create_sponsored_brand_store_spotlight_ads(
         self, body: CreateSponsoredBrandStoreSpotlightAdsRequestContent, *, mode: Literal["raw"]
@@ -56,7 +56,7 @@ class Ads(BaseResource):
         self,
         body: CreateSponsoredBrandStoreSpotlightAdsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> CreateSponsoredBrandStoreSpotlightAdsResponseContent | dict[str, Any] | httpx.Response:
         """Creates Sponsored Brands store spotlight ads."""
 
@@ -73,12 +73,12 @@ class Ads(BaseResource):
 
     @overload
     async def create_sponsored_brands_auto_collection_ads(
-        self, body: CreateSponsoredBrandsAutoCollectionAdsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateSponsoredBrandsAutoCollectionAdsResponseContent: ...
+        self, body: CreateSponsoredBrandsAutoCollectionAdsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_sponsored_brands_auto_collection_ads(
-        self, body: CreateSponsoredBrandsAutoCollectionAdsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateSponsoredBrandsAutoCollectionAdsRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreateSponsoredBrandsAutoCollectionAdsResponseContent: ...
     @overload
     async def create_sponsored_brands_auto_collection_ads(
         self, body: CreateSponsoredBrandsAutoCollectionAdsRequestContent, *, mode: Literal["raw"]
@@ -87,7 +87,7 @@ class Ads(BaseResource):
         self,
         body: CreateSponsoredBrandsAutoCollectionAdsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> CreateSponsoredBrandsAutoCollectionAdsResponseContent | dict[str, Any] | httpx.Response:
         """Creates Sponsored Brands automatic collection ads."""
 
@@ -104,12 +104,12 @@ class Ads(BaseResource):
 
     @overload
     async def create_sponsored_brands_brand_video_ads(
-        self, body: CreateSponsoredBrandsBrandVideoAdsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateSponsoredBrandsBrandVideoAdsResponseContent: ...
+        self, body: CreateSponsoredBrandsBrandVideoAdsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_sponsored_brands_brand_video_ads(
-        self, body: CreateSponsoredBrandsBrandVideoAdsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateSponsoredBrandsBrandVideoAdsRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreateSponsoredBrandsBrandVideoAdsResponseContent: ...
     @overload
     async def create_sponsored_brands_brand_video_ads(
         self, body: CreateSponsoredBrandsBrandVideoAdsRequestContent, *, mode: Literal["raw"]
@@ -118,7 +118,7 @@ class Ads(BaseResource):
         self,
         body: CreateSponsoredBrandsBrandVideoAdsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> CreateSponsoredBrandsBrandVideoAdsResponseContent | dict[str, Any] | httpx.Response:
         """Creates Sponsored Brands brand video ads."""
 
@@ -135,15 +135,12 @@ class Ads(BaseResource):
 
     @overload
     async def create_sponsored_brands_extended_product_collection_ads(
-        self,
-        body: CreateSponsoredBrandsExtendedProductCollectionAdsRequestContent,
-        *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> CreateSponsoredBrandsExtendedProductCollectionAdsResponseContent: ...
+        self, body: CreateSponsoredBrandsExtendedProductCollectionAdsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_sponsored_brands_extended_product_collection_ads(
-        self, body: CreateSponsoredBrandsExtendedProductCollectionAdsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateSponsoredBrandsExtendedProductCollectionAdsRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreateSponsoredBrandsExtendedProductCollectionAdsResponseContent: ...
     @overload
     async def create_sponsored_brands_extended_product_collection_ads(
         self, body: CreateSponsoredBrandsExtendedProductCollectionAdsRequestContent, *, mode: Literal["raw"]
@@ -152,7 +149,7 @@ class Ads(BaseResource):
         self,
         body: CreateSponsoredBrandsExtendedProductCollectionAdsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> CreateSponsoredBrandsExtendedProductCollectionAdsResponseContent | dict[str, Any] | httpx.Response:
         """[DEPRECATED - Do not use] Refer to the [Product Collection Deprecation Notice](https://advertising.amazon.com/API/docs/en-us/release-notes/deprecations#deprecation-of-sponsored-brands-product-collection-ad-type) for more details. Use [/sb/v4/ads/manualCollection](https://advertising.amazon.com/API/docs/en-us/sponsored-brands/3-0/openapi/prod#tag/Ads/operation/CreateSponsoredBrandsManualCollectionAds) or [/sb/v4/ads/autoCollection](https://advertising.amazon.com/API/docs/en-us/sponsored-brands/3-0/openapi/prod#tag/Ads/operation/CreateSponsoredBrandsAutoCollectionAds) instead."""
 
@@ -169,12 +166,12 @@ class Ads(BaseResource):
 
     @overload
     async def create_sponsored_brands_manual_collection_ads(
-        self, body: CreateSponsoredBrandsManualCollectionAdsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateSponsoredBrandsManualCollectionAdsResponseContent: ...
+        self, body: CreateSponsoredBrandsManualCollectionAdsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_sponsored_brands_manual_collection_ads(
-        self, body: CreateSponsoredBrandsManualCollectionAdsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateSponsoredBrandsManualCollectionAdsRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreateSponsoredBrandsManualCollectionAdsResponseContent: ...
     @overload
     async def create_sponsored_brands_manual_collection_ads(
         self, body: CreateSponsoredBrandsManualCollectionAdsRequestContent, *, mode: Literal["raw"]
@@ -183,7 +180,7 @@ class Ads(BaseResource):
         self,
         body: CreateSponsoredBrandsManualCollectionAdsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> CreateSponsoredBrandsManualCollectionAdsResponseContent | dict[str, Any] | httpx.Response:
         """Creates Sponsored Brands manual collection ads."""
 
@@ -200,12 +197,12 @@ class Ads(BaseResource):
 
     @overload
     async def create_sponsored_brands_product_collection_ads(
-        self, body: CreateSponsoredBrandsProductCollectionAdsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateSponsoredBrandsProductCollectionAdsResponseContent: ...
+        self, body: CreateSponsoredBrandsProductCollectionAdsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_sponsored_brands_product_collection_ads(
-        self, body: CreateSponsoredBrandsProductCollectionAdsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateSponsoredBrandsProductCollectionAdsRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreateSponsoredBrandsProductCollectionAdsResponseContent: ...
     @overload
     async def create_sponsored_brands_product_collection_ads(
         self, body: CreateSponsoredBrandsProductCollectionAdsRequestContent, *, mode: Literal["raw"]
@@ -214,7 +211,7 @@ class Ads(BaseResource):
         self,
         body: CreateSponsoredBrandsProductCollectionAdsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> CreateSponsoredBrandsProductCollectionAdsResponseContent | dict[str, Any] | httpx.Response:
         """[DEPRECATED - Do not use] Refer to the [Product Collection Deprecation Notice](https://advertising.amazon.com/API/docs/en-us/release-notes/deprecations#deprecation-of-sponsored-brands-product-collection-ad-type) for more details. Use [/sb/v4/ads/manualCollection](https://advertising.amazon.com/API/docs/en-us/sponsored-brands/3-0/openapi/prod#tag/Ads/operation/CreateSponsoredBrandsManualCollectionAds) or [/sb/v4/ads/autoCollection](https://advertising.amazon.com/API/docs/en-us/sponsored-brands/3-0/openapi/prod#tag/Ads/operation/CreateSponsoredBrandsAutoCollectionAds) instead."""
 
@@ -231,21 +228,18 @@ class Ads(BaseResource):
 
     @overload
     async def create_sponsored_brands_video_ads(
-        self, body: CreateSponsoredBrandsVideoAdsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateSponsoredBrandsVideoAdsResponseContent: ...
+        self, body: CreateSponsoredBrandsVideoAdsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_sponsored_brands_video_ads(
-        self, body: CreateSponsoredBrandsVideoAdsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateSponsoredBrandsVideoAdsRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreateSponsoredBrandsVideoAdsResponseContent: ...
     @overload
     async def create_sponsored_brands_video_ads(
         self, body: CreateSponsoredBrandsVideoAdsRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_sponsored_brands_video_ads(
-        self,
-        body: CreateSponsoredBrandsVideoAdsRequestContent,
-        *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        self, body: CreateSponsoredBrandsVideoAdsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> CreateSponsoredBrandsVideoAdsResponseContent | dict[str, Any] | httpx.Response:
         """Creates Sponsored Brands video ads."""
 
@@ -262,18 +256,21 @@ class Ads(BaseResource):
 
     @overload
     async def delete_sponsored_brands_ads(
-        self, body: DeleteSponsoredBrandsAdsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DeleteSponsoredBrandsAdsResponseContent: ...
-    @overload
-    async def delete_sponsored_brands_ads(
-        self, body: DeleteSponsoredBrandsAdsRequestContent, *, mode: Literal["dict"]
+        self, body: DeleteSponsoredBrandsAdsRequestContent | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def delete_sponsored_brands_ads(
-        self, body: DeleteSponsoredBrandsAdsRequestContent, *, mode: Literal["raw"]
+        self, body: DeleteSponsoredBrandsAdsRequestContent | None = None, *, mode: Literal["pydantic"]
+    ) -> DeleteSponsoredBrandsAdsResponseContent: ...
+    @overload
+    async def delete_sponsored_brands_ads(
+        self, body: DeleteSponsoredBrandsAdsRequestContent | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def delete_sponsored_brands_ads(
-        self, body: DeleteSponsoredBrandsAdsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self,
+        body: DeleteSponsoredBrandsAdsRequestContent | None = None,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> DeleteSponsoredBrandsAdsResponseContent | dict[str, Any] | httpx.Response:
         """Deletes Sponsored Brands ads."""
 
@@ -290,18 +287,21 @@ class Ads(BaseResource):
 
     @overload
     async def list_sponsored_brands_ads(
-        self, body: ListSponsoredBrandsAdsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> ListSponsoredBrandsAdsResponseContent: ...
-    @overload
-    async def list_sponsored_brands_ads(
-        self, body: ListSponsoredBrandsAdsRequestContent, *, mode: Literal["dict"]
+        self, body: ListSponsoredBrandsAdsRequestContent | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def list_sponsored_brands_ads(
-        self, body: ListSponsoredBrandsAdsRequestContent, *, mode: Literal["raw"]
+        self, body: ListSponsoredBrandsAdsRequestContent | None = None, *, mode: Literal["pydantic"]
+    ) -> ListSponsoredBrandsAdsResponseContent: ...
+    @overload
+    async def list_sponsored_brands_ads(
+        self, body: ListSponsoredBrandsAdsRequestContent | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def list_sponsored_brands_ads(
-        self, body: ListSponsoredBrandsAdsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self,
+        body: ListSponsoredBrandsAdsRequestContent | None = None,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> ListSponsoredBrandsAdsResponseContent | dict[str, Any] | httpx.Response:
         """Lists Sponsored Brands ads."""
 
@@ -318,18 +318,18 @@ class Ads(BaseResource):
 
     @overload
     async def update_sponsored_brands_ads(
-        self, body: UpdateSponsoredBrandsAdsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> UpdateSponsoredBrandsAdsResponseContent: ...
+        self, body: UpdateSponsoredBrandsAdsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_sponsored_brands_ads(
-        self, body: UpdateSponsoredBrandsAdsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: UpdateSponsoredBrandsAdsRequestContent, *, mode: Literal["pydantic"]
+    ) -> UpdateSponsoredBrandsAdsResponseContent: ...
     @overload
     async def update_sponsored_brands_ads(
         self, body: UpdateSponsoredBrandsAdsRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_sponsored_brands_ads(
-        self, body: UpdateSponsoredBrandsAdsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: UpdateSponsoredBrandsAdsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> UpdateSponsoredBrandsAdsResponseContent | dict[str, Any] | httpx.Response:
         """Updates Sponsored Brands ads."""
 
@@ -346,12 +346,12 @@ class Ads(BaseResource):
 
     @overload
     async def update_sponsored_brands_auto_collection_ads(
-        self, body: UpdateSponsoredBrandsAutoCollectionAdsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> UpdateSponsoredBrandsAutoCollectionAdsResponseContent: ...
+        self, body: UpdateSponsoredBrandsAutoCollectionAdsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_sponsored_brands_auto_collection_ads(
-        self, body: UpdateSponsoredBrandsAutoCollectionAdsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: UpdateSponsoredBrandsAutoCollectionAdsRequestContent, *, mode: Literal["pydantic"]
+    ) -> UpdateSponsoredBrandsAutoCollectionAdsResponseContent: ...
     @overload
     async def update_sponsored_brands_auto_collection_ads(
         self, body: UpdateSponsoredBrandsAutoCollectionAdsRequestContent, *, mode: Literal["raw"]
@@ -360,7 +360,7 @@ class Ads(BaseResource):
         self,
         body: UpdateSponsoredBrandsAutoCollectionAdsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> UpdateSponsoredBrandsAutoCollectionAdsResponseContent | dict[str, Any] | httpx.Response:
         """Updates the ad settings for an automatic collection by creating a new version"""
 
@@ -377,12 +377,12 @@ class Ads(BaseResource):
 
     @overload
     async def update_sponsored_brands_manual_collection_ads(
-        self, body: UpdateSponsoredBrandsManualCollectionAdsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> UpdateSponsoredBrandsManualCollectionAdsResponseContent: ...
+        self, body: UpdateSponsoredBrandsManualCollectionAdsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_sponsored_brands_manual_collection_ads(
-        self, body: UpdateSponsoredBrandsManualCollectionAdsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: UpdateSponsoredBrandsManualCollectionAdsRequestContent, *, mode: Literal["pydantic"]
+    ) -> UpdateSponsoredBrandsManualCollectionAdsResponseContent: ...
     @overload
     async def update_sponsored_brands_manual_collection_ads(
         self, body: UpdateSponsoredBrandsManualCollectionAdsRequestContent, *, mode: Literal["raw"]
@@ -391,7 +391,7 @@ class Ads(BaseResource):
         self,
         body: UpdateSponsoredBrandsManualCollectionAdsRequestContent,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> UpdateSponsoredBrandsManualCollectionAdsResponseContent | dict[str, Any] | httpx.Response:
         """Updates the ad settings for a manual collection by creating a new version"""
 

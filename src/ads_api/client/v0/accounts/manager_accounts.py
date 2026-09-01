@@ -23,18 +23,18 @@ class ManagerAccounts(BaseResource):
 
     @overload
     async def create_manager_account(
-        self, body: CreateManagerAccountRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> ManagerAccount: ...
+        self, body: CreateManagerAccountRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_manager_account(
-        self, body: CreateManagerAccountRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateManagerAccountRequest, *, mode: Literal["pydantic"]
+    ) -> ManagerAccount: ...
     @overload
     async def create_manager_account(
         self, body: CreateManagerAccountRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_manager_account(
-        self, body: CreateManagerAccountRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: CreateManagerAccountRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> ManagerAccount | dict[str, Any] | httpx.Response:
         """Creates a new Amazon Advertising [Manager account](https://advertising.amazon.com/help?ref_=a20m_us_blog_whtsnewfb2020_040120#GU3YDB26FR7XT3C8)."""
 
@@ -50,15 +50,13 @@ class ManagerAccounts(BaseResource):
         return self._response(ManagerAccount, resp, mode=mode)
 
     @overload
-    async def get_manager_accounts_for_user(
-        self, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> GetManagerAccountsResponse: ...
+    async def get_manager_accounts_for_user(self, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_manager_accounts_for_user(self, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_manager_accounts_for_user(self, *, mode: Literal["pydantic"]) -> GetManagerAccountsResponse: ...
     @overload
     async def get_manager_accounts_for_user(self, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_manager_accounts_for_user(
-        self, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> GetManagerAccountsResponse | dict[str, Any] | httpx.Response:
         """Returns all [manager accounts](https://advertising.amazon.com/help?ref_=a20m_us_blog_whtsnewfb2020_040120#GU3YDB26FR7XT3C8) that a user has access to, along with metadata for the Amazon Ads accounts that are linked to each manager account. NOTE: A maximum of 50 linked accounts are returned for each manager account."""
 
@@ -73,12 +71,16 @@ class ManagerAccounts(BaseResource):
         manager_account_id: str,
         body: UpdateAdvertisingAccountsInManagerAccountRequest,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> UpdateAdvertisingAccountsInManagerAccountResponse: ...
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
     @overload
     async def link_advertising_accounts_to_manager_account_public_api(
-        self, manager_account_id: str, body: UpdateAdvertisingAccountsInManagerAccountRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self,
+        manager_account_id: str,
+        body: UpdateAdvertisingAccountsInManagerAccountRequest,
+        *,
+        mode: Literal["pydantic"],
+    ) -> UpdateAdvertisingAccountsInManagerAccountResponse: ...
     @overload
     async def link_advertising_accounts_to_manager_account_public_api(
         self, manager_account_id: str, body: UpdateAdvertisingAccountsInManagerAccountRequest, *, mode: Literal["raw"]
@@ -88,7 +90,7 @@ class ManagerAccounts(BaseResource):
         manager_account_id: str,
         body: UpdateAdvertisingAccountsInManagerAccountRequest,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> UpdateAdvertisingAccountsInManagerAccountResponse | dict[str, Any] | httpx.Response:
         """Link Amazon Advertising accounts or advertisers with a [Manager Account](https://advertising.amazon.com/help?ref_=a20m_us_blog_whtsnewfb2020_040120#GU3YDB26FR7XT3C8)."""
 
@@ -109,12 +111,16 @@ class ManagerAccounts(BaseResource):
         manager_account_id: str,
         body: UpdateAdvertisingAccountsInManagerAccountRequest,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-    ) -> UpdateAdvertisingAccountsInManagerAccountResponse: ...
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
     @overload
     async def unlink_advertising_accounts_to_manager_account_public_api(
-        self, manager_account_id: str, body: UpdateAdvertisingAccountsInManagerAccountRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self,
+        manager_account_id: str,
+        body: UpdateAdvertisingAccountsInManagerAccountRequest,
+        *,
+        mode: Literal["pydantic"],
+    ) -> UpdateAdvertisingAccountsInManagerAccountResponse: ...
     @overload
     async def unlink_advertising_accounts_to_manager_account_public_api(
         self, manager_account_id: str, body: UpdateAdvertisingAccountsInManagerAccountRequest, *, mode: Literal["raw"]
@@ -124,7 +130,7 @@ class ManagerAccounts(BaseResource):
         manager_account_id: str,
         body: UpdateAdvertisingAccountsInManagerAccountRequest,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> UpdateAdvertisingAccountsInManagerAccountResponse | dict[str, Any] | httpx.Response:
         """Unlink Amazon Advertising accounts or advertisers with a [Manager Account](https://advertising.amazon.com/help?ref_=a20m_us_blog_whtsnewfb2020_040120#GU3YDB26FR7XT3C8)."""
 

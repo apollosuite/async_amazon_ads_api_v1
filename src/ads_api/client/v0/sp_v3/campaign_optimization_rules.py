@@ -28,18 +28,18 @@ class CampaignOptimizationRules(BaseResource):
 
     @overload
     async def create_optimization_rule(
-        self, body: CreateSPCampaignOptimizationRulesRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CreateSPCampaignOptimizationRulesResult: ...
+        self, body: CreateSPCampaignOptimizationRulesRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_optimization_rule(
-        self, body: CreateSPCampaignOptimizationRulesRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: CreateSPCampaignOptimizationRulesRequest, *, mode: Literal["pydantic"]
+    ) -> CreateSPCampaignOptimizationRulesResult: ...
     @overload
     async def create_optimization_rule(
         self, body: CreateSPCampaignOptimizationRulesRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_optimization_rule(
-        self, body: CreateSPCampaignOptimizationRulesRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: CreateSPCampaignOptimizationRulesRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> CreateSPCampaignOptimizationRulesResult | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 
@@ -56,18 +56,18 @@ class CampaignOptimizationRules(BaseResource):
 
     @overload
     async def delete_campaign_optimization_rule(
-        self, campaign_optimization_id: str, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DeleteSPCampaignOptimizationRuleResult: ...
+        self, campaign_optimization_id: str, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def delete_campaign_optimization_rule(
-        self, campaign_optimization_id: str, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, campaign_optimization_id: str, *, mode: Literal["pydantic"]
+    ) -> DeleteSPCampaignOptimizationRuleResult: ...
     @overload
     async def delete_campaign_optimization_rule(
         self, campaign_optimization_id: str, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def delete_campaign_optimization_rule(
-        self, campaign_optimization_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, campaign_optimization_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DeleteSPCampaignOptimizationRuleResult | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 
@@ -80,18 +80,18 @@ class CampaignOptimizationRules(BaseResource):
 
     @overload
     async def get_campaign_optimization_rule(
-        self, campaign_optimization_id: str, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> GetSPCampaignOptimizationRuleResponse: ...
+        self, campaign_optimization_id: str, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def get_campaign_optimization_rule(
-        self, campaign_optimization_id: str, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, campaign_optimization_id: str, *, mode: Literal["pydantic"]
+    ) -> GetSPCampaignOptimizationRuleResponse: ...
     @overload
     async def get_campaign_optimization_rule(
         self, campaign_optimization_id: str, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def get_campaign_optimization_rule(
-        self, campaign_optimization_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, campaign_optimization_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> GetSPCampaignOptimizationRuleResponse | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 
@@ -104,12 +104,12 @@ class CampaignOptimizationRules(BaseResource):
 
     @overload
     async def get_optimization_rule_eligibility(
-        self, body: SPCampaignOptimizationRecommendationsAPIRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPCampaignOptimizationRecommendationAPIResponse: ...
+        self, body: SPCampaignOptimizationRecommendationsAPIRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def get_optimization_rule_eligibility(
-        self, body: SPCampaignOptimizationRecommendationsAPIRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SPCampaignOptimizationRecommendationsAPIRequest, *, mode: Literal["pydantic"]
+    ) -> SPCampaignOptimizationRecommendationAPIResponse: ...
     @overload
     async def get_optimization_rule_eligibility(
         self, body: SPCampaignOptimizationRecommendationsAPIRequest, *, mode: Literal["raw"]
@@ -118,7 +118,7 @@ class CampaignOptimizationRules(BaseResource):
         self,
         body: SPCampaignOptimizationRecommendationsAPIRequest,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> SPCampaignOptimizationRecommendationAPIResponse | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 
@@ -135,21 +135,18 @@ class CampaignOptimizationRules(BaseResource):
 
     @overload
     async def get_rule_notification(
-        self, body: SPCampaignOptimizationNotificationAPIRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPCampaignOptimizationNotificationAPIResponse: ...
+        self, body: SPCampaignOptimizationNotificationAPIRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def get_rule_notification(
-        self, body: SPCampaignOptimizationNotificationAPIRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SPCampaignOptimizationNotificationAPIRequest, *, mode: Literal["pydantic"]
+    ) -> SPCampaignOptimizationNotificationAPIResponse: ...
     @overload
     async def get_rule_notification(
         self, body: SPCampaignOptimizationNotificationAPIRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def get_rule_notification(
-        self,
-        body: SPCampaignOptimizationNotificationAPIRequest,
-        *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        self, body: SPCampaignOptimizationNotificationAPIRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPCampaignOptimizationNotificationAPIResponse | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 
@@ -166,18 +163,18 @@ class CampaignOptimizationRules(BaseResource):
 
     @overload
     async def update_optimization_rule(
-        self, body: UpdateSPCampaignOptimizationRulesRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> UpdateSPCampaignOptimizationRuleResult: ...
+        self, body: UpdateSPCampaignOptimizationRulesRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_optimization_rule(
-        self, body: UpdateSPCampaignOptimizationRulesRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: UpdateSPCampaignOptimizationRulesRequest, *, mode: Literal["pydantic"]
+    ) -> UpdateSPCampaignOptimizationRuleResult: ...
     @overload
     async def update_optimization_rule(
         self, body: UpdateSPCampaignOptimizationRulesRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_optimization_rule(
-        self, body: UpdateSPCampaignOptimizationRulesRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: UpdateSPCampaignOptimizationRulesRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> UpdateSPCampaignOptimizationRuleResult | dict[str, Any] | httpx.Response:
         """**Requires one of these permissions**:"""
 

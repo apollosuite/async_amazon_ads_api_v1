@@ -23,18 +23,18 @@ class DSPLocationIndexes(BaseResource):
 
     @overload
     async def create_location_index(
-        self, body: DSPCreateLocationIndexRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPLocationIndexMultiStatusResponse: ...
+        self, body: DSPCreateLocationIndexRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_location_index(
-        self, body: DSPCreateLocationIndexRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPCreateLocationIndexRequest, *, mode: Literal["pydantic"]
+    ) -> DSPLocationIndexMultiStatusResponse: ...
     @overload
     async def create_location_index(
         self, body: DSPCreateLocationIndexRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_location_index(
-        self, body: DSPCreateLocationIndexRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPCreateLocationIndexRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPLocationIndexMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create a Smart Location Index. A Smart Location Index is a named dataset that maps postal codes to index values representing relative audience quality or sales potential for a given advertiser. Index data is processed asynchronously; the index status will transition from PENDING to ENABLED once processing is complete."""
 
@@ -43,12 +43,12 @@ class DSPLocationIndexes(BaseResource):
 
     @overload
     async def list_location_index(
-        self, *, mode: Literal["pydantic"] = "pydantic", next_token: str | None = None, max_results: int | None = None
-    ) -> DSPLocationIndexSuccessResponse: ...
+        self, *, mode: Literal["dict"] = "dict", next_token: str | None = None, max_results: int | None = None
+    ) -> dict[str, Any]: ...
     @overload
     async def list_location_index(
-        self, *, mode: Literal["dict"], next_token: str | None = None, max_results: int | None = None
-    ) -> dict[str, Any]: ...
+        self, *, mode: Literal["pydantic"], next_token: str | None = None, max_results: int | None = None
+    ) -> DSPLocationIndexSuccessResponse: ...
     @overload
     async def list_location_index(
         self, *, mode: Literal["raw"], next_token: str | None = None, max_results: int | None = None
@@ -56,7 +56,7 @@ class DSPLocationIndexes(BaseResource):
     async def list_location_index(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         next_token: str | None = None,
         max_results: int | None = None,
     ) -> DSPLocationIndexSuccessResponse | dict[str, Any] | httpx.Response:
@@ -72,18 +72,18 @@ class DSPLocationIndexes(BaseResource):
 
     @overload
     async def retrieve_location_index(
-        self, body: DSPRetrieveLocationIndexRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPLocationIndexMultiStatusResponse: ...
+        self, body: DSPRetrieveLocationIndexRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def retrieve_location_index(
-        self, body: DSPRetrieveLocationIndexRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPRetrieveLocationIndexRequest, *, mode: Literal["pydantic"]
+    ) -> DSPLocationIndexMultiStatusResponse: ...
     @overload
     async def retrieve_location_index(
         self, body: DSPRetrieveLocationIndexRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def retrieve_location_index(
-        self, body: DSPRetrieveLocationIndexRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPRetrieveLocationIndexRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPLocationIndexMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Retrieve one or more Smart Location Indexes by ID. Returns the current metadata and processing status for each requested index. An index with status PENDING is still being processed and is not yet available for use in smart location targeting."""
 
@@ -92,18 +92,18 @@ class DSPLocationIndexes(BaseResource):
 
     @overload
     async def update_location_index(
-        self, body: DSPUpdateLocationIndexRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPLocationIndexMultiStatusResponse: ...
+        self, body: DSPUpdateLocationIndexRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def update_location_index(
-        self, body: DSPUpdateLocationIndexRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPUpdateLocationIndexRequest, *, mode: Literal["pydantic"]
+    ) -> DSPLocationIndexMultiStatusResponse: ...
     @overload
     async def update_location_index(
         self, body: DSPUpdateLocationIndexRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def update_location_index(
-        self, body: DSPUpdateLocationIndexRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPUpdateLocationIndexRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPLocationIndexMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update the data for an existing Smart Location Index. Replaces the index's postal code values with the provided dataset. The update is processed asynchronously; the index status will return to PENDING until the new data has been fully processed."""
 

@@ -23,14 +23,16 @@ class DSPTargets(BaseResource):
 
     @overload
     async def create_target(
-        self, body: DSPCreateTargetRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPTargetMultiStatusResponse: ...
+        self, body: DSPCreateTargetRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def create_target(self, body: DSPCreateTargetRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def create_target(
+        self, body: DSPCreateTargetRequest, *, mode: Literal["pydantic"]
+    ) -> DSPTargetMultiStatusResponse: ...
     @overload
     async def create_target(self, body: DSPCreateTargetRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_target(
-        self, body: DSPCreateTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPCreateTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPTargetMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create target"""
 
@@ -39,14 +41,16 @@ class DSPTargets(BaseResource):
 
     @overload
     async def delete_target(
-        self, body: DSPDeleteTargetRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPTargetMultiStatusResponse: ...
+        self, body: DSPDeleteTargetRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def delete_target(self, body: DSPDeleteTargetRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def delete_target(
+        self, body: DSPDeleteTargetRequest, *, mode: Literal["pydantic"]
+    ) -> DSPTargetMultiStatusResponse: ...
     @overload
     async def delete_target(self, body: DSPDeleteTargetRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def delete_target(
-        self, body: DSPDeleteTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPDeleteTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPTargetMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Delete target"""
 
@@ -54,15 +58,15 @@ class DSPTargets(BaseResource):
         return self._response(DSPTargetMultiStatusResponse, resp, mode=mode)
 
     @overload
-    async def query_target(
-        self, body: DSPQueryTargetRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPTargetSuccessResponse: ...
+    async def query_target(self, body: DSPQueryTargetRequest, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def query_target(self, body: DSPQueryTargetRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def query_target(
+        self, body: DSPQueryTargetRequest, *, mode: Literal["pydantic"]
+    ) -> DSPTargetSuccessResponse: ...
     @overload
     async def query_target(self, body: DSPQueryTargetRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_target(
-        self, body: DSPQueryTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPQueryTargetRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPTargetSuccessResponse | dict[str, Any] | httpx.Response:
         """List target"""
 

@@ -23,15 +23,15 @@ from ads_api.models.v1.ads.sp_global import (
 class SPGlobalAds(BaseResource):
 
     @overload
-    async def create_ad(
-        self, body: SPGlobalCreateAdRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPGlobalAdMultiStatusResponseWithPartialErrors: ...
+    async def create_ad(self, body: SPGlobalCreateAdRequest, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def create_ad(self, body: SPGlobalCreateAdRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def create_ad(
+        self, body: SPGlobalCreateAdRequest, *, mode: Literal["pydantic"]
+    ) -> SPGlobalAdMultiStatusResponseWithPartialErrors: ...
     @overload
     async def create_ad(self, body: SPGlobalCreateAdRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_ad(
-        self, body: SPGlobalCreateAdRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGlobalCreateAdRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGlobalAdMultiStatusResponseWithPartialErrors | dict[str, Any] | httpx.Response:
         """Create ads"""
 
@@ -39,15 +39,15 @@ class SPGlobalAds(BaseResource):
         return self._response(SPGlobalAdMultiStatusResponseWithPartialErrors, resp, mode=mode)
 
     @overload
-    async def delete_ad(
-        self, body: SPGlobalDeleteAdRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPGlobalAdMultiStatusResponseWithPartialErrors: ...
+    async def delete_ad(self, body: SPGlobalDeleteAdRequest, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def delete_ad(self, body: SPGlobalDeleteAdRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def delete_ad(
+        self, body: SPGlobalDeleteAdRequest, *, mode: Literal["pydantic"]
+    ) -> SPGlobalAdMultiStatusResponseWithPartialErrors: ...
     @overload
     async def delete_ad(self, body: SPGlobalDeleteAdRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def delete_ad(
-        self, body: SPGlobalDeleteAdRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGlobalDeleteAdRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGlobalAdMultiStatusResponseWithPartialErrors | dict[str, Any] | httpx.Response:
         """Delete ads"""
 
@@ -55,15 +55,15 @@ class SPGlobalAds(BaseResource):
         return self._response(SPGlobalAdMultiStatusResponseWithPartialErrors, resp, mode=mode)
 
     @overload
-    async def query_ad(
-        self, body: SPGlobalQueryAdRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPGlobalAdSuccessResponse: ...
+    async def query_ad(self, body: SPGlobalQueryAdRequest, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def query_ad(self, body: SPGlobalQueryAdRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def query_ad(
+        self, body: SPGlobalQueryAdRequest, *, mode: Literal["pydantic"]
+    ) -> SPGlobalAdSuccessResponse: ...
     @overload
     async def query_ad(self, body: SPGlobalQueryAdRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_ad(
-        self, body: SPGlobalQueryAdRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGlobalQueryAdRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGlobalAdSuccessResponse | dict[str, Any] | httpx.Response:
         """List ads"""
 
@@ -71,15 +71,15 @@ class SPGlobalAds(BaseResource):
         return self._response(SPGlobalAdSuccessResponse, resp, mode=mode)
 
     @overload
-    async def update_ad(
-        self, body: SPGlobalUpdateAdRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SPGlobalAdMultiStatusResponseWithPartialErrors: ...
+    async def update_ad(self, body: SPGlobalUpdateAdRequest, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def update_ad(self, body: SPGlobalUpdateAdRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def update_ad(
+        self, body: SPGlobalUpdateAdRequest, *, mode: Literal["pydantic"]
+    ) -> SPGlobalAdMultiStatusResponseWithPartialErrors: ...
     @overload
     async def update_ad(self, body: SPGlobalUpdateAdRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def update_ad(
-        self, body: SPGlobalUpdateAdRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SPGlobalUpdateAdRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SPGlobalAdMultiStatusResponseWithPartialErrors | dict[str, Any] | httpx.Response:
         """Update ads"""
 

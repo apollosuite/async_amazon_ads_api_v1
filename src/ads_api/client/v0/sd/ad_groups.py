@@ -22,15 +22,13 @@ from ads_api.models.v0.sd.ad_groups import (
 class AdGroups(BaseResource):
 
     @overload
-    async def archive_ad_group(
-        self, ad_group_id: int, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> AdGroupResponse: ...
+    async def archive_ad_group(self, ad_group_id: int, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def archive_ad_group(self, ad_group_id: int, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def archive_ad_group(self, ad_group_id: int, *, mode: Literal["pydantic"]) -> AdGroupResponse: ...
     @overload
     async def archive_ad_group(self, ad_group_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def archive_ad_group(
-        self, ad_group_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, ad_group_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> AdGroupResponse | dict[str, Any] | httpx.Response:
         """This operation is equivalent to an update operation that sets the status field to 'archived'. Note that setting the status field to 'archived' is permanent and can't be undone. See [Developer Notes](https://advertising.amazon.com/API/docs/en-us/info/developer-notes#archiving) for more information."""
 
@@ -39,28 +37,32 @@ class AdGroups(BaseResource):
 
     @overload
     async def create_ad_groups(
-        self, body: list[CreateAdGroup], *, mode: Literal["pydantic"] = "pydantic"
+        self, body: list[CreateAdGroup] | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> list[dict[str, Any]]: ...
+    @overload
+    async def create_ad_groups(
+        self, body: list[CreateAdGroup] | None = None, *, mode: Literal["pydantic"]
     ) -> list[AdGroupResponse]: ...
     @overload
-    async def create_ad_groups(self, body: list[CreateAdGroup], *, mode: Literal["dict"]) -> list[dict[str, Any]]: ...
-    @overload
-    async def create_ad_groups(self, body: list[CreateAdGroup], *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_ad_groups(
-        self, body: list[CreateAdGroup], *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: list[CreateAdGroup] | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def create_ad_groups(
+        self, body: list[CreateAdGroup] | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> list[AdGroupResponse] | list[dict[str, Any]] | httpx.Response:
         """"""
 
-        resp = await self._request("POST", "/sd/adGroups", json=[self.dump_json(x) for x in body])
+        resp = await self._request("POST", "/sd/adGroups", json=self.dump_json(body))
         return self._response_list(AdGroupResponse, resp, mode=mode)
 
     @overload
-    async def get_ad_group(self, ad_group_id: int, *, mode: Literal["pydantic"] = "pydantic") -> AdGroup: ...
+    async def get_ad_group(self, ad_group_id: int, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_ad_group(self, ad_group_id: int, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_ad_group(self, ad_group_id: int, *, mode: Literal["pydantic"]) -> AdGroup: ...
     @overload
     async def get_ad_group(self, ad_group_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_ad_group(
-        self, ad_group_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, ad_group_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> AdGroup | dict[str, Any] | httpx.Response:
         """Returns an AdGroup object for a requested campaign. Note that the AdGroup object is designed for performance, with a small set of commonly used ad group fields to reduce size. If the extended set of fields is required, use the campaign operations that return the AdGroupResponseEx object."""
 
@@ -68,15 +70,13 @@ class AdGroups(BaseResource):
         return self._response(AdGroup, resp, mode=mode)
 
     @overload
-    async def get_ad_group_response_ex(
-        self, ad_group_id: int, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> AdGroupResponseEx: ...
+    async def get_ad_group_response_ex(self, ad_group_id: int, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_ad_group_response_ex(self, ad_group_id: int, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_ad_group_response_ex(self, ad_group_id: int, *, mode: Literal["pydantic"]) -> AdGroupResponseEx: ...
     @overload
     async def get_ad_group_response_ex(self, ad_group_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_ad_group_response_ex(
-        self, ad_group_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, ad_group_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> AdGroupResponseEx | dict[str, Any] | httpx.Response:
         """"""
 
@@ -87,31 +87,7 @@ class AdGroups(BaseResource):
     async def list_ad_groups(
         self,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-        start_index: int | None = None,
-        count: int | None = None,
-        state_filter: (
-            Literal[
-                "enabled",
-                "paused",
-                "archived",
-                "enabled, paused",
-                "enabled, archived",
-                "paused, archived",
-                "enabled, paused, archived",
-            ]
-            | str
-            | None
-        ) = None,
-        campaign_id_filter: str | None = None,
-        ad_group_id_filter: str | None = None,
-        name: str | None = None,
-    ) -> list[AdGroup]: ...
-    @overload
-    async def list_ad_groups(
-        self,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -131,6 +107,30 @@ class AdGroups(BaseResource):
         ad_group_id_filter: str | None = None,
         name: str | None = None,
     ) -> list[dict[str, Any]]: ...
+    @overload
+    async def list_ad_groups(
+        self,
+        *,
+        mode: Literal["pydantic"],
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        campaign_id_filter: str | None = None,
+        ad_group_id_filter: str | None = None,
+        name: str | None = None,
+    ) -> list[AdGroup]: ...
     @overload
     async def list_ad_groups(
         self,
@@ -158,7 +158,7 @@ class AdGroups(BaseResource):
     async def list_ad_groups(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -196,31 +196,7 @@ class AdGroups(BaseResource):
     async def list_ad_groups_ex(
         self,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-        start_index: int | None = None,
-        count: int | None = None,
-        state_filter: (
-            Literal[
-                "enabled",
-                "paused",
-                "archived",
-                "enabled, paused",
-                "enabled, archived",
-                "paused, archived",
-                "enabled, paused, archived",
-            ]
-            | str
-            | None
-        ) = None,
-        campaign_id_filter: str | None = None,
-        ad_group_id_filter: str | None = None,
-        name: str | None = None,
-    ) -> list[AdGroupResponseEx]: ...
-    @overload
-    async def list_ad_groups_ex(
-        self,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -240,6 +216,30 @@ class AdGroups(BaseResource):
         ad_group_id_filter: str | None = None,
         name: str | None = None,
     ) -> list[dict[str, Any]]: ...
+    @overload
+    async def list_ad_groups_ex(
+        self,
+        *,
+        mode: Literal["pydantic"],
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        campaign_id_filter: str | None = None,
+        ad_group_id_filter: str | None = None,
+        name: str | None = None,
+    ) -> list[AdGroupResponseEx]: ...
     @overload
     async def list_ad_groups_ex(
         self,
@@ -267,7 +267,7 @@ class AdGroups(BaseResource):
     async def list_ad_groups_ex(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -303,16 +303,20 @@ class AdGroups(BaseResource):
 
     @overload
     async def update_ad_groups(
-        self, body: list[UpdateAdGroup], *, mode: Literal["pydantic"] = "pydantic"
+        self, body: list[UpdateAdGroup] | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> list[dict[str, Any]]: ...
+    @overload
+    async def update_ad_groups(
+        self, body: list[UpdateAdGroup] | None = None, *, mode: Literal["pydantic"]
     ) -> list[AdGroupResponse]: ...
     @overload
-    async def update_ad_groups(self, body: list[UpdateAdGroup], *, mode: Literal["dict"]) -> list[dict[str, Any]]: ...
-    @overload
-    async def update_ad_groups(self, body: list[UpdateAdGroup], *, mode: Literal["raw"]) -> httpx.Response: ...
     async def update_ad_groups(
-        self, body: list[UpdateAdGroup], *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: list[UpdateAdGroup] | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def update_ad_groups(
+        self, body: list[UpdateAdGroup] | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> list[AdGroupResponse] | list[dict[str, Any]] | httpx.Response:
         """"""
 
-        resp = await self._request("PUT", "/sd/adGroups", json=[self.dump_json(x) for x in body])
+        resp = await self._request("PUT", "/sd/adGroups", json=self.dump_json(body))
         return self._response_list(AdGroupResponse, resp, mode=mode)

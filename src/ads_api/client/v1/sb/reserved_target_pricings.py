@@ -20,18 +20,18 @@ class SBReservedTargetPricings(BaseResource):
 
     @overload
     async def ads_apiv1create_reserved_target_pricing(
-        self, body: SBCreateReservedTargetPricingRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBReservedTargetPricingMultiStatusResponse: ...
+        self, body: SBCreateReservedTargetPricingRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def ads_apiv1create_reserved_target_pricing(
-        self, body: SBCreateReservedTargetPricingRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SBCreateReservedTargetPricingRequest, *, mode: Literal["pydantic"]
+    ) -> SBReservedTargetPricingMultiStatusResponse: ...
     @overload
     async def ads_apiv1create_reserved_target_pricing(
         self, body: SBCreateReservedTargetPricingRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def ads_apiv1create_reserved_target_pricing(
-        self, body: SBCreateReservedTargetPricingRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SBCreateReservedTargetPricingRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBReservedTargetPricingMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create reservedTarget pricing"""
 

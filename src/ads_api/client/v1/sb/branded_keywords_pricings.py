@@ -20,18 +20,18 @@ class SBBrandedKeywordsPricings(BaseResource):
 
     @overload
     async def create_branded_keywords_pricing(
-        self, body: SBCreateBrandedKeywordsPricingRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBBrandedKeywordsPricingMultiStatusResponse: ...
+        self, body: SBCreateBrandedKeywordsPricingRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_branded_keywords_pricing(
-        self, body: SBCreateBrandedKeywordsPricingRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SBCreateBrandedKeywordsPricingRequest, *, mode: Literal["pydantic"]
+    ) -> SBBrandedKeywordsPricingMultiStatusResponse: ...
     @overload
     async def create_branded_keywords_pricing(
         self, body: SBCreateBrandedKeywordsPricingRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_branded_keywords_pricing(
-        self, body: SBCreateBrandedKeywordsPricingRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SBCreateBrandedKeywordsPricingRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBBrandedKeywordsPricingMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create brandedKeywords pricing"""
 

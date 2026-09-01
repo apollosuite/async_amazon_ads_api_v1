@@ -25,18 +25,18 @@ class Recommendations(BaseResource):
 
     @overload
     async def get_budget_recommendations(
-        self, body: GetBudgetRecommendationsRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> GetBudgetRecommendationsResponseContent: ...
+        self, body: GetBudgetRecommendationsRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def get_budget_recommendations(
-        self, body: GetBudgetRecommendationsRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: GetBudgetRecommendationsRequestContent, *, mode: Literal["pydantic"]
+    ) -> GetBudgetRecommendationsResponseContent: ...
     @overload
     async def get_budget_recommendations(
         self, body: GetBudgetRecommendationsRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def get_budget_recommendations(
-        self, body: GetBudgetRecommendationsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: GetBudgetRecommendationsRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> GetBudgetRecommendationsResponseContent | dict[str, Any] | httpx.Response:
         """Provides daily budget recommendations for a list of requested Sponsored Brands campaigns, with context on estimated historical missed opportunities."""
 
@@ -53,18 +53,18 @@ class Recommendations(BaseResource):
 
     @overload
     async def get_headline_recommendations(
-        self, body: HeadlineSuggestionRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> HeadlineSuggestionResponse: ...
+        self, body: HeadlineSuggestionRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def get_headline_recommendations(
-        self, body: HeadlineSuggestionRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: HeadlineSuggestionRequest, *, mode: Literal["pydantic"]
+    ) -> HeadlineSuggestionResponse: ...
     @overload
     async def get_headline_recommendations(
         self, body: HeadlineSuggestionRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def get_headline_recommendations(
-        self, body: HeadlineSuggestionRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: HeadlineSuggestionRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> HeadlineSuggestionResponse | dict[str, Any] | httpx.Response:
         """API to receive creative headline suggestions."""
 
@@ -73,18 +73,18 @@ class Recommendations(BaseResource):
 
     @overload
     async def optimization_recommendation(
-        self, body: SBOptimizationRecommendationRequestContent, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBOptimizationRecommendationResponseContent: ...
+        self, body: SBOptimizationRecommendationRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def optimization_recommendation(
-        self, body: SBOptimizationRecommendationRequestContent, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SBOptimizationRecommendationRequestContent, *, mode: Literal["pydantic"]
+    ) -> SBOptimizationRecommendationResponseContent: ...
     @overload
     async def optimization_recommendation(
         self, body: SBOptimizationRecommendationRequestContent, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def optimization_recommendation(
-        self, body: SBOptimizationRecommendationRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SBOptimizationRecommendationRequestContent, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBOptimizationRecommendationResponseContent | dict[str, Any] | httpx.Response:
         """Returns recommended bid value for optimization rule enable campaigns. Recommendations are generated based landing page, page type and ASINs provided in request. Only available for Sellers and Vendors."""
 
@@ -101,18 +101,18 @@ class Recommendations(BaseResource):
 
     @overload
     async def targeting_get_negative_brands(
-        self, *, mode: Literal["pydantic"] = "pydantic", next_token: str | None = None
-    ) -> SBTargetingGetNegativeBrandsResponseContent: ...
+        self, *, mode: Literal["dict"] = "dict", next_token: str | None = None
+    ) -> dict[str, Any]: ...
     @overload
     async def targeting_get_negative_brands(
-        self, *, mode: Literal["dict"], next_token: str | None = None
-    ) -> dict[str, Any]: ...
+        self, *, mode: Literal["pydantic"], next_token: str | None = None
+    ) -> SBTargetingGetNegativeBrandsResponseContent: ...
     @overload
     async def targeting_get_negative_brands(
         self, *, mode: Literal["raw"], next_token: str | None = None
     ) -> httpx.Response: ...
     async def targeting_get_negative_brands(
-        self, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic", next_token: str | None = None
+        self, *, mode: Literal["pydantic", "dict", "raw"] = "dict", next_token: str | None = None
     ) -> SBTargetingGetNegativeBrandsResponseContent | dict[str, Any] | httpx.Response:
         """Returns brands recommended for negative targeting. Only available for Sellers and Vendors. These recommendations include your own brands because targeting your own brands usually results in lower performance than targeting competitors' brands."""
 

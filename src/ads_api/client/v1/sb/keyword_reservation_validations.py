@@ -20,21 +20,18 @@ class SBKeywordReservationValidations(BaseResource):
 
     @overload
     async def create_keyword_reservation_validation(
-        self, body: SBCreateKeywordReservationValidationRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBKeywordReservationValidationMultiStatusResponse: ...
+        self, body: SBCreateKeywordReservationValidationRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_keyword_reservation_validation(
-        self, body: SBCreateKeywordReservationValidationRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SBCreateKeywordReservationValidationRequest, *, mode: Literal["pydantic"]
+    ) -> SBKeywordReservationValidationMultiStatusResponse: ...
     @overload
     async def create_keyword_reservation_validation(
         self, body: SBCreateKeywordReservationValidationRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_keyword_reservation_validation(
-        self,
-        body: SBCreateKeywordReservationValidationRequest,
-        *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        self, body: SBCreateKeywordReservationValidationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBKeywordReservationValidationMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Validate keyword reservation"""
 

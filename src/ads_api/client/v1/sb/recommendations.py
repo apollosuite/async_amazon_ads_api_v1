@@ -20,18 +20,18 @@ class SBRecommendations(BaseResource):
 
     @overload
     async def create_recommendation(
-        self, body: SBCreateRecommendationRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBRecommendationMultiStatusResponse: ...
+        self, body: SBCreateRecommendationRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def create_recommendation(
-        self, body: SBCreateRecommendationRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: SBCreateRecommendationRequest, *, mode: Literal["pydantic"]
+    ) -> SBRecommendationMultiStatusResponse: ...
     @overload
     async def create_recommendation(
         self, body: SBCreateRecommendationRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def create_recommendation(
-        self, body: SBCreateRecommendationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SBCreateRecommendationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBRecommendationMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create recommendations"""
 

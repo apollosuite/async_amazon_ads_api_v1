@@ -22,19 +22,19 @@ class BrandStoreEditions(BaseResource):
         self,
         brand_store_id: str,
         *,
-        mode: Literal["pydantic"] = "pydantic",
+        mode: Literal["dict"] = "dict",
         next_token: str | None = None,
         max_results: int | None = None,
-    ) -> BrandStoreEditionSuccessResponse: ...
+    ) -> dict[str, Any]: ...
     @overload
     async def list_brand_store_edition(
         self,
         brand_store_id: str,
         *,
-        mode: Literal["dict"],
+        mode: Literal["pydantic"],
         next_token: str | None = None,
         max_results: int | None = None,
-    ) -> dict[str, Any]: ...
+    ) -> BrandStoreEditionSuccessResponse: ...
     @overload
     async def list_brand_store_edition(
         self,
@@ -48,7 +48,7 @@ class BrandStoreEditions(BaseResource):
         self,
         brand_store_id: str,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         next_token: str | None = None,
         max_results: int | None = None,
     ) -> BrandStoreEditionSuccessResponse | dict[str, Any] | httpx.Response:

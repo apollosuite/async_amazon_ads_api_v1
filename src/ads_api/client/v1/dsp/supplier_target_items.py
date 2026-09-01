@@ -20,18 +20,18 @@ class DSPSupplierTargetItems(BaseResource):
 
     @overload
     async def query_supplier_target_item(
-        self, body: DSPQuerySupplierTargetItemRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPSupplierTargetItemSuccessResponse: ...
+        self, body: DSPQuerySupplierTargetItemRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def query_supplier_target_item(
-        self, body: DSPQuerySupplierTargetItemRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPQuerySupplierTargetItemRequest, *, mode: Literal["pydantic"]
+    ) -> DSPSupplierTargetItemSuccessResponse: ...
     @overload
     async def query_supplier_target_item(
         self, body: DSPQuerySupplierTargetItemRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def query_supplier_target_item(
-        self, body: DSPQuerySupplierTargetItemRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPQuerySupplierTargetItemRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPSupplierTargetItemSuccessResponse | dict[str, Any] | httpx.Response:
         """Fetch supplier target items"""
 

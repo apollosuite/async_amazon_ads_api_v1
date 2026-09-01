@@ -20,18 +20,21 @@ class DSPSupplierProposalDestinations(BaseResource):
 
     @overload
     async def query_supplier_proposal_destination(
-        self, body: DSPQuerySupplierProposalDestinationRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPSupplierProposalDestinationSuccessResponse: ...
-    @overload
-    async def query_supplier_proposal_destination(
-        self, body: DSPQuerySupplierProposalDestinationRequest, *, mode: Literal["dict"]
+        self, body: DSPQuerySupplierProposalDestinationRequest | None = None, *, mode: Literal["dict"] = "dict"
     ) -> dict[str, Any]: ...
     @overload
     async def query_supplier_proposal_destination(
-        self, body: DSPQuerySupplierProposalDestinationRequest, *, mode: Literal["raw"]
+        self, body: DSPQuerySupplierProposalDestinationRequest | None = None, *, mode: Literal["pydantic"]
+    ) -> DSPSupplierProposalDestinationSuccessResponse: ...
+    @overload
+    async def query_supplier_proposal_destination(
+        self, body: DSPQuerySupplierProposalDestinationRequest | None = None, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def query_supplier_proposal_destination(
-        self, body: DSPQuerySupplierProposalDestinationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self,
+        body: DSPQuerySupplierProposalDestinationRequest | None = None,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
     ) -> DSPSupplierProposalDestinationSuccessResponse | dict[str, Any] | httpx.Response:
         """Query supplier proposal destinations"""
 

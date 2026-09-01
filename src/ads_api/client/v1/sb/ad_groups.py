@@ -24,14 +24,16 @@ class SBAdGroups(BaseResource):
 
     @overload
     async def create_ad_group(
-        self, body: SBCreateAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBAdGroupMultiStatusResponse: ...
+        self, body: SBCreateAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def create_ad_group(self, body: SBCreateAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def create_ad_group(
+        self, body: SBCreateAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> SBAdGroupMultiStatusResponse: ...
     @overload
     async def create_ad_group(self, body: SBCreateAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_ad_group(
-        self, body: SBCreateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SBCreateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBAdGroupMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create ad groups"""
 
@@ -40,14 +42,16 @@ class SBAdGroups(BaseResource):
 
     @overload
     async def delete_ad_group(
-        self, body: SBDeleteAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBAdGroupMultiStatusResponse: ...
+        self, body: SBDeleteAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def delete_ad_group(self, body: SBDeleteAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def delete_ad_group(
+        self, body: SBDeleteAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> SBAdGroupMultiStatusResponse: ...
     @overload
     async def delete_ad_group(self, body: SBDeleteAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def delete_ad_group(
-        self, body: SBDeleteAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SBDeleteAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBAdGroupMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Delete ad groups"""
 
@@ -56,14 +60,16 @@ class SBAdGroups(BaseResource):
 
     @overload
     async def query_ad_group(
-        self, body: SBQueryAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBAdGroupSuccessResponse: ...
+        self, body: SBQueryAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def query_ad_group(self, body: SBQueryAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def query_ad_group(
+        self, body: SBQueryAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> SBAdGroupSuccessResponse: ...
     @overload
     async def query_ad_group(self, body: SBQueryAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_ad_group(
-        self, body: SBQueryAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SBQueryAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBAdGroupSuccessResponse | dict[str, Any] | httpx.Response:
         """List ad groups"""
 
@@ -72,14 +78,16 @@ class SBAdGroups(BaseResource):
 
     @overload
     async def update_ad_group(
-        self, body: SBUpdateAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBAdGroupMultiStatusResponse: ...
+        self, body: SBUpdateAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def update_ad_group(self, body: SBUpdateAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def update_ad_group(
+        self, body: SBUpdateAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> SBAdGroupMultiStatusResponse: ...
     @overload
     async def update_ad_group(self, body: SBUpdateAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def update_ad_group(
-        self, body: SBUpdateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SBUpdateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBAdGroupMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update ad groups"""
 

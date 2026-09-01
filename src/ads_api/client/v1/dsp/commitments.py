@@ -24,14 +24,16 @@ class DSPCommitments(BaseResource):
 
     @overload
     async def create_commitment(
-        self, body: DSPCreateCommitmentRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPCommitmentMultiStatusResponse: ...
+        self, body: DSPCreateCommitmentRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def create_commitment(self, body: DSPCreateCommitmentRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def create_commitment(
+        self, body: DSPCreateCommitmentRequest, *, mode: Literal["pydantic"]
+    ) -> DSPCommitmentMultiStatusResponse: ...
     @overload
     async def create_commitment(self, body: DSPCreateCommitmentRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_commitment(
-        self, body: DSPCreateCommitmentRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPCreateCommitmentRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPCommitmentMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create commitments"""
 
@@ -40,12 +42,12 @@ class DSPCommitments(BaseResource):
 
     @overload
     async def list_commitment(
-        self, *, mode: Literal["pydantic"] = "pydantic", next_token: str | None = None, max_results: int | None = None
-    ) -> DSPCommitmentSuccessResponse: ...
+        self, *, mode: Literal["dict"] = "dict", next_token: str | None = None, max_results: int | None = None
+    ) -> dict[str, Any]: ...
     @overload
     async def list_commitment(
-        self, *, mode: Literal["dict"], next_token: str | None = None, max_results: int | None = None
-    ) -> dict[str, Any]: ...
+        self, *, mode: Literal["pydantic"], next_token: str | None = None, max_results: int | None = None
+    ) -> DSPCommitmentSuccessResponse: ...
     @overload
     async def list_commitment(
         self, *, mode: Literal["raw"], next_token: str | None = None, max_results: int | None = None
@@ -53,7 +55,7 @@ class DSPCommitments(BaseResource):
     async def list_commitment(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         next_token: str | None = None,
         max_results: int | None = None,
     ) -> DSPCommitmentSuccessResponse | dict[str, Any] | httpx.Response:
@@ -69,14 +71,18 @@ class DSPCommitments(BaseResource):
 
     @overload
     async def query_commitment(
-        self, body: DSPQueryCommitmentRequest, *, mode: Literal["pydantic"] = "pydantic"
+        self, body: DSPQueryCommitmentRequest | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    async def query_commitment(
+        self, body: DSPQueryCommitmentRequest | None = None, *, mode: Literal["pydantic"]
     ) -> DSPCommitmentSuccessResponse: ...
     @overload
-    async def query_commitment(self, body: DSPQueryCommitmentRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
-    @overload
-    async def query_commitment(self, body: DSPQueryCommitmentRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_commitment(
-        self, body: DSPQueryCommitmentRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPQueryCommitmentRequest | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def query_commitment(
+        self, body: DSPQueryCommitmentRequest | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPCommitmentSuccessResponse | dict[str, Any] | httpx.Response:
         """Query commitments with filters"""
 
@@ -85,18 +91,18 @@ class DSPCommitments(BaseResource):
 
     @overload
     async def retrieve_commitment(
-        self, body: DSPRetrieveCommitmentRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPCommitmentMultiStatusResponse: ...
+        self, body: DSPRetrieveCommitmentRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
     async def retrieve_commitment(
-        self, body: DSPRetrieveCommitmentRequest, *, mode: Literal["dict"]
-    ) -> dict[str, Any]: ...
+        self, body: DSPRetrieveCommitmentRequest, *, mode: Literal["pydantic"]
+    ) -> DSPCommitmentMultiStatusResponse: ...
     @overload
     async def retrieve_commitment(
         self, body: DSPRetrieveCommitmentRequest, *, mode: Literal["raw"]
     ) -> httpx.Response: ...
     async def retrieve_commitment(
-        self, body: DSPRetrieveCommitmentRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPRetrieveCommitmentRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPCommitmentMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Get Commitments"""
 
@@ -105,14 +111,16 @@ class DSPCommitments(BaseResource):
 
     @overload
     async def update_commitment(
-        self, body: DSPUpdateCommitmentRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> DSPCommitmentMultiStatusResponse: ...
+        self, body: DSPUpdateCommitmentRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def update_commitment(self, body: DSPUpdateCommitmentRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def update_commitment(
+        self, body: DSPUpdateCommitmentRequest, *, mode: Literal["pydantic"]
+    ) -> DSPCommitmentMultiStatusResponse: ...
     @overload
     async def update_commitment(self, body: DSPUpdateCommitmentRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def update_commitment(
-        self, body: DSPUpdateCommitmentRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: DSPUpdateCommitmentRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> DSPCommitmentMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update commitments"""
 

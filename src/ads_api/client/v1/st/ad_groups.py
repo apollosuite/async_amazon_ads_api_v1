@@ -23,14 +23,16 @@ class STAdGroups(BaseResource):
 
     @overload
     async def create_ad_group(
-        self, body: STCreateAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> STAdGroupMultiStatusResponse: ...
+        self, body: STCreateAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def create_ad_group(self, body: STCreateAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def create_ad_group(
+        self, body: STCreateAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> STAdGroupMultiStatusResponse: ...
     @overload
     async def create_ad_group(self, body: STCreateAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_ad_group(
-        self, body: STCreateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: STCreateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> STAdGroupMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create ad groups"""
 
@@ -39,14 +41,16 @@ class STAdGroups(BaseResource):
 
     @overload
     async def query_ad_group(
-        self, body: STQueryAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> STAdGroupSuccessResponse: ...
+        self, body: STQueryAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def query_ad_group(self, body: STQueryAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def query_ad_group(
+        self, body: STQueryAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> STAdGroupSuccessResponse: ...
     @overload
     async def query_ad_group(self, body: STQueryAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_ad_group(
-        self, body: STQueryAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: STQueryAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> STAdGroupSuccessResponse | dict[str, Any] | httpx.Response:
         """List ad groups"""
 
@@ -55,14 +59,16 @@ class STAdGroups(BaseResource):
 
     @overload
     async def update_ad_group(
-        self, body: STUpdateAdGroupRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> STAdGroupMultiStatusResponse: ...
+        self, body: STUpdateAdGroupRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
     @overload
-    async def update_ad_group(self, body: STUpdateAdGroupRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def update_ad_group(
+        self, body: STUpdateAdGroupRequest, *, mode: Literal["pydantic"]
+    ) -> STAdGroupMultiStatusResponse: ...
     @overload
     async def update_ad_group(self, body: STUpdateAdGroupRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def update_ad_group(
-        self, body: STUpdateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: STUpdateAdGroupRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> STAdGroupMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update ad groups"""
 

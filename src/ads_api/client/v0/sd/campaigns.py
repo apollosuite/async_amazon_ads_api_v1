@@ -22,15 +22,13 @@ from ads_api.models.v0.sd.campaigns import (
 class Campaigns(BaseResource):
 
     @overload
-    async def archive_campaign(
-        self, campaign_id: int, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CampaignResponse: ...
+    async def archive_campaign(self, campaign_id: int, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def archive_campaign(self, campaign_id: int, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def archive_campaign(self, campaign_id: int, *, mode: Literal["pydantic"]) -> CampaignResponse: ...
     @overload
     async def archive_campaign(self, campaign_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def archive_campaign(
-        self, campaign_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, campaign_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> CampaignResponse | dict[str, Any] | httpx.Response:
         """This operation is equivalent to an update operation that sets the status field to 'archived'. Note that setting the status field to 'archived' is permanent and can't be undone. See [Developer Notes](https://advertising.amazon.com/API/docs/en-us/info/developer-notes#archiving) for more information."""
 
@@ -39,28 +37,32 @@ class Campaigns(BaseResource):
 
     @overload
     async def create_campaigns(
-        self, body: list[CreateCampaign], *, mode: Literal["pydantic"] = "pydantic"
+        self, body: list[CreateCampaign] | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> list[dict[str, Any]]: ...
+    @overload
+    async def create_campaigns(
+        self, body: list[CreateCampaign] | None = None, *, mode: Literal["pydantic"]
     ) -> list[CampaignResponse]: ...
     @overload
-    async def create_campaigns(self, body: list[CreateCampaign], *, mode: Literal["dict"]) -> list[dict[str, Any]]: ...
-    @overload
-    async def create_campaigns(self, body: list[CreateCampaign], *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_campaigns(
-        self, body: list[CreateCampaign], *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: list[CreateCampaign] | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def create_campaigns(
+        self, body: list[CreateCampaign] | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> list[CampaignResponse] | list[dict[str, Any]] | httpx.Response:
         """"""
 
-        resp = await self._request("POST", "/sd/campaigns", json=[self.dump_json(x) for x in body])
+        resp = await self._request("POST", "/sd/campaigns", json=self.dump_json(body))
         return self._response_list(CampaignResponse, resp, mode=mode)
 
     @overload
-    async def get_campaign(self, campaign_id: int, *, mode: Literal["pydantic"] = "pydantic") -> Campaign: ...
+    async def get_campaign(self, campaign_id: int, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_campaign(self, campaign_id: int, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_campaign(self, campaign_id: int, *, mode: Literal["pydantic"]) -> Campaign: ...
     @overload
     async def get_campaign(self, campaign_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_campaign(
-        self, campaign_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, campaign_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> Campaign | dict[str, Any] | httpx.Response:
         """Returns a Campaign object for a requested campaign. Note that the Campaign object is designed for performance, with a small set of commonly used campaign fields to reduce size. If the extended set of fields is required, use the campaign operations that return the CampaignResponseEx object."""
 
@@ -68,15 +70,13 @@ class Campaigns(BaseResource):
         return self._response(Campaign, resp, mode=mode)
 
     @overload
-    async def get_campaign_response_ex(
-        self, campaign_id: int, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> CampaignResponseEx: ...
+    async def get_campaign_response_ex(self, campaign_id: int, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def get_campaign_response_ex(self, campaign_id: int, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def get_campaign_response_ex(self, campaign_id: int, *, mode: Literal["pydantic"]) -> CampaignResponseEx: ...
     @overload
     async def get_campaign_response_ex(self, campaign_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def get_campaign_response_ex(
-        self, campaign_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, campaign_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> CampaignResponseEx | dict[str, Any] | httpx.Response:
         """Returns a CampaignResponseEx object for a requested campaign. The CampaignResponseEx includes the extended set of available fields."""
 
@@ -87,31 +87,7 @@ class Campaigns(BaseResource):
     async def list_campaigns(
         self,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-        start_index: int | None = None,
-        count: int | None = None,
-        state_filter: (
-            Literal[
-                "enabled",
-                "paused",
-                "archived",
-                "enabled, paused",
-                "enabled, archived",
-                "paused, archived",
-                "enabled, paused, archived",
-            ]
-            | str
-            | None
-        ) = None,
-        name: str | None = None,
-        campaign_id_filter: str | None = None,
-        portfolio_id_filter: str | None = None,
-    ) -> list[Campaign]: ...
-    @overload
-    async def list_campaigns(
-        self,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -131,6 +107,30 @@ class Campaigns(BaseResource):
         campaign_id_filter: str | None = None,
         portfolio_id_filter: str | None = None,
     ) -> list[dict[str, Any]]: ...
+    @overload
+    async def list_campaigns(
+        self,
+        *,
+        mode: Literal["pydantic"],
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        name: str | None = None,
+        campaign_id_filter: str | None = None,
+        portfolio_id_filter: str | None = None,
+    ) -> list[Campaign]: ...
     @overload
     async def list_campaigns(
         self,
@@ -158,7 +158,7 @@ class Campaigns(BaseResource):
     async def list_campaigns(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -196,31 +196,7 @@ class Campaigns(BaseResource):
     async def list_campaigns_ex(
         self,
         *,
-        mode: Literal["pydantic"] = "pydantic",
-        start_index: int | None = None,
-        count: int | None = None,
-        state_filter: (
-            Literal[
-                "enabled",
-                "paused",
-                "archived",
-                "enabled, paused",
-                "enabled, archived",
-                "paused, archived",
-                "enabled, paused, archived",
-            ]
-            | str
-            | None
-        ) = None,
-        name: str | None = None,
-        campaign_id_filter: str | None = None,
-        portfolio_id_filter: str | None = None,
-    ) -> list[CampaignResponseEx]: ...
-    @overload
-    async def list_campaigns_ex(
-        self,
-        *,
-        mode: Literal["dict"],
+        mode: Literal["dict"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -240,6 +216,30 @@ class Campaigns(BaseResource):
         campaign_id_filter: str | None = None,
         portfolio_id_filter: str | None = None,
     ) -> list[dict[str, Any]]: ...
+    @overload
+    async def list_campaigns_ex(
+        self,
+        *,
+        mode: Literal["pydantic"],
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        name: str | None = None,
+        campaign_id_filter: str | None = None,
+        portfolio_id_filter: str | None = None,
+    ) -> list[CampaignResponseEx]: ...
     @overload
     async def list_campaigns_ex(
         self,
@@ -267,7 +267,7 @@ class Campaigns(BaseResource):
     async def list_campaigns_ex(
         self,
         *,
-        mode: Literal["pydantic", "dict", "raw"] = "pydantic",
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
         start_index: int | None = None,
         count: int | None = None,
         state_filter: (
@@ -303,16 +303,20 @@ class Campaigns(BaseResource):
 
     @overload
     async def update_campaigns(
-        self, body: list[UpdateCampaign], *, mode: Literal["pydantic"] = "pydantic"
+        self, body: list[UpdateCampaign] | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> list[dict[str, Any]]: ...
+    @overload
+    async def update_campaigns(
+        self, body: list[UpdateCampaign] | None = None, *, mode: Literal["pydantic"]
     ) -> list[CampaignResponse]: ...
     @overload
-    async def update_campaigns(self, body: list[UpdateCampaign], *, mode: Literal["dict"]) -> list[dict[str, Any]]: ...
-    @overload
-    async def update_campaigns(self, body: list[UpdateCampaign], *, mode: Literal["raw"]) -> httpx.Response: ...
     async def update_campaigns(
-        self, body: list[UpdateCampaign], *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: list[UpdateCampaign] | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    async def update_campaigns(
+        self, body: list[UpdateCampaign] | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> list[CampaignResponse] | list[dict[str, Any]] | httpx.Response:
         """"""
 
-        resp = await self._request("PUT", "/sd/campaigns", json=[self.dump_json(x) for x in body])
+        resp = await self._request("PUT", "/sd/campaigns", json=self.dump_json(body))
         return self._response_list(CampaignResponse, resp, mode=mode)

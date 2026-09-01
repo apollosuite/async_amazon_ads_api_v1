@@ -23,15 +23,13 @@ from ads_api.models.v1.ads.sb import (
 class SBAds(BaseResource):
 
     @overload
-    async def create_ad(
-        self, body: SBCreateAdRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBAdMultiStatusResponse: ...
+    async def create_ad(self, body: SBCreateAdRequest, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def create_ad(self, body: SBCreateAdRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def create_ad(self, body: SBCreateAdRequest, *, mode: Literal["pydantic"]) -> SBAdMultiStatusResponse: ...
     @overload
     async def create_ad(self, body: SBCreateAdRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def create_ad(
-        self, body: SBCreateAdRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SBCreateAdRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBAdMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Create ads"""
 
@@ -39,15 +37,13 @@ class SBAds(BaseResource):
         return self._response(SBAdMultiStatusResponse, resp, mode=mode)
 
     @overload
-    async def delete_ad(
-        self, body: SBDeleteAdRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBAdMultiStatusResponse: ...
+    async def delete_ad(self, body: SBDeleteAdRequest, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def delete_ad(self, body: SBDeleteAdRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def delete_ad(self, body: SBDeleteAdRequest, *, mode: Literal["pydantic"]) -> SBAdMultiStatusResponse: ...
     @overload
     async def delete_ad(self, body: SBDeleteAdRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def delete_ad(
-        self, body: SBDeleteAdRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SBDeleteAdRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBAdMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Delete ads"""
 
@@ -55,15 +51,13 @@ class SBAds(BaseResource):
         return self._response(SBAdMultiStatusResponse, resp, mode=mode)
 
     @overload
-    async def query_ad(
-        self, body: SBQueryAdRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBAdSuccessResponse: ...
+    async def query_ad(self, body: SBQueryAdRequest, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def query_ad(self, body: SBQueryAdRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def query_ad(self, body: SBQueryAdRequest, *, mode: Literal["pydantic"]) -> SBAdSuccessResponse: ...
     @overload
     async def query_ad(self, body: SBQueryAdRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def query_ad(
-        self, body: SBQueryAdRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SBQueryAdRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBAdSuccessResponse | dict[str, Any] | httpx.Response:
         """List ads"""
 
@@ -71,15 +65,13 @@ class SBAds(BaseResource):
         return self._response(SBAdSuccessResponse, resp, mode=mode)
 
     @overload
-    async def update_ad(
-        self, body: SBUpdateAdRequest, *, mode: Literal["pydantic"] = "pydantic"
-    ) -> SBAdMultiStatusResponse: ...
+    async def update_ad(self, body: SBUpdateAdRequest, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
     @overload
-    async def update_ad(self, body: SBUpdateAdRequest, *, mode: Literal["dict"]) -> dict[str, Any]: ...
+    async def update_ad(self, body: SBUpdateAdRequest, *, mode: Literal["pydantic"]) -> SBAdMultiStatusResponse: ...
     @overload
     async def update_ad(self, body: SBUpdateAdRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
     async def update_ad(
-        self, body: SBUpdateAdRequest, *, mode: Literal["pydantic", "dict", "raw"] = "pydantic"
+        self, body: SBUpdateAdRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
     ) -> SBAdMultiStatusResponse | dict[str, Any] | httpx.Response:
         """Update ads"""
 
