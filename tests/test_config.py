@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import asyncio
 import os
 import tempfile
+import time
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import AsyncMock, patch
 
 import pytest
 
@@ -128,8 +130,6 @@ class TestAmazonAdsConfig:
 class TestTokenManagerForceRefresh:
     @pytest.mark.asyncio
     async def test_force_refresh_bypasses_cache(self) -> None:
-        from unittest.mock import AsyncMock
-
         from async_amazon_ads_api_v1.config.token_manager import TokenCredentials, TokenManager
 
         creds = TokenCredentials(client_id="cid", client_secret="sec", refresh_token="rt")
@@ -146,14 +146,12 @@ class TestTokenManagerForceRefresh:
 
     @pytest.mark.asyncio
     async def test_unified_token_manager_force_refresh(self) -> None:
-        from unittest.mock import AsyncMock
-
         from ads_api.config.token_manager import TokenCredentials
         from ads_api.config.token_manager import TokenManager as NewTokenManager
 
         creds = TokenCredentials(client_id="cid", client_secret="sec", refresh_token="rt")
         tm = NewTokenManager(credentials=creds)
-        tm._access_token = "cached-token"
+        tm.access_token = "cached-token"
         tm._expires_at = 9999999999.0
 
         assert await tm.get_access_token(force=False) == "cached-token"
@@ -162,6 +160,83 @@ class TestTokenManagerForceRefresh:
             token = await tm.get_access_token(force=True)
             assert token == "fresh-token"
             mock_refresh.assert_awaited_once()
+
+
+class TestAdsApiTokenManager:
+    def _manager(self, cache: AsyncMock | None = None):
+        from ads_api.config.token_manager import TokenCredentials, TokenManager
+
+        return TokenManager(
+            credentials=TokenCredentials(client_id="cid", client_secret="sec", refresh_token="rt"),
+            cache=cache,
+        )
+
+    @pytest.mark.asyncio
+    async def test_memory_hit_skips_cache_and_refresh(self) -> None:
+        cache = AsyncMock()
+        tm = self._manager(cache)
+        tm.access_token = "mem-token"
+        tm._expires_at = time.time() + 3600
+
+        assert await tm.get_access_token() == "mem-token"
+        cache.read.assert_not_awaited()
+
+    @pytest.mark.asyncio
+    async def test_cache_hit_reads_once(self) -> None:
+        from ads_api.config.token_cache import TokenData
+
+        cache = AsyncMock()
+        cache.read = AsyncMock(return_value=TokenData(access_token="cached-token", expires_at=time.time() + 3600))
+        tm = self._manager(cache)
+
+        with patch.object(type(tm), "_refresh", AsyncMock()) as mock_refresh:
+            assert await tm.get_access_token() == "cached-token"
+            cache.read.assert_awaited_once()
+            mock_refresh.assert_not_awaited()
+
+    @pytest.mark.asyncio
+    async def test_cache_miss_reads_once_then_refreshes(self) -> None:
+        cache = AsyncMock()
+        cache.read = AsyncMock(return_value=None)
+        tm = self._manager(cache)
+
+        with patch.object(type(tm), "_refresh", AsyncMock(return_value="fresh-token")) as mock_refresh:
+            assert await tm.get_access_token() == "fresh-token"
+            cache.read.assert_awaited_once()
+            mock_refresh.assert_awaited_once()
+
+    @pytest.mark.asyncio
+    async def test_force_skips_memory_and_cache(self) -> None:
+        cache = AsyncMock()
+        tm = self._manager(cache)
+        tm.access_token = "mem-token"
+        tm._expires_at = time.time() + 3600
+
+        with patch.object(type(tm), "_refresh", AsyncMock(return_value="fresh-token")) as mock_refresh:
+            assert await tm.get_access_token(force=True) == "fresh-token"
+            cache.read.assert_not_awaited()
+            mock_refresh.assert_awaited_once()
+
+    @pytest.mark.asyncio
+    async def test_concurrent_calls_refresh_once(self) -> None:
+        cache = AsyncMock()
+        cache.read = AsyncMock(return_value=None)
+        tm = self._manager(cache)
+        refresh_calls = 0
+
+        async def fake_refresh(_self: object) -> str:
+            nonlocal refresh_calls
+            refresh_calls += 1
+            await asyncio.sleep(0)
+            tm.access_token = "fresh-token"
+            tm._expires_at = time.time() + 3600
+            return "fresh-token"
+
+        with patch.object(type(tm), "_refresh", fake_refresh):
+            results = await asyncio.gather(tm.get_access_token(), tm.get_access_token())
+        assert results == ["fresh-token", "fresh-token"]
+        assert refresh_calls == 1
+        cache.read.assert_awaited_once()
 
 
 _CREDS = {"client_id": "cid", "client_secret": "sec", "refresh_token": "rt"}

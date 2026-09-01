@@ -23,7 +23,7 @@ class TokenCredentials:
 
 
 class TokenManager:
-    __slots__ = ("_credentials", "_cache", "_lock", "_timeout", "_access_token", "_expires_at")
+    __slots__ = ("_credentials", "_cache", "_lock", "_timeout", "access_token", "_expires_at")
 
     def __init__(
         self,
@@ -35,32 +35,31 @@ class TokenManager:
         self._cache = cache
         self._lock = asyncio.Lock()
         self._timeout = timeout
-        self._access_token: str | None = None
+        self.access_token: str | None = None
         self._expires_at: float | None = None
 
-    @property
-    def access_token(self) -> str | None:
-        return self._access_token
+    def _in_memory_valid(self) -> bool:
+        return self.access_token is not None and self._expires_at is not None and time.time() < self._expires_at
+
+    def _use_cached(self) -> str:
+        assert self.access_token is not None and self._expires_at is not None
+        logger.info("Using cached access token, expires in %.0f seconds", self._expires_at - time.time())
+        return self.access_token
 
     async def get_access_token(self, force: bool = False) -> str:
-        if not force and await self._is_token_valid():
-            assert self._access_token is not None and self._expires_at is not None
-            logger.info("Using cached access token, expires in %.0f seconds", self._expires_at - time.time())
-            return self._access_token
+        if force:
+            logger.info("Forcing token refresh")
+            async with self._lock:
+                return await self._refresh()
+        if self._in_memory_valid():
+            return self._use_cached()
         async with self._lock:
-            if not force and await self._is_token_valid():
-                assert self._access_token is not None and self._expires_at is not None
-                logger.info("Using cached access token, expires in %.0f seconds", self._expires_at - time.time())
-                return self._access_token
-            if force:
-                logger.info("Forcing token refresh")
+            if self._in_memory_valid():
+                return self._use_cached()
+            await self._load_from_cache()
+            if self._in_memory_valid():
+                return self._use_cached()
             return await self._refresh()
-
-    async def _is_token_valid(self) -> bool:
-        if self._access_token is not None and self._expires_at is not None and time.time() < self._expires_at:
-            return True
-        await self._load_from_cache()
-        return self._access_token is not None and self._expires_at is not None and time.time() < self._expires_at
 
     async def _refresh(self) -> str:
         logger.info("Refreshing access token from %s", self._credentials.token_url)
@@ -77,18 +76,19 @@ class TokenManager:
                 )
                 resp.raise_for_status()
                 data = resp.json()
-                self._access_token = data["access_token"]
-                expires_in = data["expires_in"] if "expires_in" in data else 3600
-                self._expires_at = time.time() + expires_in - 600
-                logger.info("Token refreshed, expires in %d seconds", expires_in)
         except httpx.HTTPStatusError as e:
             logger.error("Token refresh failed: %s %s", e.response.status_code, e.response.text)
             raise
         except httpx.HTTPError:
             logger.exception("Token refresh request failed")
             raise
+        token: str = data["access_token"]
+        expires_in = data.get("expires_in", 3600)
+        self.access_token = token
+        self._expires_at = time.time() + expires_in - 600
+        logger.info("Token refreshed, expires in %d seconds", expires_in)
         await self._write_to_cache()
-        return self._access_token
+        return token
 
     async def _load_from_cache(self) -> None:
         if self._cache is None:
@@ -97,17 +97,17 @@ class TokenManager:
         if data is None:
             logger.info("Token cache miss")
             return
-        self._access_token = data.access_token
+        self.access_token = data.access_token
         self._expires_at = data.expires_at
         remaining = data.expires_at - time.time()
         logger.info("Loaded access token from cache, expires in %.0f seconds", remaining)
 
     async def _write_to_cache(self) -> None:
-        if self._cache is None or self._access_token is None or self._expires_at is None:
+        if self._cache is None or self.access_token is None or self._expires_at is None:
             return
         await self._cache.write(
             TokenData(
-                access_token=self._access_token,
+                access_token=self.access_token,
                 expires_at=self._expires_at,
             )
         )
