@@ -3,6 +3,12 @@
 > [!WARNING]
 > **废弃与迁移说明**: `async_amazon_ads_api_v1` 包即将废弃，项目正在逐步迁移至全新的统一包 **`ads_api`**（支持 v0 与 v1 全实体）。
 
+## v0.9.2 (2026-09-01)
+
+### feat — 新功能
+- **AmazonAdsConfig 增加 account_type 配置**: 支持传入 `"seller"`, `"vendor"`, `"agency"` 等账号类型。
+- **AdsClient 增加账号类型与上下文快捷属性**: 提供 `.config`, `.context`, `.account_type`, `.is_seller`, `.is_vendor`, `.is_agency` 等快捷属性，方便直接访问配置与判断账号身份。
+
 ## v0.9.1 (2026-09-01)
 
 ### feat — 新功能
