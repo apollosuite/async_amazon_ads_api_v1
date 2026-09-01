@@ -44,10 +44,16 @@ class TokenManager:
 
     async def get_access_token(self, force: bool = False) -> str:
         if not force and await self._is_token_valid():
-            return self._access_token  # type: ignore[return-value]
+            assert self._access_token is not None and self._expires_at is not None
+            logger.info("Using cached access token, expires in %.0f seconds", self._expires_at - time.time())
+            return self._access_token
         async with self._lock:
             if not force and await self._is_token_valid():
-                return self._access_token  # type: ignore[return-value]
+                assert self._access_token is not None and self._expires_at is not None
+                logger.info("Using cached access token, expires in %.0f seconds", self._expires_at - time.time())
+                return self._access_token
+            if force:
+                logger.info("Forcing token refresh")
             return await self._refresh()
 
     async def _is_token_valid(self) -> bool:
@@ -57,22 +63,30 @@ class TokenManager:
         return self._access_token is not None and self._expires_at is not None and time.time() < self._expires_at
 
     async def _refresh(self) -> str:
-        async with httpx.AsyncClient(timeout=httpx.Timeout(self._timeout)) as client:
-            resp = await client.post(
-                self._credentials.token_url,
-                data={
-                    "grant_type": "refresh_token",
-                    "refresh_token": self._credentials.refresh_token,
-                    "client_id": self._credentials.client_id,
-                    "client_secret": self._credentials.client_secret,
-                },
-            )
-            resp.raise_for_status()
-            data = resp.json()
-            self._access_token = data["access_token"]
-            expires_in = data["expires_in"] if "expires_in" in data else 3600
-            self._expires_at = time.time() + expires_in - 60
-            logger.info("Token refreshed, expires in %d seconds", expires_in)
+        logger.info("Refreshing access token from %s", self._credentials.token_url)
+        try:
+            async with httpx.AsyncClient(timeout=httpx.Timeout(self._timeout)) as client:
+                resp = await client.post(
+                    self._credentials.token_url,
+                    data={
+                        "grant_type": "refresh_token",
+                        "refresh_token": self._credentials.refresh_token,
+                        "client_id": self._credentials.client_id,
+                        "client_secret": self._credentials.client_secret,
+                    },
+                )
+                resp.raise_for_status()
+                data = resp.json()
+                self._access_token = data["access_token"]
+                expires_in = data["expires_in"] if "expires_in" in data else 3600
+                self._expires_at = time.time() + expires_in - 60
+                logger.info("Token refreshed, expires in %d seconds", expires_in)
+        except httpx.HTTPStatusError as e:
+            logger.error("Token refresh failed: %s %s", e.response.status_code, e.response.text)
+            raise
+        except httpx.HTTPError:
+            logger.exception("Token refresh request failed")
+            raise
         await self._write_to_cache()
         return self._access_token
 
@@ -80,9 +94,13 @@ class TokenManager:
         if self._cache is None:
             return
         data = await self._cache.read()
-        if data is not None:
-            self._access_token = data.access_token
-            self._expires_at = data.expires_at
+        if data is None:
+            logger.info("Token cache miss")
+            return
+        self._access_token = data.access_token
+        self._expires_at = data.expires_at
+        remaining = data.expires_at - time.time()
+        logger.info("Loaded access token from cache, expires in %.0f seconds", remaining)
 
     async def _write_to_cache(self) -> None:
         if self._cache is None or self._access_token is None or self._expires_at is None:
@@ -94,8 +112,10 @@ class TokenManager:
                 refresh_token=self._credentials.refresh_token,
             )
         )
+        logger.info("Wrote access token to cache")
 
     async def close(self) -> None:
         """Close token manager resources, including token cache."""
         if self._cache is not None:
             await self._cache.close()
+            logger.info("Closed token cache")
