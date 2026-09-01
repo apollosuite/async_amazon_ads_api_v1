@@ -3,6 +3,16 @@
 > [!WARNING]
 > **废弃与迁移说明**: `async_amazon_ads_api_v1` 包即将废弃，项目正在逐步迁移至全新的统一包 **`ads_api`**（支持 v0 与 v1 全实体）。
 
+## v0.6.13 (2026-09-01)
+
+### feat — 新功能
+- **v0 Portfolios API**: 接入 Portfolios（version 3），可通过 `ads.v0.portfolios` 调用 list / create / update / budget usage。
+- **可选 requestBody**: OpenAPI 未标 `required: true` 的 requestBody 允许省略，不再强制传 body。
+- **TokenManager 日志**: 补充 token 生命周期日志（缓存命中/未命中、强制刷新、刷新成功与失败），不记录 token 明文。
+
+### breaking — 破坏性变更
+- **接口默认返回 dict**: `ads_api` 客户端方法的 `mode` 默认值由 `"pydantic"` 改为 `"dict"`。需要 Pydantic 模型时请显式传入 `mode="pydantic"`。
+
 ## v0.6.12 (2026-08-31)
 
 ### feat — 新功能
