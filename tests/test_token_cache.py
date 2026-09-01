@@ -24,7 +24,6 @@ def token_data() -> _TokenData:
     return _TokenData(
         access_token="test-access-token",
         expires_at=time.time() + 3600,
-        refresh_token="test-refresh-token",
     )
 
 
@@ -64,11 +63,10 @@ class TestFileTokenCache:
         assert result is not None
         assert result.access_token == token_data.access_token
         assert result.expires_at == token_data.expires_at
-        assert result.refresh_token == token_data.refresh_token
 
     async def test_overwrite(self, file_cache: FileTokenCache) -> None:
-        data1 = _TokenData(access_token="token-1", expires_at=time.time() + 100, refresh_token="rt1")
-        data2 = _TokenData(access_token="token-2", expires_at=time.time() + 200, refresh_token="rt2")
+        data1 = _TokenData(access_token="token-1", expires_at=time.time() + 100)
+        data2 = _TokenData(access_token="token-2", expires_at=time.time() + 200)
 
         await file_cache.write(data1)
         await file_cache.write(data2)
@@ -95,7 +93,7 @@ class TestFileTokenCache:
         cache1 = FileTokenCache(cache_dir=tmp_path, client_id="client1", refresh_token="rt1")
         cache2 = FileTokenCache(cache_dir=tmp_path, client_id="client2", refresh_token="rt2")
 
-        data = _TokenData(access_token="tok", expires_at=time.time() + 100, refresh_token="rt")
+        data = _TokenData(access_token="tok", expires_at=time.time() + 100)
         await cache1.write(data)
 
         assert await cache1.read() is not None
@@ -115,13 +113,11 @@ class TestRedisTokenCache:
         assert result is not None
         assert result.access_token == token_data.access_token
         assert result.expires_at == token_data.expires_at
-        assert result.refresh_token == token_data.refresh_token
 
     async def test_ttl_based_on_expires_at(self, redis_cache: RedisTokenCache) -> None:
         data = _TokenData(
             access_token="tok",
             expires_at=time.time() + 60,
-            refresh_token="rt",
         )
         await redis_cache.write(data)
         ttl = await redis_cache._client.ttl(redis_cache._key)
@@ -131,15 +127,14 @@ class TestRedisTokenCache:
         data = _TokenData(
             access_token="tok",
             expires_at=time.time() - 10,
-            refresh_token="rt",
         )
         await redis_cache.write(data)
         result = await redis_cache.read()
         assert result is None
 
     async def test_overwrite(self, redis_cache: RedisTokenCache) -> None:
-        data1 = _TokenData(access_token="token-1", expires_at=time.time() + 100, refresh_token="rt1")
-        data2 = _TokenData(access_token="token-2", expires_at=time.time() + 200, refresh_token="rt2")
+        data1 = _TokenData(access_token="token-1", expires_at=time.time() + 100)
+        data2 = _TokenData(access_token="token-2", expires_at=time.time() + 200)
 
         await redis_cache.write(data1)
         await redis_cache.write(data2)
@@ -151,7 +146,7 @@ class TestRedisTokenCache:
     async def test_different_credentials_different_keys(self, redis_cache: RedisTokenCache) -> None:
         cache2 = RedisTokenCache(redis_url=REDIS_URL, client_id="c2", refresh_token="rt2")
 
-        data = _TokenData(access_token="tok", expires_at=time.time() + 100, refresh_token="rt")
+        data = _TokenData(access_token="tok", expires_at=time.time() + 100)
         await redis_cache.write(data)
 
         assert await redis_cache.read() is not None
@@ -178,7 +173,7 @@ class TestUnifiedTokenCache:
         cache = NewFileTokenCache(cache_dir=tmp_path, client_id="cid", refresh_token="rt")
         assert await cache.read() is None
 
-        data = NewTokenData(access_token="tok1", expires_at=time.time() + 3600, refresh_token="rt")
+        data = NewTokenData(access_token="tok1", expires_at=time.time() + 3600)
         await cache.write(data)
         read_data = await cache.read()
         assert read_data is not None
@@ -203,7 +198,7 @@ class TestUnifiedTokenCache:
         assert data is not None
         assert data.access_token == "redis-tok"
 
-        await cache.write(NewTokenData(access_token="new-tok", expires_at=time.time() + 3600, refresh_token="rt"))
+        await cache.write(NewTokenData(access_token="new-tok", expires_at=time.time() + 3600))
         mock_redis.set.assert_awaited_once()
 
         await cache.close()

@@ -126,6 +126,5 @@ class TokenManager:
             _TokenData(
                 access_token=self._access_token,
                 expires_at=self._expires_at,
-                refresh_token=self._credentials.refresh_token,
             )
         )

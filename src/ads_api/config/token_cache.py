@@ -23,7 +23,6 @@ if TYPE_CHECKING:
 class TokenData:
     access_token: str
     expires_at: float
-    refresh_token: str
 
 
 class BaseTokenCache(ABC):
@@ -56,7 +55,6 @@ class FileTokenCache(BaseTokenCache):
                 return TokenData(
                     access_token=raw["access_token"],
                     expires_at=raw["expires_at"],
-                    refresh_token=raw["refresh_token"] if "refresh_token" in raw else "",
                 )
         except (OSError, json.JSONDecodeError, KeyError) as e:
             logger.warning("Failed to read token cache: %s", e)
@@ -67,7 +65,6 @@ class FileTokenCache(BaseTokenCache):
         payload = {
             "access_token": data.access_token,
             "expires_at": data.expires_at,
-            "refresh_token": data.refresh_token,
         }
         tmp = self._cache_file.with_suffix(f".tmp.{os.getpid()}")
         try:
@@ -118,7 +115,6 @@ class RedisTokenCache(BaseTokenCache):
                 return TokenData(
                     access_token=data["access_token"],
                     expires_at=data["expires_at"],
-                    refresh_token=data["refresh_token"] if "refresh_token" in data else "",
                 )
         except (json.JSONDecodeError, KeyError) as e:
             logger.warning("Failed to parse Redis cache: %s", e)
@@ -128,7 +124,6 @@ class RedisTokenCache(BaseTokenCache):
         payload = {
             "access_token": data.access_token,
             "expires_at": data.expires_at,
-            "refresh_token": data.refresh_token,
         }
         ttl = max(0, int(data.expires_at - time.time()))
         if ttl > 0:

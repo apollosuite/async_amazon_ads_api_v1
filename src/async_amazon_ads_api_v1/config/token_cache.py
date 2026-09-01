@@ -50,7 +50,6 @@ class _TokenData:
 
     access_token: str
     expires_at: float
-    refresh_token: str
 
 
 class BaseTokenCache(ABC):
@@ -96,7 +95,6 @@ class FileTokenCache(BaseTokenCache):
                 return _TokenData(
                     access_token=raw["access_token"],
                     expires_at=expires_at,
-                    refresh_token=raw.get("refresh_token", ""),
                 )
             logger.warning("Cache entry invalid (missing access_token or expires_at)")
         except (OSError, json.JSONDecodeError, KeyError) as e:
@@ -108,7 +106,6 @@ class FileTokenCache(BaseTokenCache):
         payload = {
             "access_token": data.access_token,
             "expires_at": data.expires_at,
-            "refresh_token": data.refresh_token,
         }
         tmp = self._cache_file.with_suffix(f".tmp.{os.getpid()}")
         try:
@@ -166,7 +163,6 @@ class RedisTokenCache(BaseTokenCache):
                 return _TokenData(
                     access_token=data["access_token"],
                     expires_at=expires_at,
-                    refresh_token=data.get("refresh_token", ""),
                 )
             logger.warning("Redis cache entry invalid")
         except (json.JSONDecodeError, KeyError) as e:
@@ -178,7 +174,6 @@ class RedisTokenCache(BaseTokenCache):
         payload = {
             "access_token": data.access_token,
             "expires_at": data.expires_at,
-            "refresh_token": data.refresh_token,
         }
         ttl = max(0, int(data.expires_at - time.time()))
         if ttl > 0:
