@@ -3,6 +3,15 @@
 > [!WARNING]
 > **废弃与迁移说明**: `async_amazon_ads_api_v1` 包即将废弃，项目正在逐步迁移至全新的统一包 **`ads_api`**（支持 v0 与 v1 全实体）。
 
+## v0.9.0 (2026-09-01)
+
+### fix — 修复
+- **Token 缓存不再写入 refresh_token**: 缓存只保存未过期的 `access_token`，刷新始终使用配置中的凭据，避免把 refresh_token 落到文件或 Redis。
+
+### refactor — 重构
+- **按字段推断 token 缓存**: `ads_api.AmazonAdsConfig` 按 `token_cache` / Redis / `token_cache_dir` 优先级自动选择缓存实现，不再依赖 `CacheBackend` 枚举。
+- **移除 loader**: 删除未使用的 `from_toml` 与 `CacheBackend`。
+
 ## v0.6.13 (2026-09-01)
 
 ### feat — 新功能

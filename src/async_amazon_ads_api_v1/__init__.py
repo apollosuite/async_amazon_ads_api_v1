@@ -27,4 +27,4 @@ __all__ = [
     "TokenManager",
     "close_all_redis",
 ]
-__version__ = "0.6.13"
+__version__ = "0.9.0"
