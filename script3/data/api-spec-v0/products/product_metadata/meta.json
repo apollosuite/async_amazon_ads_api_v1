@@ -1,0 +1,16 @@
+{
+  "group": "products",
+  "route": "product-metadata",
+  "entity": "product_metadata",
+  "toc_name": "Product metadata",
+  "items": [
+    {
+      "name": "Product metadata",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/ProductSelector_prod_3p.json",
+      "file": "ProductSelector_prod_3p.json",
+      "etag": "\"9431d72d5e544dc9bf728007c2356649\"",
+      "last_modified": "Tue, 01 Sep 2026 07:21:59 GMT",
+      "size": 15175
+    }
+  ]
+}

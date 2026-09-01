@@ -1,0 +1,16 @@
+{
+  "group": "products",
+  "route": "eligibility-prod-3p",
+  "entity": "product_eligibility",
+  "toc_name": "Product eligibility",
+  "items": [
+    {
+      "name": "Product eligibility",
+      "openapi": "https://d1y2lf8k3vrkfu.cloudfront.net/openapi/en-us/dest/Eligibility_prod_3p.json",
+      "file": "Eligibility_prod_3p.json",
+      "etag": "\"964815574a7859ce82df2ccdd73f0bc1\"",
+      "last_modified": "Tue, 01 Sep 2026 07:21:57 GMT",
+      "size": 29286
+    }
+  ]
+}

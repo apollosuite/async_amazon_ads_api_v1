@@ -6,6 +6,9 @@ import pytest
 
 from ads_api import AdsClient, AdsClientV0, AmazonAdsConfig, Region
 from ads_api.client.v0.portfolios import Portfolios
+from ads_api.client.v0.products import Products
+from ads_api.client.v0.products.product_eligibility import ProductEligibility
+from ads_api.client.v0.products.product_metadata import ProductMetadata
 from ads_api.client.v0.sb_v4 import SBV4
 from ads_api.client.v0.sb_v4.ad_creatives import AdCreatives
 from ads_api.client.v0.sb_v4.ad_groups import AdGroups
@@ -138,4 +141,38 @@ class TestAdsClientV0Portfolios:
 
     def test_list_portfolios_mode_defaults_to_dict(self) -> None:
         param = inspect.signature(Portfolios.list_portfolios).parameters["mode"]
+        assert param.default == "dict"
+
+
+class TestAdsClientV0Products:
+    def test_products_on_v0(self, config: AmazonAdsConfig) -> None:
+        client = AdsClientV0(config)
+        products = client.products
+        assert isinstance(products, Products)
+        assert client.products is products
+        assert isinstance(products.product_metadata, ProductMetadata)
+        assert isinstance(products.product_eligibility, ProductEligibility)
+        assert products.product_metadata is products.product_metadata
+        assert products.product_eligibility is products.product_eligibility
+
+    def test_products_via_unified_ads_client(self, config: AmazonAdsConfig) -> None:
+        client = AdsClient(config)
+        assert isinstance(client.v0.products, Products)
+        assert isinstance(client.v0.products.product_metadata, ProductMetadata)
+        assert isinstance(client.v0.products.product_eligibility, ProductEligibility)
+
+    def test_product_metadata_body_required(self) -> None:
+        param = inspect.signature(ProductMetadata.product_metadata).parameters["body"]
+        assert param.default is inspect.Parameter.empty
+
+    def test_product_eligibility_body_required(self) -> None:
+        param = inspect.signature(ProductEligibility.product_eligibility).parameters["body"]
+        assert param.default is inspect.Parameter.empty
+
+    def test_program_eligibility_body_optional(self) -> None:
+        param = inspect.signature(ProductEligibility.program_eligibility).parameters["body"]
+        assert param.default is None
+
+    def test_product_metadata_mode_defaults_to_dict(self) -> None:
+        param = inspect.signature(ProductMetadata.product_metadata).parameters["mode"]
         assert param.default == "dict"

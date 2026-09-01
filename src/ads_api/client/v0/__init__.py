@@ -9,6 +9,7 @@ from ads_api.client.v0.accounts import Accounts
 from ads_api.client.v0.ads_data_manager import AdsDataManager
 from ads_api.client.v0.exports import Exports
 from ads_api.client.v0.portfolios import Portfolios
+from ads_api.client.v0.products import Products
 from ads_api.client.v0.reporting import Reporting
 from ads_api.client.v0.sb_v4 import SBV4
 from ads_api.client.v0.sd import SD
@@ -53,6 +54,7 @@ class AdsClientV0:
         self.__ads_data_manager: AdsDataManager | None = None
         self.__exports: Exports | None = None
         self.__portfolios: Portfolios | None = None
+        self.__products: Products | None = None
         self.__sp_v3: SPV3 | None = None
         self.__sb_v4: SBV4 | None = None
         self.__sd: SD | None = None
@@ -96,6 +98,12 @@ class AdsClientV0:
         if self.__portfolios is None:
             self.__portfolios = Portfolios(self._ctx)
         return self.__portfolios
+
+    @property
+    def products(self) -> Products:
+        if self.__products is None:
+            self.__products = Products(self._ctx)
+        return self.__products
 
     @property
     def sp_v3(self) -> SPV3:

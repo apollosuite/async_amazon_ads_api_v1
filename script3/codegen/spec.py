@@ -18,6 +18,7 @@ INCLUDED_TOC_SECTIONS: tuple[str, ...] = (
     "Ads data manager",
     "Exports",
     "Portfolios",
+    "Products",
     "Sponsored Products",
     "Sponsored Brands",
     "Sponsored Display",
