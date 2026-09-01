@@ -53,6 +53,34 @@ class AdsClient:
             await self._ctx.close()
 
     @property
+    def config(self) -> AmazonAdsConfig:
+        return self._ctx.config
+
+    @property
+    def context(self) -> ClientContext:
+        return self._ctx
+
+    @property
+    def account_type(self) -> str | None:
+        """Get the account type bound to this client (e.g. 'seller' or 'vendor')."""
+        return self._ctx.config.account_type
+
+    @property
+    def is_seller(self) -> bool:
+        """Whether the bound account is a seller account."""
+        return self._ctx.config.account_type == "seller"
+
+    @property
+    def is_vendor(self) -> bool:
+        """Whether the bound account is a vendor account."""
+        return self._ctx.config.account_type == "vendor"
+
+    @property
+    def is_agency(self) -> bool:
+        """Whether the bound account is an agency account."""
+        return self._ctx.config.account_type == "agency"
+
+    @property
     def v0(self) -> AdsClientV0:
         if self.__v0 is None:
             self.__v0 = AdsClientV0(ctx=self._ctx)

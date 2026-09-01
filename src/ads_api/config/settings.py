@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, PrivateAttr, model_validator
 
@@ -23,6 +23,7 @@ class AmazonAdsConfig(BaseModel):
     client_secret: str | None = None
     profile_id: str | None = None
     account_id: str | None = None
+    account_type: Literal["seller", "vendor", "agency"] | str | None = None
 
     region: Region = Region.NA
     endpoints: dict[str, str] | None = None
