@@ -3,6 +3,18 @@
 > [!WARNING]
 > **废弃与迁移说明**: `async_amazon_ads_api_v1` 包即将废弃，项目正在逐步迁移至全新的统一包 **`ads_api`**（支持 v0 与 v1 全实体）。
 
+## v0.9.1 (2026-09-01)
+
+### feat — 新功能
+- **v0 Products API**: 接入 Product metadata 与 Product eligibility，可通过 `ads.v0.products` 调用。
+- **v0 Discovery API**: 接入 Locations 与 Targetable entities，可通过 `ads.v0.discovery` 调用。
+
+### refactor — 重构
+- **简化 TokenManager 的 token 获取**: `force` 时直接刷新；内存未命中才在锁内读 cache，避免 miss 时重复读取。
+
+### chore — 杂项
+- **sdist 排除 docs**: 发行包不再包含仓库内说明文档。
+
 ## v0.9.0 (2026-09-01)
 
 ### fix — 修复
