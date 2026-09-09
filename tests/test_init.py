@@ -6,7 +6,7 @@ from ads_api import AdsClient, AmazonAdsConfig, Region, TokenCredentials, TokenM
 
 class TestAdsApiExports:
     def test_version(self) -> None:
-        assert ads_api.__version__ == "0.10.0"
+        assert ads_api.__version__ == "0.10.2"
 
     def test_all(self) -> None:
         assert set(ads_api.__all__) == {

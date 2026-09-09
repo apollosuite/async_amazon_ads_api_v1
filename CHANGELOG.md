@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## v0.10.2 (2026-09-09)
+
+### feat — 新功能
+- **AdsClient 补充快捷属性**: 提供 `.account_id` 与 `.profile_id` 快捷只读属性，便于直接获取绑定的广告主账户 ID 或 Profile ID。
+- **AmazonAdsConfig 严格防呆隔离**: 初始化时校验 `profile_id` 不能传入以 `amzn1.ads-account.` 开头的账户标识符，账户层级 API 请使用 `account_id`，避免参数混淆。
+
 ## v0.10.1 (2026-09-07)
 
 ### refactor — 重构

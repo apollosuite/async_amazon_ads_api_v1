@@ -61,6 +61,16 @@ class AdsClient:
         return self._ctx
 
     @property
+    def account_id(self) -> str | None:
+        """Get the advertiser account ID bound to this client."""
+        return self._ctx.config.account_id
+
+    @property
+    def profile_id(self) -> str | None:
+        """Get the profile ID bound to this client."""
+        return self._ctx.config.profile_id
+
+    @property
     def account_type(self) -> str | None:
         """Get the account type bound to this client (e.g. 'seller' or 'vendor')."""
         return self._ctx.config.account_type

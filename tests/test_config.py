@@ -29,6 +29,23 @@ class TestAmazonAdsConfig:
         assert cfg.timeout == 600.0
         assert cfg.max_retries == 3
 
+    def test_strict_separation_profile_id_rejects_account_id(self) -> None:
+        with pytest.raises(ValueError, match="profile_id 不能传入账户标识符"):
+            AmazonAdsConfig(
+                access_token="abc",
+                client_id="cli",
+                profile_id="amzn1.ads-account.g.5yqqdvofyq838lzd741lcwtrd",
+            )
+
+    def test_account_id_valid(self) -> None:
+        cfg = AmazonAdsConfig(
+            access_token="abc",
+            client_id="cli",
+            account_id="amzn1.ads-account.g.5yqqdvofyq838lzd741lcwtrd",
+        )
+        assert cfg.account_id == "amzn1.ads-account.g.5yqqdvofyq838lzd741lcwtrd"
+        assert cfg.profile_id is None
+
     def test_endpoints_override(self) -> None:
         cfg = AmazonAdsConfig(
             access_token="xyz",

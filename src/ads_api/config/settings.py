@@ -50,6 +50,12 @@ class AmazonAdsConfig(BaseModel):
         if self.max_retries < 0:
             raise ValueError("max_retries cannot be negative")
 
+        if self.profile_id and self.profile_id.startswith("amzn1.ads-account."):
+            raise ValueError(
+                f"profile_id 不能传入账户标识符 '{self.profile_id}'，"
+                "账户层级调用请使用 account_id，并将 profile_id 置为 None"
+            )
+
         if self.refresh_token and self.client_secret:
             credentials = TokenCredentials(
                 client_id=self.client_id,
