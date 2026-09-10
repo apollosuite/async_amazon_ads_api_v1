@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+## v0.11.0 (2026-09-10)
+
+### feat — 新功能
+- **支持纯同步与纯异步独立双 Package 分发**:
+  - 异步包：PyPI 安装名为 `async-amazon-ads-api-v1`，导入名为 `ads_api`
+  - 原生同步包：PyPI 安装名为 `amazon-ads-api-v1`，导入名为 `ads_api`
+  - 两套分发包物理隔离，使用独立 `packages/async` 与 `packages/sync` 目录管理，在单工作区内统一维护
+  - 同步包采用原生同步 `httpx.Client`，方法均为非协程直接返回，杜绝在异步事件循环中发生阻塞或混用
+- **发布工作流升级**: CI/CD 自动化构建并发布双包至 PyPI
+
 ## v0.10.2 (2026-09-09)
 
 ### feat — 新功能

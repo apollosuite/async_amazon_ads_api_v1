@@ -1,6 +1,6 @@
 [project]
 name = "amazon-ads-api-workspace"
-version = "0.10.2"
+version = "0.11.0"
 description = "Amazon Ads API SDK (Sync & Async) Workspace"
 requires-python = ">=3.13"
 dependencies = [
