@@ -582,6 +582,7 @@ def render_client_module(
     endpoints: list[tuple[str, str, dict[str, Any]]],
     emitted: list[EmittedModel],
     name_map: NameMap,
+    is_async: bool = True,
 ) -> str:
     all_schemas = spec.get("components", {}).get("schemas", {})
     openapi_schemas = {item.key.openapi_name: item.schema for item in emitted}
@@ -637,6 +638,7 @@ def render_client_module(
             openapi_schemas=openapi_schemas,
             name_map=name_map,
             imports=unused,
+            is_async=is_async,
         )
 
     return "\n".join(lines)
@@ -653,6 +655,7 @@ def _append_method(
     openapi_schemas: dict[str, Any],
     name_map: NameMap,
     imports: ImportSet,
+    is_async: bool = True,
 ) -> None:
     op_id = operation.get("operationId", "endpoint")
     mname = method_name(op_id)
@@ -727,10 +730,13 @@ def _append_method(
         model_ret = "Any"
         dict_ret = "Any"
 
+    fn_def = "async def" if is_async else "def"
+    await_prefix = "await " if is_async else ""
+
     def make_sig(mode_type: str, ret_type: str, default_mode: bool = False) -> str:
         kw = ['mode: Literal["dict"] = "dict"' if default_mode else f"mode: {mode_type}"]
         kw.extend(opt_query)
-        return f"    async def {mname}({', '.join(pos_args + ['*'] + kw)}) -> {ret_type}: ..."
+        return f"    {fn_def} {mname}({', '.join(pos_args + ['*'] + kw)}) -> {ret_type}: ..."
 
     lines.append("    @overload")
     lines.append(make_sig('Literal["dict"]', dict_ret, default_mode=True))
@@ -741,7 +747,7 @@ def _append_method(
 
     impl_kw = ['mode: Literal["pydantic", "dict", "raw"] = "dict"'] + opt_query
     impl_ret = f"{model_ret} | {dict_ret} | httpx.Response" if resp_model else "Any"
-    lines.append(f"    async def {mname}({', '.join(pos_args + ['*'] + impl_kw)}) -> {impl_ret}:")
+    lines.append(f"    {fn_def} {mname}({', '.join(pos_args + ['*'] + impl_kw)}) -> {impl_ret}:")
     lines.append(f'        """{desc}"""' if desc else '        """"""')
     lines.append("")
 
@@ -758,14 +764,16 @@ def _append_method(
             extra = ""
         if req_model:
             lines.append(
-                f'        resp = await self._request("{http_method}", {url_str}, json=self.dump_json(body){extra})'
+                f'        resp = {await_prefix}self._request("{http_method}", {url_str}, json=self.dump_json(body){extra})'
             )
         else:
-            lines.append(f'        resp = await self._request("{http_method}", {url_str}{extra})')
+            lines.append(f'        resp = {await_prefix}self._request("{http_method}", {url_str}{extra})')
     elif req_model:
-        lines.append(f'        resp = await self._request("{http_method}", {url_str}, json=self.dump_json(body))')
+        lines.append(
+            f'        resp = {await_prefix}self._request("{http_method}", {url_str}, json=self.dump_json(body))'
+        )
     else:
-        lines.append(f'        resp = await self._request("{http_method}", {url_str})')
+        lines.append(f'        resp = {await_prefix}self._request("{http_method}", {url_str})')
 
     if is_array_resp and resp_model:
         lines.append(f"        return self._response_list({resp_model}, resp, mode=mode)")

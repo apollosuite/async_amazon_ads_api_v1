@@ -1,0 +1,182 @@
+"""OptimizationRules resource operations.
+
+Generated from OpenAPI spec (tag: Optimization rules).
+"""
+
+from __future__ import annotations
+
+from typing import Any, Literal, overload
+
+import httpx
+
+from ads_api.base import BaseResource
+from ads_api.models.v0.sb_v4.optimization_rules import (
+    AssociateSponsoredBrandsOptimizationRulesRequestContent,
+    AssociateSponsoredBrandsOptimizationRulesResponseContent,
+    CreateSponsoredBrandsOptimizationRulesRequestContent,
+    CreateSponsoredBrandsOptimizationRulesResponseContent,
+    DisassociateSponsoredBrandsOptimizationRulesRequestContent,
+    DisassociateSponsoredBrandsOptimizationRulesResponseContent,
+    ListSponsoredBrandsOptimizationRulesRequestContent,
+    ListSponsoredBrandsOptimizationRulesResponseContent,
+    UpdateSponsoredBrandsOptimizationRulesRequestContent,
+    UpdateSponsoredBrandsOptimizationRulesResponseContent,
+)
+
+
+class OptimizationRules(BaseResource):
+
+    @overload
+    def associate_sponsored_brands_optimization_rules(
+        self, body: AssociateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    def associate_sponsored_brands_optimization_rules(
+        self, body: AssociateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["pydantic"]
+    ) -> AssociateSponsoredBrandsOptimizationRulesResponseContent: ...
+    @overload
+    def associate_sponsored_brands_optimization_rules(
+        self, body: AssociateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    def associate_sponsored_brands_optimization_rules(
+        self,
+        body: AssociateSponsoredBrandsOptimizationRulesRequestContent,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
+    ) -> AssociateSponsoredBrandsOptimizationRulesResponseContent | dict[str, Any] | httpx.Response:
+        """Currently available in beta. Associate one or more optimization rules by providing combinations of entityId-ruleId that require association."""
+
+        resp = self._request(
+            "POST",
+            "/sb/rules/optimization/associate",
+            json=self.dump_json(body),
+            headers={
+                "Content-Type": "application/vnd.sbruleoptimization.v4+json",
+                "Accept": "application/vnd.sbruleoptimization.v4+json",
+            },
+        )
+        return self._response(AssociateSponsoredBrandsOptimizationRulesResponseContent, resp, mode=mode)
+
+    @overload
+    def create_sponsored_brands_optimization_rules(
+        self, body: CreateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    def create_sponsored_brands_optimization_rules(
+        self, body: CreateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["pydantic"]
+    ) -> CreateSponsoredBrandsOptimizationRulesResponseContent: ...
+    @overload
+    def create_sponsored_brands_optimization_rules(
+        self, body: CreateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    def create_sponsored_brands_optimization_rules(
+        self,
+        body: CreateSponsoredBrandsOptimizationRulesRequestContent,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
+    ) -> CreateSponsoredBrandsOptimizationRulesResponseContent | dict[str, Any] | httpx.Response:
+        """Currently available in beta."""
+
+        resp = self._request(
+            "POST",
+            "/sb/rules/optimization",
+            json=self.dump_json(body),
+            headers={
+                "Content-Type": "application/vnd.sbruleoptimization.v4+json",
+                "Accept": "application/vnd.sbruleoptimization.v4+json",
+            },
+        )
+        return self._response(CreateSponsoredBrandsOptimizationRulesResponseContent, resp, mode=mode)
+
+    @overload
+    def disassociate_sponsored_brands_optimization_rules(
+        self, body: DisassociateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    def disassociate_sponsored_brands_optimization_rules(
+        self, body: DisassociateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["pydantic"]
+    ) -> DisassociateSponsoredBrandsOptimizationRulesResponseContent: ...
+    @overload
+    def disassociate_sponsored_brands_optimization_rules(
+        self, body: DisassociateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    def disassociate_sponsored_brands_optimization_rules(
+        self,
+        body: DisassociateSponsoredBrandsOptimizationRulesRequestContent,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
+    ) -> DisassociateSponsoredBrandsOptimizationRulesResponseContent | dict[str, Any] | httpx.Response:
+        """Currently available in beta. Disassociate one or more optimization rules by providing combinations of entityId-ruleId that require disassociation"""
+
+        resp = self._request(
+            "POST",
+            "/sb/rules/optimization/disassociate",
+            json=self.dump_json(body),
+            headers={
+                "Content-Type": "application/vnd.sbruleoptimization.v4+json",
+                "Accept": "application/vnd.sbruleoptimization.v4+json",
+            },
+        )
+        return self._response(DisassociateSponsoredBrandsOptimizationRulesResponseContent, resp, mode=mode)
+
+    @overload
+    def list_sponsored_brands_optimization_rules(
+        self, body: ListSponsoredBrandsOptimizationRulesRequestContent | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    def list_sponsored_brands_optimization_rules(
+        self, body: ListSponsoredBrandsOptimizationRulesRequestContent | None = None, *, mode: Literal["pydantic"]
+    ) -> ListSponsoredBrandsOptimizationRulesResponseContent: ...
+    @overload
+    def list_sponsored_brands_optimization_rules(
+        self, body: ListSponsoredBrandsOptimizationRulesRequestContent | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    def list_sponsored_brands_optimization_rules(
+        self,
+        body: ListSponsoredBrandsOptimizationRulesRequestContent | None = None,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
+    ) -> ListSponsoredBrandsOptimizationRulesResponseContent | dict[str, Any] | httpx.Response:
+        """Currently available in beta."""
+
+        resp = self._request(
+            "POST",
+            "/sb/rules/optimization/list",
+            json=self.dump_json(body),
+            headers={
+                "Content-Type": "application/vnd.sbruleoptimization.v4+json",
+                "Accept": "application/vnd.sbruleoptimization.v4+json",
+            },
+        )
+        return self._response(ListSponsoredBrandsOptimizationRulesResponseContent, resp, mode=mode)
+
+    @overload
+    def update_sponsored_brands_optimization_rules(
+        self, body: UpdateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    def update_sponsored_brands_optimization_rules(
+        self, body: UpdateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["pydantic"]
+    ) -> UpdateSponsoredBrandsOptimizationRulesResponseContent: ...
+    @overload
+    def update_sponsored_brands_optimization_rules(
+        self, body: UpdateSponsoredBrandsOptimizationRulesRequestContent, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    def update_sponsored_brands_optimization_rules(
+        self,
+        body: UpdateSponsoredBrandsOptimizationRulesRequestContent,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
+    ) -> UpdateSponsoredBrandsOptimizationRulesResponseContent | dict[str, Any] | httpx.Response:
+        """Currently available in beta."""
+
+        resp = self._request(
+            "PUT",
+            "/sb/rules/optimization",
+            json=self.dump_json(body),
+            headers={
+                "Content-Type": "application/vnd.sbruleoptimization.v4+json",
+                "Accept": "application/vnd.sbruleoptimization.v4+json",
+            },
+        )
+        return self._response(UpdateSponsoredBrandsOptimizationRulesResponseContent, resp, mode=mode)

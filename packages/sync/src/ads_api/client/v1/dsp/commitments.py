@@ -1,0 +1,126 @@
+"""DSPCommitments resource operations.
+
+Generated from OpenAPI spec (tag: Commitments).
+"""
+
+from __future__ import annotations
+
+from typing import Any, Literal, overload
+
+import httpx
+
+from ads_api.base import BaseResource
+from ads_api.models.v1.commitments.dsp import (
+    DSPCommitmentMultiStatusResponse,
+    DSPCommitmentSuccessResponse,
+    DSPCreateCommitmentRequest,
+    DSPQueryCommitmentRequest,
+    DSPRetrieveCommitmentRequest,
+    DSPUpdateCommitmentRequest,
+)
+
+
+class DSPCommitments(BaseResource):
+
+    @overload
+    def create_commitment(
+        self, body: DSPCreateCommitmentRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    def create_commitment(
+        self, body: DSPCreateCommitmentRequest, *, mode: Literal["pydantic"]
+    ) -> DSPCommitmentMultiStatusResponse: ...
+    @overload
+    def create_commitment(self, body: DSPCreateCommitmentRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
+    def create_commitment(
+        self, body: DSPCreateCommitmentRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
+    ) -> DSPCommitmentMultiStatusResponse | dict[str, Any] | httpx.Response:
+        """Create commitments"""
+
+        resp = self._request("POST", "/adsApi/v1/create/commitments", json=self.dump_json(body))
+        return self._response(DSPCommitmentMultiStatusResponse, resp, mode=mode)
+
+    @overload
+    def list_commitment(
+        self, *, mode: Literal["dict"] = "dict", next_token: str | None = None, max_results: int | None = None
+    ) -> dict[str, Any]: ...
+    @overload
+    def list_commitment(
+        self, *, mode: Literal["pydantic"], next_token: str | None = None, max_results: int | None = None
+    ) -> DSPCommitmentSuccessResponse: ...
+    @overload
+    def list_commitment(
+        self, *, mode: Literal["raw"], next_token: str | None = None, max_results: int | None = None
+    ) -> httpx.Response: ...
+    def list_commitment(
+        self,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
+        next_token: str | None = None,
+        max_results: int | None = None,
+    ) -> DSPCommitmentSuccessResponse | dict[str, Any] | httpx.Response:
+        """List commitments"""
+
+        params = {
+            "nextToken": next_token,
+            "maxResults": max_results,
+        }
+        params = {k: v for k, v in params.items() if v is not None}
+        resp = self._request("GET", "/adsApi/v1/commitments", params=params)
+        return self._response(DSPCommitmentSuccessResponse, resp, mode=mode)
+
+    @overload
+    def query_commitment(
+        self, body: DSPQueryCommitmentRequest | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    def query_commitment(
+        self, body: DSPQueryCommitmentRequest | None = None, *, mode: Literal["pydantic"]
+    ) -> DSPCommitmentSuccessResponse: ...
+    @overload
+    def query_commitment(
+        self, body: DSPQueryCommitmentRequest | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    def query_commitment(
+        self, body: DSPQueryCommitmentRequest | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
+    ) -> DSPCommitmentSuccessResponse | dict[str, Any] | httpx.Response:
+        """Query commitments with filters"""
+
+        resp = self._request("POST", "/adsApi/v1/query/commitments", json=self.dump_json(body))
+        return self._response(DSPCommitmentSuccessResponse, resp, mode=mode)
+
+    @overload
+    def retrieve_commitment(
+        self, body: DSPRetrieveCommitmentRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    def retrieve_commitment(
+        self, body: DSPRetrieveCommitmentRequest, *, mode: Literal["pydantic"]
+    ) -> DSPCommitmentMultiStatusResponse: ...
+    @overload
+    def retrieve_commitment(self, body: DSPRetrieveCommitmentRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
+    def retrieve_commitment(
+        self, body: DSPRetrieveCommitmentRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
+    ) -> DSPCommitmentMultiStatusResponse | dict[str, Any] | httpx.Response:
+        """Get Commitments"""
+
+        resp = self._request("POST", "/adsApi/v1/retrieve/commitments", json=self.dump_json(body))
+        return self._response(DSPCommitmentMultiStatusResponse, resp, mode=mode)
+
+    @overload
+    def update_commitment(
+        self, body: DSPUpdateCommitmentRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    def update_commitment(
+        self, body: DSPUpdateCommitmentRequest, *, mode: Literal["pydantic"]
+    ) -> DSPCommitmentMultiStatusResponse: ...
+    @overload
+    def update_commitment(self, body: DSPUpdateCommitmentRequest, *, mode: Literal["raw"]) -> httpx.Response: ...
+    def update_commitment(
+        self, body: DSPUpdateCommitmentRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
+    ) -> DSPCommitmentMultiStatusResponse | dict[str, Any] | httpx.Response:
+        """Update commitments"""
+
+        resp = self._request("POST", "/adsApi/v1/update/commitments", json=self.dump_json(body))
+        return self._response(DSPCommitmentMultiStatusResponse, resp, mode=mode)

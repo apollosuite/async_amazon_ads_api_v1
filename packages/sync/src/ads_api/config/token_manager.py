@@ -1,0 +1,152 @@
+"""OAuth token refresh, validation, and caching (Synchronous)."""
+
+from __future__ import annotations
+
+import logging
+import threading
+import time
+from dataclasses import dataclass
+
+import httpx
+
+from ads_api.config.token_cache import BaseTokenCache, TokenData
+from ads_api.errors import InvalidGrantError, TokenRefreshError
+
+logger = logging.getLogger(__name__)
+
+
+@dataclass(frozen=True)
+class TokenCredentials:
+    client_id: str
+    client_secret: str
+    refresh_token: str
+    token_url: str = "https://api.amazon.com/auth/o2/token"
+
+
+class TokenManager:
+    __slots__ = ("_credentials", "_cache", "_lock", "_timeout", "access_token", "_expires_at")
+
+    def __init__(
+        self,
+        credentials: TokenCredentials,
+        cache: BaseTokenCache | None = None,
+        timeout: float = 600.0,
+    ) -> None:
+        self._credentials = credentials
+        self._cache = cache
+        self._lock = threading.Lock()
+        self._timeout = timeout
+        self.access_token: str | None = None
+        self._expires_at: float | None = None
+
+    def _in_memory_valid(self) -> bool:
+        return self.access_token is not None and self._expires_at is not None and time.time() < self._expires_at
+
+    def _use_cached(self) -> str:
+        assert self.access_token is not None and self._expires_at is not None
+        logger.info("Using cached access token, expires in %.0f seconds", self._expires_at - time.time())
+        return self.access_token
+
+    def get_access_token(self, force: bool = False) -> str:
+        if force:
+            logger.info("Forcing token refresh")
+            with self._lock:
+                return self._refresh()
+        if self._in_memory_valid():
+            return self._use_cached()
+        with self._lock:
+            if self._in_memory_valid():
+                return self._use_cached()
+            self._load_from_cache()
+            if self._in_memory_valid():
+                return self._use_cached()
+            return self._refresh()
+
+    def _refresh(self) -> str:
+        logger.info("Refreshing access token from %s", self._credentials.token_url)
+        try:
+            with httpx.Client(timeout=httpx.Timeout(self._timeout)) as client:
+                resp = client.post(
+                    self._credentials.token_url,
+                    data={
+                        "grant_type": "refresh_token",
+                        "refresh_token": self._credentials.refresh_token,
+                        "client_id": self._credentials.client_id,
+                        "client_secret": self._credentials.client_secret,
+                    },
+                )
+                resp.raise_for_status()
+                data = resp.json()
+        except httpx.HTTPStatusError as e:
+            logger.error("Token refresh failed: %s %s", e.response.status_code, e.response.text)
+            try:
+                err_data = e.response.json()
+            except Exception:
+                err_data = {}
+
+            error_code = ""
+            error_desc = ""
+            if isinstance(err_data, dict):
+                error_code = str(err_data.get("error", ""))
+                error_desc = str(err_data.get("error_description", ""))
+
+            if e.response.status_code == 400 and (
+                error_code == "invalid_grant"
+                or "invalid_grant" in e.response.text
+                or "revoked" in error_desc.lower()
+                or "didn't grant" in error_desc.lower()
+            ):
+                raise InvalidGrantError(
+                    f"OAuth refresh token 已失效 (invalid_grant): {error_desc or e.response.text}",
+                    status_code=400,
+                    error_code=error_code or "invalid_grant",
+                    error_description=error_desc,
+                    response=e.response,
+                ) from e
+
+            raise TokenRefreshError(
+                f"Token refresh failed ({e.response.status_code}): {error_desc or e.response.text}",
+                status_code=e.response.status_code,
+                error_code=error_code,
+                error_description=error_desc,
+                response=e.response,
+            ) from e
+        except httpx.HTTPError:
+            logger.exception("Token refresh request failed")
+            raise
+        token: str = data["access_token"]
+        expires_in = data.get("expires_in", 3600)
+        self.access_token = token
+        self._expires_at = time.time() + expires_in - 600
+        logger.info("Token refreshed, expires in %d seconds", expires_in)
+        self._write_to_cache()
+        return token
+
+    def _load_from_cache(self) -> None:
+        if self._cache is None:
+            return
+        data = self._cache.read()
+        if data is None:
+            logger.info("Token cache miss")
+            return
+        self.access_token = data.access_token
+        self._expires_at = data.expires_at
+        remaining = data.expires_at - time.time()
+        logger.info("Loaded access token from cache, expires in %.0f seconds", remaining)
+
+    def _write_to_cache(self) -> None:
+        if self._cache is None or self.access_token is None or self._expires_at is None:
+            return
+        self._cache.write(
+            TokenData(
+                access_token=self.access_token,
+                expires_at=self._expires_at,
+            )
+        )
+        logger.info("Wrote access token to cache")
+
+    def close(self) -> None:
+        """Close token manager resources, including token cache."""
+        if self._cache is not None:
+            self._cache.close()
+            logger.info("Closed token cache")

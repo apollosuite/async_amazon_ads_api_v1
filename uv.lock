@@ -6,6 +6,77 @@ resolution-markers = [
     "python_full_version < '3.15'",
 ]
 
+[manifest]
+members = [
+    "amazon-ads-api-v1",
+    "amazon-ads-api-workspace",
+    "async-amazon-ads-api-v1",
+]
+
+[[package]]
+name = "amazon-ads-api-v1"
+source = { editable = "packages/sync" }
+dependencies = [
+    { name = "httpx" },
+    { name = "pydantic" },
+]
+
+[package.optional-dependencies]
+redis = [
+    { name = "redis" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "httpx", specifier = ">=0.28.0" },
+    { name = "pydantic", specifier = ">=2.10.0" },
+    { name = "redis", marker = "extra == 'redis'", specifier = ">=5.0.0" },
+]
+provides-extras = ["redis"]
+
+[[package]]
+name = "amazon-ads-api-workspace"
+version = "0.10.2"
+source = { virtual = "." }
+dependencies = [
+    { name = "httpx" },
+    { name = "pydantic" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "black" },
+    { name = "hatchling" },
+    { name = "mypy" },
+    { name = "pyrefly" },
+    { name = "pytest" },
+    { name = "pytest-asyncio" },
+    { name = "pyyaml" },
+    { name = "redis" },
+    { name = "ruff" },
+    { name = "twine" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "httpx", specifier = ">=0.28.0" },
+    { name = "pydantic", specifier = ">=2.10.0" },
+]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "black", specifier = ">=26.3.1" },
+    { name = "hatchling", specifier = ">=1.21.0" },
+    { name = "mypy", specifier = ">=1.15.0" },
+    { name = "pyrefly", specifier = ">=1.0.0" },
+    { name = "pytest", specifier = ">=8.3.0" },
+    { name = "pytest-asyncio", specifier = ">=0.25.0" },
+    { name = "pyyaml", specifier = ">=6.0.3" },
+    { name = "redis", specifier = ">=5.0.0" },
+    { name = "ruff", specifier = ">=0.9.0" },
+    { name = "twine", specifier = ">=6.0.0" },
+]
+
 [[package]]
 name = "annotated-types"
 version = "0.7.0"
@@ -69,7 +140,7 @@ wheels = [
 
 [[package]]
 name = "async-amazon-ads-api-v1"
-source = { editable = "." }
+source = { editable = "packages/async" }
 dependencies = [
     { name = "httpx" },
     { name = "pydantic" },
@@ -80,20 +151,6 @@ redis = [
     { name = "redis" },
 ]
 
-[package.dev-dependencies]
-dev = [
-    { name = "black" },
-    { name = "hatchling" },
-    { name = "mypy" },
-    { name = "pyrefly" },
-    { name = "pytest" },
-    { name = "pytest-asyncio" },
-    { name = "pyyaml" },
-    { name = "redis" },
-    { name = "ruff" },
-    { name = "twine" },
-]
-
 [package.metadata]
 requires-dist = [
     { name = "httpx", specifier = ">=0.28.0" },
@@ -101,20 +158,6 @@ requires-dist = [
     { name = "redis", marker = "extra == 'redis'", specifier = ">=5.0.0" },
 ]
 provides-extras = ["redis"]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "black", specifier = ">=26.3.1" },
-    { name = "hatchling", specifier = ">=1.21.0" },
-    { name = "mypy", specifier = ">=1.15.0" },
-    { name = "pyrefly", specifier = ">=1.0.0" },
-    { name = "pytest", specifier = ">=8.3.0" },
-    { name = "pytest-asyncio", specifier = ">=0.25.0" },
-    { name = "pyyaml", specifier = ">=6.0.3" },
-    { name = "redis", specifier = ">=5.0.0" },
-    { name = "ruff", specifier = ">=0.9.0" },
-    { name = "twine", specifier = ">=6.0.0" },
-]
 
 [[package]]
 name = "black"

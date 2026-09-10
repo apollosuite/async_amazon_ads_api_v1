@@ -1,0 +1,47 @@
+"""BudgetRecommendations resource operations.
+
+Generated from OpenAPI spec (tag: Budget Recommendations).
+"""
+
+from __future__ import annotations
+
+from typing import Any, Literal, overload
+
+import httpx
+
+from ads_api.base import BaseResource
+from ads_api.models.v0.sd.budget_recommendations import (
+    SDBudgetRecommendationsRequest,
+    SDBudgetRecommendationsResponse,
+)
+
+
+class BudgetRecommendations(BaseResource):
+
+    @overload
+    def get_sd_budget_recommendations(
+        self, body: SDBudgetRecommendationsRequest | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    def get_sd_budget_recommendations(
+        self, body: SDBudgetRecommendationsRequest | None = None, *, mode: Literal["pydantic"]
+    ) -> SDBudgetRecommendationsResponse: ...
+    @overload
+    def get_sd_budget_recommendations(
+        self, body: SDBudgetRecommendationsRequest | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    def get_sd_budget_recommendations(
+        self, body: SDBudgetRecommendationsRequest | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
+    ) -> SDBudgetRecommendationsResponse | dict[str, Any] | httpx.Response:
+        """Given a list of campaigns as input, this API provides the following metrics:"""
+
+        resp = self._request(
+            "POST",
+            "/sd/campaigns/budgetRecommendations",
+            json=self.dump_json(body),
+            headers={
+                "Content-Type": "application/vnd.sdbudgetrecommendations.v3+json",
+                "Accept": "application/vnd.sdbudgetrecommendations.v3+json",
+            },
+        )
+        return self._response(SDBudgetRecommendationsResponse, resp, mode=mode)

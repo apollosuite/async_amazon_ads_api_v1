@@ -1,0 +1,44 @@
+"""DSPSupplierProposedDealHistoricalVersions resource operations.
+
+Generated from OpenAPI spec (tag: SupplierProposedDealHistoricalVersions).
+"""
+
+from __future__ import annotations
+
+from typing import Any, Literal, overload
+
+import httpx
+
+from ads_api.base import BaseResource
+from ads_api.models.v1.supplier_proposed_deal_historical_versions.dsp import (
+    DSPQuerySupplierProposedDealHistoricalVersionRequest,
+    DSPSupplierProposedDealHistoricalVersionSuccessResponse,
+)
+
+
+class DSPSupplierProposedDealHistoricalVersions(BaseResource):
+
+    @overload
+    def query_supplier_proposed_deal_historical_version(
+        self, body: DSPQuerySupplierProposedDealHistoricalVersionRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    def query_supplier_proposed_deal_historical_version(
+        self, body: DSPQuerySupplierProposedDealHistoricalVersionRequest, *, mode: Literal["pydantic"]
+    ) -> DSPSupplierProposedDealHistoricalVersionSuccessResponse: ...
+    @overload
+    def query_supplier_proposed_deal_historical_version(
+        self, body: DSPQuerySupplierProposedDealHistoricalVersionRequest, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    def query_supplier_proposed_deal_historical_version(
+        self,
+        body: DSPQuerySupplierProposedDealHistoricalVersionRequest,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
+    ) -> DSPSupplierProposedDealHistoricalVersionSuccessResponse | dict[str, Any] | httpx.Response:
+        """Query supplier proposed deal historical versions"""
+
+        resp = self._request(
+            "POST", "/adsApi/v1/query/supplierProposedDealHistoricalVersions", json=self.dump_json(body)
+        )
+        return self._response(DSPSupplierProposedDealHistoricalVersionSuccessResponse, resp, mode=mode)

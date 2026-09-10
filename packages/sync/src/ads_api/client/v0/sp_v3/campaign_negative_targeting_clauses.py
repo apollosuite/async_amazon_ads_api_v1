@@ -1,0 +1,209 @@
+"""CampaignNegativeTargetingClauses resource operations.
+
+Generated from OpenAPI spec (tag: Campaign negative targeting clauses).
+"""
+
+from __future__ import annotations
+
+from typing import Any, Literal, overload
+
+import httpx
+
+from ads_api.base import BaseResource
+from ads_api.models.v0.sp_v3.campaign_negative_targeting_clauses import (
+    SponsoredProductsCreateSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+    SponsoredProductsCreateSponsoredProductsCampaignNegativeTargetingClausesResponseContent,
+    SponsoredProductsDeleteSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+    SponsoredProductsDeleteSponsoredProductsCampaignNegativeTargetingClausesResponseContent,
+    SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+    SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesResponseContent,
+    SponsoredProductsUpdateSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+    SponsoredProductsUpdateSponsoredProductsCampaignNegativeTargetingClausesResponseContent,
+)
+
+
+class CampaignNegativeTargetingClauses(BaseResource):
+
+    @overload
+    def create_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsCreateSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+        *,
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
+    @overload
+    def create_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsCreateSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+        *,
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsCreateSponsoredProductsCampaignNegativeTargetingClausesResponseContent: ...
+    @overload
+    def create_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsCreateSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+        *,
+        mode: Literal["raw"],
+    ) -> httpx.Response: ...
+    def create_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsCreateSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
+    ) -> (
+        SponsoredProductsCreateSponsoredProductsCampaignNegativeTargetingClausesResponseContent
+        | dict[str, Any]
+        | httpx.Response
+    ):
+        """Create campaign negative targeting clauses"""
+
+        resp = self._request(
+            "POST",
+            "/sp/campaignNegativeTargets",
+            json=self.dump_json(body),
+            headers={
+                "Content-Type": "application/vnd.spCampaignNegativeTargetingClause.v3+json",
+                "Accept": "application/vnd.spCampaignNegativeTargetingClause.v3+json",
+            },
+        )
+        return self._response(
+            SponsoredProductsCreateSponsoredProductsCampaignNegativeTargetingClausesResponseContent, resp, mode=mode
+        )
+
+    @overload
+    def delete_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsDeleteSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+        *,
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
+    @overload
+    def delete_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsDeleteSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+        *,
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsDeleteSponsoredProductsCampaignNegativeTargetingClausesResponseContent: ...
+    @overload
+    def delete_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsDeleteSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+        *,
+        mode: Literal["raw"],
+    ) -> httpx.Response: ...
+    def delete_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsDeleteSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
+    ) -> (
+        SponsoredProductsDeleteSponsoredProductsCampaignNegativeTargetingClausesResponseContent
+        | dict[str, Any]
+        | httpx.Response
+    ):
+        """Delete campaign negative targeting clauses"""
+
+        resp = self._request(
+            "POST",
+            "/sp/campaignNegativeTargets/delete",
+            json=self.dump_json(body),
+            headers={
+                "Content-Type": "application/vnd.spCampaignNegativeTargetingClause.v3+json",
+                "Accept": "application/vnd.spCampaignNegativeTargetingClause.v3+json",
+            },
+        )
+        return self._response(
+            SponsoredProductsDeleteSponsoredProductsCampaignNegativeTargetingClausesResponseContent, resp, mode=mode
+        )
+
+    @overload
+    def list_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesRequestContent | None = None,
+        *,
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
+    @overload
+    def list_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesRequestContent | None = None,
+        *,
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesResponseContent: ...
+    @overload
+    def list_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesRequestContent | None = None,
+        *,
+        mode: Literal["raw"],
+    ) -> httpx.Response: ...
+    def list_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesRequestContent | None = None,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
+    ) -> (
+        SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesResponseContent
+        | dict[str, Any]
+        | httpx.Response
+    ):
+        """List campaign negative targeting clauses"""
+
+        resp = self._request(
+            "POST",
+            "/sp/campaignNegativeTargets/list",
+            json=self.dump_json(body),
+            headers={
+                "Content-Type": "application/vnd.spCampaignNegativeTargetingClause.v3+json",
+                "Accept": "application/vnd.spCampaignNegativeTargetingClause.v3+json",
+            },
+        )
+        return self._response(
+            SponsoredProductsListSponsoredProductsCampaignNegativeTargetingClausesResponseContent, resp, mode=mode
+        )
+
+    @overload
+    def update_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsUpdateSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+        *,
+        mode: Literal["dict"] = "dict",
+    ) -> dict[str, Any]: ...
+    @overload
+    def update_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsUpdateSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+        *,
+        mode: Literal["pydantic"],
+    ) -> SponsoredProductsUpdateSponsoredProductsCampaignNegativeTargetingClausesResponseContent: ...
+    @overload
+    def update_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsUpdateSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+        *,
+        mode: Literal["raw"],
+    ) -> httpx.Response: ...
+    def update_sponsored_products_campaign_negative_targeting_clauses(
+        self,
+        body: SponsoredProductsUpdateSponsoredProductsCampaignNegativeTargetingClausesRequestContent,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
+    ) -> (
+        SponsoredProductsUpdateSponsoredProductsCampaignNegativeTargetingClausesResponseContent
+        | dict[str, Any]
+        | httpx.Response
+    ):
+        """Update campaign negative targeting clauses"""
+
+        resp = self._request(
+            "PUT",
+            "/sp/campaignNegativeTargets",
+            json=self.dump_json(body),
+            headers={
+                "Content-Type": "application/vnd.spCampaignNegativeTargetingClause.v3+json",
+                "Accept": "application/vnd.spCampaignNegativeTargetingClause.v3+json",
+            },
+        )
+        return self._response(
+            SponsoredProductsUpdateSponsoredProductsCampaignNegativeTargetingClausesResponseContent, resp, mode=mode
+        )

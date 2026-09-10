@@ -1,0 +1,322 @@
+"""Targeting resource operations.
+
+Generated from OpenAPI spec (tag: Targeting).
+"""
+
+from __future__ import annotations
+
+from typing import Any, Literal, overload
+
+import httpx
+
+from ads_api.base import BaseResource
+from ads_api.models.v0.sd.targeting import (
+    CreateTargetingClause,
+    TargetingClause,
+    TargetingClauseEx,
+    TargetResponse,
+    UpdateTargetingClause,
+)
+
+
+class Targeting(BaseResource):
+
+    @overload
+    def archive_targeting_clause(self, target_id: int, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
+    @overload
+    def archive_targeting_clause(self, target_id: int, *, mode: Literal["pydantic"]) -> TargetResponse: ...
+    @overload
+    def archive_targeting_clause(self, target_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
+    def archive_targeting_clause(
+        self, target_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
+    ) -> TargetResponse | dict[str, Any] | httpx.Response:
+        """Equivalent to using the `updateTargetingClauses` operation to set the `state` property of a targeting clause to `archived`. See [Developer"""
+
+        resp = self._request("DELETE", f"/sd/targets/{target_id}")
+        return self._response(TargetResponse, resp, mode=mode)
+
+    @overload
+    def create_targeting_clauses(
+        self, body: list[CreateTargetingClause] | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> list[dict[str, Any]]: ...
+    @overload
+    def create_targeting_clauses(
+        self, body: list[CreateTargetingClause] | None = None, *, mode: Literal["pydantic"]
+    ) -> list[TargetResponse]: ...
+    @overload
+    def create_targeting_clauses(
+        self, body: list[CreateTargetingClause] | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    def create_targeting_clauses(
+        self, body: list[CreateTargetingClause] | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
+    ) -> list[TargetResponse] | list[dict[str, Any]] | httpx.Response:
+        """Successfully created targeting clauses are assigned a unique `targetId` value."""
+
+        resp = self._request("POST", "/sd/targets", json=self.dump_json(body))
+        return self._response_list(TargetResponse, resp, mode=mode)
+
+    @overload
+    def get_targets(self, target_id: int, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
+    @overload
+    def get_targets(self, target_id: int, *, mode: Literal["pydantic"]) -> TargetingClause: ...
+    @overload
+    def get_targets(self, target_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
+    def get_targets(
+        self, target_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
+    ) -> TargetingClause | dict[str, Any] | httpx.Response:
+        """This call returns the minimal set of targeting clause fields."""
+
+        resp = self._request("GET", f"/sd/targets/{target_id}")
+        return self._response(TargetingClause, resp, mode=mode)
+
+    @overload
+    def get_targets_ex(self, target_id: int, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
+    @overload
+    def get_targets_ex(self, target_id: int, *, mode: Literal["pydantic"]) -> TargetingClauseEx: ...
+    @overload
+    def get_targets_ex(self, target_id: int, *, mode: Literal["raw"]) -> httpx.Response: ...
+    def get_targets_ex(
+        self, target_id: int, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
+    ) -> TargetingClauseEx | dict[str, Any] | httpx.Response:
+        """Gets a targeting clause object with extended fields. Note that this call returns the full set of targeting clause extended fields, but is less efficient than getTarget."""
+
+        resp = self._request("GET", f"/sd/targets/extended/{target_id}")
+        return self._response(TargetingClauseEx, resp, mode=mode)
+
+    @overload
+    def list_targeting_clauses(
+        self,
+        *,
+        mode: Literal["dict"] = "dict",
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        target_id_filter: str | None = None,
+        ad_group_id_filter: str | None = None,
+        campaign_id_filter: str | None = None,
+    ) -> list[dict[str, Any]]: ...
+    @overload
+    def list_targeting_clauses(
+        self,
+        *,
+        mode: Literal["pydantic"],
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        target_id_filter: str | None = None,
+        ad_group_id_filter: str | None = None,
+        campaign_id_filter: str | None = None,
+    ) -> list[TargetingClause]: ...
+    @overload
+    def list_targeting_clauses(
+        self,
+        *,
+        mode: Literal["raw"],
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        target_id_filter: str | None = None,
+        ad_group_id_filter: str | None = None,
+        campaign_id_filter: str | None = None,
+    ) -> httpx.Response: ...
+    def list_targeting_clauses(
+        self,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        target_id_filter: str | None = None,
+        ad_group_id_filter: str | None = None,
+        campaign_id_filter: str | None = None,
+    ) -> list[TargetingClause] | list[dict[str, Any]] | httpx.Response:
+        """Gets a list of targeting clauses objects for a requested set of Sponsored Display targets. Note that the Targeting Clause object is designed for performance, and includes a small set of commonly used fields to reduce size. If the extended set of fields is required, use the target operations that return the TargetingClauseEx object."""
+
+        params = {
+            "startIndex": start_index,
+            "count": count,
+            "stateFilter": state_filter,
+            "targetIdFilter": target_id_filter,
+            "adGroupIdFilter": ad_group_id_filter,
+            "campaignIdFilter": campaign_id_filter,
+        }
+        params = {k: v for k, v in params.items() if v is not None}
+        resp = self._request("GET", "/sd/targets", params=params)
+        return self._response_list(TargetingClause, resp, mode=mode)
+
+    @overload
+    def list_targeting_clauses_ex(
+        self,
+        *,
+        mode: Literal["dict"] = "dict",
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        target_id_filter: str | None = None,
+        ad_group_id_filter: str | None = None,
+        campaign_id_filter: str | None = None,
+    ) -> list[dict[str, Any]]: ...
+    @overload
+    def list_targeting_clauses_ex(
+        self,
+        *,
+        mode: Literal["pydantic"],
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        target_id_filter: str | None = None,
+        ad_group_id_filter: str | None = None,
+        campaign_id_filter: str | None = None,
+    ) -> list[TargetingClauseEx]: ...
+    @overload
+    def list_targeting_clauses_ex(
+        self,
+        *,
+        mode: Literal["raw"],
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        target_id_filter: str | None = None,
+        ad_group_id_filter: str | None = None,
+        campaign_id_filter: str | None = None,
+    ) -> httpx.Response: ...
+    def list_targeting_clauses_ex(
+        self,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
+        start_index: int | None = None,
+        count: int | None = None,
+        state_filter: (
+            Literal[
+                "enabled",
+                "paused",
+                "archived",
+                "enabled, paused",
+                "enabled, archived",
+                "paused, archived",
+                "enabled, paused, archived",
+            ]
+            | str
+            | None
+        ) = None,
+        target_id_filter: str | None = None,
+        ad_group_id_filter: str | None = None,
+        campaign_id_filter: str | None = None,
+    ) -> list[TargetingClauseEx] | list[dict[str, Any]] | httpx.Response:
+        """Gets an array of TargetingClauseEx objects for a set of requested targets. Note that this call returns the full set of targeting clause extended fields, but is less efficient than getTargets."""
+
+        params = {
+            "startIndex": start_index,
+            "count": count,
+            "stateFilter": state_filter,
+            "targetIdFilter": target_id_filter,
+            "adGroupIdFilter": ad_group_id_filter,
+            "campaignIdFilter": campaign_id_filter,
+        }
+        params = {k: v for k, v in params.items() if v is not None}
+        resp = self._request("GET", "/sd/targets/extended", params=params)
+        return self._response_list(TargetingClauseEx, resp, mode=mode)
+
+    @overload
+    def update_targeting_clauses(
+        self, body: list[UpdateTargetingClause] | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> list[dict[str, Any]]: ...
+    @overload
+    def update_targeting_clauses(
+        self, body: list[UpdateTargetingClause] | None = None, *, mode: Literal["pydantic"]
+    ) -> list[TargetResponse]: ...
+    @overload
+    def update_targeting_clauses(
+        self, body: list[UpdateTargetingClause] | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    def update_targeting_clauses(
+        self, body: list[UpdateTargetingClause] | None = None, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
+    ) -> list[TargetResponse] | list[dict[str, Any]] | httpx.Response:
+        """Updates one or more targeting clauses. Targeting clauses are identified using their targetId. The mutable fields are `bid` and `state`. Maximum length of the array is 100 objects."""
+
+        resp = self._request("PUT", "/sd/targets", json=self.dump_json(body))
+        return self._response_list(TargetResponse, resp, mode=mode)

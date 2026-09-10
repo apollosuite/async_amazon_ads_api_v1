@@ -1,0 +1,71 @@
+"""Snapshots resource operations.
+
+Generated from OpenAPI spec (tag: Snapshots).
+"""
+
+from __future__ import annotations
+
+from typing import Any, Literal, overload
+
+import httpx
+
+from ads_api.base import BaseResource
+from ads_api.models.v0.sd.snapshots import (
+    SnapshotRequest,
+    SnapshotResponse,
+)
+
+
+class Snapshots(BaseResource):
+
+    @overload
+    def create_snapshot(
+        self, record_type: str, body: SnapshotRequest | None = None, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    def create_snapshot(
+        self, record_type: str, body: SnapshotRequest | None = None, *, mode: Literal["pydantic"]
+    ) -> SnapshotResponse: ...
+    @overload
+    def create_snapshot(
+        self, record_type: str, body: SnapshotRequest | None = None, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    def create_snapshot(
+        self,
+        record_type: str,
+        body: SnapshotRequest | None = None,
+        *,
+        mode: Literal["pydantic", "dict", "raw"] = "dict",
+    ) -> SnapshotResponse | dict[str, Any] | httpx.Response:
+        """**Note: Snapshots APIs are deprecated and will be shut off on October 15, 2024. For replacement functionality, see the [exports](guides/exports/overview) API. To learn more, view the [migration guide](reference/migration-guides/snapshots-exports).**"""
+
+        resp = self._request("POST", f"/sd/{record_type}/snapshot", json=self.dump_json(body))
+        return self._response(SnapshotResponse, resp, mode=mode)
+
+    @overload
+    def download_snapshot(self, snapshot_id: str, *, mode: Literal["dict"] = "dict") -> Any: ...
+    @overload
+    def download_snapshot(self, snapshot_id: str, *, mode: Literal["pydantic"]) -> Any: ...
+    @overload
+    def download_snapshot(self, snapshot_id: str, *, mode: Literal["raw"]) -> httpx.Response: ...
+    def download_snapshot(self, snapshot_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "dict") -> Any:
+        """**Note: Snapshots APIs are deprecated and will be shut off on October 15, 2024. For replacement functionality, see the [exports](guides/exports/overview) API. To learn more, view the [migration guide](reference/migration-guides/snapshots-exports).**"""
+
+        resp = self._request("GET", f"/sd/snapshots/{snapshot_id}/download")
+        if mode == "raw":
+            return resp
+        return resp.json()
+
+    @overload
+    def get_snapshot(self, snapshot_id: str, *, mode: Literal["dict"] = "dict") -> dict[str, Any]: ...
+    @overload
+    def get_snapshot(self, snapshot_id: str, *, mode: Literal["pydantic"]) -> SnapshotResponse: ...
+    @overload
+    def get_snapshot(self, snapshot_id: str, *, mode: Literal["raw"]) -> httpx.Response: ...
+    def get_snapshot(
+        self, snapshot_id: str, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
+    ) -> SnapshotResponse | dict[str, Any] | httpx.Response:
+        """**Note: Snapshots APIs are deprecated and will be shut off on October 15, 2024. For replacement functionality, see the [exports](guides/exports/overview) API. To learn more, view the [migration guide](reference/migration-guides/snapshots-exports).**"""
+
+        resp = self._request("GET", f"/sd/snapshots/{snapshot_id}")
+        return self._response(SnapshotResponse, resp, mode=mode)

@@ -35,9 +35,12 @@ from codegen.spec import (
 HERE = Path(__file__).resolve().parent
 PROJECT = HERE.parent.parent
 SPEC_ROOT = HERE / "data" / "openapi"
-PACKAGE_ROOT = PROJECT / "src" / "ads_api"
-CLIENT_ROOT = PACKAGE_ROOT / "client" / "v1"
-MODELS_ROOT = PACKAGE_ROOT / "models" / "v1"
+ASYNC_PKG = PROJECT / "packages" / "async" / "src" / "ads_api"
+SYNC_PKG = PROJECT / "packages" / "sync" / "src" / "ads_api"
+PACKAGES: list[tuple[Path, bool]] = [
+    (ASYNC_PKG, True),
+    (SYNC_PKG, False),
+]
 
 
 def _write(path: Path, content: str) -> None:
@@ -99,11 +102,14 @@ def _append_lazy_properties(lines: list[str], attrs: list[tuple[str, str]]) -> N
         lines.append("")
 
 
-def render_v1_client(products: list[Product], entities: list[tuple[str, str]]) -> str:
+def render_v1_client(products: list[Product], entities: list[tuple[str, str]], is_async: bool = True) -> str:
     """entities: top-level ALL resources as (module, resource_class)."""
     attrs = [(product.module, product.prefix) for product in products] + sorted(entities)
+    desc = "async" if is_async else "synchronous"
+    example_with = "async with" if is_async else "with"
+    example_await = "await " if is_async else ""
     lines = [
-        '"""Amazon Ads API v1 async client."""',
+        f'"""Amazon Ads API v1 {desc} client."""',
         "",
         "from __future__ import annotations",
         "",
@@ -121,13 +127,13 @@ def render_v1_client(products: list[Product], entities: list[tuple[str, str]]) -
     lines.append("")
     lines.append("")
     lines.append("class AdsClientV1:")
-    lines.append('    """Async client for Amazon Ads API v1.')
+    lines.append(f'    """{desc.capitalize()} client for Amazon Ads API v1.')
     lines.append("")
     lines.append("    Ad products are nested; unscoped APIs hang off the client:")
     lines.append("")
-    lines.append("        async with AdsClientV1(config) as ads:")
-    lines.append("            await ads.sp.campaigns.create_campaign(body)")
-    lines.append("            await ads.selling_accounts.query_selling_account(body)")
+    lines.append(f"        {example_with} AdsClientV1(config) as ads:")
+    lines.append(f"            {example_await}ads.sp.campaigns.create_campaign(body)")
+    lines.append(f"            {example_await}ads.selling_accounts.query_selling_account(body)")
     lines.append('    """')
     lines.append("")
     lines.append("    @overload")
@@ -155,15 +161,26 @@ def render_v1_client(products: list[Product], entities: list[tuple[str, str]]) -
     for name, cls in attrs:
         lines.append(f"        self.__{name}: {cls} | None = None")
     lines.append("")
-    lines.append("    async def __aenter__(self) -> AdsClientV1:")
-    lines.append("        return self")
-    lines.append("")
-    lines.append("    async def __aexit__(self, *args: Any) -> None:")
-    lines.append("        await self.close()")
-    lines.append("")
-    lines.append("    async def close(self) -> None:")
-    lines.append("        if self._owns_ctx:")
-    lines.append("            await self._ctx.close()")
+    if is_async:
+        lines.append("    async def __aenter__(self) -> AdsClientV1:")
+        lines.append("        return self")
+        lines.append("")
+        lines.append("    async def __aexit__(self, *args: Any) -> None:")
+        lines.append("        await self.close()")
+        lines.append("")
+        lines.append("    async def close(self) -> None:")
+        lines.append("        if self._owns_ctx:")
+        lines.append("            await self._ctx.close()")
+    else:
+        lines.append("    def __enter__(self) -> AdsClientV1:")
+        lines.append("        return self")
+        lines.append("")
+        lines.append("    def __exit__(self, *args: Any) -> None:")
+        lines.append("        self.close()")
+        lines.append("")
+        lines.append("    def close(self) -> None:")
+        lines.append("        if self._owns_ctx:")
+        lines.append("            self._ctx.close()")
     lines.append("")
     _append_lazy_properties(lines, attrs)
     return "\n".join(lines)
@@ -257,28 +274,28 @@ def _collect_shared(works: list[ProductTagWork]) -> dict[Product, list[EmittedMo
 
 
 def _write_shared(shared_by_product: dict[Product, list[EmittedModel]], generated_modules: set[str]) -> None:
-    shared_dir = MODELS_ROOT / "_shared"
-    _ensure_pkg(MODELS_ROOT)
-    _ensure_pkg(shared_dir)
     shared_modules = {product.module for product in shared_by_product}
-    for product, items in shared_by_product.items():
-        _write(shared_dir / f"{product.module}.py", render_shared_module(product.module, items, NameMap(items)))
     valid_modules = {product.module for product in PRODUCT_ORDER if product.prefix} | {"general"}
-    for module in generated_modules:
-        path = shared_dir / f"{module}.py"
-        if module not in shared_modules and path.exists():
-            path.unlink()
-            print(f"  removed {path.relative_to(PROJECT)}")
-    for path in sorted(shared_dir.glob("*.py")):
-        if path.name != "__init__.py" and path.stem not in valid_modules:
-            path.unlink()
-            print(f"  removed {path.relative_to(PROJECT)}")
+
+    for pkg_root, _ in PACKAGES:
+        models_root = pkg_root / "models" / "v1"
+        shared_dir = models_root / "_shared"
+        _ensure_pkg(models_root)
+        _ensure_pkg(shared_dir)
+        for product, items in shared_by_product.items():
+            _write(shared_dir / f"{product.module}.py", render_shared_module(product.module, items, NameMap(items)))
+        for module in generated_modules:
+            path = shared_dir / f"{module}.py"
+            if module not in shared_modules and path.exists():
+                path.unlink()
+                print(f"  removed {path.relative_to(PROJECT)}")
+        for path in sorted(shared_dir.glob("*.py")):
+            if path.name != "__init__.py" and path.stem not in valid_modules:
+                path.unlink()
+                print(f"  removed {path.relative_to(PROJECT)}")
 
 
 def write_models_and_clients(works: list[ProductTagWork], shared_by_product: dict[Product, list[EmittedModel]]) -> None:
-    _ensure_pkg(MODELS_ROOT)
-    _ensure_pkg(CLIENT_ROOT)
-
     # 统计各实体下生成了哪些 product 模块
     entity_modules: dict[str, set[str]] = defaultdict(set)
     all_entity_snakes: set[str] = set()
@@ -289,65 +306,71 @@ def write_models_and_clients(works: list[ProductTagWork], shared_by_product: dic
         module = work.product.module
         entity_modules[entity_snake].add(module)
 
-        model_dir = MODELS_ROOT / entity_snake
-        _ensure_pkg(model_dir)
-
         shared_items = shared_by_product.get(work.product, [])
         shared_names = {item.python_name for item in shared_items}
         models_import = f"ads_api.models.v1.{entity_snake}.{module}"
 
-        _write(
-            model_dir / f"{module}.py",
-            render_models_module(
-                work.tag,
-                work.emitted,
-                work.name_map,
-                shared_names=shared_names,
-                shared_module=module if shared_names else None,
-            ),
+        models_content = render_models_module(
+            work.tag,
+            work.emitted,
+            work.name_map,
+            shared_names=shared_names,
+            shared_module=module if shared_names else None,
         )
 
-        if not work.product.prefix:
-            client_path = CLIENT_ROOT / f"{entity_snake}.py"
-        else:
-            client_dir = CLIENT_ROOT / module
-            _ensure_pkg(client_dir)
-            client_path = client_dir / f"{entity_snake}.py"
+        for pkg_root, is_async in PACKAGES:
+            models_root = pkg_root / "models" / "v1"
+            client_root = pkg_root / "client" / "v1"
+            _ensure_pkg(models_root)
+            _ensure_pkg(client_root)
 
-        _write(
-            client_path,
-            render_client_module(
-                spec=work.spec,
-                tag=work.tag,
-                resource_name=work.resource_name,
-                models_import=models_import,
-                endpoints=work.endpoints,
-                emitted=work.emitted,
-                name_map=work.name_map,
-            ),
-        )
+            model_dir = models_root / entity_snake
+            _ensure_pkg(model_dir)
+            _write(model_dir / f"{module}.py", models_content)
+
+            if not work.product.prefix:
+                client_path = client_root / f"{entity_snake}.py"
+            else:
+                client_dir = client_root / module
+                _ensure_pkg(client_dir)
+                client_path = client_dir / f"{entity_snake}.py"
+
+            _write(
+                client_path,
+                render_client_module(
+                    spec=work.spec,
+                    tag=work.tag,
+                    resource_name=work.resource_name,
+                    models_import=models_import,
+                    endpoints=work.endpoints,
+                    emitted=work.emitted,
+                    name_map=work.name_map,
+                    is_async=is_async,
+                ),
+            )
 
     # 清理 models 目录下多余的文件
-    for entity_snake, modules in entity_modules.items():
-        model_dir = MODELS_ROOT / entity_snake
-        _write(model_dir / "__init__.py", "")
-        for path in sorted(model_dir.glob("*.py")):
-            if path.name == "__init__.py" or path.stem in modules:
+    for pkg_root, _ in PACKAGES:
+        models_root = pkg_root / "models" / "v1"
+        for entity_snake, modules in entity_modules.items():
+            model_dir = models_root / entity_snake
+            _write(model_dir / "__init__.py", "")
+            for path in sorted(model_dir.glob("*.py")):
+                if path.name == "__init__.py" or path.stem in modules:
+                    continue
+                path.unlink()
+                print(f"  removed {path.relative_to(PROJECT)}")
+
+        # 清理多余的 entity 目录
+        for path in sorted(models_root.iterdir()):
+            if not path.is_dir() or path.name in ("_shared", "__pycache__"):
                 continue
-            path.unlink()
-            print(f"  removed {path.relative_to(PROJECT)}")
-
-    # 清理多余的 entity 目录
-    for path in sorted(MODELS_ROOT.iterdir()):
-        if not path.is_dir() or path.name in ("_shared", "__pycache__"):
-            continue
-        if path.name not in all_entity_snakes:
-            shutil.rmtree(path)
-            print(f"  removed stale model dir {path.relative_to(PROJECT)}")
+            if path.name not in all_entity_snakes:
+                shutil.rmtree(path)
+                print(f"  removed stale model dir {path.relative_to(PROJECT)}")
 
 
-def _cleanup_legacy_entity_client_dirs(valid_top_level_files: set[str]) -> None:
-    client_root = CLIENT_ROOT
+def _cleanup_legacy_entity_client_dirs(client_root: Path, valid_top_level_files: set[str]) -> None:
     if not client_root.exists():
         return
     for path in sorted(client_root.iterdir()):
@@ -361,8 +384,7 @@ def _cleanup_legacy_entity_client_dirs(valid_top_level_files: set[str]) -> None:
                 print(f"  removed stale top-level client file {path.relative_to(PROJECT)}")
 
 
-def _remove_empty_product_dirs(products: list[Product]) -> None:
-    client_root = CLIENT_ROOT
+def _remove_empty_product_dirs(client_root: Path, products: list[Product]) -> None:
     if not client_root.exists():
         return
     active_modules = {product.module for product in products}
@@ -389,24 +411,38 @@ def write_client_namespaces(works: list[ProductTagWork]) -> None:
 
     products = [product for product in PRODUCT_ORDER if product in product_entities]
     valid_top_level_files = {f"{entity_snake}.py" for entity_snake, _ in top_level_entities}
-    _cleanup_legacy_entity_client_dirs(valid_top_level_files)
-    _remove_empty_product_dirs(products)
 
-    for product, entities in product_entities.items():
-        client_dir = CLIENT_ROOT / product.module
-        _ensure_pkg(client_dir)
-        _write(client_dir / "__init__.py", render_product_namespace(product, entities))
-        print(f"  {product.module}/__init__.py: {len(entities)} resources")
+    for pkg_root, is_async in PACKAGES:
+        client_root = pkg_root / "client" / "v1"
+        _ensure_pkg(client_root)
+        _cleanup_legacy_entity_client_dirs(client_root, valid_top_level_files)
+        _remove_empty_product_dirs(client_root, products)
 
-    _write(CLIENT_ROOT / "__init__.py", render_v1_client(products, top_level_entities))
-    print(f"  client/v1/__init__.py: {len(products)} products, {len(top_level_entities)} top-level resources")
+        for product, entities in product_entities.items():
+            client_dir = client_root / product.module
+            _ensure_pkg(client_dir)
+            _write(client_dir / "__init__.py", render_product_namespace(product, entities))
+            print(f"  [{pkg_root.parts[-3]}] {product.module}/__init__.py: {len(entities)} resources")
+
+        _write(client_root / "__init__.py", render_v1_client(products, top_level_entities, is_async=is_async))
+        print(
+            f"  [{pkg_root.parts[-3]}] client/v1/__init__.py: "
+            f"{len(products)} products, {len(top_level_entities)} top-level resources"
+        )
 
 
 def _run_formatter() -> None:
+    paths = []
+    for pkg_root, _ in PACKAGES:
+        paths.extend([str(pkg_root / "client" / "v1"), str(pkg_root / "models" / "v1")])
     for cmd in (
-        ["uv", "run", "ruff", "check", "--fix", str(CLIENT_ROOT), str(MODELS_ROOT)],
-        ["uv", "run", "black", str(CLIENT_ROOT), str(MODELS_ROOT)],
+        ["uv", "run", "ruff", "check", "--fix", *paths],
+        ["uv", "run", "black", *paths],
     ):
+        print(f"\n$ {' '.join(cmd)}")
+        res = subprocess.run(cmd, cwd=PROJECT)
+        if res.returncode != 0:
+            sys.exit(res.returncode)
         print(f"\n$ {' '.join(cmd)}")
         res = subprocess.run(cmd, cwd=PROJECT)
         if res.returncode != 0:

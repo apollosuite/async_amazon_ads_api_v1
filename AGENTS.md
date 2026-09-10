@@ -1,34 +1,31 @@
 # Amazon Ads SDK
 
-纯异步 Python SDK。PyPI 安装名为 **`async-amazon-ads-api-v1`**，导入名为 **`ads_api`**。统一覆盖 Amazon Ads API v0 与 v1（SP、SB、SD、DSP、ST、SP Global、Accounts、Reporting、Ads Data Manager、Exports 等）。
+Python SDK，提供**纯异步（Async）**与**原生纯同步（Sync）**两套物理隔离的独立分发包：
+- 异步包：PyPI 安装名为 **`async-amazon-ads-api-v1`**，导入名为 **`ads_api`**。
+- 同步包：PyPI 安装名为 **`amazon-ads-api-v1`**，导入名为 **`ads_api`**。
+统一覆盖 Amazon Ads API v0 与 v1（SP、SB、SD、DSP、ST、SP Global、Accounts、Reporting、Ads Data Manager、Exports 等）。
 
 ## 项目结构
 
 ```
 .
-├── codegen/
-│   ├── v1/                                 # Ads API v1 自动代码生成器 (基于 Merged OpenAPI)
-│   │   ├── download_openapi.py             # 下载 v1 OpenAPI spec（含 Reporting beta Contract）
-│   │   ├── download_reporting_docs.py      # 下载 v1 Reporting API (beta) markdown 指南
-│   │   ├── generate.py                     # 生成 src/ads_api/client/v1 与 models/v1
-│   │   └── codegen/                        # v1 代码生成实现
-│   └── v0/                                 # Ads API v0 自动代码生成器
-│       ├── download_openapi.py             # 下载 v0 OpenAPI spec
-│       ├── generate.py                     # 生成 src/ads_api/client/v0 与 models/v0
-│       └── codegen/                        # v0 代码生成实现
-├── pyproject.toml                          # uv 项目配置
-└── src/
-    └── ads_api/                            # Amazon Ads API (v0 + v1)
-        ├── __init__.py                     # 导出 AdsClient, AdsClientV0, AdsClientV1 等
-        ├── base.py                         # ClientContext + BaseResource
-        ├── config/                         # Region, AmazonAdsConfig, TokenManager, TokenCache
-        ├── client/
-        │   ├── v0/                         # v0 API 客户端 (accounts, reporting, sp_v3, exports...)
-        │   └── v1/                         # v1 API 客户端 (sp, sb, sd, dsp, st, sp_global...)
-        └── models/
-            ├── _core/                      # StrictModel / LenientModel（及遗留 lenient_enum）
-            ├── v0/                         # v0 Pydantic 模型
-            └── v1/                         # v1 Pydantic 模型
+├── codegen/                                # 自动代码生成器
+│   ├── v1/                                 # v1 代码生成 (同时生成 sync 与 async)
+│   └── v0/                                 # v0 代码生成 (同时生成 sync 与 async)
+├── packages/
+│   ├── async/                              # 异步包 (async-amazon-ads-api-v1)
+│   │   ├── pyproject.toml
+│   │   ├── README.md
+│   │   └── src/ads_api/
+│   └── sync/                               # 同步包 (amazon-ads-api-v1)
+│       ├── pyproject.toml
+│       ├── README.md
+│       └── src/ads_api/
+├── pyproject.toml                          # uv workspace 工作区配置
+└── tests/
+    ├── client/                             # 异步客户端测试
+    ├── sync/                               # 同步客户端测试
+    └── ...
 ```
 
 ## 核心环境要求 (CRITICAL)
@@ -51,13 +48,12 @@
 
 ## 常用命令
 
-- 同步环境: `uv sync`
-- 添加依赖: `uv add <package>`
+- 同步环境: `uv sync --all-packages`
 - 执行脚本: `uv run python <script>` — **禁止**直接使用 `python3` / `python`
 - 测试: `uv run pytest`
-- Lint: `uv run ruff check --fix src/ codegen/`
-- 格式化: `uv run black src/ codegen/`
-- 类型检查: `uv run mypy src/`
+- Lint: `uv run ruff check --fix packages/ codegen/ tests/`
+- 格式化: `uv run black packages/ codegen/ tests/`
+- 构建打包: `uv build --all-packages --out-dir dist/`
 
 ## 代码生成
 
@@ -65,17 +61,15 @@
   ```bash
   uv run python codegen/v1/download_openapi.py
   uv run python codegen/v1/generate.py
-  # 可选：下载 Reporting API (beta) markdown 指南
-  uv run python codegen/v1/download_reporting_docs.py
   ```
-  生成 `src/ads_api/client/v1` 与 `src/ads_api/models/v1`。
+  生成 `packages/async/src/ads_api/client/v1`、`packages/sync/src/ads_api/client/v1` 与对应 `models/v1`。
 
 - **v0 代码生成**（`codegen/v0/`）：
   ```bash
   uv run python codegen/v0/download_openapi.py
   uv run python codegen/v0/generate.py
   ```
-  生成 `src/ads_api/client/v0` 与 `src/ads_api/models/v0`。
+  生成 `packages/async/src/ads_api/client/v0`、`packages/sync/src/ads_api/client/v0` 与对应 `models/v0`。
 
 ### 核心设计：请求严格 / 响应向前兼容
 

@@ -1,0 +1,39 @@
+"""DSPSupplierPublishers resource operations.
+
+Generated from OpenAPI spec (tag: SupplierPublishers).
+"""
+
+from __future__ import annotations
+
+from typing import Any, Literal, overload
+
+import httpx
+
+from ads_api.base import BaseResource
+from ads_api.models.v1.supplier_publishers.dsp import (
+    DSPQuerySupplierPublisherRequest,
+    DSPSupplierPublisherSuccessResponse,
+)
+
+
+class DSPSupplierPublishers(BaseResource):
+
+    @overload
+    def query_supplier_publisher(
+        self, body: DSPQuerySupplierPublisherRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    def query_supplier_publisher(
+        self, body: DSPQuerySupplierPublisherRequest, *, mode: Literal["pydantic"]
+    ) -> DSPSupplierPublisherSuccessResponse: ...
+    @overload
+    def query_supplier_publisher(
+        self, body: DSPQuerySupplierPublisherRequest, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    def query_supplier_publisher(
+        self, body: DSPQuerySupplierPublisherRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
+    ) -> DSPSupplierPublisherSuccessResponse | dict[str, Any] | httpx.Response:
+        """Query supplier publishers"""
+
+        resp = self._request("POST", "/adsApi/v1/query/supplierPublishers", json=self.dump_json(body))
+        return self._response(DSPSupplierPublisherSuccessResponse, resp, mode=mode)

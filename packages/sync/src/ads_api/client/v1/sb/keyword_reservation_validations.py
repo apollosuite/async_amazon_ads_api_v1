@@ -1,0 +1,39 @@
+"""SBKeywordReservationValidations resource operations.
+
+Generated from OpenAPI spec (tag: KeywordReservationValidations).
+"""
+
+from __future__ import annotations
+
+from typing import Any, Literal, overload
+
+import httpx
+
+from ads_api.base import BaseResource
+from ads_api.models.v1.keyword_reservation_validations.sb import (
+    SBCreateKeywordReservationValidationRequest,
+    SBKeywordReservationValidationMultiStatusResponse,
+)
+
+
+class SBKeywordReservationValidations(BaseResource):
+
+    @overload
+    def create_keyword_reservation_validation(
+        self, body: SBCreateKeywordReservationValidationRequest, *, mode: Literal["dict"] = "dict"
+    ) -> dict[str, Any]: ...
+    @overload
+    def create_keyword_reservation_validation(
+        self, body: SBCreateKeywordReservationValidationRequest, *, mode: Literal["pydantic"]
+    ) -> SBKeywordReservationValidationMultiStatusResponse: ...
+    @overload
+    def create_keyword_reservation_validation(
+        self, body: SBCreateKeywordReservationValidationRequest, *, mode: Literal["raw"]
+    ) -> httpx.Response: ...
+    def create_keyword_reservation_validation(
+        self, body: SBCreateKeywordReservationValidationRequest, *, mode: Literal["pydantic", "dict", "raw"] = "dict"
+    ) -> SBKeywordReservationValidationMultiStatusResponse | dict[str, Any] | httpx.Response:
+        """Validate keyword reservation"""
+
+        resp = self._request("POST", "/adsApi/v1/create/keywordReservationValidations/sb", json=self.dump_json(body))
+        return self._response(SBKeywordReservationValidationMultiStatusResponse, resp, mode=mode)

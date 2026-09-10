@@ -39,9 +39,12 @@ from codegen.spec import (
 HERE = Path(__file__).resolve().parent
 PROJECT = HERE.parent.parent
 SPEC_ROOT = HERE / "data" / "api-spec-v0"
-PACKAGE_ROOT = PROJECT / "src" / "ads_api"
-CLIENT_ROOT = PACKAGE_ROOT / "client" / "v0"
-MODELS_ROOT = PACKAGE_ROOT / "models" / "v0"
+ASYNC_PKG = PROJECT / "packages" / "async" / "src" / "ads_api"
+SYNC_PKG = PROJECT / "packages" / "sync" / "src" / "ads_api"
+PACKAGES: list[tuple[Path, bool]] = [
+    (ASYNC_PKG, True),
+    (SYNC_PKG, False),
+]
 
 
 def _write(path: Path, content: str) -> None:
@@ -217,9 +220,12 @@ def render_singleton_export(entity: str, resource_cls: str) -> str:
     )
 
 
-def render_v0_client(groups: list[TocGroup]) -> str:
+def render_v0_client(groups: list[TocGroup], is_async: bool = True) -> str:
+    desc = "async" if is_async else "synchronous"
+    example_with = "async with" if is_async else "with"
+    example_await = "await " if is_async else ""
     lines = [
-        '"""Amazon Ads API v0 async client."""',
+        f'"""Amazon Ads API v0 {desc} client."""',
         "",
         "from __future__ import annotations",
         "",
@@ -235,14 +241,14 @@ def render_v0_client(groups: list[TocGroup]) -> str:
     lines.append("")
     lines.append("")
     lines.append("class AdsClientV0:")
-    lines.append('    """Async client for Amazon Ads API v0.')
+    lines.append(f'    """{desc.capitalize()} client for Amazon Ads API v0.')
     lines.append("")
-    lines.append("        async with AdsClientV0(config) as ads:")
-    lines.append("            await ads.accounts.profiles.list_profiles()")
-    lines.append("            await ads.reporting.reports.create_async_report(body)")
-    lines.append("            await ads.portfolios.list_portfolios(body)")
-    lines.append("            await ads.sp_v3.campaigns.create_sponsored_products_campaigns(body)")
-    lines.append("            await ads.sd.campaigns.list_campaigns()")
+    lines.append(f"        {example_with} AdsClientV0(config) as ads:")
+    lines.append(f"            {example_await}ads.accounts.profiles.list_profiles()")
+    lines.append(f"            {example_await}ads.reporting.reports.create_async_report(body)")
+    lines.append(f"            {example_await}ads.portfolios.list_portfolios(body)")
+    lines.append(f"            {example_await}ads.sp_v3.campaigns.create_sponsored_products_campaigns(body)")
+    lines.append(f"            {example_await}ads.sd.campaigns.list_campaigns()")
     lines.append('    """')
     lines.append("")
     lines.append("    @overload")
@@ -270,15 +276,26 @@ def render_v0_client(groups: list[TocGroup]) -> str:
     for group in groups:
         lines.append(f"        self.__{group.key}: {group.namespace_class} | None = None")
     lines.append("")
-    lines.append("    async def __aenter__(self) -> AdsClientV0:")
-    lines.append("        return self")
-    lines.append("")
-    lines.append("    async def __aexit__(self, *args: Any) -> None:")
-    lines.append("        await self.close()")
-    lines.append("")
-    lines.append("    async def close(self) -> None:")
-    lines.append("        if self._owns_ctx:")
-    lines.append("            await self._ctx.close()")
+    if is_async:
+        lines.append("    async def __aenter__(self) -> AdsClientV0:")
+        lines.append("        return self")
+        lines.append("")
+        lines.append("    async def __aexit__(self, *args: Any) -> None:")
+        lines.append("        await self.close()")
+        lines.append("")
+        lines.append("    async def close(self) -> None:")
+        lines.append("        if self._owns_ctx:")
+        lines.append("            await self._ctx.close()")
+    else:
+        lines.append("    def __enter__(self) -> AdsClientV0:")
+        lines.append("        return self")
+        lines.append("")
+        lines.append("    def __exit__(self, *args: Any) -> None:")
+        lines.append("        self.close()")
+        lines.append("")
+        lines.append("    def close(self) -> None:")
+        lines.append("        if self._owns_ctx:")
+        lines.append("            self._ctx.close()")
     lines.append("")
     for group in groups:
         lines.append("    @property")
@@ -292,18 +309,18 @@ def render_v0_client(groups: list[TocGroup]) -> str:
 
 def write_shared(works: list[EntityWork]) -> list[EmittedModel]:
     shared_items = select_shared_models([work.emitted for work in works])
-    shared_dir = MODELS_ROOT
-    _ensure_pkg(shared_dir)
-    path = shared_dir / "_shared.py"
-    if shared_items:
-        names = ", ".join(item.python_name for item in shared_items)
-        print(f"  shared: {names}")
-        _write(path, render_shared_module("v0", shared_items, NameMap(shared_items)))
-        return shared_items
-    if path.exists():
-        path.unlink()
-        print(f"  removed {path.relative_to(PROJECT)}")
-    return []
+    for pkg_root, _ in PACKAGES:
+        shared_dir = pkg_root / "models" / "v0"
+        _ensure_pkg(shared_dir)
+        path = shared_dir / "_shared.py"
+        if shared_items:
+            names = ", ".join(item.python_name for item in shared_items)
+            print(f"  shared: {names}")
+            _write(path, render_shared_module("v0", shared_items, NameMap(shared_items)))
+        elif path.exists():
+            path.unlink()
+            print(f"  removed {path.relative_to(PROJECT)}")
+    return shared_items
 
 
 def _clean_entity_py(path: Path, generated: set[str]) -> None:
@@ -334,50 +351,57 @@ def _clean_group_packages(root: Path, by_group: dict[str, list[tuple[str, str]]]
 
 
 def write_entities(works: list[EntityWork], shared_items: list[EmittedModel]) -> dict[str, list[tuple[str, str]]]:
-    models_root = MODELS_ROOT
-    _ensure_pkg(models_root)
-    _ensure_pkg(CLIENT_ROOT)
-
     by_group: dict[str, list[tuple[str, str]]] = defaultdict(list)
     for work in works:
         by_group[work.group].append((work.entity, work.resource_name))
-        models_dir = models_root / work.group
-        client_dir = CLIENT_ROOT / work.group
-        _ensure_pkg(models_dir)
-        _ensure_pkg(client_dir)
         names = shared_names_for(work.emitted, shared_items)
-        _write(
-            models_dir / f"{work.entity}.py",
-            render_models_module(
-                work.tag,
-                work.emitted,
-                work.name_map,
-                shared_names=names,
-                shared_module="shared" if names else None,
-            ),
+        models_content = render_models_module(
+            work.tag,
+            work.emitted,
+            work.name_map,
+            shared_names=names,
+            shared_module="shared" if names else None,
         )
-        _write(
-            client_dir / f"{work.entity}.py",
-            render_client_module(
-                spec=work.spec,
-                tag=work.tag,
-                resource_name=work.resource_name,
-                models_import=work.models_import,
-                endpoints=work.endpoints,
-                emitted=work.emitted,
-                name_map=work.name_map,
-            ),
-        )
+
+        for pkg_root, is_async in PACKAGES:
+            models_root = pkg_root / "models" / "v0"
+            client_root = pkg_root / "client" / "v0"
+            _ensure_pkg(models_root)
+            _ensure_pkg(client_root)
+
+            models_dir = models_root / work.group
+            client_dir = client_root / work.group
+            _ensure_pkg(models_dir)
+            _ensure_pkg(client_dir)
+
+            _write(models_dir / f"{work.entity}.py", models_content)
+            _write(
+                client_dir / f"{work.entity}.py",
+                render_client_module(
+                    spec=work.spec,
+                    tag=work.tag,
+                    resource_name=work.resource_name,
+                    models_import=work.models_import,
+                    endpoints=work.endpoints,
+                    emitted=work.emitted,
+                    name_map=work.name_map,
+                    is_async=is_async,
+                ),
+            )
 
     keep_root = {"__init__.py", "_shared.py"}
-    for path in sorted(models_root.glob("*.py")):
-        if path.name in keep_root:
-            continue
-        path.unlink()
-        print(f"  removed {path.relative_to(PROJECT)}")
+    for pkg_root, _ in PACKAGES:
+        models_root = pkg_root / "models" / "v0"
+        client_root = pkg_root / "client" / "v0"
+        for path in sorted(models_root.glob("*.py")):
+            if path.name in keep_root:
+                continue
+            path.unlink()
+            print(f"  removed {path.relative_to(PROJECT)}")
 
-    _clean_group_packages(MODELS_ROOT, by_group)
-    _clean_group_packages(CLIENT_ROOT, by_group)
+        _clean_group_packages(models_root, by_group)
+        _clean_group_packages(client_root, by_group)
+
     return by_group
 
 
@@ -386,23 +410,27 @@ def generate_all() -> None:
     shared_items = write_shared(works)
     by_group = write_entities(works, shared_items)
     active_groups = [group for group in GROUPS if group.key in by_group]
-    for group in active_groups:
-        entities = by_group[group.key]
-        if _is_singleton_group(group.key, entities):
-            entity, resource_cls = entities[0]
-            content = render_singleton_export(entity, resource_cls)
-        else:
-            content = render_namespace(group.namespace_class, group.namespace_doc, entities)
-        _write(CLIENT_ROOT / group.key / "__init__.py", content)
-    _write(CLIENT_ROOT / "__init__.py", render_v0_client(active_groups))
+    for pkg_root, is_async in PACKAGES:
+        client_root = pkg_root / "client" / "v0"
+        for group in active_groups:
+            entities = by_group[group.key]
+            if _is_singleton_group(group.key, entities):
+                entity, resource_cls = entities[0]
+                content = render_singleton_export(entity, resource_cls)
+            else:
+                content = render_namespace(group.namespace_class, group.namespace_doc, entities)
+            _write(client_root / group.key / "__init__.py", content)
+        _write(client_root / "__init__.py", render_v0_client(active_groups, is_async=is_async))
 
 
 def run_format() -> None:
-    src = str(PACKAGE_ROOT)
+    paths = []
+    for pkg_root, _ in PACKAGES:
+        paths.extend([str(pkg_root / "client" / "v0"), str(pkg_root / "models" / "v0")])
     generator = str(HERE)
     for cmd, label in (
-        (["uv", "run", "black", src, generator], "black"),
-        (["uv", "run", "ruff", "check", "--fix", src, generator], "ruff"),
+        (["uv", "run", "black", *paths, generator], "black"),
+        (["uv", "run", "ruff", "check", "--fix", *paths, generator], "ruff"),
     ):
         print(f"\n── {label}")
         result = subprocess.run(cmd, cwd=PROJECT, capture_output=True, text=True)
